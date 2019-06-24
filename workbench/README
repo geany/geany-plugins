@@ -62,12 +62,6 @@ These are the available items:
   adding a project you need to save the workbench settings by selecting
   "Workbench / Save" in the menubar.
 
-**Save project**
-  Selecting this item will save the Workbench related project settings in
-  the Geany project file. It is only available if you right clicked inside
-  of a project. It will only save the settings of the project that you
-  clicked on.
-
 **Remove project**
   Remove the project from the Workbench. It is only available if you
   right clicked inside of a project.  After removing a project you need

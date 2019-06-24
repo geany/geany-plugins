@@ -41,7 +41,6 @@ static struct
 	GtkWidget *widget;
 
 	GtkWidget *add_project;
-	GtkWidget *save_project;
 	GtkWidget *remove_project;
 	GtkWidget *fold_unfold_project;
 	GtkWidget *project_open_all;
@@ -243,6 +242,32 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 }
 
 
+/* Helper function for saving the project and updating of the sidebar. */
+static void save_project(SIDEBAR_CONTEXT *context)
+{
+	GError *error = NULL;
+
+	if (context->project != NULL && wb_project_save(context->project, &error))
+	{
+		sidebar_update(SIDEBAR_CONTEXT_PROJECT_SAVED, context);
+	}
+}
+
+
+/* Helper function for saving the workbench and updating of the sidebar. */
+static void save_workbench(WORKBENCH *wb)
+{
+	GError *error = NULL;
+
+	/* Save the new settings to the workbench file (.geanywb). */
+	if (!workbench_save(wb, &error))
+	{
+		dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Could not save workbench file: %s"), error->message);
+	}
+	sidebar_update(SIDEBAR_CONTEXT_WB_SAVED, NULL);
+}
+
+
 /* Handle popup menu item "Add project" */
 static void popup_menu_on_add_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
@@ -257,33 +282,15 @@ static void popup_menu_on_add_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNU
 	if (workbench_add_project(wb_globals.opened_wb, filename))
 	{
 		sidebar_update(SIDEBAR_CONTEXT_PROJECT_ADDED, NULL);
+
+		/* Save the changes to the workbench file (.geanywb). */
+		save_workbench(wb_globals.opened_wb);
 	}
 	else
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_INFO, _("Could not add project file: %s"), filename);
 	}
 	g_free(filename);
-}
-
-
-/* Handle popup menu item "Save project" */
-static void popup_menu_on_save_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
-{
-	GError *error = NULL;
-	WB_PROJECT *project;
-
-	project = sidebar_file_view_get_selected_project(NULL);
-	if (project != NULL && wb_globals.opened_wb != NULL)
-	{
-		if (wb_project_save(project, &error))
-		{
-			SIDEBAR_CONTEXT context;
-
-			memset(&context, 0, sizeof(context));
-			context.project = project;
-			sidebar_update(SIDEBAR_CONTEXT_PROJECT_SAVED, &context);
-		}
-	}
 }
 
 
@@ -302,6 +309,9 @@ static void popup_menu_on_remove_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_
 			memset(&context, 0, sizeof(context));
 			context.project = project;
 			sidebar_update(SIDEBAR_CONTEXT_PROJECT_REMOVED, &context);
+
+			/* Save the changes to the workbench file (.geanywb). */
+			save_workbench(wb_globals.opened_wb);
 		}
 	}
 }
@@ -375,6 +385,9 @@ static void popup_menu_on_add_directory(G_GNUC_UNUSED GtkMenuItem * menuitem, G_
 			wb_project_add_directory(project, dirname);
 			sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_ADDED, &context);
 			g_free(dirname);
+
+			/* Save the now changed project. */
+			save_project(&context);
 		}
 	}
 }
@@ -390,6 +403,9 @@ static void popup_menu_on_remove_directory(G_GNUC_UNUSED GtkMenuItem * menuitem,
 	{
 		wb_project_remove_directory(context.project, context.directory);
 		sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_REMOVED, &context);
+
+		/* Save the now changed project. */
+		save_project(&context);
 	}
 }
 
@@ -421,6 +437,9 @@ static void popup_menu_on_directory_settings(G_GNUC_UNUSED GtkMenuItem * menuite
 			wb_project_set_modified(context.project, TRUE);
 			wb_project_dir_rescan(context.project, context.directory);
 			sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_SETTINGS_CHANGED, &context);
+
+			/* Save the now changed project. */
+			save_project(&context);
 		}
 	}
 }
@@ -471,6 +490,9 @@ static void popup_menu_on_add_to_workbench_bookmarks(G_GNUC_UNUSED GtkMenuItem *
 	{
 		workbench_add_bookmark(wb_globals.opened_wb, context.file);
 		sidebar_update(SIDEBAR_CONTEXT_WB_BOOKMARK_ADDED, &context);
+
+		/* Save the changes to the workbench file (.geanywb). */
+		save_workbench(wb_globals.opened_wb);
 	}
 }
 
@@ -485,6 +507,9 @@ static void popup_menu_on_add_to_project_bookmarks(G_GNUC_UNUSED GtkMenuItem *me
 	{
 		wb_project_add_bookmark(context.project, context.file);
 		sidebar_update(SIDEBAR_CONTEXT_PRJ_BOOKMARK_ADDED, &context);
+
+		/* Save the now changed project. */
+		save_project(&context);
 	}
 }
 
@@ -499,12 +524,18 @@ static void popup_menu_on_remove_from_bookmarks(G_GNUC_UNUSED GtkMenuItem *menui
 	{
 		workbench_remove_bookmark(wb_globals.opened_wb, context.wb_bookmark);
 		sidebar_update(SIDEBAR_CONTEXT_WB_BOOKMARK_REMOVED, &context);
+
+		/* Save the changes to the workbench file (.geanywb). */
+		save_workbench(wb_globals.opened_wb);
 	}
 	if (sidebar_file_view_get_selected_context(&context)
 		&& context.project != NULL && context.prj_bookmark != NULL)
 	{
 		wb_project_remove_bookmark(context.project, context.prj_bookmark);
 		sidebar_update(SIDEBAR_CONTEXT_PRJ_BOOKMARK_REMOVED, &context);
+
+		/* Save the now changed project. */
+		save_project(&context);
 	}
 }
 
@@ -781,12 +812,6 @@ void popup_menu_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_add_project), NULL);
 	s_popup_menu.add_project = item;
-
-	item = gtk_menu_item_new_with_mnemonic(_("_Save project"));
-	gtk_widget_show(item);
-	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
-	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_save_project), NULL);
-	s_popup_menu.save_project = item;
 
 	item = gtk_menu_item_new_with_mnemonic(_("_Remove project"));
 	gtk_widget_show(item);
