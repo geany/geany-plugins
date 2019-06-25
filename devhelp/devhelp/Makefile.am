@@ -77,8 +77,7 @@ libdevhelp_2_la_LDFLAGS = \
 	-no-undefined
 
 dh-marshal.h: dh-marshal.list
-	$(AM_V_GEN) $(GLIB_GENMARSHAL) $< --header --prefix=_dh_marshal dh-marshal.list > $@
+	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=_dh_marshal --header --output=$@ dh-marshal.list
 
 dh-marshal.c: dh-marshal.list
-	$(AM_V_GEN) echo "#include \"dh-marshal.h\"" > $@ && \
-	$(GLIB_GENMARSHAL) $< --body --prefix=_dh_marshal dh-marshal.list >> $@
+	$(AM_V_GEN)$(GLIB_GENMARSHAL) --prefix=_dh_marshal --body --output=$@ dh-marshal.list
