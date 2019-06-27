@@ -20,6 +20,7 @@
  * Code for the WB_PROJECT structure.
  */
 #include <glib/gstdio.h>
+#include <git2.h>
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -52,14 +53,28 @@ struct S_WB_PROJECT_DIR
 {
 	gchar *name;
 	gchar *base_dir;
+	WB_PROJECT_SCAN_MODE scan_mode;
 	gchar **file_patterns;	/**< Array of filename extension patterns. */
 	gchar **ignored_dirs_patterns;
 	gchar **ignored_file_patterns;
+	git_repository *git_repo;
 	guint file_count;
 	guint subdir_count;
 	GHashTable *file_table; /* contains all file names within base_dir */
 	gboolean is_prj_base_dir;
 };
+
+
+typedef struct
+{
+	guint file_count;
+	guint subdir_count;
+	GSList *file_patterns_list;
+	GSList *ignored_dirs_list;
+	GSList *ignored_file_list;
+	git_repository *git_repo;
+}SCAN_PARAMS;
+
 
 struct S_WB_PROJECT
 {
@@ -202,6 +217,7 @@ static WB_PROJECT_DIR *wb_project_dir_new(WB_PROJECT *prj, const gchar *utf8_bas
 	WB_PROJECT_DIR *dir = g_new0(WB_PROJECT_DIR, 1);
 	dir->base_dir = g_strdup(utf8_base_dir);
 	dir->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+	dir->scan_mode = WB_PROJECT_SCAN_MODE_WORKBENCH;
 
 	offset = strlen(dir->base_dir)-1;
 	while (offset > 0
@@ -260,6 +276,7 @@ gboolean wb_project_dir_get_is_prj_base_dir (WB_PROJECT_DIR *directory)
 	}
 	return FALSE;
 }
+
 
 /** Get the name of a project dir.
  *
@@ -415,6 +432,79 @@ gboolean wb_project_dir_set_ignored_file_patterns (WB_PROJECT_DIR *directory, gc
 }
 
 
+/** Get the scan mode of a project dir.
+ *
+ * @param directory The project dir
+ * @return WB_PROJECT_SCAN_MODE (the scan mode)
+ *
+ **/
+WB_PROJECT_SCAN_MODE wb_project_dir_get_scan_mode (WB_PROJECT_DIR *directory)
+{
+	if (directory != NULL)
+	{
+		return directory->scan_mode;
+	}
+
+	return WB_PROJECT_SCAN_MODE_INVALID;
+}
+
+
+/* Open or close the git repository in directory as required. */
+static void wb_project_dir_prepare_git_repo(WB_PROJECT *project, WB_PROJECT_DIR *directory)
+{
+	gchar *path;
+
+	path = get_combined_path(project->filename, directory->base_dir);
+	if (directory->scan_mode == WB_PROJECT_SCAN_MODE_GIT)
+	{
+		if (directory->git_repo == NULL)
+		{
+			if (git_repository_open(&(directory->git_repo), path) != 0)
+			{
+				directory->git_repo = NULL;
+				ui_set_statusbar(TRUE,
+					_("Failed to open git repository in folder %s."), path);
+			}
+			else
+			{
+				ui_set_statusbar(TRUE,
+					_("Opened git repository in folder %s."), path);
+			}
+		}
+	}
+	else
+	{
+		if (directory->git_repo != NULL)
+		{
+			git_repository_free(directory->git_repo);
+			directory->git_repo = NULL;
+			ui_set_statusbar(TRUE,
+				_("Closed git repository in folder %s."), path);
+		}
+	}
+	g_free(path);
+}
+
+
+/** Set the scan mode of a project dir.
+ *
+ * @param directory The project dir
+ * @param mode      The scan mode to set
+ * @return FALSE if directory is NULL, TRUE otherwise
+ *
+ **/
+gboolean wb_project_dir_set_scan_mode(WB_PROJECT *project, WB_PROJECT_DIR *directory, WB_PROJECT_SCAN_MODE mode)
+{
+	if (directory != NULL)
+	{
+		directory->scan_mode = mode;
+		wb_project_dir_prepare_git_repo(project, directory);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
 /* Remove all files contained in the project dir from the tm-workspace */
 static void wb_project_dir_remove_from_tm_workspace(WB_PROJECT_DIR *root)
 {
@@ -472,6 +562,111 @@ static guint wb_project_get_file_count(WB_PROJECT *prj)
 	return filenum;
 }
 
+
+/* Callback function for 'gp_filelist_scan_directory_callback', scan mode
+   'workbench', the plugin decides which files to add to the filelist. */
+static void scan_mode_workbench_cb(const gchar *path, gboolean *add, gboolean *enter, void *userdata)
+{
+	SCAN_PARAMS *params = userdata;
+
+	*enter = FALSE;
+	*add = FALSE;
+
+	if (g_file_test(path, G_FILE_TEST_IS_DIR))
+	{
+		if (!filelist_patterns_match(params->ignored_dirs_list, path))
+		{
+			*enter = TRUE;
+			*add = TRUE;
+		}
+	}
+	else if (g_file_test(path, G_FILE_TEST_IS_REGULAR))
+	{
+		if (filelist_patterns_match(params->file_patterns_list, path) &&
+			!filelist_patterns_match(params->ignored_file_list, path))
+		{
+			*enter = TRUE;
+			*add = TRUE;
+		}
+	}
+}
+
+
+/* Callback function for 'gp_filelist_scan_directory_callback', scan mode
+   'git', libgit2 decides which files to add to the filelist. */
+static void scan_mode_git_cb(const gchar *path, gboolean *add, gboolean *enter, void *userdata)
+{
+	gint ignored;
+	SCAN_PARAMS *params = userdata;
+
+	*enter = TRUE;
+	*add = TRUE;
+	if (params->git_repo != NULL)
+	{
+		git_ignore_path_is_ignored(&ignored, params->git_repo, path);
+		if (ignored > 0)
+		{
+			*enter = FALSE;
+			*add = FALSE;
+		}
+	}
+}
+
+
+/* Scan a path according to the settings given in parameter root. */
+static GSList *wb_project_dir_scan_directory(WB_PROJECT_DIR *root, const gchar *searchdir,
+											 guint *file_count, guint *subdir_count)
+{
+	GSList *filelist;
+	SCAN_PARAMS params = { 0 };
+
+	if (root->scan_mode != WB_PROJECT_SCAN_MODE_GIT)
+	{
+		if (!root->file_patterns || !root->file_patterns[0])
+		{
+			const gchar *all_pattern[] = { "*", NULL };
+			params.file_patterns_list = filelist_get_precompiled_patterns((gchar **)all_pattern);
+		}
+		else
+		{
+			params.file_patterns_list = filelist_get_precompiled_patterns(root->file_patterns);
+		}
+
+		params.ignored_dirs_list = filelist_get_precompiled_patterns(root->ignored_dirs_patterns);
+		params.ignored_file_list = filelist_get_precompiled_patterns(root->ignored_file_patterns);
+
+		filelist = gp_filelist_scan_directory_callback
+						(searchdir, scan_mode_workbench_cb, &params);
+
+		g_slist_foreach(params.file_patterns_list, (GFunc) g_pattern_spec_free, NULL);
+		g_slist_free(params.file_patterns_list);
+
+		g_slist_foreach(params.ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
+		g_slist_free(params.ignored_dirs_list);
+
+		g_slist_foreach(params.ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
+		g_slist_free(params.ignored_file_list);
+	}
+	else
+	{
+		params.git_repo = root->git_repo;
+		filelist = gp_filelist_scan_directory_callback
+						(searchdir, scan_mode_git_cb, &params);
+	}
+
+	if (file_count != NULL)
+	{
+		*file_count = params.file_count;
+	}
+	if (subdir_count != NULL)
+	{
+		*subdir_count = params.subdir_count;
+	}
+
+	return filelist;
+}
+
+
 /* Rescan/update the file list of a project dir. */
 static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 {
@@ -479,22 +674,15 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 	GSList *elem = NULL;
 	guint filenum = 0;
 	gchar *searchdir;
-	gchar **file_patterns = NULL;
 
 	wb_project_dir_remove_from_tm_workspace(root);
 	g_hash_table_remove_all(root->file_table);
 
-	if (root->file_patterns && root->file_patterns[0])
-	{
-		file_patterns = root->file_patterns;
-	}
-
 	searchdir = get_combined_path(prj->filename, root->base_dir);
 	root->file_count = 0;
 	root->subdir_count = 0;
-	lst = gp_filelist_scan_directory_full(&(root->file_count), &(root->subdir_count),
-		searchdir, file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns,
-		FILELIST_FLAG_ADD_DIRS);
+	lst = wb_project_dir_scan_directory
+			(root, searchdir, &(root->file_count), &(root->subdir_count));
 	g_free(searchdir);
 
 	foreach_slist(elem, lst)
@@ -515,22 +703,54 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 }
 
 
+/* Single check if a path is to be ignored or not. */
+static gboolean wb_project_dir_path_is_ignored(WB_PROJECT_DIR *root, const gchar *filepath)
+{
+	if (root->scan_mode == WB_PROJECT_SCAN_MODE_WORKBENCH)
+	{
+		gchar **file_patterns = NULL;
+		gboolean matches;
+
+		if (root->file_patterns && root->file_patterns[0])
+		{
+			file_patterns = root->file_patterns;
+		}
+
+		matches = gp_filelist_filepath_matches_patterns(filepath,
+			file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
+		if (!matches)
+		{
+			/* Ignore it. */
+			return TRUE;
+		}
+	}
+	else
+	{
+		if (root->git_repo != NULL)
+		{
+			gint ignored;
+
+			git_ignore_path_is_ignored(&ignored, root->git_repo, filepath);
+			if (ignored > 0)
+			{
+				/* Ignore it. */
+				return TRUE;
+			}
+		}
+	}
+
+	/* Do not ignore it. */
+	return FALSE;
+}
+
+
 /* Add a new file to the project directory and update the sidebar. */
 static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
-	gboolean matches;
-	gchar **file_patterns = NULL;
 	SIDEBAR_CONTEXT context;
 	WB_MONITOR *monitor = NULL;
 
-	if (root->file_patterns && root->file_patterns[0])
-	{
-		file_patterns = root->file_patterns;
-	}
-
-	matches = gp_filelist_filepath_matches_patterns(filepath,
-		file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
-	if (!matches)
+	if (wb_project_dir_path_is_ignored(root, filepath))
 	{
 		/* Ignore it. */
 		return;
@@ -562,9 +782,8 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
 	{
 		GSList *scanned, *elem = NULL;
 
-		scanned = gp_filelist_scan_directory_full(&(root->file_count), &(root->subdir_count),
-			filepath, file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns,
-			FILELIST_FLAG_ADD_DIRS);
+		scanned = wb_project_dir_scan_directory
+				(root, filepath, &(root->file_count), &(root->subdir_count));
 
 		foreach_slist(elem, scanned)
 		{
@@ -655,18 +874,15 @@ static gboolean wb_project_dir_remove_child (gpointer key, gpointer value, gpoin
 void wb_project_dir_remove_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
 	gboolean matches, was_dir;
-	gchar **file_patterns = NULL;
 	WB_MONITOR *monitor;
-
-	if (root->file_patterns && root->file_patterns[0])
-	{
-		file_patterns = root->file_patterns;
-	}
 
 	if (g_file_test(filepath, G_FILE_TEST_EXISTS))
 	{
-		matches = gp_filelist_filepath_matches_patterns(filepath,
-			file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
+		matches = FALSE;
+		if (wb_project_dir_path_is_ignored(root, filepath) == FALSE)
+		{
+			matches = TRUE;
+		}
 	}
 	else
 	{
@@ -1070,6 +1286,15 @@ static void wb_project_save_directories (gpointer data, gpointer user_data)
 	{
 		g_key_file_set_string(tmp->kf, "Workbench", "Prj-BaseDir", dir->base_dir);
 
+		if (dir->scan_mode == WB_PROJECT_SCAN_MODE_WORKBENCH)
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", "Prj-ScanMode", "Workbench");
+		}
+		else
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", "Prj-ScanMode", "Git");
+		}
+
 		str = g_strjoinv(";", dir->file_patterns);
 		g_key_file_set_string(tmp->kf, "Workbench", "Prj-FilePatterns", str);
 		g_free(str);
@@ -1086,6 +1311,16 @@ static void wb_project_save_directories (gpointer data, gpointer user_data)
 	{
 		g_snprintf(key, sizeof(key), "Dir%u-BaseDir", tmp->dir_count);
 		g_key_file_set_string(tmp->kf, "Workbench", key, dir->base_dir);
+
+		g_snprintf(key, sizeof(key), "Dir%u-ScanMode", tmp->dir_count);
+		if (dir->scan_mode == WB_PROJECT_SCAN_MODE_WORKBENCH)
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", key, "Workbench");
+		}
+		else
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", key, "Git");
+		}
 
 		g_snprintf(key, sizeof(key), "Dir%u-FilePatterns", tmp->dir_count);
 		str = g_strjoinv(";", dir->file_patterns);
@@ -1415,6 +1650,17 @@ gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error)
 			{
 				wb_project_dir_set_is_prj_base_dir(new_dir, TRUE);
 
+				str = g_key_file_get_string(kf, "Workbench", "Prj-ScanMode", NULL);
+				if (g_strcmp0(str, "Git") != 0)
+				{
+					wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_WORKBENCH);
+				}
+				else
+				{
+					wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_GIT);
+				}
+				g_free(str);
+
 				str = g_key_file_get_string(kf, "Workbench", "Prj-FilePatterns", NULL);
 				if (str != NULL)
 				{
@@ -1456,6 +1702,18 @@ gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error)
 			{
 				break;
 			}
+
+			g_snprintf(key, sizeof(key), "Dir%u-ScanMode", index);
+			str = g_key_file_get_string(kf, "Workbench", key, NULL);
+			if (g_strcmp0(str, "Git") != 0)
+			{
+				wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_WORKBENCH);
+			}
+			else
+			{
+				wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_GIT);
+			}
+			g_free(str);
 
 			g_snprintf(key, sizeof(key), "Dir%u-FilePatterns", index);
 			str = g_key_file_get_string(kf, "Workbench", key, NULL);

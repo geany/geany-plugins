@@ -25,6 +25,7 @@
 
 #include <sys/time.h>
 #include <string.h>
+#include <git2.h>
 
 #include <wb_globals.h>
 
@@ -33,6 +34,13 @@
 #include "popup_menu.h"
 #include "idle_queue.h"
 #include "tm_control.h"
+
+
+#if ! defined (LIBGIT2_SOVERSION) || LIBGIT2_SOVERSION < 22
+# define git_libgit2_init     git_threads_init
+# define git_libgit2_shutdown git_threads_shutdown
+#endif
+
 
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
@@ -80,6 +88,9 @@ static gboolean plugin_workbench_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointe
 	menu_set_context(MENU_CONTEXT_WB_CLOSED);
 	sidebar_show_intro_message(_("Create or open a workbench\nusing the workbench menu."), FALSE);
 
+	/* Init libgit2. */
+	git_libgit2_init();
+
 	return TRUE;
 }
 
@@ -90,6 +101,9 @@ static void plugin_workbench_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_U
 	menu_cleanup();
 	sidebar_cleanup();
 	wb_tm_control_cleanup();
+
+	/* Shutdown/cleanup libgit2. */
+	git_libgit2_shutdown();
 }
 
 
@@ -117,7 +131,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	/* Set metadata */
 	plugin->info->name = _("Workbench");
 	plugin->info->description = _("Manage and customize multiple projects.");
-	plugin->info->version = "1.08";
+	plugin->info->version = "1.09";
 	plugin->info->author = "LarsGit223";
 
 	/* Set functions */
