@@ -41,24 +41,23 @@ struct lo_lines {
 
 /* selects lines in document (based off of lo_lines struct parameter) */
 static void
-select_lines(GeanyEditor *editor, struct lo_lines sel)
+select_lines(GeanyEditor *editor, struct lo_lines *sel)
 {
 	/* set the selection to beginning of first line */
 	sci_set_selection_start(editor->sci,
-			sci_get_position_from_line(editor->sci, sel.start_line));
+			sci_get_position_from_line(editor->sci, sel->start_line));
 
 	/* set the selection to end of last line */
 	sci_set_selection_end(editor->sci,
-			sci_get_line_end_position(editor->sci, sel.end_line) +
+			sci_get_line_end_position(editor->sci, sel->end_line) +
 									 editor_get_eol_char_len(editor));
 }
 
 
-/* get lo_lines struct based off of document */
-static struct lo_lines
-get_current_sel_lines(ScintillaObject *sci)
+/* get lo_lines struct 'sel' from document */
+static void
+get_current_sel_lines(ScintillaObject *sci, struct lo_lines *sel)
 {
-	struct lo_lines sel = { FALSE, 0, 0 };
 	gint start_posn     = 0;        /* position of selection start */
 	gint end_posn       = 0;        /* position of selection end   */
 
@@ -70,27 +69,25 @@ get_current_sel_lines(ScintillaObject *sci)
 		end_posn   = sci_get_selection_end  (sci);
 
 		/* get the *line number* of those positions */
-		sel.start_line = scintilla_send_message(sci,
+		sel->start_line = scintilla_send_message(sci,
 									SCI_LINEFROMPOSITION,
 									start_posn, 0);
 
-		sel.end_line   = scintilla_send_message(sci,
+		sel->end_line   = scintilla_send_message(sci,
 									SCI_LINEFROMPOSITION,
 									end_posn, 0);
 
-		sel.is_selection = TRUE;
+		sel->is_selection = TRUE;
 	}
 	else
 	{
 		/* if there is no selection, start at first line */
-		sel.start_line = 0;
+		sel->start_line = 0;
 		/* and end at last one */
-		sel.end_line   = (sci_get_line_count(sci) - 1);
+		sel->end_line   = (sci_get_line_count(sci) - 1);
 
-		sel.is_selection = FALSE;
+		sel->is_selection = FALSE;
 	}
-
-	return sel;
 }
 
 
@@ -109,14 +106,14 @@ ensure_final_newline(GeanyEditor *editor, gint *num_lines, struct lo_lines *sel)
 
 		/* re-adjust the selection */
 		(*num_lines)++;
-		(*sel).end_line++;
+		sel->end_line++;
 	}
 }
 
 
 /* set statusbar with message and select altered lines */
 static void
-user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines sel)
+user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines *sel)
 {
 	if(lines_affected < 0)
 	{
@@ -124,9 +121,9 @@ user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines sel)
 					-lines_affected);
 
 		/* select lines to indicate to user what lines were altered */
-		sel.end_line   += lines_affected;
+		sel->end_line   += lines_affected;
 
-		if(sel.is_selection)
+		if(sel->is_selection)
 			select_lines(editor, sel);
 	}
 	else if(lines_affected == 0)
@@ -134,7 +131,7 @@ user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines sel)
 		ui_set_statusbar(FALSE, _("Operation successful! No lines removed."));
 
 		/* select lines to indicate to user what lines were altered */
-		if(sel.is_selection)
+		if(sel->is_selection)
 			select_lines(editor, sel);
 	}
 	else
@@ -143,7 +140,7 @@ user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines sel)
 					lines_affected);
 
 		/* select lines to indicate to user what lines were altered */
-		if(sel.is_selection)
+		if(sel->is_selection)
 			select_lines(editor, sel);
 	}
 }
@@ -159,15 +156,15 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	/* function pointer to function to be used */
 	gint (*func)(gchar **lines, gint num_lines, gchar *new_file) = gdata;
 	GeanyDocument *doc    = document_get_current();
-
 	g_return_if_fail(doc != NULL);
 
-	struct lo_lines sel   = get_current_sel_lines(doc->editor->sci);
-	gint   num_lines      = (sel.end_line - sel.start_line) + 1;
-
+	struct lo_lines sel;
 	gint   num_chars      = 0;
 	gint   i              = 0;
 	gint   lines_affected = 0;
+
+	get_current_sel_lines(doc->editor->sci, &sel);
+	gint num_lines       = (sel.end_line - sel.start_line) + 1;
 
 
 	/* if last line within selection ensure that the file ends with newline */
@@ -189,17 +186,18 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	new_file[0]      = '\0';
 
 	/* select lines that will be replaced with array */
-	select_lines(doc->editor, sel);
+	select_lines(doc->editor, &sel);
 
 	sci_start_undo_action(doc->editor->sci);
 
 	lines_affected = func(lines, num_lines, new_file);
 
+
 	/* set new document */
 	sci_replace_sel(doc->editor->sci, new_file);
 
 	/* select affected lines and set statusbar message */
-	user_indicate(doc->editor, lines_affected, sel);
+	user_indicate(doc->editor, lines_affected, &sel);
 
 	sci_end_undo_action(doc->editor->sci);
 
@@ -222,18 +220,19 @@ action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	/* function pointer to gdata -- function to be used */
 	gint (*func)(ScintillaObject *, gint, gint) = gdata;
 	GeanyDocument *doc  = document_get_current();
-
 	g_return_if_fail(doc != NULL);
 
-	struct lo_lines sel = get_current_sel_lines(doc->editor->sci);
+	struct lo_lines sel;
+	get_current_sel_lines(doc->editor->sci, &sel);
 	gint lines_affected = 0;
 
 	sci_start_undo_action(doc->editor->sci);
 
 	lines_affected = func(doc->editor->sci, sel.start_line, sel.end_line);
 
+
 	/* put message in ui_statusbar, and highlight lines that were affected */
-	user_indicate(doc->editor, lines_affected, sel);
+	user_indicate(doc->editor, lines_affected, &sel);
 
 	sci_end_undo_action(doc->editor->sci);
 }
