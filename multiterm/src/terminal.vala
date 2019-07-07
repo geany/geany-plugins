@@ -55,8 +55,13 @@ namespace MultiTerm
 		{
 			set
 			{
+#if MULTITERM_GTK3
+				Gdk.RGBA color = Gdk.RGBA();
+				color.parse(value);
+#else
 				Gdk.Color color = Gdk.Color();
 				Gdk.Color.parse(value, out color);
+#endif
 				terminal.set_color_background(color);
 			}
 		}
@@ -65,8 +70,13 @@ namespace MultiTerm
 		{
 			set
 			{
+#if MULTITERM_GTK3
+				Gdk.RGBA color = Gdk.RGBA();
+				color.parse(value);
+#else
 				Gdk.Color color = Gdk.Color();
 				Gdk.Color.parse(value, out color);
+#endif
 				terminal.set_color_foreground(color);
 			}
 		}
@@ -124,8 +134,13 @@ namespace MultiTerm
 
 		public Terminal(ShellConfig sh)
 		{
+#if MULTITERM_GTK3
+			Scrollbar vsb;
+			Box hbox;
+#else
 			VScrollbar vsb;
 			HBox hbox;
+#endif
 
 			this.sh = sh;
             if (this.sh.command.strip() == "")
@@ -136,11 +151,12 @@ namespace MultiTerm
 			terminal.show_all();
 
 #if MULTITERM_GTK3
-			vsb = new VScrollbar(terminal.get_vadjustment());
+			vsb = new Scrollbar(Gtk.Orientation.HORIZONTAL, terminal.get_vadjustment());
+			hbox = new Box(Gtk.Orientation.HORIZONTAL, 0);
 #else
 			vsb = new VScrollbar(terminal.get_adjustment());
-#endif
 			hbox = new HBox(false, 0);
+#endif
 
 			hbox.pack_start(terminal, true, true, 0);
 			hbox.pack_start(vsb, false, false, 0);
