@@ -68,6 +68,20 @@ namespace MultiTerm
 			item.show();
 		}
 
+		private Gtk.MenuItem add_image_menu_item(string label_text, string icon_name)
+		{
+			Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+			var icon = new Gtk.Image.from_icon_name(icon_name, IconSize.MENU);
+			Label label = new Label(label_text);
+			Gtk.MenuItem *item;
+
+			item = new Gtk.MenuItem();
+
+			box.pack_start (icon, false, false, 0);
+			box.pack_start (label, false, false, 0);
+			((Gtk.Container)item).add (box);
+		}
+
 		public ContextMenu(Config? cfg)
 		{
 			Gtk.Menu menu;
@@ -112,13 +126,23 @@ namespace MultiTerm
 
 			//add_separator();
 
+#if MULTITERM_GTK3
+			item = add_image_menu_item ("_Copy", "edit-copy");
+			item.activate.connect(() => copy_activate());
+#else
 			image_item = new ImageMenuItem.from_stock(Gtk.Stock.COPY, null);
 			image_item.activate.connect(() => copy_activate());
+#endif
 			//this.append(image_item);
 			//image_item.show();
 
+#if MULTITERM_GTK3
+			item = add_image_menu_item ("_Paste", "edit-paste");
+			item.activate.connect(() => paste_activate());
+#else
 			image_item = new ImageMenuItem.from_stock(Gtk.Stock.PASTE, null);
 			image_item.activate.connect(() => paste_activate());
+#endif
 			//this.append(image_item);
 			//image_item.show();
 
@@ -146,8 +170,13 @@ namespace MultiTerm
 
 			//add_separator();
 
+#if MULTITERM_GTK3
+			item = add_image_menu_item ("_Preferences", "preferences-system");
+			item.activate.connect(() => paste_activate());
+#else
 			image_item = new ImageMenuItem.from_stock(Gtk.Stock.PREFERENCES, null);
 			image_item.activate.connect(() => preferences_activate());
+#endif
 			//this.append(image_item);
 			//image_item.show();
 		}
