@@ -58,11 +58,12 @@ namespace MultiTerm
 #if MULTITERM_GTK3
 				Gdk.RGBA color = Gdk.RGBA();
 				color.parse(value);
+				terminal.set_color_background_rgba(color);
 #else
 				Gdk.Color color = Gdk.Color();
 				Gdk.Color.parse(value, out color);
-#endif
 				terminal.set_color_background(color);
+#endif
 			}
 		}
 
@@ -73,11 +74,12 @@ namespace MultiTerm
 #if MULTITERM_GTK3
 				Gdk.RGBA color = Gdk.RGBA();
 				color.parse(value);
+				terminal.set_color_foreground_rgba(color);
 #else
 				Gdk.Color color = Gdk.Color();
 				Gdk.Color.parse(value, out color);
-#endif
 				terminal.set_color_foreground(color);
+#endif
 			}
 		}
 
