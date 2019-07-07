@@ -53,9 +53,13 @@ namespace MultiTerm
 		private void on_button_style_set(Gtk.Style? previous_style)
 		{
 			int w, h;
+#if MULTITERM_GTK3
+			Gtk.icon_size_lookup(IconSize.MENU, out w, out h);
+#else
 			Gtk.icon_size_lookup_for_settings(btn.get_settings(), 
 											  IconSize.MENU, 
-											  out w, out h);							
+											  out w, out h);
+#endif
 			btn.set_size_request(w+2, h+2);
 		}
 		
@@ -72,7 +76,11 @@ namespace MultiTerm
 			
 			this.pack_start(label, true, true, 0);
 			
+#if MULTITERM_GTK3
+			img = new Image.from_icon_name("window-close", IconSize.MENU);
+#else
 			img = new Image.from_stock(Gtk.Stock.CLOSE, IconSize.MENU);
+#endif
 			
 			RcStyle style = new RcStyle();
 			style.xthickness = 0;

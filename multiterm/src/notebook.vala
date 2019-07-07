@@ -118,9 +118,13 @@ namespace MultiTerm
 		private void on_add_button_style_set()
 		{
 			int w, h;
+#if MULTITERM_GTK3
+			Gtk.icon_size_lookup(IconSize.MENU, out w, out h);
+#else
 			Gtk.icon_size_lookup_for_settings(add_button.get_settings(),
 											  IconSize.MENU,
 											  out w, out h);
+#endif
 			add_button.set_size_request(w+2, h+2);
 		}
 
@@ -149,7 +153,11 @@ namespace MultiTerm
 				context_menu.new_window_activate.connect(on_new_window_activate);
 				context_menu.move_to_location_activate.connect(on_move_to_location);
 			}
+#if MULTITERM_GTK3
+			context_menu.popup_at_pointer(event);
+#else
 			context_menu.popup(null, null, null, event.button, event.time);
+#endif
 			return true;
 		}
 
@@ -190,7 +198,11 @@ namespace MultiTerm
 			style.xthickness = 0;
 			style.ythickness = 0;
 
+#if MULTITERM_GTK3
+			img = new Image.from_icon_name("list-add", IconSize.MENU);
+#else
 			img = new Gtk.Image.from_stock(Gtk.Stock.ADD, Gtk.IconSize.MENU);
+#endif
 
 			add_button = new Button();
 			add_button.modify_style(style);
