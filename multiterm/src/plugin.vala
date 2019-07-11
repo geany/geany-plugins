@@ -28,7 +28,7 @@ public Data			geany_data;
 public Functions	geany_functions;
 
 /* Widgets to clean up when the plugin is unloaded */
-private List<Widget> toplevel_widgets = new List<Widget>();
+private List<Widget> toplevel_widgets = null;
 
 /* Geany calls this to determine min. required API/ABI version */
 public int plugin_version_check(int abi_version)
@@ -52,6 +52,8 @@ public void plugin_init(Geany.Data data)
 	Label label;
 	Alignment align;
 	MultiTerm.Notebook notebook;
+
+	toplevel_widgets = new List<Widget>();
 
 	/* Needed for GObject type system not to freak out about
 	 * unregistering and re-registering new types */
