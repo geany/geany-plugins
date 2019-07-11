@@ -22,6 +22,9 @@
 
 #include "common.h"
 
+/* Wordchars defining possible signs in an expression. */
+#define SCOPE_EXPR_WORDCHARS	"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.->[]"
+
 static void tooltip_trigger(void)
 {
 	GdkDisplay *display = gdk_display_get_default();
@@ -48,6 +51,7 @@ static void tooltip_trigger(void)
 	}
 }
 
+static gchar *last_expr = NULL;
 static gchar *output = NULL;
 static gint last_pos = -1;
 static gint peek_pos = -1;
@@ -58,6 +62,24 @@ static void tooltip_set(gchar *text)
 	show = text != NULL;
 	g_free(output);
 	output = text;
+	last_pos = peek_pos;
+
+	if (show)
+	{
+		if (pref_tooltips_length && strlen(output) > (size_t) pref_tooltips_length + 3)
+			strcpy(output + pref_tooltips_length, "...");
+
+		tooltip_trigger();
+	}
+}
+
+static void tooltip_set_expr(gchar *expr, gchar *text)
+{
+	show = text != NULL;
+	g_free(output);
+	output = g_strdup_printf ("%s =\n %s", expr, text);
+	g_free(text);
+	g_free(expr);
 	last_pos = peek_pos;
 
 	if (show)
@@ -92,7 +114,7 @@ void on_tooltip_value(GArray *nodes)
 {
 	if (atoi(parse_grab_token(nodes)) == scid_gen)
 	{
-		tooltip_set(parse_get_display_from_7bit(parse_lead_value(nodes),
+		tooltip_set_expr(last_expr, parse_get_display_from_7bit(parse_lead_value(nodes),
 			parse_mode_get(input, MODE_HBIT), parse_mode_get(input, MODE_MEMBER)));
 	}
 }
@@ -107,17 +129,23 @@ static gboolean tooltip_launch(gpointer gdata)
 		(debug_state() & DS_SENDABLE))
 	{
 		ScintillaObject *sci = doc->editor->sci;
-		gchar *expr = sci_get_selection_mode(sci) == SC_SEL_STREAM &&
+		gchar *expr;
+		if (sci_get_selection_mode(sci) == SC_SEL_STREAM &&
 			peek_pos >= sci_get_selection_start(sci) &&
-			peek_pos < sci_get_selection_end(sci) ?
-			editor_get_default_selection(doc->editor, FALSE, NULL) :
-			editor_get_word_at_pos(doc->editor, peek_pos, NULL);
+			peek_pos < sci_get_selection_end(sci))
+		{
+			expr = editor_get_default_selection(doc->editor, FALSE, NULL);
+		}
+		else
+		{
+			expr = utils_read_evaluate_expr(doc->editor, peek_pos);
+		}
 
 		if ((expr = utils_verify_selection(expr)) != NULL)
 		{
 			g_free(input);
 			input = debug_send_evaluate('3', scid_gen, expr);
-			g_free(expr);
+			last_expr = expr;
 		}
 		else
 			tooltip_set(NULL);
