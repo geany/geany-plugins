@@ -68,6 +68,7 @@ namespace MultiTerm
 			item.show();
 		}
 
+#if MULTITERM_GTK3
 		private Gtk.MenuItem add_image_menu_item(string label_text, string icon_name)
 		{
 			Gtk.Box box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
@@ -81,6 +82,7 @@ namespace MultiTerm
 			box.pack_start (label, false, false, 0);
 			((Gtk.Container)item).add (box);
 		}
+#endif
 
 		public ContextMenu(Config? cfg)
 		{
