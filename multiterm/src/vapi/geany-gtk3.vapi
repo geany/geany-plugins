@@ -779,7 +779,7 @@ namespace Geany {
 		private void set_indent_type (IndentType ind_type);
 		
 		[CCode (cname = "GEANY_WORDCHARS")]
-		public static const string WORD_CHARS;
+		public const string WORD_CHARS;
 		
 		/* Editor Properties */
 
