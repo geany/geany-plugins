@@ -39,6 +39,12 @@ menu:
   Open the Workbench settings dialog. After the settings have been
   confirmed with "OK" they will be written back to the workbench file
   (if any value was changed).
+**Item "Search projects"**
+  Search for projects to add them to the Workbench. This lets the user
+  select a directory to search through. The directory and it's sub-directories
+  are scanned for project files (".geany"). All found files are listed and
+  after scanning is done the user can select the projects which shall be
+  added to the Workbench.
 **Item "Close"**
   Closes the opened Workbench.
 

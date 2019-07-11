@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 LarsGit223
+ * Copyright 2019 LarsGit223
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __WB_MENU_H__
-#define __WB_MENU_H__
+#ifndef __WB_SEARCH_PROJECTS_H__
+#define __WB_SEARCH_PROJECTS_H__
 
-typedef enum
-{
-	MENU_CONTEXT_WB_CREATED,
-	MENU_CONTEXT_WB_OPENED,
-	MENU_CONTEXT_WB_CLOSED,
-	MENU_CONTEXT_SEARCH_PROJECTS_SCANING,
-}MENU_CONTEXT;
-
-void menu_set_context(MENU_CONTEXT context);
-gboolean menu_init(void);
-void menu_cleanup (void);
+void search_projects(WORKBENCH *wb);
 
 #endif
