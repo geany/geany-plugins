@@ -81,6 +81,8 @@ namespace MultiTerm
 			box.pack_start (icon, false, false, 0);
 			box.pack_start (label, false, false, 0);
 			((Gtk.Container)item).add (box);
+
+			return item;
 		}
 #endif
 
@@ -88,7 +90,9 @@ namespace MultiTerm
 		{
 			Gtk.Menu menu;
 			Gtk.MenuItem item;
+#if !MULTITERM_GTK3
 			ImageMenuItem image_item;
+#endif
 			CheckMenuItem check_item;
 
 			menu = new Gtk.Menu();
