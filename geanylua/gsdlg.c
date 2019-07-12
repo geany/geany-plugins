@@ -27,7 +27,7 @@
 
 #include <stdlib.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 
 #define TextKey "gsdlg_TextKey_bc4871f4e3478ab5234e28432460a6b8"

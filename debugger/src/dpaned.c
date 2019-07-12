@@ -29,7 +29,7 @@
 #include <memory.h>
 #include <string.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 extern GeanyData		*geany_data;
 
 #include "dpaned.h"

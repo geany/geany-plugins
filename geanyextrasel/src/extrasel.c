@@ -23,7 +23,7 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;

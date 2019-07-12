@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #ifndef GTK_COMPAT_H
 #define GtkComboBoxText GtkComboBox

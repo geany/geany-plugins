@@ -24,7 +24,7 @@
 #ifndef LINEFUNCTIONS_H
 #define LINEFUNCTIONS_H
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include "Scintilla.h"
 #include <stdlib.h>      /* qsort */
 #include <string.h>

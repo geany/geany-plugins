@@ -26,7 +26,7 @@
 # include "config.h"
 #endif
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #include "addons.h"
 #include "ao_blanklines.h"

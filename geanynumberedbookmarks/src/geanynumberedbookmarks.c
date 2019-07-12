@@ -11,7 +11,7 @@
 
 
 #include "config.h"
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include "utils.h"
 #include "Scintilla.h"
 #include <stdlib.h>

@@ -22,7 +22,7 @@
 #ifndef MARKERS_H
 #define MARKERS_H
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #include "breakpoint.h"
 
