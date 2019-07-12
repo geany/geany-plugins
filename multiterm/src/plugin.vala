@@ -109,4 +109,6 @@ public void plugin_cleanup ()
 {
 	foreach (Widget wid in toplevel_widgets)
 		wid.destroy();
+
+	toplevel_widgets = null;
 }
