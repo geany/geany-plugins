@@ -527,16 +527,19 @@ static void validate_store(ScpTreeStore *store)
 static gboolean scp_insert_element(ScpTreeStore *store, GtkTreeIter *iter, AElem *elem,
 	gint position, GtkTreeIter *parent_iter)
 {
-	ScpTreeStorePrivate *priv = store->priv;
-	AElem *parent = parent_iter ? ITER_ELEM(parent_iter) : priv->root;
-	GPtrArray *array = parent->children;
+	ScpTreeStorePrivate *priv;
+	AElem *parent;
+	GPtrArray *array;
 	GtkTreePath *path;
 
 	g_return_val_if_fail(SCP_IS_TREE_STORE(store), FALSE);
 	g_return_val_if_fail(iter != NULL, FALSE);
+	priv = store->priv;
 	g_return_val_if_fail(priv->sublevels == TRUE || parent_iter == NULL, FALSE);
 	g_return_val_if_fail(VALID_ITER_OR_NULL(parent_iter, store), FALSE);
 
+	parent = parent_iter ? ITER_ELEM(parent_iter) : priv->root;
+	array = parent->children;
 	if (array)
 	{
 		if (position == -1)
@@ -624,12 +627,13 @@ void scp_tree_store_insert_with_values(ScpTreeStore *store, GtkTreeIter *iter,
 void scp_tree_store_get_valist(ScpTreeStore *store, GtkTreeIter *iter, va_list ap)
 {
 	ScpTreeStorePrivate *priv = store->priv;
-	AElem *elem = ITER_ELEM(iter);
+	AElem *elem;
 	gint column;
 
 	g_return_if_fail(SCP_IS_TREE_STORE(store));
 	g_return_if_fail(VALID_ITER(iter, store));
 
+	elem = ITER_ELEM(iter);
 	while ((column = va_arg(ap, int)) != -1)
 	{
 		gpointer dest;
@@ -896,12 +900,13 @@ gboolean scp_tree_store_get_iter(ScpTreeStore *store, GtkTreeIter *iter, GtkTree
 
 GtkTreePath *scp_tree_store_get_path(VALIDATE_ONLY ScpTreeStore *store, GtkTreeIter *iter)
 {
-	AElem *elem = ITER_ELEM(iter);
+	AElem *elem;
 	GtkTreePath *path;
 
 	g_return_val_if_fail(VALID_ITER(iter, store), NULL);
 	path = gtk_tree_path_new();
 
+	elem = ITER_ELEM(iter);
 	if (elem->parent)
 	{
 		gtk_tree_path_append_index(path, ITER_INDEX(iter));

@@ -152,9 +152,11 @@ static void on_local_watch(G_GNUC_UNUSED const MenuItem *menu_item)
 	GtkTreeIter iter;
 	const char *name;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, LOCAL_NAME, &name, -1);
-	watch_add(name);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		scp_tree_store_get(store, &iter, LOCAL_NAME, &name, -1);
+		watch_add(name);
+	}
 }
 
 static void on_local_inspect(G_GNUC_UNUSED const MenuItem *menu_item)

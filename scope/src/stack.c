@@ -165,10 +165,12 @@ void on_stack_follow(GArray *nodes)
 gboolean stack_entry(void)
 {
 	GtkTreeIter iter;
-	gboolean entry;
+	gboolean entry = NULL;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, STACK_ENTRY, &entry, -1);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		scp_tree_store_get(store, &iter, STACK_ENTRY, &entry, -1);
+	}
 	return entry;
 }
 
@@ -268,18 +270,22 @@ static void on_stack_show_entry(const MenuItem *menu_item)
 	GtkTreeIter iter;
 
 	view_dirty(VIEW_LOCALS);
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, STACK_FUNC, &ed.func, -1);
-	parse_mode_update(ed.func, MODE_ENTRY, ed.entry);
-	store_foreach(store, (GFunc) stack_iter_show_entry, &ed);
-
-	if (ed.count == 1)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		debug_send_format(T, "04%s-stack-list-arguments 1 %s %s", thread_id, frame_id,
-			frame_id);
+		scp_tree_store_get(store, &iter, STACK_FUNC, &ed.func, -1);
+		parse_mode_update(ed.func, MODE_ENTRY, ed.entry);
+		store_foreach(store, (GFunc) stack_iter_show_entry, &ed);
+
+		if (ed.count == 1)
+		{
+			debug_send_format(T, "04%s-stack-list-arguments 1 %s %s", thread_id, frame_id,
+				frame_id);
+		}
+		else
+		{
+			debug_send_format(T, "04%s-stack-list-arguments 1", thread_id);
+		}
 	}
-	else
-		debug_send_format(T, "04%s-stack-list-arguments 1", thread_id);
 }
 
 #define DS_VIEWABLE (DS_ACTIVE | DS_EXTRA_2)
