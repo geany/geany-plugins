@@ -49,7 +49,7 @@ S: Maintained
 
 debugger
 P: Alexander Petukhov <devel@apetukhov.ru>
-g: 
+g:
 M: Alexander Petukhov <devel@apetukhov.ru>
 W: http://plugins.geany.org/debugger.html
 S: Maintained
@@ -192,7 +192,7 @@ keyrecord
 P: Artur Riazanov <tunyash@gmail.com>
 g:
 M: Artur Riazanov <tunyash@gmail.com>
-W: 
+W:
 S: Maintained
 
 lineoperations
@@ -287,7 +287,7 @@ S: Maintained
 
 treebrowser
 P: Adam Dingle <adam@medovina.org>
-g:
+g: @medovina
 M: Adam Dingle <adam@medovina.org>
 W: http://plugins.geany.org/treebrowser.html
 S: Maintained
@@ -312,6 +312,14 @@ g: @b4n
 M: Colomban Wendling <ban@herbesfolles.org>
 W: http://plugins.geany.org/webhelper.html
 S: Maintained
+
+workbench
+P:
+g: @LarsGit223
+M:
+W: http://plugins.geany.org/workbench.html
+S: Maintained
+
 
 xmlsnippets
 P: Eugene Arshinov <earshinov@gmail.com>

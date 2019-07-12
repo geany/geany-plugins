@@ -220,6 +220,7 @@ keyrecord/src/keyrecord.c
 
 # LineOperations
 lineoperations/src/lineoperations.c
+lineoperations/src/linefunctions.c
 
 # lipsum
 lipsum/src/lipsum.c
@@ -321,6 +322,7 @@ workbench/src/dialogs.c
 workbench/src/menu.c
 workbench/src/plugin_main.c
 workbench/src/popup_menu.c
+workbench/src/search_projects.c
 workbench/src/sidebar.c
 workbench/src/utils.c
 workbench/src/wb_globals.c

@@ -775,14 +775,16 @@ static void on_thread_interrupt(G_GNUC_UNUSED const MenuItem *menu_item)
 	GtkTreeIter iter;
 	HANDLE hid;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	hid = iter_to_handle(&iter);
-
-	if (hid)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		if (!DebugBreakProcess(hid))
-			show_errno("DebugBreakProcess");
-		CloseHandle(hid);
+		hid = iter_to_handle(&iter);
+
+		if (hid)
+		{
+			if (!DebugBreakProcess(hid))
+				show_errno("DebugBreakProcess");
+			CloseHandle(hid);
+		}
 	}
 }
 

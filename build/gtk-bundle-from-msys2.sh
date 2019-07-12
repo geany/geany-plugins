@@ -14,7 +14,7 @@ gtkv="3"
 # ctags - binary for GeanyCTags plugin
 # ctpl-git - for GeanyGenDoc plugin
 # enchant, hunspell - for SpellCheck plugin
-# curl, glib-networking, gnutls, icu, sqlite3, webkitgtk2/3 for WebHelper and Markdown plugins
+# curl, glib-networking, gnutls, icu, libproxy, sqlite3, webkitgtk2/3 for WebHelper and Markdown plugins
 # lua51 - for GeanyLua plugin
 # gnupg, gpgme - for GeanyPG plugin
 # libsoup - for UpdateChecker plugin
@@ -23,6 +23,9 @@ gtkv="3"
 # gtkspell - for GeanyVC plugin
 # the rest is dependency-dependency
 packages="
+p11-kit
+brotli
+ca-certificates
 ctags
 ctpl-git
 curl
@@ -48,6 +51,8 @@ libgit2
 libidn2
 libjpeg-turbo
 libogg
+libpsl
+libproxy
 libsoup
 libssh2
 libsystre
@@ -66,7 +71,6 @@ nettle
 nghttp2
 openssl
 orc
-p11-kit
 readline
 rtmpdump-git
 sqlite3
@@ -229,11 +233,14 @@ cleanup_unnecessary_files() {
 	rm -f lib/bin/libenchant_zemberek.dll
 	# enchant: remove aspell engine (it would require the aspell library which we don't need)
 	rm -f lib/enchant/libenchant_aspell.dll
+	# libproxy: remove KDE module
+	rm -f lib/modules/config_kde.dll
 	# sbin: cleanup sbin files
 	rm -rf sbin
 	# share: cleanup other unnecessary files
 	rm -rf share/aclocal
 	rm -rf share/bash-completion
+	rm -rf share/cmake
 	rm -rf share/common-lisp
 	rm -rf share/dbus-1
 	rm -rf share/doc
@@ -253,7 +260,9 @@ cleanup_unnecessary_files() {
 	rm -rf share/readline
 	rm -rf share/zsh
 	# ssl: cleanup ssl files
-	rm -rf ssl
+	rm -rf ssl/*.cnf
+	rm -rf ssl/*.cnf.dist
+	rm -rf ssl/*.pem
 	# bin: cleanup binaries and libs (delete anything except *.dll and binaries we need)
 	find bin \
 		! -name '*.dll' \

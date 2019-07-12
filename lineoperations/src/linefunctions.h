@@ -69,4 +69,9 @@ sortlnsasc(gchar **lines, gint num_lines, gchar *new_file);
 gint
 sortlndesc(gchar **lines, gint num_lines, gchar *new_file);
 
+
+/* Remove Every Nth Line */
+gint
+rmnthln(ScintillaObject *sci, gint line_num, gint end_line_num);
+
 #endif

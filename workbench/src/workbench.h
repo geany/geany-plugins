@@ -45,6 +45,8 @@ void workbench_set_enable_live_update(WORKBENCH *wb, gboolean value);
 gboolean workbench_get_enable_live_update(WORKBENCH *wb);
 void workbench_set_expand_on_hover(WORKBENCH *wb, gboolean value);
 gboolean workbench_get_expand_on_hover(WORKBENCH *wb);
+void workbench_set_enable_tree_lines(WORKBENCH *wb, gboolean value);
+gboolean workbench_get_enable_tree_lines(WORKBENCH *wb);
 
 WB_PROJECT *workbench_get_project_at_index(WORKBENCH *wb, guint index);
 PROJECT_ENTRY_STATUS workbench_get_project_status_at_index(WORKBENCH *wb, guint index);

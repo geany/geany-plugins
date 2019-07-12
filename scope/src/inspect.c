@@ -815,25 +815,29 @@ static void on_inspect_edit(G_GNUC_UNUSED const MenuItem *menu_item)
 	const char *name, *frame;
 	gboolean run_apply;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, INSPECT_EXPR, &expr, INSPECT_NAME, &name,
-		INSPECT_FRAME, &frame, INSPECT_RUN_APPLY, &run_apply, -1);
-	scp_tree_store_set(store, &iter, INSPECT_NAME, "-", -1);  /* for duplicate name check */
-
-	gtk_entry_set_text(inspect_expr, expr);
-	gtk_entry_set_text(inspect_name, name);
-	gtk_entry_set_text(inspect_frame, frame);
-	gtk_toggle_button_set_active(inspect_run_apply, run_apply);
-	on_inspect_entry_changed(NULL, NULL);
-
-	if (gtk_dialog_run(GTK_DIALOG(inspect_dialog)) == GTK_RESPONSE_ACCEPT)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		g_free(jump_to_expr);
-		jump_to_expr = NULL;
-		inspect_dialog_store(&iter);
+		scp_tree_store_get(store, &iter, INSPECT_EXPR, &expr, INSPECT_NAME, &name,
+			INSPECT_FRAME, &frame, INSPECT_RUN_APPLY, &run_apply, -1);
+		scp_tree_store_set(store, &iter, INSPECT_NAME, "-", -1);  /* for duplicate name check */
+
+		gtk_entry_set_text(inspect_expr, expr);
+		gtk_entry_set_text(inspect_name, name);
+		gtk_entry_set_text(inspect_frame, frame);
+		gtk_toggle_button_set_active(inspect_run_apply, run_apply);
+		on_inspect_entry_changed(NULL, NULL);
+
+		if (gtk_dialog_run(GTK_DIALOG(inspect_dialog)) == GTK_RESPONSE_ACCEPT)
+		{
+			g_free(jump_to_expr);
+			jump_to_expr = NULL;
+			inspect_dialog_store(&iter);
+		}
+		else
+		{
+			scp_tree_store_set(store, &iter, INSPECT_NAME, name, -1);
+		}
 	}
-	else
-		scp_tree_store_set(store, &iter, INSPECT_NAME, name, -1);
 }
 
 static void on_inspect_apply(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -842,13 +846,19 @@ static void on_inspect_apply(G_GNUC_UNUSED const MenuItem *menu_item)
 	const char *var1;
 	gint scid;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, INSPECT_SCID, &scid, INSPECT_VAR1, &var1, -1);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		scp_tree_store_get(store, &iter, INSPECT_SCID, &scid, INSPECT_VAR1, &var1, -1);
 
-	if (var1)
-		debug_send_format(N, "070%d-var-delete %s", scid, var1);
-	else
-		inspect_apply(&iter);
+		if (var1)
+		{
+			debug_send_format(N, "070%d-var-delete %s", scid, var1);
+		}
+		else
+		{
+			inspect_apply(&iter);
+		}
+	}
 }
 
 static GtkWidget *expand_dialog;
@@ -863,25 +873,31 @@ static void on_inspect_expand(G_GNUC_UNUSED const MenuItem *menu_item)
 	gint start, count;
 	gboolean expand;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, INSPECT_NAME, &name, INSPECT_START, &start,
-		INSPECT_COUNT, &count, INSPECT_EXPAND, &expand, -1);
-	gtk_spin_button_set_value(expand_start, start);
-	gtk_spin_button_set_value(expand_count, count);
-	gtk_toggle_button_set_active(expand_automatic, expand);
-	gtk_widget_set_sensitive(GTK_WIDGET(expand_automatic), name != NULL);
-
-	if (gtk_dialog_run(GTK_DIALOG(expand_dialog)) == GTK_RESPONSE_ACCEPT)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		scp_tree_store_set(store, &iter,
-			INSPECT_START, gtk_spin_button_get_value_as_int(expand_start),
-			INSPECT_COUNT, gtk_spin_button_get_value_as_int(expand_count),
-			INSPECT_EXPAND, gtk_toggle_button_get_active(expand_automatic), -1);
+		scp_tree_store_get(store, &iter, INSPECT_NAME, &name, INSPECT_START, &start,
+			INSPECT_COUNT, &count, INSPECT_EXPAND, &expand, -1);
+		gtk_spin_button_set_value(expand_start, start);
+		gtk_spin_button_set_value(expand_count, count);
+		gtk_toggle_button_set_active(expand_automatic, expand);
+		gtk_widget_set_sensitive(GTK_WIDGET(expand_automatic), name != NULL);
 
-		if (debug_state() & DS_VARIABLE)
-			inspect_expand(&iter);
-		else
-			plugin_beep();
+		if (gtk_dialog_run(GTK_DIALOG(expand_dialog)) == GTK_RESPONSE_ACCEPT)
+		{
+			scp_tree_store_set(store, &iter,
+				INSPECT_START, gtk_spin_button_get_value_as_int(expand_start),
+				INSPECT_COUNT, gtk_spin_button_get_value_as_int(expand_count),
+				INSPECT_EXPAND, gtk_toggle_button_get_active(expand_automatic), -1);
+
+			if (debug_state() & DS_VARIABLE)
+			{
+				inspect_expand(&iter);
+			}
+			else
+			{
+				plugin_beep();
+			}
+		}
 	}
 }
 
@@ -901,16 +917,20 @@ static void on_inspect_format_update(const MenuItem *menu_item)
 	gint format = GPOINTER_TO_INT(menu_item->gdata);
 	const char *var1;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1, -1);
-
-	if (var1)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		debug_send_format(N, "07%d-var-set-format %s %s", inspect_get_scid(&iter), var1,
-			inspect_formats[format]);
+		scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1, -1);
+
+		if (var1)
+		{
+			debug_send_format(N, "07%d-var-set-format %s %s", inspect_get_scid(&iter), var1,
+				inspect_formats[format]);
+		}
+		else
+		{
+			scp_tree_store_set(store, &iter, INSPECT_FORMAT, format, -1);
+		}
 	}
-	else
-		scp_tree_store_set(store, &iter, INSPECT_FORMAT, format, -1);
 }
 
 static void on_inspect_hbit_display(const MenuItem *menu_item)
@@ -939,18 +959,20 @@ static void on_inspect_hbit_update(const MenuItem *menu_item)
 	const char *expr, *name;
 	gint hb_mode = GPOINTER_TO_INT(menu_item->gdata);
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, INSPECT_EXPR, &expr, INSPECT_NAME, &name, -1);
-	inspect_hbit_update_iter(&iter, hb_mode);
-	parse_mode_update(expr, MODE_HBIT, hb_mode);
-
-	if (name)
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
-		char *reverse = parse_mode_reentry(expr);
+		scp_tree_store_get(store, &iter, INSPECT_EXPR, &expr, INSPECT_NAME, &name, -1);
+		inspect_hbit_update_iter(&iter, hb_mode);
+		parse_mode_update(expr, MODE_HBIT, hb_mode);
 
-		if (store_find(store, &iter, INSPECT_EXPR, reverse))
-			inspect_hbit_update_iter(&iter, hb_mode);
-		g_free(reverse);
+		if (name)
+		{
+			char *reverse = parse_mode_reentry(expr);
+
+			if (store_find(store, &iter, INSPECT_EXPR, reverse))
+				inspect_hbit_update_iter(&iter, hb_mode);
+			g_free(reverse);
+		}
 	}
 }
 
@@ -959,13 +981,19 @@ static void on_inspect_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 	GtkTreeIter iter;
 	const char *var1;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1, -1);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		scp_tree_store_get(store, &iter, INSPECT_VAR1, &var1, -1);
 
-	if (var1)
-		debug_send_format(N, "071%d-var-delete %s", inspect_get_scid(&iter), var1);
-	else
-		scp_tree_store_remove(store, &iter);
+		if (var1)
+		{
+			debug_send_format(N, "071%d-var-delete %s", inspect_get_scid(&iter), var1);
+		}
+		else
+		{
+			scp_tree_store_remove(store, &iter);
+		}
+	}
 }
 
 #define DS_EDITABLE (DS_BASICS | DS_EXTRA_2)

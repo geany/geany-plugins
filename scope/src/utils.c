@@ -36,6 +36,10 @@
 #ifdef G_OS_UNIX
 #include <fcntl.h>
 
+/* The maximum length of an expression for evaluating the value.
+   (Including the string terminator '\0') */
+#define SCOPE_MAX_EVALUATE_EXPR_LENGTH 256
+
 void show_errno(const char *prefix)
 {
 	show_error(_("%s: %s."), prefix, g_strerror(errno));
@@ -99,7 +103,7 @@ gboolean utils_check_path(const gchar *pathname, gboolean file, int mode)
 
 		if (stat(path, &buf) == 0)
 		{
-			if (!S_ISDIR(buf.st_mode) == file)
+			if ((!S_ISDIR(buf.st_mode)) == file)
 				result = access(path, mode) == 0;
 			else
 				errno = file ? EISDIR : ENOTDIR;
@@ -324,7 +328,7 @@ gboolean utils_source_filetype(GeanyFiletype *ft)
 
 		guint i;
 
-		for (i = 0; i < sizeof ft_id / sizeof ft_id[0]; i++)
+		for (i = 0; i < sizeof(ft_id) / sizeof(ft_id[0]); i++)
 			if (ft_id[i] == ft->id)
 				return TRUE;
 	}
@@ -752,4 +756,347 @@ void utils_finalize(void)
 		if (state != DS_INACTIVE)
 			utils_unlock(documents[i]);
 	}
+}
+
+/* checks whether @p c is an ASCII character (e.g. < 0x80) */
+#define IS_ASCII(c) (((unsigned char)(c)) < 0x80)
+
+/* This function is doing the parsing for 'utils_read_evaluate_expr()'.
+   It was mainly separated from it to support easy unit testing. */
+gchar *utils_evaluate_expr_from_string(gchar *chunk, guint peek_index)
+{
+	static const gchar *keep_prefix_list[] =
+		{ "sizeof", NULL };
+	static gchar expr[SCOPE_MAX_EVALUATE_EXPR_LENGTH];
+	static const gchar *wchars = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	static const gchar *wspace = " \t";
+	gint startword, endword, temp_pos, round_brackets;
+	gint pos, left_bracket, cmp;
+	gboolean stop, oper, whitespace, brackets_exist;
+	gchar *expr_copy;
+
+	g_return_val_if_fail(chunk != NULL, NULL);
+
+	startword = peek_index;
+	endword = peek_index;
+	expr[0] = '\0';
+
+	if (chunk[startword] == ' ')
+	{
+		return NULL;
+	}
+
+	/* Find the left boundary of the expression. If the current sign
+	   is a '*' or a '&' then we already are at the left boundary. */
+	round_brackets = 0;
+	if (chunk[startword] != '*' && chunk[startword] != '&')
+	{
+		stop = FALSE;
+		oper = FALSE;
+		whitespace = FALSE;
+		while (startword > 0 && stop == FALSE)
+		{
+			/* the checks for "c < 0" are to allow any Unicode character which should make the code
+			 * a little bit more Unicode safe, anyway, this allows also any Unicode punctuation */
+			if (strchr(wchars, chunk[startword]) || ! IS_ASCII(chunk[startword]))
+			{
+				if (whitespace == TRUE && oper == FALSE)
+				{
+					startword++;
+					stop = TRUE;
+				}
+				else
+				{
+					startword--;
+					oper = FALSE;
+					whitespace = FALSE;
+				}
+			}
+			else
+			{
+				switch (chunk[startword])
+				{
+					case ' ':
+					case '\t':
+						startword--;
+						whitespace = TRUE;
+					break;
+
+					case '(':
+						round_brackets++;
+						startword--;
+					break;
+
+					case ')':
+						round_brackets--;
+						startword--;
+					break;
+
+					case '[':
+					case ']':
+						startword--;
+					break;
+
+					case '.':
+						/* Stop if there are no more signs before the current position,
+						   or if we already have seen an operator, or the sign before
+						   the operator is not a valid variable-name-char or whitespace. */
+						if (startword == 0 || oper == TRUE ||
+							(strchr(wchars, chunk[startword - 1]) == NULL &&
+							 strchr(wspace, chunk[startword - 1]) == NULL &&
+							 chunk[startword - 1] != ']'))
+						{
+							stop = TRUE;
+							break;
+						}
+						oper = TRUE;
+						startword--;
+					break;
+
+					case '>':
+						/* Stop if there are no more signs before the current position,
+						   or if we already have seen an operator, or the sign before
+						   the current sign is not a '-' (we expect a "->" here) */
+						if (startword < 2 || oper == TRUE || chunk[startword - 1] != '-')
+						{
+							stop = TRUE;
+							break;
+						}
+						oper = TRUE;
+						startword -= 2;
+					break;
+
+					case ':':
+						/* Stop if there are no more signs before the current position,
+						   or if we already have seen an operator, or the sign before
+						   the current sign is not a ':' (we expect a "::" here) */
+						if (startword < 2 || oper == TRUE || chunk[startword - 1] != ':')
+						{
+							stop = TRUE;
+							break;
+						}
+						oper = TRUE;
+						startword -= 2;
+					break;
+
+					default:
+						/* Not a valid variable-name-char or whitespace or operator. */
+						stop = TRUE;
+						if (whitespace == TRUE)
+						{
+							startword += 2;
+						}
+					break;
+				}
+			}
+		}
+		if (chunk[startword] == '*' || chunk[startword] == '&')
+		{
+			startword++;
+		}
+	}
+
+	/* Find the right boundary of the expression. */
+	stop = FALSE;
+	while (chunk[endword] != 0 && stop == FALSE)
+	{
+		/* the checks for "c < 0" are to allow any Unicode character which should make the code
+		 * a little bit more Unicode safe, anyway, this allows also any Unicode punctuation */
+		if (strchr(wchars, chunk[endword]) || ! IS_ASCII(chunk[endword]))
+		{
+			endword++;
+		}
+		else
+		{
+			switch (chunk[endword])
+			{
+				case ')':
+					round_brackets--;
+					if (round_brackets < 1)
+					{
+						/* We stop here in any case. 0 would be the normal case.
+						   If the value is below zero something went wrong in the
+						   loop above. Maybe this is just not a valid expression. */
+						stop = TRUE;
+					}
+				break;
+
+				case ']':
+				case '*':
+				case '&':
+					endword++;
+				break;
+
+				case ' ':
+				case '\t':
+					/* We should usually stop here. But we need to continue
+					   if the whitespace is followed by an array index "[...]"! */
+					temp_pos = endword + 1;
+					while (chunk[temp_pos] != 0 &&
+						   (chunk[temp_pos] == ' ' || chunk[temp_pos] == '\t'))
+					{
+						temp_pos++;
+					}
+					if (chunk[temp_pos] == '[' && chunk[temp_pos+1] != ']')
+					{
+						endword = temp_pos + 1;
+					}
+					else
+					{
+						stop = TRUE;
+					}
+				break;
+
+				default:
+					endword--;
+					stop = TRUE;
+				break;
+			}
+		}
+	}
+
+	/* Skip leading whitespace. */
+	while ((chunk[startword] == ' ' || chunk[startword] == '\t') &&
+		   startword < endword)
+	{
+		startword++;
+	}
+
+	/* Skip trailing whitespace. */
+	while (endword > 0 &&
+		   (chunk[endword] == ' ' || chunk[endword] == '\t') &&
+		   startword < endword)
+	{
+		endword--;
+	}
+
+	/* Validate/ensure balanced round brackets. */
+	round_brackets = 0;
+	left_bracket = 0;
+	stop = FALSE;
+	brackets_exist = FALSE;
+	for (pos = startword ; pos <= endword && stop == FALSE ; pos++)
+	{
+		switch (chunk[pos])
+		{
+			case '(':
+				round_brackets++;
+				brackets_exist = TRUE;
+				left_bracket = pos;
+			break;
+
+			case ')':
+				round_brackets--;
+				if (round_brackets == 0)
+				{
+					endword = pos;
+					stop = TRUE;
+				}
+				else if (round_brackets < 0)
+				{
+					endword = pos - 1;
+					stop = TRUE;
+				}
+			break;
+
+			case ' ':
+			case '\t':
+			break;
+
+			default:
+				temp_pos = pos;
+			break;
+		}
+	}
+
+	/* If brackets exist and the left-most sign is not a bracket itself,
+	   then it could be a function name or an operator (sizeof). We
+	   want to exclude the function name but include an operator name. */
+	if (brackets_exist == TRUE && chunk[startword] != '(')
+	{
+		pos = 0;
+		oper = FALSE;
+		while (keep_prefix_list[pos] != NULL)
+		{
+			cmp = strncmp(keep_prefix_list[pos], &(chunk[startword]),
+				strlen(keep_prefix_list[pos]));
+			if (cmp == 0)
+			{
+				/* Match with allowed operator/prefix. Keep it. */
+				oper = TRUE;
+				break;
+			}
+			pos++;
+		}
+
+		/* Did we find a wanted prefix? */
+		if (oper == FALSE)
+		{
+			/* No! Move startword back to position of left-most valid
+			   round bracket. */
+			startword = left_bracket;
+		}
+	}
+
+	/* Skip useless surrounding brackets if present. */
+	if (startword < endword)
+	{
+		guint skipped = 0;
+
+		while (chunk[startword] == '(' && startword < endword)
+		{
+			skipped++;
+			startword++;
+		}
+		while (chunk[endword] == ')' && skipped > 0)
+		{
+			skipped--;
+			endword--;
+		}
+	}
+
+	expr_copy = NULL;
+	if (startword < endword)
+	{
+		if (chunk[endword] != '\0')
+		{
+			chunk[endword+1] = '\0';
+		}
+
+		/* ensure null terminated */
+		g_strlcpy(expr, &(chunk[startword]), sizeof(expr));
+		expr_copy = g_strdup(expr);
+	}
+
+	return expr_copy;
+}
+
+/* Reads the expression for evaluate at the given cursor position and writes
+ * it into the given buffer. The buffer will be NULL terminated in any case,
+ * even when the word is truncated because wordlen is too small.
+ * Position can be -1, then the current position is used. */
+gchar *utils_read_evaluate_expr(GeanyEditor *editor, gint peek_pos)
+{
+	gint line, line_start;
+	gchar *chunk, *expr;
+	ScintillaObject *sci;
+
+	g_return_val_if_fail(editor != NULL, NULL);
+	sci = editor->sci;
+
+	if (peek_pos == -1)
+	{
+		peek_pos = sci_get_current_position(sci);
+	}
+
+	line = sci_get_line_from_position(sci, peek_pos);
+	line_start = sci_get_position_from_line(sci, line);
+	chunk = sci_get_line(sci, line);
+
+	/* Now that we got the content, let's parse it. */
+	expr = utils_evaluate_expr_from_string (chunk, peek_pos - line_start);
+
+	g_free(chunk);
+
+	return expr;
 }

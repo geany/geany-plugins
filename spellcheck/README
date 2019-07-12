@@ -50,16 +50,37 @@ Instructions:
 2. The downloaded archive with extensions like .xpi or .oxt is actually a ZIP
    archive, so extract it as usual (e.g. with 7-Zip or another ZIP
    unpacker). Extract the contents into a folder of your choice,
-   e.g. C:\dictionaries
-3. Then open to the Spell Check plugin preferences dialog in Geany and
+   e.g. `C:\\dictionaries`
+3. If the extracted dictionary files contain hyphens ("-"), replace them
+   with underscores
+4. Then open to the Spell Check plugin preferences dialog in Geany and
    choose the folder you just created. You may need to restart Geany
    and then the installed dictionaries should be available
 
 Note: if you are using Enchant 2.0 or later (the library used by the SpellCheck
 plugin), you need to move the dictionaries into a subfolder called "hunspell"
-in the directory you created above.
+in the directory you created above. The directory to be configured in the
+plugin's configuration dialog still is the directory above that folder.
 To check which Enchant version you are using, check "Help->Debug Messages" in
 Geany and find the appropriate log message telling about the Enchant version.
+
+Example::
+
+    C:\
+    ├── dictionaries
+    │   └── hunspell
+    │       ├── ca_ES.aff
+    │       ├── ca_ES.dic
+    │       ├── cs.dic
+    │       ├── cs.dic
+    │       ├── de_DE_frami.aff
+    │       ├── de_DE_frami.dic
+    │       ├── en_GB.aff
+    │       └── en_GB.dic
+    └── ...
+
+Then in the plugin configuration dialog set the dictionary for
+dictionary files to: `C:\\dictionaries`.
 
 
 Known issues

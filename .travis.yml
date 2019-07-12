@@ -135,6 +135,7 @@ script:
   - ../configure --disable-silent-rules
   - make -j2
   - make -j2 check
+  - make -j2 distcheck
 
 after_script:
   - test -z "$TEMPDIR" || rm -rf "$TEMPDIR"

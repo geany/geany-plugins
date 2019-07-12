@@ -32,19 +32,4 @@
 extern GeanyPlugin	 	*geany_plugin;
 extern GeanyData	   	*geany_data;
 
-
-struct PluginData
-{
-	gchar *default_config;
-	gchar *user_config;
-
-	DevhelpPlugin *devhelp;
-};
-
-extern struct PluginData plugin;
-
-
-gboolean	plugin_config_init			(struct PluginData *pd);
-
-
 #endif

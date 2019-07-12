@@ -36,23 +36,6 @@ G_BEGIN_DECLS
 typedef struct _CellRendererFrameIcon CellRendererFrameIcon;
 typedef struct _CellRendererFrameIconClass CellRendererFrameIconClass;
 
-struct _CellRendererFrameIcon
-{
-  GtkCellRenderer parent;
-
-  guint GSEAL (active_frame);
-
-  GdkPixbuf *GSEAL (pixbuf_active);
-  GdkPixbuf *GSEAL (pixbuf_highlighted);
-};
-
-struct _CellRendererFrameIconClass
-{
-  GtkCellRendererClass parent_class;
-
-  void (*clicked)(CellRendererFrameIcon *cell_renderer_toggle, const gchar *path);
-};
-
 GType					cell_renderer_frame_icon_get_type(void);
 GtkCellRenderer*		cell_renderer_frame_icon_new (void);
 

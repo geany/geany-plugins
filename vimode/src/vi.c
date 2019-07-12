@@ -210,17 +210,6 @@ void vi_set_active_sci(ScintillaObject *sci)
 }
 
 
-static gboolean is_printable(GdkEventKey *ev)
-{
-	guint mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
-
-	if (ev->state & mask)
-		return FALSE;
-
-	return g_unichar_isprint(gdk_keyval_to_unicode(ev->keyval));
-}
-
-
 gboolean vi_notify_key_press(GdkEventKey *event)
 {
 	ScintillaObject *sci = ctx.sci;
@@ -244,7 +233,6 @@ gboolean vi_notify_key_press(GdkEventKey *event)
 			consumed = cmd_perform_cmd(&ctx);
 		else
 			consumed = cmd_perform_vis(&ctx);
-		consumed = consumed || is_printable(event);
 	}
 	else //insert, replace mode
 	{

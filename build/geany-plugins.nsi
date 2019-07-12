@@ -31,14 +31,14 @@ RequestExecutionLevel highest ; set execution level for Windows Vista
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "1.34"
-!define PRODUCT_VERSION_ID "1.34.0.0"
+!define PRODUCT_VERSION "1.36"
+!define PRODUCT_VERSION_ID "1.36.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
-!define REQUIRED_GEANY_VERSION "1.34.0"
+!define REQUIRED_GEANY_VERSION "1.36.0"
 !define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -48,7 +48,7 @@ VIProductVersion "${PRODUCT_VERSION_ID}"
 VIAddVersionKey "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
-VIAddVersionKey "LegalCopyright" "Copyright 2009-2017 by the Geany developer team"
+VIAddVersionKey "LegalCopyright" "Copyright 2009-2019 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
 BrandingText "$(^NAME) installer (NSIS 2.51)"
@@ -119,6 +119,9 @@ Section "Language Files" SEC02
 	SectionIn 1
 	SetOutPath "$INSTDIR\share\locale"
 	File /r "${RESOURCEDIR}\share\locale\*"
+	; dependency translations
+	SetOutPath "$INSTDIR\share\locale"
+	File /r "contrib\share\locale\*"
 SectionEnd
 
 Section "Documentation" SEC03
@@ -132,7 +135,7 @@ Section "Dependencies" SEC04
 	SectionIn 1
 	SetOverwrite ifnewer
 	SetOutPath "$INSTDIR"
-	File /r "contrib\"
+	File /r /x "*.mo" "contrib\"
 SectionEnd
 
 Section -Post
@@ -208,7 +211,11 @@ Section Uninstall
 	Delete "$INSTDIR\bin\gpgme-tool.exe"
 	Delete "$INSTDIR\bin\gpgme-w32spawn.exe"
 	Delete "$INSTDIR\bin\libassuan-0.dll"
+	Delete "$INSTDIR\bin\libbrotlicommon.dll"
+	Delete "$INSTDIR\bin\libbrotlidec.dll"
+	Delete "$INSTDIR\bin\libbrotlienc.dll"
 	Delete "$INSTDIR\bin\libctpl-2.dll"
+	Delete "$INSTDIR\bin\libcrypto-1_1.dll"
 	Delete "$INSTDIR\bin\libcurl-4.dll"
 	Delete "$INSTDIR\bin\libdbus-1-3.dll"
 	Delete "$INSTDIR\bin\libdbus-glib-1-2.dll"
@@ -246,18 +253,28 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libgstvideo-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgtkspell-0.dll"
 	Delete "$INSTDIR\bin\libgtkspell3-*.dll"
-	Delete "$INSTDIR\bin\libhistory7.dll"
+	Delete "$INSTDIR\bin\libhistory8.dll"
 	Delete "$INSTDIR\bin\libhogweed-4.dll"
 	Delete "$INSTDIR\bin\libhttp_parser-2.dll"
-	Delete "$INSTDIR\bin\libhunspell-1.6-0.dll"
+	Delete "$INSTDIR\bin\libhunspell-1.7-0.dll"
 	Delete "$INSTDIR\bin\libicudt61.dll"
+	Delete "$INSTDIR\bin\libicutu61.dll"
+	Delete "$INSTDIR\bin\libicuuc61.dll"
 	Delete "$INSTDIR\bin\libicuin61.dll"
 	Delete "$INSTDIR\bin\libicuio61.dll"
 	Delete "$INSTDIR\bin\libicule61.dll"
 	Delete "$INSTDIR\bin\libiculx61.dll"
 	Delete "$INSTDIR\bin\libicutest61.dll"
-	Delete "$INSTDIR\bin\libicutu61.dll"
-	Delete "$INSTDIR\bin\libicuuc61.dll"
+	Delete "$INSTDIR\bin\libicutu64.dll"
+	Delete "$INSTDIR\bin\libicuuc64.dll"
+	Delete "$INSTDIR\bin\libicudt64.dll"
+	Delete "$INSTDIR\bin\libicuin64.dll"
+	Delete "$INSTDIR\bin\libicuio64.dll"
+	Delete "$INSTDIR\bin\libicule64.dll"
+	Delete "$INSTDIR\bin\libiculx64.dll"
+	Delete "$INSTDIR\bin\libicutest64.dll"
+	Delete "$INSTDIR\bin\libicutu64.dll"
+	Delete "$INSTDIR\bin\libicuuc64.dll"
 	Delete "$INSTDIR\bin\libidn2-0.dll"
 	Delete "$INSTDIR\bin\libjavascriptcoregtk-1.0-0.dll"
 	Delete "$INSTDIR\bin\libjavascriptcoregtk-3.0-0.dll"
@@ -269,12 +286,15 @@ Section Uninstall
 	Delete "$INSTDIR\bin\liborc-0.4-0.dll"
 	Delete "$INSTDIR\bin\liborc-test-0.4-0.dll"
 	Delete "$INSTDIR\bin\libp11-kit-0.dll"
-	Delete "$INSTDIR\bin\libreadline7.dll"
+	Delete "$INSTDIR\bin\libproxy-1.dll"
+	Delete "$INSTDIR\bin\libpsl-5.dll"
+	Delete "$INSTDIR\bin\libreadline8.dll"
 	Delete "$INSTDIR\bin\librtmp-1.dll"
 	Delete "$INSTDIR\bin\libsoup-2.4-1.dll"
 	Delete "$INSTDIR\bin\libsoup-gnome-2.4-1.dll"
 	Delete "$INSTDIR\bin\libsqlite3-0.dll"
 	Delete "$INSTDIR\bin\libssh2-1.dll"
+	Delete "$INSTDIR\bin\libssl-1_1.dll"
 	Delete "$INSTDIR\bin\libsystre-0.dll"
 	Delete "$INSTDIR\bin\libtasn1-6.dll"
 	Delete "$INSTDIR\bin\libtermcap-0.dll"
@@ -302,8 +322,10 @@ Section Uninstall
 	Delete "$INSTDIR\bin\lua51.dll"
 	Delete "$INSTDIR\bin\ssleay32.dll"
 
+	RMDir /r "$INSTDIR\etc\pki"
 	RMDir /r "$INSTDIR\lib\enchant-2"
 	RMDir /r "$INSTDIR\lib\engines"
+	RMDir /r "$INSTDIR\lib\engines-1_1"
 	RMDir /r "$INSTDIR\lib\gio"
 	RMDir /r "$INSTDIR\lib\gstreamer-1.0"
 	RMDir /r "$INSTDIR\lib\pkcs11"
@@ -314,10 +336,12 @@ Section Uninstall
 	RMDir /r "$INSTDIR\share\enchant"
 	RMDir /r "$INSTDIR\share\libgpg-error"
 	RMDir /r "$INSTDIR\share\p11-kit"
+	RMDir /r "$INSTDIR\share\pki"
 	RMDir /r "$INSTDIR\share\vala"
 	RMDir /r "$INSTDIR\share\webkitgtk-1.0"
 	RMDir /r "$INSTDIR\share\webkitgtk-3.0"
 	RMDir /r "$INSTDIR\share\xml\dbus-1"
+	RMDir /r "$INSTDIR\ssl\certs"
 
 	FindFirst $0 $1 "$INSTDIR\share\locale\*"
 	loop:
@@ -332,6 +356,7 @@ Section Uninstall
 
 	; only if empty
 	RMDir "$INSTDIR\bin"
+	RMDir "$INSTDIR\etc"
 	RMDir "$INSTDIR\lib\geany"
 	RMDir "$INSTDIR\lib"
 	RMDir "$INSTDIR\libexec"
@@ -351,6 +376,8 @@ Section Uninstall
 	RMDir "$INSTDIR\share\locale"
 	RMDir "$INSTDIR\share\xml"
 	RMDir "$INSTDIR\share"
+	RMDir "$INSTDIR\ssl\certs"
+	RMDir "$INSTDIR\ssl"
 	RMDir "$INSTDIR"
 
 	DeleteRegKey SHCTX "${PRODUCT_DIR_REGKEY}"

@@ -1,12 +1,6 @@
 GeanyVC
 ===========
 
-.. image:: http://img846.imageshack.us/img846/7136/geanyvcsmall.png
-   :width: 400
-   :alt: image of a plugin in work (if applicable)
-   :align: right
-   :target: http://img210.imageshack.us/img210/5382/geanyvc.png
-
 .. contents::
 
 About
@@ -55,7 +49,7 @@ Features
 * revert base directory
 * update
 * commit
- 
+
 Usage
 -----
 
@@ -119,7 +113,7 @@ Requirements
 * GTK >= 2.8.0
 * gtkspell >=2.0 for a spell checking
 * Geany >= 0.19
- 
+
 Contact developers
 ------------------
 

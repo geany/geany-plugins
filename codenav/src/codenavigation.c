@@ -30,20 +30,6 @@
 #include "switch_head_impl.h"
 #include "goto_file.h"
 
-/************************* Plugin utilities ***************************/
-
-/* Check that the running Geany supports the plugin API used below, and check
- * for binary compatibility. */
-PLUGIN_VERSION_CHECK(224)
-
-/* All plugins must set name, description, version and author. */
-PLUGIN_SET_TRANSLATABLE_INFO(
-	LOCALEDIR,
-	GETTEXT_PACKAGE,
-	_("Code navigation"),
-	_(	"This plugin adds features to facilitate navigation between source files."), 
-	CODE_NAVIGATION_VERSION, "Lionel Fuentes, Federico Reghenzani")
-
 
 /********************* Data types for the feature *********************/
 /* Column for the configuration widget */
@@ -56,7 +42,7 @@ typedef enum
 
 /************************* Global variables ***************************/
 
-/* These items are set by Geany before plugin_init() is called. */
+/* These items are set in plugin_codenav_init(). */
 GeanyPlugin		*geany_plugin;
 GeanyData		*geany_data;
 
@@ -94,8 +80,11 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data);
  * @brief Called by Geany to initialize the plugin.
  * @note data is the same as geany_data.
  */
-void plugin_init(GeanyData *data)
+static gboolean plugin_codenav_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
+
 	log_func();
 
 	plugin_key_group = plugin_set_key_group(geany_plugin, "code_navigation", NB_KEY_IDS, NULL);
@@ -105,6 +94,7 @@ void plugin_init(GeanyData *data)
 	/* Initialize the features */
 	switch_head_impl_init();
 	goto_file_init();
+	return TRUE;
 }
 
 /**
@@ -172,8 +162,7 @@ static void load_configuration(void)
  * @return the GtkDialog from Geany
  * 
  */
-
-GtkWidget *plugin_configure(GtkDialog *dialog)
+GtkWidget *plugin_codenav_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
 {
 	GtkWidget *vbox;
 
@@ -198,7 +187,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
  * @return void
  * 
  */
-void plugin_cleanup(void)
+static void plugin_codenav_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	log_func();
 
@@ -599,4 +588,35 @@ on_configure_cell_edited(GtkCellRendererText* renderer, gchar* path, gchar* text
 	gtk_tree_model_get_iter_from_string(GTK_TREE_MODEL(list_store), &iter, path);
 	gtk_list_store_set(list_store, &iter, col, text, -1);
 
+}
+
+
+/* Show help */
+static void plugin_codenav_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+{
+	utils_open_browser("https://plugins.geany.org/codenav.html");
+}
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = _("Code navigation");
+	plugin->info->description = _(	"This plugin adds features to facilitate navigation between source files.");
+	plugin->info->version = CODE_NAVIGATION_VERSION;
+	plugin->info->author = "Lionel Fuentes, Federico Reghenzani";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_codenav_init;
+	plugin->funcs->cleanup = plugin_codenav_cleanup;
+	plugin->funcs->help = plugin_codenav_help;
+	plugin->funcs->configure = plugin_codenav_configure;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }

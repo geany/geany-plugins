@@ -184,7 +184,7 @@ static void console_output(int fd, const char *text, gint length)
 	if (fd != last_fd)
 	{
 		setaf[3] = fd_colors[fd];
-		vte_terminal_feed(debug_console, setaf, sizeof setaf);
+		vte_terminal_feed(debug_console, setaf, sizeof(setaf));
 		last_fd = fd;
 	}
 
@@ -260,7 +260,7 @@ void context_output(int fd, const char *text, gint length)
 	}
 
 	gtk_text_buffer_place_cursor(context, &end);
-      gtk_text_view_scroll_mark_onscreen(debug_context, gtk_text_buffer_get_insert(context));
+	gtk_text_view_scroll_mark_onscreen(debug_context, gtk_text_buffer_get_insert(context));
 }
 
 void context_output_nl(int fd, const char *text, gint length)
@@ -327,8 +327,8 @@ static void on_console_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 	else
 #endif
 	{
-     		g_signal_emit_by_name(debug_context, "copy-clipboard");
-     	}
+		g_signal_emit_by_name(debug_context, "copy-clipboard");
+	}
 }
 
 static void on_console_select_all(G_GNUC_UNUSED const MenuItem *menu_item)

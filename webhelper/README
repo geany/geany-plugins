@@ -28,7 +28,7 @@ Requirements
 
 This plugin requires GTK+ (>= 2.16), GLib (>= 2.16), GIO (>= 2.18),
 GdkPixbuf (>= 2.0), WebKitGTK (>= 1.1.18), and obviously Geany (>= 0.20) to
-work. If you indent to build it yourself, you will need to get the development
+work. If you intend to build it yourself, you will need to get the development
 files of these libraries. You can find these packages at http://www.geany.org/,
 http://www.gtk.org/ and http://www.webkitgtk.org/.
 

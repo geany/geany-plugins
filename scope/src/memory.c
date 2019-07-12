@@ -304,13 +304,15 @@ static void on_memory_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 	const gchar *ascii;
 	gchar *string;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, MEMORY_ADDR, &addr, MEMORY_BYTES, &bytes,
-		MEMORY_ASCII, &ascii, -1);
-	string = g_strdup_printf("%s%s%s", addr, bytes, ascii);
-	gtk_clipboard_set_text(gtk_widget_get_clipboard(menu_item->widget,
-		GDK_SELECTION_CLIPBOARD), string, -1);
-	g_free(string);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		scp_tree_store_get(store, &iter, MEMORY_ADDR, &addr, MEMORY_BYTES, &bytes,
+			MEMORY_ASCII, &ascii, -1);
+		string = g_strdup_printf("%s%s%s", addr, bytes, ascii);
+		gtk_clipboard_set_text(gtk_widget_get_clipboard(menu_item->widget,
+			GDK_SELECTION_CLIPBOARD), string, -1);
+		g_free(string);
+	}
 }
 
 static void on_memory_clear(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -390,8 +392,7 @@ void memory_init(void)
 	g_signal_connect(tree, "key-press-event", G_CALLBACK(on_memory_key_press),
 		(gpointer) menu_item_find(memory_menu_items, "memory_read"));
 
-	pointer_size = sizeof(void *) > sizeof &memory_init ? sizeof(void *) :
-		sizeof &memory_init;
+	pointer_size = MAX(sizeof(void *), sizeof(&memory_init));
 	addr_format = g_strdup_printf("%%0%u" G_GINT64_MODIFIER "x  ", pointer_size * 2);
 	memory_configure();
 

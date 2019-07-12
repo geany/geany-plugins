@@ -35,12 +35,16 @@ menu:
   As explained above, creates a new Workbench.
 **Item "Open"**
   Open a Workbench.
-**Item "Save"**
-  Save the opened Workbench. This "only" saves any changes
-  in the Workbench file. It does not save any changes of the projects
-  belonging to the Workbench.
 **Item "Settings"**
-  Open the Workbench settings dialog.
+  Open the Workbench settings dialog. After the settings have been
+  confirmed with "OK" they will be written back to the workbench file
+  (if any value was changed).
+**Item "Search projects"**
+  Search for projects to add them to the Workbench. This lets the user
+  select a directory to search through. The directory and it's sub-directories
+  are scanned for project files (".geany"). All found files are listed and
+  after scanning is done the user can select the projects which shall be
+  added to the Workbench.
 **Item "Close"**
   Closes the opened Workbench.
 
@@ -63,12 +67,6 @@ These are the available items:
   with Geany. The Workbench plugin does not help you with that. After
   adding a project you need to save the workbench settings by selecting
   "Workbench / Save" in the menubar.
-
-**Save project**
-  Selecting this item will save the Workbench related project settings in
-  the Geany project file. It is only available if you right clicked inside
-  of a project. It will only save the settings of the project that you
-  clicked on.
 
 **Remove project**
   Remove the project from the Workbench. It is only available if you
@@ -157,6 +155,14 @@ The following settings exist for a workbench:
   which has been created with an older version of the workbench plugin
   then the option will be added with value "activated".
 
+**Expand on hover**
+  If the option is activated, then a tree node in the sidebar
+  will be expanded or collapsed by hovering over it with the mouse cursor.
+
+**Enable tree lines**
+  If the option is activated, lines will be drawn between the nodes in
+  the sidebar tree.
+
 Live update
 -----------
 From version 1.03 on the workbench plugin supports an automatic live update
@@ -167,6 +173,47 @@ If the workbench plugin cannot setup file monitoring for a directory then it
 will output a message in the message window. The message has the following form::
 
     Could not setup file monitoring for directory: "exampledir". Error: <some error message>
+
+Styling the sidebar
+-------------------
+
+On linux based systems using GTK3 the workbench sidebar can be styled using CSS.
+For general information on how to setup CSS with Geany please see the manual under
+https://www.geany.org/manual/current/index.html#customizing-geany-s-appearance-using-gtk-3-css.
+
+To style the workbench sidebar use the CSS ID *"workbench"*. Here is a small
+example::
+
+    /* Style the label over the treeview. */
+    #workbench label {
+        color: black;
+        background-color: silver;
+        border-bottom: 2px solid red;
+        font-size: 20pt;
+    }
+
+    /* Style the treeview: the border-color specifies the color of the
+       treeview lines (if enabled in the workbench settings). */
+    #workbench treeview {
+        color: black;
+        background-color: linen;
+        border-color: darkviolet;
+        font-size: 12pt;
+    }
+
+    /* The following changes the text and background color for the selected
+       row in the workbench treeview. */
+    #workbench treeview:selected {
+        color: white;
+        background-color: red;
+    }
+
+    /* The following changes the text and background color for a row in the
+       workbench treeview if the user hovers over it with the mouse pointer. */
+    #workbench treeview:hover {
+        color: white;
+        background-color: orange;
+    }
 
 Known issues
 ============

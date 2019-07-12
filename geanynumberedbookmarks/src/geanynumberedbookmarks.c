@@ -20,6 +20,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
+#include <gp_gtkcompat.h>
 
 static const gint base64_char_to_int[]=
 {
@@ -1289,10 +1290,19 @@ will move the bookmark there if it was set on a different line, or create it if 
 	scroll=gtk_scrolled_window_new(NULL,NULL);
 	gtk_scrolled_window_set_policy((GtkScrolledWindow*)scroll,GTK_POLICY_NEVER,
 	                               GTK_POLICY_AUTOMATIC);
+#if GTK_CHECK_VERSION(3, 8, 0)
+	gtk_widget_set_size_request(label, 600, -1);
+	gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
+	gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+	gtk_widget_set_vexpand(label, TRUE);
+	gtk_container_add(GTK_CONTAINER(scroll),label);
+	gtk_scrolled_window_set_shadow_type((GtkScrolledWindow*)scroll, GTK_SHADOW_IN);
+#else
 	gtk_scrolled_window_add_with_viewport((GtkScrolledWindow*)scroll,label);
+#endif
 
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),scroll);
-	gtk_widget_show(scroll);
+	gtk_widget_show_all(dialog);
 
 	/* set dialog size (leave width default) */
 	gtk_widget_set_size_request(dialog,-1,300);
@@ -1475,7 +1485,11 @@ void plugin_init(GeanyData *data)
 {
 	gint i,k,iResults=0;
 	GdkKeymapKey *gdkkmkResults;
+#if GTK_CHECK_VERSION(3, 22, 0)
+	GdkKeymap *gdkKeyMap=gdk_keymap_get_for_display(gdk_display_get_default());
+#else
 	GdkKeymap *gdkKeyMap=gdk_keymap_get_default();
+#endif
 
 	/* Load settings */
 	LoadSettings();
@@ -1554,7 +1568,9 @@ void plugin_cleanup(void)
 	for(i=0;i<GEANY(documents_array)->len;i++)
 		if(documents[i]->is_valid) {
 			sci=documents[i]->editor->sci;
-			markers=GetMarkersUsed(sci);
+			markers=g_object_steal_data(G_OBJECT(sci), "Geany_Numbered_Bookmarks_Used");
+			if(!markers)
+				continue;
 			for(k=2;k<25;k++)
 				if(((*markers)&(1<<k))!=0)
 					scintilla_send_message(sci,SCI_MARKERDELETEALL,k,0);
@@ -1576,6 +1592,7 @@ void plugin_cleanup(void)
 		g_free(fdTemp);
 		fdTemp=fdTemp2;
 	}
+	fdKnownFilesSettings = NULL;
 
 	/* free memory used for settings */
 	g_free(FileDetailsSuffix);

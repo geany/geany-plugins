@@ -40,14 +40,6 @@
 GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
 
-PLUGIN_VERSION_CHECK(224)
-PLUGIN_SET_TRANSLATABLE_INFO(
-	LOCALEDIR,
-	GETTEXT_PACKAGE,
-	_("Auto-mark"),
-	_("Auto-mark word under cursor"),
-	"0.1",
-	"Pavel Roschin <rpg89(at)post(dot)ru>")
 
 static gint source_id;
 
@@ -99,9 +91,9 @@ static gboolean
 automark(gpointer user_data)
 {
 	GeanyDocument      *doc = (GeanyDocument *)user_data;
-	GeanyEditor        *editor = doc->editor;
+	GeanyEditor        *editor;
 	static GeanyEditor *editor_cache = NULL;
-	ScintillaObject    *sci = editor->sci;
+	ScintillaObject    *sci;
 	gchar              *text;
 	static gchar        text_cache[GEANY_MAX_WORD_LENGTH] = {0};
 	gint                match_flag = SCFIND_MATCHCASE | SCFIND_WHOLEWORD;
@@ -112,6 +104,9 @@ automark(gpointer user_data)
 	/* during timeout document could be destroyed so check everything again */
 	if (!DOC_VALID(doc))
 		return FALSE;
+
+	editor = doc->editor;
+	sci = editor->sci;
 
 	/* Do not highlight while selecting text and allow other markers to work */
 	if (sci_has_selection(sci))
@@ -168,27 +163,57 @@ on_editor_notify(
 	return FALSE;
 }
 
-PluginCallback plugin_callbacks[] =
+static PluginCallback plugin_automark_callbacks[] =
 {
 	{ "editor-notify",  (GCallback) &on_editor_notify, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
 };
 
-void
-plugin_init(G_GNUC_UNUSED GeanyData *data)
+
+static gboolean
+plugin_automark_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
 	source_id = 0;
+	return TRUE;
 }
 
-void
-plugin_cleanup(void)
+
+static void
+plugin_automark_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	if (source_id)
 		g_source_remove(source_id);
 }
 
-void
-plugin_help(void)
+
+static void
+plugin_automark_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	utils_open_browser("http://plugins.geany.org/automark.html");
+}
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = _("Auto-mark");
+	plugin->info->description = _("Auto-mark word under cursor");
+	plugin->info->version = "0.1";
+	plugin->info->author = "Pavel Roschin <rpg89(at)post(dot)ru>";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_automark_init;
+	plugin->funcs->cleanup = plugin_automark_cleanup;
+	plugin->funcs->help = plugin_automark_help;
+	plugin->funcs->callbacks = plugin_automark_callbacks;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }

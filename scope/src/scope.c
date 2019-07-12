@@ -25,8 +25,6 @@
 
 #include "common.h"
 
-#include <vte/vte.h>
-
 #include <gp_gtkcompat.h>
 
 GeanyPlugin *geany_plugin;

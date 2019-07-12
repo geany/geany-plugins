@@ -370,9 +370,9 @@ static void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gch
 		LINE, &line,
         -1);
         
-    if (oldcount != count)
-    	breaks_set_hits_count(file, line, count);
-	
+	if (oldcount != count)
+		breaks_set_hits_count(file, line, count);
+
 	gtk_tree_path_free(tree_path);
 	g_free(file);
 }                                                        

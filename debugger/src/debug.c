@@ -56,6 +56,7 @@ int grantpt(int fd);
 	#include "config.h"
 #endif
 #include <geanyplugin.h>
+#include <gp_vtecompat.h>
 extern GeanyData		*geany_data;
 
 #include "tpage.h"
@@ -320,7 +321,7 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
     gpointer userdata)
 {
 	/* string that is dragged */
-	gchar *expression = (gchar*)seldata->data;
+	gchar *expression = (gchar*)gtk_selection_data_get_data(seldata);
 	GtkTreePath *path = NULL;
 	GtkTreeViewDropPosition pos;
 	GtkTreePath *empty_path;
@@ -1000,6 +1001,10 @@ void debug_init(void)
 	gchar *font;
 	GtkTextBuffer *buffer;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	VtePty *pty;
+#endif
+
 	/* create watch page */
 	wtree = wtree_init(on_watch_expanded_callback,
 		on_watch_dragged_callback,
@@ -1009,10 +1014,7 @@ void debug_init(void)
 	wmodel = gtk_tree_view_get_model(GTK_TREE_VIEW(wtree));
 	wstore = GTK_TREE_STORE(wmodel);
 	
-	tab_watch = gtk_scrolled_window_new(
-		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(wtree)),
-		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(wtree))
-	);
+	tab_watch = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_watch),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
@@ -1020,10 +1022,7 @@ void debug_init(void)
 
 	/* create autos page */
 	atree = atree_init(on_watch_expanded_callback, on_watch_button_pressed_callback);
-	tab_autos = gtk_scrolled_window_new(
-		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(atree)),
-		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(atree))
-	);
+	tab_autos = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_autos),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
@@ -1031,10 +1030,7 @@ void debug_init(void)
 	
 	/* create stack trace page */
 	stree = stree_init(editor_open_position, on_select_thread, on_select_frame);
-	tab_call_stack = gtk_scrolled_window_new(
-		gtk_tree_view_get_hadjustment(GTK_TREE_VIEW(stree )),
-		gtk_tree_view_get_vadjustment(GTK_TREE_VIEW(stree ))
-	);
+	tab_call_stack = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(tab_call_stack),
 		GTK_POLICY_AUTOMATIC,
 		GTK_POLICY_AUTOMATIC);
@@ -1048,12 +1044,23 @@ void debug_init(void)
 		    NULL);
 	grantpt(pty_master);
 	unlockpt(pty_master);
+#if GTK_CHECK_VERSION(3, 0, 0)
+	pty = vte_pty_new_foreign_sync(pty_master, NULL, NULL);
+	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty);
+	g_object_unref(pty);
+	scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(terminal)));
+#else
 	vte_terminal_set_pty(VTE_TERMINAL(terminal), pty_master);
 	scrollbar = gtk_vscrollbar_new(GTK_ADJUSTMENT(VTE_TERMINAL(terminal)->adjustment));
-	GTK_WIDGET_UNSET_FLAGS(scrollbar, GTK_CAN_FOCUS);
+#endif
+	gtk_widget_set_can_focus(GTK_WIDGET(scrollbar), FALSE);
 	tab_terminal = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME(tab_terminal), GTK_SHADOW_NONE);
+#if GTK_CHECK_VERSION(3, 0, 0)
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+#else
 	hbox = gtk_hbox_new(FALSE, 0);
+#endif
 	gtk_container_add(GTK_CONTAINER(tab_terminal), hbox);
 	gtk_box_pack_start(GTK_BOX(hbox), terminal, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), scrollbar, FALSE, FALSE, 0);
@@ -1078,7 +1085,11 @@ void debug_init(void)
 	
 	debugger_messages_textview =  gtk_text_view_new();
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (debugger_messages_textview), FALSE);
+#if GTK_CHECK_VERSION(3, 0, 0)
+	gtk_container_add(GTK_CONTAINER(tab_messages), debugger_messages_textview);
+#else
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tab_messages), debugger_messages_textview);
+#endif
 	
 	/* create tex tags */
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
