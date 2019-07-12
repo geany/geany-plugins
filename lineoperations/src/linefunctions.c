@@ -301,3 +301,45 @@ sortlndesc(gchar **lines, gint num_lines, gchar *new_file)
 
 	return num_lines;
 }
+
+
+/* Remove Every Nth Line */
+gint
+rmnthln(ScintillaObject *sci, gint line_num, gint end_line_num)
+{
+	gboolean ok;
+	gdouble n;
+	gint count;
+	gint changed = 0;     /* number of lines removed */
+
+	ok = dialogs_show_input_numeric(_("Remove every Nth line"),
+		_("Value of N"), &n, 1, 1000, 1);
+	if (ok == FALSE)
+	{
+		return 0;
+	}
+
+	count = n;
+	while(line_num <= end_line_num)    /* loop through lines */
+	{
+		count--;
+
+		/* check if this is the nth line. */
+		if(count == 0)
+		{
+			scintilla_send_message(sci,
+					   SCI_DELETERANGE,
+					   sci_get_position_from_line(sci, line_num),
+					   sci_get_line_length(sci, line_num));
+
+			line_num--;
+			end_line_num--;
+			changed++;
+			count = n;
+		}
+		line_num++;
+	}
+
+	/* return the number of lines deleted */
+	return -changed;
+}
