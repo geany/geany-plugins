@@ -33,12 +33,14 @@
 
 #include "common.h"
 
-#ifdef G_OS_UNIX
-#include <fcntl.h>
 
 /* The maximum length of an expression for evaluating the value.
    (Including the string terminator '\0') */
 #define SCOPE_MAX_EVALUATE_EXPR_LENGTH 256
+
+
+#ifdef G_OS_UNIX
+#include <fcntl.h>
 
 void show_errno(const char *prefix)
 {
