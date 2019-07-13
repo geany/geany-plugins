@@ -71,6 +71,14 @@ static gint contains_color_value(gchar *string, gint position, gint maxdist)
 	guint length;
 
 	start = strchr(string, '#');
+	if (!start)
+	{
+		start = strstr(string, "0x");
+		if (start)
+		{
+			start += 1; 
+		}
+	}
 	if (start == NULL)
 	{
 		return color;
