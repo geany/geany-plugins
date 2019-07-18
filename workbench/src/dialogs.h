@@ -25,7 +25,7 @@ gchar *dialogs_create_new_workbench(void);
 gchar *dialogs_open_workbench(void);
 gchar *dialogs_add_project(void);
 gchar *dialogs_add_directory(WB_PROJECT *project);
-gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory);
+gboolean dialogs_directory_settings(WB_PROJECT *project, WB_PROJECT_DIR *directory);
 gboolean dialogs_workbench_settings(WORKBENCH *workbench);
 
 #endif

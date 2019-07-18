@@ -99,8 +99,12 @@ These are the available items:
 **Directory settings**
   Select this item to change the directory settings. It is only available
   if you right clicked inside of a project directory. In the directory
-  settings you can set a filter which controls the files and sub-directories
-  that will be displayed or not.
+  settings you can set filters which control the files and sub-directories
+  that will be displayed or not. You can choose between a filter mechanism
+  controlled by the workbench plugin or controlled by git. In the later case
+  the .gitignore settings decide which files are displayed and which not.
+  This option is only available if the directory is/contains a git
+  repository.
 
 **Fold/unfold directory**
   Fold or unfold the items belonging to the directory. It is only available

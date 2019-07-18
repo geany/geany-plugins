@@ -292,3 +292,16 @@ void close_all_files_in_list(GPtrArray *list)
 		}
 	}
 }
+
+
+gboolean is_git_repository(gchar *path)
+{
+	gboolean is_git_repo;
+	gchar *git_path;
+
+	git_path = g_build_filename(path, ".git", NULL);
+	is_git_repo = g_file_test(git_path, G_FILE_TEST_IS_DIR);
+	g_free(git_path);
+
+	return is_git_repo;
+}

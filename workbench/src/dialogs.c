@@ -25,6 +25,7 @@
 
 #include "wb_globals.h"
 #include "dialogs.h"
+#include "utils.h"
 
 extern GeanyPlugin *geany_plugin;
 
@@ -265,20 +266,65 @@ static gchar **split_patterns(const gchar *str)
 	return ret;
 }
 
+typedef struct S_DIALOG_DIR_SETTINGS_DATA
+{
+	GtkWidget *dialog;
+	GtkWidget *w_label_file_patterns;
+	GtkWidget *w_file_patterns;
+	GtkWidget *w_label_ignored_dirs_patterns;
+	GtkWidget *w_ignored_dirs_patterns;
+	GtkWidget *w_label_ignored_file_patterns;
+	GtkWidget *w_ignored_file_patterns;
+	GtkWidget *w_scan_mode_wb;
+	GtkWidget *w_scan_mode_git;
+}DIALOG_DIR_SETTINGS_DATA;
+
+static void button_filter_workbench_toggled(GtkToggleButton *togglebutton,
+											gpointer user_data)
+{
+	DIALOG_DIR_SETTINGS_DATA *data;
+
+	data = user_data;
+	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->w_scan_mode_wb)))
+	{
+		gtk_widget_set_sensitive (data->w_label_file_patterns, TRUE);
+		gtk_widget_set_sensitive (data->w_file_patterns, TRUE);
+		gtk_widget_set_sensitive (data->w_label_ignored_dirs_patterns, TRUE);
+		gtk_widget_set_sensitive (data->w_ignored_dirs_patterns, TRUE);
+		gtk_widget_set_sensitive (data->w_label_ignored_file_patterns, TRUE);
+		gtk_widget_set_sensitive (data->w_ignored_file_patterns, TRUE);
+	}
+	else
+	{
+		gtk_widget_set_sensitive (data->w_label_file_patterns, FALSE);
+		gtk_widget_set_sensitive (data->w_file_patterns, FALSE);
+		gtk_widget_set_sensitive (data->w_label_ignored_dirs_patterns, FALSE);
+		gtk_widget_set_sensitive (data->w_ignored_dirs_patterns, FALSE);
+		gtk_widget_set_sensitive (data->w_label_ignored_file_patterns, FALSE);
+		gtk_widget_set_sensitive (data->w_ignored_file_patterns, FALSE);
+	}
+}
+
+static void button_filter_git_toggled(GtkToggleButton *togglebutton,
+									gpointer user_data)
+{
+	/* Nothing to do for now... */
+}
 
 /** Shows the directory settings dialog.
  *
  * The dialog lets the user edit the settings for file patterns, irnored file patterns and
  * ignored directories patterns. On accept the result is directly stored in @a directory.
  *
+ * @param  project   The project to which directory belongs to
  * @param  directory Location of WB_PROJECT_DIR to store the settings into
  * @return TRUE if the settings have changed, FALSE otherwise
  *
  **/
-gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
+gboolean dialogs_directory_settings(WB_PROJECT *project, WB_PROJECT_DIR *directory)
 {
-	GtkWidget *w_file_patterns, *w_ignored_dirs_patterns, *w_ignored_file_patterns;
-	GtkWidget *dialog, *label, *content_area;
+	DIALOG_DIR_SETTINGS_DATA *data;
+	GtkWidget *label, *content_area;
 	GtkWidget *vbox, *hbox, *hbox1;
 #if GTK_CHECK_VERSION(3, 4, 0)
 	GtkWidget *grid;
@@ -287,17 +333,22 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 #endif
 	GtkDialogFlags flags;
 	gchar *file_patterns_old, *ignored_file_patterns_old, *ignored_dirs_patterns_old;
+	WB_PROJECT_SCAN_MODE scan_mode_old, scan_mode;
+	gchar *abs_path;
 	gboolean changed;
+	guint row = 0;
+
+	data = g_new0(DIALOG_DIR_SETTINGS_DATA, 1);
 
 	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
-	dialog = gtk_dialog_new_with_buttons(_("Directory settings"),
-										 GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
-										 flags,
-										 _("_Cancel"), GTK_RESPONSE_CANCEL,
-										 _("_OK"), GTK_RESPONSE_ACCEPT,
-										 NULL);
-	content_area = gtk_dialog_get_content_area(GTK_DIALOG (dialog));
+	data->dialog = gtk_dialog_new_with_buttons(_("Directory settings"),
+											   GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
+											   flags,
+											   _("_Cancel"), GTK_RESPONSE_CANCEL,
+											   _("_OK"), GTK_RESPONSE_ACCEPT,
+											   NULL);
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG (data->dialog));
 
 	vbox = gtk_vbox_new(FALSE, 0);
 
@@ -311,86 +362,104 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	gtk_table_set_col_spacings(GTK_TABLE(table), 10);
 #endif
 
-	label = gtk_label_new(_("File patterns:"));
+	data->w_scan_mode_wb = gtk_radio_button_new_with_label (NULL, _("filter files using the workbench plugin"));
+	g_signal_connect(data->w_scan_mode_wb, "toggled",
+			G_CALLBACK(button_filter_workbench_toggled), data);
+	gtk_box_pack_start(GTK_BOX(vbox), data->w_scan_mode_wb, FALSE, FALSE, 6);
+
+	data->w_label_file_patterns = gtk_label_new(_("File patterns:"));
 #if GTK_CHECK_VERSION(3, 16, 0)
-	gtk_label_set_xalign (GTK_LABEL(label), 0);
-	gtk_label_set_yalign (GTK_LABEL(label), 0);
+	gtk_label_set_xalign (GTK_LABEL(data->w_label_file_patterns), 0);
+	gtk_label_set_yalign (GTK_LABEL(data->w_label_file_patterns), 0);
 #else
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_misc_set_alignment(GTK_MISC(data->w_label_file_patterns), 0, 0);
 #endif
-	w_file_patterns = gtk_entry_new();
+	data->w_file_patterns = gtk_entry_new();
 #if GTK_CHECK_VERSION(3, 4, 0)
-	gtk_grid_attach (GTK_GRID(grid), label, 0, 0, 1, 1);
-	gtk_grid_attach (GTK_GRID(grid), w_file_patterns, 1, 0, 1, 1);
-	gtk_widget_set_valign (label, GTK_ALIGN_BASELINE);
-	gtk_widget_set_hexpand (label, FALSE);
-	gtk_widget_set_valign (w_file_patterns, GTK_ALIGN_BASELINE);
-	gtk_widget_set_hexpand (w_file_patterns, TRUE);
+	gtk_grid_attach (GTK_GRID(grid), data->w_label_file_patterns, 0, row, 1, 1);
+	gtk_grid_attach (GTK_GRID(grid), data->w_file_patterns, 1, row, 1, 1);
+	gtk_widget_set_valign (data->w_label_file_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (data->w_label_file_patterns, FALSE);
+	gtk_widget_set_valign (data->w_file_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (data->w_file_patterns, TRUE);
 #else
-	ui_table_add_row(GTK_TABLE(table), 0, label, w_file_patterns, NULL);
+	ui_table_add_row(GTK_TABLE(table), row + 1, data->w_label_file_patterns, data->w_file_patterns, NULL);
 #endif
-	ui_entry_add_clear_icon(GTK_ENTRY(w_file_patterns));
-	gtk_widget_set_tooltip_text(w_file_patterns,
+	row++;
+	ui_entry_add_clear_icon(GTK_ENTRY(data->w_file_patterns));
+	gtk_widget_set_tooltip_text(data->w_file_patterns,
 		_("Space separated list of patterns that are used to identify files "
 		  "that shall be displayed in the directory tree."));
 	file_patterns_old = g_strjoinv(" ", wb_project_dir_get_file_patterns(directory));
-	gtk_entry_set_text(GTK_ENTRY(w_file_patterns), file_patterns_old);
+	gtk_entry_set_text(GTK_ENTRY(data->w_file_patterns), file_patterns_old);
 
-	label = gtk_label_new(_("Ignored file patterns:"));
+	data->w_label_ignored_file_patterns = gtk_label_new(_("Ignored file patterns:"));
 #if GTK_CHECK_VERSION(3, 16, 0)
-	gtk_label_set_xalign (GTK_LABEL(label), 0);
-	gtk_label_set_yalign (GTK_LABEL(label), 0);
+	gtk_label_set_xalign (GTK_LABEL(data->w_label_ignored_file_patterns), 0);
+	gtk_label_set_yalign (GTK_LABEL(data->w_label_ignored_file_patterns), 0);
 #else
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_misc_set_alignment(GTK_MISC(data->w_label_ignored_file_patterns), 0, 0);
 #endif
-	w_ignored_file_patterns = gtk_entry_new();
-	ui_entry_add_clear_icon(GTK_ENTRY(w_ignored_file_patterns));
+	data->w_ignored_file_patterns = gtk_entry_new();
+	ui_entry_add_clear_icon(GTK_ENTRY(data->w_ignored_file_patterns));
 #if GTK_CHECK_VERSION(3, 4, 0)
-	gtk_grid_attach (GTK_GRID(grid), label, 0, 1, 1, 1);
-	gtk_grid_attach (GTK_GRID(grid), w_ignored_file_patterns, 1, 1, 1, 1);
-	gtk_widget_set_valign (label, GTK_ALIGN_BASELINE);
-	gtk_widget_set_hexpand (label, FALSE);
-	gtk_widget_set_valign (w_ignored_file_patterns, GTK_ALIGN_BASELINE);
-	gtk_widget_set_hexpand (w_ignored_file_patterns, TRUE);
+	gtk_grid_attach (GTK_GRID(grid), data->w_label_ignored_file_patterns, 0, row, 1, 1);
+	gtk_grid_attach (GTK_GRID(grid), data->w_ignored_file_patterns, 1, row, 1, 1);
+	gtk_widget_set_valign (data->w_label_ignored_file_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (data->w_label_ignored_file_patterns, FALSE);
+	gtk_widget_set_valign (data->w_ignored_file_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (data->w_ignored_file_patterns, TRUE);
 #else
-	ui_table_add_row(GTK_TABLE(table), 2, label, w_ignored_file_patterns, NULL);
+	ui_table_add_row(GTK_TABLE(table), row + 1, data->w_label_ignored_file_patterns, data->w_ignored_file_patterns, NULL);
 #endif
-	gtk_widget_set_tooltip_text(w_ignored_file_patterns,
+	row++;
+	gtk_widget_set_tooltip_text(data->w_ignored_file_patterns,
 		_("Space separated list of patterns that are used to identify files "
 		  "that shall not be displayed in the directory tree."));
 	ignored_file_patterns_old = g_strjoinv(" ", wb_project_dir_get_ignored_file_patterns(directory));
-	gtk_entry_set_text(GTK_ENTRY(w_ignored_file_patterns), ignored_file_patterns_old);
+	gtk_entry_set_text(GTK_ENTRY(data->w_ignored_file_patterns), ignored_file_patterns_old);
 
-	label = gtk_label_new(_("Ignored directory patterns:"));
+	data->w_label_ignored_dirs_patterns = gtk_label_new(_("Ignored directory patterns:"));
 #if GTK_CHECK_VERSION(3, 16, 0)
-	gtk_label_set_xalign (GTK_LABEL(label), 0);
-	gtk_label_set_yalign (GTK_LABEL(label), 0);
+	gtk_label_set_xalign (GTK_LABEL(data->w_label_ignored_dirs_patterns), 0);
+	gtk_label_set_yalign (GTK_LABEL(data->w_label_ignored_dirs_patterns), 0);
 #else
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_misc_set_alignment(GTK_MISC(data->w_label_ignored_dirs_patterns), 0, 0);
 #endif
-	w_ignored_dirs_patterns = gtk_entry_new();
-	ui_entry_add_clear_icon(GTK_ENTRY(w_ignored_dirs_patterns));
+	data->w_ignored_dirs_patterns = gtk_entry_new();
+	ui_entry_add_clear_icon(GTK_ENTRY(data->w_ignored_dirs_patterns));
 #if GTK_CHECK_VERSION(3, 4, 0)
-	gtk_grid_attach (GTK_GRID(grid), label, 0, 2, 1, 1);
-	gtk_grid_attach (GTK_GRID(grid), w_ignored_dirs_patterns, 1, 2, 1, 1);
-	gtk_widget_set_valign (label, GTK_ALIGN_BASELINE);
-	gtk_widget_set_hexpand (label, FALSE);
-	gtk_widget_set_valign (w_ignored_dirs_patterns, GTK_ALIGN_BASELINE);
-	gtk_widget_set_hexpand (w_ignored_dirs_patterns, TRUE);
+	gtk_grid_attach (GTK_GRID(grid), data->w_label_ignored_dirs_patterns, 0, row, 1, 1);
+	gtk_grid_attach (GTK_GRID(grid), data->w_ignored_dirs_patterns, 1, row, 1, 1);
+	gtk_widget_set_valign (data->w_label_ignored_dirs_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (data->w_label_ignored_dirs_patterns, FALSE);
+	gtk_widget_set_valign (data->w_ignored_dirs_patterns, GTK_ALIGN_BASELINE);
+	gtk_widget_set_hexpand (data->w_ignored_dirs_patterns, TRUE);
 #else
-	ui_table_add_row(GTK_TABLE(table), 3, label, w_ignored_dirs_patterns, NULL);
+	ui_table_add_row(GTK_TABLE(table), row + 1, data->w_label_ignored_dirs_patterns, data->w_ignored_dirs_patterns, NULL);
 #endif
-	gtk_widget_set_tooltip_text(w_ignored_dirs_patterns,
+	row++;
+	gtk_widget_set_tooltip_text(data->w_ignored_dirs_patterns,
 		_("Space separated list of patterns that are used to identify directories "
 		  "that shall not be scanned for source files."));
 	ignored_dirs_patterns_old = g_strjoinv(" ", wb_project_dir_get_ignored_dirs_patterns(directory));
-	gtk_entry_set_text(GTK_ENTRY(w_ignored_dirs_patterns), ignored_dirs_patterns_old);
+	gtk_entry_set_text(GTK_ENTRY(data->w_ignored_dirs_patterns), ignored_dirs_patterns_old);
 
+#if GTK_CHECK_VERSION(3, 12, 0)
+	gtk_widget_set_margin_start (grid, 32);
+#endif
 #if GTK_CHECK_VERSION(3, 4, 0)
 	gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 6);
 #else
 	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
 #endif
+
+	data->w_scan_mode_git = gtk_radio_button_new_with_label (
+		gtk_radio_button_get_group(GTK_RADIO_BUTTON (data->w_scan_mode_wb)),
+		_("filter files using git (.gitignore)"));
+	g_signal_connect(data->w_scan_mode_git, "toggled",
+			G_CALLBACK(button_filter_git_toggled), data);
+	gtk_box_pack_start(GTK_BOX(vbox), data->w_scan_mode_git, FALSE, FALSE, 6);
 
 	hbox1 = gtk_hbox_new(FALSE, 0);
 	label = gtk_label_new(_("Note: the patterns above affect only the workbench directory and are not used in the Find in Files\n"
@@ -405,35 +474,71 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	gtk_container_add(GTK_CONTAINER (content_area), label);
 	gtk_container_add(GTK_CONTAINER (content_area), hbox);
 
-	gtk_widget_show_all(dialog);
-	gint result = gtk_dialog_run(GTK_DIALOG(dialog));
+
+	scan_mode_old = wb_project_dir_get_scan_mode(directory);
+	abs_path = get_combined_path(wb_project_get_filename(project),
+		wb_project_dir_get_base_dir(directory));
+	if (!is_git_repository(abs_path))
+	{
+		/* Disable git filter option if the directory is not a git repository. */
+		gtk_widget_set_sensitive (data->w_scan_mode_git, FALSE);
+	}
+	else
+	{
+		/* Both options are possible, set the active option from
+		   the current settings. */
+		if (scan_mode_old == WB_PROJECT_SCAN_MODE_WORKBENCH)
+		{
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data->w_scan_mode_wb), TRUE);
+		}
+		else
+		{
+			gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(data->w_scan_mode_git), TRUE);
+		}
+	}
+	g_free(abs_path);
+
+
+	gtk_widget_show_all(data->dialog);
+	gint result = gtk_dialog_run(GTK_DIALOG(data->dialog));
 	changed = FALSE;
 	if (result == GTK_RESPONSE_ACCEPT)
 	{
 		const gchar *str;
 		gchar **file_patterns, **ignored_dirs_patterns, **ignored_file_patterns;
 
-		str = gtk_entry_get_text(GTK_ENTRY(w_file_patterns));
+		scan_mode = WB_PROJECT_SCAN_MODE_WORKBENCH;
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data->w_scan_mode_git)))
+		{
+			scan_mode = WB_PROJECT_SCAN_MODE_GIT;
+		}
+		if (scan_mode_old != scan_mode)
+		{
+			changed = TRUE;
+		}
+
+		str = gtk_entry_get_text(GTK_ENTRY(data->w_file_patterns));
 		if (g_strcmp0(str, file_patterns_old) != 0)
 		{
 			changed = TRUE;
 		}
 		file_patterns = split_patterns(str);
 
-		str = gtk_entry_get_text(GTK_ENTRY(w_ignored_dirs_patterns));
+		str = gtk_entry_get_text(GTK_ENTRY(data->w_ignored_dirs_patterns));
 		if (g_strcmp0(str, ignored_dirs_patterns_old) != 0)
 		{
 			changed = TRUE;
 		}
 		ignored_dirs_patterns = split_patterns(str);
 
-		str = gtk_entry_get_text(GTK_ENTRY(w_ignored_file_patterns));
+		str = gtk_entry_get_text(GTK_ENTRY(data->w_ignored_file_patterns));
 		if (g_strcmp0(str, ignored_file_patterns_old) != 0)
 		{
 			changed = TRUE;
 		}
 		ignored_file_patterns = split_patterns(str);
 
+		wb_project_dir_set_scan_mode(project, directory, scan_mode);
 		wb_project_dir_set_file_patterns(directory, file_patterns);
 		wb_project_dir_set_ignored_dirs_patterns(directory, ignored_dirs_patterns);
 		wb_project_dir_set_ignored_file_patterns(directory, ignored_file_patterns);
@@ -446,7 +551,7 @@ gboolean dialogs_directory_settings(WB_PROJECT_DIR *directory)
 	g_free(file_patterns_old);
 	g_free(ignored_file_patterns_old);
 	g_free(ignored_dirs_patterns_old);
-	gtk_widget_destroy(dialog);
+	gtk_widget_destroy(data->dialog);
 
 	return changed;
 }

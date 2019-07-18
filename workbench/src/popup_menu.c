@@ -432,7 +432,7 @@ static void popup_menu_on_directory_settings(G_GNUC_UNUSED GtkMenuItem * menuite
 	if (sidebar_file_view_get_selected_context(&context)
 		&& context.project != NULL && context.directory != NULL)
 	{
-		if (dialogs_directory_settings(context.directory))
+		if (dialogs_directory_settings(context.project, context.directory))
 		{
 			wb_project_set_modified(context.project, TRUE);
 			wb_project_dir_rescan(context.project, context.directory);

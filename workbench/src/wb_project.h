@@ -24,6 +24,13 @@
 typedef struct S_WB_PROJECT WB_PROJECT;
 typedef struct S_WB_PROJECT_DIR WB_PROJECT_DIR;
 
+typedef enum
+{
+	WB_PROJECT_SCAN_MODE_INVALID,
+	WB_PROJECT_SCAN_MODE_WORKBENCH,
+	WB_PROJECT_SCAN_MODE_GIT,
+}WB_PROJECT_SCAN_MODE;
+
 WB_PROJECT *wb_project_new(const gchar *filename);
 void wb_project_free(WB_PROJECT *prj);
 
@@ -51,6 +58,8 @@ gchar **wb_project_dir_get_ignored_dirs_patterns (WB_PROJECT_DIR *directory);
 gboolean wb_project_dir_set_ignored_dirs_patterns (WB_PROJECT_DIR *directory, gchar **new);
 gchar **wb_project_dir_get_ignored_file_patterns (WB_PROJECT_DIR *directory);
 gboolean wb_project_dir_set_ignored_file_patterns (WB_PROJECT_DIR *directory, gchar **new);
+WB_PROJECT_SCAN_MODE wb_project_dir_get_scan_mode (WB_PROJECT_DIR *directory);
+gboolean wb_project_dir_set_scan_mode (WB_PROJECT *project, WB_PROJECT_DIR *directory, WB_PROJECT_SCAN_MODE mode);
 guint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root);
 gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir);
 gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filename);
