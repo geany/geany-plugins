@@ -252,3 +252,29 @@ Ideas, questions, patches and bug reports
 
 Please post any ideas, feature requests, questions and bugs in the
 github issue tracker.
+
+History
+=======
+
+This is a short release history showing the major changes:
+
+**1.09:**
+  Added option to let git decide which files to display
+**1.08:**
+  Auto-save project on change
+**1.07:**
+  Added option to enable or disable tree lines
+**1.06:**
+  Save workbench settings immediately
+**1.05:**
+  Added option "Expand on hover"
+**1.04:**
+  Use simple/old file monitor events only (remove dependency of GLib version 2.46)
+**1.03:**
+  Support live update
+**1.02:**
+  Added "Create file here..."/"Create directory here..."
+**1.01:**
+  Fixed not closed file handles on directory scanning (thanks to techee). Fixes #607.
+**1.00:**
+  Created plugin
