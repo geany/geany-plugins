@@ -32,6 +32,13 @@ typedef struct _AoColorTipPrivate			AoColorTipPrivate;
 #define AO_COLORTIP_GET_PRIVATE(obj)		(G_TYPE_INSTANCE_GET_PRIVATE((obj),\
 			AO_COLORTIP_TYPE, AoColorTipPrivate))
 
+// This is helpful for making the color-tip larger on 4K screens or for people with less acute vision 
+#if (!(defined(COLOR_TIP_TEMPLATE) || defined(LARGE_COLOR_TIP)))
+#   define COLOR_TIP_TEMPLATE   "    "
+#else
+#   define COLOR_TIP_TEMPLATE   "        \n        "
+#endif
+
 struct _AoColorTip
 {
 	GObject parent;
@@ -251,7 +258,7 @@ void ao_color_tip_editor_notify(AoColorTip *colortip, GeanyEditor *editor, SCNot
 				if (color != -1)
 				{
 					SSM(sci, SCI_CALLTIPSETBACK, color, 0);
-					SSM(sci, SCI_CALLTIPSHOW, nt->position, (sptr_t)"    ");
+					SSM(sci, SCI_CALLTIPSHOW, nt->position, (sptr_t)COLOR_TIP_TEMPLATE);
 				}
 				g_free(subtext);
 			}
