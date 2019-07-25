@@ -19,7 +19,7 @@
  *			MA 02110-1301, USA.
  */
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #include "addons.h"
 #include "ao_blanklines.h"

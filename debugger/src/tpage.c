@@ -32,7 +32,7 @@
 #ifdef HAVE_CONFIG_H
 	#include "config.h"
 #endif
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include <gp_gtkcompat.h>
 
 extern GeanyData		*geany_data;

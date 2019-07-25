@@ -17,7 +17,7 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;

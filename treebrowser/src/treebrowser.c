@@ -17,7 +17,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "geany.h"
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 #include <gp_gtkcompat.h>
 
 #include <gio/gio.h>

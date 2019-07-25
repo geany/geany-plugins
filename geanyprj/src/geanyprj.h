@@ -20,7 +20,7 @@
 #ifndef __GEANYPRJ_H__
 #define __GEANYPRJ_H__
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #ifdef __GNUC__
 #  ifdef DEBUG
