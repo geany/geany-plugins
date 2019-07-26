@@ -26,11 +26,11 @@
 #include "geanyprj.h"
 
 const gchar *project_type_string[NEW_PROJECT_TYPE_SIZE] = {
-	"All",
-	"C/C++",
-	"C",
-	"Python",
-	"None"
+	[NEW_PROJECT_TYPE_ALL]    = "All",
+	[NEW_PROJECT_TYPE_CPP]    = "C/C++",
+	[NEW_PROJECT_TYPE_C]      = "C",
+	[NEW_PROJECT_TYPE_PYTHON] = "Python",
+	[NEW_PROJECT_TYPE_NONE]   = "None"
 };
 
 static gboolean project_filter_c_cpp(const gchar *file)
@@ -73,11 +73,11 @@ static gboolean project_filter_none(G_GNUC_UNUSED const gchar *file)
 
 
 gboolean (*project_type_filter[NEW_PROJECT_TYPE_SIZE]) (const gchar *) = {
-	project_filter_all,
-	project_filter_c_cpp,
-	project_filter_c,
-	project_filter_python,
-	project_filter_none
+	[NEW_PROJECT_TYPE_ALL]    = project_filter_all,
+	[NEW_PROJECT_TYPE_CPP]    = project_filter_c_cpp,
+	[NEW_PROJECT_TYPE_C]      = project_filter_c,
+	[NEW_PROJECT_TYPE_PYTHON] = project_filter_python,
+	[NEW_PROJECT_TYPE_NONE]   = project_filter_none
 };
 
 
