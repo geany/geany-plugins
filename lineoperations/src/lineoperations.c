@@ -39,6 +39,18 @@ struct lo_lines {
 };
 
 
+/* represents a menu item and key binding */
+struct lo_menu_item{
+	const gchar *label;
+	const gchar *kb_section_name;
+	GCallback cb_activate;
+	gpointer cb_data;
+};
+
+
+typedef void (*CB_USER_FUNCTION)(GtkMenuItem *menuitem, gpointer gdata);
+
+
 /* selects lines in document (based off of lo_lines struct parameter) */
 static void
 select_lines(GeanyEditor *editor, struct lo_lines *sel)
@@ -238,40 +250,49 @@ action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
+/* List of menu items, also used for keybindings. */
+static struct lo_menu_item menu_items[] = {
+	{ N_("Remove Duplicate Lines, _Sorted"), "remove_duplicate_lines_s",
+	  G_CALLBACK(action_indir_manip_item), (gpointer) rmdupst },
+	{ N_("Remove Duplicate Lines, _Ordered"), "remove_duplicate_lines_o",
+	  G_CALLBACK(action_indir_manip_item), (gpointer) rmdupln },
+	{ N_("Remove _Unique Lines"), "remove_unique_lines",
+	  G_CALLBACK(action_indir_manip_item), (gpointer) rmunqln },
+	{ N_("Keep _Unique Lines"), "keep_unique_lines",
+	  G_CALLBACK(action_indir_manip_item), (gpointer) kpunqln },
+	{ NULL },
+	{ N_("Remove _Empty Lines"), "remove_empty_lines",
+	  G_CALLBACK(action_sci_manip_item), (gpointer) rmemtyln },
+	{ N_("Remove _Whitespace Lines"), "remove_whitespace_lines",
+	  G_CALLBACK(action_sci_manip_item), (gpointer) rmwhspln },
+	{ NULL },
+	{ N_("Remove Every _Nth Line"), "remove_every_nth_line",
+	  G_CALLBACK(action_sci_manip_item), (gpointer) rmnthln },
+	{ NULL },
+	{ N_("Sort Lines _Ascending"), "sort_lines_ascending",
+	  G_CALLBACK(action_indir_manip_item), (gpointer) sortlnsasc },
+	{ N_("Sort Lines _Descending"), "sort_lines_descending",
+	  G_CALLBACK(action_indir_manip_item), (gpointer) sortlndesc }
+};
+
+
+/* Keybinding callback */
+static void lo_keybinding_callback(guint key_id)
+{
+	CB_USER_FUNCTION cb_activate;
+	g_return_if_fail(key_id < G_N_ELEMENTS(menu_items));
+	cb_activate = (CB_USER_FUNCTION)menu_items[key_id].cb_activate;
+	cb_activate(NULL, menu_items[key_id].cb_data);
+}
+
+
 static gboolean
 lo_init(GeanyPlugin *plugin, gpointer gdata)
 {
 	GeanyData *geany_data = plugin->geany_data;
-
+	GeanyKeyGroup *key_group;
 	GtkWidget *submenu;
 	guint i;
-	struct {
-		const gchar *label;
-		GCallback cb_activate;
-		gpointer cb_data;
-	} menu_items[] = {
-		{ N_("Remove Duplicate Lines, _Sorted"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) rmdupst },
-		{ N_("Remove Duplicate Lines, _Ordered"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) rmdupln },
-		{ N_("Remove _Unique Lines"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) rmunqln },
-		{ N_("Keep _Unique Lines"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) kpunqln },
-		{ NULL },
-		{ N_("Remove _Empty Lines"),
-		  G_CALLBACK(action_sci_manip_item), (gpointer) rmemtyln },
-		{ N_("Remove _Whitespace Lines"),
-		  G_CALLBACK(action_sci_manip_item), (gpointer) rmwhspln },
-		{ NULL },
-		{ N_("Remove Every _Nth Line"),
-		  G_CALLBACK(action_sci_manip_item), (gpointer) rmnthln },
-		{ NULL },
-		{ N_("Sort Lines _Ascending"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlnsasc },
-		{ N_("Sort Lines _Descending"),
-		  G_CALLBACK(action_indir_manip_item), (gpointer) sortlndesc }
-	};
 
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));
 	gtk_widget_show(main_menu_item);
@@ -302,6 +323,19 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(main_menu_item), submenu);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu),
 									main_menu_item);
+
+	/* Setup keybindings. */
+	key_group = plugin_set_key_group
+		(plugin, "Line Operations", G_N_ELEMENTS(menu_items), NULL);
+	for (i = 0; i < G_N_ELEMENTS(menu_items); i++)
+	{
+		if (menu_items[i].label != NULL)
+		{
+			keybindings_set_item(key_group, i,
+				lo_keybinding_callback, 0, 0, menu_items[i].kb_section_name,
+					menu_items[i].label, NULL);
+		}
+	}
 
 	return TRUE;
 }
