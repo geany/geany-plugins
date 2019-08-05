@@ -32,7 +32,8 @@ static GtkWidget *main_menu_item = NULL;
 
 
 /* represents a selection of lines that will have Operation applied to */
-struct lo_lines {
+struct lo_lines
+{
 	gboolean is_selection;
 	gint     start_line;
 	gint     end_line;
@@ -40,7 +41,8 @@ struct lo_lines {
 
 
 /* represents a menu item and key binding */
-struct lo_menu_item{
+struct lo_menu_item
+{
 	const gchar *label;
 	const gchar *kb_section_name;
 	GCallback cb_activate;
@@ -57,12 +59,12 @@ select_lines(GeanyEditor *editor, struct lo_lines *sel)
 {
 	/* set the selection to beginning of first line */
 	sci_set_selection_start(editor->sci,
-			sci_get_position_from_line(editor->sci, sel->start_line));
+							sci_get_position_from_line(editor->sci, sel->start_line));
 
 	/* set the selection to end of last line */
 	sci_set_selection_end(editor->sci,
-			sci_get_line_end_position(editor->sci, sel->end_line) +
-									 editor_get_eol_char_len(editor));
+						  sci_get_line_end_position(editor->sci, sel->end_line) +
+							  editor_get_eol_char_len(editor));
 }
 
 
@@ -74,7 +76,7 @@ get_current_sel_lines(ScintillaObject *sci, struct lo_lines *sel)
 	gint end_posn       = 0;        /* position of selection end   */
 
 	/* check for selection */
-	if(sci_has_selection(sci))
+	if (sci_has_selection(sci))
 	{
 		/* get the start and end *positions* */
 		start_posn = sci_get_selection_start(sci);
@@ -127,23 +129,23 @@ ensure_final_newline(GeanyEditor *editor, gint *num_lines, struct lo_lines *sel)
 static void
 user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines *sel)
 {
-	if(lines_affected < 0)
+	if (lines_affected < 0)
 	{
 		ui_set_statusbar(FALSE, _("Operation successful! %d lines removed."),
 					-lines_affected);
 
 		/* select lines to indicate to user what lines were altered */
-		sel->end_line   += lines_affected;
+		sel->end_line += lines_affected;
 
-		if(sel->is_selection)
+		if (sel->is_selection)
 			select_lines(editor, sel);
 	}
-	else if(lines_affected == 0)
+	else if (lines_affected == 0)
 	{
 		ui_set_statusbar(FALSE, _("Operation successful! No lines removed."));
 
 		/* select lines to indicate to user what lines were altered */
-		if(sel->is_selection)
+		if (sel->is_selection)
 			select_lines(editor, sel);
 	}
 	else
@@ -152,7 +154,7 @@ user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines *sel)
 					lines_affected);
 
 		/* select lines to indicate to user what lines were altered */
-		if(sel->is_selection)
+		if (sel->is_selection)
 			select_lines(editor, sel);
 	}
 }
@@ -176,16 +178,15 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	gint   lines_affected = 0;
 
 	get_current_sel_lines(doc->editor->sci, &sel);
-	gint num_lines       = (sel.end_line - sel.start_line) + 1;
-
+	gint num_lines = (sel.end_line - sel.start_line) + 1;
 
 	/* if last line within selection ensure that the file ends with newline */
-	if((sel.end_line + 1) == sci_get_line_count(doc->editor->sci))
+	if ((sel.end_line + 1) == sci_get_line_count(doc->editor->sci))
 		ensure_final_newline(doc->editor, &num_lines, &sel);
 
 	/* get num_chars and **lines */
-	gchar **lines        = g_malloc(sizeof(gchar *) * num_lines);
-	for(i = 0; i < num_lines; i++)
+	gchar **lines = g_malloc(sizeof(gchar *) * num_lines);
+	for (i = 0; i < num_lines; i++)
 	{
 		num_chars += (sci_get_line_length(doc->editor->sci,
 										(i + sel.start_line)));
@@ -214,7 +215,7 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 	sci_end_undo_action(doc->editor->sci);
 
 	/* free used memory */
-	for(i = 0; i < num_lines; i++)
+	for (i = 0; i < num_lines; i++)
 		g_free(lines[i]);
 	g_free(lines);
 	g_free(new_file);
@@ -231,7 +232,7 @@ action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 {
 	/* function pointer to gdata -- function to be used */
 	gint (*func)(ScintillaObject *, gint, gint) = gdata;
-	GeanyDocument *doc  = document_get_current();
+	GeanyDocument *doc = document_get_current();
 	g_return_if_fail(doc != NULL);
 
 	struct lo_lines sel;
@@ -310,9 +311,9 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 		{
 			item = gtk_menu_item_new_with_mnemonic(_(menu_items[i].label));
 			g_signal_connect(item,
-								"activate",
-								menu_items[i].cb_activate,
-								menu_items[i].cb_data);
+							"activate",
+							menu_items[i].cb_activate,
+							menu_items[i].cb_data);
 			ui_add_document_sensitive(item);
 		}
 
@@ -344,7 +345,8 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 static void
 lo_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
-	if(main_menu_item) gtk_widget_destroy(main_menu_item);
+	if (main_menu_item)
+		gtk_widget_destroy(main_menu_item);
 }
 
 
