@@ -50,6 +50,22 @@ struct lo_menu_item
 };
 
 
+static struct
+{
+	/* general settings */
+	gchar *config_file;
+	gboolean use_collation_compare;
+} AddonsInfo;
+static AddonsInfo *lo_info = NULL;
+
+
+static struct
+{
+    GtkWidget *collation_cb;
+}
+static config_widgets;
+
+
 typedef void (*CB_USER_FUNCTION)(GtkMenuItem *menuitem, gpointer gdata);
 
 
@@ -251,6 +267,69 @@ action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 }
 
 
+/* handle button presses in the preferences dialog box */
+static void
+lo_configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
+{
+    if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
+    {
+		GKeyFile *config = g_key_file_new();
+		gchar *config_dir = g_path_get_dirname(lo_info->config_file);
+		gchar *data;
+
+        /* Grabbing options that has been set */
+        lo_info->use_collation_compare =
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb));
+
+        /* Write preference to file */
+        g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
+
+        g_key_file_set_boolean(config, "general", "use_collation_compare",
+            lo_info->use_collation_compare);
+
+        if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
+            && utils_mkdir(config_dir, TRUE) != 0)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+                _("Plugin configuration directory could not be created."));
+        }
+        else
+        {
+            /* write config to file */
+            data = g_key_file_to_data(config, NULL, NULL);
+            utils_write_file(lo_info->config_file, data);
+            g_free(data);
+        }
+
+        g_free(config_dir);
+        g_key_file_free(config);
+    }
+}
+
+
+/* Configure the preferences GUI and callbacks */
+static GtkWidget *
+lo_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
+{
+    GtkWidget *vbox;
+    vbox = gtk_vbox_new(FALSE, 6);
+
+    config_widgets.collation_cb = gtk_check_button_new_with_label(
+        _("Use collation based string compare"));
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb),
+        lo_info->use_collation_compare);
+
+    gtk_box_pack_start(GTK_BOX(vbox), config_widgets.collation_cb, FALSE, FALSE, 2);
+
+
+    gtk_widget_show_all(vbox);
+    g_signal_connect(dialog, "response", G_CALLBACK(lo_configure_response_cb), NULL);
+
+    return vbox;
+}
+
+
 /* List of menu items, also used for keybindings. */
 static struct lo_menu_item menu_items[] = {
 	{ N_("Remove Duplicate Lines, _Sorted"), "remove_duplicate_lines_s",
@@ -287,13 +366,38 @@ static void lo_keybinding_callback(guint key_id)
 }
 
 
+/* Initialize preferences */
+static void
+lo_init_prefs(GeanyPlugin *plugin)
+{
+	GeanyData *geany_data = plugin->geany_data;
+	GKeyFile *config = g_key_file_new();
+
+	/* load preferences from file into lo_info */
+	lo_info = g_new0(AddonsInfo, 1);
+	lo_info->config_file = g_strconcat(geany->app->configdir,
+		G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+		"lineoperations", G_DIR_SEPARATOR_S, "general.conf", NULL);
+
+	gboolean test = g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
+
+	lo_info->use_collation_compare = utils_get_setting_boolean(config,
+		"general", "use_collation_compare", FALSE);
+
+	g_key_file_free(config);
+}
+
+
+/* Initialization */
 static gboolean
-lo_init(GeanyPlugin *plugin, gpointer gdata)
+lo_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer gdata)
 {
 	GeanyData *geany_data = plugin->geany_data;
 	GeanyKeyGroup *key_group;
 	GtkWidget *submenu;
 	guint i;
+
+	lo_init_prefs(plugin);
 
 	main_menu_item = gtk_menu_item_new_with_mnemonic(_("_Line Operations"));
 	gtk_widget_show(main_menu_item);
@@ -342,11 +446,20 @@ lo_init(GeanyPlugin *plugin, gpointer gdata)
 }
 
 
+/* Show help */
+static void
+lo_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
+{
+	utils_open_browser("https://plugins.geany.org/lineoperations.html");
+}
+
+
 static void
 lo_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
-	if (main_menu_item)
-		gtk_widget_destroy(main_menu_item);
+	gtk_widget_destroy(main_menu_item);
+	g_free(lo_info->config_file);
+	g_free(lo_info);
 }
 
 
@@ -362,6 +475,8 @@ void geany_load_module(GeanyPlugin *plugin)
 
 	plugin->funcs->init       = lo_init;
 	plugin->funcs->cleanup    = lo_cleanup;
+	plugin->funcs->configure  = lo_configure;
+	plugin->funcs->help       = lo_help;
 
 	GEANY_PLUGIN_REGISTER(plugin, 225);
 }
