@@ -1,6 +1,6 @@
 /*
- *      linefunctions.h - Line operations, remove duplicate lines, empty lines,
- *                        lines with only whitespace, sort lines.
+ *      lo_fns.h - Line operations, remove duplicate lines, empty lines,
+ *                 lines with only whitespace, sort lines.
  *
  *      Copyright 2015 Sylvan Mostert <smostert.dev@gmail.com>
  *
@@ -21,8 +21,8 @@
 
 
 
-#ifndef LINEFUNCTIONS_H
-#define LINEFUNCTIONS_H
+#ifndef LO_FNS_H
+#define LO_FNS_H
 
 #include <geanyplugin.h>
 #include "Scintilla.h"

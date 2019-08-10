@@ -1,6 +1,6 @@
 /*
- *      linefunctions.c - Line operations, remove duplicate lines, empty lines,
- *                        lines with only whitespace, sort lines.
+ *      lo_fns.c - Line operations, remove duplicate lines, empty lines,
+ *                 lines with only whitespace, sort lines.
  *
  *      Copyright 2015 Sylvan Mostert <smostert.dev@gmail.com>
  *
@@ -20,7 +20,7 @@
 */
 
 
-#include "linefunctions.h"
+#include "lo_fns.h"
 
 
 /* comparison function to be used in qsort */
