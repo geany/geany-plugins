@@ -23,8 +23,18 @@
 #define LO_PREFS_H
 
 #include <geanyplugin.h>
-
 #include "lo_prefs.h"
+
+
+typedef struct
+{
+	/* general settings */
+	gchar *config_file;
+	gboolean use_collation_compare;
+} AddonsInfo;
+
+
+extern AddonsInfo *lo_info;
 
 
 /* handle button presses in the preferences dialog box */

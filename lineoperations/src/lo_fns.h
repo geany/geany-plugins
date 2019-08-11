@@ -30,6 +30,13 @@
 #include <string.h>
 
 
+typedef gint (*lo_strcmpfns)(const gchar *str1, const gchar *str2);
+
+/* Get sort function based on user preferences */
+lo_strcmpfns
+getcmpfns(void);
+
+
 /* Remove Duplicate Lines, sorted */
 gint
 rmdupst(gchar **lines, gint num_lines, gchar *new_file);

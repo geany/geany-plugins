@@ -21,13 +21,30 @@
 
 
 #include "lo_fns.h"
+#include "lo_prefs.h"
+
+
+/* Get sort function based on user preferences */
+lo_strcmpfns
+getcmpfns(void)
+{
+	if(lo_info->use_collation_compare)
+	{
+		return g_utf8_collate;
+	}
+	else
+	{
+		return strcmp;
+	}
+}
 
 
 /* comparison function to be used in qsort */
 static gint
 compare_asc(const void *a, const void *b)
 {
-	return strcmp(*(const gchar **)a, *(const gchar **)b);
+	lo_strcmpfns lo_strcmp = getcmpfns();
+	return lo_strcmp(*(const gchar **)a, *(const gchar **)b);
 }
 
 
@@ -35,7 +52,8 @@ compare_asc(const void *a, const void *b)
 static gint
 compare_desc(const void *a, const void *b)
 {
-	return strcmp(*(const gchar **)b, *(const gchar **)a);
+	lo_strcmpfns lo_strcmp = getcmpfns();
+	return lo_strcmp(*(const gchar **)b, *(const gchar **)a);
 }
 
 
@@ -47,6 +65,7 @@ rmdupst(gchar **lines, gint num_lines, gchar *new_file)
 	gchar *lineptr = (gchar *)" "; /* temporary line pointer */
 	gint  i        = 0;            /* iterator */
 	gint  changed  = 0;            /* number of lines removed */
+	lo_strcmpfns lo_strcmp = getcmpfns();
 
 	/* sort **lines ascending */
 	qsort(lines, num_lines, sizeof(gchar *), compare_asc);
@@ -54,7 +73,7 @@ rmdupst(gchar **lines, gint num_lines, gchar *new_file)
 	/* loop through **lines, join first occurances into one str (new_file) */
 	for (i = 0; i < num_lines; i++)
 	{
-		if (strcmp(lines[i], lineptr) != 0)
+		if (lo_strcmp(lines[i], lineptr) != 0)
 		{
 			changed++;     /* number of lines kept */
 			lineptr = lines[i];
@@ -76,6 +95,7 @@ rmdupln(gchar **lines, gint num_lines, gchar *new_file)
 	gint  j        = 0;         /* iterator */
 	gboolean *to_remove = NULL; /* flag to 'mark' which lines to remove */
 	gint  changed  = 0;         /* number of lines removed */
+	lo_strcmpfns lo_strcmp = getcmpfns();
 
 
 	/* allocate and set *to_remove to all FALSE
@@ -93,7 +113,7 @@ rmdupln(gchar **lines, gint num_lines, gchar *new_file)
 			/* find the rest of same lines */
 			for (j = (i + 1); j < num_lines; j++)
 			{
-				if (!to_remove[j] && strcmp(lines[i], lines[j]) == 0)
+				if (!to_remove[j] && lo_strcmp(lines[i], lines[j]) == 0)
 					to_remove[j] = TRUE; /* line is duplicate, mark to remove */
 			}
 		}
@@ -124,6 +144,7 @@ rmunqln(gchar **lines, gint num_lines, gchar *new_file)
 	gint  j       = 0;          /* iterator */
 	gboolean *to_remove = NULL; /* to 'mark' which lines to remove */
 	gint  changed = 0;          /* number of lines removed */
+	lo_strcmpfns lo_strcmp = getcmpfns();
 
 
 	/* allocate and set *to_remove to all TRUE
@@ -137,7 +158,7 @@ rmunqln(gchar **lines, gint num_lines, gchar *new_file)
 		/* make sure that the line is not already determined to be unique */
 		if (to_remove[i])
 			for (j = (i + 1); j < num_lines; j++)
-				if (to_remove[j] && strcmp(lines[i], lines[j]) == 0)
+				if (to_remove[j] && lo_strcmp(lines[i], lines[j]) == 0)
 				{
 					to_remove[i] = FALSE;
 					to_remove[j] = FALSE;
@@ -168,6 +189,7 @@ kpunqln(gchar **lines, gint num_lines, gchar *new_file)
 	gint  j       = 0;          /* iterator */
 	gboolean *to_remove = NULL; /* to 'mark' which lines to remove */
 	gint  changed = 0;          /* number of lines removed */
+	lo_strcmpfns lo_strcmp = getcmpfns();
 
 
 	/* allocate and set *to_remove to all FALSE
@@ -181,7 +203,7 @@ kpunqln(gchar **lines, gint num_lines, gchar *new_file)
 		/* make sure that the line is not already determined to be non unique */
 		if (!to_remove[i])
 			for (j = (i + 1); j < num_lines; j++)
-				if (!to_remove[j] && strcmp(lines[i], lines[j]) == 0)
+				if (!to_remove[j] && lo_strcmp(lines[i], lines[j]) == 0)
 				{
 					to_remove[i] = TRUE;
 					to_remove[j] = TRUE;

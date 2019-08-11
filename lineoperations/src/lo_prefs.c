@@ -21,13 +21,6 @@
 
 #include "lo_prefs.h"
 
-typedef struct
-{
-	/* general settings */
-	gchar *config_file;
-	gboolean use_collation_compare;
-} AddonsInfo;
-
 
 static struct
 {
@@ -35,8 +28,7 @@ static struct
 } config_widgets;
 
 
-//static ConfigWidgets *config_widgets = NULL;
-static AddonsInfo *lo_info = NULL;
+AddonsInfo *lo_info = NULL;
 
 
 /* handle button presses in the preferences dialog box */
@@ -102,6 +94,7 @@ lo_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED
     return vbox;
 }
 
+
 /* Initialize preferences */
 void
 lo_init_prefs(GeanyPlugin *plugin)
@@ -124,6 +117,7 @@ lo_init_prefs(GeanyPlugin *plugin)
 
 	g_key_file_free(config);
 }
+
 
 /* Free config */
 void

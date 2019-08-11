@@ -33,7 +33,6 @@
 static GtkWidget *main_menu_item = NULL;
 
 
-
 /* represents a selection of lines that will have Operation applied to */
 struct lo_lines
 {
