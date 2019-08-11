@@ -1,6 +1,9 @@
+2019-08-11  Sylvan Mostert  <smostert.dev@gmail.com>
+
+ * added preferences to compare strings using linguistically correct rules
+   for the current locale
+ * added help button link to documentation
+
 2016-02-27  Sylvan Mostert  <smostert.dev@gmail.com>
 
  * added selection support
-
-
-

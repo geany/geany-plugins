@@ -165,6 +165,11 @@ user_indicate(GeanyEditor *editor, gint lines_affected, struct lo_lines *sel)
 /*
  * Menu action for functions with indirect scintilla manipulation
  * e.g. functions requiring **lines array, num_lines, *new_file
+ *
+ * Use 'action_sci_manip_item()' if possible, since direction
+ * manipulation of Scintilla doc is faster/better.
+ * Use this if the line operation cannot be easily done with
+ * scintilla functions.
 */
 static void
 action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
@@ -227,6 +232,9 @@ action_indir_manip_item(GtkMenuItem *menuitem, gpointer gdata)
 /*
  * Menu action for functions with direct scintilla manipulation
  * e.g. no need for **lines array, *new_file...
+ *
+ * Use this if the line operation can be directly done with
+ * scintilla functions.
 */
 static void
 action_sci_manip_item(GtkMenuItem *menuitem, gpointer gdata)
@@ -369,7 +377,7 @@ void geany_load_module(GeanyPlugin *plugin)
 
 	plugin->info->name        = _("Line Operations");
 	plugin->info->description = _("Line Operations provides a handful of functions that can be applied to a document or selection such as, removing duplicate lines, removing empty lines, removing lines with only whitespace, and sorting lines.");
-	plugin->info->version     = "0.2";
+	plugin->info->version     = "0.3";
 	plugin->info->author      = "Sylvan Mostert <smostert.dev@gmail.com>";
 
 	plugin->funcs->init       = lo_init;
