@@ -143,16 +143,13 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 		window = gtk_widget_get_window (gtk_widget_get_ancestor(widget, GTK_TYPE_TOOLBAR));
 #if GTK_CHECK_VERSION(3, 0, 0)
 		gdk_window_get_geometry(window, &wx, &wy, &width, NULL);
+		gtk_widget_get_preferred_size(widget, &widget_req, NULL);
 #else
 		gdk_window_get_geometry(window, &wx, &wy, &width, NULL, NULL);
+		gtk_widget_size_request(widget, &widget_req);
 #endif
 		gdk_window_get_root_coords(window, wx, wy, &wx_root, &wy_root);
 
-#if GTK_CHECK_VERSION(3, 0, 0)
-		gtk_widget_get_preferred_size(widget, &widget_req, NULL);
-#else
-		gtk_widget_size_request(widget, &widget_req);
-#endif
 		/* Approximate the horizontal location of the overflow menu button */
 		/* TODO: See if there's a way to find the exact location */
 		wx = wx_root + width - (int) (widget_req.width * 1.5);
@@ -162,13 +159,11 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 		 * the doclist menu item
 		 */
 		priv->in_overflow_menu = FALSE;
-
 	} else {
 		/* Retrieve size and position of both widget and menu */
 		window = gtk_widget_get_window(widget);
 		if (! gtk_widget_get_has_window(widget))
 		{
-
 			GtkAllocation allocation;
 			gdk_window_get_position(window, &wx, &wy);
 			gtk_widget_get_allocation(widget, &allocation);
