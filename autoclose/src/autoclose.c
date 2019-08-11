@@ -367,6 +367,43 @@ improve_indent(
 	return AC_STOP_ACTION;
 }
 
+
+/** Find previous string/last occurence from a position
+ *
+ * The function finds the last occurence of @a text before the given
+ * position @a pos. It will only search the range of @a max before
+ * @a pos. @a length gives the length of the string at @a text. @a text
+ * does not need to be NULL terminated.
+ *
+ * @param sci	 The ScintillaObject
+ * @param pos	 The position to search backwards from (excluding pos)
+ * @param max	 Maximum number of chars to search through (the function
+ *				 will search the range from pos to pos-max)
+ * @param length Length of the search text
+ * @param text	 Text to search for
+ * @returns The position where the text was found or -1 if not found
+ *
+ **/
+static gint ao_sci_find_prev_string(ScintillaObject *sci, gint pos, gint max, gint length, gchar *text)
+{
+	gint start = 0;
+	gint found;
+
+	if (pos == 0)
+	{
+		return -1;
+	}
+	if (pos >= max)
+	{
+		start = pos - max;
+	}
+	scintilla_send_message(sci, SCI_SETTARGETRANGE, pos-1, start);
+	found = scintilla_send_message(sci, SCI_SEARCHINTARGET, length, (sptr_t)text);
+
+	return found;
+}
+
+
 static gboolean
 handle_backspace(
 	AutocloseUserData *data,
@@ -393,7 +430,14 @@ handle_backspace(
 		if ((ch_left[0] == ch || ch_right[0] == ch) &&
 				ac_info->bcksp_remove_pair)
 		{
-			end_pos = sci_find_matching_brace(sci, pos - 1);
+			if (ch_left[0] != ch_right[0])
+			{
+				end_pos = sci_find_matching_brace(sci, pos - 1);
+			}
+			else
+			{
+				end_pos = ao_sci_find_prev_string(sci, pos, pos, 1, ch_left);
+			}
 			if (-1 == end_pos)
 				return AC_CONTINUE_ACTION;
 			sci_start_undo_action(sci);
