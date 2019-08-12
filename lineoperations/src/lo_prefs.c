@@ -24,7 +24,7 @@
 
 static struct
 {
-    GtkWidget *collation_cb;
+	GtkWidget *collation_cb;
 } config_widgets;
 
 
@@ -35,39 +35,39 @@ AddonsInfo *lo_info = NULL;
 void
 lo_configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 {
-    if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
-    {
+	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
+	{
 		GKeyFile *config = g_key_file_new();
 		gchar *config_dir = g_path_get_dirname(lo_info->config_file);
 		gchar *data;
 
-        /* Grabbing options that has been set */
-        lo_info->use_collation_compare =
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb));
+		/* Grabbing options that has been set */
+		lo_info->use_collation_compare =
+			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb));
 
-        /* Write preference to file */
-        g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
+		/* Write preference to file */
+		g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
 
-        g_key_file_set_boolean(config, "general", "use_collation_compare",
-            lo_info->use_collation_compare);
+		g_key_file_set_boolean(config, "general", "use_collation_compare",
+			lo_info->use_collation_compare);
 
-        if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
-            && utils_mkdir(config_dir, TRUE) != 0)
-        {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-                _("Plugin configuration directory could not be created."));
-        }
-        else
-        {
-            /* write config to file */
-            data = g_key_file_to_data(config, NULL, NULL);
-            utils_write_file(lo_info->config_file, data);
-            g_free(data);
-        }
+		if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
+			&& utils_mkdir(config_dir, TRUE) != 0)
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+				_("Plugin configuration directory could not be created."));
+		}
+		else
+		{
+			/* write config to file */
+			data = g_key_file_to_data(config, NULL, NULL);
+			utils_write_file(lo_info->config_file, data);
+			g_free(data);
+		}
 
-        g_free(config_dir);
-        g_key_file_free(config);
-    }
+		g_free(config_dir);
+		g_key_file_free(config);
+	}
 }
 
 
@@ -75,23 +75,23 @@ lo_configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 GtkWidget *
 lo_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
 {
-    GtkWidget *vbox;
+	GtkWidget *vbox;
 
-    vbox = gtk_vbox_new(FALSE, 0);
+	vbox = gtk_vbox_new(FALSE, 0);
 
-    config_widgets.collation_cb = gtk_check_button_new_with_label(
-        _("Use collation based string compare"));
+	config_widgets.collation_cb = gtk_check_button_new_with_label(
+		_("Use collation based string compare"));
 
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb),
-        lo_info->use_collation_compare);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb),
+		lo_info->use_collation_compare);
 
-    gtk_box_pack_start(GTK_BOX(vbox), config_widgets.collation_cb, FALSE, FALSE, 2);
+	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.collation_cb, FALSE, FALSE, 2);
 
 
-    gtk_widget_show_all(vbox);
-    g_signal_connect(dialog, "response", G_CALLBACK(lo_configure_response_cb), NULL);
+	gtk_widget_show_all(vbox);
+	g_signal_connect(dialog, "response", G_CALLBACK(lo_configure_response_cb), NULL);
 
-    return vbox;
+	return vbox;
 }
 
 
@@ -108,12 +108,12 @@ lo_init_prefs(GeanyPlugin *plugin)
 		G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"lineoperations", G_DIR_SEPARATOR_S, "general.conf", NULL);
 
-    g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
+	g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
 
 	lo_info->use_collation_compare = utils_get_setting_boolean(config,
 		"general", "use_collation_compare", FALSE);
 
-    printf("VALUE: %d\n", lo_info->use_collation_compare);
+	printf("VALUE: %d\n", lo_info->use_collation_compare);
 
 	g_key_file_free(config);
 }
@@ -122,6 +122,6 @@ lo_init_prefs(GeanyPlugin *plugin)
 /* Free config */
 void
 lo_free_info() {
-    g_free(lo_info->config_file);
+	g_free(lo_info->config_file);
 	g_free(lo_info);
 }
