@@ -220,7 +220,8 @@ keyrecord/src/keyrecord.c
 
 # LineOperations
 lineoperations/src/lineoperations.c
-lineoperations/src/linefunctions.c
+lineoperations/src/lo_fns.c
+lineoperations/src/lo_prefs.c
 
 # lipsum
 lipsum/src/lipsum.c
