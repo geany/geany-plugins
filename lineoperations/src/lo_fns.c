@@ -34,7 +34,7 @@ getcmpfns(void)
 	}
 	else
 	{
-		return strcmp;
+		return g_strcmp0;
 	}
 }
 

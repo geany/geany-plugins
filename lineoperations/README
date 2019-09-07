@@ -43,7 +43,7 @@ on bottom of the "Plugin Manager" frame.
 compare strings using linguistically correct rules for the current locale
 (g_utf8_collate).
 
-When it is disabled it will compare strings based off numerical value of the
+When it is disabled it will compare strings based on numerical value of the
 characters (strcmp).
 
 This option is disabled by default.

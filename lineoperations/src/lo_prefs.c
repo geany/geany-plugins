@@ -28,7 +28,7 @@ static struct
 } config_widgets;
 
 
-AddonsInfo *lo_info = NULL;
+LineOpsInfo *lo_info = NULL;
 
 
 /* handle button presses in the preferences dialog box */
@@ -103,7 +103,7 @@ lo_init_prefs(GeanyPlugin *plugin)
 	GKeyFile *config = g_key_file_new();
 
 	/* load preferences from file into lo_info */
-	lo_info = g_new0(AddonsInfo, 1);
+	lo_info = g_new0(LineOpsInfo, 1);
 	lo_info->config_file = g_strconcat(geany->app->configdir,
 		G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
 		"lineoperations", G_DIR_SEPARATOR_S, "general.conf", NULL);

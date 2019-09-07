@@ -55,7 +55,7 @@ struct lo_menu_item
 typedef void (*CB_USER_FUNCTION)(GtkMenuItem *menuitem, gpointer gdata);
 
 
-/* selects lines in document (based off of lo_lines struct parameter) */
+/* selects lines in document (based on lo_lines struct parameter) */
 static void
 select_lines(GeanyEditor *editor, struct lo_lines *sel)
 {

@@ -31,10 +31,10 @@ typedef struct
 	/* general settings */
 	gchar *config_file;
 	gboolean use_collation_compare;
-} AddonsInfo;
+} LineOpsInfo;
 
 
-extern AddonsInfo *lo_info;
+extern LineOpsInfo *lo_info;
 
 
 /* handle button presses in the preferences dialog box */
