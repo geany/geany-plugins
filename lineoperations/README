@@ -7,7 +7,7 @@ Line Operations
 About
 =====
 
-Line Operations is an assortment of simple line functions that can be 
+Line Operations is an assortment of simple line functions that can be
 applied to an open file, or selection.
 
 Features
@@ -26,23 +26,72 @@ Features
 Usage
 =====
 
-After the plugins has been installed successfully, load the plugin via 
-Geany's plugin manager and a new menu item in the Tools menu will 
-appear. Click on each menu item to apply the operation on whole file, or 
-selection. See descriptions below to see operations for each menu item.
+After the plugins has been installed successfully, load the plugin via
+Geany's plugin manager and a new menu item in the Tools menu will
+appear ("Tools" > "Line Operations"). Click on each menu item to apply
+the operation on whole file, or selection. See descriptions below to
+see operations for each menu item.
+
+Preferences
+-----------
+
+To enable preferences ("Tools" > "Plugin Manager"), check the checkbox to
+enable Line Operations, and with the item highlighted click "Preferences"
+on bottom of the "Plugin Manager" frame.
+
+**Use collation based string compare** - When this option is enabled it will
+compare strings using linguistically correct rules for the current locale
+(g_utf8_collate).
+
+When it is disabled it will compare strings based on numerical value of the
+characters (strcmp).
+
+This option is disabled by default.
+
+  Example: Sort order using **Use collation based string compare** enabled
+
+  ::
+
+    D U+0044 : LATIN CAPITAL LETTER D
+    d U+0064 : LATIN SMALL LETTER D
+    E U+0045 : LATIN CAPITAL LETTER E
+    e U+0065 : LATIN SMALL LETTER E
+    Ê U+00CA : LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+    é U+00E9 : LATIN SMALL LETTER E WITH ACUTE
+    F U+0046 : LATIN CAPITAL LETTER F
+    f U+0066 : LATIN SMALL LETTER F
+
+  Note: all 'e' characters appear after any 'd' character and before any 'f'
+  character.
+
+  Example: Sort order **Use collation based string compare** disabled
+
+  ::
+
+    D U+0044 : LATIN CAPITAL LETTER D
+    E U+0045 : LATIN CAPITAL LETTER E
+    F U+0046 : LATIN CAPITAL LETTER F
+    d U+0064 : LATIN SMALL LETTER D
+    e U+0065 : LATIN SMALL LETTER E
+    f U+0066 : LATIN SMALL LETTER F
+    Ê U+00CA : LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+    é U+00E9 : LATIN SMALL LETTER E WITH ACUTE
+
+  Note: all the 'e' characters do not appear together.
+
 
 Selection
 ---------
 
-If a selection is made in the file, the line operation will be applied to the 
-lines within the selection. The beginning of the selection will expand to the 
-beginning of its line, and the end of the selection will expand to the end of 
+If a selection is made in the file, the line operation will be applied to the
+lines within the selection. The beginning of the selection will expand to the
+beginning of its line, and the end of the selection will expand to the end of
 its line. If the end of the selection is on col 0, that line will be included.
 
 Notes
 -----
 
- * Line Operations will **not** make changes to a file until you save 
+ * Line Operations will **not** make changes to a file until you save
    the file.
 
 
@@ -52,9 +101,9 @@ Operation Details
 Remove Duplicate Lines
 ----------------------
 
-The first occurrence of each duplicate line will remain in the file. 
-The **Sorted** option will sort the file and remove duplicate lines 
-[fast on large files]. The **Ordered** option will keep the same order 
+The first occurrence of each duplicate line will remain in the file.
+The **Sorted** option will sort the file and remove duplicate lines
+[fast on large files]. The **Ordered** option will keep the same order
 of lines [slow on large files].
 
   Example: Suppose a file has the following lines. (#comments added for
@@ -77,7 +126,7 @@ of lines [slow on large files].
     Line 2
     Line 3
 
-  The **Remove Duplicate Lines, ordered** will change the file into 
+  The **Remove Duplicate Lines, ordered** will change the file into
   this:
 
   ::
@@ -93,7 +142,7 @@ Remove Unique Lines
 
 Removes all lines that appear only once.
 
-  Example: Suppose a file has the following lines. (#comments added for 
+  Example: Suppose a file has the following lines. (#comments added for
   clarity)
 
   ::
@@ -121,7 +170,7 @@ Keep Unique Lines
 
 Keep all lines that appear only once.
 
-  Example: Suppose a file has the following lines. (#comments added for 
+  Example: Suppose a file has the following lines. (#comments added for
   clarity)
 
   ::
@@ -144,10 +193,10 @@ Keep all lines that appear only once.
 Remove Empty Lines
 ------------------
 
-Removes all lines that only contain a newline character, and no other 
+Removes all lines that only contain a newline character, and no other
 characters.
 
-  Example: Suppose a file has the following lines. (#comments, and 
+  Example: Suppose a file has the following lines. (#comments, and
   \\n newline characters added for clarity)
 
   ::
@@ -225,7 +274,7 @@ The user can enter a number N. Every Nth line will be removed then.
 Sort Lines
 ----------
 
-Sorts lines ascending or descending based on ASCII values 
+Sorts lines ascending or descending based on ASCII values
 (lexicographic sort).
 
 
@@ -264,19 +313,16 @@ Sorts lines ascending or descending based on ASCII values
 License
 =======
 
-The Line Operations plugin is distributed under the terms of the GNU 
-General Public License as published by the Free Software Foundation; 
-either version 2 of the License, or (at your option) any later version. 
-A copy of this license can be found in the file COPYING included with 
+The Line Operations plugin is distributed under the terms of the GNU
+General Public License as published by the Free Software Foundation;
+either version 2 of the License, or (at your option) any later version.
+A copy of this license can be found in the file COPYING included with
 the source code of this program.
 
 Ideas, questions, patches and bug reports
 =========================================
 
-Please direct all questions, bug reports and patches to the plugin 
-author using the email address listed below or to the Geany mailing 
-list to get some help from other Geany users, or report them at 
+Please direct all questions, bug reports and patches to the plugin
+author using the email address listed below or to the Geany mailing
+list to get some help from other Geany users, or report them at
 https://github.com/geany/geany-plugins/issues.
-
-
-

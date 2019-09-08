@@ -1,6 +1,6 @@
 /*
- *      linefunctions.h - Line operations, remove duplicate lines, empty lines,
- *                        lines with only whitespace, sort lines.
+ *      lo_fns.h - Line operations, remove duplicate lines, empty lines,
+ *                 lines with only whitespace, sort lines.
  *
  *      Copyright 2015 Sylvan Mostert <smostert.dev@gmail.com>
  *
@@ -21,13 +21,20 @@
 
 
 
-#ifndef LINEFUNCTIONS_H
-#define LINEFUNCTIONS_H
+#ifndef LO_FNS_H
+#define LO_FNS_H
 
 #include <geanyplugin.h>
 #include "Scintilla.h"
 #include <stdlib.h>      /* qsort */
 #include <string.h>
+
+
+typedef gint (*lo_strcmpfns)(const gchar *str1, const gchar *str2);
+
+/* Get sort function based on user preferences */
+lo_strcmpfns
+getcmpfns(void);
 
 
 /* Remove Duplicate Lines, sorted */
