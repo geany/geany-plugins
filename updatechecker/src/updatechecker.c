@@ -245,10 +245,6 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
         gchar *data;
         gchar *config_dir = g_path_get_dirname(config_file);
 
-        config_file = g_strconcat(geany->app->configdir,
-            G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
-            "updatechecker", G_DIR_SEPARATOR_S, "general.conf", NULL);
-
         /* Crabbing options that has been set */
         check_on_startup =
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.run_on_startup));
