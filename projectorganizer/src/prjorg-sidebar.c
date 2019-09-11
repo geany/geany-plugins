@@ -63,6 +63,7 @@ static GtkWidget *s_file_view_vbox = NULL;
 static GtkWidget *s_file_view = NULL;
 static GtkTreeStore *s_file_store = NULL;
 static gboolean s_follow_editor = TRUE;
+static gint sidebar_page_number = 0;
 
 static struct
 {
@@ -1724,7 +1725,7 @@ void prjorg_sidebar_init(void)
 	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), scrollwin, TRUE, TRUE, 0);
 
 	gtk_widget_show_all(s_file_view_vbox);
-	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
+	sidebar_page_number = gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 				 s_file_view_vbox, gtk_label_new(_("Project")));
 }
 
@@ -1732,6 +1733,11 @@ void prjorg_sidebar_init(void)
 void prjorg_sidebar_activate(gboolean activate)
 {
 	gtk_widget_set_sensitive(s_file_view_vbox, activate);
+}
+
+void prjorg_sidebar_focus(void)
+{
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), sidebar_page_number);
 }
 
 

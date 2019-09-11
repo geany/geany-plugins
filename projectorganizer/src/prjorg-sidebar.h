@@ -23,6 +23,7 @@
 void prjorg_sidebar_init(void);
 void prjorg_sidebar_cleanup(void);
 void prjorg_sidebar_activate(gboolean activate);
+void prjorg_sidebar_focus(void);
 
 void prjorg_sidebar_find_file_in_active(void);
 void prjorg_sidebar_find_tag_in_active(void);

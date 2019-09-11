@@ -42,6 +42,7 @@ enum
 	KB_FIND_IN_PROJECT,
 	KB_FIND_FILE,
 	KB_FIND_TAG,
+	KB_FOCUS_TAB,
 	KB_COUNT
 };
 
@@ -225,6 +226,9 @@ static gboolean kb_callback(guint key_id)
 		case KB_FIND_TAG:
 			on_find_tag(NULL, NULL);
 			return TRUE;
+		case KB_FOCUS_TAB:
+			prjorg_sidebar_focus();
+			return TRUE;
 	}
 	return FALSE;
 }
@@ -379,6 +383,9 @@ void prjorg_menu_init(void)
 	s_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_sep_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_sep_item);
+
+	keybindings_set_item(key_group, KB_FOCUS_TAB, NULL,
+		0, 0, "focus_tab", _("Focus project tab"), NULL);
 
 	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
 	gtk_widget_show(image);
