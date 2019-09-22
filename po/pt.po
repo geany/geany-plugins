@@ -6,17 +6,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.35\n"
+"Project-Id-Version: Geany-Plugins 1.36\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-22 11:56+0200\n"
-"PO-Revision-Date: 2019-04-16 10:17+0100\n"
+"PO-Revision-Date: 2019-09-22 16:20+0100\n"
 "Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Language-Team: Português <palbuquerque73@gmail.com>\n"
+"Language-Team: Portuguese <translation-team-pt@lists.sourceforge.net>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: Plural-Forms: nplurals=2; plural=n>1;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.7\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
@@ -5277,9 +5277,8 @@ msgid "Remove _Whitespace Lines"
 msgstr "Remover linhas de es_paços"
 
 #: ../lineoperations/src/lineoperations.c:279
-#, fuzzy
 msgid "Remove Every _Nth Line"
-msgstr "R_emover linhas vazias"
+msgstr "Remover cada _N-ésima linha"
 
 #: ../lineoperations/src/lineoperations.c:282
 msgid "Sort Lines _Ascending"
@@ -5309,18 +5308,16 @@ msgstr ""
 
 #. number of lines removed
 #: ../lineoperations/src/lo_fns.c:336
-#, fuzzy
 msgid "Remove every Nth line"
-msgstr "Linhas _removidas:"
+msgstr "Remover cada N-ésima linha"
 
 #: ../lineoperations/src/lo_fns.c:337
-#, fuzzy
 msgid "Value of N"
-msgstr "Valor"
+msgstr "Valor de N"
 
 #: ../lineoperations/src/lo_prefs.c:83
 msgid "Use collation based string compare"
-msgstr ""
+msgstr "Usar comparação de cadeias baseada em agrupamento"
 
 #: ../lipsum/src/lipsum.c:43
 msgid "Lipsum"
@@ -8181,7 +8178,7 @@ msgstr "_Aceitar"
 
 #: ../workbench/src/dialogs.c:365
 msgid "filter files using the workbench plugin"
-msgstr ""
+msgstr "filtrar ficheiros usando a extensão Bancada de trabalho"
 
 #: ../workbench/src/dialogs.c:370
 msgid "File patterns:"
@@ -8213,7 +8210,7 @@ msgstr ""
 
 #: ../workbench/src/dialogs.c:459
 msgid "filter files using git (.gitignore)"
-msgstr ""
+msgstr "filtrar ficheiros usando git (.gitignore)"
 
 #: ../workbench/src/dialogs.c:465
 msgid ""
@@ -8267,18 +8264,16 @@ msgstr ""
 "ao pairar com o cursor do rato sobre eles."
 
 #: ../workbench/src/dialogs.c:657
-#, fuzzy
 msgid "_Enable tree lines"
-msgstr "Mostrar as linhas da árvore"
+msgstr "Activar linhas da árvor_e"
 
 #: ../workbench/src/dialogs.c:668
-#, fuzzy
 msgid ""
 "If the option is activated, lines will be drawn between the nodes in the "
 "sidebar tree."
 msgstr ""
-"Se a opção estiver activa (predefinição); todos os projectos são re-"
-"analisados ao abrir a bancada."
+"Se a opção estiver activa, serão desenhadas linhas entre os nós ma árvore da "
+"barra lateral."
 
 #: ../workbench/src/menu.c:103
 #, c-format
@@ -8319,9 +8314,8 @@ msgstr "D_efinições"
 
 #. Create new menu item "Search Projects"
 #: ../workbench/src/menu.c:232
-#, fuzzy
 msgid "Search _projects"
-msgstr "_Gravar projecto"
+msgstr "Pesquisar _projectos"
 
 #. Create new menu item "Close Workbench"
 #: ../workbench/src/menu.c:239
@@ -8479,9 +8473,8 @@ msgid "_Remove..."
 msgstr "_Remover..."
 
 #: ../workbench/src/search_projects.c:93
-#, fuzzy
 msgid "Select search directory"
-msgstr "Seleccionar pasta"
+msgstr "Seleccionar pasta a pesquisar"
 
 #: ../workbench/src/search_projects.c:249
 #, c-format
@@ -8489,27 +8482,25 @@ msgid ""
 "Found %lu project files in directory \"%s\".\n"
 "Please select the projects to add to the workbench."
 msgstr ""
+"Encontrados %lu ficheiros de projecto na pasta \"%s\".\n"
+"Por favor, seleccione os projectos a adicionar à bancada."
 
 #: ../workbench/src/search_projects.c:457
-#, fuzzy
 msgid "Search projects"
-msgstr "_Gravar projecto"
+msgstr "Pesquisar projectos"
 
 #: ../workbench/src/search_projects.c:482
-#, fuzzy
 msgid "Add to workbench?"
-msgstr "_Adicionar aos marcadores da bancada"
+msgstr "Adicionar à bancada?"
 
 #: ../workbench/src/search_projects.c:491
-#, fuzzy
 msgid "Project path"
-msgstr "Projecto"
+msgstr "Caminho do projecto"
 
 #. Add label to vbox
 #: ../workbench/src/search_projects.c:507
-#, fuzzy
 msgid "Scanning directory:"
-msgstr "_Re-analisar pasta"
+msgstr "Pasta a pesquisar:"
 
 #: ../workbench/src/sidebar.c:329
 msgid "Base dir"
@@ -8532,13 +8523,12 @@ msgstr[0] "%s: %u projecto"
 msgstr[1] "%s: %u projectos"
 
 #: ../workbench/src/sidebar.c:886
-#, fuzzy
 msgid ""
 "Add a project using the context menu\n"
 "or select \"Search projects\" from the menu."
 msgstr ""
-"Adicionar um projecto\n"
-"usando o menu contextual."
+"Adicione um projecto usando o menu contextual\n"
+"ou seleccione \"Pesquisar projectos\" no menu."
 
 #: ../workbench/src/sidebar.c:1011
 #, c-format
@@ -8564,19 +8554,19 @@ msgstr ""
 "Erro: %s"
 
 #: ../workbench/src/wb_project.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to open git repository in folder %s."
-msgstr "Falha ao abrir o script."
+msgstr "Falha ao abrir o repositório git na pasta %s."
 
 #: ../workbench/src/wb_project.c:471
-#, fuzzy, c-format
+#, c-format
 msgid "Opened git repository in folder %s."
-msgstr "_Monitorizar alterações no repositório"
+msgstr "Repositório git aberto na pasta %s."
 
 #: ../workbench/src/wb_project.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "Closed git repository in folder %s."
-msgstr "Fe_char todos os ficheiros na pasta"
+msgstr "Repositório git fechado na pasta %s."
 
 #: ../workbench/src/wb_project.c:1191
 #, c-format
