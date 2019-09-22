@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-14 18:57+0200\n"
+"POT-Creation-Date: 2019-09-22 11:56+0200\n"
 "PO-Revision-Date: 2016-03-10 19:52+0300\n"
 "Last-Translator: Pavel Roschin <rpg89(at)post(dot)ru>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
@@ -38,7 +38,7 @@ msgstr "Стр."
 msgid "Contents"
 msgstr "Содержание"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:616
+#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:666
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "Закладки"
@@ -138,15 +138,15 @@ msgstr "Открывающий символ"
 msgid "Closing Character"
 msgstr "Закрывающий символ"
 
-#: ../addons/src/ao_doclist.c:214
+#: ../addons/src/ao_doclist.c:250
 msgid "Close Ot_her Documents"
 msgstr "Закрыть _другие документы"
 
-#: ../addons/src/ao_doclist.c:219
+#: ../addons/src/ao_doclist.c:255
 msgid "C_lose All"
 msgstr "З_акрыть все"
 
-#: ../addons/src/ao_doclist.c:249
+#: ../addons/src/ao_doclist.c:311
 msgid "Show Document List"
 msgstr "Показать список документов"
 
@@ -167,9 +167,10 @@ msgstr "Скопировать путь до текущего документа
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
 #: ../geanyvc/src/geanyvc.c:1973 ../geniuspaste/src/geniuspaste.c:336
-#: ../sendmail/src/sendmail.c:128 ../sendmail/src/sendmail.c:293
-#: ../spellcheck/src/scplugin.c:124 ../treebrowser/src/treebrowser.c:1924
-#: ../updatechecker/src/updatechecker.c:266
+#: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
+#: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
+#: ../treebrowser/src/treebrowser.c:2103
+#: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr "Каталог настроек плагина не может быть создан."
 
@@ -299,91 +300,91 @@ msgstr "Дополнения"
 msgid "Various small addons for Geany."
 msgstr "Различные небольшие дополнения для Geany"
 
-#: ../autoclose/src/autoclose.c:1028
+#: ../autoclose/src/autoclose.c:1032
 msgid "Auto-close quotes and brackets"
 msgstr "Автозакрытие скобок и кавычек"
 
-#: ../autoclose/src/autoclose.c:1029
+#: ../autoclose/src/autoclose.c:1033
 msgid "Parenthesis ( )"
 msgstr "Круглые скобки ( )"
 
-#: ../autoclose/src/autoclose.c:1030
+#: ../autoclose/src/autoclose.c:1034
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
 msgstr "Автозакрытие круглых скобок \"(\" -> \"(|)\""
 
-#: ../autoclose/src/autoclose.c:1032
+#: ../autoclose/src/autoclose.c:1036
 msgid "Curly brackets { }"
 msgstr "Фигурные скобки { }"
 
-#: ../autoclose/src/autoclose.c:1033
+#: ../autoclose/src/autoclose.c:1037
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
 msgstr "Автозакрытие фигурных скобок \"{\" -> \"{|}\""
 
-#: ../autoclose/src/autoclose.c:1035
+#: ../autoclose/src/autoclose.c:1039
 msgid "Square brackets [ ]"
 msgstr "Квадратные скобки [ ]"
 
-#: ../autoclose/src/autoclose.c:1036
+#: ../autoclose/src/autoclose.c:1040
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
 msgstr "Автозакрытие квадратных скобок \"[\" -> \"[|]\""
 
-#: ../autoclose/src/autoclose.c:1037
+#: ../autoclose/src/autoclose.c:1041
 msgid "Angular brackets < >"
 msgstr "Угловые скобки < >"
 
-#: ../autoclose/src/autoclose.c:1038
+#: ../autoclose/src/autoclose.c:1042
 msgid "Auto-close angular brackets \"<\" -> \"<|>\""
 msgstr "Автозакрытие угловых скобок \"<\" -> \"<|>\""
 
-#: ../autoclose/src/autoclose.c:1040
+#: ../autoclose/src/autoclose.c:1044
 msgid "\tOnly for HTML"
 msgstr "\tТолько для HTML"
 
-#: ../autoclose/src/autoclose.c:1041
+#: ../autoclose/src/autoclose.c:1045
 msgid "Auto-close angular brackets only in HTML documents"
 msgstr "Автозакрытие угловых скобок только в HTML документах"
 
-#: ../autoclose/src/autoclose.c:1042
+#: ../autoclose/src/autoclose.c:1046
 msgid "Double quotes \" \""
 msgstr "Двойные кавычки \" \""
 
-#: ../autoclose/src/autoclose.c:1043
+#: ../autoclose/src/autoclose.c:1047
 msgid "Auto-close double quotes \" -> \"|\""
 msgstr "Автозакрытие двойных кавычек \" -> \"|\""
 
-#: ../autoclose/src/autoclose.c:1044
+#: ../autoclose/src/autoclose.c:1048
 msgid "Single quotes ' '"
 msgstr "Одинарные кавычки ' '"
 
-#: ../autoclose/src/autoclose.c:1045
+#: ../autoclose/src/autoclose.c:1049
 msgid "Auto-close single quotes ' -> '|'"
 msgstr "Автозакрытие одинарных кавычек ' -> '|'"
 
-#: ../autoclose/src/autoclose.c:1046
+#: ../autoclose/src/autoclose.c:1050
 msgid "Backquote ` `"
 msgstr "Обратная кавычка ` `"
 
-#: ../autoclose/src/autoclose.c:1047
+#: ../autoclose/src/autoclose.c:1051
 msgid "Auto-close backquote ` -> `|`"
 msgstr "Автозакрытие обратной кавычки ` -> `|`"
 
-#: ../autoclose/src/autoclose.c:1049
+#: ../autoclose/src/autoclose.c:1053
 msgid "\tOnly for Shell-scripts (Bash)"
 msgstr "\tТолько для языка сценариев Bash"
 
-#: ../autoclose/src/autoclose.c:1050
+#: ../autoclose/src/autoclose.c:1054
 msgid "Auto-close backquote only in Shell-scripts like Bash"
 msgstr "Автозакрытие обратной кавычки только в документах Bash"
 
-#: ../autoclose/src/autoclose.c:1052
+#: ../autoclose/src/autoclose.c:1056
 msgid "Improve curly brackets completion"
 msgstr "Улучшить автозакрытие фигурных скобок"
 
-#: ../autoclose/src/autoclose.c:1053
+#: ../autoclose/src/autoclose.c:1057
 msgid "Indent when enclosing"
 msgstr "Создавать отступ при окружении"
 
-#: ../autoclose/src/autoclose.c:1054
+#: ../autoclose/src/autoclose.c:1058
 msgid ""
 "If you select some text and press \"{\" or \"}\", plugin will auto-close "
 "selected lines and make new block with indent.\n"
@@ -396,11 +397,11 @@ msgstr ""
 "Вам не нужно точно выделять границы блоки - окружение работает только со "
 "строками целиком."
 
-#: ../autoclose/src/autoclose.c:1059
+#: ../autoclose/src/autoclose.c:1063
 msgid "Move cursor to beginning"
 msgstr "Переместить курсор к началу"
 
-#: ../autoclose/src/autoclose.c:1060
+#: ../autoclose/src/autoclose.c:1064
 msgid ""
 "If you checked \"Indent when enclosing\", moving cursor to beginning may be "
 "useful: usually you make new block and need to create new statement before "
@@ -410,11 +411,11 @@ msgstr ""
 "в начало блока может быть полезным: обычно вы создаёте новый блок и "
 "печатаете оператор перед этим блоком."
 
-#: ../autoclose/src/autoclose.c:1063
+#: ../autoclose/src/autoclose.c:1067
 msgid "Improved auto-indentation"
 msgstr "Улучшить автоотступ"
 
-#: ../autoclose/src/autoclose.c:1064
+#: ../autoclose/src/autoclose.c:1068
 msgid ""
 "Improved auto-indent for curly brackets: type \"{\" and then press Enter - "
 "plugin will create full indented block. Works without \"auto-close { }\" "
@@ -424,11 +425,11 @@ msgstr ""
 "нажмите Enter - модуль создаст полностью готовый блок с отступом. Работает "
 "без параметра \"автозакрытие фигурных скобок { }\"."
 
-#: ../autoclose/src/autoclose.c:1067
+#: ../autoclose/src/autoclose.c:1071
 msgid "\tWhitesmith's style"
 msgstr "\tСтиль Уайтсмит"
 
-#: ../autoclose/src/autoclose.c:1068
+#: ../autoclose/src/autoclose.c:1072
 msgid ""
 "This style puts the brace associated with a control statement on the next "
 "line, indented. Statements within the braces are indented to the same level "
@@ -437,21 +438,21 @@ msgstr ""
 "Данный стиль располагает фигурные скобки с отступом относительно предыдущего "
 "оператора. Операторы внутри блока имеют тот же отступ, что и фигурная скобка."
 
-#: ../autoclose/src/autoclose.c:1073
+#: ../autoclose/src/autoclose.c:1077
 msgid "Delete pairing character while backspacing first"
 msgstr "Удалить парный символ при удалении предыдущего клавишей BackSpace"
 
-#: ../autoclose/src/autoclose.c:1074
+#: ../autoclose/src/autoclose.c:1078
 msgid "Check if you want to delete pairing bracket by pressing BackSpace."
 msgstr ""
 "Включите, если хотите, чтобы модуль удалял соседний парный символ каждый "
 "раз, когда вы нажимете BackSpace."
 
-#: ../autoclose/src/autoclose.c:1076
+#: ../autoclose/src/autoclose.c:1080
 msgid "Suppress double-completion"
 msgstr "Подавлять двойное автозакрытие"
 
-#: ../autoclose/src/autoclose.c:1077
+#: ../autoclose/src/autoclose.c:1081
 msgid ""
 "Check if you want to allow editor automatically fix mistypes with brackets: "
 "if you type \"{}\" you will get \"{}\", not \"{}}\"."
@@ -459,54 +460,54 @@ msgstr ""
 "Включите, если хотите, чтобы модуль автоматически исправлял ошибки в "
 "скобках: если вы печатаете \"{}\", вы получите \"{}\", а не \"{}}\"."
 
-#: ../autoclose/src/autoclose.c:1079
+#: ../autoclose/src/autoclose.c:1083
 msgid "Enclose selections"
 msgstr "Окружать выделенный текст"
 
-#: ../autoclose/src/autoclose.c:1080
+#: ../autoclose/src/autoclose.c:1084
 msgid "Automatically enclose selected text by pressing just one bracket key."
 msgstr ""
 "Автоматически окружать выбранный текст путём нажатия только одной клавиши со "
 "скобкой."
 
-#: ../autoclose/src/autoclose.c:1082
+#: ../autoclose/src/autoclose.c:1086
 msgid "Keep selection when enclosing"
 msgstr "Сохранять выделение при окружении"
 
-#: ../autoclose/src/autoclose.c:1083
+#: ../autoclose/src/autoclose.c:1087
 msgid "Keep your previously selected text after enclosing."
 msgstr "Сохранить предыдущее выделение текст после окружения скобками."
 
-#: ../autoclose/src/autoclose.c:1085
+#: ../autoclose/src/autoclose.c:1089
 msgid "Behaviour inside comments and strings"
 msgstr "Поведение внутри комментариев и строк"
 
-#: ../autoclose/src/autoclose.c:1086
+#: ../autoclose/src/autoclose.c:1090
 msgid "Allow auto-closing in strings and comments"
 msgstr "Разрешить автозакрытие внутри комментариев и строк"
 
-#: ../autoclose/src/autoclose.c:1087
+#: ../autoclose/src/autoclose.c:1091
 msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы автозакрытие также работало внутри "
 "комментариев и строк."
 
-#: ../autoclose/src/autoclose.c:1088
+#: ../autoclose/src/autoclose.c:1092
 msgid "Enclose selections in strings and comments"
 msgstr "Окружать выделение внутри комментариев и строк"
 
-#: ../autoclose/src/autoclose.c:1089
+#: ../autoclose/src/autoclose.c:1093
 msgid ""
 "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы окружение выделенного блока текст также "
 "работало внутри комментариев и строк."
 
-#: ../autoclose/src/autoclose.c:1092
+#: ../autoclose/src/autoclose.c:1096
 msgid "Auto-complete \";\" for functions"
 msgstr "Автозавершение \";\" для функций"
 
-#: ../autoclose/src/autoclose.c:1093
+#: ../autoclose/src/autoclose.c:1097
 msgid ""
 "Full function auto-closing (works only for C/C++): type \"sin(\" and you "
 "will get \"sin(|);\"."
@@ -514,11 +515,11 @@ msgstr ""
 "Полное автозакрытие для функций (работает только для C/C++): напечатайте "
 "\"sin(\" и вы получите \"sin(|);\"."
 
-#: ../autoclose/src/autoclose.c:1095
+#: ../autoclose/src/autoclose.c:1099
 msgid "Shift+BackSpace removes pairing brace too"
 msgstr "Shift+BackSpace удаляет парную скобку"
 
-#: ../autoclose/src/autoclose.c:1096
+#: ../autoclose/src/autoclose.c:1100
 msgid ""
 "Remove left and right brace while pressing Shift+BackSpace.\n"
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
@@ -529,29 +530,29 @@ msgstr ""
 "Подсказка: чтобы удалить полностью блок с отступом, просто нажмите Shift"
 "+BackSpace рядом с первым символом \"{\" или последним символом \"}\"."
 
-#: ../autoclose/src/autoclose.c:1099
+#: ../autoclose/src/autoclose.c:1103
 msgid "Jump on Tab to enclosed char"
 msgstr "Нажмите Tab для перехода к следующему символу"
 
-#: ../autoclose/src/autoclose.c:1100
+#: ../autoclose/src/autoclose.c:1104
 msgid "Jump behind autoclosed items on Tab press."
 msgstr "Переходить к парному автоматически вставленному символу клавишей Tab."
 
 #. Set metadata
-#: ../autoclose/src/autoclose.c:1156
+#: ../autoclose/src/autoclose.c:1160
 msgid "Auto-close"
 msgstr "Автозакрытие"
 
-#: ../autoclose/src/autoclose.c:1157
+#: ../autoclose/src/autoclose.c:1161
 msgid "Auto-close braces and brackets with lot of features"
 msgstr "Многофункциональное автозакрытие скобок и кавычек"
 
 #. Set metadata
-#: ../automark/src/automark.c:203
+#: ../automark/src/automark.c:206
 msgid "Auto-mark"
 msgstr "Авто-маркер"
 
-#: ../automark/src/automark.c:204
+#: ../automark/src/automark.c:207
 msgid "Auto-mark word under cursor"
 msgstr "Подсвечивает текущее слово под курсором"
 
@@ -647,18 +648,18 @@ msgstr "Показать командную панель"
 msgid "Show Command Panel (Files Only)"
 msgstr "Показать командную панель"
 
-#: ../debugger/src/plugin.c:123 ../debugger/src/keys.c:75
+#: ../debugger/src/plugin.c:127 ../debugger/src/keys.c:75
 #: ../scope/data/scope.glade.h:145 ../scope/data/scope_gtk3.glade.h:145
 #: ../scope/src/scope.c:228
 msgid "Debug"
 msgstr "Отладка"
 
 #. Set metadata
-#: ../debugger/src/plugin.c:194
+#: ../debugger/src/plugin.c:198
 msgid "Debugger"
 msgstr "Отладчик"
 
-#: ../debugger/src/plugin.c:195
+#: ../debugger/src/plugin.c:199
 msgid "Various debuggers integration."
 msgstr "Поддержка отладчиков"
 
@@ -672,37 +673,37 @@ msgstr "Имя"
 msgid "Value"
 msgstr "Значение"
 
-#: ../debugger/src/tpage.c:104
+#: ../debugger/src/tpage.c:105
 msgid "Choose target file"
 msgstr "Выберите файл"
 
 #. target
-#: ../debugger/src/tpage.c:251
+#: ../debugger/src/tpage.c:296
 msgid "Target:"
 msgstr "Цель:"
 
-#: ../debugger/src/tpage.c:254
+#: ../debugger/src/tpage.c:300 ../debugger/src/tpage.c:303
 msgid "Browse"
 msgstr "Обзор"
 
 #. debugger
-#: ../debugger/src/tpage.c:259
+#: ../debugger/src/tpage.c:309
 msgid "Debugger:"
 msgstr "Отладчик"
 
 #. arguments
-#: ../debugger/src/tpage.c:270
+#: ../debugger/src/tpage.c:320
 msgid "Command Line Arguments"
 msgstr "Аргументы командной строки"
 
 #. environment
-#: ../debugger/src/tpage.c:281
+#: ../debugger/src/tpage.c:331
 msgid "Environment Variables"
 msgstr "Переменные окружения"
 
 #. if name is empty - offer to delete variable
 #: ../debugger/src/envtree.c:259 ../debugger/src/envtree.c:365
-#: ../debugger/src/debug.c:263
+#: ../debugger/src/debug.c:264
 msgid "Delete variable?"
 msgstr "Удалить переменную?"
 
@@ -826,30 +827,30 @@ msgstr "Отладочные сообщения"
 msgid "Run / Continue"
 msgstr "Запустить / Продолжить"
 
-#: ../debugger/src/keys.c:49 ../debugger/src/btnpanel.c:100
+#: ../debugger/src/keys.c:49 ../debugger/src/btnpanel.c:109
 msgid "Stop"
 msgstr "Останов"
 
-#: ../debugger/src/keys.c:50 ../debugger/src/btnpanel.c:97
+#: ../debugger/src/keys.c:50 ../debugger/src/btnpanel.c:106
 msgid "Restart"
 msgstr "Перезапустить"
 
-#: ../debugger/src/keys.c:51 ../debugger/src/btnpanel.c:112
+#: ../debugger/src/keys.c:51 ../debugger/src/btnpanel.c:126
 #: ../scope/src/scope.c:67 ../scope/src/scope.c:164
 msgid "Step into"
 msgstr "Шаг в"
 
-#: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:109
+#: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:123
 #: ../scope/src/scope.c:68 ../scope/src/scope.c:165
 msgid "Step over"
 msgstr "Шаг через"
 
-#: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:121
+#: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:140
 #: ../scope/src/scope.c:69 ../scope/src/scope.c:166
 msgid "Step out"
 msgstr "Шаг из"
 
-#: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:124
+#: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:143
 #: ../scope/src/scope.c:65 ../scope/src/scope.c:162
 msgid "Run to cursor"
 msgstr "Выполнить до позиции курсора"
@@ -870,23 +871,23 @@ msgstr "Не могу вычислить выражение"
 msgid "To edit source files stop debugging session"
 msgstr "Остановите отладку чтобы редактировать файлы"
 
-#: ../debugger/src/btnpanel.c:89 ../debugger/src/btnpanel.c:158
+#: ../debugger/src/btnpanel.c:93 ../debugger/src/btnpanel.c:181
 msgid "Run"
 msgstr "Запустить"
 
-#: ../debugger/src/btnpanel.c:131
+#: ../debugger/src/btnpanel.c:151 ../debugger/src/btnpanel.c:153
 msgid "Settings"
 msgstr "Настройки"
 
-#: ../debugger/src/btnpanel.c:135
+#: ../debugger/src/btnpanel.c:158
 msgid "Two panel mode"
 msgstr "Одна / две панели"
 
-#: ../debugger/src/btnpanel.c:153
+#: ../debugger/src/btnpanel.c:176
 msgid "Continue"
 msgstr "Продолжить"
 
-#: ../debugger/src/dconfig.c:674
+#: ../debugger/src/dconfig.c:678
 msgid "Save debug session data to a project"
 msgstr "Сохранять данные отладки в проект"
 
@@ -1402,63 +1403,63 @@ msgid ""
 "contributing to this plugin?"
 msgstr ""
 
-#: ../geanyextrasel/src/extrasel.c:496
+#: ../geanyextrasel/src/extrasel.c:500
 msgid "E_xtra Selection"
 msgstr "_Расширенное выделение"
 
-#: ../geanyextrasel/src/extrasel.c:503
+#: ../geanyextrasel/src/extrasel.c:507
 msgid "_Column Mode"
 msgstr "Режим выделения по _столбцам"
 
-#: ../geanyextrasel/src/extrasel.c:508
+#: ../geanyextrasel/src/extrasel.c:512
 msgid "Column mode"
 msgstr "Режим выделения по столбцам"
 
-#: ../geanyextrasel/src/extrasel.c:510
+#: ../geanyextrasel/src/extrasel.c:514
 msgid "Select to _Line"
 msgstr "Выделить до строки"
 
-#: ../geanyextrasel/src/extrasel.c:514
+#: ../geanyextrasel/src/extrasel.c:518
 msgid "Select to line"
 msgstr "Выделить до строки"
 
-#: ../geanyextrasel/src/extrasel.c:516
+#: ../geanyextrasel/src/extrasel.c:520
 msgid "Select to Matching _Brace"
 msgstr "Выделить до парной скобки"
 
-#: ../geanyextrasel/src/extrasel.c:520
+#: ../geanyextrasel/src/extrasel.c:524
 msgid "Select to matching brace"
 msgstr "Выделить до парной скобки"
 
-#: ../geanyextrasel/src/extrasel.c:522
+#: ../geanyextrasel/src/extrasel.c:526
 msgid "_Toggle Stream/Rectangular"
 msgstr "Переключить _обычное/прямоугольное"
 
-#: ../geanyextrasel/src/extrasel.c:526
+#: ../geanyextrasel/src/extrasel.c:530
 msgid "Convert selection"
 msgstr "Конвертировать выделение"
 
-#: ../geanyextrasel/src/extrasel.c:531
+#: ../geanyextrasel/src/extrasel.c:535
 msgid "_Set Anchor"
 msgstr "_Установить анкер"
 
-#: ../geanyextrasel/src/extrasel.c:535
+#: ../geanyextrasel/src/extrasel.c:539
 msgid "Set anchor"
 msgstr "Установить анкер"
 
-#: ../geanyextrasel/src/extrasel.c:537
+#: ../geanyextrasel/src/extrasel.c:541
 msgid "Select to _Anchor"
 msgstr "_Выделить до анкера"
 
-#: ../geanyextrasel/src/extrasel.c:541
+#: ../geanyextrasel/src/extrasel.c:545
 msgid "Select to anchor"
 msgstr "Выделить до анкера"
 
-#: ../geanyextrasel/src/extrasel.c:543
+#: ../geanyextrasel/src/extrasel.c:547
 msgid "_Rectangle Select to Anchor"
 msgstr "_Прямоугольное выделение до анкера"
 
-#: ../geanyextrasel/src/extrasel.c:548
+#: ../geanyextrasel/src/extrasel.c:552
 msgid "Rectangle select to anchor"
 msgstr "Прямоугольное выделение до анкера"
 
@@ -3787,11 +3788,12 @@ msgstr "_ОК"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:311 ../workbench/src/dialogs.c:47
-#: ../workbench/src/dialogs.c:82 ../workbench/src/dialogs.c:116
-#: ../workbench/src/dialogs.c:147 ../workbench/src/dialogs.c:186
-#: ../workbench/src/dialogs.c:223 ../workbench/src/dialogs.c:292
-#: ../workbench/src/dialogs.c:423
+#: ../projectorganizer/src/prjorg-sidebar.c:311 ../workbench/src/dialogs.c:48
+#: ../workbench/src/dialogs.c:83 ../workbench/src/dialogs.c:117
+#: ../workbench/src/dialogs.c:148 ../workbench/src/dialogs.c:187
+#: ../workbench/src/dialogs.c:224 ../workbench/src/dialogs.c:348
+#: ../workbench/src/dialogs.c:591 ../workbench/src/search_projects.c:95
+#: ../workbench/src/search_projects.c:460
 msgid "_Cancel"
 msgstr "_Отмена"
 
@@ -3878,7 +3880,7 @@ msgid "New _Below"
 msgstr "Д_обавить ниже"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
-#: ../treebrowser/src/treebrowser.c:1247
+#: ../treebrowser/src/treebrowser.c:1338 ../treebrowser/src/treebrowser.c:1340
 msgid "_Delete"
 msgstr "_Удалить"
 
@@ -4059,22 +4061,22 @@ msgstr "Pascal BURLOT, пользователь Geany"
 msgid "_Mini-Script"
 msgstr "Мини-сценарий"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:60
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:61
 msgid "Numbered Bookmarks for Geany"
 msgstr "Нумерованные закладки для Geany"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:930
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:931
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
 msgstr "Невозможно применить все маркеры к '%s' так как они все используются."
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:932
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:976
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1399
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:933
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:977
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1409
 msgid "_Okay"
 msgstr "_OK"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:974
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:975
 #, c-format
 msgid ""
 "'%s' has been edited since it was last saved by geany. Marker positions may "
@@ -4085,52 +4087,52 @@ msgstr ""
 "могут не соответствовать действительности и не будут загружены.\n"
 "Нажмите Игнорировать, чтобы попробовать загрузить маркеры в любом случае."
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:977
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:978
 msgid "_Ignore"
 msgstr "_Игнорировать"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1222
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1223
 msgid "remember fold state"
 msgstr "Запоминать состояние свернутых блоков кода"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1228
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
 msgid "Center view when goto bookmark"
 msgstr "Центрировать вид при переходе к закладке"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1235
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1236
 msgid "Move to start of line"
 msgstr "Переходить в начало строки"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1236
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
 msgid "Move to remembered position in line"
 msgstr "Переходить к сохранённой позиции в строке"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
 msgid "Move to position in current line"
 msgstr "Перемещение в текущей строке"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1239
 msgid "Move to End of line"
 msgstr "Переходить в конец строки"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1244
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1245
 msgid "Save file settings with program settings"
 msgstr "Сохранять настройки файла вместе с настройками программы"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1245
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1246
 msgid "Save file settings to filename with suffix"
 msgstr "Сохранять настройки файла с суффиксом"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1250
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1251
 msgid "remember normal Bookmarks"
 msgstr "Запоминать стандартные закладки"
 
 #. create dialog box
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1270
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1271
 msgid "Numbered Bookmarks help"
 msgstr "Помощь по нумерованным закладкам"
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1277
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1278
 msgid ""
 "This Plugin implements Numbered Bookmarks in Geany, as well as remembering "
 "the state of folds, and positions of standard non-numbered bookmarks when a "
@@ -4159,7 +4161,7 @@ msgstr ""
 "устанавливать более одной закладки на одну строку. Чтобы перейти к ранее "
 "установленной закладке, нажмите сочетание клавиш Ctrl+число от 0 до 9."
 
-#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1398
+#: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1408
 msgid "Unable to apply markers as all being used."
 msgstr "Невозможно применить маркеры так как они все уже используются."
 
@@ -4478,8 +4480,8 @@ msgstr "Настройки проекта"
 msgid "New Project"
 msgstr "Новый проект"
 
-#: ../geanyprj/src/menu.c:110 ../workbench/src/dialogs.c:48
-#: ../workbench/src/dialogs.c:83 ../workbench/src/dialogs.c:117
+#: ../geanyprj/src/menu.c:110 ../workbench/src/dialogs.c:49
+#: ../workbench/src/dialogs.c:84 ../workbench/src/dialogs.c:118
 msgid "C_reate"
 msgstr "Создать"
 
@@ -5192,62 +5194,67 @@ msgstr ""
 msgid "tunyash"
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:123
+#: ../lineoperations/src/lineoperations.c:136
 #, c-format
 msgid "Operation successful! %d lines removed."
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:134
+#: ../lineoperations/src/lineoperations.c:147
 msgid "Operation successful! No lines removed."
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:142
+#: ../lineoperations/src/lineoperations.c:155
 #, c-format
 msgid "Operation successful! %d lines affected."
 msgstr ""
 
-#: ../lineoperations/src/lineoperations.c:254
+#: ../lineoperations/src/lineoperations.c:265
 msgid "Remove Duplicate Lines, _Sorted"
 msgstr "Удалить дублирующиеся строки, отсортировать"
 
-#: ../lineoperations/src/lineoperations.c:256
+#: ../lineoperations/src/lineoperations.c:267
 msgid "Remove Duplicate Lines, _Ordered"
 msgstr "Удалить дублирующиеся строки, упорядочить"
 
-#: ../lineoperations/src/lineoperations.c:258
+#: ../lineoperations/src/lineoperations.c:269
 msgid "Remove _Unique Lines"
 msgstr "Удалить _уникальные строки"
 
-#: ../lineoperations/src/lineoperations.c:260
+#: ../lineoperations/src/lineoperations.c:271
 #, fuzzy
 msgid "Keep _Unique Lines"
 msgstr "Удалить _уникальные строки"
 
-#: ../lineoperations/src/lineoperations.c:263
+#: ../lineoperations/src/lineoperations.c:274
 msgid "Remove _Empty Lines"
 msgstr "Удалить _пустые строки"
 
-#: ../lineoperations/src/lineoperations.c:265
+#: ../lineoperations/src/lineoperations.c:276
 msgid "Remove _Whitespace Lines"
 msgstr "Удалить строки с п_робельными символами"
 
-#: ../lineoperations/src/lineoperations.c:268
+#: ../lineoperations/src/lineoperations.c:279
+#, fuzzy
+msgid "Remove Every _Nth Line"
+msgstr "Удалить _пустые строки"
+
+#: ../lineoperations/src/lineoperations.c:282
 msgid "Sort Lines _Ascending"
 msgstr "Сортировать строки по _возрастанию"
 
-#: ../lineoperations/src/lineoperations.c:270
+#: ../lineoperations/src/lineoperations.c:284
 msgid "Sort Lines _Descending"
 msgstr "Сортировать строки по у_быванию"
 
-#: ../lineoperations/src/lineoperations.c:274
+#: ../lineoperations/src/lineoperations.c:310
 msgid "_Line Operations"
 msgstr "Операции со _строками"
 
-#: ../lineoperations/src/lineoperations.c:320
+#: ../lineoperations/src/lineoperations.c:378
 msgid "Line Operations"
 msgstr "Операции со строками"
 
-#: ../lineoperations/src/lineoperations.c:321
+#: ../lineoperations/src/lineoperations.c:379
 #, fuzzy
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
@@ -5257,6 +5264,21 @@ msgstr ""
 "Модуль предоставляет набор функций, которые могут быть применены к "
 "документу: удаление дублирующихся строк, удаление пустых строк, удаление "
 "строк, состоящих только из пробельных символов и сортировка строк."
+
+#. number of lines removed
+#: ../lineoperations/src/lo_fns.c:336
+#, fuzzy
+msgid "Remove every Nth line"
+msgstr "_Удалённые строки:"
+
+#: ../lineoperations/src/lo_fns.c:337
+#, fuzzy
+msgid "Value of N"
+msgstr "Значение"
+
+#: ../lineoperations/src/lo_prefs.c:83
+msgid "Use collation based string compare"
+msgstr ""
 
 #: ../lipsum/src/lipsum.c:43
 #, fuzzy
@@ -5301,17 +5323,16 @@ msgid ""
 "Please manually move the directory to the new location."
 msgstr ""
 
-#. Building menu entry
-#: ../lipsum/src/lipsum.c:222
+#: ../lipsum/src/lipsum.c:223 ../lipsum/src/lipsum.c:225
 #, fuzzy
 msgid "_Lipsum..."
 msgstr "_Lipsum"
 
-#: ../lipsum/src/lipsum.c:223
+#: ../lipsum/src/lipsum.c:227
 msgid "Include Pseudotext to your code"
 msgstr "Вставить псевдотекст в ваш код"
 
-#: ../lipsum/src/lipsum.c:237
+#: ../lipsum/src/lipsum.c:241
 msgid "Insert Lipsum text"
 msgstr "Вставить текст Lipsum"
 
@@ -5373,8 +5394,8 @@ msgstr "Сохранить файл"
 msgid "HTML Files"
 msgstr ""
 
-#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:155
-#: ../workbench/src/dialogs.c:194
+#: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:156
+#: ../workbench/src/dialogs.c:195
 #, fuzzy
 msgid "All Files"
 msgstr "Добавить файл"
@@ -5458,7 +5479,7 @@ msgstr "Невозможно сохранить конфигурацию по у
 msgid "Unable to read value for '%s' key: %s"
 msgstr "Невозможно прочитать значение для '%s' ключ: %s"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:1949
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2133
 msgid "Terminal"
 msgstr "Терминал"
 
@@ -5974,7 +5995,7 @@ msgstr ""
 "Разделённый пробелами список шаблонов для определения заголовочных файлов. "
 "Нужно для переключения исходник/заголовок."
 
-#: ../projectorganizer/src/prjorg-project.c:610 ../workbench/src/dialogs.c:314
+#: ../projectorganizer/src/prjorg-project.c:610 ../workbench/src/dialogs.c:396
 msgid "Ignored file patterns:"
 msgstr "Шаблоны игнорируемых файлов:"
 
@@ -5986,7 +6007,7 @@ msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
 "файлов, не отображаемых в дереве файлов проекта."
 
-#: ../projectorganizer/src/prjorg-project.c:622 ../workbench/src/dialogs.c:325
+#: ../projectorganizer/src/prjorg-project.c:622 ../workbench/src/dialogs.c:422
 msgid "Ignored directory patterns:"
 msgstr "Игнорируемые шаблоны каталогов:"
 
@@ -6065,7 +6086,7 @@ msgid "Add"
 msgstr "Добавить"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2123
+#: ../treebrowser/src/treebrowser.c:2357
 #, fuzzy
 msgid "New File"
 msgstr "Новый файл"
@@ -6855,7 +6876,7 @@ msgstr "GDB неожиданно завершился с кодом %d."
 msgid "Program terminated."
 msgstr "Программа завершена."
 
-#: ../scope/src/debug.c:465 ../scope/src/utils.c:41
+#: ../scope/src/debug.c:465 ../scope/src/utils.c:47
 #, c-format
 msgid "%s: %s."
 msgstr "%s: %s."
@@ -6894,24 +6915,24 @@ msgstr "Дублировать имя переменной под инспекц
 msgid "Read Memory"
 msgstr "Чтение памяти"
 
-#: ../scope/src/memory.c:399
+#: ../scope/src/memory.c:401
 #, c-format
 msgid "Scope: pointer size > %d, Data disabled."
 msgstr "Scope: размер указателя > %d, данные отключены."
 
-#: ../scope/src/menu.c:379
+#: ../scope/src/menu.c:386
 msgid "Modify"
 msgstr "Изменить"
 
-#: ../scope/src/menu.c:485
+#: ../scope/src/menu.c:495
 msgid "Evaluate/modify"
 msgstr "Вычислить/модифицировать"
 
-#: ../scope/src/menu.c:486
+#: ../scope/src/menu.c:496
 msgid "Watch expression"
 msgstr "Наблюдать за выражением"
 
-#: ../scope/src/menu.c:487
+#: ../scope/src/menu.c:497
 msgid "Inspect variable"
 msgstr "Инспекция переменной"
 
@@ -6927,7 +6948,7 @@ msgstr "Выберите каталог"
 msgid "Select File"
 msgstr "Выберите файл"
 
-#: ../scope/src/prefs.c:320 ../scope/src/utils.c:464
+#: ../scope/src/prefs.c:320 ../scope/src/utils.c:470
 #, c-format
 msgid "Scope: %s: %s."
 msgstr "Scope: %s: %s."
@@ -7067,28 +7088,28 @@ msgstr "Отправить сигнал"
 msgid "Enter signal #:"
 msgstr "Введите номер сигнала:"
 
-#: ../scope/src/thread.c:793
+#: ../scope/src/thread.c:795
 msgid "Terminate Process"
 msgstr "Прервать процесс"
 
-#: ../scope/src/thread.c:793
+#: ../scope/src/thread.c:795
 msgid "Enter exit code:"
 msgstr "Введите код завершения:"
 
-#: ../scope/src/thread.c:896
+#: ../scope/src/thread.c:898
 msgid "Running"
 msgstr "Выполняется"
 
-#: ../scope/src/thread.c:897
+#: ../scope/src/thread.c:899
 msgid "Stopped"
 msgstr "Остановлен"
 
-#: ../scope/src/utils.c:49
+#: ../scope/src/utils.c:55
 #, c-format
 msgid "%s: %s"
 msgstr "%s: %s"
 
-#: ../scope/src/utils.c:229
+#: ../scope/src/utils.c:235
 #, c-format
 msgid "Scope: error reading [%s]."
 msgstr "Scope: ошибка чтения [%s]."
@@ -7452,48 +7473,46 @@ msgstr "_Преобразовать в таблицу"
 msgid "Converts current marked list to a table."
 msgstr "Конвертирует отмеченные списки в таблицу"
 
-#. Build up menu entries for table convert based on explicit choice
-#. * This is needed for e.g. different wiki-Syntax or differenz stiles
-#. * within a special file type
-#: ../tableconvert/src/tableconvert_ui.c:52
+#: ../tableconvert/src/tableconvert_ui.c:53
+#: ../tableconvert/src/tableconvert_ui.c:55
 msgid "_More TableConvert"
 msgstr "Преобразовать в другую _таблицу"
 
-#: ../treebrowser/src/treebrowser.c:125
+#: ../treebrowser/src/treebrowser.c:126
 msgid "TreeBrowser"
 msgstr "Дерево файлов"
 
-#: ../treebrowser/src/treebrowser.c:126
+#: ../treebrowser/src/treebrowser.c:127
 #, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr "Добавляет панель для просмотра файлов в виде дерева каталогов и файлов"
 
-#: ../treebrowser/src/treebrowser.c:424
+#: ../treebrowser/src/treebrowser.c:462
 #, c-format
 msgid "%s: no such directory."
 msgstr "%s: нет такого каталога."
 
-#: ../treebrowser/src/treebrowser.c:528 ../treebrowser/src/treebrowser.c:563
-#: ../treebrowser/src/treebrowser.c:661
+#: ../treebrowser/src/treebrowser.c:570 ../treebrowser/src/treebrowser.c:609
+#: ../treebrowser/src/treebrowser.c:715
 msgid "(Empty)"
 msgstr "(Пусто)"
 
-#: ../treebrowser/src/treebrowser.c:964
+#: ../treebrowser/src/treebrowser.c:1018
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Невозможно выполнить заданную внешнюю команду '%s' (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1035
+#: ../treebrowser/src/treebrowser.c:1089
 msgid "NewDirectory"
 msgstr "Новый каталог"
 
-#: ../treebrowser/src/treebrowser.c:1037
+#: ../treebrowser/src/treebrowser.c:1091
 msgid "NewFile"
 msgstr "Новый файл"
 
-#: ../treebrowser/src/treebrowser.c:1042
+#: ../treebrowser/src/treebrowser.c:1096
 #, fuzzy, c-format
 msgid ""
 "Target file '%s' exists.\n"
@@ -7502,130 +7521,130 @@ msgstr ""
 "Файл '%s' существует\n"
 ", вы действительно хотите заменить его пустым файлом?"
 
-#: ../treebrowser/src/treebrowser.c:1088
+#: ../treebrowser/src/treebrowser.c:1142
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Вы действительно хотите удалить файл '%s' ?"
 
-#: ../treebrowser/src/treebrowser.c:1200
+#: ../treebrowser/src/treebrowser.c:1255 ../treebrowser/src/treebrowser.c:1257
 #, fuzzy
 msgid "Go _Up"
 msgstr "Переместить _вверх"
 
-#: ../treebrowser/src/treebrowser.c:1204
+#: ../treebrowser/src/treebrowser.c:1263 ../treebrowser/src/treebrowser.c:1265
 #, fuzzy
 msgid "Set _Path From Document"
 msgstr "Установить путь из документа"
 
-#: ../treebrowser/src/treebrowser.c:1208
+#: ../treebrowser/src/treebrowser.c:1271 ../treebrowser/src/treebrowser.c:1273
 #, fuzzy
 msgid "_Open Externally"
 msgstr "Открыть используя внешнюю программу"
 
-#: ../treebrowser/src/treebrowser.c:1213
+#: ../treebrowser/src/treebrowser.c:1279
 #, fuzzy
 msgid "Open _Terminal"
 msgstr "Открыть терминал"
 
-#: ../treebrowser/src/treebrowser.c:1217
+#: ../treebrowser/src/treebrowser.c:1284 ../treebrowser/src/treebrowser.c:1286
 #, fuzzy
 msgid "Set as _Root"
 msgstr "Сделать корневым каталогом"
 
-#: ../treebrowser/src/treebrowser.c:1222
+#: ../treebrowser/src/treebrowser.c:1293 ../treebrowser/src/treebrowser.c:1295
 #, fuzzy
 msgid "Refres_h"
 msgstr "Обновить"
 
-#: ../treebrowser/src/treebrowser.c:1226
+#: ../treebrowser/src/treebrowser.c:1301 ../treebrowser/src/treebrowser.c:1303
 msgid "_Find in Files"
 msgstr "Найти в файлах"
 
-#: ../treebrowser/src/treebrowser.c:1234
+#: ../treebrowser/src/treebrowser.c:1313 ../treebrowser/src/treebrowser.c:1315
 #, fuzzy
 msgid "N_ew Folder"
 msgstr "Выберите каталог"
 
-#: ../treebrowser/src/treebrowser.c:1238
+#: ../treebrowser/src/treebrowser.c:1321 ../treebrowser/src/treebrowser.c:1323
 #, fuzzy
 msgid "_New File"
 msgstr "Новый файл"
 
-#: ../treebrowser/src/treebrowser.c:1242
+#: ../treebrowser/src/treebrowser.c:1329 ../treebrowser/src/treebrowser.c:1331
 #, fuzzy
 msgid "Rena_me"
 msgstr "Переименовать"
 
-#: ../treebrowser/src/treebrowser.c:1255
+#: ../treebrowser/src/treebrowser.c:1350 ../treebrowser/src/treebrowser.c:1352
 #, c-format
 msgid "Close: %s"
 msgstr "Закрыть: %s"
 
-#: ../treebrowser/src/treebrowser.c:1260
+#: ../treebrowser/src/treebrowser.c:1359 ../treebrowser/src/treebrowser.c:1361
 #, fuzzy, c-format
 msgid "Clo_se Child Documents "
 msgstr "Закрыть дочерние документы"
 
-#: ../treebrowser/src/treebrowser.c:1265
+#: ../treebrowser/src/treebrowser.c:1368 ../treebrowser/src/treebrowser.c:1370
 #, fuzzy
 msgid "_Copy Full Path to Clipboard"
 msgstr "Скопировать полный путь в буфер обмена"
 
-#: ../treebrowser/src/treebrowser.c:1274
+#: ../treebrowser/src/treebrowser.c:1381 ../treebrowser/src/treebrowser.c:1383
 #, fuzzy
 msgid "E_xpand All"
 msgstr "Развернуть всё"
 
-#: ../treebrowser/src/treebrowser.c:1278
+#: ../treebrowser/src/treebrowser.c:1389 ../treebrowser/src/treebrowser.c:1391
 #, fuzzy
 msgid "Coll_apse All"
 msgstr "Свернуть всё"
 
-#: ../treebrowser/src/treebrowser.c:1285
+#: ../treebrowser/src/treebrowser.c:1399
 #, fuzzy
 msgid "Show Boo_kmarks"
 msgstr "Показывать закладки"
 
-#: ../treebrowser/src/treebrowser.c:1290
+#: ../treebrowser/src/treebrowser.c:1404
 #, fuzzy
 msgid "Sho_w Hidden Files"
 msgstr "Показывать скрытые файлы"
 
-#: ../treebrowser/src/treebrowser.c:1295
+#: ../treebrowser/src/treebrowser.c:1409
 #, fuzzy
 msgid "Show Tool_bars"
 msgstr "Показывать панель инструментов"
 
-#: ../treebrowser/src/treebrowser.c:1617
+#: ../treebrowser/src/treebrowser.c:1748
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Файл '%s' существует, вы действительно хотите его заменить?"
 
-#: ../treebrowser/src/treebrowser.c:1730
+#: ../treebrowser/src/treebrowser.c:1884
 msgid "Go up"
 msgstr "Перейти на уровень вверх"
 
-#: ../treebrowser/src/treebrowser.c:1735 ../treebrowser/src/treebrowser.c:2127
+#: ../treebrowser/src/treebrowser.c:1894 ../treebrowser/src/treebrowser.c:2361
 msgid "Refresh"
 msgstr "Обновить"
 
-#: ../treebrowser/src/treebrowser.c:1740
+#: ../treebrowser/src/treebrowser.c:1904
 msgid "Home"
 msgstr "Домой"
 
-#: ../treebrowser/src/treebrowser.c:1745
+#: ../treebrowser/src/treebrowser.c:1914
 msgid "Set path from document"
 msgstr "Установить путь из документа"
 
-#: ../treebrowser/src/treebrowser.c:1750
+#: ../treebrowser/src/treebrowser.c:1924
 msgid "Track path"
 msgstr "Перейти к текущему файлу"
 
-#: ../treebrowser/src/treebrowser.c:1755
+#: ../treebrowser/src/treebrowser.c:1934
 msgid "Hide bars"
 msgstr "Скрыть панель инструментов"
 
-#: ../treebrowser/src/treebrowser.c:1765
+#: ../treebrowser/src/treebrowser.c:1944
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7633,19 +7652,19 @@ msgstr ""
 "Фильтр (*.c;*.h;*.cpp). Чтобы инвертировать результаты поиска, используйте "
 "формат '!;*.c;*.h;*.cpp'."
 
-#: ../treebrowser/src/treebrowser.c:1770
+#: ../treebrowser/src/treebrowser.c:1949
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Строка адреса"
 
-#: ../treebrowser/src/treebrowser.c:1795
+#: ../treebrowser/src/treebrowser.c:1974
 msgid "Tree Browser"
 msgstr "Дерево файлов"
 
-#: ../treebrowser/src/treebrowser.c:1936
+#: ../treebrowser/src/treebrowser.c:2115
 msgid "External open command"
 msgstr "Внешняя команда"
 
-#: ../treebrowser/src/treebrowser.c:1941
+#: ../treebrowser/src/treebrowser.c:2125
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7659,61 +7678,61 @@ msgstr ""
 "%f будет заменено на имя файла включая полный путь\n"
 "%d будет заменено на путь к каталогу текущего файла"
 
-#: ../treebrowser/src/treebrowser.c:1954
+#: ../treebrowser/src/treebrowser.c:2144
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr "Терминал, используемый командой \"Открыть терминал\""
 
-#: ../treebrowser/src/treebrowser.c:1960
+#: ../treebrowser/src/treebrowser.c:2150
 msgid "Toolbar"
 msgstr "Панель инструментов"
 
-#: ../treebrowser/src/treebrowser.c:1962
+#: ../treebrowser/src/treebrowser.c:2152
 msgid "Hidden"
 msgstr "Скрытая"
 
-#: ../treebrowser/src/treebrowser.c:1963
+#: ../treebrowser/src/treebrowser.c:2153
 msgid "Top"
 msgstr "Верх"
 
-#: ../treebrowser/src/treebrowser.c:1964
+#: ../treebrowser/src/treebrowser.c:2154
 msgid "Bottom"
 msgstr "Низ"
 
-#: ../treebrowser/src/treebrowser.c:1969
+#: ../treebrowser/src/treebrowser.c:2159
 msgid "If position is changed, the option require plugin restart."
 msgstr "Изменение положения требует перезапуска плагина"
 
-#: ../treebrowser/src/treebrowser.c:1973
+#: ../treebrowser/src/treebrowser.c:2163
 msgid "Show icons"
 msgstr "Показывать иконки"
 
-#: ../treebrowser/src/treebrowser.c:1975
+#: ../treebrowser/src/treebrowser.c:2165
 msgid "None"
 msgstr "Нет"
 
-#: ../treebrowser/src/treebrowser.c:1976
+#: ../treebrowser/src/treebrowser.c:2166
 msgid "Base"
 msgstr "Базовые"
 
-#: ../treebrowser/src/treebrowser.c:1977
+#: ../treebrowser/src/treebrowser.c:2167
 msgid "Content-type"
 msgstr "Тип файла"
 
-#: ../treebrowser/src/treebrowser.c:1983
+#: ../treebrowser/src/treebrowser.c:2173
 msgid "Show hidden files"
 msgstr "Показывать скрытые файлы"
 
-#: ../treebrowser/src/treebrowser.c:1988
+#: ../treebrowser/src/treebrowser.c:2182
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 "В ОС Windows, эта опция скрывает файлы, имена которых начинаются с символа "
 "'.' (dot)"
 
-#: ../treebrowser/src/treebrowser.c:1990
+#: ../treebrowser/src/treebrowser.c:2184
 msgid "Hide object files"
 msgstr "Не показывать объектные файлы"
 
-#: ../treebrowser/src/treebrowser.c:1995
+#: ../treebrowser/src/treebrowser.c:2193
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7721,60 +7740,60 @@ msgstr ""
 "Не показывать объектные файлы (*.o, *.obj. *.so, *.dll, *.a, *.lib) в дереве "
 "файлов"
 
-#: ../treebrowser/src/treebrowser.c:1997
+#: ../treebrowser/src/treebrowser.c:2195
 msgid "Reverse filter"
 msgstr "Инвертировать фильтр"
 
-#: ../treebrowser/src/treebrowser.c:2002
+#: ../treebrowser/src/treebrowser.c:2204
 msgid "Follow current document"
 msgstr "Следовать пути текущего документа"
 
-#: ../treebrowser/src/treebrowser.c:2007
+#: ../treebrowser/src/treebrowser.c:2213
 msgid "Single click, open document and focus it"
 msgstr "Одиночный клик открывает документ"
 
-#: ../treebrowser/src/treebrowser.c:2012
+#: ../treebrowser/src/treebrowser.c:2222
 msgid "Double click open directory"
 msgstr "Двойной клик открывает каталог"
 
-#: ../treebrowser/src/treebrowser.c:2017
+#: ../treebrowser/src/treebrowser.c:2231
 msgid "On delete file, close it if is opened"
 msgstr "При удалении файла, закрывать его если открыт"
 
-#: ../treebrowser/src/treebrowser.c:2022
+#: ../treebrowser/src/treebrowser.c:2240
 msgid "Focus editor on file open"
 msgstr "Передать фокус редактору при открытии файла"
 
-#: ../treebrowser/src/treebrowser.c:2027
+#: ../treebrowser/src/treebrowser.c:2249
 msgid "Show tree lines"
 msgstr "Показывать соединительные линии"
 
-#: ../treebrowser/src/treebrowser.c:2032
+#: ../treebrowser/src/treebrowser.c:2258
 msgid "Show bookmarks"
 msgstr "Показывать закладки"
 
-#: ../treebrowser/src/treebrowser.c:2037
+#: ../treebrowser/src/treebrowser.c:2267
 msgid "Open new files"
 msgstr "Открыть новый файл"
 
-#: ../treebrowser/src/treebrowser.c:2117
+#: ../treebrowser/src/treebrowser.c:2351
 msgid "Focus File List"
 msgstr "Перейти к списку файлов"
 
-#: ../treebrowser/src/treebrowser.c:2119
+#: ../treebrowser/src/treebrowser.c:2353
 msgid "Focus Path Entry"
 msgstr "Перейти к строке адреса"
 
-#: ../treebrowser/src/treebrowser.c:2121
+#: ../treebrowser/src/treebrowser.c:2355
 msgid "Rename Object"
 msgstr "Переименовать объект"
 
-#: ../treebrowser/src/treebrowser.c:2125
+#: ../treebrowser/src/treebrowser.c:2359
 #, fuzzy
 msgid "New Folder"
 msgstr "Выберите каталог"
 
-#: ../treebrowser/src/treebrowser.c:2129
+#: ../treebrowser/src/treebrowser.c:2363
 #, fuzzy
 msgid "Track Current"
 msgstr "Перейти к текущему файлу"
@@ -7807,11 +7826,11 @@ msgstr ""
 "Код ошибки: %d \n"
 "Текст ошибки: »%s«"
 
-#: ../updatechecker/src/updatechecker.c:289
+#: ../updatechecker/src/updatechecker.c:285
 msgid "Run updatecheck on startup"
 msgstr "Проверять обновления при старте"
 
-#: ../updatechecker/src/updatechecker.c:332
+#: ../updatechecker/src/updatechecker.c:328
 msgid "Check for Updates"
 msgstr "Проверить обновления"
 
@@ -8076,71 +8095,77 @@ msgstr "Браузер"
 msgid "Windows"
 msgstr "Окна"
 
-#: ../workbench/src/dialogs.c:45
+#: ../workbench/src/dialogs.c:46
 #, fuzzy
 msgid "Create new file"
 msgstr "Создать новый файл"
 
-#: ../workbench/src/dialogs.c:80
+#: ../workbench/src/dialogs.c:81
 #, fuzzy
 msgid "Create new directory"
 msgstr "Создать новый каталог"
 
-#: ../workbench/src/dialogs.c:114
+#: ../workbench/src/dialogs.c:115
 #, fuzzy
 msgid "Create new workbench"
 msgstr "Создать новый каталог"
 
-#: ../workbench/src/dialogs.c:145
+#: ../workbench/src/dialogs.c:146
 #, fuzzy
 msgid "Open workbench"
 msgstr "Открыть при"
 
-#: ../workbench/src/dialogs.c:148
+#: ../workbench/src/dialogs.c:149
 #, fuzzy
 msgid "_Open"
 msgstr "Открыть при"
 
-#: ../workbench/src/dialogs.c:151
+#: ../workbench/src/dialogs.c:152
 msgid "Workbench files (.geanywb)"
 msgstr ""
 
-#: ../workbench/src/dialogs.c:184
+#: ../workbench/src/dialogs.c:185
 #, fuzzy
 msgid "Add project"
 msgstr "Найти тег проекта"
 
-#: ../workbench/src/dialogs.c:187 ../workbench/src/dialogs.c:224
+#: ../workbench/src/dialogs.c:188 ../workbench/src/dialogs.c:225
+#: ../workbench/src/search_projects.c:96
 #, fuzzy
 msgid "_Add"
 msgstr "_И то и другое"
 
-#: ../workbench/src/dialogs.c:190
+#: ../workbench/src/dialogs.c:191
 #, fuzzy
 msgid "Project files (.geany)"
 msgstr "Файл проекта \"%s\" уже существует"
 
-#: ../workbench/src/dialogs.c:221
+#: ../workbench/src/dialogs.c:222
 #, fuzzy
 msgid "Add directory"
 msgstr "Добавить внешний каталог"
 
-#: ../workbench/src/dialogs.c:289
+#: ../workbench/src/dialogs.c:345
 #, fuzzy
 msgid "Directory settings"
 msgstr "Параметры окружения"
 
-#: ../workbench/src/dialogs.c:293 ../workbench/src/dialogs.c:424
+#: ../workbench/src/dialogs.c:349 ../workbench/src/dialogs.c:592
+#: ../workbench/src/search_projects.c:461
 #, fuzzy
 msgid "_OK"
 msgstr "_ОК"
 
-#: ../workbench/src/dialogs.c:303
+#: ../workbench/src/dialogs.c:365
+msgid "filter files using the workbench plugin"
+msgstr ""
+
+#: ../workbench/src/dialogs.c:370
 #, fuzzy
 msgid "File patterns:"
 msgstr "Шаблоны файлов с исходным текстом:"
 
-#: ../workbench/src/dialogs.c:309
+#: ../workbench/src/dialogs.c:391
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
@@ -8149,7 +8174,7 @@ msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
 "файлов, не отображаемых в дереве файлов проекта."
 
-#: ../workbench/src/dialogs.c:320
+#: ../workbench/src/dialogs.c:417
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
@@ -8158,7 +8183,7 @@ msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
 "файлов, не отображаемых в дереве файлов проекта."
 
-#: ../workbench/src/dialogs.c:331
+#: ../workbench/src/dialogs.c:443
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
@@ -8167,115 +8192,132 @@ msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
 "каталогов, не просматриваемых на предмет наличия файлов проекта."
 
-#: ../workbench/src/dialogs.c:339
+#: ../workbench/src/dialogs.c:459
+msgid "filter files using git (.gitignore)"
+msgstr ""
+
+#: ../workbench/src/dialogs.c:465
 msgid ""
 "Note: the patterns above affect only the workbench directory and are not "
 "used in the Find in Files\n"
 "dialog."
 msgstr ""
 
-#: ../workbench/src/dialogs.c:420
+#: ../workbench/src/dialogs.c:588
 #, fuzzy
 msgid "Workbench settings"
 msgstr "Параметры окружения"
 
-#: ../workbench/src/dialogs.c:434
+#: ../workbench/src/dialogs.c:608
 #, fuzzy
 msgid "_Rescan all projects on open"
 msgstr "Индексировать все файлы проекта:"
 
-#: ../workbench/src/dialogs.c:437
+#: ../workbench/src/dialogs.c:619
 msgid ""
 "If the option is activated (default), then all projects will be re-scanned "
 "on opening of the workbench."
 msgstr ""
 
-#: ../workbench/src/dialogs.c:442
+#: ../workbench/src/dialogs.c:624
 msgid "_Enable live update"
 msgstr ""
 
-#: ../workbench/src/dialogs.c:445
+#: ../workbench/src/dialogs.c:635
 msgid ""
 "If the option is activated (default), then the list of files and the sidebar "
 "will be updated automatically if a file or directory is created, removed or "
 "renamed. A manual re-scan is not required if the option is enabled."
 msgstr ""
 
-#: ../workbench/src/dialogs.c:451
+#: ../workbench/src/dialogs.c:641
 #, fuzzy
 msgid "_Expand on hover"
 msgstr "Развернуть при применении"
 
-#: ../workbench/src/dialogs.c:454
+#: ../workbench/src/dialogs.c:652
 msgid ""
 "If the option is activated, then a tree node in the sidebar will be expanded "
 "or collapsed by hovering over it with the mouse cursor."
 msgstr ""
 
-#: ../workbench/src/menu.c:95
+#: ../workbench/src/dialogs.c:657
+#, fuzzy
+msgid "_Enable tree lines"
+msgstr "Показывать соединительные линии"
+
+#: ../workbench/src/dialogs.c:668
+msgid ""
+"If the option is activated, lines will be drawn between the nodes in the "
+"sidebar tree."
+msgstr ""
+
+#: ../workbench/src/menu.c:103
 #, fuzzy, c-format
 msgid "Could not create new workbench file: %s"
 msgstr "Не удалось загрузить файл с параметрами отладки %s: %s."
 
-#: ../workbench/src/menu.c:122
+#: ../workbench/src/menu.c:130
 #, fuzzy, c-format
 msgid "Could not open workbench file: %s"
 msgstr "Не удалось загрузить файл с параметрами отладки %s: %s."
 
-#: ../workbench/src/menu.c:139
+#: ../workbench/src/menu.c:155 ../workbench/src/popup_menu.c:265
+#: ../workbench/src/search_projects.c:188
 #, fuzzy, c-format
 msgid "Could not save workbench file: %s"
 msgstr "Не удалось загрузить файл с параметрами отладки %s: %s."
 
 #. Set metadata
-#: ../workbench/src/menu.c:195 ../workbench/src/plugin_main.c:131
-#: ../workbench/src/sidebar.c:1427
+#: ../workbench/src/menu.c:207 ../workbench/src/plugin_main.c:132
+#: ../workbench/src/sidebar.c:1433
 msgid "Workbench"
 msgstr ""
 
 #. Create new menu item "New Workbench"
-#: ../workbench/src/menu.c:199
+#: ../workbench/src/menu.c:211
 msgid "_New..."
 msgstr ""
 
 #. Create new menu item "Open Workbench"
-#: ../workbench/src/menu.c:206
+#: ../workbench/src/menu.c:218
 msgid "_Open..."
 msgstr ""
 
-#. Create new menu item "Save Workbench"
-#: ../workbench/src/menu.c:213
-msgid "_Save"
-msgstr ""
-
 #. Create new menu item "Workbench Settings"
-#: ../workbench/src/menu.c:220
+#: ../workbench/src/menu.c:225
 #, fuzzy
 msgid "S_ettings"
 msgstr "Настройки"
 
+#. Create new menu item "Search Projects"
+#: ../workbench/src/menu.c:232
+#, fuzzy
+msgid "Search _projects"
+msgstr "Новый проект"
+
 #. Create new menu item "Close Workbench"
-#: ../workbench/src/menu.c:227
+#: ../workbench/src/menu.c:239
 #, fuzzy
 msgid "_Close"
 msgstr "Закрыть: %s"
 
-#: ../workbench/src/plugin_main.c:95 ../workbench/src/sidebar.c:858
+#: ../workbench/src/plugin_main.c:89 ../workbench/src/sidebar.c:859
 msgid ""
 "Create or open a workbench\n"
 "using the workbench menu."
 msgstr ""
 
-#: ../workbench/src/plugin_main.c:132
+#: ../workbench/src/plugin_main.c:133
 msgid "Manage and customize multiple projects."
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:259
+#: ../workbench/src/popup_menu.c:291
 #, fuzzy, c-format
 msgid "Could not add project file: %s"
 msgstr "Не удалось загрузить файл с параметрами отладки %s: %s."
 
-#: ../workbench/src/popup_menu.c:567
+#: ../workbench/src/popup_menu.c:602
 #, fuzzy, c-format
 msgid ""
 "Could not create new file \"%s\":\n"
@@ -8283,7 +8325,7 @@ msgid ""
 "%s"
 msgstr "Не удалось загрузить файл с параметрами отладки %s: %s."
 
-#: ../workbench/src/popup_menu.c:667
+#: ../workbench/src/popup_menu.c:702
 #, fuzzy, c-format
 msgid ""
 "Do you really want to remove file \"%s\"?\n"
@@ -8291,7 +8333,7 @@ msgid ""
 "This cannot be undone!"
 msgstr "Вы действительно хотите удалиь из репозитория: %s?"
 
-#: ../workbench/src/popup_menu.c:672
+#: ../workbench/src/popup_menu.c:707
 #, c-format
 msgid ""
 "Do you really want to remove directory \"%s\" and all files in it?\n"
@@ -8300,143 +8342,171 @@ msgid ""
 msgstr ""
 
 #. Remove file failed. Report error.
-#: ../workbench/src/popup_menu.c:684 ../workbench/src/popup_menu.c:708
+#: ../workbench/src/popup_menu.c:719 ../workbench/src/popup_menu.c:743
 #, fuzzy, c-format
 msgid "Could not remove file \"%s\"."
 msgstr "Не удалось загрузить файл с параметрами отладки %s: %s."
 
 #. Remove file failed. Report error.
-#: ../workbench/src/popup_menu.c:728 ../workbench/src/popup_menu.c:742
+#: ../workbench/src/popup_menu.c:763 ../workbench/src/popup_menu.c:777
 #, fuzzy, c-format
 msgid "Could not remove directory \"%s\"."
 msgstr "Не удалось использовать pinentry."
 
-#: ../workbench/src/popup_menu.c:775
+#: ../workbench/src/popup_menu.c:810
 #, fuzzy
 msgid "_Add project..."
 msgstr "Найти тег проекта"
 
-#: ../workbench/src/popup_menu.c:781
-#, fuzzy
-msgid "_Save project"
-msgstr "Новый проект"
-
-#: ../workbench/src/popup_menu.c:787
+#: ../workbench/src/popup_menu.c:816
 #, fuzzy
 msgid "_Remove project"
 msgstr "Переименовать объект"
 
-#: ../workbench/src/popup_menu.c:793
+#: ../workbench/src/popup_menu.c:822
 #, fuzzy
 msgid "_Fold/unfold project"
 msgstr "Найти тег проекта"
 
-#: ../workbench/src/popup_menu.c:799
+#: ../workbench/src/popup_menu.c:828
 msgid "_Open all files in project"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:805
+#: ../workbench/src/popup_menu.c:834
 msgid "_Close all files in project"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:815
+#: ../workbench/src/popup_menu.c:844
 #, fuzzy
 msgid "_Add directory..."
 msgstr "Добавить внешний каталог"
 
-#: ../workbench/src/popup_menu.c:821
+#: ../workbench/src/popup_menu.c:850
 #, fuzzy
 msgid "_Remove directory"
 msgstr "Отменить изменения для каталога"
 
-#: ../workbench/src/popup_menu.c:827
+#: ../workbench/src/popup_menu.c:856
 #, fuzzy
 msgid "_Rescan directory"
 msgstr "Отменить изменения для каталога"
 
-#: ../workbench/src/popup_menu.c:833
+#: ../workbench/src/popup_menu.c:862
 #, fuzzy
 msgid "_Directory settings"
 msgstr "_Каталог"
 
-#: ../workbench/src/popup_menu.c:839
+#: ../workbench/src/popup_menu.c:868
 #, fuzzy
 msgid "_Fold/unfold directory"
 msgstr "Показать разницу для каталога"
 
-#: ../workbench/src/popup_menu.c:845
+#: ../workbench/src/popup_menu.c:874
 #, fuzzy
 msgid "_Open all files in directory"
 msgstr "%s: нет такого файла или каталога"
 
-#: ../workbench/src/popup_menu.c:851
+#: ../workbench/src/popup_menu.c:880
 #, fuzzy
 msgid "_Close all files in directory"
 msgstr "Создать новый каталог"
 
-#: ../workbench/src/popup_menu.c:861
+#: ../workbench/src/popup_menu.c:890
 #, fuzzy
 msgid "_Open all files in sub-directory"
 msgstr "%s: нет такого файла или каталога"
 
-#: ../workbench/src/popup_menu.c:867
+#: ../workbench/src/popup_menu.c:896
 #, fuzzy
 msgid "_Close all files in sub-directory"
 msgstr "Создать новый каталог"
 
-#: ../workbench/src/popup_menu.c:877
+#: ../workbench/src/popup_menu.c:906
 #, fuzzy
 msgid "_Expand all"
 msgstr "Развернуть всё"
 
-#: ../workbench/src/popup_menu.c:883
+#: ../workbench/src/popup_menu.c:912
 #, fuzzy
 msgid "_Collapse all"
 msgstr "Свернуть всё"
 
-#: ../workbench/src/popup_menu.c:893
+#: ../workbench/src/popup_menu.c:922
 msgid "_Add to Workbench Bookmarks"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:899
+#: ../workbench/src/popup_menu.c:928
 msgid "_Add to Project Bookmarks"
 msgstr ""
 
-#: ../workbench/src/popup_menu.c:905
+#: ../workbench/src/popup_menu.c:934
 #, fuzzy
 msgid "_Remove from Bookmarks"
 msgstr "Удалить закладку"
 
-#: ../workbench/src/popup_menu.c:915
+#: ../workbench/src/popup_menu.c:944
 #, fuzzy
 msgid "_Create file here..."
 msgstr "Создать новый файл"
 
-#: ../workbench/src/popup_menu.c:921
+#: ../workbench/src/popup_menu.c:950
 #, fuzzy
 msgid "_Create directory here..."
 msgstr "Создать новый каталог"
 
-#: ../workbench/src/popup_menu.c:927
+#: ../workbench/src/popup_menu.c:956
 msgid "_Remove..."
 msgstr ""
 
-#: ../workbench/src/sidebar.c:328
+#: ../workbench/src/search_projects.c:93
+#, fuzzy
+msgid "Select search directory"
+msgstr "Выбрать каталог"
+
+#: ../workbench/src/search_projects.c:249
+#, c-format
+msgid ""
+"Found %lu project files in directory \"%s\".\n"
+"Please select the projects to add to the workbench."
+msgstr ""
+
+#: ../workbench/src/search_projects.c:457
+#, fuzzy
+msgid "Search projects"
+msgstr "Новый проект"
+
+#: ../workbench/src/search_projects.c:482
+#, fuzzy
+msgid "Add to workbench?"
+msgstr "Открыть при"
+
+#: ../workbench/src/search_projects.c:491
+#, fuzzy
+msgid "Project path"
+msgstr "Проект"
+
+#. Add label to vbox
+#: ../workbench/src/search_projects.c:507
+#, fuzzy
+msgid "Scanning directory:"
+msgstr "Отменить изменения для каталога"
+
+#: ../workbench/src/sidebar.c:329
 #, fuzzy
 msgid "Base dir"
 msgstr "Базовые"
 
-#: ../workbench/src/sidebar.c:361
+#: ../workbench/src/sidebar.c:362
 #, fuzzy
 msgid "No directories"
 msgstr "Новый каталог"
 
 #. *** label ***
-#: ../workbench/src/sidebar.c:856 ../workbench/src/sidebar.c:1378
+#: ../workbench/src/sidebar.c:857 ../workbench/src/sidebar.c:1384
 msgid "No workbench opened."
 msgstr ""
 
-#: ../workbench/src/sidebar.c:871
+#: ../workbench/src/sidebar.c:875
 #, fuzzy, c-format
 msgid "%s: %u Project"
 msgid_plural "%s: %u Projects"
@@ -8444,20 +8514,20 @@ msgstr[0] "Проект"
 msgstr[1] "Проект"
 msgstr[2] "Проект"
 
-#: ../workbench/src/sidebar.c:882
+#: ../workbench/src/sidebar.c:886
 msgid ""
-"Add a project\n"
-"using the context menu."
+"Add a project using the context menu\n"
+"or select \"Search projects\" from the menu."
 msgstr ""
 
-#: ../workbench/src/sidebar.c:1006
+#: ../workbench/src/sidebar.c:1011
 #, c-format
 msgid ""
 "%s\n"
 "Project file not found!"
 msgstr ""
 
-#: ../workbench/src/sidebar.c:1020
+#: ../workbench/src/sidebar.c:1025
 msgid ""
 "This project has no directories. Directories can be added to a project using "
 "the context menu."
@@ -8468,63 +8538,78 @@ msgstr ""
 msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
 msgstr "Невозможно создать каталог конфигурации \"%s\": %s"
 
-#: ../workbench/src/wb_project.c:1227
+#: ../workbench/src/wb_project.c:466
+#, fuzzy, c-format
+msgid "Failed to open git repository in folder %s."
+msgstr "Не удалось открыть файл со сценарием."
+
+#: ../workbench/src/wb_project.c:471
+#, fuzzy, c-format
+msgid "Opened git repository in folder %s."
+msgstr "_Отслеживать изменения в репозитории"
+
+#: ../workbench/src/wb_project.c:482
+#, fuzzy, c-format
+msgid "Closed git repository in folder %s."
+msgstr "_Отслеживать изменения в репозитории"
+
+#: ../workbench/src/wb_project.c:1191
 #, fuzzy, c-format
 msgid "Directory-Name: %s\n"
 msgstr "_Каталог"
 
-#: ../workbench/src/wb_project.c:1228
+#: ../workbench/src/wb_project.c:1192
 #, fuzzy, c-format
 msgid "Base-Directory: %s\n"
 msgstr "_Базовый каталог"
 
-#: ../workbench/src/wb_project.c:1230
+#: ../workbench/src/wb_project.c:1194
 #, fuzzy
 msgid "File Patterns:"
 msgstr "Шаблоны игнорируемых файлов:"
 
-#: ../workbench/src/wb_project.c:1242
+#: ../workbench/src/wb_project.c:1206
 #, fuzzy
 msgid "Ignored Dir. Patterns:"
 msgstr "Шаблоны игнорируемых файлов:"
 
-#: ../workbench/src/wb_project.c:1254
+#: ../workbench/src/wb_project.c:1218
 #, fuzzy
 msgid "Ignored File Patterns:"
 msgstr "Шаблоны игнорируемых файлов:"
 
-#: ../workbench/src/wb_project.c:1266
+#: ../workbench/src/wb_project.c:1230
 #, fuzzy, c-format
 msgid "Number of Sub-Directories: %u\n"
 msgstr "Номер тома"
 
-#: ../workbench/src/wb_project.c:1267
+#: ../workbench/src/wb_project.c:1231
 #, fuzzy, c-format
 msgid "Number of Files: %u\n"
 msgstr "Номер тома"
 
-#: ../workbench/src/wb_project.c:1291
+#: ../workbench/src/wb_project.c:1255
 #, fuzzy, c-format
 msgid "Project: %s\n"
 msgstr "Проект"
 
-#: ../workbench/src/wb_project.c:1292
+#: ../workbench/src/wb_project.c:1256
 #, fuzzy, c-format
 msgid "File: %s\n"
 msgstr "Закрыть: %s"
 
-#: ../workbench/src/wb_project.c:1293
+#: ../workbench/src/wb_project.c:1257
 #, fuzzy, c-format
 msgid "Number of Directories: %u\n"
 msgstr "Номер тома"
 
-#: ../workbench/src/wb_project.c:1296
+#: ../workbench/src/wb_project.c:1260
 msgid ""
 "\n"
 "The project contains unsaved changes!\n"
 msgstr ""
 
-#: ../workbench/src/workbench.c:811
+#: ../workbench/src/workbench.c:855
 #, fuzzy, c-format
 msgid "File %s is not a valid workbench file!"
 msgstr "Файл \"%s\" существует, но не является обычным файлом"
