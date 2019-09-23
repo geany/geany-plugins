@@ -7,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.35\n"
+"Project-Id-Version: Geany-Plugins 1.36\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-22 11:56+0200\n"
-"PO-Revision-Date: 2019-04-16 11:40+0200\n"
+"POT-Creation-Date: 2019-09-22 03:19+0000\n"
+"PO-Revision-Date: 2019-09-22 15:44+0200\n"
 "Last-Translator: Lucas Vieites Fariña <lucas@codexion.com>\n"
 "Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Geany / PoHelper 1.34\n"
+"X-Generator: Geany / PoHelper 1.35\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -5290,9 +5290,8 @@ msgid "Remove _Whitespace Lines"
 msgstr "Eliminar líneas en _blanco"
 
 #: ../lineoperations/src/lineoperations.c:279
-#, fuzzy
 msgid "Remove Every _Nth Line"
-msgstr "Eliminar líneas _vacías"
+msgstr "Eliminar cada _n líneas"
 
 #: ../lineoperations/src/lineoperations.c:282
 msgid "Sort Lines _Ascending"
@@ -5322,18 +5321,16 @@ msgstr ""
 
 #. number of lines removed
 #: ../lineoperations/src/lo_fns.c:336
-#, fuzzy
 msgid "Remove every Nth line"
-msgstr "Líneas _eliminadas:"
+msgstr "Eliminar cada n líneas"
 
 #: ../lineoperations/src/lo_fns.c:337
-#, fuzzy
 msgid "Value of N"
-msgstr "Valor"
+msgstr "Valor de N"
 
 #: ../lineoperations/src/lo_prefs.c:83
 msgid "Use collation based string compare"
-msgstr ""
+msgstr "Usar comparación de líneas basada en ordenación"
 
 #: ../lipsum/src/lipsum.c:43
 msgid "Lipsum"
@@ -8204,7 +8201,7 @@ msgstr "_OK"
 
 #: ../workbench/src/dialogs.c:365
 msgid "filter files using the workbench plugin"
-msgstr ""
+msgstr "filtrar archivos mediante el plugin de área de trabajo"
 
 #: ../workbench/src/dialogs.c:370
 msgid "File patterns:"
@@ -8236,7 +8233,7 @@ msgstr ""
 
 #: ../workbench/src/dialogs.c:459
 msgid "filter files using git (.gitignore)"
-msgstr ""
+msgstr "filtrar archivos mediante git (.gitignore)"
 
 #: ../workbench/src/dialogs.c:465
 msgid ""
@@ -8290,18 +8287,16 @@ msgstr ""
 "barra lateral al pasar con el ratón por encima."
 
 #: ../workbench/src/dialogs.c:657
-#, fuzzy
 msgid "_Enable tree lines"
-msgstr "Mostrar líneas de árbol"
+msgstr "Activar lín_eas de árbol"
 
 #: ../workbench/src/dialogs.c:668
-#, fuzzy
 msgid ""
 "If the option is activated, lines will be drawn between the nodes in the "
 "sidebar tree."
 msgstr ""
-"Si la opción está activa (predet.) se explorarán todos los proyectos al "
-"abrir el área de trabajo."
+"Si la opción está activa se dibujaraán líneas entre los nodos del"
+"árbol en el panel lateral."
 
 #: ../workbench/src/menu.c:103
 #, c-format
@@ -8342,9 +8337,8 @@ msgstr "Ajust_es"
 
 #. Create new menu item "Search Projects"
 #: ../workbench/src/menu.c:232
-#, fuzzy
 msgid "Search _projects"
-msgstr "_Guardar proyecto"
+msgstr "Buscar _proyectos"
 
 #. Create new menu item "Close Workbench"
 #: ../workbench/src/menu.c:239
@@ -8502,37 +8496,33 @@ msgid "_Remove..."
 msgstr "_Borrar..."
 
 #: ../workbench/src/search_projects.c:93
-#, fuzzy
 msgid "Select search directory"
-msgstr "Seleccionar directorio"
+msgstr "Seleccionar directorio de búsqueda"
 
 #: ../workbench/src/search_projects.c:249
 #, c-format
 msgid ""
 "Found %lu project files in directory \"%s\".\n"
 "Please select the projects to add to the workbench."
-msgstr ""
+msgstr "Se han encontrado %lu archivos de proyecto en el directorio «%s».\n"
+"Selecciona los proyectos que deseas añadir al área de trabajo."
 
 #: ../workbench/src/search_projects.c:457
-#, fuzzy
 msgid "Search projects"
-msgstr "_Guardar proyecto"
+msgstr "Buscar proyectos"
 
 #: ../workbench/src/search_projects.c:482
-#, fuzzy
 msgid "Add to workbench?"
-msgstr "_Añadir a marcadores de área de trabajo"
+msgstr "¿Añadir al área de trabajo"
 
 #: ../workbench/src/search_projects.c:491
-#, fuzzy
 msgid "Project path"
-msgstr "Proyecto"
+msgstr "Ruta del proyecto"
 
 #. Add label to vbox
 #: ../workbench/src/search_projects.c:507
-#, fuzzy
 msgid "Scanning directory:"
-msgstr "Volve_r a explorar directorio"
+msgstr "Directorio de exploración:"
 
 #: ../workbench/src/sidebar.c:329
 msgid "Base dir"
@@ -8555,13 +8545,12 @@ msgstr[0] "%s: %u Proyectos"
 msgstr[1] "%s: %u Proyectos"
 
 #: ../workbench/src/sidebar.c:886
-#, fuzzy
 msgid ""
 "Add a project using the context menu\n"
 "or select \"Search projects\" from the menu."
 msgstr ""
-"Añadir un proyecto\n"
-"usando el menú contextual."
+"Añade un proyecto mediante el menú contextual\n"
+"o selecciona «Buscar proyectos» en el menú."
 
 #: ../workbench/src/sidebar.c:1011
 #, c-format
@@ -8587,19 +8576,19 @@ msgstr ""
 "No se ha podido configurar la vigilancia del directorio «%s». Error: %s"
 
 #: ../workbench/src/wb_project.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to open git repository in folder %s."
-msgstr "No se ha podido abrir el archivo de script."
+msgstr "No se ha podido abrir el repositorio git en la carpeta %s."
 
 #: ../workbench/src/wb_project.c:471
-#, fuzzy, c-format
+#, c-format
 msgid "Opened git repository in folder %s."
-msgstr "_Monitorear el repositorio por si hay cambios"
+msgstr "Se ha abierto el repositorio git en la carpeta %s."
 
 #: ../workbench/src/wb_project.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "Closed git repository in folder %s."
-msgstr "_Cerrar todos los archivos en la carpeta"
+msgstr "Se ha cerrado el repositorio git en la carpeta %s."
 
 #: ../workbench/src/wb_project.c:1191
 #, c-format
