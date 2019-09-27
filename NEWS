@@ -1,7 +1,81 @@
 Geany Plugins 1.36 (not yet released)
 
     Internationalization:
-    * Updated translations: es, pt
+    * Updated translations: de, es, pt
+
+    General:
+    * Windows: Update dependencies
+    * Various fixes of usage of '#include "geanyplugin.h" (PR #882)
+    
+    Addons:
+    * Add additional color format (PR #884)
+    * Fix document list menu position (PR #895)
+    
+    Autoclose: 
+    * Fix deprecated GTK call for GTK+3 (PR #857)
+    
+    Automark:
+    * Fix compiler warning (PR #863, Issue #574
+    
+    Debugger:
+    * Add GTK+3 compatibility (PR #791)
+    
+    DevHelp:
+    * Fix embedded library's use of glib-genmarshal (PR #878)
+    
+    Extraselection:
+    * Fix deprecated GTK call for GTK+3 (PR #858)
+    
+    GeanyNumberedBookmarks:
+    * Fix deprecated GTK call for GTK+3 (PR #862)
+    
+    GeanyVC:
+    * Silence check errors during build time (PR #861)
+    * Update of documentation 
+
+    Lineoperations:
+    * Fix various compiler warnings/errors (PR #517)
+    * Remove every n-th line (Issue #772, PR #860)
+    * Add keybindings (Issue #832, PR #889)
+    * Add support for locale-aware sorting (PR #897)
+    
+    Lipsum: 
+    * Fix deprecated GTK call for GTK+3 (PR #856)
+    
+    ProjectOrganizer:
+    * Update of README 
+    
+    Scope:
+    * Improve evaluation on-hover (PR #823)
+    * Fix misplaced '#define SCOPE_MAX_EVALUATE_EXPR_LENGTH' (PR #885)
+
+    Tableconvert: 
+    * Fix deprecated GTK call for GTK+3 (PR #859)
+    
+    Treebrowser:
+    * Fix deprecated GTK call for GTK+3 (PR #864)
+    
+    UpdateChecker:
+    * Update URL for getting current version of Geany (PR #880)
+    * Remove duplicate config_file definition in source code (PR #903)
+
+    
+    VimMode:
+    * Allow browsing command history using arrows (PR #847, PR #848)
+    * Check modifiers in command mode (PR #848)
+    * Let ctrl-c leave the command mode (PR #848)
+    * Add going to beginning/end of command line (PR #848)
+    
+    Workbench:
+    * Fix deprecated GTK call for GTK+3 (PR #853)
+    * Save settings immediately (PR #868)
+    * Give sidebar a name to enable dedicated CSS styling (PR #870)
+    * Add an option to enable or disable tree lines (PR #869)
+    * Reworking of tag-manager control/usage (PR #867)
+    * Auto-save project on change (PR #877)
+    * Add new feature "Search projects" (PR 875)
+    * Prevent usage of invalid iters (GtkTreeeIter) (PR #827)
+    * Add option to let git decide which files to display (PR #879)
 
 
 Geany Plugins 1.35 (2019-04-28)
