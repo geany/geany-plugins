@@ -47,7 +47,6 @@ Geany Plugins 1.36 (not yet released)
     
     Scope:
     * Improve evaluation on-hover (PR #823)
-    * Fix misplaced '#define SCOPE_MAX_EVALUATE_EXPR_LENGTH' (PR #885)
 
     Tableconvert: 
     * Fix deprecated GTK call for GTK+3 (PR #859)
