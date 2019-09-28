@@ -1,8 +1,5 @@
 Geany Plugins 1.36 (not yet released)
 
-    Internationalization:
-    * Updated translations: de, es, pt
-
     General:
     * Windows: Update dependencies
     * Various fixes of usage of '#include "geanyplugin.h" (PR #882)
@@ -76,6 +73,9 @@ Geany Plugins 1.36 (not yet released)
     * Add new feature "Search projects" (PR #875)
     * Prevent usage of invalid iters (GtkTreeeIter) (PR #827)
     * Add option to let git decide which files to display (PR #879)
+
+    Internationalization:
+    * Updated translations: de, es, pt
 
 
 Geany Plugins 1.35 (2019-04-28)
