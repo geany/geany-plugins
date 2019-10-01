@@ -14,6 +14,8 @@
 #include "Scintilla.h"  /* for the SCNotification struct */
 #include "SciLexer.h"
 
+#define DEFAULT_SEARCH_RANGE 1024
+
 #define INDICATOR_TAGMATCH 9
 #define MAX_TAG_NAME 64
 
@@ -35,11 +37,45 @@ GeanyData       *geany_data;
  * from the tag */
 static gint highlightedBrackets[] = {0, 0, 0, 0};
 
+typedef struct
+{
+    guint64      search_range;
+    GtkWidget    *label;
+    GtkWidget    *spin;
+}ConfigData;
+
+static ConfigData    config_data;
+
 PLUGIN_VERSION_CHECK(224)
 
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, _("Pair Tag Highlighter"),
                             _("Finds and highlights matching opening/closing HTML tag"),
                             "1.1", "Volodymyr Kononenko <vm@kononenko.ws>")
+
+/* Determine max. position to search to from the current position. */
+static gint getsearchlimit(ScintillaObject *sci, gint pos, gint max, gboolean direction)
+{
+    gint endofsearch, length;
+
+    if (direction == TRUE)
+    {
+        endofsearch = pos + max;
+        length = sci_get_length(sci);
+        if (endofsearch > length)
+        {
+            endofsearch = length - 1;
+        }
+    }
+    else
+    {
+        endofsearch = pos - max;
+        if (endofsearch < 0)
+        {
+            endofsearch = 0;
+        }
+    }
+    return endofsearch;
+}
 
 
 /* Searches tag brackets.
@@ -230,8 +266,9 @@ static void findMatchingOpeningTag(ScintillaObject *sci, gchar *tagName, gint op
         /* are we inside tag? */
         gint lineNumber = sci_get_line_from_position(sci, pos);
         gint lineStart = sci_get_position_from_line(sci, lineNumber);
-        gint matchingOpeningBracket = findBracket(sci, pos, lineStart, '<', '\0', FALSE);
-        gint matchingClosingBracket = findBracket(sci, pos, lineStart, '>', '\0', FALSE);
+        gint leftlimit = getsearchlimit(sci, pos, config_data.search_range, FALSE);
+        gint matchingOpeningBracket = findBracket(sci, pos, leftlimit, '<', '\0', FALSE);
+        gint matchingClosingBracket = findBracket(sci, pos, leftlimit, '>', '\0', FALSE);
 
         if(-1 != matchingOpeningBracket && -1 != matchingClosingBracket
             && (matchingClosingBracket > matchingOpeningBracket))
@@ -284,10 +321,9 @@ static void findMatchingClosingTag(ScintillaObject *sci, gchar *tagName, gint cl
     for(pos=closingBracket; pos<endOfDocument; pos++)
     {
         /* are we inside tag? */
-        gint lineNumber = sci_get_line_from_position(sci, pos);
-        gint lineEnd = sci_get_line_end_position(sci, lineNumber);
-        gint matchingOpeningBracket = findBracket(sci, pos, lineEnd, '<', '\0', TRUE);
-        gint matchingClosingBracket = findBracket(sci, pos, lineEnd, '>', '\0', TRUE);
+        gint rightlimit = getsearchlimit(sci, pos, config_data.search_range, TRUE);
+        gint matchingOpeningBracket = findBracket(sci, pos, rightlimit, '<', '\0', TRUE);
+        gint matchingClosingBracket = findBracket(sci, pos, rightlimit, '>', '\0', TRUE);
 
         if(-1 != matchingOpeningBracket && -1 != matchingClosingBracket
             && (matchingClosingBracket > matchingOpeningBracket))
@@ -346,11 +382,10 @@ static void findMatchingTag(ScintillaObject *sci, gint openingBracket, gint clos
 static void run_tag_highlighter(ScintillaObject *sci)
 {
     gint position = sci_get_current_position(sci);
-    gint lineNumber = sci_get_current_line(sci);
-    gint lineStart = sci_get_position_from_line(sci, lineNumber);
-    gint lineEnd = sci_get_line_end_position(sci, lineNumber);
-    gint openingBracket = findBracket(sci, position, lineStart, '<', '>', FALSE);
-    gint closingBracket = findBracket(sci, position, lineEnd, '>', '<', TRUE);
+    gint leftlimit = getsearchlimit(sci, position, config_data.search_range, FALSE);
+    gint rightlimit = getsearchlimit(sci, position, config_data.search_range, TRUE);
+    gint openingBracket = findBracket(sci, position, leftlimit, '<', '>', FALSE);
+    gint closingBracket = findBracket(sci, position, rightlimit, '>', '<', TRUE);
     int i;
 
     if(-1 == openingBracket || -1 == closingBracket)
@@ -405,6 +440,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
     return FALSE;
 }
 
+
 static void
 on_kb_goto_matching_tag (guint key_id)
 {
@@ -425,6 +461,102 @@ on_kb_goto_matching_tag (guint key_id)
     }
 }
 
+
+/* Configure the preferences GUI and callbacks */
+static GtkWidget *create_config_ui(void)
+{
+    GtkWidget *vbox, *hbox;
+
+    vbox = gtk_vbox_new(FALSE, 0);
+    hbox = gtk_hbox_new(FALSE, 0);
+
+    config_data.label = gtk_label_new(_("Search range for brackets:"));
+    gtk_box_pack_start(GTK_BOX(hbox), config_data.label, FALSE, FALSE, 3);
+
+    config_data.spin = gtk_spin_button_new_with_range(64, 1024*100, 64);
+    ui_entry_add_clear_icon(GTK_ENTRY(config_data.spin));
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(config_data.spin), config_data.search_range);
+    gtk_box_pack_start(GTK_BOX(hbox), config_data.spin, TRUE, TRUE, 3);
+
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 3);
+    gtk_widget_show_all(vbox);
+
+    return vbox;
+}
+
+static gchar *get_config_filename(void)
+{
+    return g_strconcat(geany->app->configdir,
+        G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+        "pairtaghighlighter", G_DIR_SEPARATOR_S, "general.conf", NULL);
+}
+
+
+/* handle button presses in the preferences dialog box */
+void write_config(void)
+{
+    GKeyFile *config = g_key_file_new();
+    gchar *config_file = get_config_filename();
+    gchar *config_dir = g_path_get_dirname(config_file);
+    gchar *data;
+
+    /* Grabbing options that has been set */
+    config_data.search_range = gtk_spin_button_get_value(GTK_SPIN_BUTTON(config_data.spin));
+
+    /* Write preference to file */
+    g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+    g_key_file_set_uint64(config, "general", "search_range",
+        config_data.search_range);
+
+    if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
+        && utils_mkdir(config_dir, TRUE) != 0)
+    {
+        dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+            _("Plugin configuration directory could not be created."));
+    }
+    else
+    {
+        /* write config to file */
+        data = g_key_file_to_data(config, NULL, NULL);
+        utils_write_file(config_file, data);
+        g_free(data);
+    }
+
+    g_free(config_dir);
+    g_free(config_file);
+    g_key_file_free(config);
+}
+
+
+void read_config(void)
+{
+    gchar *config_file = get_config_filename();
+    GKeyFile *config = g_key_file_new();
+
+    /* load preferences from file */
+    g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+    config_data.search_range = g_key_file_get_uint64(config,
+        "general", "search_range", NULL);
+    if (config_data.search_range == 0)
+    {
+        config_data.search_range = DEFAULT_SEARCH_RANGE;
+    }
+
+    g_free(config_file);
+    g_key_file_free(config);
+}
+
+
+static void configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
+{
+    if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
+    {
+        write_config ();
+    }
+}
+
 PluginCallback plugin_callbacks[] =
 {
     { "editor-notify", (GCallback) &on_editor_notify, FALSE, NULL },
@@ -438,6 +570,7 @@ void plugin_init(GeanyData *data)
     group = plugin_set_key_group (geany_plugin, "Pair Tag Highlighter", KB_COUNT, NULL);
     keybindings_set_item (group, KB_MATCH_TAG, on_kb_goto_matching_tag,
                         0, 0, "goto_matching_tag", _("Go To Matching Tag"), NULL);
+    read_config();
 }
 
 
@@ -450,4 +583,13 @@ void plugin_cleanup(void)
         clear_previous_highlighting(doc->editor->sci, highlightedBrackets[0], highlightedBrackets[1]);
         clear_previous_highlighting(doc->editor->sci, highlightedBrackets[2], highlightedBrackets[3]);
     }
+}
+
+
+GtkWidget *plugin_configure(GtkDialog *dialog)
+{
+  GtkWidget *panel;
+  panel = create_config_ui();
+  g_signal_connect(dialog, "response", G_CALLBACK(configure_response_cb), NULL);
+  return panel;
 }
