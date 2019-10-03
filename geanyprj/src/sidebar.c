@@ -449,7 +449,7 @@ void create_sidebar(void)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
 				       GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_add(GTK_CONTAINER(scrollwin), file_view);
-	gtk_container_add(GTK_CONTAINER(file_view_vbox), scrollwin);
+	gtk_box_pack_start(GTK_BOX(file_view_vbox), scrollwin, TRUE, TRUE, 0);
 
 	gtk_widget_show_all(file_view_vbox);
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
