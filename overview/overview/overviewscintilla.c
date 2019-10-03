@@ -796,14 +796,14 @@ overview_scintilla_get_property (GObject      *object,
       break;
     case PROP_OVERLAY_COLOR:
       {
-        OverviewColor color;
+        OverviewColor color = { 0 };
         overview_scintilla_get_overlay_color (self, &color);
         g_value_set_boxed (value, &color);
         break;
       }
     case PROP_OVERLAY_OUTLINE_COLOR:
       {
-        OverviewColor color;
+        OverviewColor color = { 0 };
         overview_scintilla_get_overlay_outline_color (self, &color);
         g_value_set_boxed (value, &color);
         break;
