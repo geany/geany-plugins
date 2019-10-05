@@ -29,6 +29,7 @@ void prjorg_sidebar_find_tag_in_active(void);
 
 void prjorg_sidebar_update(gboolean reload);
 
+void prjorg_sidebar_focus_project_tab(void);
 
 
 #endif
