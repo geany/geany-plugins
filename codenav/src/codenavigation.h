@@ -54,7 +54,7 @@ static void log_debug(const gchar* s, ...)
 	va_end(l);
 }
 
-#define log_func() g_print("[CODENAV FUNC] : %s", G_STRFUNC)
+#define log_func() g_print("[CODENAV FUNC] : %s\n", G_STRFUNC)
 #else
 #define log_debug(...) {}
 #define log_func() {}
