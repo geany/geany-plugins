@@ -120,7 +120,6 @@ void cmd_enter_insert_next_line(CmdContext *c, CmdParams *p)
 {
 	SSM(p->sci, SCI_LINEEND, 0, 0);
 	SSM(p->sci, SCI_NEWLINE, 0, 0);
-	SSM(p->sci, SCI_DELLINELEFT, 0, 0);
 	c->num = p->num;
 	c->newline_insert = TRUE;
 	vi_set_mode(VI_MODE_INSERT);
@@ -129,9 +128,18 @@ void cmd_enter_insert_next_line(CmdContext *c, CmdParams *p)
 
 void cmd_enter_insert_prev_line(CmdContext *c, CmdParams *p)
 {
-	SSM(p->sci, SCI_HOME, 0, 0);
-	SSM(p->sci, SCI_NEWLINE, 0, 0);
-	SSM(p->sci, SCI_LINEUP, 0, 0);
+	if (p->line == 0)
+	{
+		SSM(p->sci, SCI_HOME, 0, 0);
+		SSM(p->sci, SCI_NEWLINE, 0, 0);
+		SSM(p->sci, SCI_LINEUP, 0, 0);
+	}
+	else
+	{
+		SSM(p->sci, SCI_LINEUP, 0, 0);
+		SSM(p->sci, SCI_LINEEND, 0, 0);
+		SSM(p->sci, SCI_NEWLINE, 0, 0);
+	}
 	c->num = p->num;
 	c->newline_insert = TRUE;
 	vi_set_mode(VI_MODE_INSERT);
