@@ -103,10 +103,14 @@ a menu item in the Tools menu.
 *Show colorized calltip on hovering over a color value*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This extension will show a calltip if the mouse is hovered over a color
-value like #fff or #ffffff. The calltip background color represents the
-color value over which the mouse is hovered. The preferences option "Show
-a calltip when hovering over a color value" is used to enable or disable
-the extension.
+value like #fff, #ffffff, 0xfff, or 0xffffff. The calltip background color
+represents the color value over which the mouse is hovered. The preferences
+option "Show a calltip when hovering over a color value" is used to enable
+or disable the extension.
+
+The calltip can be customized at compile-time by specifying the value of
+the `COLOR_TIP_TEMPLATE` macro (i.e. `-DCOLOR_TIP_TEMPLATE='STRING'`) or
+by specifying `-DLARGE_COLOR_TIP=1` (large) or `-DLARGE_COLOR_TIP=2` (larger).
 
 *Open Color Chooser on double clicking on a color value*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
