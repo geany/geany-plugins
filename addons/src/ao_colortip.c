@@ -32,15 +32,6 @@ typedef struct _AoColorTipPrivate			AoColorTipPrivate;
 #define AO_COLORTIP_GET_PRIVATE(obj)		(G_TYPE_INSTANCE_GET_PRIVATE((obj),\
 			AO_COLORTIP_TYPE, AoColorTipPrivate))
 
-// This is helpful for making the color-tip larger on 4K screens or for people with less acute vision 
-#if (!(defined(COLOR_TIP_TEMPLATE) || defined(LARGE_COLOR_TIP)))
-#   define COLOR_TIP_TEMPLATE   "    "
-#elif (!defined(COLOR_TIP_TEMPLATE) && defined(LARGE_COLOR_TIP) && LARGE_COLOR_TIP == 1)
-#   define COLOR_TIP_TEMPLATE   "        \n        "
-#elif (!defined(COLOR_TIP_TEMPLATE) && defined(LARGE_COLOR_TIP) && LARGE_COLOR_TIP == 2)
-#   define COLOR_TIP_TEMPLATE   "        \n        \n        "
-#endif
-
 struct _AoColorTip
 {
 	GObject parent;
