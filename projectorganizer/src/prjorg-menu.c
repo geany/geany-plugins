@@ -42,6 +42,7 @@ enum
 	KB_FIND_IN_PROJECT,
 	KB_FIND_FILE,
 	KB_FIND_TAG,
+	KB_FOCUS_SIDEBAR,
 	KB_COUNT
 };
 
@@ -416,6 +417,9 @@ void prjorg_menu_init(void)
 	g_signal_connect((gpointer) s_shs_item, "activate", G_CALLBACK(on_swap_header_source), NULL);
 	keybindings_set_item(key_group, KB_SWAP_HEADER_SOURCE, NULL,
 		0, 0, "swap_header_source", _("Swap header/source"), s_shs_item);
+
+    keybindings_set_item(key_group, KB_FOCUS_SIDEBAR, (GeanyKeyCallback)prjorg_sidebar_focus_project_tab,
+		0, 0, "focus_project_sidebar", _("Focus Project Sidebar"), NULL);
 
 	s_context_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_context_sep_item);
