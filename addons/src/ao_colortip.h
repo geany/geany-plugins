@@ -46,4 +46,15 @@ void		ao_color_tip_editor_notify	(AoColorTip *colortip, GeanyEditor *editor, SCN
 
 G_END_DECLS
 
+
+// This is helpful for making the color-tip larger on 4K screens or for people with less acute vision 
+#if (!(defined(COLOR_TIP_TEMPLATE) || defined(LARGE_COLOR_TIP)))
+#   define COLOR_TIP_TEMPLATE   "    "
+#elif (!defined(COLOR_TIP_TEMPLATE) && defined(LARGE_COLOR_TIP) && LARGE_COLOR_TIP == 1)
+#   define COLOR_TIP_TEMPLATE   "        \n        "
+#elif (!defined(COLOR_TIP_TEMPLATE) && defined(LARGE_COLOR_TIP) && LARGE_COLOR_TIP == 2)
+#   define COLOR_TIP_TEMPLATE   "        \n        \n        "
+#endif
+
+
 #endif /* __AO_COLORTIP_H__ */
