@@ -327,6 +327,15 @@ void prjorg_project_rescan(void)
 }
 
 
+static PrjOrgRoot *create_root(const gchar *utf8_base_dir)
+{
+	PrjOrgRoot *root = (PrjOrgRoot *) g_new0(PrjOrgRoot, 1);
+	root->base_dir = g_strdup(utf8_base_dir);
+	root->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
+	return root;
+}
+
+
 static void update_project(
 	gchar **source_patterns,
 	gchar **header_patterns,
@@ -334,6 +343,8 @@ static void update_project(
 	gchar **ignored_file_patterns,
 	PrjOrgTagPrefs generate_tag_prefs)
 {
+	gchar *utf8_base_path;
+
 	if (prj_org->source_patterns)
 		g_strfreev(prj_org->source_patterns);
 	prj_org->source_patterns = g_strdupv(source_patterns);
@@ -351,6 +362,13 @@ static void update_project(
 	prj_org->ignored_file_patterns = g_strdupv(ignored_file_patterns);
 
 	prj_org->generate_tag_prefs = generate_tag_prefs;
+
+	/* re-read the base path in case it was changed in project settings */
+	g_free(prj_org->roots->data);
+	prj_org->roots = g_slist_delete_link(prj_org->roots, prj_org->roots);
+	utf8_base_path = get_project_base_path();
+	prj_org->roots = g_slist_prepend(prj_org->roots, create_root(utf8_base_path));
+	g_free(utf8_base_path);
 
 	prjorg_project_rescan();
 }
@@ -383,15 +401,6 @@ void prjorg_project_save(GKeyFile * key_file)
 	}
 	g_key_file_set_string_list(key_file, "prjorg", "external_dirs", (const gchar * const *)array->pdata, array->len);
 	g_ptr_array_free(array, TRUE);
-}
-
-
-static PrjOrgRoot *create_root(const gchar *utf8_base_dir)
-{
-	PrjOrgRoot *root = (PrjOrgRoot *) g_new0(PrjOrgRoot, 1);
-	root->base_dir = g_strdup(utf8_base_dir);
-	root->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
-	return root;
 }
 
 
