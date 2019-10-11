@@ -41,15 +41,6 @@ void cmd_goto_screen_middle(CmdContext *c, CmdParams *p);
 void cmd_goto_screen_bottom(CmdContext *c, CmdParams *p);
 void cmd_goto_doc_percentage(CmdContext *c, CmdParams *p);
 
-void cmd_goto_next_word(CmdContext *c, CmdParams *p);
-void cmd_goto_previous_word(CmdContext *c, CmdParams *p);
-void cmd_goto_next_word_end(CmdContext *c, CmdParams *p);
-void cmd_goto_previous_word_end(CmdContext *c, CmdParams *p);
-void cmd_goto_next_word_space(CmdContext *c, CmdParams *p);
-void cmd_goto_previous_word_space(CmdContext *c, CmdParams *p);
-void cmd_goto_next_word_end_space(CmdContext *c, CmdParams *p);
-void cmd_goto_previous_word_end_space(CmdContext *c, CmdParams *p);
-
 void cmd_goto_line_start(CmdContext *c, CmdParams *p);
 void cmd_goto_line_start_nonempty(CmdContext *c, CmdParams *p);
 void cmd_goto_line_end(CmdContext *c, CmdParams *p);

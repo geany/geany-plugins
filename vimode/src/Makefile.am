@@ -26,6 +26,8 @@ vi_srcs = \
 	excmd-prompt.c \
 	cmds/motion.h \
 	cmds/motion.c \
+	cmds/motion-word.h \
+	cmds/motion-word.c \
 	cmds/txtobjs.h \
 	cmds/txtobjs.c \
 	cmds/changemode.h \

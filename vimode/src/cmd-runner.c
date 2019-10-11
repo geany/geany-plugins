@@ -20,6 +20,7 @@
 #include "utils.h"
 
 #include "cmds/motion.h"
+#include "cmds/motion-word.h"
 #include "cmds/txtobjs.h"
 #include "cmds/changemode.h"
 #include "cmds/edit.h"
