@@ -24,6 +24,7 @@
 /* Keyboard Shortcut */
 enum {
   KB_MATCH_TAG,
+  KB_SELECT_TAG,
   KB_COUNT
 };
 
@@ -34,6 +35,8 @@ GeanyData       *geany_data;
 /* Is needed for clearing highlighting after moving cursor out
  * from the tag */
 static gint highlightedBrackets[] = {0, 0, 0, 0};
+static GtkWidget *goto_matching_tag = NULL;
+static GtkWidget *select_matching_tag = NULL;
 
 PLUGIN_VERSION_CHECK(224)
 
@@ -404,40 +407,101 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
     /* returning FALSE to allow Geany processing the event */
     return FALSE;
 }
-
 static void
-on_kb_goto_matching_tag (guint key_id)
+select_or_match_tag (gboolean select)
 {
     gint cur_line;
-    gint jump_line = 0;
-    if(highlightedBrackets[0] != highlightedBrackets[2] && highlightedBrackets[0] != 0){
-        GeanyDocument *doc = document_get_current();
+    gint jump_line=0, select_start=0, select_end=0;
+    GeanyDocument *doc = document_get_current();
+    if(highlightedBrackets[0] != highlightedBrackets[2]){
         cur_line = sci_get_current_position(doc->editor->sci);
         if(cur_line >= highlightedBrackets[0] && cur_line <= highlightedBrackets[1]){
-            jump_line = highlightedBrackets[2];
+            if (!select){
+                jump_line = highlightedBrackets[2];
+            }
         }
         else if(cur_line >= highlightedBrackets[2] && cur_line <= highlightedBrackets[3]){
-            jump_line = highlightedBrackets[0];
+            if(!select){
+                jump_line = highlightedBrackets[0];
+            }
         }
-        if(jump_line != 0){
-            sci_set_current_position(doc->editor->sci, jump_line, TRUE);
+        if(select){
+            select_end = (highlightedBrackets[0] < highlightedBrackets[2])?highlightedBrackets[3]+1:highlightedBrackets[1]+1;
+            select_start = (highlightedBrackets[0] < highlightedBrackets[2])?highlightedBrackets[0]:highlightedBrackets[2];
         }
     }
+    if (select){
+        sci_set_selection_start(doc->editor->sci, select_start);
+        sci_set_selection_end(doc->editor->sci, select_end);
+    }
+    if(!select && jump_line != 0){
+        sci_set_current_position(doc->editor->sci, jump_line, TRUE);
+    }
 }
+
+
+static void
+on_goto_matching_tag(GtkWidget *widget, gpointer user_data)
+{
+  select_or_match_tag(FALSE);
+  return;
+}
+static void
+on_select_matching_tag(GtkWidget *widget, gpointer user_data)
+{
+  select_or_match_tag(TRUE);
+  return;
+}
+static void
+on_editor_menu_popup (GObject       *object,
+                       const gchar   *word,
+                       gint           pos,
+                       GeanyDocument *doc,
+                       gpointer       user_data)
+{
+    
+   if(DOC_VALID(doc) && (doc->file_type->id == GEANY_FILETYPES_HTML || doc->file_type->id == GEANY_FILETYPES_PHP || doc->file_type->id == GEANY_FILETYPES_XML))
+    {
+        gtk_widget_set_sensitive (goto_matching_tag, TRUE);
+        gtk_widget_set_sensitive (select_matching_tag, TRUE);
+        gtk_widget_show(select_matching_tag);
+        gtk_widget_show(goto_matching_tag);
+    }
+    else{
+        gtk_widget_set_sensitive (goto_matching_tag, FALSE);
+        gtk_widget_set_sensitive (select_matching_tag, FALSE);
+        gtk_widget_hide(select_matching_tag);
+        gtk_widget_hide(goto_matching_tag);
+    }
+}
+
 
 PluginCallback plugin_callbacks[] =
 {
     { "editor-notify", (GCallback) &on_editor_notify, FALSE, NULL },
+    { "update-editor-menu", (GCallback) &on_editor_menu_popup, FALSE, NULL },
     { NULL, NULL, FALSE, NULL }
 };
 
 
 void plugin_init(GeanyData *data)
 {
-    GeanyKeyGroup *group;
-    group = plugin_set_key_group (geany_plugin, "Pair Tag Highlighter", KB_COUNT, NULL);
-    keybindings_set_item (group, KB_MATCH_TAG, on_kb_goto_matching_tag,
-                        0, 0, "goto_matching_tag", _("Go To Matching Tag"), NULL);
+    GeanyKeyGroup *kb_group;
+    goto_matching_tag = gtk_menu_item_new_with_label (_("Goto Matching XML Tag"));
+    select_matching_tag = gtk_menu_item_new_with_label (_("Select Matching XML Tag"));
+    g_signal_connect (goto_matching_tag, "activate",
+                    G_CALLBACK (on_goto_matching_tag), NULL);
+    g_signal_connect (select_matching_tag, "activate",
+                    G_CALLBACK (on_select_matching_tag), NULL);
+    gtk_container_add (GTK_CONTAINER (data->main_widgets->editor_menu),
+                     goto_matching_tag);
+    gtk_container_add (GTK_CONTAINER (data->main_widgets->editor_menu),
+                     select_matching_tag);
+    kb_group = plugin_set_key_group (geany_plugin, PLUGIN, KB_COUNT, NULL);
+    keybindings_set_item (kb_group, KB_MATCH_TAG, NULL,
+                        0, 0, "goto_matching_tag", _("Go To Matching Tag"), goto_matching_tag);
+    keybindings_set_item (kb_group, KB_SELECT_TAG, NULL,
+                        0, 0, "select_matching_tag", _("Select To Matching Tag"), select_matching_tag);
 }
 
 
