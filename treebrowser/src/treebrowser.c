@@ -1629,7 +1629,7 @@ on_treeview_row_expanded(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path
 	}
 	if (CONFIG_SHOW_ICONS)
 	{
-		GIcon *icon = g_themed_icon_new("document-open");
+		GIcon *icon = g_themed_icon_new("folder-open");
 
 		gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, icon, -1);
 		g_object_unref(icon);
@@ -1852,10 +1852,10 @@ create_sidebar(void)
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
 #if GTK_CHECK_VERSION(3, 10, 0)
-	wid = gtk_image_new_from_icon_name("folder", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	wid = gtk_image_new_from_icon_name("edit-copy", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
 #else
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_DIRECTORY));
+	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_COPY));
 #endif
 	gtk_widget_set_tooltip_text(wid, _("Track path"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_track_current), NULL);
