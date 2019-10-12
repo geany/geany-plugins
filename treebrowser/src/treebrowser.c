@@ -2039,6 +2039,18 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 			_("Plugin configuration directory could not be created."));
 }
 
+
+void
+disable_focus_on_click(GtkWidget *widget)
+{
+#if GTK_CHECK_VERSION(3, 20, 0)
+	gtk_widget_set_focus_on_click(widget, FALSE);
+#else
+	gtk_button_set_focus_on_click(GTK_BUTTON(widget), FALSE);
+#endif
+}
+
+
 GtkWidget*
 plugin_configure(GtkDialog *dialog)
 {
@@ -2107,105 +2119,61 @@ plugin_configure(GtkDialog *dialog)
 	gtk_combo_box_set_active(GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), CONFIG_SHOW_ICONS);
 
 	configure_widgets.SHOW_HIDDEN_FILES = gtk_check_button_new_with_label(_("Show hidden files"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.SHOW_HIDDEN_FILES, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.SHOW_HIDDEN_FILES);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_HIDDEN_FILES), CONFIG_SHOW_HIDDEN_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_HIDDEN_FILES, FALSE, FALSE, 0);
 	gtk_widget_set_tooltip_text(configure_widgets.SHOW_HIDDEN_FILES,
 		_("On Windows, this just hide files that are prefixed with '.' (dot)"));
 
 	configure_widgets.HIDE_OBJECT_FILES = gtk_check_button_new_with_label(_("Hide object files"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.HIDE_OBJECT_FILES, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.HIDE_OBJECT_FILES), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.HIDE_OBJECT_FILES);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.HIDE_OBJECT_FILES), CONFIG_HIDE_OBJECT_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.HIDE_OBJECT_FILES, FALSE, FALSE, 0);
 	gtk_widget_set_tooltip_text(configure_widgets.HIDE_OBJECT_FILES,
 		_("Don't show generated object files in the file browser, this includes *.o, *.obj. *.so, *.dll, *.a, *.lib"));
 
 	configure_widgets.REVERSE_FILTER = gtk_check_button_new_with_label(_("Reverse filter"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.REVERSE_FILTER, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.REVERSE_FILTER), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.REVERSE_FILTER);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.REVERSE_FILTER), CONFIG_REVERSE_FILTER);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.REVERSE_FILTER, FALSE, FALSE, 0);
 
 	configure_widgets.FOLLOW_CURRENT_DOC = gtk_check_button_new_with_label(_("Follow current document"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.FOLLOW_CURRENT_DOC, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.FOLLOW_CURRENT_DOC);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.FOLLOW_CURRENT_DOC), CONFIG_FOLLOW_CURRENT_DOC);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.FOLLOW_CURRENT_DOC, FALSE, FALSE, 0);
 
 	configure_widgets.ONE_CLICK_CHDOC = gtk_check_button_new_with_label(_("Single click, open document and focus it"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.ONE_CLICK_CHDOC, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ONE_CLICK_CHDOC), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.ONE_CLICK_CHDOC);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC), CONFIG_ONE_CLICK_CHDOC);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ONE_CLICK_CHDOC, FALSE, FALSE, 0);
 
 	configure_widgets.CHROOT_ON_DCLICK = gtk_check_button_new_with_label(_("Double click open directory"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.ONE_CLICK_CHDOC, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.CHROOT_ON_DCLICK), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.CHROOT_ON_DCLICK);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.CHROOT_ON_DCLICK), CONFIG_CHROOT_ON_DCLICK);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.CHROOT_ON_DCLICK, FALSE, FALSE, 0);
 
 	configure_widgets.ON_DELETE_CLOSE_FILE = gtk_check_button_new_with_label(_("On delete file, close it if is opened"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.ON_DELETE_CLOSE_FILE, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.ON_DELETE_CLOSE_FILE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_DELETE_CLOSE_FILE), CONFIG_ON_DELETE_CLOSE_FILE);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ON_DELETE_CLOSE_FILE, FALSE, FALSE, 0);
 
 	configure_widgets.ON_OPEN_FOCUS_EDITOR = gtk_check_button_new_with_label(_("Focus editor on file open"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.ON_OPEN_FOCUS_EDITOR, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.ON_OPEN_FOCUS_EDITOR), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.ON_OPEN_FOCUS_EDITOR);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.ON_OPEN_FOCUS_EDITOR), CONFIG_ON_OPEN_FOCUS_EDITOR);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.ON_OPEN_FOCUS_EDITOR, FALSE, FALSE, 0);
 
 	configure_widgets.SHOW_TREE_LINES = gtk_check_button_new_with_label(_("Show tree lines"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.SHOW_TREE_LINES, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_TREE_LINES), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.SHOW_TREE_LINES);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_TREE_LINES), CONFIG_SHOW_TREE_LINES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_TREE_LINES, FALSE, FALSE, 0);
 
 	configure_widgets.SHOW_BOOKMARKS = gtk_check_button_new_with_label(_("Show bookmarks"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.SHOW_BOOKMARKS, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.SHOW_BOOKMARKS), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.SHOW_BOOKMARKS);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BOOKMARKS), CONFIG_SHOW_BOOKMARKS);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.SHOW_BOOKMARKS, FALSE, FALSE, 0);
 
 	configure_widgets.OPEN_NEW_FILES = gtk_check_button_new_with_label(_("Open new files"));
-#if GTK_CHECK_VERSION(3, 20, 0)
-	gtk_widget_set_focus_on_click(configure_widgets.OPEN_NEW_FILES, FALSE);
-#else
-	gtk_button_set_focus_on_click(GTK_BUTTON(configure_widgets.OPEN_NEW_FILES ), FALSE);
-#endif
+	disable_focus_on_click(configure_widgets.OPEN_NEW_FILES);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(configure_widgets.OPEN_NEW_FILES ), CONFIG_OPEN_NEW_FILES);
 	gtk_box_pack_start(GTK_BOX(vbox), configure_widgets.OPEN_NEW_FILES , FALSE, FALSE, 0);
 
