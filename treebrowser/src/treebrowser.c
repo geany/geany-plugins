@@ -180,50 +180,13 @@ tree_view_row_expanded_iter(GtkTreeView *tree_view, GtkTreeIter *iter)
 	return expanded;
 }
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-static GdkPixbuf *
-utils_pixbuf_from_name(const gchar *icon_name)
-{
-	GError *error = NULL;
-	GtkIconTheme *icon_theme;
-	GdkPixbuf *pixbuf;
 
-	icon_theme = gtk_icon_theme_get_default ();
-	pixbuf = gtk_icon_theme_load_icon(icon_theme, icon_name, 16, 0, &error);
-
-	if (!pixbuf)
-	{
-		g_warning("Couldn't load icon: %s", error->message);
-		g_error_free(error);
-		return NULL;
-	}
-
-	return pixbuf;
-}
-#else
-static GdkPixbuf *
-utils_pixbuf_from_stock(const gchar *stock_id)
-{
-	GtkIconSet *icon_set;
-
-	icon_set = gtk_icon_factory_lookup_default(stock_id);
-
-	if (icon_set)
-		return gtk_icon_set_render_icon(icon_set, gtk_widget_get_default_style(),
-										gtk_widget_get_default_direction(),
-										GTK_STATE_NORMAL, GTK_ICON_SIZE_MENU, NULL, NULL);
-	return NULL;
-}
-#endif
-
-static GdkPixbuf *
-utils_pixbuf_from_path(gchar *path)
+static GIcon *
+utils_gicon_from_path(const gchar *path)
 {
 	GIcon 		*icon;
-	GdkPixbuf 	*ret = NULL;
 	GtkIconInfo *info;
 	gchar 		*ctype;
-	gint 		width;
 
 	ctype = g_content_type_guess(path, NULL, 0, NULL);
 	icon = g_content_type_get_icon(ctype);
@@ -231,24 +194,21 @@ utils_pixbuf_from_path(gchar *path)
 
 	if (icon != NULL)
 	{
-		gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, NULL);
-		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
-		g_object_unref(icon);
+		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, 16, 0);
 		if (!info)
 		{
-			icon = g_themed_icon_new("text-x-generic");
-			if (icon != NULL)
-			{
-				info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
-				g_object_unref(icon);
-			}
+			g_object_unref(icon);
+			icon = NULL;
 		}
-		if (!info)
-			return NULL;
-		ret = gtk_icon_info_load_icon (info, NULL);
 		gtk_icon_info_free(info);
 	}
-	return ret;
+
+	if (icon == NULL)
+	{
+		icon = g_themed_icon_new("text-x-generic");
+	}
+
+	return icon;
 }
 
 
@@ -542,7 +502,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 
 			if (!check_hidden(uri))
 			{
-				GdkPixbuf *icon = NULL;
+				GIcon *icon = NULL;
 
 				if (is_dir)
 				{
@@ -554,11 +514,7 @@ treebrowser_browse(gchar *directory, gpointer parent)
 						gtk_tree_iter_free(last_dir_iter);
 					}
 					last_dir_iter = gtk_tree_iter_copy(&iter);
-#if GTK_CHECK_VERSION(3, 10, 0)
-					icon = CONFIG_SHOW_ICONS ? utils_pixbuf_from_name("folder") : NULL;
-#else
-					icon = CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY) : NULL;
-#endif
+					icon = CONFIG_SHOW_ICONS ? g_themed_icon_new("folder") : NULL;
 					gtk_tree_store_set(treestore, &iter,
 										TREEBROWSER_COLUMN_ICON, 	icon,
 										TREEBROWSER_COLUMN_NAME, 	fname,
@@ -576,13 +532,9 @@ treebrowser_browse(gchar *directory, gpointer parent)
 					if (check_filtered(utf8_name))
 					{
 						icon = CONFIG_SHOW_ICONS == 2
-									? utils_pixbuf_from_path(uri)
+									? utils_gicon_from_path(uri)
 									: CONFIG_SHOW_ICONS
-#if GTK_CHECK_VERSION(3, 10, 0)
-										? utils_pixbuf_from_name("text-x-generic")
-#else
-										? utils_pixbuf_from_stock(GTK_STOCK_FILE)
-#endif
+										? g_themed_icon_new("text-x-generic")
 										: NULL;
 						gtk_tree_store_append(treestore, &iter, parent);
 						gtk_tree_store_set(treestore, &iter,
@@ -640,7 +592,7 @@ treebrowser_load_bookmarks(void)
 	gchar 		**lines, **line;
 	GtkTreeIter iter;
 	gchar 		*pos;
-	GdkPixbuf 	*icon = NULL;
+	GIcon	 	*icon = NULL;
 
 	if (! CONFIG_SHOW_BOOKMARKS)
 		return;
@@ -656,11 +608,7 @@ treebrowser_load_bookmarks(void)
 		else
 		{
 			gtk_tree_store_prepend(treestore, &bookmarks_iter, NULL);
-#if GTK_CHECK_VERSION(3, 10, 0)
-			icon = CONFIG_SHOW_ICONS ? utils_pixbuf_from_name("go-home") : NULL;
-#else
-			icon = CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_HOME) : NULL;
-#endif
+			icon = CONFIG_SHOW_ICONS ? g_themed_icon_new("go-home") : NULL;
 			gtk_tree_store_set(treestore, &bookmarks_iter,
 											TREEBROWSER_COLUMN_ICON, 	icon,
 											TREEBROWSER_COLUMN_NAME, 	_("Bookmarks"),
@@ -696,11 +644,7 @@ treebrowser_load_bookmarks(void)
 					gchar *file_name = g_path_get_basename(path_full);
 
 					gtk_tree_store_append(treestore, &iter, &bookmarks_iter);
-#if GTK_CHECK_VERSION(3, 10, 0)
-					icon = CONFIG_SHOW_ICONS ? utils_pixbuf_from_name("folder") : NULL;
-#else
-					icon = CONFIG_SHOW_ICONS ? utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY) : NULL;
-#endif
+					icon = CONFIG_SHOW_ICONS ? g_themed_icon_new("folder") : NULL;
 					gtk_tree_store_set(treestore, &iter,
 												TREEBROWSER_COLUMN_ICON, 	icon,
 												TREEBROWSER_COLUMN_NAME, 	file_name,
@@ -1685,11 +1629,7 @@ on_treeview_row_expanded(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path
 	}
 	if (CONFIG_SHOW_ICONS)
 	{
-#if GTK_CHECK_VERSION(3, 10, 0)
-		GdkPixbuf *icon = utils_pixbuf_from_name("document-open");
-#else
-		GdkPixbuf *icon = utils_pixbuf_from_stock(GTK_STOCK_OPEN);
-#endif
+		GIcon *icon = g_themed_icon_new("document-open");
 
 		gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, icon, -1);
 		g_object_unref(icon);
@@ -1707,11 +1647,7 @@ on_treeview_row_collapsed(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *pat
 		return;
 	if (CONFIG_SHOW_ICONS)
 	{
-#if GTK_CHECK_VERSION(3, 10, 0)
-		GdkPixbuf *icon = utils_pixbuf_from_name("folder");
-#else
-		GdkPixbuf *icon = utils_pixbuf_from_stock(GTK_STOCK_DIRECTORY);
-#endif
+		GIcon *icon = g_themed_icon_new("folder");
 
 		gtk_tree_store_set(treestore, iter, TREEBROWSER_COLUMN_ICON, icon, -1);
 		g_object_unref(icon);
@@ -1809,7 +1745,7 @@ create_view_and_model(void)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(view), treeview_column_text);
 
 	gtk_tree_view_column_pack_start(treeview_column_text, render_icon, FALSE);
-	gtk_tree_view_column_set_attributes(treeview_column_text, render_icon, "pixbuf", TREEBROWSER_RENDER_ICON, NULL);
+	gtk_tree_view_column_set_attributes(treeview_column_text, render_icon, "gicon", TREEBROWSER_RENDER_ICON, NULL);
 
 	gtk_tree_view_column_pack_start(treeview_column_text, render_text, TRUE);
 	gtk_tree_view_column_add_attribute(treeview_column_text, render_text, "text", TREEBROWSER_RENDER_TEXT);
@@ -1827,7 +1763,7 @@ create_view_and_model(void)
 
 	gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(view), CONFIG_SHOW_TREE_LINES);
 
-	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+	treestore = gtk_tree_store_new(TREEBROWSER_COLUMNC, G_TYPE_ICON, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 
 	gtk_tree_view_set_model(GTK_TREE_VIEW(view), GTK_TREE_MODEL(treestore));
 	g_signal_connect(G_OBJECT(render_text), "edited", G_CALLBACK(on_treeview_renamed), view);
