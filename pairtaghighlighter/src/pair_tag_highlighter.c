@@ -411,7 +411,7 @@ static void
 select_or_match_tag (gboolean select)
 {
     gint cur_line;
-    gint jump_line=0, select_start=0, select_end=0;
+    gint jump_line=-5, select_start=0, select_end=0;
     GeanyDocument *doc = document_get_current();
     if(highlightedBrackets[0] != highlightedBrackets[2]){
         cur_line = sci_get_current_position(doc->editor->sci);
@@ -434,7 +434,7 @@ select_or_match_tag (gboolean select)
         sci_set_selection_start(doc->editor->sci, select_start);
         sci_set_selection_end(doc->editor->sci, select_end);
     }
-    if(!select && jump_line != 0){
+    else if (jump_line >= 0){
         sci_set_current_position(doc->editor->sci, jump_line, TRUE);
     }
 }
