@@ -1537,14 +1537,14 @@ void prjorg_sidebar_init(void)
 	item = GTK_WIDGET(gtk_separator_tool_item_new());
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 
-	image = gtk_image_new_from_icon_name("list-add", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	image = gtk_image_new_from_icon_name("go-down", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	item = GTK_WIDGET(gtk_tool_button_new(image, NULL));
 	gtk_widget_set_tooltip_text(item, _("Expand all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_expand_all), NULL);
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 	s_project_toolbar.expand = item;
 
-	image = gtk_image_new_from_icon_name("list-remove", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	image = gtk_image_new_from_icon_name("go-up", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	item = GTK_WIDGET(gtk_tool_button_new(image, NULL));
 	gtk_widget_set_tooltip_text(item, _("Collapse to project root"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_collapse_all), NULL);
@@ -1610,7 +1610,7 @@ void prjorg_sidebar_init(void)
 
 	s_popup_menu.widget = gtk_menu_new();
 
-	item = menu_item_new("list-add", _("Expand All"));
+	item = menu_item_new("go-down", _("Expand All"));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(expand_all), NULL);
 	s_popup_menu.expand = item;
@@ -1653,12 +1653,12 @@ void prjorg_sidebar_init(void)
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_create_dir), NULL);
 	s_popup_menu.create_dir = item;
 
-	item = menu_item_new(NULL, _("Rename..."));
+	item = menu_item_new("document-save-as", _("Rename..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_rename), NULL);
 	s_popup_menu.rename = item;
 
-	item = menu_item_new("list-remove", _("Delete"));
+	item = menu_item_new("edit-delete", _("Delete"));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_delete), NULL);
 	s_popup_menu.delete = item;

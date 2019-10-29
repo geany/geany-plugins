@@ -373,7 +373,6 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 
 void prjorg_menu_init(void)
 {
-	GtkWidget *image;
 	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "ProjectOrganizer", KB_COUNT, kb_callback);
 
 	s_sep_item = gtk_separator_menu_item_new();
