@@ -1186,6 +1186,16 @@ on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 	showbars(gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem)));
 }
 
+static GtkWidget *menu_item_new(const gchar *icon_name, const gchar *label)
+{
+	GtkWidget *item = gtk_image_menu_item_new_with_mnemonic(label);
+	GtkWidget *image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_MENU);
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+	gtk_widget_show(image);
+	gtk_widget_show(item);
+	return item;
+}
+
 static GtkWidget*
 create_popup_menu(const gchar *name, const gchar *uri)
 {
@@ -1195,57 +1205,33 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gboolean is_dir 		= is_exists ? g_file_test(uri, G_FILE_TEST_IS_DIR) : FALSE;
 	gboolean is_document 	= document_find_by_filename(uri) != NULL ? TRUE : FALSE;
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("go-up", _("Go _Up"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Go _Up"));
-#endif
+	item = menu_item_new("go-up", _("Go _Up"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("go-up", _("Set _Path From Document"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_GO_UP, _("Set _Path From Document"));
-#endif
+	item = menu_item_new("go-up", _("Set _Path From Document"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("document-open", _("_Open Externally"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_OPEN, _("_Open Externally"));
-#endif
+	item = menu_item_new("document-open", _("_Open Externally"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_externally), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_exists);
 
-	item = ui_image_menu_item_new("utilities-terminal", _("Open _Terminal"));
+	item = menu_item_new("utilities-terminal", _("Open _Terminal"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_terminal), g_strdup(uri), (GClosureNotify)g_free, 0);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("go-top", _("Set as _Root"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_GOTO_TOP, _("Set as _Root"));
-#endif
+	item = menu_item_new("go-top", _("Set as _Root"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_set_as_root), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("view-refresh", _("Refres_h"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_REFRESH, _("Refres_h"));
-#endif
+	item = menu_item_new("view-refresh", _("Refres_h"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_refresh), NULL);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("edit-find", _("_Find in Files"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_FIND, _("_Find in Files"));
-#endif
+	item = menu_item_new("edit-find", _("_Find in Files"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_find_in_files), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
@@ -1253,36 +1239,20 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("list-add", _("N_ew Folder"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_ADD, _("N_ew Folder"));
-#endif
+	item = menu_item_new("list-add", _("N_ew Folder"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"directory");
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("document-new", _("_New File"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_NEW, _("_New File"));
-#endif
+	item = menu_item_new("document-new", _("_New File"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"file");
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("document-save-as", _("Rena_me"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_SAVE_AS, _("Rena_me"));
-#endif
+	item = menu_item_new("document-save-as", _("Rena_me"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_rename), NULL);
 	gtk_widget_set_sensitive(item, is_exists);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("edit-delete", _("_Delete"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_DELETE, _("_Delete"));
-#endif
+	item = menu_item_new("edit-delete", _("_Delete"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_delete), NULL);
 	gtk_widget_set_sensitive(item, is_exists);
@@ -1290,29 +1260,17 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("window-close", g_strdup_printf(_("Close: %s"), name));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Close: %s"), name));
-#endif
+	item = menu_item_new("window-close", g_strdup_printf(_("Close: %s"), name));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_close), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_document);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("window-close", g_strdup_printf(_("Clo_se Child Documents ")));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_CLOSE, g_strdup_printf(_("Clo_se Child Documents ")));
-#endif
+	item = menu_item_new("window-close", g_strdup_printf(_("Clo_se Child Documents ")));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_close_children), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_dir);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("edit-copy", _("_Copy Full Path to Clipboard"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_COPY, _("_Copy Full Path to Clipboard"));
-#endif
+	item = menu_item_new("edit-copy", _("_Copy Full Path to Clipboard"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_copy_uri), g_strdup(uri), (GClosureNotify)g_free, 0);
 	gtk_widget_set_sensitive(item, is_exists);
@@ -1321,19 +1279,11 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	gtk_widget_show(item);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("go-next", _("E_xpand All"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_GO_FORWARD, _("E_xpand All"));
-#endif
+	item = menu_item_new("go-next", _("E_xpand All"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_expand_all), NULL);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
-	item = ui_image_menu_item_new("go-previous", _("Coll_apse All"));
-#else
-	item = ui_image_menu_item_new(GTK_STOCK_GO_BACK, _("Coll_apse All"));
-#endif
+	item = menu_item_new("go-previous", _("Coll_apse All"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_collapse_all), NULL);
 
