@@ -35,4 +35,6 @@ gboolean rename_file_or_dir(gchar *utf8_oldname, gchar *utf8_newname);
 gchar *get_selection(void);
 gchar *get_project_base_path(void);
 
+GtkWidget *menu_item_new(const gchar *icon_name, const gchar *label);
+
 #endif

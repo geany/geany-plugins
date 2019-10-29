@@ -226,3 +226,18 @@ gchar *get_project_base_path(void)
 	}
 	return NULL;
 }
+
+
+GtkWidget *menu_item_new(const gchar *icon_name, const gchar *label)
+{
+	GtkWidget *item = gtk_image_menu_item_new_with_mnemonic(label);
+
+	if (icon_name != NULL)
+	{
+		GtkWidget *image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_MENU);
+		gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
+		gtk_widget_show(image);
+	}
+	gtk_widget_show(item);
+	return item;
+}
