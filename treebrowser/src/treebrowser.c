@@ -1209,7 +1209,7 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_go_up), NULL);
 
-	item = menu_item_new("go-up", _("Set _Path From Document"));
+	item = menu_item_new("go-jump", _("Set _Path From Document"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
 
@@ -1239,7 +1239,7 @@ create_popup_menu(const gchar *name, const gchar *uri)
 	item = gtk_separator_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(menu), item);
 
-	item = menu_item_new("list-add", _("N_ew Folder"));
+	item = menu_item_new("folder-new", _("N_ew Folder"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_create_new_object), (gpointer)"directory");
 
@@ -1785,7 +1785,7 @@ create_sidebar(void)
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_current_path), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-	wid = gtk_image_new_from_icon_name("edit-copy", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	wid = gtk_image_new_from_icon_name("go-first", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
 	gtk_widget_set_tooltip_text(wid, _("Track path"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_track_current), NULL);
