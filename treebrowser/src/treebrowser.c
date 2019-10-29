@@ -1761,62 +1761,38 @@ create_sidebar(void)
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), GTK_ICON_SIZE_MENU);
 	gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
 	wid = gtk_image_new_from_icon_name("go-up", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
-#else
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_GO_UP));
-#endif
 	gtk_widget_set_tooltip_text(wid, _("Go up"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_go_up), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
 	wid = gtk_image_new_from_icon_name("view-refresh", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
-#else
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_REFRESH));
-#endif
 	gtk_widget_set_tooltip_text(wid, _("Refresh"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_refresh), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
 	wid = gtk_image_new_from_icon_name("go-home", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
-#else
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_HOME));
-#endif
 	gtk_widget_set_tooltip_text(wid, _("Home"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_go_home), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
 	wid = gtk_image_new_from_icon_name("go-jump", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
-#else
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_JUMP_TO));
-#endif
 	gtk_widget_set_tooltip_text(wid, _("Set path from document"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_current_path), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
 	wid = gtk_image_new_from_icon_name("edit-copy", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
-#else
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_COPY));
-#endif
 	gtk_widget_set_tooltip_text(wid, _("Track path"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(treebrowser_track_current), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
 
-#if GTK_CHECK_VERSION(3, 10, 0)
 	wid = gtk_image_new_from_icon_name("window-close", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	wid = GTK_WIDGET(gtk_tool_button_new(wid, NULL));
-#else
-	wid = GTK_WIDGET(gtk_tool_button_new_from_stock(GTK_STOCK_CLOSE));
-#endif
 	gtk_widget_set_tooltip_text(wid, _("Hide bars"));
 	g_signal_connect(wid, "clicked", G_CALLBACK(on_button_hide_bars), NULL);
 	gtk_container_add(GTK_CONTAINER(toolbar), wid);
