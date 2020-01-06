@@ -13,6 +13,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
+#include <stdlib.h>
 #include <gdk/gdk.h>
 #include "Scintilla.h"  /* for the SCNotification struct */
 #include "SciLexer.h"
@@ -431,7 +432,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
 }
 
 static void
-on_kb_goto_matching_tag (guint key_id)
+on_kb_goto_matching_tag(guint key_id)
 {
     gint cur_line;
     gint jump_line = 0;
@@ -453,60 +454,60 @@ on_kb_goto_matching_tag (guint key_id)
 /*** Configuration file ***/
 
 /* Returns the name of the configuration file. The string must be freed by the caller */
-static gchar *get_config_filename (void)
+static gchar *get_config_filename(void)
 {
-  return g_build_filename (geany_data->app->configdir, "plugins",
-                           PLUGIN, PLUGIN".conf", NULL);
+  return g_build_filename(geany_data->app->configdir, "plugins",
+                          PLUGIN, PLUGIN".conf", NULL);
 }
 
 /* Read a color setting from the key file. Returns -1 if not valid or can't be read */
-static gint key_file_get_color (GKeyFile *key_file, const gchar *group, const gchar *key)
+static gint key_file_get_color(GKeyFile *key_file, const gchar *group, const gchar *key)
 {
     glong value = -1;
-    gchar *value_str = g_key_file_get_value (key_file, group, key, NULL);
+    gchar *value_str = g_key_file_get_value(key_file, group, key, NULL);
     
     if (value_str) {
         glong temp_value;
         gchar *index = value_str;
         
         /* get to the first hex digit */
-        while (*index != '\0' && !isxdigit(*index)) 
+        while (*index != '\0' && !isxdigit(*index))
             index++;
 
         /* attempt to convert the value string to an RGB color integer */
         if (*index != '\0') {
             char *end_ptr;
             errno = 0;
-            temp_value = strtol (index, &end_ptr, 16);
+            temp_value = strtol(index, &end_ptr, 16);
             if (!errno && (end_ptr != index))
                 if (temp_value >= 0 && temp_value <= 0xffffff)
                     value = temp_value;
         }
     }
 
-    return (gint) value;
+    return (gint)value;
 }
 
 /* Write a color setting to the key file */
-static void key_file_write_color (GKeyFile *key_file, const gchar *group,
-                                  const gchar *key, gint color)
+static void key_file_write_color(GKeyFile *key_file, const gchar *group,
+                                 const gchar *key, gint color)
 {
     if (color >= 0 && color <= 0xffffff) {
         gchar value_str[8];
-        g_snprintf (value_str, sizeof (value_str), "#%.6X", color);
-        g_key_file_set_value (key_file, group, key, value_str);
+        g_snprintf(value_str, sizeof(value_str), "#%.6X", color);
+        g_key_file_set_value(key_file, group, key, value_str);
     } else
-        g_warning ("key_file_write_color(): Value out of bounds %d\n", color);
+        g_warning("key_file_write_color(): Value out of bounds %d\n", color);
 }
 
 /* Read a long integer value from the key file. Returns FALSE if there is an error
  * reading the value, TRUE otherwise
  */
-static gboolean key_file_get_long (GKeyFile *key_file, const gchar *group,
-                                   const gchar *key, glong *value)
+static gboolean key_file_get_long(GKeyFile *key_file, const gchar *group,
+                                  const gchar *key, glong *value)
 {
     gboolean success = FALSE;
-    gchar *value_str = g_key_file_get_value (key_file, group, key, NULL);
+    gchar *value_str = g_key_file_get_value(key_file, group, key, NULL);
     
     if (value_str) {
         glong temp_value;
@@ -514,7 +515,7 @@ static gboolean key_file_get_long (GKeyFile *key_file, const gchar *group,
 
         /* attempt to convert the value string to an integer */
         errno = 0;
-        temp_value = strtol (value_str, &end_ptr, 10);
+        temp_value = strtol(value_str, &end_ptr, 10);
         if (!errno && (end_ptr != value_str)) {
             *value = temp_value;
             success = TRUE;
@@ -525,57 +526,57 @@ static gboolean key_file_get_long (GKeyFile *key_file, const gchar *group,
 }
 
 /* Write a long integer setting to the key file */
-static void key_file_write_long (GKeyFile *key_file, const gchar *group,
-                                 const gchar *key, glong value)
+static void key_file_write_long(GKeyFile *key_file, const gchar *group,
+                                const gchar *key, glong value)
 {
     gchar *value_str;
-    value_str = g_strdup_printf ("%ld", value);
-    g_key_file_set_value (key_file, group, key, value_str);
-    g_free (value_str);
+    value_str = g_strdup_printf("%ld", value);
+    g_key_file_set_value(key_file, group, key, value_str);
+    g_free(value_str);
 }
 
 /* Loads the key file from the config file. Returns TRUE if successful or the config
  * file doesn't exist, FALSE otherwise
  */
-static gboolean load_key_file (GKeyFile *key_file, gchar *config_file, GKeyFileFlags flags)
+static gboolean load_key_file(GKeyFile *key_file, gchar *config_file, GKeyFileFlags flags)
 {
     gboolean success = TRUE;
     GError *error = NULL;
     
     if (!g_key_file_load_from_file(key_file, config_file, flags, &error)) {
         if (error->code != G_FILE_ERROR_NOENT)
-            g_warning ("load_key_file(): Config file error\n%s", error->message);
-        g_error_free (error);        
+            g_warning("load_key_file(): Config file error\n%s", error->message);
+        g_error_free(error);        
         success = FALSE;
     }
     return success;
 }
 
 /* Load the configuration from the config file, if it exists */
-static void load_config (void)
+static void load_config(void)
 {
-    GKeyFile *key_file = g_key_file_new ();
-    gchar *config_file = get_config_filename ();
+    GKeyFile *key_file = g_key_file_new();
+    gchar *config_file = get_config_filename();
     
-    if (load_key_file (key_file, config_file, G_KEY_FILE_NONE)) {
+    if (load_key_file(key_file, config_file, G_KEY_FILE_NONE)) {
         gint color;
         glong temp_value;
-        color = key_file_get_color (key_file, "color", "matching-pair");
+        color = key_file_get_color(key_file, "color", "matching-pair");
         if (color != -1)
             highlightColor_G[MATCHING_PAIR] = color;
         else
             g_warning("load_config(): matching-pair not loaded\n");
-        color = key_file_get_color (key_file, "color", "nonmatching-pair");
+        color = key_file_get_color(key_file, "color", "nonmatching-pair");
         if (color != -1)
             highlightColor_G[NONMATCHING_PAIR] = color;
         else
             g_warning("load_config(): nonmatching-pair not loaded\n");
-        color = key_file_get_color (key_file, "color", "empty-tag");
+        color = key_file_get_color(key_file, "color", "empty-tag");
         if (color != -1)
             highlightColor_G[EMPTY_TAG] = color;
         else
             g_warning("load_config(): empty-tag not read\n");
-        if (key_file_get_long (key_file, "color", "alpha", &temp_value))
+        if (key_file_get_long(key_file, "color", "alpha", &temp_value))
             if (temp_value >= HIGHLIGHT_ALPHA_MIN && temp_value <= HIGHLIGHT_ALPHA_MAX)
                 highlightAlpha_G = temp_value;
             else
@@ -584,43 +585,43 @@ static void load_config (void)
             g_warning("load_config(): alpha not loaded\n");
     }
 
-    g_key_file_free (key_file);
-    g_free (config_file);
+    g_key_file_free(key_file);
+    g_free(config_file);
 }
 
 /* Write the configuration to the config file */
-static void write_config (void)
+static void write_config(void)
 {
-    GKeyFile *key_file = g_key_file_new ();
-    gchar *config_file = get_config_filename ();
-    gchar *dir_name = g_path_get_dirname (config_file);
+    GKeyFile *key_file = g_key_file_new();
+    gchar *config_file = get_config_filename();
+    gchar *dir_name = g_path_get_dirname(config_file);
     gint error_code;
     GError *error = NULL;
 
-    load_key_file (key_file, config_file, G_KEY_FILE_KEEP_COMMENTS);
-    key_file_write_color (key_file, "color", "matching-pair",
-                          highlightColor_G[MATCHING_PAIR]);
-    key_file_write_color (key_file, "color", "nonmatching-pair",
-                          highlightColor_G[NONMATCHING_PAIR]);
-    key_file_write_color (key_file, "color", "empty-tag",
-                          highlightColor_G[EMPTY_TAG]);
-    key_file_write_long (key_file, "color", "alpha", highlightAlpha_G);
+    load_key_file(key_file, config_file, G_KEY_FILE_KEEP_COMMENTS);
+    key_file_write_color(key_file, "color", "matching-pair",
+                         highlightColor_G[MATCHING_PAIR]);
+    key_file_write_color(key_file, "color", "nonmatching-pair",
+                         highlightColor_G[NONMATCHING_PAIR]);
+    key_file_write_color(key_file, "color", "empty-tag",
+                         highlightColor_G[EMPTY_TAG]);
+    key_file_write_long(key_file, "color", "alpha", highlightAlpha_G);
 
     /* create the config file's directory, if it doesn't exist */
-    error_code = utils_mkdir (dir_name, TRUE);
+    error_code = utils_mkdir(dir_name, TRUE);
     if (! error_code) {
-        if (! g_key_file_save_to_file (key_file, config_file, &error)) {
-            g_warning ("write_config(): Failed to write to file '%s'\n%s",
-                        config_file, error->message);
-            g_error_free (error);
+        if (! g_key_file_save_to_file(key_file, config_file, &error)) {
+            g_warning("write_config(): Failed to write to file '%s'\n%s",
+                       config_file, error->message);
+            g_error_free(error);
         }
     } else
-        g_warning ("write_config(): Failed to create directory '%s'\n%s",
-                   dir_name, g_strerror (error_code));
+        g_warning("write_config(): Failed to create directory '%s'\n%s",
+                   dir_name, g_strerror(error_code));
 
-    g_key_file_free (key_file);
-    g_free (dir_name);
-    g_free (config_file);
+    g_key_file_free(key_file);
+    g_free(dir_name);
+    g_free(config_file);
 }
 
 PluginCallback plugin_callbacks[] =
@@ -633,11 +634,11 @@ PluginCallback plugin_callbacks[] =
 void plugin_init(GeanyData *data)
 {
     GeanyKeyGroup *group;
-    group = plugin_set_key_group (geany_plugin, "Pair Tag Highlighter", KB_COUNT, NULL);
-    keybindings_set_item (group, KB_MATCH_TAG, on_kb_goto_matching_tag,
-                        0, 0, "goto_matching_tag", _("Go To Matching Tag"), NULL);
-    memcpy (&highlightColor_G, &HIGHLIGHT_COLOR_DEFAULTS, sizeof (highlightColor_G));
-    load_config ();
+    group = plugin_set_key_group(geany_plugin, "Pair Tag Highlighter", KB_COUNT, NULL);
+    keybindings_set_item(group, KB_MATCH_TAG, on_kb_goto_matching_tag,
+                         0, 0, "goto_matching_tag", _("Go To Matching Tag"), NULL);
+    memcpy(&highlightColor_G, &HIGHLIGHT_COLOR_DEFAULTS, sizeof(highlightColor_G));
+    load_config();
 }
 
 
@@ -657,26 +658,26 @@ void plugin_cleanup(void)
 /* Returns the path of the plugin's data directory. The path must be freed
  * by the caller
  */
-static gchar * get_data_dir_path (const gchar *filename)
+static gchar * get_data_dir_path(const gchar *filename)
 {
   gchar *prefix = NULL;
   gchar *path;
 
 #ifdef G_OS_WIN32
-  prefix = g_win32_get_package_installation_directory_of_module (NULL);
+  prefix = g_win32_get_package_installation_directory_of_module(NULL);
 #elif defined(__APPLE__)
-  if (g_getenv ("GEANY_PLUGINS_SHARE_PATH"))
-    return g_build_filename (g_getenv ("GEANY_PLUGINS_SHARE_PATH"), 
-                             PLUGIN, filename, NULL);
+  if (g_getenv("GEANY_PLUGINS_SHARE_PATH"))
+    return g_build_filename(g_getenv("GEANY_PLUGINS_SHARE_PATH"), 
+                            PLUGIN, filename, NULL);
 #endif
-  path = g_build_filename (prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
-  g_free (prefix);
+  path = g_build_filename(prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
+  g_free(prefix);
   return path;
 }
 
 #if GTK_CHECK_VERSION(3,4,0)
 /* Convert an RGB (0xRRGGBB) number in integer form into a GdkRGBA */
-static void rgba_from_int (GdkRGBA *color, gint num)
+static void rgba_from_int(GdkRGBA *color, gint num)
 {
     gfloat conv_factor = 1.0 / 255;
     color->red = ((num & 0xff0000) >> 16) * conv_factor;
@@ -686,17 +687,17 @@ static void rgba_from_int (GdkRGBA *color, gint num)
 }
 
 /* Convert a GdkRGBA into an integer RGB value (0xRRGGBB) */
-static int int_from_rbga (GdkRGBA *color)
+static int int_from_rbga(GdkRGBA *color)
 {
     gfloat conv_factor = 255.0;
-    int red = (int) (color->red * conv_factor);
-    int green = (int) (color->green * conv_factor);
-    int blue = (int) (color->blue * conv_factor);
+    int red = (int)(color->red * conv_factor);
+    int green = (int)(color->green * conv_factor);
+    int blue = (int)(color->blue * conv_factor);
     return ((red << 16) | (green << 8) | blue);
 }
 #else
 /* Convert an RGB (0xRRGGBB) number in integer form into a GdkColor */
-static void color_from_int (GdkColor *color, gint num)
+static void color_from_int(GdkColor *color, gint num)
 {
     gint conv_factor = 65535 / 255;
     color->red = ((num & 0xff0000) >> 16) * conv_factor;
@@ -705,69 +706,69 @@ static void color_from_int (GdkColor *color, gint num)
 }
 
 /* Convert a GdkColor into an integer RGB value (0xRRGGBB) */
-static int int_from_color (GdkColor *color)
+static int int_from_color(GdkColor *color)
 {
     gfloat conv_factor = 255.0 / 65535.0;
-    int red = (int) (color->red * conv_factor);
-    int green = (int) (color->green * conv_factor);
-    int blue = (int) (color->blue * conv_factor);
+    int red = (int)(color->red * conv_factor);
+    int green = (int)(color->green * conv_factor);
+    int blue = (int)(color->blue * conv_factor);
     return ((red << 16) | (green << 8) | blue);
 }
 #endif
 
-static void free_config_dialog_objects (PrefDialogObjects *dialog_objects)
+static void free_config_dialog_objects(PrefDialogObjects *dialog_objects)
 {
-    g_object_unref (dialog_objects->main_prefs_frame);
-    g_free (dialog_objects);
+    g_object_unref(dialog_objects->main_prefs_frame);
+    g_free(dialog_objects);
 }
 
 /* Set the color of the color button from an integer RGB value */
-static void set_color_button_color (GtkWidget *color_button, gint value)
+static void set_color_button_color(GtkWidget *color_button, gint value)
 {
 #if GTK_CHECK_VERSION(3,4,0)
     GdkRGBA color;
-    rgba_from_int (&color, value);
-    gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (color_button), &color);
+    rgba_from_int(&color, value);
+    gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(color_button), &color);
 #else
     GdkColor color;
-    color_from_int (&color, value);
-    gtk_color_button_set_color (GTK_COLOR_BUTTON (color_button), &color);
+    color_from_int(&color, value);
+    gtk_color_button_set_color(GTK_COLOR_BUTTON(color_button), &color);
 #endif
 }
 
 /* Get the color in integer RGB form of the color button */
-static gint get_color_button_color (GtkWidget *color_button)
+static gint get_color_button_color(GtkWidget *color_button)
 {
 #if GTK_CHECK_VERSION(3,4,0)
     GdkRGBA color;
-    gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (color_button), &color);
-    return int_from_rbga (&color);
+    gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(color_button), &color);
+    return int_from_rbga(&color);
 #else
     GdkColor color;
-    gtk_color_button_get_color (GTK_COLOR_BUTTON (color_button), &color);
-    return int_from_color (&color);
+    gtk_color_button_get_color(GTK_COLOR_BUTTON(color_button), &color);
+    return int_from_color(&color);
 #endif
 }
 
 /* Handle responses to the preferences dialog */
-static void on_configure_response (GtkDialog *dialog, gint response, 
-                                   PrefDialogObjects *dialog_objects)
+static void on_configure_response(GtkDialog *dialog, gint response, 
+                                  PrefDialogObjects *dialog_objects)
 {
     if (response == GTK_RESPONSE_APPLY || response == GTK_RESPONSE_OK) {
         /* update configuration values from the preferences dialog */
         highlightColor_G[MATCHING_PAIR] = 
-            get_color_button_color (dialog_objects->matching_pair_color_button);
+            get_color_button_color(dialog_objects->matching_pair_color_button);
         highlightColor_G[NONMATCHING_PAIR] = 
-            get_color_button_color (dialog_objects->nonmatching_pair_color_button);
+            get_color_button_color(dialog_objects->nonmatching_pair_color_button);
         highlightColor_G[EMPTY_TAG] = 
-            get_color_button_color (dialog_objects->empty_tag_color_button);
+            get_color_button_color(dialog_objects->empty_tag_color_button);
         highlightAlpha_G = 
-            (gint) gtk_adjustment_get_value (GTK_ADJUSTMENT (dialog_objects->alpha_adjust));
+            (gint)gtk_adjustment_get_value(GTK_ADJUSTMENT(dialog_objects->alpha_adjust));
 
-        write_config ();
+        write_config();
 
         /* update the current document, if it's a markup document */
-        GeanyDocument *document = document_get_current ();
+        GeanyDocument *document = document_get_current();
         if (document) {
             gint lexer;
             lexer = sci_get_lexer(document->editor->sci);
@@ -778,69 +779,69 @@ static void on_configure_response (GtkDialog *dialog, gint response,
 }
 
 /* Return the settings in the preferences dialog to the defaults */
-static void on_defaults_button_pressed (GtkButton *button, PrefDialogObjects *dialog_objects)
+static void on_defaults_button_pressed(GtkButton *button, PrefDialogObjects *dialog_objects)
 {
-    set_color_button_color (dialog_objects->matching_pair_color_button,
-                            HIGHLIGHT_COLOR_DEFAULTS[MATCHING_PAIR]);
-    set_color_button_color (dialog_objects->nonmatching_pair_color_button,
-                            HIGHLIGHT_COLOR_DEFAULTS[NONMATCHING_PAIR]);
-    set_color_button_color (dialog_objects->empty_tag_color_button,
-                            HIGHLIGHT_COLOR_DEFAULTS[EMPTY_TAG]);
-    gtk_adjustment_set_value (GTK_ADJUSTMENT (dialog_objects->alpha_adjust),
-                              (gdouble) HIGHLIGHT_ALPHA_DEFAULT);
+    set_color_button_color(dialog_objects->matching_pair_color_button,
+                           HIGHLIGHT_COLOR_DEFAULTS[MATCHING_PAIR]);
+    set_color_button_color(dialog_objects->nonmatching_pair_color_button,
+                           HIGHLIGHT_COLOR_DEFAULTS[NONMATCHING_PAIR]);
+    set_color_button_color(dialog_objects->empty_tag_color_button,
+                           HIGHLIGHT_COLOR_DEFAULTS[EMPTY_TAG]);
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(dialog_objects->alpha_adjust),
+                             (gdouble)HIGHLIGHT_ALPHA_DEFAULT);
 }
 
 /* Set up the preferences dialog */
 GtkWidget *
-plugin_configure (GtkDialog *dialog)
+plugin_configure(GtkDialog *dialog)
 {
     GError *error = NULL;
     GtkWidget *prefs_frame = NULL;
-    GtkBuilder *builder = gtk_builder_new ();
-    gchar *path = get_data_dir_path ("prefs.ui");
+    GtkBuilder *builder = gtk_builder_new();
+    gchar *path = get_data_dir_path("prefs.ui");
 
     /* get the builder from the UI file */
-    gtk_builder_set_translation_domain (builder, GETTEXT_PACKAGE);
-    if (! gtk_builder_add_from_file (builder, path, &error)) {
-        g_critical (_("Can't find the preferences UI file!\n%s"), error->message);
-        g_error_free (error);
+    gtk_builder_set_translation_domain(builder, GETTEXT_PACKAGE);
+    if (! gtk_builder_add_from_file(builder, path, &error)) {
+        g_critical(_("Can't find the preferences UI file!\n%s"), error->message);
+        g_error_free(error);
     } else {
         /* get the dialog objects from the builder */
-        PrefDialogObjects *dialog_objects = g_malloc(sizeof (PrefDialogObjects));
+        PrefDialogObjects *dialog_objects = g_malloc(sizeof(PrefDialogObjects));
         dialog_objects->main_prefs_frame = 
-            GTK_WIDGET (gtk_builder_get_object (builder, "prefs-frame"));
+            GTK_WIDGET(gtk_builder_get_object(builder, "prefs-frame"));
         dialog_objects->matching_pair_color_button = 
-            GTK_WIDGET (gtk_builder_get_object (builder, "matching-pair-color-button"));
-        set_color_button_color (dialog_objects->matching_pair_color_button,
-                                highlightColor_G[MATCHING_PAIR]);
+            GTK_WIDGET(gtk_builder_get_object(builder, "matching-pair-color-button"));
+        set_color_button_color(dialog_objects->matching_pair_color_button,
+                               highlightColor_G[MATCHING_PAIR]);
         dialog_objects->nonmatching_pair_color_button = 
-            GTK_WIDGET (gtk_builder_get_object (builder, "nonmatching-pair-color-button"));
-        set_color_button_color (dialog_objects->nonmatching_pair_color_button,
-                                highlightColor_G[NONMATCHING_PAIR]);
+            GTK_WIDGET(gtk_builder_get_object(builder, "nonmatching-pair-color-button"));
+        set_color_button_color(dialog_objects->nonmatching_pair_color_button,
+                               highlightColor_G[NONMATCHING_PAIR]);
         dialog_objects->empty_tag_color_button = 
-            GTK_WIDGET (gtk_builder_get_object (builder, "empty-tag-color-button"));
-        set_color_button_color (dialog_objects->empty_tag_color_button,
-                                highlightColor_G[EMPTY_TAG]);
+            GTK_WIDGET(gtk_builder_get_object(builder, "empty-tag-color-button"));
+        set_color_button_color(dialog_objects->empty_tag_color_button,
+                               highlightColor_G[EMPTY_TAG]);
         dialog_objects->alpha_adjust =
-            G_OBJECT (gtk_builder_get_object (builder, "alpha-adjustment"));
-        gtk_adjustment_set_value (GTK_ADJUSTMENT (dialog_objects->alpha_adjust),
-                                  (gdouble) highlightAlpha_G);
+            G_OBJECT(gtk_builder_get_object(builder, "alpha-adjustment"));
+        gtk_adjustment_set_value(GTK_ADJUSTMENT(dialog_objects->alpha_adjust),
+                                 (gdouble)highlightAlpha_G);
         dialog_objects->defaults_button =
-            GTK_WIDGET (gtk_builder_get_object (builder, "defaults-button"));
+            GTK_WIDGET(gtk_builder_get_object(builder, "defaults-button"));
 
         /* increase the reference count of the dialog frame */
-        prefs_frame = g_object_ref_sink (dialog_objects->main_prefs_frame);
+        prefs_frame = g_object_ref_sink(dialog_objects->main_prefs_frame);
         
         /* connect handlers */
-        g_signal_connect_data (dialog, "response",
-                               G_CALLBACK (on_configure_response), dialog_objects,
-                               (GClosureNotify) free_config_dialog_objects, 0);
-        g_signal_connect (dialog_objects->defaults_button, "clicked",
-                          G_CALLBACK (on_defaults_button_pressed), dialog_objects);
+        g_signal_connect_data(dialog, "response",
+                              G_CALLBACK(on_configure_response), dialog_objects,
+                              (GClosureNotify)free_config_dialog_objects, 0);
+        g_signal_connect(dialog_objects->defaults_button, "clicked",
+                         G_CALLBACK(on_defaults_button_pressed), dialog_objects);
         }
     
-    g_free (path);
-    g_object_unref (builder);
+    g_free(path);
+    g_object_unref(builder);
     
     return prefs_frame;
 }
