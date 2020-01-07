@@ -250,6 +250,7 @@ overview/overview/overviewui.c
 
 # Pairtaghighlighter
 pairtaghighlighter/src/pair_tag_highlighter.c
+pairtaghighlighter/data/prefs.ui
 
 # PoHelper
 [type: gettext/glade]pohelper/data/menus.ui
