@@ -374,38 +374,25 @@ static void on_open_selected_file(GtkMenuItem *menuitem, gpointer user_data)
 
 void prjorg_menu_init(void)
 {
-	GtkWidget *image;
 	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "ProjectOrganizer", KB_COUNT, kb_callback);
 
 	s_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_sep_item);
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_sep_item);
 
-	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	s_fif_item = gtk_image_menu_item_new_with_mnemonic(_("Find in Project Files..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_fif_item), image);
-	gtk_widget_show(s_fif_item);
+	s_fif_item = menu_item_new("edit-find", _("Find in Project Files..."));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_fif_item);
 	g_signal_connect((gpointer) s_fif_item, "activate", G_CALLBACK(on_find_in_project), NULL);
 	keybindings_set_item(key_group, KB_FIND_IN_PROJECT, NULL,
 		0, 0, "find_in_project", _("Find in project files"), s_fif_item);
 
-	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	s_ff_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project File..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_ff_item), image);
-	gtk_widget_show(s_ff_item);
+	s_ff_item = menu_item_new("edit-find", _("Find Project File..."));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ff_item);
 	g_signal_connect((gpointer) s_ff_item, "activate", G_CALLBACK(on_find_file), NULL);
 	keybindings_set_item(key_group, KB_FIND_FILE, NULL,
 		0, 0, "find_file", _("Find project file"), s_ff_item);
 
-	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	s_ft_item = gtk_image_menu_item_new_with_mnemonic(_("Find Project Symbol..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(s_ft_item), image);
-	gtk_widget_show(s_ft_item);
+	s_ft_item = menu_item_new("edit-find", _("Find Project Symbol..."));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_ft_item);
 	g_signal_connect((gpointer) s_ft_item, "activate", G_CALLBACK(on_find_tag), NULL);
 	keybindings_set_item(key_group, KB_FIND_TAG, NULL,

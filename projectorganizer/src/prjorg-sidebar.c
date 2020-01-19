@@ -1556,14 +1556,14 @@ void prjorg_sidebar_init(void)
 	item = GTK_WIDGET(gtk_separator_tool_item_new());
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 
-	image = gtk_image_new_from_icon_name("list-add", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	image = gtk_image_new_from_icon_name("go-down", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	item = GTK_WIDGET(gtk_tool_button_new(image, NULL));
 	gtk_widget_set_tooltip_text(item, _("Expand all"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_expand_all), NULL);
 	gtk_container_add(GTK_CONTAINER(s_toolbar), item);
 	s_project_toolbar.expand = item;
 
-	image = gtk_image_new_from_icon_name("list-remove", GTK_ICON_SIZE_SMALL_TOOLBAR);
+	image = gtk_image_new_from_icon_name("go-up", GTK_ICON_SIZE_SMALL_TOOLBAR);
 	item = GTK_WIDGET(gtk_tool_button_new(image, NULL));
 	gtk_widget_set_tooltip_text(item, _("Collapse to project root"));
 	g_signal_connect(item, "clicked", G_CALLBACK(on_collapse_all), NULL);
@@ -1629,38 +1629,22 @@ void prjorg_sidebar_init(void)
 
 	s_popup_menu.widget = gtk_menu_new();
 
-	image = gtk_image_new_from_icon_name("list-add", GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Expand All"));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("go-down", _("Expand All"));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(expand_all), NULL);
 	s_popup_menu.expand = item;
 
-	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Find in Files..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("edit-find", _("Find in Files..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_find_in_files), NULL);
 	s_popup_menu.find_in_directory = item;
 
-	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Find File..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("edit-find", _("Find File..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_find_file), NULL);
 	s_popup_menu.find_file = item;
 
-	image = gtk_image_new_from_stock(GTK_STOCK_FIND, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Find Symbol..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("edit-find", _("Find Symbol..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_find_tag), NULL);
 	s_popup_menu.find_tag = item;
@@ -1669,11 +1653,7 @@ void prjorg_sidebar_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	image = gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Remove External Directory"));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("list-remove", _("Remove External Directory"));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_remove_external_dir), NULL);
 	s_popup_menu.remove_external_dir = item;
@@ -1682,38 +1662,22 @@ void prjorg_sidebar_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	image = gtk_image_new_from_stock(GTK_STOCK_FILE, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("New File..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("document-new", _("New File..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_create_file), NULL);
 	s_popup_menu.create_file = item;
 
-	image = gtk_image_new_from_stock(GTK_STOCK_DIRECTORY, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("New Directory..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("folder-new", _("New Directory..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_create_dir), NULL);
 	s_popup_menu.create_dir = item;
 
-	image = gtk_image_new_from_stock(GTK_STOCK_EDIT, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Rename..."));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("document-save-as", _("Rename..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_rename), NULL);
 	s_popup_menu.rename = item;
 
-	image = gtk_image_new_from_stock(GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
-	gtk_widget_show(image);
-	item = gtk_image_menu_item_new_with_mnemonic(_("Delete"));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item), image);
-	gtk_widget_show(item);
+	item = menu_item_new("edit-delete", _("Delete"));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_delete), NULL);
 	s_popup_menu.delete = item;
@@ -1722,10 +1686,7 @@ void prjorg_sidebar_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	item = gtk_image_menu_item_new_with_mnemonic(_("H_ide Sidebar"));
-	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(item),
-					  gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
-	gtk_widget_show(item);
+	item = menu_item_new("window-close", _("H_ide Sidebar"));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect_swapped((gpointer) item, "activate",
 				 G_CALLBACK(keybindings_send_command),
