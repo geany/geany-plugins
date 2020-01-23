@@ -11,8 +11,9 @@ Status
 
 
 
+------------
 Temporary notes by Ali Raeini for installation on Ubuntu 18.04:
-
+```
 git clone https://github.com/geany/geany.git
 git clone https://github.com/aliraeini/geany-plugins
 cd geany-plugins
@@ -28,7 +29,7 @@ sed -i 's/"Tree Browser"/"Folders"/' treebrowser/src/treebrowser.c
 make -j
 make install
 
-
+```
 TODO: test
 
 ------------
