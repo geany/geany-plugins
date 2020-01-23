@@ -16,8 +16,7 @@ Notes specific to this forked git repository
 ------------
 
 Run the following commands to build and install geany and its plugins on Ubuntu 18.04:
-
-``` 
+.. code:: python
   git clone https://github.com/geany/geany.git
   git clone https://github.com/aliraeini/geany-plugins
   cd geany-plugins
@@ -32,7 +31,7 @@ Run the following commands to build and install geany and its plugins on Ubuntu 
   ./autogen.sh 
   make -j
   make install
-``` 
+
 
 
 Installation
