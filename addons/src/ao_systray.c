@@ -19,7 +19,7 @@
  */
 
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #include "addons.h"
 #include "ao_systray.h"

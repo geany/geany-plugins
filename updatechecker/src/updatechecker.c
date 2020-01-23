@@ -47,7 +47,7 @@ enum {
     UPDATECHECK_STARTUP
 };
 
-#define UPDATE_CHECK_URL "https://geany.org/service/version.php"
+#define UPDATE_CHECK_URL "https://geany.org/service/version/"
 
 static GtkWidget *main_menu_item = NULL;
 static void update_check_result_cb(SoupSession *session,
@@ -244,10 +244,6 @@ on_configure_response(G_GNUC_UNUSED GtkDialog *dialog, gint response,
         GKeyFile *config = g_key_file_new();
         gchar *data;
         gchar *config_dir = g_path_get_dirname(config_file);
-
-        config_file = g_strconcat(geany->app->configdir,
-            G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
-            "updatechecker", G_DIR_SEPARATOR_S, "general.conf", NULL);
 
         /* Crabbing options that has been set */
         check_on_startup =

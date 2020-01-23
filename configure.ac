@@ -1,6 +1,6 @@
 AC_PREREQ([2.61])
 dnl Don't forget when updating version number to do GP_CHECK_GEANY also
-AC_INIT([geany-plugins], [1.35])
+AC_INIT([geany-plugins], [1.37])
 AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar subdir-objects])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
@@ -9,6 +9,7 @@ AC_CONFIG_SRCDIR([po/POTFILES.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([build/cache])
 
+AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC
 AC_PROG_CC_C99
 AM_PROG_CC_C_O

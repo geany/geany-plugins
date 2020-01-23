@@ -20,6 +20,7 @@
  * Code for the WB_PROJECT structure.
  */
 #include <glib/gstdio.h>
+#include <git2.h>
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -31,6 +32,7 @@
 #include "wb_project.h"
 #include "sidebar.h"
 #include "utils.h"
+#include "idle_queue.h"
 
 extern GeanyData *geany_data;
 
@@ -43,13 +45,6 @@ typedef enum
 
 typedef struct
 {
-	WB_PROJECT_IDLE_ACTION_ID id;
-	gpointer param_a;
-	gpointer param_b;
-}WB_PROJECT_IDLE_ACTION;
-
-typedef struct
-{
 	GKeyFile *kf;
 	guint    dir_count;
 }WB_PROJECT_ON_SAVE_USER_DATA;
@@ -58,22 +53,34 @@ struct S_WB_PROJECT_DIR
 {
 	gchar *name;
 	gchar *base_dir;
+	WB_PROJECT_SCAN_MODE scan_mode;
 	gchar **file_patterns;	/**< Array of filename extension patterns. */
 	gchar **ignored_dirs_patterns;
 	gchar **ignored_file_patterns;
+	git_repository *git_repo;
 	guint file_count;
 	guint subdir_count;
-	GHashTable *file_table; /* contains all file names within base_dir, maps file_name->TMSourceFile */
+	GHashTable *file_table; /* contains all file names within base_dir */
 	gboolean is_prj_base_dir;
 };
+
+
+typedef struct
+{
+	guint file_count;
+	guint subdir_count;
+	GSList *file_patterns_list;
+	GSList *ignored_dirs_list;
+	GSList *ignored_file_list;
+	git_repository *git_repo;
+}SCAN_PARAMS;
+
 
 struct S_WB_PROJECT
 {
 	gchar     *filename;
 	gchar     *name;
 	gboolean  modified;
-	//GSList    *s_idle_add_funcs;
-	//GSList    *s_idle_remove_funcs;
 	GSList    *directories;  /* list of WB_PROJECT_DIR; */
 	WB_PROJECT_TAG_PREFS generate_tag_prefs;
 	GPtrArray *bookmarks;
@@ -85,8 +92,6 @@ typedef struct
 	const gchar *string;
 }WB_PROJECT_TEMP_DATA;
 
-static GSList *s_idle_actions = NULL;
-static void wb_project_dir_update_tags(WB_PROJECT_DIR *root);
 
 /** Set the projects modified marker.
  *
@@ -200,46 +205,6 @@ GSList *wb_project_get_directories(WB_PROJECT *prj)
 }
 
 
-/* Check if filename matches filetpye patterns */
-static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
-{
-	const GeanyFiletype *ft = pft;
-	const gchar *utf8_base_filename = user_data;
-	gint j;
-	gboolean ret = FALSE;
-
-	if (G_UNLIKELY(ft->id == GEANY_FILETYPES_NONE))
-		return FALSE;
-
-	for (j = 0; ft->pattern[j] != NULL; j++)
-	{
-		GPatternSpec *pattern = g_pattern_spec_new(ft->pattern[j]);
-
-		if (g_pattern_match_string(pattern, utf8_base_filename))
-		{
-			ret = TRUE;
-			g_pattern_spec_free(pattern);
-			break;
-		}
-		g_pattern_spec_free(pattern);
-	}
-	return ret;
-}
-
-
-/* Clear idle queue */
-static void wb_project_clear_idle_queue(void)
-{
-	if (s_idle_actions == NULL)
-	{
-		return;
-	}
-
-	g_slist_free_full(s_idle_actions, g_free);
-	s_idle_actions = NULL;
-}
-
-
 /* Create a new project dir with base path "utf8_base_dir" */
 static WB_PROJECT_DIR *wb_project_dir_new(WB_PROJECT *prj, const gchar *utf8_base_dir)
 {
@@ -251,7 +216,8 @@ static WB_PROJECT_DIR *wb_project_dir_new(WB_PROJECT *prj, const gchar *utf8_bas
 	}
 	WB_PROJECT_DIR *dir = g_new0(WB_PROJECT_DIR, 1);
 	dir->base_dir = g_strdup(utf8_base_dir);
-	dir->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
+	dir->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+	dir->scan_mode = WB_PROJECT_SCAN_MODE_WORKBENCH;
 
 	offset = strlen(dir->base_dir)-1;
 	while (offset > 0
@@ -272,12 +238,10 @@ static WB_PROJECT_DIR *wb_project_dir_new(WB_PROJECT *prj, const gchar *utf8_bas
 
 
 /* Collect source files */
-static void wb_project_dir_collect_source_files(G_GNUC_UNUSED gchar *filename, TMSourceFile *sf, gpointer user_data)
+static void wb_project_dir_collect_source_files(G_GNUC_UNUSED gchar *filename, gpointer *value, gpointer user_data)
 {
 	GPtrArray *array = user_data;
-
-	if (sf != NULL)
-		g_ptr_array_add(array, sf);
+	g_ptr_array_add(array, g_strdup(filename));
 }
 
 
@@ -312,6 +276,7 @@ gboolean wb_project_dir_get_is_prj_base_dir (WB_PROJECT_DIR *directory)
 	}
 	return FALSE;
 }
+
 
 /** Get the name of a project dir.
  *
@@ -467,15 +432,87 @@ gboolean wb_project_dir_set_ignored_file_patterns (WB_PROJECT_DIR *directory, gc
 }
 
 
+/** Get the scan mode of a project dir.
+ *
+ * @param directory The project dir
+ * @return WB_PROJECT_SCAN_MODE (the scan mode)
+ *
+ **/
+WB_PROJECT_SCAN_MODE wb_project_dir_get_scan_mode (WB_PROJECT_DIR *directory)
+{
+	if (directory != NULL)
+	{
+		return directory->scan_mode;
+	}
+
+	return WB_PROJECT_SCAN_MODE_INVALID;
+}
+
+
+/* Open or close the git repository in directory as required. */
+static void wb_project_dir_prepare_git_repo(WB_PROJECT *project, WB_PROJECT_DIR *directory)
+{
+	gchar *path;
+
+	path = get_combined_path(project->filename, directory->base_dir);
+	if (directory->scan_mode == WB_PROJECT_SCAN_MODE_GIT)
+	{
+		if (directory->git_repo == NULL)
+		{
+			if (git_repository_open(&(directory->git_repo), path) != 0)
+			{
+				directory->git_repo = NULL;
+				ui_set_statusbar(TRUE,
+					_("Failed to open git repository in folder %s."), path);
+			}
+			else
+			{
+				ui_set_statusbar(TRUE,
+					_("Opened git repository in folder %s."), path);
+			}
+		}
+	}
+	else
+	{
+		if (directory->git_repo != NULL)
+		{
+			git_repository_free(directory->git_repo);
+			directory->git_repo = NULL;
+			ui_set_statusbar(TRUE,
+				_("Closed git repository in folder %s."), path);
+		}
+	}
+	g_free(path);
+}
+
+
+/** Set the scan mode of a project dir.
+ *
+ * @param directory The project dir
+ * @param mode      The scan mode to set
+ * @return FALSE if directory is NULL, TRUE otherwise
+ *
+ **/
+gboolean wb_project_dir_set_scan_mode(WB_PROJECT *project, WB_PROJECT_DIR *directory, WB_PROJECT_SCAN_MODE mode)
+{
+	if (directory != NULL)
+	{
+		directory->scan_mode = mode;
+		wb_project_dir_prepare_git_repo(project, directory);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
 /* Remove all files contained in the project dir from the tm-workspace */
 static void wb_project_dir_remove_from_tm_workspace(WB_PROJECT_DIR *root)
 {
-	GPtrArray *source_files;
+	GPtrArray *files;
 
-	source_files = g_ptr_array_new();
-	g_hash_table_foreach(root->file_table, (GHFunc)wb_project_dir_collect_source_files, source_files);
-	tm_workspace_remove_source_files(source_files);
-	g_ptr_array_free(source_files, TRUE);
+	files = g_ptr_array_new();
+	g_hash_table_foreach(root->file_table, (GHFunc)wb_project_dir_collect_source_files, files);
+	wb_idle_queue_add_action(WB_IDLE_ACTION_ID_TM_SOURCE_FILES_REMOVE, files);
 }
 
 
@@ -525,6 +562,111 @@ static guint wb_project_get_file_count(WB_PROJECT *prj)
 	return filenum;
 }
 
+
+/* Callback function for 'gp_filelist_scan_directory_callback', scan mode
+   'workbench', the plugin decides which files to add to the filelist. */
+static void scan_mode_workbench_cb(const gchar *path, gboolean *add, gboolean *enter, void *userdata)
+{
+	SCAN_PARAMS *params = userdata;
+
+	*enter = FALSE;
+	*add = FALSE;
+
+	if (g_file_test(path, G_FILE_TEST_IS_DIR))
+	{
+		if (!filelist_patterns_match(params->ignored_dirs_list, path))
+		{
+			*enter = TRUE;
+			*add = TRUE;
+		}
+	}
+	else if (g_file_test(path, G_FILE_TEST_IS_REGULAR))
+	{
+		if (filelist_patterns_match(params->file_patterns_list, path) &&
+			!filelist_patterns_match(params->ignored_file_list, path))
+		{
+			*enter = TRUE;
+			*add = TRUE;
+		}
+	}
+}
+
+
+/* Callback function for 'gp_filelist_scan_directory_callback', scan mode
+   'git', libgit2 decides which files to add to the filelist. */
+static void scan_mode_git_cb(const gchar *path, gboolean *add, gboolean *enter, void *userdata)
+{
+	gint ignored;
+	SCAN_PARAMS *params = userdata;
+
+	*enter = TRUE;
+	*add = TRUE;
+	if (params->git_repo != NULL)
+	{
+		git_ignore_path_is_ignored(&ignored, params->git_repo, path);
+		if (ignored > 0)
+		{
+			*enter = FALSE;
+			*add = FALSE;
+		}
+	}
+}
+
+
+/* Scan a path according to the settings given in parameter root. */
+static GSList *wb_project_dir_scan_directory(WB_PROJECT_DIR *root, const gchar *searchdir,
+											 guint *file_count, guint *subdir_count)
+{
+	GSList *filelist;
+	SCAN_PARAMS params = { 0 };
+
+	if (root->scan_mode != WB_PROJECT_SCAN_MODE_GIT)
+	{
+		if (!root->file_patterns || !root->file_patterns[0])
+		{
+			const gchar *all_pattern[] = { "*", NULL };
+			params.file_patterns_list = filelist_get_precompiled_patterns((gchar **)all_pattern);
+		}
+		else
+		{
+			params.file_patterns_list = filelist_get_precompiled_patterns(root->file_patterns);
+		}
+
+		params.ignored_dirs_list = filelist_get_precompiled_patterns(root->ignored_dirs_patterns);
+		params.ignored_file_list = filelist_get_precompiled_patterns(root->ignored_file_patterns);
+
+		filelist = gp_filelist_scan_directory_callback
+						(searchdir, scan_mode_workbench_cb, &params);
+
+		g_slist_foreach(params.file_patterns_list, (GFunc) g_pattern_spec_free, NULL);
+		g_slist_free(params.file_patterns_list);
+
+		g_slist_foreach(params.ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
+		g_slist_free(params.ignored_dirs_list);
+
+		g_slist_foreach(params.ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
+		g_slist_free(params.ignored_file_list);
+	}
+	else
+	{
+		params.git_repo = root->git_repo;
+		filelist = gp_filelist_scan_directory_callback
+						(searchdir, scan_mode_git_cb, &params);
+	}
+
+	if (file_count != NULL)
+	{
+		*file_count = params.file_count;
+	}
+	if (subdir_count != NULL)
+	{
+		*subdir_count = params.subdir_count;
+	}
+
+	return filelist;
+}
+
+
 /* Rescan/update the file list of a project dir. */
 static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 {
@@ -532,22 +674,15 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 	GSList *elem = NULL;
 	guint filenum = 0;
 	gchar *searchdir;
-	gchar **file_patterns = NULL;
 
 	wb_project_dir_remove_from_tm_workspace(root);
 	g_hash_table_remove_all(root->file_table);
 
-	if (root->file_patterns && root->file_patterns[0])
-	{
-		file_patterns = root->file_patterns;
-	}
-
 	searchdir = get_combined_path(prj->filename, root->base_dir);
 	root->file_count = 0;
 	root->subdir_count = 0;
-	lst = gp_filelist_scan_directory_full(&(root->file_count), &(root->subdir_count),
-		searchdir, file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns,
-		FILELIST_FLAG_ADD_DIRS);
+	lst = wb_project_dir_scan_directory
+			(root, searchdir, &(root->file_count), &(root->subdir_count));
 	g_free(searchdir);
 
 	foreach_slist(elem, lst)
@@ -556,7 +691,7 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 
 		if (path)
 		{
-			g_hash_table_insert(root->file_table, g_strdup(path), NULL);
+			g_hash_table_add(root->file_table, g_strdup(path));
 			filenum++;
 		}
 	}
@@ -568,29 +703,61 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 }
 
 
+/* Single check if a path is to be ignored or not. */
+static gboolean wb_project_dir_path_is_ignored(WB_PROJECT_DIR *root, const gchar *filepath)
+{
+	if (root->scan_mode == WB_PROJECT_SCAN_MODE_WORKBENCH)
+	{
+		gchar **file_patterns = NULL;
+		gboolean matches;
+
+		if (root->file_patterns && root->file_patterns[0])
+		{
+			file_patterns = root->file_patterns;
+		}
+
+		matches = gp_filelist_filepath_matches_patterns(filepath,
+			file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
+		if (!matches)
+		{
+			/* Ignore it. */
+			return TRUE;
+		}
+	}
+	else
+	{
+		if (root->git_repo != NULL)
+		{
+			gint ignored;
+
+			git_ignore_path_is_ignored(&ignored, root->git_repo, filepath);
+			if (ignored > 0)
+			{
+				/* Ignore it. */
+				return TRUE;
+			}
+		}
+	}
+
+	/* Do not ignore it. */
+	return FALSE;
+}
+
+
 /* Add a new file to the project directory and update the sidebar. */
 static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
-	gboolean matches;
-	gchar **file_patterns = NULL;
 	SIDEBAR_CONTEXT context;
 	WB_MONITOR *monitor = NULL;
 
-	if (root->file_patterns && root->file_patterns[0])
-	{
-		file_patterns = root->file_patterns;
-	}
-
-	matches = gp_filelist_filepath_matches_patterns(filepath,
-		file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
-	if (!matches)
+	if (wb_project_dir_path_is_ignored(root, filepath))
 	{
 		/* Ignore it. */
 		return;
 	}
 
 	/* Update file table and counters. */
-	g_hash_table_insert(root->file_table, g_strdup(filepath), NULL);
+	g_hash_table_add(root->file_table, g_strdup(filepath));
 	if (g_file_test(filepath, G_FILE_TEST_IS_DIR))
 	{
 		root->subdir_count++;
@@ -615,9 +782,8 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
 	{
 		GSList *scanned, *elem = NULL;
 
-		scanned = gp_filelist_scan_directory_full(&(root->file_count), &(root->subdir_count),
-			filepath, file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns,
-			FILELIST_FLAG_ADD_DIRS);
+		scanned = wb_project_dir_scan_directory
+				(root, filepath, &(root->file_count), &(root->subdir_count));
 
 		foreach_slist(elem, scanned)
 		{
@@ -635,6 +801,32 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
 }
 
 
+/* Update tags for new files */
+static void wb_project_dir_update_tags(WB_PROJECT_DIR *root)
+{
+	GHashTableIter iter;
+	gpointer key, value;
+	GPtrArray *files;
+
+	files = g_ptr_array_new_full(1, g_free);
+	g_hash_table_iter_init(&iter, root->file_table);
+	while (g_hash_table_iter_next(&iter, &key, &value))
+	{
+		if (value == NULL)
+		{
+			gchar *utf8_path = key;
+			gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
+
+			g_ptr_array_add(files, g_strdup(key));
+			g_hash_table_add(root->file_table, g_strdup(utf8_path));
+			g_free(locale_path);
+		}
+	}
+
+	wb_idle_queue_add_action(WB_IDLE_ACTION_ID_TM_SOURCE_FILES_NEW, files);
+}
+
+
 /** Add a new file to the project directory and update the sidebar.
  * 
  * The file is only added if it matches the pattern settings.
@@ -647,9 +839,7 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
 void wb_project_dir_add_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
 	wb_project_dir_add_file_int(prj, root, filepath);
-	wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID_UPDATE_TAGS,
-		root, NULL);
-
+	wb_project_dir_update_tags(root);
 }
 
 
@@ -657,7 +847,6 @@ void wb_project_dir_add_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar 
 static gboolean wb_project_dir_remove_child (gpointer key, gpointer value, gpointer user_data)
 {
 	WB_PROJECT_TEMP_DATA *px_temp;
-	TMSourceFile *sf;
 
 	px_temp = user_data;
 	if (strncmp(px_temp->string, key, px_temp->len) == 0)
@@ -666,11 +855,7 @@ static gboolean wb_project_dir_remove_child (gpointer key, gpointer value, gpoin
 		   Remove it from the hash table. This will also free
 		   the tags. We do not need to update the sidebar as we
 		   already deleted the parent directory/node. */
-		sf = value;
-		if (sf != NULL)
-		{
-			tm_workspace_remove_source_file(sf);
-		}
+		wb_idle_queue_add_action(WB_IDLE_ACTION_ID_TM_SOURCE_FILE_REMOVE, g_strdup(key));
 		return TRUE;
 	}
 	return FALSE;
@@ -689,18 +874,15 @@ static gboolean wb_project_dir_remove_child (gpointer key, gpointer value, gpoin
 void wb_project_dir_remove_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath)
 {
 	gboolean matches, was_dir;
-	gchar **file_patterns = NULL;
 	WB_MONITOR *monitor;
-
-	if (root->file_patterns && root->file_patterns[0])
-	{
-		file_patterns = root->file_patterns;
-	}
 
 	if (g_file_test(filepath, G_FILE_TEST_EXISTS))
 	{
-		matches = gp_filelist_filepath_matches_patterns(filepath,
-			file_patterns, root->ignored_dirs_patterns, root->ignored_file_patterns);
+		matches = FALSE;
+		if (wb_project_dir_path_is_ignored(root, filepath) == FALSE)
+		{
+			matches = TRUE;
+		}
 	}
 	else
 	{
@@ -711,14 +893,10 @@ void wb_project_dir_remove_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gch
 	if (matches)
 	{
 		SIDEBAR_CONTEXT context;
-		TMSourceFile *sf;
 
 		/* Update file table and counters. */
-		sf = g_hash_table_lookup (root->file_table, filepath);
-		if (sf != NULL)
-		{
-			tm_workspace_remove_source_file(sf);
-		}
+		wb_idle_queue_add_action(WB_IDLE_ACTION_ID_TM_SOURCE_FILE_REMOVE,
+			g_strdup(filepath));
 		g_hash_table_remove(root->file_table, filepath);
 
 		/* If the file already has been deleted, we cannot determine if it
@@ -763,121 +941,31 @@ void wb_project_dir_remove_file(WB_PROJECT *prj, WB_PROJECT_DIR *root, const gch
 }
 
 
-/* Stolen and modified version from Geany. The only difference is that Geany
- * first looks at shebang inside the file and then, if it fails, checks the
- * file extension. Opening every file is too expensive so instead check just
- * extension and only if this fails, look at the shebang */
-static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
-{
-	struct stat s;
-	GeanyFiletype *ft = NULL;
-	gchar *locale_filename;
-
-	locale_filename = utils_get_locale_from_utf8(utf8_filename);
-	if (g_stat(locale_filename, &s) != 0 || s.st_size > 10*1024*1024)
-		ft = filetypes[GEANY_FILETYPES_NONE];
-	else
-	{
-		guint i;
-		gchar *utf8_base_filename;
-
-		/* to match against the basename of the file (because of Makefile*) */
-		utf8_base_filename = g_path_get_basename(utf8_filename);
-#ifdef G_OS_WIN32
-		/* use lower case basename */
-		SETPTR(utf8_base_filename, g_utf8_strdown(utf8_base_filename, -1));
-#endif
-
-		for (i = 0; i < geany_data->filetypes_array->len; i++)
-		{
-			GeanyFiletype *ftype = filetypes[i];
-
-			if (match_basename(ftype, utf8_base_filename))
-			{
-				ft = ftype;
-				break;
-			}
-		}
-
-		if (ft == NULL)
-			ft = filetypes_detect_from_file(utf8_filename);
-
-		g_free(utf8_base_filename);
-	}
-
-	g_free(locale_filename);
-
-	return ft;
-}
-
-
 /* Regenerate tags */
 static void wb_project_dir_regenerate_tags(WB_PROJECT_DIR *root, G_GNUC_UNUSED gpointer user_data)
 {
 	GHashTableIter iter;
 	gpointer key, value;
-	GPtrArray *source_files;
+	GPtrArray *files;
 	GHashTable *file_table;
 
-	source_files = g_ptr_array_new();
-	file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
+	files = g_ptr_array_new_full (1, g_free);
+	file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 	g_hash_table_iter_init(&iter, root->file_table);
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
-		TMSourceFile *sf;
-
-		sf = NULL;
 		if (g_file_test(key, G_FILE_TEST_IS_REGULAR))
 		{
-			gchar *utf8_path = key;
-			gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-
-			sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
-			if (sf && !document_find_by_filename(utf8_path))
-				g_ptr_array_add(source_files, sf);
-
-			g_free(locale_path);
+			g_ptr_array_add(files, g_strdup(key));
 		}
 
 		/* Add all files to the file-table (files and dirs)! */
-		g_hash_table_insert(file_table, g_strdup(key), sf);
+		g_hash_table_add(file_table, g_strdup(key));
 	}
 	g_hash_table_destroy(root->file_table);
 	root->file_table = file_table;
 
-	tm_workspace_add_source_files(source_files);
-	g_ptr_array_free(source_files, TRUE);
-}
-
-
-/* Update tags for new files */
-static void wb_project_dir_update_tags(WB_PROJECT_DIR *root)
-{
-	GHashTableIter iter;
-	gpointer key, value;
-	GPtrArray *source_files;
-
-	source_files = g_ptr_array_new();
-	g_hash_table_iter_init(&iter, root->file_table);
-	while (g_hash_table_iter_next(&iter, &key, &value))
-	{
-		if (value == NULL)
-		{
-			TMSourceFile *sf;
-			gchar *utf8_path = key;
-			gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-
-			sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
-			if (sf && !document_find_by_filename(utf8_path))
-				g_ptr_array_add(source_files, sf);
-
-			g_hash_table_insert(root->file_table, g_strdup(utf8_path), sf);
-			g_free(locale_path);
-		}
-	}
-
-	tm_workspace_add_source_files(source_files);
-	g_ptr_array_free(source_files, TRUE);
+	wb_idle_queue_add_action(WB_IDLE_ACTION_ID_TM_SOURCE_FILES_NEW, files);
 }
 
 
@@ -917,8 +1005,6 @@ void wb_project_rescan(WB_PROJECT *prj)
 	{
 		return;
 	}
-
-	wb_project_clear_idle_queue();
 
 	foreach_slist(elem, prj->directories)
 	{
@@ -1010,128 +1096,6 @@ gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename)
 		}
 	}
 	return FALSE;
-}
-
-
-/* Add single tm file. Only to be called on-idle! */
-static void wb_project_add_single_tm_file(WB_PROJECT *prj, const gchar *filename)
-{
-	GSList *elem = NULL;
-
-	foreach_slist (elem, prj->directories)
-	{
-		WB_PROJECT_DIR *dir = elem->data;
-		TMSourceFile *sf = g_hash_table_lookup(dir->file_table, filename);
-
-		if (sf != NULL && !document_find_by_filename(filename))
-		{
-			tm_workspace_add_source_file(sf);
-			break;  /* single file representation in TM is enough */
-		}
-	}
-}
-
-
-/* This function gets called when document is being opened by Geany and we need
- * to remove the TMSourceFile from the tag manager because Geany inserts
- * it for the newly open tab. Even though tag manager would handle two identical
- * files, the file inserted by the plugin isn't updated automatically in TM
- * so any changes wouldn't be reflected in the tags array (e.g. removed function
- * from source file would still be found in TM)
- *
- * Additional problem: The document being opened may be caused
- * by going to tag definition/declaration - tag processing is in progress
- * when this function is called and if we remove the TmSourceFile now, line
- * number for the searched tag won't be found. For this reason delay the tag
- * TmSourceFile removal until idle */
-static void wb_project_remove_single_tm_file(WB_PROJECT *prj, const gchar *filename)
-{
-	GSList *elem = NULL;
-
-	foreach_slist (elem, prj->directories)
-	{
-		WB_PROJECT_DIR *dir = elem->data;
-		TMSourceFile *sf = g_hash_table_lookup(dir->file_table, filename);
-
-		if (sf != NULL)
-		{
-			tm_workspace_remove_source_file(sf);
-		}
-	}
-}
-
-
-/* On-idle callback function. */
-static gboolean wb_project_on_idle_callback(gpointer foo)
-{
-	GSList *elem = NULL;
-	WB_PROJECT_IDLE_ACTION *action;
-
-	foreach_slist (elem, s_idle_actions)
-	{
-		action = elem->data;
-		switch (action->id)
-		{
-			case WB_PROJECT_IDLE_ACTION_ID_ADD_SINGLE_TM_FILE:
-				if (action->param_a != NULL && action->param_b != NULL)
-				{
-					wb_project_add_single_tm_file
-						(action->param_a, action->param_b);
-					g_free(action->param_b);
-				}
-			break;
-
-			case WB_PROJECT_IDLE_ACTION_ID_REMOVE_SINGLE_TM_FILE:
-				if (action->param_a != NULL && action->param_b != NULL)
-				{
-					wb_project_remove_single_tm_file
-						(action->param_a, action->param_b);
-					g_free(action->param_b);
-				}
-			break;
-
-			case WB_PROJECT_IDLE_ACTION_ID_UPDATE_TAGS:
-				if (action->param_a != NULL)
-				{
-					wb_project_dir_update_tags(action->param_a);
-				}
-			break;
-		}
-	}
-
-	wb_project_clear_idle_queue();
-
-	return FALSE;
-}
-
-
-/** Add a new idle action to the list.
- *
- * The function allocates a new WB_PROJECT_IDLE_ACTION structure and fills
- * in the values passed. On-idle genay will then call wb_project_on_idle_callback
- * and that function will call the function related to the action ID
- * and pass the relevant parameters to it.
- * 
- * @param id The action to execute on-idle
- * @param param_a Parameter A
- * @param param_a Parameter B
- *
- **/
-void wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID id, gpointer param_a, gpointer param_b)
-{
-	WB_PROJECT_IDLE_ACTION *action;
-
-	action = g_new0(WB_PROJECT_IDLE_ACTION, 1);
-	action->id = id;
-	action->param_a = param_a;
-	action->param_b = param_b;
-
-	if (s_idle_actions == NULL)
-	{
-		plugin_idle_add(wb_globals.geany_plugin, (GSourceFunc)wb_project_on_idle_callback, NULL);
-	}
-
-	s_idle_actions = g_slist_prepend(s_idle_actions, action);
 }
 
 
@@ -1322,6 +1286,15 @@ static void wb_project_save_directories (gpointer data, gpointer user_data)
 	{
 		g_key_file_set_string(tmp->kf, "Workbench", "Prj-BaseDir", dir->base_dir);
 
+		if (dir->scan_mode == WB_PROJECT_SCAN_MODE_WORKBENCH)
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", "Prj-ScanMode", "Workbench");
+		}
+		else
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", "Prj-ScanMode", "Git");
+		}
+
 		str = g_strjoinv(";", dir->file_patterns);
 		g_key_file_set_string(tmp->kf, "Workbench", "Prj-FilePatterns", str);
 		g_free(str);
@@ -1338,6 +1311,16 @@ static void wb_project_save_directories (gpointer data, gpointer user_data)
 	{
 		g_snprintf(key, sizeof(key), "Dir%u-BaseDir", tmp->dir_count);
 		g_key_file_set_string(tmp->kf, "Workbench", key, dir->base_dir);
+
+		g_snprintf(key, sizeof(key), "Dir%u-ScanMode", tmp->dir_count);
+		if (dir->scan_mode == WB_PROJECT_SCAN_MODE_WORKBENCH)
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", key, "Workbench");
+		}
+		else
+		{
+			g_key_file_set_string(tmp->kf, "Workbench", key, "Git");
+		}
 
 		g_snprintf(key, sizeof(key), "Dir%u-FilePatterns", tmp->dir_count);
 		str = g_strjoinv(";", dir->file_patterns);
@@ -1667,6 +1650,17 @@ gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error)
 			{
 				wb_project_dir_set_is_prj_base_dir(new_dir, TRUE);
 
+				str = g_key_file_get_string(kf, "Workbench", "Prj-ScanMode", NULL);
+				if (g_strcmp0(str, "Git") != 0)
+				{
+					wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_WORKBENCH);
+				}
+				else
+				{
+					wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_GIT);
+				}
+				g_free(str);
+
 				str = g_key_file_get_string(kf, "Workbench", "Prj-FilePatterns", NULL);
 				if (str != NULL)
 				{
@@ -1708,6 +1702,18 @@ gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error)
 			{
 				break;
 			}
+
+			g_snprintf(key, sizeof(key), "Dir%u-ScanMode", index);
+			str = g_key_file_get_string(kf, "Workbench", key, NULL);
+			if (g_strcmp0(str, "Git") != 0)
+			{
+				wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_WORKBENCH);
+			}
+			else
+			{
+				wb_project_dir_set_scan_mode(prj, new_dir, WB_PROJECT_SCAN_MODE_GIT);
+			}
+			g_free(str);
 
 			g_snprintf(key, sizeof(key), "Dir%u-FilePatterns", index);
 			str = g_key_file_get_string(kf, "Workbench", key, NULL);

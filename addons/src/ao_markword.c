@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 #include <glib-object.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #include "addons.h"
 #include "ao_markword.h"

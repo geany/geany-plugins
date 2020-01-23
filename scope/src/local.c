@@ -152,9 +152,11 @@ static void on_local_watch(G_GNUC_UNUSED const MenuItem *menu_item)
 	GtkTreeIter iter;
 	const char *name;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_get(store, &iter, LOCAL_NAME, &name, -1);
-	watch_add(name);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		scp_tree_store_get(store, &iter, LOCAL_NAME, &name, -1);
+		watch_add(name);
+	}
 }
 
 static void on_local_inspect(G_GNUC_UNUSED const MenuItem *menu_item)
@@ -179,7 +181,7 @@ static void on_local_mr_mode(const MenuItem *menu_item)
 
 #define DS_FRESHABLE (DS_DEBUG | DS_EXTRA_2)
 #define DS_COPYABLE (DS_BASICS | DS_EXTRA_1)
-#define DS_MODIFYABLE (DS_DEBUG | DS_EXTRA_2)
+#define DS_MODIFYABLE (DS_DEBUG | DS_EXTRA_1)
 #define DS_WATCHABLE (DS_BASICS | DS_EXTRA_1)
 #define DS_INSPECTABLE (DS_NOT_BUSY | DS_EXTRA_1)
 #define DS_REPARSABLE (DS_BASICS | DS_EXTRA_1)

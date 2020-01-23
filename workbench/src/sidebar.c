@@ -28,6 +28,7 @@
 #endif
 #include "wb_globals.h"
 #include <gtkcompat.h>
+#include <gp_gtkcompat.h>
 
 #include "sidebar.h"
 #include "popup_menu.h"
@@ -866,6 +867,9 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		gtk_tree_view_set_hover_expand(GTK_TREE_VIEW(sidebar.file_view),
 			workbench_get_expand_on_hover(wb_globals.opened_wb));
 
+		gtk_tree_view_set_enable_tree_lines(GTK_TREE_VIEW(sidebar.file_view),
+			workbench_get_enable_tree_lines(wb_globals.opened_wb));
+
 		count = workbench_get_project_count(wb_globals.opened_wb);
 		length = g_snprintf(text, sizeof(text),
 							g_dngettext(GETTEXT_PACKAGE, "%s: %u Project", "%s: %u Projects", count),
@@ -879,7 +883,8 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		if (count == 0)
 		{
 			gtk_tree_store_clear(sidebar.file_store);
-			sidebar_show_intro_message(_("Add a project\nusing the context menu."), TRUE);
+			sidebar_show_intro_message(_("Add a project using the context menu\n"
+				"or select \"Search projects\" from the menu."), TRUE);
 		}
 		else
 		{
@@ -1373,6 +1378,7 @@ void sidebar_init(void)
 	GList *focus_chain = NULL;
 
 	sidebar.file_view_vbox = gtk_vbox_new(FALSE, 0);
+	gtk_widget_set_name(sidebar.file_view_vbox, "workbench");
 
 	/**** label ****/
 	sidebar.file_view_label = gtk_label_new (_("No workbench opened."));

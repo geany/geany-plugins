@@ -29,7 +29,7 @@
 #include "config.h"
 #endif
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 
 #include "geanydoc.h"

@@ -49,6 +49,7 @@ struct S_WORKBENCH
 	gboolean  rescan_projects_on_open;
 	gboolean  enable_live_update;
 	gboolean  expand_on_hover;
+	gboolean  enable_tree_lines;
 	GPtrArray *projects;
 	GPtrArray *bookmarks;
 	WB_MONITOR *monitor;
@@ -289,6 +290,42 @@ gboolean workbench_get_expand_on_hover(WORKBENCH *wb)
 }
 
 
+/** Set the "Enable Tree Lines" option.
+ *
+ * @param wb    The workbench
+ * @param value The value to set
+ *
+ **/
+void workbench_set_enable_tree_lines(WORKBENCH *wb, gboolean value)
+{
+	if (wb != NULL)
+	{
+		if (wb->enable_tree_lines != value)
+		{
+			wb->enable_tree_lines = value;
+			wb->modified = TRUE;
+		}
+	}
+}
+
+
+/** Get the "Enable Tree Lines" option.
+ *
+ * @param wb The workbench
+ * @return TRUE = show tree lines,
+ *         FALSE = don't
+ *
+ **/
+gboolean workbench_get_enable_tree_lines(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		return wb->enable_tree_lines;
+	}
+	return FALSE;
+}
+
+
 /** Set the filename.
  *
  * @param wb       The workbench
@@ -497,6 +534,12 @@ gboolean workbench_add_project(WORKBENCH *wb, const gchar *filename)
 		/* Load project to import base path. */
 		wb_project_load(project, filename, NULL);
 
+		/* Start immediate scan if enabled. */
+		if (wb->rescan_projects_on_open == TRUE)
+		{
+			wb_project_rescan(project);
+		}
+
 		wb->modified = TRUE;
 		return TRUE;
 	}
@@ -691,6 +734,7 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 		g_key_file_set_boolean(kf, "General", "RescanProjectsOnOpen", wb->rescan_projects_on_open);
 		g_key_file_set_boolean(kf, "General", "EnableLiveUpdate", wb->enable_live_update);
 		g_key_file_set_boolean(kf, "General", "ExpandOnHover", wb->expand_on_hover);
+		g_key_file_set_boolean(kf, "General", "EnableTreeLines", wb->enable_tree_lines);
 
 		/* Save Workbench bookmarks as string list */
 		boomarks_size = workbench_get_bookmarks_count(wb);
@@ -833,6 +877,16 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 			/* Not found. Might happen if the workbench was created with an older version of the plugin.
 			   Initialize with FALSE. */
 			wb->expand_on_hover = FALSE;
+		}
+		if (g_key_file_has_key (kf, "General", "EnableTreeLines", error))
+		{
+			wb->enable_tree_lines = g_key_file_get_boolean(kf, "General", "EnableTreeLines", error);
+		}
+		else
+		{
+			/* Not found. Might happen if the workbench was created with an older version of the plugin.
+			   Initialize with FALSE. */
+			wb->enable_tree_lines = FALSE;
 		}
 
 		/* Load Workbench bookmarks from string list */

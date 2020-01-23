@@ -219,7 +219,11 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	g_free(config_file);
 
 	/* Building menu entry */
+#if GTK_CHECK_VERSION(3, 10, 0)
+	menu_lipsum = gtk_menu_item_new_with_mnemonic(_("_Lipsum..."));
+#else
 	menu_lipsum = gtk_image_menu_item_new_with_mnemonic(_("_Lipsum..."));
+#endif
 	gtk_widget_set_tooltip_text(menu_lipsum, _("Include Pseudotext to your code"));
 	gtk_widget_show(menu_lipsum);
 	g_signal_connect((gpointer) menu_lipsum, "activate",

@@ -26,19 +26,21 @@
 ; Do a Cyclic Redundancy Check to make sure the installer was not corrupted by the download
 CRCCheck force
 RequestExecutionLevel highest ; set execution level for Windows Vista
+; NSIS 3 Unicode support
+Unicode true
 
 ;;;;;;;;;;;;;;;;;;;
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "1.35"
-!define PRODUCT_VERSION_ID "1.35.0.0"
+!define PRODUCT_VERSION "1.37"
+!define PRODUCT_VERSION_ID "1.37.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
-!define REQUIRED_GEANY_VERSION "1.35.0"
+!define REQUIRED_GEANY_VERSION "1.37.0"
 !define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -48,15 +50,16 @@ VIProductVersion "${PRODUCT_VERSION_ID}"
 VIAddVersionKey "ProductName" "${PRODUCT_NAME}"
 VIAddVersionKey "FileVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
-VIAddVersionKey "LegalCopyright" "Copyright 2009-2017 by the Geany developer team"
+VIAddVersionKey "LegalCopyright" "Copyright 2009-2019 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
-BrandingText "$(^NAME) installer (NSIS 2.51)"
+BrandingText "$(^NAME) installer (NSIS 3.04)"
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 SetCompressor /SOLID lzma
 ShowInstDetails hide
 ShowUnInstDetails hide
 XPStyle on
+ManifestSupportedOS all
 OutFile "geany-plugins-${PRODUCT_VERSION}_setup.exe"
 
 Var Answer
@@ -69,10 +72,10 @@ Var UNINSTDIR
 !include "MUI2.nsh"
 
 ;Reserve files used in .onInit, for faster start-up
-ReserveFile "${NSISDIR}\Plugins\System.dll"
-ReserveFile "${NSISDIR}\Plugins\UserInfo.dll"
-ReserveFile "${NSISDIR}\Plugins\InstallOptions.dll"
-ReserveFile "${NSISDIR}\Plugins\LangDLL.dll"
+ReserveFile "${NSISDIR}\Plugins\x86-unicode\System.dll"
+ReserveFile "${NSISDIR}\Plugins\x86-unicode\UserInfo.dll"
+ReserveFile "${NSISDIR}\Plugins\x86-unicode\InstallOptions.dll"
+ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
 
 !define MUI_ABORTWARNING
 ; FIXME hard-coded path...should we add geany.ico to the geany-plugins repo?
@@ -119,6 +122,9 @@ Section "Language Files" SEC02
 	SectionIn 1
 	SetOutPath "$INSTDIR\share\locale"
 	File /r "${RESOURCEDIR}\share\locale\*"
+	; dependency translations
+	SetOutPath "$INSTDIR\share\locale"
+	File /r "contrib\share\locale\*"
 SectionEnd
 
 Section "Documentation" SEC03
@@ -132,7 +138,7 @@ Section "Dependencies" SEC04
 	SectionIn 1
 	SetOverwrite ifnewer
 	SetOutPath "$INSTDIR"
-	File /r "contrib\"
+	File /r /x "*.mo" "contrib\"
 SectionEnd
 
 Section -Post
@@ -229,6 +235,7 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libgnutlsxx-28.dll"
 	Delete "$INSTDIR\bin\libgpg-error-0.dll"
 	Delete "$INSTDIR\bin\libgpgme-11.dll"
+	Delete "$INSTDIR\bin\libgpgme-glib-11.dll"
 	Delete "$INSTDIR\bin\libqgpgme-7.dll"
 	Delete "$INSTDIR\bin\libgpgmepp-6.dll"
 	Delete "$INSTDIR\bin\libgstallocators-1.0-0.dll"
@@ -250,31 +257,42 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libgstvideo-1.0-0.dll"
 	Delete "$INSTDIR\bin\libgtkspell-0.dll"
 	Delete "$INSTDIR\bin\libgtkspell3-*.dll"
-	Delete "$INSTDIR\bin\libhistory7.dll"
-	Delete "$INSTDIR\bin\libhogweed-4.dll"
+	Delete "$INSTDIR\bin\libhistory8.dll"
+	Delete "$INSTDIR\bin\libhogweed-5.dll"
 	Delete "$INSTDIR\bin\libhttp_parser-2.dll"
 	Delete "$INSTDIR\bin\libhunspell-1.7-0.dll"
-	Delete "$INSTDIR\bin\libicudt62.dll"
-	Delete "$INSTDIR\bin\libicuin62.dll"
-	Delete "$INSTDIR\bin\libicuio62.dll"
-	Delete "$INSTDIR\bin\libicule62.dll"
-	Delete "$INSTDIR\bin\libiculx62.dll"
-	Delete "$INSTDIR\bin\libicutest62.dll"
-	Delete "$INSTDIR\bin\libicutu62.dll"
-	Delete "$INSTDIR\bin\libicuuc62.dll"
+	Delete "$INSTDIR\bin\libicudt61.dll"
+	Delete "$INSTDIR\bin\libicutu61.dll"
+	Delete "$INSTDIR\bin\libicuuc61.dll"
+	Delete "$INSTDIR\bin\libicuin61.dll"
+	Delete "$INSTDIR\bin\libicuio61.dll"
+	Delete "$INSTDIR\bin\libicule61.dll"
+	Delete "$INSTDIR\bin\libiculx61.dll"
+	Delete "$INSTDIR\bin\libicutest61.dll"
+	Delete "$INSTDIR\bin\libicutu64.dll"
+	Delete "$INSTDIR\bin\libicuuc64.dll"
+	Delete "$INSTDIR\bin\libicudt64.dll"
+	Delete "$INSTDIR\bin\libicuin64.dll"
+	Delete "$INSTDIR\bin\libicuio64.dll"
+	Delete "$INSTDIR\bin\libicule64.dll"
+	Delete "$INSTDIR\bin\libiculx64.dll"
+	Delete "$INSTDIR\bin\libicutest64.dll"
+	Delete "$INSTDIR\bin\libicutu64.dll"
+	Delete "$INSTDIR\bin\libicuuc64.dll"
 	Delete "$INSTDIR\bin\libidn2-0.dll"
 	Delete "$INSTDIR\bin\libjavascriptcoregtk-1.0-0.dll"
 	Delete "$INSTDIR\bin\libjavascriptcoregtk-3.0-0.dll"
 	Delete "$INSTDIR\bin\libjpeg-8.dll"
 	Delete "$INSTDIR\bin\liblzma-5.dll"
-	Delete "$INSTDIR\bin\libnettle-6.dll"
+	Delete "$INSTDIR\bin\libnettle-7.dll"
 	Delete "$INSTDIR\bin\libnghttp2-14.dll"
 	Delete "$INSTDIR\bin\libogg-0.dll"
 	Delete "$INSTDIR\bin\liborc-0.4-0.dll"
 	Delete "$INSTDIR\bin\liborc-test-0.4-0.dll"
 	Delete "$INSTDIR\bin\libp11-kit-0.dll"
+	Delete "$INSTDIR\bin\libproxy-1.dll"
 	Delete "$INSTDIR\bin\libpsl-5.dll"
-	Delete "$INSTDIR\bin\libreadline7.dll"
+	Delete "$INSTDIR\bin\libreadline8.dll"
 	Delete "$INSTDIR\bin\librtmp-1.dll"
 	Delete "$INSTDIR\bin\libsoup-2.4-1.dll"
 	Delete "$INSTDIR\bin\libsoup-gnome-2.4-1.dll"
@@ -315,6 +333,7 @@ Section Uninstall
 	RMDir /r "$INSTDIR\lib\gio"
 	RMDir /r "$INSTDIR\lib\gstreamer-1.0"
 	RMDir /r "$INSTDIR\lib\pkcs11"
+	RMDir /r "$INSTDIR\lib\sqlite3.29.0"
 	RMDir /r "$INSTDIR\lib\geany-plugins"
 	RMDir /r "$INSTDIR\libexec\p11-kit"
 	RMDir /r "$INSTDIR\share\doc\geany-plugins"

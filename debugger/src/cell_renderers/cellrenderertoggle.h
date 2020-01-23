@@ -36,16 +36,6 @@ G_BEGIN_DECLS
 typedef struct _CellRendererToggle CellRendererToggle;
 typedef struct _CellRendererToggleClass CellRendererToggleClass;
 
-struct _CellRendererToggle
-{
-  GtkCellRendererToggle parent;
-};
-
-struct _CellRendererToggleClass
-{
-  GtkCellRendererToggleClass parent_class;
-};
-
 GType					cell_renderer_toggle_get_type(void);
 GtkCellRenderer*		cell_renderer_toggle_new (void);
 

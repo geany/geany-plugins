@@ -39,6 +39,16 @@ typedef struct
 ScanDirParams;
 
 
+typedef struct
+{
+	GSList *filelist;
+	GHashTable *visited_paths;
+	void (*callback)(const gchar *path, gboolean *add, gboolean *enter, void *userdata);
+	void *userdata;
+}
+ScanDirParamsCallback;
+
+
 /** Get precompiled patterns.
  *
  * The function builds the precompiled patterns for @a patterns and returns them
@@ -48,7 +58,7 @@ ScanDirParams;
  * @return Pointer to GSList of patterns or NULL if patterns == NULL
  *
  **/
-static GSList *filelist_get_precompiled_patterns(gchar **patterns)
+GSList *filelist_get_precompiled_patterns(gchar **patterns)
 {
 	guint i;
 	GSList *pattern_list = NULL;
@@ -74,7 +84,7 @@ static GSList *filelist_get_precompiled_patterns(gchar **patterns)
  * @return TRUE if str matches the pattern, FALSE otherwise
  *
  **/
-static gboolean filelist_patterns_match(GSList *patterns, const gchar *str)
+gboolean filelist_patterns_match(GSList *patterns, const gchar *str)
 {
 	GSList *elem = NULL;
 	foreach_slist (elem, patterns)
@@ -359,4 +369,99 @@ gboolean gp_filelist_filepath_matches_patterns(const gchar *filepath, gchar **fi
 	g_slist_free(ignored_file_list);
 
 	return match;
+}
+
+
+/* Scan directory searchdir. Let a callback-function decide which files
+   to add and which directories to enter/crawl. */
+static void filelist_scan_directory_callback_int(const gchar *searchdir, ScanDirParamsCallback *params)
+{
+	GDir *dir;
+	gchar *locale_path = utils_get_locale_from_utf8(searchdir);
+	gchar *real_path = utils_get_real_path(locale_path);
+
+	dir = g_dir_open(locale_path, 0, NULL);
+	if (!dir || !real_path || g_hash_table_lookup(params->visited_paths, real_path))
+	{
+		if (dir != NULL)
+		{
+			g_dir_close(dir);
+		}
+		g_free(locale_path);
+		g_free(real_path);
+		return;
+	}
+
+	g_hash_table_insert(params->visited_paths, real_path, GINT_TO_POINTER(1));
+
+	while (TRUE)
+	{
+		const gchar *locale_name;
+		gchar *locale_filename, *utf8_filename, *utf8_name;
+		gboolean add, enter;
+
+		locale_name = g_dir_read_name(dir);
+		if (!locale_name)
+		{
+			break;
+		}
+
+		utf8_name = utils_get_utf8_from_locale(locale_name);
+		locale_filename = g_build_filename(locale_path, locale_name, NULL);
+		utf8_filename = utils_get_utf8_from_locale(locale_filename);
+
+		/* Call user callback. */
+		params->callback(locale_filename, &add, &enter, params->userdata);
+
+		/* Should the file/path be added to the list? */
+		if (add)
+		{
+			params->filelist = g_slist_prepend(params->filelist, g_strdup(utf8_filename));
+		}
+
+		/* If the path is a directory, should it be entered? */
+		if (enter && g_file_test(locale_filename, G_FILE_TEST_IS_DIR))
+		{
+			filelist_scan_directory_callback_int(utf8_filename, params);
+		}
+
+		g_free(utf8_filename);
+		g_free(locale_filename);
+		g_free(utf8_name);
+	}
+
+	g_dir_close(dir);
+	g_free(locale_path);
+}
+
+
+/** Scan a directory and return a list of files and directories.
+ *
+ * The function scans directory searchdir and returns a list of files.
+ * The list will only include files for which the callback function returned
+ * 'add == TRUE'. Sub-directories will only be scanned if the callback function
+ * returned 'enter == TRUE'.
+ * 
+ * @param searchdir Directory which shall be scanned
+ * @param callback  Function to be called to decide which files to add to
+ *                  the list and to decide which sub-directories to enter
+ *                  or to ignore.
+ * @param userdata  A pointer which is transparently passed through
+ *                  to the callback function.
+ * @return GSList of matched files
+ *
+ **/
+GSList *gp_filelist_scan_directory_callback(const gchar *searchdir,
+	void (*callback)(const gchar *path, gboolean *add, gboolean *enter, void *userdata),
+	void *userdata)
+{
+	ScanDirParamsCallback params = { 0 };
+
+	params.callback = callback;
+	params.userdata = userdata;
+	params.visited_paths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+	filelist_scan_directory_callback_int(searchdir, &params);
+	g_hash_table_destroy(params.visited_paths);
+
+	return params.filelist;
 }

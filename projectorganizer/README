@@ -173,7 +173,7 @@ The following search properties are configurable:
   name only (excluding path); when checked, the search is performed in the full path
 
 Find symbol dialog
-----------------
+------------------
 
 The Find symbol dialog can be invoked either from the Project menu or from the
 sidebar's context menu. Searches are performed within the "Search inside" directory.

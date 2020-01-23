@@ -46,15 +46,8 @@
 #endif
 
 
-PLUGIN_VERSION_CHECK(226)
-PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
-	"GeanyCtags",
-	_("Ctags generation and search plugin for geany projects"),
-	VERSION,
-	"Jiri Techet <techet@gmail.com>")
-
-GeanyPlugin *geany_plugin;
-GeanyData *geany_data;
+static GeanyPlugin *geany_plugin = NULL;
+static GeanyData *geany_data = NULL;
 
 
 static GtkWidget *s_context_fdec_item, *s_context_fdef_item, *s_context_sep_item,
@@ -103,16 +96,16 @@ static void on_project_save(G_GNUC_UNUSED GObject * obj, GKeyFile * config, G_GN
 	set_widgets_sensitive(TRUE);
 }
 
-PluginCallback plugin_callbacks[] = {
+static PluginCallback plugin_geanyctags_callbacks[] = {
 	{"project-open", (GCallback) & on_project_open, TRUE, NULL},
 	{"project-close", (GCallback) & on_project_close, TRUE, NULL},
 	{"project-save", (GCallback) & on_project_save, TRUE, NULL},
 	{NULL, NULL, FALSE, NULL}
 };
 
-void plugin_help (void)
+static void plugin_geanyctags_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
-	utils_open_browser("http://plugins.geany.org/geanyctags.html");
+	utils_open_browser("https://plugins.geany.org/geanyctags.html");
 }
 
 static void spawn_cmd(const gchar *cmd, const gchar *dir)
@@ -647,10 +640,15 @@ static gboolean kb_callback(guint key_id)
 	return FALSE;
 }
 
-void plugin_init(G_GNUC_UNUSED GeanyData * data)
+static gboolean plugin_geanyctags_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
-	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "GeanyCtags", KB_COUNT, kb_callback);
-	
+	GeanyKeyGroup *key_group;
+
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
+
+	key_group = plugin_set_key_group(geany_plugin, "GeanyCtags", KB_COUNT, kb_callback);
+
 	s_context_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_context_sep_item);
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), s_context_sep_item);
@@ -684,9 +682,11 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 		0, 0, "find_tag", _("Find tag"), s_ft_item);
 
 	set_widgets_sensitive(geany_data->app->project != NULL);
+
+	return TRUE;
 }
 
-void plugin_cleanup(void)
+static void plugin_geanyctags_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	gtk_widget_destroy(s_context_fdec_item);
 	gtk_widget_destroy(s_context_fdef_item);
@@ -699,4 +699,28 @@ void plugin_cleanup(void)
 	if (s_ft_dialog.widget)
 		gtk_widget_destroy(s_ft_dialog.widget);
 	s_ft_dialog.widget = NULL;
+}
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = "GeanyCtags";
+	plugin->info->description = _("Ctags generation and search plugin for geany projects");
+	plugin->info->version = VERSION;
+	plugin->info->author = "Jiri Techet <techet@gmail.com>";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_geanyctags_init;
+	plugin->funcs->cleanup = plugin_geanyctags_cleanup;
+	plugin->funcs->help = plugin_geanyctags_help;
+	plugin->funcs->callbacks = plugin_geanyctags_callbacks;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }

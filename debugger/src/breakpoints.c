@@ -27,7 +27,7 @@
 
 #include <string.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #include "breakpoints.h"
 #include "utils.h"

@@ -26,7 +26,7 @@
  */
 
 
-#include "geanyplugin.h"	/* plugin API, always comes first */
+#include <geanyplugin.h>	/* plugin API, always comes first */
 #include "keybindings.h"
 #include <geany.h>
 #include "Scintilla.h"	/* for the SCNotification struct */

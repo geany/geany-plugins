@@ -53,6 +53,8 @@ struct _AoDocListPrivate
 	gboolean enable_doclist;
 	DocListSortMode sort_mode;
 	GtkToolItem *toolbar_doclist_button;
+	gboolean in_overflow_menu;
+	GtkWidget *overflow_menu_item;
 };
 
 enum
@@ -112,6 +114,8 @@ static void ao_doc_list_finalize(GObject *object)
 
 	if (priv->toolbar_doclist_button != NULL)
 		gtk_widget_destroy(GTK_WIDGET(priv->toolbar_doclist_button));
+	if (priv->overflow_menu_item != NULL)
+		gtk_widget_destroy(priv->overflow_menu_item);
 
 	G_OBJECT_CLASS(ao_doc_list_parent_class)->finalize(object);
 }
@@ -120,23 +124,55 @@ static void ao_doc_list_finalize(GObject *object)
 /* This function is taken from Midori's katze-utils.c, thanks to Christian. */
 static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpointer data)
 {
+	AoDocListPrivate *priv = AO_DOC_LIST_GET_PRIVATE(data);
+
 	gint wx, wy;
 	GtkRequisition widget_req;
-	GtkWidget *widget = data;
-	GdkWindow *window = gtk_widget_get_window(widget);
+	GtkWidget *widget = GTK_WIDGET(priv->toolbar_doclist_button);
+	GdkWindow *window;
 	gint widget_height;
 
-	/* Retrieve size and position of both widget and menu */
-	if (! gtk_widget_get_has_window(widget))
-	{
-		GtkAllocation allocation;
-		gdk_window_get_position(window, &wx, &wy);
-		gtk_widget_get_allocation(widget, &allocation);
-		wx += allocation.x;
-		wy += allocation.y;
+	if (priv->in_overflow_menu) {
+		/* The button was added to the toolbar overflow menu (since the toolbar
+		 * isn't wide enough to contain the button), so use the toolbar window
+		 * instead
+		 */
+
+		/* Get the root coordinates of the toolbar's window */
+		int wx_root, wy_root, width;
+		window = gtk_widget_get_window (gtk_widget_get_ancestor(widget, GTK_TYPE_TOOLBAR));
+#if GTK_CHECK_VERSION(3, 0, 0)
+		gdk_window_get_geometry(window, &wx, &wy, &width, NULL);
+		gtk_widget_get_preferred_size(widget, &widget_req, NULL);
+#else
+		gdk_window_get_geometry(window, &wx, &wy, &width, NULL, NULL);
+		gtk_widget_size_request(widget, &widget_req);
+#endif
+		gdk_window_get_root_coords(window, wx, wy, &wx_root, &wy_root);
+
+		/* Approximate the horizontal location of the overflow menu button */
+		/* TODO: See if there's a way to find the exact location */
+		wx = wx_root + width - (int) (widget_req.width * 1.5);
+		wy = wy_root;
+
+		/* This will be set TRUE if the overflow menu is open again and includes
+		 * the doclist menu item
+		 */
+		priv->in_overflow_menu = FALSE;
+	} else {
+		/* Retrieve size and position of both widget and menu */
+		window = gtk_widget_get_window(widget);
+		if (! gtk_widget_get_has_window(widget))
+		{
+			GtkAllocation allocation;
+			gdk_window_get_position(window, &wx, &wy);
+			gtk_widget_get_allocation(widget, &allocation);
+			wx += allocation.x;
+			wy += allocation.y;
+		}
+		else
+			gdk_window_get_origin(window, &wx, &wy);
 	}
-	else
-		gdk_window_get_origin(window, &wx, &wy);
 #if GTK_CHECK_VERSION(3, 0, 0)
 	gtk_widget_get_preferred_size(widget, &widget_req, NULL);
 #else
@@ -223,7 +259,33 @@ static void ao_toolbar_item_doclist_clicked_cb(GtkWidget *button, gpointer data)
 		GINT_TO_POINTER(ACTION_CLOSE_ALL));
 
 	gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
-		ao_popup_position_menu, button, 0, gtk_get_current_event_time());
+		ao_popup_position_menu, data, 0, gtk_get_current_event_time());
+}
+
+
+static gboolean ao_create_proxy_menu_cb(GtkToolItem *widget, gpointer data)
+{
+	AoDocListPrivate *priv = AO_DOC_LIST_GET_PRIVATE(data);
+
+	/* Create the menu item if needed */
+	if (priv->overflow_menu_item == NULL)
+	{
+#if GTK_CHECK_VERSION(3, 0, 0)
+		priv->overflow_menu_item = gtk_menu_item_new_with_label("Document List");
+#else
+		GtkWidget *menu_image = gtk_image_new_from_icon_name(GTK_STOCK_INDEX, GTK_ICON_SIZE_MENU);
+		priv->overflow_menu_item = gtk_image_menu_item_new_with_label("Document List");
+		gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(priv->overflow_menu_item), menu_image);
+#endif
+		g_signal_connect(priv->overflow_menu_item, "activate",
+			G_CALLBACK(ao_toolbar_item_doclist_clicked_cb), data);
+	}
+
+	gtk_tool_item_set_proxy_menu_item(priv->toolbar_doclist_button, "doc-list-menu-item",
+		priv->overflow_menu_item);
+	priv->in_overflow_menu = TRUE;
+
+	return TRUE;
 }
 
 
@@ -253,6 +315,10 @@ static void ao_toolbar_update(AoDocList *self)
 
 			g_signal_connect(priv->toolbar_doclist_button, "clicked",
 				G_CALLBACK(ao_toolbar_item_doclist_clicked_cb), self);
+
+			g_signal_connect(priv->toolbar_doclist_button, "create-menu-proxy",
+			    G_CALLBACK(ao_create_proxy_menu_cb), self);
+
 		}
 		gtk_widget_show(GTK_WIDGET(priv->toolbar_doclist_button));
 	}
@@ -285,6 +351,8 @@ static void ao_doc_list_init(AoDocList *self)
 	AoDocListPrivate *priv = AO_DOC_LIST_GET_PRIVATE(self);
 
 	priv->toolbar_doclist_button = NULL;
+	priv->in_overflow_menu = FALSE;
+	priv->overflow_menu_item = NULL;
 }
 
 

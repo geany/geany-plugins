@@ -23,7 +23,7 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
@@ -104,12 +104,7 @@ static void create_selection(ScintillaObject *sci, int anchor, int anchor_space,
 
 	sci_set_anchor_space(sci, anchor_space);
 	sci_set_cursor_space(sci, cursor_space);
-
-	/* SCI bug: CANCEL may reduce a rectangle selection to a single line */
-	if (rectangle)
-		sci_set_selection_mode(sci, SC_SEL_RECTANGLE);
-	else
-		sci_send_command(sci, SCI_CANCEL);
+	sci_send_command(sci, SCI_CANCEL);
 }
 
 static void convert_selection(ScintillaObject *sci, gboolean rectangle)
@@ -339,7 +334,11 @@ static void doit_and_select(guint group_id, guint key_id)
 		else
 		{
 			if (geany_data->prefs->beep_on_errors)
+#if GTK_CHECK_VERSION(2, 2, 0)
+				gdk_display_beep(gdk_display_get_default());
+#else
 				gdk_beep();
+#endif
 			return;
 		}
 

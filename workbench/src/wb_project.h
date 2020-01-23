@@ -21,15 +21,15 @@
 
 #include <glib.h>
 
-typedef enum
-{
-	WB_PROJECT_IDLE_ACTION_ID_ADD_SINGLE_TM_FILE,
-	WB_PROJECT_IDLE_ACTION_ID_REMOVE_SINGLE_TM_FILE,
-	WB_PROJECT_IDLE_ACTION_ID_UPDATE_TAGS,
-}WB_PROJECT_IDLE_ACTION_ID;
-
 typedef struct S_WB_PROJECT WB_PROJECT;
 typedef struct S_WB_PROJECT_DIR WB_PROJECT_DIR;
+
+typedef enum
+{
+	WB_PROJECT_SCAN_MODE_INVALID,
+	WB_PROJECT_SCAN_MODE_WORKBENCH,
+	WB_PROJECT_SCAN_MODE_GIT,
+}WB_PROJECT_SCAN_MODE;
 
 WB_PROJECT *wb_project_new(const gchar *filename);
 void wb_project_free(WB_PROJECT *prj);
@@ -58,6 +58,8 @@ gchar **wb_project_dir_get_ignored_dirs_patterns (WB_PROJECT_DIR *directory);
 gboolean wb_project_dir_set_ignored_dirs_patterns (WB_PROJECT_DIR *directory, gchar **new);
 gchar **wb_project_dir_get_ignored_file_patterns (WB_PROJECT_DIR *directory);
 gboolean wb_project_dir_set_ignored_file_patterns (WB_PROJECT_DIR *directory, gchar **new);
+WB_PROJECT_SCAN_MODE wb_project_dir_get_scan_mode (WB_PROJECT_DIR *directory);
+gboolean wb_project_dir_set_scan_mode (WB_PROJECT *project, WB_PROJECT_DIR *directory, WB_PROJECT_SCAN_MODE mode);
 guint wb_project_dir_rescan(WB_PROJECT *prj, WB_PROJECT_DIR *root);
 gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir);
 gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filename);
@@ -74,7 +76,5 @@ gboolean wb_project_save(WB_PROJECT *prj, GError **error);
 gboolean wb_project_load(WB_PROJECT *prj, const gchar *filename, GError **error);
 
 gchar *wb_project_get_info (WB_PROJECT *prj);
-
-void wb_project_add_idle_action(WB_PROJECT_IDLE_ACTION_ID id, gpointer param_a, gpointer param_b);
 
 #endif

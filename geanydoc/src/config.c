@@ -24,7 +24,7 @@
 
 #include <string.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 #include "geanydoc.h"
 

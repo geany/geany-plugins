@@ -4,8 +4,10 @@ plugin = lineoperations
 geanyplugins_LTLIBRARIES = lineoperations.la
 
 lineoperations_la_SOURCES = \
-	linefunctions.h \
-	linefunctions.c \
+	lo_fns.h \
+	lo_fns.c \
+	lo_prefs.h \
+	lo_prefs.c \
 	lineoperations.c
 
 lineoperations_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"LineOperations\"

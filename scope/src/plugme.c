@@ -27,7 +27,7 @@
 
 #include <gp_gtkcompat.h>
 
-#include "geanyplugin.h"
+#include <geanyplugin.h>
 
 extern GeanyData *geany_data;
 

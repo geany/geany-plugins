@@ -2535,6 +2535,7 @@
                 <property name="can_focus">True</property>
                 <child>
                   <object class="GtkVBox" id="program_page_vbox">
+                    <property name="height_request">350</property>
                     <property name="visible">True</property>
                     <property name="border_width">6</property>
                     <property name="orientation">vertical</property>

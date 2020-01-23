@@ -1,6 +1,8 @@
 AC_DEFUN([GP_CHECK_TREEBROWSER],
 [
     GP_ARG_DISABLE([Treebrowser], [auto])
+    GP_CHECK_UTILSLIB([Treebrowser])
+
     if [[ "$enable_treebrowser" != no ]]; then
         AC_CHECK_FUNC([creat],
             [enable_treebrowser=yes],

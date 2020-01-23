@@ -28,5 +28,6 @@ gchar *get_combined_path(const gchar *base, const gchar *relative);
 gchar *get_any_relative_path (const gchar *base, const gchar *target);
 void open_all_files_in_list(GPtrArray *list);
 void close_all_files_in_list(GPtrArray *list);
+gboolean is_git_repository(gchar *path);
 
 #endif

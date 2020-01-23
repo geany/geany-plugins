@@ -4,7 +4,10 @@
  * See the file "geanylua.c" for copyright information.
  */
 
-#define _BSD_SOURCE /* for stat() and lstat() */
+#ifdef HAVE_CONFIG_H
+#	include "config.h"
+#endif
+
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>

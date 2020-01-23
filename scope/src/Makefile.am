@@ -61,3 +61,17 @@ scope_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) \
 	-I$(top_srcdir)/utils/src
 
 include $(top_srcdir)/build/cppcheck.mk
+
+if UNITTESTS
+
+TESTS = unittests
+check_PROGRAMS = unittests
+
+unittests_SOURCES  = tests/unittests.c tests/utils_test.c \
+                     $(scope_la_SOURCES)
+unittests_CPPFLAGS = -DTEST $(scope_la_CPPFLAGS)
+unittests_CFLAGS  = $(GEANY_CFLAGS) -DUNITTESTS $(scope_la_CFLAGS)
+unittests_LDADD    = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@ \
+                     $(scope_la_LIBADD)
+
+endif

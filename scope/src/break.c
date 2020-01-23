@@ -1332,8 +1332,10 @@ static void on_break_apply(const MenuItem *menu_item)
 	if (menu_item || thread_id)
 	{
 		GtkTreeIter iter;
-		gtk_tree_selection_get_selected(selection, NULL, &iter);
-		break_apply(&iter, !menu_item);
+		if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+		{
+			break_apply(&iter, !menu_item);
+		}
 	}
 	else
 		plugin_beep();
@@ -1343,16 +1345,20 @@ static void on_break_run_apply(const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
 
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	scp_tree_store_set(store, &iter, BREAK_RUN_APPLY,
-		gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item->widget)), -1);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		scp_tree_store_set(store, &iter, BREAK_RUN_APPLY,
+			gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu_item->widget)), -1);
+	}
 }
 
 static void on_break_delete(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	gtk_tree_selection_get_selected(selection, NULL, &iter);
-	break_delete(&iter);
+	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
+	{
+		break_delete(&iter);
+	}
 }
 
 static void break_seek_selected(gboolean focus)

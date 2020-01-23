@@ -28,12 +28,17 @@ typedef enum
 	FILELIST_FLAG_ADD_DIRS = 1,
 }FILELIST_FLAG;
 
+GSList *filelist_get_precompiled_patterns(gchar **patterns);
+gboolean filelist_patterns_match(GSList *patterns, const gchar *str);
 GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
 GSList *gp_filelist_scan_directory_full(guint *files, guint *folders, const gchar *searchdir, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns, guint flags);
 gboolean gp_filelist_filepath_matches_patterns(const gchar *filepath, gchar **file_patterns,
 		gchar **ignored_dirs_patterns, gchar **ignored_file_patterns);
+GSList *gp_filelist_scan_directory_callback(const gchar *searchdir,
+	void (*callback)(const gchar *path, gboolean *add, gboolean *enter, void *userdata),
+	void *userdata);
 
 G_END_DECLS
 

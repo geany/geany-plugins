@@ -42,14 +42,6 @@
 GeanyPlugin	*geany_plugin;
 GeanyData	*geany_data;
 
-PLUGIN_VERSION_CHECK(224)
-PLUGIN_SET_TRANSLATABLE_INFO(
-	LOCALEDIR,
-	GETTEXT_PACKAGE,
-	_("Auto-close"),
-	_("Auto-close braces and brackets with lot of features"),
-	"0.3",
-	"Pavel Roschin <rpg89(at)post(dot)ru>")
 
 typedef struct {
 	/* close chars */
@@ -375,6 +367,43 @@ improve_indent(
 	return AC_STOP_ACTION;
 }
 
+
+/** Find previous string/last occurence from a position
+ *
+ * The function finds the last occurence of @a text before the given
+ * position @a pos. It will only search the range of @a max before
+ * @a pos. @a length gives the length of the string at @a text. @a text
+ * does not need to be NULL terminated.
+ *
+ * @param sci	 The ScintillaObject
+ * @param pos	 The position to search backwards from (excluding pos)
+ * @param max	 Maximum number of chars to search through (the function
+ *				 will search the range from pos to pos-max)
+ * @param length Length of the search text
+ * @param text	 Text to search for
+ * @returns The position where the text was found or -1 if not found
+ *
+ **/
+static gint ao_sci_find_prev_string(ScintillaObject *sci, gint pos, gint max, gint length, gchar *text)
+{
+	gint start = 0;
+	gint found;
+
+	if (pos == 0)
+	{
+		return -1;
+	}
+	if (pos >= max)
+	{
+		start = pos - max;
+	}
+	scintilla_send_message(sci, SCI_SETTARGETRANGE, pos-1, start);
+	found = scintilla_send_message(sci, SCI_SEARCHINTARGET, length, (sptr_t)text);
+
+	return found;
+}
+
+
 static gboolean
 handle_backspace(
 	AutocloseUserData *data,
@@ -401,7 +430,14 @@ handle_backspace(
 		if ((ch_left[0] == ch || ch_right[0] == ch) &&
 				ac_info->bcksp_remove_pair)
 		{
-			end_pos = sci_find_matching_brace(sci, pos - 1);
+			if (ch_left[0] != ch_right[0])
+			{
+				end_pos = sci_find_matching_brace(sci, pos - 1);
+			}
+			else
+			{
+				end_pos = ao_sci_find_prev_string(sci, pos, pos, 1, ch_left);
+			}
 			if (-1 == end_pos)
 				return AC_CONTINUE_ACTION;
 			sci_start_undo_action(sci);
@@ -830,7 +866,7 @@ on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 	g_object_set_data_full(G_OBJECT(sci), "autoclose-userdata", data, g_free);
 }
 
-PluginCallback plugin_callbacks[] =
+static PluginCallback plugin_autoclose_callbacks[] =
 {
 	{ "document-open",  (GCallback) &on_document_open, FALSE, NULL },
 	{ "document-new",   (GCallback) &on_document_open, FALSE, NULL },
@@ -896,10 +932,13 @@ configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 }
 
 /* Called by Geany to initialize the plugin */
-void
-plugin_init(G_GNUC_UNUSED GeanyData *data)
+static gboolean
+plugin_autoclose_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	guint i = 0;
+
+	geany_plugin = plugin;
+	geany_data = plugin->geany_data;
 
 	foreach_document(i)
 	{
@@ -943,6 +982,7 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 #undef GET_CONF_BOOL
 
 	g_key_file_free(config);
+	return TRUE;
 }
 
 #define GET_CHECKBOX_ACTIVE(name) gboolean sens = gtk_toggle_button_get_active(\
@@ -1002,14 +1042,18 @@ ac_delete_pairing_brace_cb(GtkToggleButton *togglebutton, gpointer data)
 	SET_SENS(bcksp_remove_pair);
 }
 
-GtkWidget *
-plugin_configure(GtkDialog *dialog)
+static GtkWidget *
+plugin_autoclose_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
 {
 	GtkWidget *widget, *vbox, *frame, *container, *scrollbox;
 	vbox = gtk_vbox_new(FALSE, 0);
 	scrollbox = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_set_size_request(GTK_WIDGET(scrollbox), -1, 400);
+#if GTK_CHECK_VERSION(3, 8, 0)
+	gtk_container_add(GTK_CONTAINER(scrollbox), vbox);
+#else
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrollbox), vbox);
+#endif
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollbox),
 		GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
@@ -1134,16 +1178,41 @@ autoclose_cleanup(void)
 }
 
 /* Called by Geany before unloading the plugin. */
-void
-plugin_cleanup(void)
+static void
+plugin_autoclose_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	autoclose_cleanup();
 	g_free(ac_info->config_file);
 	g_free(ac_info);
 }
 
-void
-plugin_help(void)
+static void
+plugin_autoclose_help(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
 	utils_open_browser("http://plugins.geany.org/autoclose.html");
+}
+
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+	/* Setup translation */
+	main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+	/* Set metadata */
+	plugin->info->name = _("Auto-close");
+	plugin->info->description = _("Auto-close braces and brackets with lot of features");
+	plugin->info->version = "0.3";
+	plugin->info->author = "Pavel Roschin <rpg89(at)post(dot)ru>";
+
+	/* Set functions */
+	plugin->funcs->init = plugin_autoclose_init;
+	plugin->funcs->cleanup = plugin_autoclose_cleanup;
+	plugin->funcs->help = plugin_autoclose_help;
+	plugin->funcs->callbacks = plugin_autoclose_callbacks;
+	plugin->funcs->configure = plugin_autoclose_configure;
+
+	/* Register! */
+	GEANY_PLUGIN_REGISTER(plugin, 226);
 }
