@@ -166,24 +166,21 @@ update_markdown_viewer(MarkdownViewer *viewer)
 {
   GeanyDocument *doc = document_get_current();
 
-  if (DOC_VALID(doc) && g_strcmp0(doc->file_type->name, "Markdown") == 0)
-  {
+  if (DOC_VALID(doc) && g_strcmp0(doc->file_type->name, "Markdown") == 0) {
     gchar *text;
     text = (gchar*) scintilla_send_message(doc->editor->sci, SCI_GETCHARACTERPOINTER, 0, 0);
     markdown_viewer_set_markdown(viewer, text, doc->encoding);
     gtk_widget_set_sensitive(g_export_html, TRUE);
   }
-  else  if (DOC_VALID(doc) && doc->file_name)
-  { if( strrchr(doc->file_name,'.') && ( (g_strcmp0(strrchr(doc->file_name,'.'), ".svg")==0) || (g_strcmp0(strrchr(doc->file_name,'.'  ), ".html")==0) ) )
-	  {
-		gchar *text;
-		text = (gchar*) scintilla_send_message(doc->editor->sci, SCI_GETCHARACTERPOINTER, 0, 0);
-		markdown_viewer_set_markdown(viewer, text, doc->encoding);
-		gtk_widget_set_sensitive(g_export_html, FALSE);
-	  }
-  }
-  else
-  {
+  else  if (DOC_VALID(doc) && doc->file_name) {
+    if( strrchr(doc->file_name,'.') && ( (g_strcmp0(strrchr(doc->file_name,'.'), ".svg")==0)
+        || (g_strcmp0(strrchr(doc->file_name,'.'  ), ".html")==0) ) ) {
+       gchar *text;
+       text = (gchar*) scintilla_send_message(doc->editor->sci, SCI_GETCHARACTERPOINTER, 0, 0);
+       markdown_viewer_set_markdown(viewer, text, doc->encoding);
+       gtk_widget_set_sensitive(g_export_html, FALSE);
+     }
+  } else {
     markdown_viewer_set_markdown(viewer,
       _("The current document does not have a Markdown filetype."), "UTF-8");
     gtk_widget_set_sensitive(g_export_html, FALSE);

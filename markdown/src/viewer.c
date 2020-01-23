@@ -389,7 +389,6 @@ markdown_viewer_update_view(MarkdownViewer *self)
      * substituting the file's basename for `index.html`. */
     if (DOC_VALID(doc) && doc->real_path != NULL) {
       gchar *base_dir = g_path_get_dirname(doc->real_path);
-      //base_path = g_build_filename(base_dir, "index.html", NULL);
       base_path = g_build_filename(doc->real_path, NULL);
       g_free(base_dir);
     }
