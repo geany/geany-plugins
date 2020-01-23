@@ -11,8 +11,11 @@ Status
 
 
 
+
+Notes specific to this forked git repository
 ------------
-Temporary notes by Ali Raeini for installation on Ubuntu 18.04:
+
+Run the following commands to build and install geany and its plugins on Ubuntu 18.04:
 ```
 git clone https://github.com/geany/geany.git
 git clone https://github.com/aliraeini/geany-plugins
@@ -30,9 +33,8 @@ make -j
 make install
 
 ```
-TODO: test
 
-------------
+
 
 Installation
 ------------
