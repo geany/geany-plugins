@@ -8,6 +8,29 @@ Status
 .. image:: https://travis-ci.org/geany/geany-plugins.svg?branch=master
     :target: https://travis-ci.org/geany/geany-plugins
 
+------------
+Temporary notes by Ali Raeini for installation on Ubuntu 18.04:
+```
+git clone https://github.com/geany/geany.git
+git clone https://github.com/aliraeini/geany-plugins
+cd geany-plugins
+git pull https://github.com/geany/geany-plugins master
+sudo apt install libutil-freebsd-dev libvte-dev rst2pdf libwebkitgtk-dev libgtk2.0-dev
+cd ../geany
+./autogen.sh 
+make -j
+make install
+cd ../geany-plugins
+sed -i 's/"Tree Browser"/"Folders"/' treebrowser/src/treebrowser.c
+./autogen.sh 
+make -j
+make install
+
+```
+TODO: test
+
+------------
+
 Installation
 ------------
 
