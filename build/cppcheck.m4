@@ -21,4 +21,8 @@ AC_DEFUN([GP_CHECK_CPPCHECK],
     AM_CONDITIONAL([HAVE_CPPCHECK], [test "x$gp_have_cppcheck" = xyes])
     GP_STATUS_BUILD_FEATURE_ADD([Static code checking],
                                 [$gp_have_cppcheck])
+
+    GP_GEANY_PKG_CONFIG_PATH_PUSH
+    PKG_CHECK_VAR([GEANY_INCLUDEDIR], [geany], [includedir], [], [])
+    GP_GEANY_PKG_CONFIG_PATH_POP
 ])
