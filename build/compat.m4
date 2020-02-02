@@ -1,3 +1,9 @@
+dnl taken from Autoconf's m4sh.m4, GPLv3+
+m4_ifndef([AS_VAR_COPY], [
+m4_define([AS_VAR_COPY],
+[AS_LITERAL_WORD_IF([$1[]$2], [$1=$$2], [eval $1=\$$2])])
+])
+
 dnl taken from pkg-config's pkg.m4, GPLv2+
 m4_ifndef([PKG_CHECK_VAR], [
 AC_DEFUN([PKG_CHECK_VAR],
