@@ -306,6 +306,9 @@ store_populate_menu_items (GtkListStore  *store,
       gboolean      use_underline;
       GtkStockItem  item;
       
+      /* GtkStock is deprectaed since GTK 3.10, but we have to use it in order
+       * to get the actual label of the menu item */
+      G_GNUC_BEGIN_IGNORE_DEPRECATIONS
       if (GTK_IS_IMAGE_MENU_ITEM (node->data) &&
           gtk_image_menu_item_get_use_stock (node->data) &&
           gtk_stock_lookup (gtk_menu_item_get_label (node->data), &item)) {
@@ -315,6 +318,7 @@ store_populate_menu_items (GtkListStore  *store,
         item_label = g_strdup (gtk_menu_item_get_label (node->data));
         use_underline = gtk_menu_item_get_use_underline (node->data);
       }
+      G_GNUC_END_IGNORE_DEPRECATIONS
       
       /* remove underlines */
       if (use_underline) {
