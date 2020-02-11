@@ -49,7 +49,46 @@ enum
 
 static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
 
+/* GTK compatibility functions/macros */
 
+#if ! GTK_CHECK_VERSION (2, 18, 0)
+# define gtk_widget_get_visible(w) \
+  (GTK_WIDGET_VISIBLE (w))
+# define gtk_widget_set_can_focus(w, v)               \
+  G_STMT_START {                                      \
+    GtkWidget *widget = (w);                          \
+    if (v) {                                          \
+      GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);   \
+    } else {                                          \
+      GTK_WIDGET_UNSET_FLAGS (widget, GTK_CAN_FOCUS); \
+    }                                                 \
+  } G_STMT_END
+#endif
+
+#if ! GTK_CHECK_VERSION (2, 21, 8)
+# define GDK_KEY_Down       GDK_Down
+# define GDK_KEY_Escape     GDK_Escape
+# define GDK_KEY_ISO_Enter  GDK_ISO_Enter
+# define GDK_KEY_KP_Enter   GDK_KP_Enter
+# define GDK_KEY_Page_Down  GDK_Page_Down
+# define GDK_KEY_Page_Up    GDK_Page_Up
+# define GDK_KEY_Return     GDK_Return
+# define GDK_KEY_Tab        GDK_Tab
+# define GDK_KEY_Up         GDK_Up
+#endif
+
+struct {
+  GtkWidget *scroll;
+  GtkWidget    *panel;
+  GtkWidget    *entry;
+  GtkWidget    *view;
+  GtkListStore *store;
+  GtkTreeModel *filter;
+} kb_find_file = {
+  NULL, NULL,
+  NULL, NULL,
+  NULL, NULL
+};
 static gboolean try_swap_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
 {
 	gchar *name_pattern;
@@ -86,7 +125,6 @@ static gboolean try_swap_header_source(gchar *utf8_file_name, gboolean is_header
 	g_pattern_spec_free(pattern);
 	return found;
 }
-
 
 static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
@@ -194,12 +232,323 @@ static void on_find_in_project(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUS
 		g_free(utf8_base_path);
 	}
 }
+static void
+on_view_row_activated (GtkTreeView       *view,
+                       GtkTreePath       *path,
+                       GtkTreeViewColumn *column,
+                       gpointer           dummy)
+{
+  GtkTreeModel *model = gtk_tree_view_get_model (view);
+  GtkTreeIter   iter;
+  gchar *utf8_path;
+  
+  if (gtk_tree_model_get_iter (model, &iter, path)) {
+    gtk_tree_model_get (model, &iter, COL_FILE_NAME, &utf8_path, -1);
+    open_file(utf8_path);
+    gtk_widget_hide (kb_find_file.panel);
+  }
+}
+static void
+tree_view_set_cursor_from_iter (GtkTreeView *view,
+                                GtkTreeIter *iter)
+{
+  GtkTreePath *path;
+  
+  path = gtk_tree_model_get_path (gtk_tree_view_get_model (view), iter);
+  gtk_tree_view_set_cursor (view, path, NULL, FALSE);
+  gtk_tree_path_free (path);
+}
 
+static void
+tree_view_move_focus (GtkTreeView    *view,
+                      GtkMovementStep step,
+                      gint            amount)
+{
+  GtkTreeIter   iter;
+  GtkTreePath  *path;
+  GtkTreeModel *model = gtk_tree_view_get_model (view);
+  gboolean      valid = FALSE;
+  
+  gtk_tree_view_get_cursor (view, &path, NULL);
+  if (! path) {
+    valid = gtk_tree_model_get_iter_first (model, &iter);
+  } else {
+    switch (step) {
+      case GTK_MOVEMENT_BUFFER_ENDS:
+        valid = gtk_tree_model_get_iter_first (model, &iter);
+        if (valid && amount > 0) {
+          GtkTreeIter prev;
+          
+          do {
+            prev = iter;
+          } while (gtk_tree_model_iter_next (model, &iter));
+          iter = prev;
+        }
+        break;
+      
+        /* FIXME: move by page */
+      case GTK_MOVEMENT_DISPLAY_LINES:
+        gtk_tree_model_get_iter (model, &iter, path);
+        if (amount > 0) {
+          while ((valid = gtk_tree_model_iter_next (model, &iter)) &&
+                 --amount > 0)
+            ;
+        } else if (amount < 0) {
+          while ((valid = gtk_tree_path_prev (path)) && --amount > 0)
+            ;
+          
+          if (valid) {
+            gtk_tree_model_get_iter (model, &iter, path);
+          }
+        }
+        break;
+      
+      default:
+        g_assert_not_reached ();
+    }
+    gtk_tree_path_free (path);
+  }
+  
+  if (valid) {
+    tree_view_set_cursor_from_iter (view, &iter);
+  } else {
+    gtk_widget_error_bell (GTK_WIDGET (view));
+  }
+}
 
+static void
+tree_view_activate_focused_row (GtkTreeView *view)
+{
+  GtkTreePath        *path;
+  GtkTreeViewColumn  *column;
+  
+  gtk_tree_view_get_cursor (view, &path, &column);
+  if (path) {
+    gtk_tree_view_row_activated (view, path, column);
+    gtk_tree_path_free (path);
+  }
+}
+static gboolean
+on_panel_key_press_event (GtkWidget    *widget,
+                          GdkEventKey  *event,
+                          gpointer      dummy)
+{
+  switch (event->keyval) {
+    case GDK_KEY_Escape:
+      gtk_widget_hide (widget);
+      return TRUE;
+    
+    case GDK_KEY_Tab:
+      /* avoid leaving the entry */
+      return TRUE;
+    
+    case GDK_KEY_Return:
+    case GDK_KEY_KP_Enter:
+    case GDK_KEY_ISO_Enter:
+      tree_view_activate_focused_row (GTK_TREE_VIEW (kb_find_file.view));
+      return TRUE;
+    
+    case GDK_KEY_Up:
+    case GDK_KEY_Down: {
+      tree_view_move_focus (GTK_TREE_VIEW (kb_find_file.view),
+                            GTK_MOVEMENT_DISPLAY_LINES,
+                            event->keyval == GDK_KEY_Up ? -1 : 1);
+      return TRUE;
+    }
+  }
+  
+  return FALSE;
+}
+static void
+on_panel_show (GtkWidget *widget,
+               gpointer   dummy)
+{
+  gtk_widget_grab_focus (GTK_ENTRY(kb_find_file.entry));
+}
+static void
+on_panel_hide (GtkWidget *widget,
+               gpointer   dummy)
+{
+
+  GtkTreeView  *view = GTK_TREE_VIEW (kb_find_file.view);
+  gtk_list_store_clear (kb_find_file.store);
+}
+static gboolean
+visible_func (GtkTreeModel *model,
+              GtkTreeIter  *iter,
+              gpointer      data)
+{
+  gchar *paths;
+  gtk_tree_model_get (model, iter, COL_FILE_NAME, &paths, -1);
+  gchar  *haystack  = g_utf8_casefold (paths, -1);
+  gchar  *needle   = g_utf8_casefold (data, -1);
+  gboolean score = TRUE;
+
+  if (data == NULL || haystack == NULL ||
+        *needle == '\0' || *haystack == '\0') {
+        return score;
+    }
+  score = (strstr(haystack, needle) == NULL)?FALSE:TRUE;
+  g_free (needle);
+  g_free (haystack);
+  g_free(paths);
+  return score;
+}
+static void
+on_entry_activate (GtkEntry  *entry,
+                   gpointer   dummy)
+{
+  tree_view_activate_focused_row (GTK_TREE_VIEW (kb_find_file.view));
+}
+static void
+on_entry_text_notify (GObject    *object,
+                      GParamSpec *pspec,
+                      gpointer    dummy)
+{
+   guint16 key_length;
+  const gchar  *key   = gtk_entry_get_text (GTK_ENTRY (kb_find_file.entry));
+  key_length = gtk_entry_get_text_length(GTK_ENTRY (kb_find_file.entry));
+  if (key_length > 2)
+  {
+    GtkTreeIter   iter;
+    GtkTreeView  *view  = GTK_TREE_VIEW (kb_find_file.view);
+    GtkTreeModel *model = gtk_tree_view_get_model (view);
+    gtk_tree_model_filter_refilter(GTK_TREE_MODEL_FILTER(model));
+    gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(model), visible_func, key, NULL);
+    if (gtk_tree_model_get_iter_first (model, &iter)) {
+      tree_view_set_cursor_from_iter (view, &iter);
+    }
+  }
+  else
+  {
+    if (key_length == 0){
+      on_panel_hide(NULL, NULL);
+      // gtk_window_resize(GTK_WINDOW(kb_find_file.panel), 100, 30);
+      // gtk_widget_hide(kb_find_file.scroll);
+    }
+    else if(key_length > 1){
+      
+    GtkTreeViewColumn  *col;
+    GtkCellRenderer    *cell;
+    gchar *pattern_str;
+    GPatternSpec *pattern;
+    pattern_str = g_strconcat("*", key, "*", NULL);
+    SETPTR(pattern_str, g_utf8_strdown(pattern_str, -1));
+    gtk_window_resize(GTK_WINDOW(kb_find_file.panel), 100, 150);
+    pattern = g_pattern_spec_new(pattern_str);
+    prjorg_kb_find_file_in_active(pattern, kb_find_file.store);
+    kb_find_file.filter = gtk_tree_model_filter_new(GTK_TREE_MODEL (kb_find_file.store), NULL);
+    kb_find_file.view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (kb_find_file.filter));
+    gtk_tree_model_filter_set_visible_func(GTK_TREE_MODEL_FILTER(kb_find_file.filter), visible_func, key, NULL);
+    g_signal_connect (kb_find_file.view, "row-activated",
+                G_CALLBACK (on_view_row_activated), NULL);
+    gtk_widget_set_can_focus (kb_find_file.view, FALSE);
+    gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (kb_find_file.view), FALSE);
+    cell = gtk_cell_renderer_text_new ();
+    g_object_set (cell, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+    col = gtk_tree_view_column_new_with_attributes (NULL, cell,
+                                              "markup", COL_FILE_LABEL,
+                                              NULL);
+    gtk_tree_view_append_column (kb_find_file.view, col);
+    gtk_container_add (GTK_CONTAINER (kb_find_file.scroll), kb_find_file.view);
+    gtk_widget_show_all(kb_find_file.scroll);
+    g_pattern_spec_free(pattern); 
+    g_free(pattern_str);
+    }
+  }
+}
+static void
+fill_store (GtkListStore *store)
+{
+	//gchar *root_path = get_project_base_path();
+	GSList *elem = NULL;
+	foreach_slist (elem, prj_org->roots)
+	{
+		GHashTableIter iter;
+		gpointer key, value;
+		PrjOrgRoot *root = elem->data;
+		g_hash_table_iter_init(&iter, root->file_table);
+		while (g_hash_table_iter_next(&iter, &key, &value))
+		{
+			gchar *name = g_path_get_basename(key);
+			gchar *label = g_markup_printf_escaped ("<big>%s</big>\n"
+                                            "<small><i>%s</i></small>",
+                                            name,
+                                           key);
+
+    
+	gtk_list_store_insert_with_values (store, NULL, -1,
+                                       COL_FILE_LABEL, label,
+                                       COL_FILE_NAME, key,
+                                       -1);
+		g_free (label);
+		g_free (name);
+		}
+
+}
+}
+
+static void
+create_panel (void)
+{
+  GtkWidget          *frame;
+  GtkWidget          *box;
+  kb_find_file.panel = g_object_new (GTK_TYPE_WINDOW,
+                                    "decorated", FALSE,
+                                    "default-width", 100,
+                                    "default-height", 30,
+                                    "transient-for", geany_data->main_widgets->window,
+                                    "window-position", GTK_WIN_POS_CENTER_ON_PARENT,
+                                    "type-hint", GDK_WINDOW_TYPE_HINT_DIALOG,
+                                    "skip-taskbar-hint", TRUE,
+                                    "skip-pager-hint", TRUE,
+                                    NULL);
+  frame = gtk_frame_new (NULL);
+  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
+  g_signal_connect (kb_find_file.panel, "focus-out-event",
+                    G_CALLBACK (gtk_widget_hide), NULL);
+  g_signal_connect (kb_find_file.panel, "show",
+                    G_CALLBACK (on_panel_show), NULL);
+  g_signal_connect (kb_find_file.panel, "hide",
+                    G_CALLBACK (on_panel_hide), NULL);
+  g_signal_connect (kb_find_file.panel, "key-press-event",
+                    G_CALLBACK (on_panel_key_press_event), NULL);
+
+  gtk_container_add (GTK_CONTAINER (kb_find_file.panel), frame);
+  kb_find_file.store = gtk_list_store_new (COL_FILE_COUNT,
+                                          G_TYPE_STRING,
+                                          G_TYPE_STRING);
+  fill_store(kb_find_file.store);
+  box = gtk_vbox_new (FALSE, 0);
+  gtk_container_add (GTK_CONTAINER (frame), box);
+  kb_find_file.entry = gtk_entry_new();
+  gtk_box_pack_start (box, kb_find_file.entry, FALSE, TRUE, 0);
+  gtk_entry_set_width_chars(GTK_ENTRY(kb_find_file.entry), 40);
+  ui_entry_add_clear_icon(GTK_ENTRY(kb_find_file.entry));
+  gtk_entry_set_activates_default(GTK_ENTRY(kb_find_file.entry), TRUE);
+
+  g_signal_connect (kb_find_file.entry, "notify::text",
+                    G_CALLBACK (on_entry_text_notify), NULL);
+  // g_signal_connect (kb_find_file.entry, "preedit-changed",
+                    // G_CALLBACK (on_entry_preedit_notify), NULL);
+    g_signal_connect (kb_find_file.entry, "activate",
+                    G_CALLBACK (on_entry_activate), NULL);
+   kb_find_file.scroll = g_object_new (GTK_TYPE_SCROLLED_WINDOW,
+                         "hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+                         "vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+                         NULL);
+   gtk_box_pack_start ( GTK_BOX(box), kb_find_file.scroll, TRUE, TRUE, 0);  
+        gtk_widget_show_all (frame);
+        gtk_widget_hide(kb_find_file.scroll);
+        
+}
 static void on_find_file(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
-	if (geany_data->app->project)
-		prjorg_sidebar_find_file_in_active();
+	if (geany_data->app->project){
+                create_panel();
+                gtk_widget_show(kb_find_file.panel);
+    
+  }
 }
 
 
