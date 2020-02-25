@@ -43,13 +43,14 @@ Debug control buttons also reside on the right end of a panel as well as plugin 
 A user can also control debug process using hotkeys that are configurable through Geany hotkeys dialog.
 
 When exploring children of a watch or an auto variable user can double click any of them to create a distinct
-watch item containing the corresponding expression. 
+watch item containing the corresponding expression.
 
 Requirements
 ------------
 
 * Geany >= 0.21
-* GTK 2
+* libvte
+* GTK 3
 * POSIX API
 
 Contact developers
