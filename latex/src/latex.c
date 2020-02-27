@@ -604,6 +604,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 						gint line_len = sci_get_line_length(sci, line);
 						gint i, start;
 						gint indent;
+						GeanyIndentPrefs* indent_prefs = editor_get_indent_prefs(editor);
 
 						/* get the line */
 						buf = sci_get_line(sci, line);
@@ -683,6 +684,15 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 							editor_insert_text_block(editor, construct, pos,
 								1, -1, TRUE);
 							/* ... and setting the indention */
+							/* If user pressed carriage return, we end up in a new line. This line
+							 * should be indented one level further than the previous indentation */
+							sci_set_line_indentation(sci, sci_get_current_line(sci),
+								indent + indent_prefs->width);
+							/* Set the cursor position to the end of the new line we're in which 
+							 * has just been indented */
+							sci_set_current_position(sci, sci_get_line_end_position(sci, sci_get_current_line(sci)), 1);
+							/* Indentation of the \end{} command, which is now in the next line,
+							 * should be the same as the previous indentation */
 							sci_set_line_indentation(sci, sci_get_current_line(sci) + 1,
 								indent);
 							g_free(construct);
@@ -727,7 +737,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 							/* Else we want to stop once we found a space,
 							 * some closing braces somewhere before as we
 							 * are assuming, manipulating something here
-							 * would cause a bigger mass. */
+							 * would cause a bigger mess. */
 							else if (buf[i] == ' ' ||
 									 buf[i] == '}' ||
 									 buf[i] == '{' ||
