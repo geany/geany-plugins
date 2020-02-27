@@ -38,6 +38,7 @@ typedef struct
 	gchar **header_patterns;
 	gchar **ignored_dirs_patterns;
 	gchar **ignored_file_patterns;
+	gboolean show_empty_dirs;
 	PrjOrgTagPrefs generate_tag_prefs;
 
 	GSList *roots;  /* list of PrjOrgRoot; the project root is always the first followed by external dirs roots */
