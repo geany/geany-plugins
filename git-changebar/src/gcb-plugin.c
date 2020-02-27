@@ -32,11 +32,11 @@
 #include <geany.h>
 #include <document.h>
 
-#if ! defined (LIBGIT2_SOVERSION) || LIBGIT2_SOVERSION < 22
+#if ! defined (LIBGIT2_VER_MINOR) || ( (LIBGIT2_VER_MAJOR == 0) && (LIBGIT2_VER_MINOR < 22) )
 # define git_libgit2_init     git_threads_init
 # define git_libgit2_shutdown git_threads_shutdown
 #endif
-#if ! defined (LIBGIT2_SOVERSION) || LIBGIT2_SOVERSION < 23
+#if ! defined (LIBGIT2_VER_MINOR) || ( (LIBGIT2_VER_MAJOR == 0) && (LIBGIT2_VER_MINOR < 23) )
 /* 0.23 added @p binary_cb */
 # define git_diff_buffers(old_buffer, old_len, old_as_path, \
                           new_buffer, new_len, new_as_path, options, \
@@ -45,7 +45,7 @@
                     new_buffer, new_len, new_as_path, options, \
                     file_cb, hunk_cb, line_cb, payload)
 #endif
-#if ! defined (LIBGIT2_SOVERSION) || LIBGIT2_SOVERSION < 28
+#if ! defined (LIBGIT2_VER_MINOR) || ( (LIBGIT2_VER_MAJOR == 0) && (LIBGIT2_VER_MINOR < 28) )
 # define git_buf_dispose  git_buf_free
 # define git_error_last   giterr_last
 #endif

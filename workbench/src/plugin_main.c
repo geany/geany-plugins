@@ -36,7 +36,7 @@
 #include "tm_control.h"
 
 
-#if ! defined (LIBGIT2_SOVERSION) || LIBGIT2_SOVERSION < 22
+#if ! defined (LIBGIT2_VER_MINOR) || ( (LIBGIT2_VER_MAJOR == 0) && (LIBGIT2_VER_MINOR < 22))
 # define git_libgit2_init     git_threads_init
 # define git_libgit2_shutdown git_threads_shutdown
 #endif
