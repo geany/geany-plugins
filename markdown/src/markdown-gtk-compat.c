@@ -78,9 +78,10 @@ GtkWidget *markdown_gtk_color_button_new_with_color(MarkdownColor *color)
 #else
 {
   GdkRGBA clr;
-  clr.red = color->red / 256.0;
-  clr.green = color->green / 256.0;
-  clr.blue = color->blue / 256.0;
+  clr.red = color->red / 255.0;
+  clr.green = color->green / 255.0;
+  clr.blue = color->blue / 255.0;
+  clr.alpha = 1.0;
 # if !GTK_CHECK_VERSION(3, 4, 0)
   gtk_color_button_set_rgba(GTK_COLOR_BUTTON(btn), &clr);
 # else
@@ -112,9 +113,9 @@ gboolean markdown_color_parse(const gchar *spec, MarkdownColor *color)
   GdkRGBA clr;
   result = gdk_rgba_parse(&clr, spec);
   if (result) {
-    color->red = (guint8) (clr.red * 256.0);
-    color->green = (guint8) (clr.green * 256.0);
-    color->blue = (guint8) (clr.blue * 256.0);
+    color->red = (guint8) (clr.red * 255.0);
+    color->green = (guint8) (clr.green * 255.0);
+    color->blue = (guint8) (clr.blue * 255.0);
   }
 }
 #endif
@@ -140,8 +141,8 @@ void markdown_gtk_color_button_get_color(GtkColorButton *button, MarkdownColor *
 # else
   gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(button), &clr);
 # endif
-  color->red = (guint8) (clr.red * 256.0);
-  color->green = (guint8) (clr.green * 256.0);
-  color->blue = (guint8) (clr.blue * 256.0);
+  color->red = (guint8) (clr.red * 255.0);
+  color->green = (guint8) (clr.green * 255.0);
+  color->blue = (guint8) (clr.blue * 255.0);
 #endif
 }
