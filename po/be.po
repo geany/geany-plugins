@@ -4610,6 +4610,10 @@ msgstr ""
 msgid "Enable GIT"
 msgstr ""
 
+#: ../geanyvc/src/geanyvc.c:2110
+msgid "Enable Fossil"
+msgstr ""
+
 #: ../geanyvc/src/geanyvc.c:2106
 msgid "Enable SVN"
 msgstr ""

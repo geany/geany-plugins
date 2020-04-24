@@ -14,8 +14,8 @@ revert and commit most time.
 Features
 --------
 
-*Bazaar, GIT, Mercurial, Subversion, SVK*
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*Bazaar, Fossil, GIT, Mercurial, Subversion, SVK*
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * diff file
 * diff directory
@@ -96,8 +96,8 @@ If this option is activated and you have **meld**, **kompare**,
 one of these program will be used to show differences for "Diff From
 Current File" command.
 
-*Enable CVS/GIT/SVN/SVK/Bazaar/Mercurial*
-+++++++++++++++++++++++++++++++++++++++++
+*Enable CVS/GIT/SVN/SVK/Bazaar/Fossil/Mercurial*
+++++++++++++++++++++++++++++++++++++++++++++++++
 
 GeanyVC detects if opened file is in version control by checking
 directories and executing commands from version control systems

@@ -4785,6 +4785,10 @@ msgstr "Abilita CVS"
 msgid "Enable GIT"
 msgstr "Abilita GIT"
 
+#: ../geanyvc/src/geanyvc.c:2110
+msgid "Enable Fossil"
+msgstr "Abilita Fossil"
+
 #: ../geanyvc/src/geanyvc.c:2106
 msgid "Enable SVN"
 msgstr "Abilita SVN"
