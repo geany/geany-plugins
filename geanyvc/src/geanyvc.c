@@ -5,6 +5,7 @@
  *      Copyright 2007-2009 Enrico Tröger <enrico.troeger@uvena.de>
  *      Copyright 2007 Nick Treleaven <nick.treleaven@btinternet.com>
  *      Copyright 2007-2009 Yura Siamashka <yurand2@gmail.com>
+ *      Copyright 2020 Artur Shepilko <nomadbyte@gmail.com>
  *
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -1775,28 +1776,52 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	g_free(diff);
 }
 
-static GtkWidget *menu_vc_diff_file = NULL;
+typedef struct _VCFileMenu
+{
+	GtkWidget *menu;
+	struct
+	{
+		GtkWidget *diff;
+		GtkWidget *blame;
+		GtkWidget *log;
+		GtkWidget *revert;
+		GtkWidget *add;
+		GtkWidget *remove;
+		GtkWidget *show;
+	} item;
+} VCFileMenu;
+
+static VCFileMenu *menu_vc_file_menu = NULL;
+static VCFileMenu *editor_menu_vc_file_menu = NULL;
+
 static GtkWidget *menu_vc_diff_dir = NULL;
 static GtkWidget *menu_vc_diff_basedir = NULL;
-static GtkWidget *menu_vc_blame = NULL;
-static GtkWidget *menu_vc_log_file = NULL;
 static GtkWidget *menu_vc_log_dir = NULL;
 static GtkWidget *menu_vc_log_basedir = NULL;
 static GtkWidget *menu_vc_status = NULL;
-static GtkWidget *menu_vc_revert_file = NULL;
 static GtkWidget *menu_vc_revert_dir = NULL;
 static GtkWidget *menu_vc_revert_basedir = NULL;
-static GtkWidget *menu_vc_add_file = NULL;
-static GtkWidget *menu_vc_remove_file = NULL;
 static GtkWidget *menu_vc_update = NULL;
 static GtkWidget *menu_vc_commit = NULL;
-static GtkWidget *menu_vc_show_file = NULL;
+
+static VCFileMenu ***
+get_vc_file_menu_arrv(void)
+{
+	static VCFileMenu **arrv[] = {NULL, NULL, NULL};
+
+	arrv[0] = &menu_vc_file_menu;
+    if (set_editor_menu_entries == TRUE)
+		arrv[1] = &editor_menu_vc_file_menu;
+
+	return arrv;
+}
 
 static void
 update_menu_items(void)
 {
 	GeanyDocument *doc;
 
+	VCFileMenu ***file_menu_arrv = get_vc_file_menu_arrv();
 	gboolean have_file;
 	gboolean d_have_vc = FALSE;
 	gboolean f_have_vc = FALSE;
@@ -1817,29 +1842,42 @@ update_menu_items(void)
 		g_free(dir);
 	}
 
-	gtk_widget_set_sensitive(menu_vc_diff_file, f_have_vc);
+	/* update items for each of the file menu sets */
+	for ( ; file_menu_arrv[0] != NULL; ++file_menu_arrv)
+	{
+		VCFileMenu *fm = *(file_menu_arrv[0]);
+		if (fm == NULL) continue;
+
+		GtkWidget *menu_vc_diff_file = fm->item.diff;
+		GtkWidget *menu_vc_blame = fm->item.blame;
+		GtkWidget *menu_vc_log_file = fm->item.log;
+		GtkWidget *menu_vc_revert_file = fm->item.revert;
+		GtkWidget *menu_vc_add_file = fm->item.add;
+		GtkWidget *menu_vc_remove_file = fm->item.remove;
+		GtkWidget *menu_vc_show_file = fm->item.show;
+
+		gtk_widget_set_sensitive(menu_vc_diff_file, f_have_vc);
+		gtk_widget_set_sensitive(menu_vc_blame, f_have_vc);
+		gtk_widget_set_sensitive(menu_vc_log_file, f_have_vc);
+		gtk_widget_set_sensitive(menu_vc_revert_file, f_have_vc);
+		gtk_widget_set_sensitive(menu_vc_remove_file, f_have_vc);
+		gtk_widget_set_sensitive(menu_vc_add_file, d_have_vc && !f_have_vc);
+		gtk_widget_set_sensitive(menu_vc_show_file, f_have_vc);
+	}
+
 	gtk_widget_set_sensitive(menu_vc_diff_dir, d_have_vc);
 	gtk_widget_set_sensitive(menu_vc_diff_basedir, d_have_vc);
 
-	gtk_widget_set_sensitive(menu_vc_blame, f_have_vc);
-
-	gtk_widget_set_sensitive(menu_vc_log_file, f_have_vc);
 	gtk_widget_set_sensitive(menu_vc_log_dir, d_have_vc);
 	gtk_widget_set_sensitive(menu_vc_log_basedir, d_have_vc);
 
 	gtk_widget_set_sensitive(menu_vc_status, d_have_vc);
 
-	gtk_widget_set_sensitive(menu_vc_revert_file, f_have_vc);
 	gtk_widget_set_sensitive(menu_vc_revert_dir, f_have_vc);
 	gtk_widget_set_sensitive(menu_vc_revert_basedir, f_have_vc);
 
-	gtk_widget_set_sensitive(menu_vc_remove_file, f_have_vc);
-	gtk_widget_set_sensitive(menu_vc_add_file, d_have_vc && !f_have_vc);
-
 	gtk_widget_set_sensitive(menu_vc_update, d_have_vc);
 	gtk_widget_set_sensitive(menu_vc_commit, d_have_vc);
-
-	gtk_widget_set_sensitive(menu_vc_show_file, f_have_vc);
 }
 
 
@@ -2227,17 +2265,27 @@ registrate(void)
 }
 
 static void
-do_current_file_menu(GtkWidget ** parent_menu, gboolean editor_menu)
+do_current_file_menu(GtkWidget ** parent_menu, const gchar * label, VCFileMenu ** file_menu)
 {
+	/* Menu which will hold the items in the current file menu.
+	 * This menu has the same structure in case of Main menu and Editor's context menu.
+	 * We construct the menu, attach it to the parent menu, and save it so that
+	 * the updates could be applied in both Main menu and Editor context scopes.
+	 */
 	GtkWidget *cur_file_menu = NULL;
-	/* Menu which will hold the items in the current file menu */
-	cur_file_menu = gtk_menu_new();
+	GtkWidget *menu_vc_diff_file = NULL;
+	GtkWidget *menu_vc_blame = NULL;
+	GtkWidget *menu_vc_log_file = NULL;
+	GtkWidget *menu_vc_revert_file = NULL;
+	GtkWidget *menu_vc_add_file = NULL;
+	GtkWidget *menu_vc_remove_file = NULL;
+	GtkWidget *menu_vc_show_file = NULL;
 
-	if (editor_menu == TRUE)
-		*parent_menu = gtk_image_menu_item_new_with_mnemonic(_("_VC file Actions"));
-	else
-		*parent_menu = gtk_image_menu_item_new_with_mnemonic(_("_File"));
+	/* create the parent menu */
+	*parent_menu = gtk_image_menu_item_new_with_mnemonic(label);
 	g_signal_connect(* parent_menu, "activate", G_CALLBACK(update_menu_items), NULL);
+
+	cur_file_menu = gtk_menu_new();
 
 	/* Diff of current file */
 	menu_vc_diff_file = gtk_menu_item_new_with_mnemonic(_("_Diff"));
@@ -2305,6 +2353,24 @@ do_current_file_menu(GtkWidget ** parent_menu, gboolean editor_menu)
 
 	/* connect to parent menu */
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(*parent_menu), cur_file_menu);
+
+	/* save the created file menu */
+	if (*file_menu == NULL)
+		*file_menu = g_new0(VCFileMenu, 1);
+
+	if (*file_menu)
+	{
+		VCFileMenu *fm = *file_menu;
+
+		fm->menu = cur_file_menu;
+		fm->item.diff = menu_vc_diff_file;
+		fm->item.blame = menu_vc_blame;
+		fm->item.log = menu_vc_log_file;
+		fm->item.revert = menu_vc_revert_file;
+		fm->item.add = menu_vc_add_file;
+		fm->item.remove = menu_vc_remove_file;
+		fm->item.show = menu_vc_show_file;
+	}
 }
 
 static void
@@ -2397,7 +2463,7 @@ add_menuitems_to_editor_menu(void)
 	{
 		menu_item_sep = gtk_separator_menu_item_new();
 		gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), menu_item_sep);
-		do_current_file_menu(&editor_menu_vc, TRUE);
+		do_current_file_menu(&editor_menu_vc, _("_VC file Actions"), &editor_menu_vc_file_menu);
 		gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), editor_menu_vc);
 		gtk_widget_show_all(editor_menu_vc);
 		gtk_widget_show_all(menu_item_sep);
@@ -2422,6 +2488,11 @@ remove_menuitems_from_editor_menu(void)
 		gtk_widget_destroy(editor_menu_vc);
 		editor_menu_vc = NULL;
 	}
+	if (editor_menu_vc_file_menu)
+	{
+		g_free(editor_menu_vc_file_menu);
+		editor_menu_vc_file_menu = NULL;
+	}
 	if (editor_menu_commit != NULL)
 	{
 		gtk_widget_destroy(editor_menu_commit);
@@ -2437,9 +2508,13 @@ remove_menuitems_from_editor_menu(void)
 static void
 init_keybindings(void)
 {
-	/* init keybindins */
-	GeanyKeyGroup *plugin_key_group;
-	plugin_key_group = plugin_set_key_group(geany_plugin, "geanyvc", COUNT_KB, NULL);
+	GtkWidget *menu_vc_diff_file = menu_vc_file_menu->item.diff;
+	GtkWidget *menu_vc_revert_file = menu_vc_file_menu->item.revert;
+
+	/* init keybindings */
+	GeanyKeyGroup *plugin_key_group =
+				plugin_set_key_group(geany_plugin, "geanyvc", COUNT_KB, NULL);
+
 	keybindings_set_item(plugin_key_group, VC_DIFF_FILE, kbdiff_file, 0, 0,
 			     "vc_show_diff_of_file", _("Show diff of file"), menu_vc_diff_file);
 	keybindings_set_item(plugin_key_group, VC_DIFF_DIR, kbdiff_dir, 0, 0,
@@ -2505,7 +2580,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_vc), menu_vc_menu);
 
 	/* Create the current file Submenu */
-	do_current_file_menu(&menu_vc_file, FALSE);
+	do_current_file_menu(&menu_vc_file, _("_File"), &menu_vc_file_menu);
 	gtk_container_add(GTK_CONTAINER(menu_vc_menu), menu_vc_file);
 
 	/* Create the current directory Submenu */
@@ -2558,6 +2633,11 @@ plugin_cleanup(void)
 	external_diff_viewer_deinit();
 	remove_menuitems_from_editor_menu();
 	gtk_widget_destroy(menu_entry);
+	if (menu_vc_file_menu)
+	{
+		g_free(menu_vc_file_menu);
+		menu_vc_file_menu = NULL;
+	}
 	g_slist_free(VC);
 	VC = NULL;
 	g_slist_free_full(commit_message_history, g_free);
