@@ -59,7 +59,7 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
 # define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "xdg-open '%d'"
 # define CONFIG_OPEN_TERMINAL_DEFAULT "xterm"
 #else
-# define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "explorer '%d'"
+# define CONFIG_OPEN_EXTERNAL_CMD_DEFAULT "explorer %d"
 # define CONFIG_OPEN_TERMINAL_DEFAULT "cmd"
 #endif
 
@@ -410,18 +410,6 @@ get_default_dir(void)
 		return utils_get_locale_from_utf8(dir);
 
 	return g_get_current_dir();
-}
-
-static gchar *
-get_terminal(void)
-{
-	gchar 		*terminal;
-#ifdef G_OS_WIN32
-	terminal = g_strdup("cmd");
-#else
-	terminal = g_strdup(CONFIG_OPEN_TERMINAL);
-#endif
-	return terminal;
 }
 
 static gboolean
@@ -996,7 +984,7 @@ on_menu_current_path(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
-on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
+on_menu_open_externally(GtkMenuItem *menuitem, const gchar *uri)
 {
 	gchar 				*cmd, *locale_cmd, *dir, *c;
 	GString 			*cmd_str 	= g_string_new(CONFIG_OPEN_EXTERNAL_CMD);
@@ -1009,7 +997,7 @@ on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
 
 	cmd = g_string_free(cmd_str, FALSE);
 	locale_cmd = utils_get_locale_from_utf8(cmd);
-	if (! g_spawn_command_line_async(locale_cmd, &error))
+	if (! spawn_async(dir, locale_cmd, NULL, NULL, NULL, &error))
 	{
 		c = strchr(cmd, ' ');
 		if (c != NULL)
@@ -1025,19 +1013,16 @@ on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
 }
 
 static void
-on_menu_open_terminal(GtkMenuItem *menuitem, gchar *uri)
+on_menu_open_terminal(GtkMenuItem *menuitem, const gchar *uri)
 {
-	gchar *argv[2] = {NULL, NULL};
-	argv[0] = get_terminal();
-
+	gchar *cwd;
 	if (g_file_test(uri, G_FILE_TEST_EXISTS))
-		uri = g_file_test(uri, G_FILE_TEST_IS_DIR) ? g_strdup(uri) : g_path_get_dirname(uri);
+		cwd = g_file_test(uri, G_FILE_TEST_IS_DIR) ? g_strdup(uri) : g_path_get_dirname(uri);
 	else
-		uri = g_strdup(addressbar_last_address);
+		cwd = g_strdup(addressbar_last_address);
 
-	g_spawn_async(uri, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL);
-	g_free(uri);
-	g_free(argv[0]);
+	spawn_async(cwd, CONFIG_OPEN_TERMINAL, NULL, NULL, NULL, NULL);
+	g_free(cwd);
 }
 
 static void
