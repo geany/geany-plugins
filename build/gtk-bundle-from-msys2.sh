@@ -221,7 +221,7 @@ cleanup_unnecessary_files() {
 	rm -rf lib/lua
 	rm -rf lib/p11-kit
 	rm -rf lib/python2.7
-	rm -rf lib/python3.7
+	rm -rf lib/python3.8
 	find lib -name '*.h' -delete
 	find lib -name '*.a' -delete
 	find lib -name '*.typelib' -delete
@@ -251,6 +251,7 @@ cleanup_unnecessary_files() {
 	rm -rf share/glib-2.0
 	rm -rf share/gnupg
 	rm -rf share/gst-plugins-base
+	rm -rf share/gstreamer-1.0
 	rm -rf share/gtk-doc
 	rm -rf share/icu
 	rm -rf share/info
