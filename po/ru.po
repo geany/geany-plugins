@@ -4,14 +4,15 @@
 # Andrew Janke <a.janke@gmail.com>, 2009
 # John Wehin <john.wehin@gmail.com>, 2009
 # Pavel Roschin <rpg89(at)post(dot)ru>, 2014-2015
+# Dmitry Unruh <dmitryunruh@googlemail.com>, 2020
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-22 11:56+0200\n"
-"PO-Revision-Date: 2016-03-10 19:52+0300\n"
-"Last-Translator: Pavel Roschin <rpg89(at)post(dot)ru>\n"
+"PO-Revision-Date: 2020-05-01 16:20+1000\n"
+"Last-Translator: Dmitry Unruh <dmitryunruh@googlemail.com>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +158,7 @@ msgstr "Путь \"%s\" скопирован в буфер обмена."
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:456
 msgid "Copy File Path"
-msgstr ""
+msgstr "Копировать путь к файлу"
 
 #: ../addons/src/ao_copyfilepath.c:122
 msgid "Copy the file path of the current document to the clipboard"
@@ -261,7 +262,7 @@ msgstr "Подсвечивать все вхождения слова в док�
 
 #: ../addons/src/addons.c:586
 msgid "Deselect a previous highlight by single click"
-msgstr ""
+msgstr "Убирать подсветку одиночным кликом"
 
 #: ../addons/src/addons.c:596
 msgid "Strip trailing blank lines"
@@ -285,11 +286,11 @@ msgstr "Окружать выделение автоматически (без �
 
 #: ../addons/src/addons.c:626
 msgid "Show a calltip when hovering over a color value"
-msgstr ""
+msgstr "Показывать выноску при наведение указателя мыши на цветовой код"
 
 #: ../addons/src/addons.c:632
 msgid "Open Color Chooser when double-clicking a color value"
-msgstr ""
+msgstr "Открывать диалог выбора цвета при двойном клике на цветовом коде"
 
 #. Set metadata
 #: ../addons/src/addons.c:729
