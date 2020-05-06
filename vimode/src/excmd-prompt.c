@@ -71,7 +71,7 @@ static void set_prompt_text(const gchar *val)
 static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event, gpointer dummy)
 {
 	const gchar *text = gtk_entry_get_text(GTK_ENTRY(entry));
-	guint modif_mask = GDK_MODIFIER_MASK & ~GDK_LOCK_MASK;
+	guint modif_mask = gtk_accelerator_get_default_mod_mask();
 
 	ignore_change = FALSE;
 

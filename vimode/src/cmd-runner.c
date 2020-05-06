@@ -431,7 +431,7 @@ static gboolean is_cmdpart(GSList *kpl, CmdDef *cmds)
 
 static gboolean is_printable(GSList *kpl)
 {
-	guint mask = GDK_MODIFIER_MASK & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK);
+	guint mask = gtk_accelerator_get_default_mod_mask() & ~GDK_SHIFT_MASK;
 	KeyPress *kp = g_slist_nth_data(kpl, 0);
 
 	if (kp->modif & mask)
