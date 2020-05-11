@@ -7,13 +7,16 @@
 #include "geany.h"
 
 extern TCase *utils_test_case_create(void);
+extern TCase *vc_fossil_test_case_create(void);
 
 Suite *
 my_suite(void)
 {
 	Suite *s = suite_create("VC");
 	TCase *tc_utils = utils_test_case_create();
+	TCase *tc_vc_fossil = vc_fossil_test_case_create();
 	suite_add_tcase(s, tc_utils);
+	suite_add_tcase(s, tc_vc_fossil);
 	return s;
 }
 

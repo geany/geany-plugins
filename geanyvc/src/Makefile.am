@@ -9,6 +9,7 @@ geanyvc_la_SOURCES = \
 	utils.c \
 	vc_bzr.c \
 	vc_cvs.c \
+	vc_fossil.c \
 	vc_git.c \
 	vc_hg.c \
 	vc_svk.c \
@@ -27,8 +28,8 @@ geanyvc_la_LIBADD = \
 if UNITTESTS
 TESTS = unittests
 check_PROGRAMS = unittests
-unittests_SOURCES = unittests.c utils.c
-unittests_CFLAGS  = $(GEANY_CFLAGS) -DUNITTESTS
+unittests_SOURCES = unittests.c $(geanyvc_la_SOURCES)
+unittests_CFLAGS  = $(GEANY_CFLAGS) $(geanyvc_la_CFLAGS) -DUNITTESTS
 unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@
 endif
 

@@ -22,7 +22,7 @@
  */
 
 /* VC plugin */
-/* This plugin allow to works with cvs/svn/git inside geany light IDE. */
+/* This plugin allows to work with cvs/svn/git/bzr/fossil inside geany light IDE. */
 
 #include <string.h>
 #include <glib.h>
@@ -90,6 +90,7 @@ static gchar *config_file;
 
 static gboolean enable_cvs;
 static gboolean enable_git;
+static gboolean enable_fossil;
 static gboolean enable_svn;
 static gboolean enable_svk;
 static gboolean enable_bzr;
@@ -1908,6 +1909,7 @@ static struct
 	GtkWidget *cb_attach_to_menubar;
 	GtkWidget *cb_cvs;
 	GtkWidget *cb_git;
+	GtkWidget *cb_fossil;
 	GtkWidget *cb_svn;
 	GtkWidget *cb_svk;
 	GtkWidget *cb_bzr;
@@ -1938,6 +1940,7 @@ save_config(void)
 
 	g_key_file_set_boolean(config, "VC", "enable_cvs", enable_cvs);
 	g_key_file_set_boolean(config, "VC", "enable_git", enable_git);
+	g_key_file_set_boolean(config, "VC", "enable_fossil", enable_fossil);
 	g_key_file_set_boolean(config, "VC", "enable_svn", enable_svn);
 	g_key_file_set_boolean(config, "VC", "enable_svk", enable_svk);
 	g_key_file_set_boolean(config, "VC", "enable_bzr", enable_bzr);
@@ -2007,6 +2010,7 @@ on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
 
 		enable_cvs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_cvs));
 		enable_git = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_git));
+		enable_fossil = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_fossil));
 		enable_svn = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_svn));
 		enable_svk = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_svk));
 		enable_bzr = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.cb_bzr));
@@ -2103,6 +2107,11 @@ plugin_configure(GtkDialog * dialog)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_git), enable_git);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_git, TRUE, FALSE, 2);
 
+	widgets.cb_fossil = gtk_check_button_new_with_label(_("Enable Fossil"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_fossil), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_fossil), enable_fossil);
+	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_fossil, TRUE, FALSE, 2);
+
 	widgets.cb_svn = gtk_check_button_new_with_label(_("Enable SVN"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_svn), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_svn), enable_svn);
@@ -2167,6 +2176,8 @@ load_config(void)
 		TRUE);
 	enable_git = utils_get_setting_boolean(config, "VC", "enable_git",
 		TRUE);
+	enable_fossil = utils_get_setting_boolean(config, "VC", "enable_fossil",
+		TRUE);
 	enable_svn = utils_get_setting_boolean(config, "VC", "enable_svn",
 		TRUE);
 	enable_svk = utils_get_setting_boolean(config, "VC", "enable_svk",
@@ -2218,6 +2229,7 @@ registrate(void)
 		g_slist_free(VC);
 		VC = NULL;
 	}
+	REGISTER_VC(FOSSIL, enable_fossil);
 	REGISTER_VC(GIT, enable_git);
 	REGISTER_VC(SVN, enable_svn);
 	REGISTER_VC(CVS, enable_cvs);

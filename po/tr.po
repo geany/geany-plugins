@@ -4678,6 +4678,10 @@ msgstr "CVS'i etkinleştir"
 msgid "Enable GIT"
 msgstr "GIT'i etkinleştir"
 
+#: ../geanyvc/src/geanyvc.c:2110
+msgid "Enable Fossil"
+msgstr "Fossil'i etkinleştir"
+
 #: ../geanyvc/src/geanyvc.c:2106
 msgid "Enable SVN"
 msgstr "SVN'i etkinleştir"

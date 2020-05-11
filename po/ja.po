@@ -4706,6 +4706,10 @@ msgstr "CVSを有効"
 msgid "Enable GIT"
 msgstr "GITを有効"
 
+#: ../geanyvc/src/geanyvc.c:2110
+msgid "Enable Fossil"
+msgstr "Fossilを有効"
+
 #: ../geanyvc/src/geanyvc.c:2106
 msgid "Enable SVN"
 msgstr "SVNを有効"
