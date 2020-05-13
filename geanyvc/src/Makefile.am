@@ -30,7 +30,7 @@ TESTS = unittests
 check_PROGRAMS = unittests
 unittests_SOURCES = unittests.c $(geanyvc_la_SOURCES)
 unittests_CFLAGS  = $(GEANY_CFLAGS) $(geanyvc_la_CFLAGS) -DUNITTESTS
-unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@
+unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) $(geanyvc_la_LIBADD) @CHECK_LIBS@
 endif
 
 include $(top_srcdir)/build/cppcheck.mk
