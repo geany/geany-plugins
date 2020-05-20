@@ -44,14 +44,14 @@ int CAPACITY = 2;
 GeanyKeyBinding *record, *play;
 static gboolean is_record_key(GdkEventKey *event)
 {
-	//return (event->state & GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_F1);
-	return record->key == event->keyval && (event->state & record->mods);
+	return event->keyval == record->key
+		&& (event->state & record->mods) == record->mods;
 }
 
 static gboolean is_play_key(GdkEventKey *event)
 {
-//	return (event->state & GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_F2);
-	return play->key == event->keyval && (event->state & play->mods);
+	return event->keyval == play->key
+		&& (event->state & play->mods) == play->mods;
 }	
 
 
