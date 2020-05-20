@@ -42,6 +42,19 @@ static GdkEventKey** recorded_pattern;
 static guint recorded_size;
 int CAPACITY = 2;
 GeanyKeyBinding *record, *play;
+
+static GtkStatusbar *geany_statusbar;
+static GtkWidget *keyrecord_statusbar_box;
+static GtkLabel *keyrecord_state_label;
+
+static void update_status()
+{
+	if (recording)
+		gtk_widget_show(keyrecord_state_label);
+	else
+		gtk_widget_hide(keyrecord_state_label);
+}
+
 static gboolean is_record_key(GdkEventKey *event)
 {
 	return event->keyval == record->key
@@ -120,6 +133,7 @@ on_record (guint key_id)
 	{
 		recording = FALSE;
 	}
+	update_status();
 }
 
 
@@ -162,6 +176,16 @@ static gboolean keyrecord_init(GeanyPlugin *plugin, gpointer data)
 	
 	g_plugin = plugin;
 	
+	geany_statusbar = gtk_widget_get_parent(geany->main_widgets->progressbar);
+	keyrecord_statusbar_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
+	keyrecord_state_label = gtk_label_new(NULL);
+	gtk_label_set_markup(keyrecord_state_label,
+        "<span foreground='red' weight='bold'>REC</span>");
+	gtk_widget_show(keyrecord_statusbar_box);
+	gtk_container_add(keyrecord_statusbar_box, keyrecord_state_label);
+	gtk_box_pack_end(geany_statusbar, keyrecord_statusbar_box, FALSE, FALSE, 0);
+	update_status();
+
 	return TRUE;
 }
 
@@ -188,6 +212,8 @@ static void keyrecord_cleanup(GeanyPlugin *plugin, gpointer _data)
 		g_free(data);
 	}
 
+	gtk_widget_destroy(keyrecord_state_label);
+	gtk_widget_destroy(keyrecord_statusbar_box);
 }
 
 void geany_load_module(GeanyPlugin *plugin)
