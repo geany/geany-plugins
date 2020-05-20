@@ -126,12 +126,13 @@ on_record (guint key_id)
 static void
 on_play (guint key_id)
 {
-	//fprintf(stderr, "play: %d\n", key_id);
-	guint i;
-////	sci_start_undo_action(doc->editor->sci);
+	if (!recording)
 	{
+	//fprintf(stderr, "play: %d\n", key_id);
+    	guint i;
+////	sci_start_undo_action(doc->editor->sci);
 		for (i = 0; i < (recorded_size); i++)
-				gtk_main_do_event(recorded_pattern[i]);
+			gtk_main_do_event(recorded_pattern[i]);
 	}
 //	sci_end_undo_action(doc->editor->sci);
 }
