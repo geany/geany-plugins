@@ -1,22 +1,22 @@
 /*
- *      keyrecord.c - this file is part of Geany, a fast and lightweight IDE
+ * keyrecord.c - this file is part of Geany, a fast and lightweight IDE
  *
- *      Copyright 2007-2012 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
- *      Copyright 2007-2012 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
+ * Copyright 2007-2012 Enrico Tröger <enrico(dot)troeger(at)uvena(dot)de>
+ * Copyright 2007-2012 Nick Treleaven <nick(dot)treleaven(at)btinternet(dot)com>
  *
- *      This program is free software; you can redistribute it and/or modify
- *      it under the terms of the GNU General Public License as published by
- *      the Free Software Foundation; either version 2 of the License, or
- *      (at your option) any later version.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *      This program is distributed in the hope that it will be useful,
- *      but WITHOUT ANY WARRANTY; without even the implied warranty of
- *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *      GNU General Public License for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- *      You should have received a copy of the GNU General Public License along
- *      with this program; if not, write to the Free Software Foundation, Inc.,
- *      51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
 
@@ -32,25 +32,24 @@
 
 
 static gboolean recording;
-static GdkEventKey** recorded_pattern;
-static guint recorded_size;
-static guint recorded_capacity = 2;
-static GeanyKeyBinding *record, *play;
-static GtkLabel *keyrecord_state_label;
+static GeanyKeyBinding* record;
+static GeanyKeyBinding* play;
+static GArray* recorded_key_presses;
+static GtkLabel* status_indicator_label;
 
 
 static void
 update_status(void)
 {
 	if (recording)
-		gtk_widget_show(GTK_WIDGET(keyrecord_state_label));
+		gtk_widget_show(GTK_WIDGET(status_indicator_label));
 	else
-		gtk_widget_hide(GTK_WIDGET(keyrecord_state_label));
+		gtk_widget_hide(GTK_WIDGET(status_indicator_label));
 }
 
 
 static gboolean
-is_record_key(GdkEventKey *event)
+is_record_key(GdkEventKey* event)
 {
 	return event->keyval == record->key
 		&& (event->state & record->mods) == record->mods;
@@ -58,7 +57,7 @@ is_record_key(GdkEventKey *event)
 
 
 static gboolean
-is_play_key(GdkEventKey *event)
+is_play_key(GdkEventKey* event)
 {
 	return event->keyval == play->key
 		&& (event->state & play->mods) == play->mods;
@@ -66,29 +65,12 @@ is_play_key(GdkEventKey *event)
 
 
 static gboolean
-on_key_press(GObject *object, GdkEventKey *event, gpointer user_data)
+on_key_press(GObject* object, GdkEventKey* event, gpointer user_data)
 {
-	guint i;
-	GdkEventKey** tmp = NULL;
-
-	if ((recording) && !(is_record_key(event)||is_play_key(event)))
+	if ((recording) && !(is_record_key(event) || is_play_key(event)))
 	{
 		GdkEventKey* new_event = (GdkEventKey*)gdk_event_copy((GdkEvent*)event);
-		if (recorded_size == recorded_capacity)
-		{
-			tmp = g_new0(GdkEventKey*, recorded_capacity * 2);
-			for (i = 0; i < recorded_size; i++)
-				tmp[i] = recorded_pattern[i];
-
-			g_free(recorded_pattern);
-			recorded_pattern = tmp;
-			recorded_capacity *= 2;
-		}
-		assert(recorded_size < recorded_capacity);
-		if (recorded_pattern[(recorded_size)] != NULL)
-			gdk_event_free((GdkEvent*)recorded_pattern[recorded_size]);
-
-		recorded_pattern[recorded_size++] = new_event;
+		g_array_append_val(recorded_key_presses, new_event);
 	}
 
 	return FALSE;
@@ -96,10 +78,10 @@ on_key_press(GObject *object, GdkEventKey *event, gpointer user_data)
 
 
 static void
-on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
+on_document_open(GObject* obj, GeanyDocument* doc, gpointer user_data)
 {
-	GeanyDocument *data;
-	ScintillaObject *sci;
+	GeanyDocument* data;
+	ScintillaObject* sci;
 
 	g_return_if_fail(DOC_VALID(doc));
 	sci = doc->editor->sci;
@@ -111,17 +93,27 @@ on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 
 
 static void
+clear_recorded_key_presses()
+{
+	guint i;
+
+	for (i = 0; i < recorded_key_presses->len; i++)
+		gdk_event_free(g_array_index(recorded_key_presses, GdkEvent*, i));
+	g_array_set_size(recorded_key_presses, 0);
+}
+
+
+static void
 on_record (guint key_id)
 {
 	if (!recording)
 	{
 		recording = TRUE;
-		recorded_size = 0;
+		clear_recorded_key_presses();
 	}
 	else
-	{
 		recording = FALSE;
-	}
+
 	update_status();
 }
 
@@ -132,26 +124,27 @@ on_play (guint key_id)
 	if (!recording)
 	{
 		guint i;
-		for (i = 0; i < (recorded_size); i++)
-			gtk_main_do_event((GdkEvent*)recorded_pattern[i]);
+
+		for (i = 0; i < recorded_key_presses->len; i++)
+			gtk_main_do_event(g_array_index(recorded_key_presses, GdkEvent*, i));
 	}
 }
 
 
 static void
-recording_status_init(GeanyPlugin *plugin)
+status_indicator_init(GeanyPlugin* plugin)
 {
 	GeanyData* geany_data = plugin->geany_data;
-	GtkStatusbar *geany_statusbar;
-	GtkHBox *geany_statusbar_box;
+	GtkStatusbar* geany_statusbar;
+	GtkHBox* geany_statusbar_box;
 
 	geany_statusbar = (GtkStatusbar*)ui_lookup_widget(geany->main_widgets->window, "statusbar");
 	geany_statusbar_box = (GtkHBox*)gtk_widget_get_parent(GTK_WIDGET(geany_statusbar));
-	keyrecord_state_label = (GtkLabel*)gtk_label_new(NULL);
-	gtk_label_set_markup(keyrecord_state_label,
+	status_indicator_label = (GtkLabel*)gtk_label_new(NULL);
+	gtk_label_set_markup(status_indicator_label,
 		"<span foreground='red' weight='bold'>REC</span>");
 	gtk_box_pack_end(GTK_BOX(geany_statusbar_box),
-		GTK_WIDGET(keyrecord_state_label), FALSE, FALSE, 10);
+		GTK_WIDGET(status_indicator_label), FALSE, FALSE, 10);
 }
 
 
@@ -172,9 +165,9 @@ keyrecord_callbacks[] =
 
 /* Called by Geany to initialize the plugin */
 static gboolean
-keyrecord_init(GeanyPlugin *plugin, gpointer data)
+keyrecord_init(GeanyPlugin* plugin, gpointer data)
 {
-	GeanyKeyGroup *group;
+	GeanyKeyGroup* group;
 
 	group = plugin_set_key_group (plugin, "keyrecord", 2, NULL);
 	record = keybindings_set_item (group, 0, on_record,
@@ -183,17 +176,15 @@ keyrecord_init(GeanyPlugin *plugin, gpointer data)
 		0, 0, "play", _("Play"), NULL);
 
 	GeanyData* geany_data = plugin->geany_data;
-	recorded_pattern = g_new0(GdkEventKey*, recorded_capacity);
+	recorded_key_presses = g_array_new(FALSE, FALSE, sizeof(GdkEventKey*));
 
 	guint i = 0;
 	foreach_document(i)
-//	{
 		 on_document_open(NULL, documents[i], NULL);
-//	}
-	recording = FALSE;
-	recorded_size = 0;
 
-	recording_status_init(plugin);
+	recording = FALSE;
+
+	status_indicator_init(plugin);
 	update_status();
 
 	geany_plugin_set_data(plugin, plugin, NULL);
@@ -207,33 +198,29 @@ keyrecord_init(GeanyPlugin *plugin, gpointer data)
  * memory freed and any other finalization done.
  * Be sure to leave Geany as it was before demo_init(). */
 static void
-keyrecord_cleanup(GeanyPlugin *plugin, gpointer _data)
+keyrecord_cleanup(GeanyPlugin* plugin, gpointer _data)
 {
 	GeanyData* geany_data = plugin->geany_data;
 	guint i;
 
-	for (i = 0; i < recorded_capacity; i++)
-		if (recorded_pattern[i] != NULL)
-			gdk_event_free((GdkEvent*)recorded_pattern[i]);
-
-	g_free(recorded_pattern);
+	g_array_free(recorded_key_presses, TRUE);
 
 	foreach_document(i)
 	{
 		gpointer data;
-		ScintillaObject *sci;
+		ScintillaObject* sci;
 
 		sci = documents[i]->editor->sci;
 		data = g_object_steal_data(G_OBJECT(sci), "keyrecord-userdata");
 		g_free(data);
 	}
 
-	gtk_widget_destroy(GTK_WIDGET(keyrecord_state_label));
+	gtk_widget_destroy(GTK_WIDGET(status_indicator_label));
 }
 
 
 void
-geany_load_module(GeanyPlugin *plugin)
+geany_load_module(GeanyPlugin* plugin)
 {
 	/* main_locale_init(), must be called for your package
 	 * before any localization can be done */
