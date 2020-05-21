@@ -28,15 +28,15 @@ Features
 
 Usage
 -----
-After installed successfully, load the plugin in Geany's plugin manager
-and a new menu item in the Tools menu will appear. Alternatively, you can
-assign a keyboard shortcut in Geany's preferences dialog to perform a
-spell check.
+[Install the plugin](https://plugins.geany.org/install.html) then
+load it in Geany's plugin manager. A new menu item in the Tools menu
+will appear. Alternatively, you can assign a keyboard shortcut in
+Geany's preferences dialog to perform a spell check.
 
 
 Configuring custom dictionaries
 -------------------------------
-Especially Windows, you might need to install the dictionaries (the files
+Especially on Windows, you might need to install the dictionaries (the files
 containing the information for spell checking) manually.
 First, you need to download the dictionary files for the
 languages you want, e.g. from
