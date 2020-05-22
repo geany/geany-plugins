@@ -9,9 +9,9 @@ gms
 About
 =====
 
-gms is a Geany Mini-Script filter plugin
+Mini Script (GMS) is a filter plugin.
 
-In order to use it you need Geany 0.15 or later.
+In order to use it, you need Geany 0.15 or later.
 
 Features
 ========
@@ -24,10 +24,10 @@ This plugin is a tool to apply a script filter on ::
 The filter type can be ::
 
    o Unix shell script,
-   o perl script,
-   o python script,
+   o Perl script,
+   o Python script,
    o sed commands,
-   o awk script.
+   o AWK script.
 
 The output can be ::
 
@@ -38,27 +38,29 @@ The output can be ::
 Requirements
 ============
 
-For compiling gms you need Geany,GTK2 includes, and GTK2 library.
+For compiling GMS you need Geany, GTK2 includes, and the GTK2 library.
 
-Furthermore you need, of course, a C compiler and the Make tool; The
+Furthermore, you need, of course, a C compiler and the Make tool; the
 GNU versions of these tools are recommended.
 
 Usage
 =====
 
-After compiling and/or installing gms, start Geany and go to menu
-Tools->Plugin Manager and set checkbox at gms plugin.
+After compiling and/or installing GMS, start Geany and go to menu
+Tools -> Plugin Manager and set the checkbox at the "Mini Script" plugin.
 
-You can configure the following options::
+Open the Mini Script window by menu Tools -> "Mini Script".
+
+In the combobox box (default value "Shell"), you have the following options::
 
     o Shell path,
     o Perl path,
     o Python path,
     o sed path,
-    o Awk path,
-    o user script .
+    o AWK path, and
+    o user script.
 
-After configuring, go to menu Tools->Plugin Manager and click to "Mini-script". Geany opens a gms dialog box::
+In the Mini Script window you have the following options ::
 
     o With the combobox, you select the script type,
     o In the text view, you write the filter script.
@@ -74,7 +76,7 @@ After configuring, go to menu Tools->Plugin Manager and click to "Mini-script". 
 License
 =======
 
-gms is distributed under the terms of the GNU General Public License
+GMS is distributed under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2 of the
 License, or (at your option) any later version. A copy of this license
 can be found in the file COPYING included with the source code of this
