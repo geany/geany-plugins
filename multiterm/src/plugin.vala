@@ -25,7 +25,6 @@ using MultiTerm;
 
 public Plugin		geany_plugin;
 public Data			geany_data;
-public Functions	geany_functions;
 
 extern const string LOCALEDIR;
 extern const string GETTEXT_PACKAGE;
@@ -36,7 +35,7 @@ private List<Widget> toplevel_widgets = null;
 /* Geany calls this to determine min. required API/ABI version */
 public int plugin_version_check(int abi_version)
 {
-	return Plugin.version_check(abi_version, 185);
+	return Plugin.version_check(abi_version, 224);
 }
 
 /* Geany calls this to get some info about the plugin */
