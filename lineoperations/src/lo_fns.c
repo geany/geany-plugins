@@ -22,6 +22,7 @@
 
 #include "lo_fns.h"
 #include "lo_prefs.h"
+#include "filevercmp.h"
 
 
 /* Get sort function based on user preferences */
@@ -38,6 +39,37 @@ getcmpfns(void)
 	}
 }
 
+
+/* compare_version function is taken from coreutil's sort (src/sort.c).
+   Source code can be found here: https://www.gnu.org/software/coreutils/
+   This is released under GNU General Public License V3 or later.
+   The function below was not altered from the function in sort.c
+
+   Compare the keys TEXTA (of length LENA) and TEXTB (of length LENB)
+   using filevercmp. See lib/filevercmp.h for function description. */
+
+static int
+compare_version (char *restrict texta, size_t lena,
+                 char *restrict textb, size_t lenb)
+{
+  int diff;
+
+  /* It is necessary to save the character after the end of the field.
+     "filevercmp" works with NUL terminated strings.  Our blocks of
+     text are not necessarily terminated with a NUL byte. */
+  char sv_a = texta[lena];
+  char sv_b = textb[lenb];
+
+  texta[lena] = '\0';
+  textb[lenb] = '\0';
+
+  diff = filevercmp (texta, textb);
+
+  texta[lena] = sv_a;
+  textb[lenb] = sv_b;
+
+  return diff;
+}
 
 /* comparison function to be used in qsort */
 static gint

@@ -4,6 +4,8 @@ plugin = lineoperations
 geanyplugins_LTLIBRARIES = lineoperations.la
 
 lineoperations_la_SOURCES = \
+	filevercmp.c \
+	filevercmp.h \
 	lo_fns.h \
 	lo_fns.c \
 	lo_prefs.h \
