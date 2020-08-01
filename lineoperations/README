@@ -39,16 +39,28 @@ To enable preferences ("Tools" > "Plugin Manager"), check the checkbox to
 enable Line Operations, and with the item highlighted click "Preferences"
 on bottom of the "Plugin Manager" frame.
 
-**Use collation based string compare** - When this option is enabled it will
+**Lexical Compare** - When this option is enabled it will
+compare strings based on numerical value of the characters (strcmp).
+
+  Example: Sort order using **Lexical Compare** enabled
+
+  ::
+
+    D U+0044 : LATIN CAPITAL LETTER D
+    E U+0045 : LATIN CAPITAL LETTER E
+    F U+0046 : LATIN CAPITAL LETTER F
+    d U+0064 : LATIN SMALL LETTER D
+    e U+0065 : LATIN SMALL LETTER E
+    f U+0066 : LATIN SMALL LETTER F
+    Ê U+00CA : LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+    é U+00E9 : LATIN SMALL LETTER E WITH ACUTE
+
+
+**Collation Compare** - When this option is enabled it will
 compare strings using linguistically correct rules for the current locale
 (g_utf8_collate).
 
-When it is disabled it will compare strings based on numerical value of the
-characters (strcmp).
-
-This option is disabled by default.
-
-  Example: Sort order using **Use collation based string compare** enabled
+  Example: Sort order using **Collation Compare** enabled
 
   ::
 
@@ -64,20 +76,22 @@ This option is disabled by default.
   Note: all 'e' characters appear after any 'd' character and before any 'f'
   character.
 
-  Example: Sort order **Use collation based string compare** disabled
+**Version Compare** - When this option is enabled it will
+compare strings using order that feels more natural to people, when the 
+text contains a mixture of letters and digits. It first breaks down the 
+string into digits and non-digits parts, and only then compares each part
+
+  Example: Sort order using **Version Compare** enabled
 
   ::
 
-    D U+0044 : LATIN CAPITAL LETTER D
-    E U+0045 : LATIN CAPITAL LETTER E
-    F U+0046 : LATIN CAPITAL LETTER F
-    d U+0064 : LATIN SMALL LETTER D
-    e U+0065 : LATIN SMALL LETTER E
-    f U+0066 : LATIN SMALL LETTER F
-    Ê U+00CA : LATIN CAPITAL LETTER E WITH CIRCUMFLEX
-    é U+00E9 : LATIN SMALL LETTER E WITH ACUTE
+    Alphabetical sort:           Version Sort:
 
-  Note: all the 'e' characters do not appear together.
+    a1                           a1
+    a120                         a2
+    a13                          a13
+    a2                           a120
+
 
 
 Selection

@@ -1,3 +1,7 @@
+2020-08-01  Sylvan Mostert  <smostert.dev@gmail.com>
+
+ * add version sort from coreutils sort
+ 
 2019-08-11  Sylvan Mostert  <smostert.dev@gmail.com>
 
  * added preferences to compare strings using linguistically correct rules
