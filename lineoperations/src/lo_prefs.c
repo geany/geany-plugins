@@ -24,12 +24,18 @@
 
 static struct
 {
-	GtkWidget *collation_cb;
+	GtkWidget *lexicographic_rb;
+	GtkWidget *collation_rb;
+	GtkWidget *version_rb;
 } config_widgets;
 
 
-LineOpsInfo *lo_info = NULL;
+#define LEXICAL_ORDER 1
+#define COLLATION_ORDER 2
+#define VERSION_ORDER 3
 
+
+LineOpsInfo *lo_info = NULL;
 
 /* handle button presses in the preferences dialog box */
 void
@@ -42,14 +48,24 @@ lo_configure_response_cb(GtkDialog *dialog, gint response, gpointer user_data)
 		gchar *data;
 
 		/* Grabbing options that has been set */
-		lo_info->use_collation_compare =
-			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb));
+		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.version_rb)))
+		{
+			lo_info->compare_type = VERSION_ORDER;
+		}
+		else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(config_widgets.collation_rb)))
+		{
+			lo_info->compare_type = COLLATION_ORDER;
+		}
+		else
+		{
+			lo_info->compare_type = LEXICAL_ORDER;
+		}
 
 		/* Write preference to file */
 		g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
 
-		g_key_file_set_boolean(config, "general", "use_collation_compare",
-			lo_info->use_collation_compare);
+		g_key_file_set_integer(config, "general", "compare_type",
+			lo_info->compare_type);
 
 		if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
 			&& utils_mkdir(config_dir, TRUE) != 0)
@@ -79,14 +95,35 @@ lo_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED
 
 	vbox = gtk_vbox_new(FALSE, 0);
 
-	config_widgets.collation_cb = gtk_check_button_new_with_label(
-		_("Use collation based string compare"));
+	config_widgets.lexicographic_rb = gtk_radio_button_new_with_mnemonic(NULL,
+		_("_Lexical Compare"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(config_widgets.lexicographic_rb), FALSE);
+	gtk_container_add(GTK_CONTAINER(vbox), config_widgets.lexicographic_rb);
 
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.collation_cb),
-		lo_info->use_collation_compare);
+	config_widgets.collation_rb = gtk_radio_button_new_with_mnemonic_from_widget(GTK_RADIO_BUTTON(config_widgets.lexicographic_rb),
+		_("_Collation Compare"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(config_widgets.collation_rb), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.collation_rb), FALSE);
+	gtk_container_add(GTK_CONTAINER(vbox), config_widgets.collation_rb);
 
-	gtk_box_pack_start(GTK_BOX(vbox), config_widgets.collation_cb, FALSE, FALSE, 2);
+	config_widgets.version_rb = gtk_radio_button_new_with_mnemonic_from_widget(GTK_RADIO_BUTTON(config_widgets.lexicographic_rb),
+		_("Version Compare"));
+	gtk_button_set_focus_on_click(GTK_BUTTON(config_widgets.version_rb), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.version_rb), FALSE);
+	gtk_container_add(GTK_CONTAINER(vbox), config_widgets.version_rb);
 
+	/* recall selected radio button */
+	if (lo_info->compare_type == VERSION_ORDER)
+	{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.version_rb), TRUE);
+	}
+	else if (lo_info->compare_type == COLLATION_ORDER)
+	{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.collation_rb), TRUE);
+	}
+	else {
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(config_widgets.lexicographic_rb), TRUE);
+	}
 
 	gtk_widget_show_all(vbox);
 	g_signal_connect(dialog, "response", G_CALLBACK(lo_configure_response_cb), NULL);
@@ -110,10 +147,8 @@ lo_init_prefs(GeanyPlugin *plugin)
 
 	g_key_file_load_from_file(config, lo_info->config_file, G_KEY_FILE_NONE, NULL);
 
-	lo_info->use_collation_compare = utils_get_setting_boolean(config,
-		"general", "use_collation_compare", FALSE);
-
-	printf("VALUE: %d\n", lo_info->use_collation_compare);
+	lo_info->compare_type = utils_get_setting_integer(config,
+		"general", "compare_type", LEXICAL_ORDER);
 
 	g_key_file_free(config);
 }
