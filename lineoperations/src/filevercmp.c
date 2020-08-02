@@ -19,7 +19,7 @@
 /* filevercmp.c is taken directly from coreutil (lib/filevercmp.c).
    Source code can be found here: https://www.gnu.org/software/coreutils/
    This is released under GNU General Public License V3 or later.
-   This file has not been altered from the original */
+   This file has been altered to use ctype instead of c-ctype */
 
 #include <config.h>
 #include "filevercmp.h"
