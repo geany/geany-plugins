@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include <c-ctype.h>
+#include <ctype.h>
 #include <limits.h>
 
 /* Match a file suffix defined by this regular expression:
@@ -45,7 +45,7 @@ match_suffix (const char **str)
       if (read_alpha)
         {
           read_alpha = false;
-          if (!c_isalpha (**str) && '~' != **str)
+          if (!isalpha (**str) && '~' != **str)
             match = NULL;
         }
       else if ('.' == **str)
@@ -54,7 +54,7 @@ match_suffix (const char **str)
           if (!match)
             match = *str;
         }
-      else if (!c_isalnum (**str) && '~' != **str)
+      else if (!isalnum (**str) && '~' != **str)
         match = NULL;
       (*str)++;
     }
@@ -65,9 +65,9 @@ match_suffix (const char **str)
 static inline int
 order (unsigned char c)
 {
-  if (c_isdigit (c))
+  if (isdigit (c))
     return 0;
-  else if (c_isalpha (c))
+  else if (isalpha (c))
     return c;
   else if (c == '~')
     return -1;
@@ -93,8 +93,8 @@ verrevcmp (const char *s1, size_t s1_len, const char *s2, size_t s2_len)
   while (s1_pos < s1_len || s2_pos < s2_len)
     {
       int first_diff = 0;
-      while ((s1_pos < s1_len && !c_isdigit (s1[s1_pos]))
-	     || (s2_pos < s2_len && !c_isdigit (s2[s2_pos])))
+      while ((s1_pos < s1_len && !isdigit (s1[s1_pos]))
+	     || (s2_pos < s2_len && !isdigit (s2[s2_pos])))
 	{
 	  int s1_c = (s1_pos == s1_len) ? 0 : order (s1[s1_pos]);
 	  int s2_c = (s2_pos == s2_len) ? 0 : order (s2[s2_pos]);
@@ -107,16 +107,16 @@ verrevcmp (const char *s1, size_t s1_len, const char *s2, size_t s2_len)
 	s1_pos++;
       while (s2[s2_pos] == '0')
 	s2_pos++;
-      while (c_isdigit (s1[s1_pos]) && c_isdigit (s2[s2_pos]))
+      while (isdigit (s1[s1_pos]) && isdigit (s2[s2_pos]))
 	{
 	  if (!first_diff)
 	    first_diff = s1[s1_pos] - s2[s2_pos];
 	  s1_pos++;
 	  s2_pos++;
 	}
-      if (c_isdigit (s1[s1_pos]))
+      if (isdigit (s1[s1_pos]))
 	return 1;
-      if (c_isdigit (s2[s2_pos]))
+      if (isdigit (s2[s2_pos]))
 	return -1;
       if (first_diff)
 	return first_diff;
