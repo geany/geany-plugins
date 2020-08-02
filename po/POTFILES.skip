@@ -3,6 +3,9 @@
 #geanyvc
 geanyvc/src/commit.glade
 
+# LineOperations
+lineoperations/src/filevercmp.c
+
 # Multiterm
 multiterm/src/config.c
 multiterm/src/context-menu.c
