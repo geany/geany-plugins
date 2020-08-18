@@ -27,6 +27,7 @@
 #include <string.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gdk/gdkkeysyms.h>
 #include <unistd.h>
 
 #ifdef HAVE_CONFIG_H
@@ -1199,9 +1200,8 @@ refresh_diff_view(GtkTreeView *treeview)
 }
 
 static void
-commit_toggled(G_GNUC_UNUSED GtkCellRendererToggle * cell, gchar * path_str, gpointer data)
+commit_toggle_commit(GtkTreeView *treeview, gchar * path_str)
 {
-	GtkTreeView *treeview = GTK_TREE_VIEW(data);
 	GtkTreeModel *model = gtk_tree_view_get_model(treeview);
 	GtkTreeIter iter;
 	GtkTreePath *path = gtk_tree_path_new_from_string(path_str);
@@ -1234,6 +1234,12 @@ commit_toggled(G_GNUC_UNUSED GtkCellRendererToggle * cell, gchar * path_str, gpo
 	g_free(filename);
 }
 
+static void
+commit_toggled_cb(G_GNUC_UNUSED GtkCellRendererToggle * cell, gchar * path_str, gpointer data)
+{
+	commit_toggle_commit(GTK_TREE_VIEW(data), path_str);
+}
+
 static gboolean
 toggle_all_commit_files (GtkTreeModel *model, GtkTreePath *path,
         GtkTreeIter *iter, gpointer data)
@@ -1262,7 +1268,7 @@ add_commit_columns(GtkTreeView * treeview)
 
 	/* column for fixed toggles */
 	renderer = gtk_cell_renderer_toggle_new();
-	g_signal_connect(renderer, "toggled", G_CALLBACK(commit_toggled), treeview);
+	g_signal_connect(renderer, "toggled", G_CALLBACK(commit_toggled_cb), treeview);
 
 	column = gtk_tree_view_column_new_with_attributes(_("Commit Y/N"),
 							  renderer, "active", COLUMN_COMMIT, NULL);
@@ -1412,6 +1418,37 @@ create_commit_message_history_combobox(void)
 		"sensitive", COMMIT_MESSAGE_HISTORY_ACTIVE, NULL);
 
 	return combobox;
+}
+
+static gboolean commit_tree_view_key_release_cb(GtkWidget *widget, GdkEventKey *event,
+												G_GNUC_UNUSED gpointer user_data)
+{
+	if (event->keyval == GDK_KEY_space ||
+		event->keyval == GDK_KEY_Return ||
+		event->keyval == GDK_KEY_KP_Enter)
+	{
+		GtkTreeView *treeview = GTK_TREE_VIEW(widget);
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+		GtkTreeSelection *sel;
+		GtkTreePath *path;
+		gchar *path_str;
+
+		sel = gtk_tree_view_get_selection(treeview);
+		if (! gtk_tree_selection_get_selected(sel, &model, &iter))
+			return FALSE;
+
+		path = gtk_tree_model_get_path(model, &iter);
+		if (path != NULL)
+		{
+			path_str = gtk_tree_path_to_string(path);
+
+			commit_toggle_commit(treeview, path_str);
+			gtk_tree_path_free(path);
+			g_free(path_str);
+		}
+	}
+	return FALSE;
 }
 
 static gboolean commit_text_line_number_update_cb(GtkWidget *widget, GdkEvent *event,
@@ -1593,6 +1630,8 @@ create_commitDialog(void)
 	gtk_tree_selection_set_mode(sel, GTK_SELECTION_SINGLE);
 	g_signal_connect(sel, "changed", G_CALLBACK(commit_tree_selection_changed_cb), textDiff);
 
+	g_signal_connect(treeSelect, "key-release-event",
+		G_CALLBACK(commit_tree_view_key_release_cb), NULL);
 	g_signal_connect(textCommitMessage, "key-release-event",
 		G_CALLBACK(commit_text_line_number_update_cb), lineColumnLabel);
 	g_signal_connect(textCommitMessage, "button-release-event",
