@@ -57,7 +57,6 @@ parse_fossil_info(const gchar * txt, const gchar * fld)
 	gint len;
 
 	start = strstr(txt, fld);
-	g_return_val_if_fail(start, NULL);
 	if (!start) return NULL;
 
 	start += strlen(fld);
