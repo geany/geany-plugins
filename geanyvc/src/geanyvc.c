@@ -63,7 +63,7 @@ static GtkSpell *gtkspell_new_attach(GtkTextView *view, const gchar *lang, GErro
 #endif
 
 GeanyData *geany_data;
-GeanyPlugin		*geany_plugin;
+GeanyPlugin     *geany_plugin;
 
 
 PLUGIN_VERSION_CHECK(224)
@@ -411,8 +411,8 @@ get_cmd(const gchar ** argv, const gchar * dir, const gchar * filename, GSList *
 /* name should be in UTF-8, and can have a path. */
 static void
 show_output(const gchar * std_output, const gchar * name,
-	    const gchar * force_encoding, GeanyFiletype * ftype,
-	    gint line)
+		const gchar * force_encoding, GeanyFiletype * ftype,
+		gint line)
 {
 	GeanyDocument *doc, *cur_doc;
 
@@ -459,8 +459,8 @@ show_output(const gchar * std_output, const gchar * name,
  */
 gint
 execute_custom_command(const gchar * dir, const gchar ** argv, const gchar ** env, gchar ** std_out,
-		       gchar ** std_err, const gchar * filename, GSList * list,
-		       const gchar * message)
+			   gchar ** std_err, const gchar * filename, GSList * list,
+			   const gchar * message)
 {
 	gint exit_code;
 	GString *tmp;
@@ -582,7 +582,7 @@ execute_command(const VC_RECORD * vc, gchar ** std_out, gchar ** std_err, const 
 	}
 
 	ret = execute_custom_command(dir, vc->commands[cmd].command, vc->commands[cmd].env, std_out,
-				     std_err, filename, list, message);
+					 std_err, filename, list, message);
 
 	ui_set_statusbar(TRUE, _("File %s: action %s executed via %s."),
 			 filename, vc->commands[cmd].command[action_command_cell], vc->program);
@@ -657,7 +657,7 @@ vcdiff_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpoint
 
 			vc_external_diff(old, localename);
 			g_unlink(old);
-		      end:
+			  end:
 			g_free(old);
 			g_free(new);
 			g_free(localename);
@@ -967,11 +967,11 @@ static void
 vcremove_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer gdata)
 {
 	if (command_with_question_activated(NULL, VC_COMMAND_REMOVE,
-					    _("Do you really want to remove: %s?"),
-					    FLAG_FORCE_ASK | FLAG_FILE))
+						_("Do you really want to remove: %s?"),
+						FLAG_FORCE_ASK | FLAG_FILE))
 	{
 		document_remove_page(gtk_notebook_get_current_page
-				     (GTK_NOTEBOOK(geany->main_widgets->notebook)));
+					 (GTK_NOTEBOOK(geany->main_widgets->notebook)));
 	}
 }
 
@@ -990,7 +990,7 @@ vcupdate_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	}
 
 	if (command_with_question_activated(&text, VC_COMMAND_UPDATE,
-					    _("Do you really want to update?"), FLAG_BASEDIR))
+						_("Do you really want to update?"), FLAG_BASEDIR))
 	{
 		document_reload_force(doc, NULL);
 
@@ -1150,7 +1150,7 @@ set_diff_buff(GtkWidget * textview, GtkTextBuffer * buffer, const gchar * txt)
 			tagname = "";
 		}
 		else if (strncmp(p, "VC_DIFF", 7) == 0)
-		{	/* Lines starting with VC_DIFF are special and were added by our code to tell about
+		{   /* Lines starting with VC_DIFF are special and were added by our code to tell about
 			 * filename to which the following diff lines belong. We use this file to create
 			 * text marks which we then later use to scroll to if the corresponding file has been
 			 * selected in the commit dialog's files list. */
@@ -1165,7 +1165,7 @@ set_diff_buff(GtkWidget * textview, GtkTextBuffer * buffer, const gchar * txt)
 						   g_utf8_pointer_to_offset(txt, p));
 
 		if (c)
-		{	/* create the mark *after* the start iter has been updated */
+		{   /* create the mark *after* the start iter has been updated */
 			filename = g_strndup(p + 7, c - p - 7);
 			/* delete old text marks */
 			mark = gtk_text_buffer_get_mark(buffer, filename);
@@ -1243,7 +1243,7 @@ commit_toggled_cb(G_GNUC_UNUSED GtkCellRendererToggle * cell, gchar * path_str, 
 
 static gboolean
 toggle_all_commit_files (GtkTreeModel *model, GtkTreePath *path,
-        GtkTreeIter *iter, gpointer data)
+		GtkTreeIter *iter, gpointer data)
 {
 	(void)path;
 	gtk_list_store_set(GTK_LIST_STORE(model), iter, COLUMN_COMMIT, *(gint*)data, -1);
@@ -1310,7 +1310,7 @@ get_diff_color(G_GNUC_UNUSED GeanyDocument * doc, gint style)
 
 #define GLADE_HOOKUP_OBJECT(component,widget,name) \
   g_object_set_data_full (G_OBJECT (component), name, \
-    g_object_ref (widget), (GDestroyNotify) g_object_unref)
+	g_object_ref (widget), (GDestroyNotify) g_object_unref)
 
 #define GLADE_HOOKUP_OBJECT_NO_REF(component,widget,name) \
   g_object_set_data (G_OBJECT (component), name, widget)
@@ -1512,8 +1512,8 @@ create_commitDialog(void)
 	commitDialog = gtk_dialog_new();
 	gtk_container_set_border_width(GTK_CONTAINER(commitDialog), 5);
 	gtk_widget_set_events(commitDialog,
-			      GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
-			      GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+				  GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
+				  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 	gtk_window_set_title(GTK_WINDOW(commitDialog), _("Commit"));
 	gtk_window_set_position(GTK_WINDOW(commitDialog), GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_modal(GTK_WINDOW(commitDialog), TRUE);
@@ -1531,14 +1531,14 @@ create_commitDialog(void)
 	gtk_widget_show(scrolledwindow1);
 	gtk_paned_pack1(GTK_PANED(vpaned1), scrolledwindow1, FALSE, TRUE);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow1), GTK_POLICY_AUTOMATIC,
-				       GTK_POLICY_AUTOMATIC);
+					   GTK_POLICY_AUTOMATIC);
 
 	treeSelect = gtk_tree_view_new();
 	gtk_widget_show(treeSelect);
 	gtk_container_add(GTK_CONTAINER(scrolledwindow1), treeSelect);
 	gtk_widget_set_events(treeSelect,
-			      GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
-			      GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+				  GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
+				  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
 	vpaned2 = gtk_vpaned_new();
 	gtk_widget_show(vpaned2);
@@ -1548,7 +1548,7 @@ create_commitDialog(void)
 	gtk_widget_show(scrolledwindow2);
 	gtk_paned_pack1(GTK_PANED(vpaned2), scrolledwindow2, TRUE, TRUE);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow2), GTK_POLICY_AUTOMATIC,
-				       GTK_POLICY_AUTOMATIC);
+					   GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow2), GTK_SHADOW_IN);
 
 	bottom_vbox = gtk_vbox_new(FALSE, 0);
@@ -1567,8 +1567,8 @@ create_commitDialog(void)
 	gtk_widget_show(textDiff);
 	gtk_container_add(GTK_CONTAINER(scrolledwindow2), textDiff);
 	gtk_widget_set_events(textDiff,
-			      GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
-			      GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+				  GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
+				  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(textDiff), FALSE);
 
 	frame1 = gtk_frame_new(NULL);
@@ -1589,15 +1589,15 @@ create_commitDialog(void)
 	gtk_widget_show(scrolledwindow3);
 	gtk_box_pack_start(GTK_BOX(commit_text_vbox), scrolledwindow3, TRUE, TRUE, 0);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolledwindow3), GTK_POLICY_AUTOMATIC,
-				       GTK_POLICY_AUTOMATIC);
+					   GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow3), GTK_SHADOW_IN);
 
 	textCommitMessage = gtk_text_view_new();
 	gtk_widget_show(textCommitMessage);
 	gtk_container_add(GTK_CONTAINER(scrolledwindow3), textCommitMessage);
 	gtk_widget_set_events(textCommitMessage,
-			      GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
-			      GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
+				  GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
+				  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
 	label1 = gtk_label_new(_("<b>Commit message:</b>"));
 	gtk_widget_show(label1);
@@ -1850,7 +1850,7 @@ get_vc_file_menu_arrv(void)
 	static VCFileMenu **arrv[] = {NULL, NULL, NULL};
 
 	arrv[0] = &menu_vc_file_menu;
-    if (set_editor_menu_entries == TRUE)
+	if (set_editor_menu_entries == TRUE)
 		arrv[1] = &editor_menu_vc_file_menu;
 
 	return arrv;
@@ -2011,7 +2011,7 @@ save_config(void)
 	g_key_file_set_boolean(config, "VC", "set_add_confirmation", set_add_confirmation);
 	g_key_file_set_boolean(config, "VC", "set_external_diff", set_external_diff);
 	g_key_file_set_boolean(config, "VC", "set_maximize_commit_dialog",
-			       set_maximize_commit_dialog);
+				   set_maximize_commit_dialog);
 	g_key_file_set_boolean(config, "VC", "set_editor_menu_entries", set_editor_menu_entries);
 	g_key_file_set_boolean(config, "VC", "attach_to_menubar", set_menubar_entry);
 
@@ -2046,11 +2046,11 @@ save_config(void)
 	}
 
 	if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR)
-	    && utils_mkdir(config_dir, TRUE) != 0)
+		&& utils_mkdir(config_dir, TRUE) != 0)
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-				    _
-				    ("Plugin configuration directory could not be created."));
+					_
+					("Plugin configuration directory could not be created."));
 	}
 	else
 	{
@@ -2066,7 +2066,7 @@ save_config(void)
 
 static void
 on_configure_response(G_GNUC_UNUSED GtkDialog * dialog, gint response,
-		      G_GNUC_UNUSED gpointer user_data)
+			  G_GNUC_UNUSED gpointer user_data)
 {
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
 	{
@@ -2124,10 +2124,10 @@ plugin_configure(GtkDialog * dialog)
 		gtk_check_button_new_with_label(_
 						("Set Changed-flag for document tabs created by the plugin"));
 	gtk_widget_set_tooltip_text(widgets.cb_changed_flag,
-			     _
-			     ("If this option is activated, every new by the VC-plugin created document tab "
-			      "will be marked as changed. Even this option is useful in some cases, it could cause "
-			      "a big number of annoying \"Do you want to save\"-dialogs."));
+				 _
+				 ("If this option is activated, every new by the VC-plugin created document tab "
+				  "will be marked as changed. Even this option is useful in some cases, it could cause "
+				  "a big number of annoying \"Do you want to save\"-dialogs."));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_changed_flag), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_changed_flag), set_changed_flag);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_changed_flag, FALSE, FALSE, 2);
@@ -2135,40 +2135,40 @@ plugin_configure(GtkDialog * dialog)
 	widgets.cb_confirm_add =
 		gtk_check_button_new_with_label(_("Confirm adding new files to a VCS"));
 	gtk_widget_set_tooltip_text(widgets.cb_confirm_add,
-			     _
-			     ("Shows a confirmation dialog on adding a new (created) file to VCS."));
+				 _
+				 ("Shows a confirmation dialog on adding a new (created) file to VCS."));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_confirm_add), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_confirm_add),
-				     set_add_confirmation);
+					 set_add_confirmation);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_confirm_add, TRUE, FALSE, 2);
 
 	widgets.cb_max_commit = gtk_check_button_new_with_label(_("Maximize commit dialog"));
 	gtk_widget_set_tooltip_text(widgets.cb_max_commit, _("Show commit dialog maximize."));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_max_commit), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_max_commit),
-				     set_maximize_commit_dialog);
+					 set_maximize_commit_dialog);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_max_commit, TRUE, FALSE, 2);
 
 	widgets.cb_external_diff = gtk_check_button_new_with_label(_("Use external diff viewer"));
 	gtk_widget_set_tooltip_text(widgets.cb_external_diff,
-			     _("Use external diff viewer for file diff."));
+				 _("Use external diff viewer for file diff."));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_external_diff), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_external_diff),
-				     set_external_diff);
+					 set_external_diff);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_external_diff, TRUE, FALSE, 2);
 
 	widgets.cb_editor_menu_entries = gtk_check_button_new_with_label(_("Show VC entries at editor menu"));
 	gtk_widget_set_tooltip_text(widgets.cb_editor_menu_entries,
-			     _("Show entries for VC functions inside editor menu"));
+				 _("Show entries for VC functions inside editor menu"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_editor_menu_entries), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_editor_menu_entries), set_editor_menu_entries);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_editor_menu_entries, TRUE, FALSE, 2);
 
 	widgets.cb_attach_to_menubar = gtk_check_button_new_with_label(_("Attach menu to menubar"));
 	gtk_widget_set_tooltip_text(widgets.cb_editor_menu_entries,
-			     _("Whether menu for this plugin are getting placed either "
-			       "inside tools menu or directly inside Geany's menubar. "
-			       "Will take in account after next start of GeanyVC"));
+				 _("Whether menu for this plugin are getting placed either "
+				   "inside tools menu or directly inside Geany's menubar. "
+				   "Will take in account after next start of GeanyVC"));
 	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_attach_to_menubar), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_attach_to_menubar),
 		set_menubar_entry);
@@ -2342,7 +2342,7 @@ do_current_file_menu(GtkWidget ** parent_menu, const gchar * label, VCFileMenu *
 	menu_vc_diff_file = gtk_menu_item_new_with_mnemonic(_("_Diff"));
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), menu_vc_diff_file);
 	gtk_widget_set_tooltip_text(menu_vc_diff_file,
-			     _("Make a diff from the current active file"));
+				 _("Make a diff from the current active file"));
 
 	g_signal_connect(menu_vc_diff_file, "activate", G_CALLBACK(vcdiff_file_activated), NULL);
 
@@ -2350,7 +2350,7 @@ do_current_file_menu(GtkWidget ** parent_menu, const gchar * label, VCFileMenu *
 	menu_vc_revert_file = gtk_menu_item_new_with_mnemonic(_("_Revert"));
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), menu_vc_revert_file);
 	gtk_widget_set_tooltip_text(menu_vc_revert_file,
-			     _("Restore pristine working copy file (undo local edits)."));
+				 _("Restore pristine working copy file (undo local edits)."));
 
 	g_signal_connect(menu_vc_revert_file, "activate", G_CALLBACK(vcrevert_activated), NULL);
 
@@ -2362,7 +2362,7 @@ do_current_file_menu(GtkWidget ** parent_menu, const gchar * label, VCFileMenu *
 	menu_vc_blame = gtk_menu_item_new_with_mnemonic(_("_Blame"));
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), menu_vc_blame);
 	gtk_widget_set_tooltip_text(menu_vc_blame,
-			     _("Shows the changes made at one file per revision and author."));
+				 _("Shows the changes made at one file per revision and author."));
 
 	g_signal_connect(menu_vc_blame, "activate", G_CALLBACK(vcblame_activated), NULL);
 
@@ -2372,7 +2372,7 @@ do_current_file_menu(GtkWidget ** parent_menu, const gchar * label, VCFileMenu *
 	menu_vc_log_file = gtk_menu_item_new_with_mnemonic(_("_History (log)"));
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), menu_vc_log_file);
 	gtk_widget_set_tooltip_text(menu_vc_log_file,
-			     _("Shows the log of the current file"));
+				 _("Shows the log of the current file"));
 
 	g_signal_connect(menu_vc_log_file, "activate", G_CALLBACK(vclog_file_activated), NULL);
 
@@ -2380,7 +2380,7 @@ do_current_file_menu(GtkWidget ** parent_menu, const gchar * label, VCFileMenu *
 	menu_vc_show_file = gtk_menu_item_new_with_mnemonic(_("_Original"));
 	gtk_container_add(GTK_CONTAINER(cur_file_menu), menu_vc_show_file);
 	gtk_widget_set_tooltip_text(menu_vc_show_file,
-			     _("Shows the original of the current file"));
+				 _("Shows the original of the current file"));
 
 	g_signal_connect(menu_vc_show_file, "activate", G_CALLBACK(vcshow_file_activated), NULL);
 
@@ -2437,7 +2437,7 @@ do_current_dir_menu(GtkWidget ** parent_menu)
 	menu_vc_diff_dir = gtk_menu_item_new_with_mnemonic(_("_Diff"));
 	gtk_container_add(GTK_CONTAINER(cur_dir_menu), menu_vc_diff_dir);
 	gtk_widget_set_tooltip_text(menu_vc_diff_dir,
-			     _("Make a diff from the directory of the current active file"));
+				 _("Make a diff from the directory of the current active file"));
 
 	g_signal_connect(menu_vc_diff_dir, "activate",
 			 G_CALLBACK(vcdiff_dir_activated), GINT_TO_POINTER(FLAG_DIR));
@@ -2446,7 +2446,7 @@ do_current_dir_menu(GtkWidget ** parent_menu)
 	menu_vc_revert_dir = gtk_menu_item_new_with_mnemonic(_("_Revert"));
 	gtk_container_add(GTK_CONTAINER(cur_dir_menu), menu_vc_revert_dir);
 	gtk_widget_set_tooltip_text(menu_vc_revert_dir,
-			     _("Restore original files in the current folder (undo local edits)."));
+				 _("Restore original files in the current folder (undo local edits)."));
 
 	g_signal_connect(menu_vc_revert_dir, "activate",
 			 G_CALLBACK(vcrevert_dir_activated), GINT_TO_POINTER(FLAG_DIR));
@@ -2456,7 +2456,7 @@ do_current_dir_menu(GtkWidget ** parent_menu)
 	menu_vc_log_dir = gtk_menu_item_new_with_mnemonic(_("_History (log)"));
 	gtk_container_add(GTK_CONTAINER(cur_dir_menu), menu_vc_log_dir);
 	gtk_widget_set_tooltip_text(menu_vc_log_dir,
-			     _("Shows the log of the current directory"));
+				 _("Shows the log of the current directory"));
 
 
 	/* connect to parent menu */
@@ -2497,7 +2497,7 @@ do_basedir_menu(GtkWidget ** parent_menu)
 	menu_vc_log_basedir = gtk_menu_item_new_with_mnemonic(_("_History (log)"));
 	gtk_container_add(GTK_CONTAINER(basedir_menu), menu_vc_log_basedir);
 	gtk_widget_set_tooltip_text(menu_vc_log_basedir,
-			     _("Shows the log of the top VC directory"));
+				 _("Shows the log of the top VC directory"));
 
 	g_signal_connect(menu_vc_log_basedir, "activate",
 			 G_CALLBACK(vclog_basedir_activated), NULL);
@@ -2567,24 +2567,24 @@ init_keybindings(void)
 				plugin_set_key_group(geany_plugin, "geanyvc", COUNT_KB, NULL);
 
 	keybindings_set_item(plugin_key_group, VC_DIFF_FILE, kbdiff_file, 0, 0,
-			     "vc_show_diff_of_file", _("Show diff of file"), menu_vc_diff_file);
+				 "vc_show_diff_of_file", _("Show diff of file"), menu_vc_diff_file);
 	keybindings_set_item(plugin_key_group, VC_DIFF_DIR, kbdiff_dir, 0, 0,
-			     "vc_show_diff_of_dir", _("Show diff of directory"), menu_vc_diff_dir);
+				 "vc_show_diff_of_dir", _("Show diff of directory"), menu_vc_diff_dir);
 	keybindings_set_item(plugin_key_group, VC_DIFF_BASEDIR, kbdiff_basedir, 0, 0,
-			     "vc_show_diff_of_basedir", _("Show diff of basedir"),
-			     menu_vc_diff_basedir);
+				 "vc_show_diff_of_basedir", _("Show diff of basedir"),
+				 menu_vc_diff_basedir);
 	keybindings_set_item(plugin_key_group, VC_COMMIT, kbcommit, 0, 0, "vc_commit",
-			     _("Commit changes"), menu_vc_commit);
+				 _("Commit changes"), menu_vc_commit);
 	keybindings_set_item(plugin_key_group, VC_STATUS, kbstatus, 0, 0, "vc_status",
-			     _("Show status"), menu_vc_status);
+				 _("Show status"), menu_vc_status);
 	keybindings_set_item(plugin_key_group, VC_REVERT_FILE, kbrevert_file, 0, 0,
-			     "vc_revert_file", _("Revert single file"), menu_vc_revert_file);
+				 "vc_revert_file", _("Revert single file"), menu_vc_revert_file);
 	keybindings_set_item(plugin_key_group, VC_REVERT_DIR, kbrevert_dir, 0, 0, "vc_revert_dir",
-			     _("Revert directory"), menu_vc_revert_dir);
+				 _("Revert directory"), menu_vc_revert_dir);
 	keybindings_set_item(plugin_key_group, VC_REVERT_BASEDIR, kbrevert_basedir, 0, 0,
-			     "vc_revert_basedir", _("Revert base directory"), menu_vc_revert_basedir);
+				 "vc_revert_basedir", _("Revert base directory"), menu_vc_revert_basedir);
 	keybindings_set_item(plugin_key_group, VC_UPDATE, kbupdate, 0, 0, "vc_update",
-			     _("Update file"), menu_vc_update);
+				 _("Update file"), menu_vc_update);
 }
 
 /* Called by Geany to initialize the plugin */
@@ -2599,7 +2599,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 
 	config_file =
 		g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
-			    "VC", G_DIR_SEPARATOR_S, "VC.conf", NULL);
+				"VC", G_DIR_SEPARATOR_S, "VC.conf", NULL);
 
 	load_config();
 	registrate();
