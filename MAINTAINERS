@@ -168,11 +168,11 @@ W: http://plugins.geany.org/geanysendmail.html
 S: Maintained
 
 geanyvc
-P: Yura Siamashka <yurand2@gmail.com>
-g:
-M: Yura Siamashka <yurand2@gmail.com>
+P: Artur Shepilko <nomadbyte@gmail.com>
+g: @nomadbyte
+M: Artur Shepilko <nomadbyte@gmail.com>
 W: http://plugins.geany.org/geanyvc.html
-S: Odd Fixes
+S: Maintained
 
 geniuspaste
 P: Enrico Trotta <enrico.trt@gmail.com>
