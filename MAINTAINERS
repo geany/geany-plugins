@@ -48,9 +48,9 @@ W:
 S: Maintained
 
 debugger
-P: Alexander Petukhov <devel@apetukhov.ru>
+P: Alexander Petukhov
 g:
-M: Alexander Petukhov <devel@apetukhov.ru>
+M: Alexander Petukhov
 W: http://plugins.geany.org/debugger.html
 S: Maintained
 
