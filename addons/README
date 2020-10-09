@@ -108,6 +108,9 @@ color value over which the mouse is hovered. The preferences option "Show
 a calltip when hovering over a color value" is used to enable or disable
 the extension.
 
+Append `-DLARGE_COLOR_TIP` to `CFLAGS` for a large color calltip or
+`-DXLARGE_COLOR_TIP` for an extra-large color calltip.
+
 *Open Color Chooser on double clicking on a color value*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This extension will open the Color Chooser if the user double clicks on
