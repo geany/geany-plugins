@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-22 11:56+0200\n"
+"POT-Creation-Date: 2020-10-11 21:32+0200\n"
 "PO-Revision-Date: 2020-05-01 16:20+1000\n"
 "Last-Translator: Dmitry Unruh <dmitryunruh@googlemail.com>\n"
 "Language-Team: Russian <geany-i18n@uvena.de>\n"
@@ -45,7 +45,7 @@ msgid "Bookmarks"
 msgstr "Закладки"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2527
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2653
 msgid "_Update"
 msgstr "_Обновить"
 
@@ -164,10 +164,10 @@ msgstr "Копировать путь к файлу"
 msgid "Copy the file path of the current document to the clipboard"
 msgstr "Скопировать путь до текущего документа в буфера обмена"
 
-#: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:876
+#: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:1973 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2053 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
 #: ../treebrowser/src/treebrowser.c:2103
@@ -301,91 +301,91 @@ msgstr "Дополнения"
 msgid "Various small addons for Geany."
 msgstr "Различные небольшие дополнения для Geany"
 
-#: ../autoclose/src/autoclose.c:1032
+#: ../autoclose/src/autoclose.c:1076
 msgid "Auto-close quotes and brackets"
 msgstr "Автозакрытие скобок и кавычек"
 
-#: ../autoclose/src/autoclose.c:1033
+#: ../autoclose/src/autoclose.c:1077
 msgid "Parenthesis ( )"
 msgstr "Круглые скобки ( )"
 
-#: ../autoclose/src/autoclose.c:1034
+#: ../autoclose/src/autoclose.c:1078
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
 msgstr "Автозакрытие круглых скобок \"(\" -> \"(|)\""
 
-#: ../autoclose/src/autoclose.c:1036
+#: ../autoclose/src/autoclose.c:1080
 msgid "Curly brackets { }"
 msgstr "Фигурные скобки { }"
 
-#: ../autoclose/src/autoclose.c:1037
+#: ../autoclose/src/autoclose.c:1081
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
 msgstr "Автозакрытие фигурных скобок \"{\" -> \"{|}\""
 
-#: ../autoclose/src/autoclose.c:1039
+#: ../autoclose/src/autoclose.c:1083
 msgid "Square brackets [ ]"
 msgstr "Квадратные скобки [ ]"
 
-#: ../autoclose/src/autoclose.c:1040
+#: ../autoclose/src/autoclose.c:1084
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
 msgstr "Автозакрытие квадратных скобок \"[\" -> \"[|]\""
 
-#: ../autoclose/src/autoclose.c:1041
+#: ../autoclose/src/autoclose.c:1085
 msgid "Angular brackets < >"
 msgstr "Угловые скобки < >"
 
-#: ../autoclose/src/autoclose.c:1042
+#: ../autoclose/src/autoclose.c:1086
 msgid "Auto-close angular brackets \"<\" -> \"<|>\""
 msgstr "Автозакрытие угловых скобок \"<\" -> \"<|>\""
 
-#: ../autoclose/src/autoclose.c:1044
+#: ../autoclose/src/autoclose.c:1088
 msgid "\tOnly for HTML"
 msgstr "\tТолько для HTML"
 
-#: ../autoclose/src/autoclose.c:1045
+#: ../autoclose/src/autoclose.c:1089
 msgid "Auto-close angular brackets only in HTML documents"
 msgstr "Автозакрытие угловых скобок только в HTML документах"
 
-#: ../autoclose/src/autoclose.c:1046
+#: ../autoclose/src/autoclose.c:1090
 msgid "Double quotes \" \""
 msgstr "Двойные кавычки \" \""
 
-#: ../autoclose/src/autoclose.c:1047
+#: ../autoclose/src/autoclose.c:1091
 msgid "Auto-close double quotes \" -> \"|\""
 msgstr "Автозакрытие двойных кавычек \" -> \"|\""
 
-#: ../autoclose/src/autoclose.c:1048
+#: ../autoclose/src/autoclose.c:1092
 msgid "Single quotes ' '"
 msgstr "Одинарные кавычки ' '"
 
-#: ../autoclose/src/autoclose.c:1049
+#: ../autoclose/src/autoclose.c:1093
 msgid "Auto-close single quotes ' -> '|'"
 msgstr "Автозакрытие одинарных кавычек ' -> '|'"
 
-#: ../autoclose/src/autoclose.c:1050
+#: ../autoclose/src/autoclose.c:1094
 msgid "Backquote ` `"
 msgstr "Обратная кавычка ` `"
 
-#: ../autoclose/src/autoclose.c:1051
+#: ../autoclose/src/autoclose.c:1095
 msgid "Auto-close backquote ` -> `|`"
 msgstr "Автозакрытие обратной кавычки ` -> `|`"
 
-#: ../autoclose/src/autoclose.c:1053
+#: ../autoclose/src/autoclose.c:1097
 msgid "\tOnly for Shell-scripts (Bash)"
 msgstr "\tТолько для языка сценариев Bash"
 
-#: ../autoclose/src/autoclose.c:1054
+#: ../autoclose/src/autoclose.c:1098
 msgid "Auto-close backquote only in Shell-scripts like Bash"
 msgstr "Автозакрытие обратной кавычки только в документах Bash"
 
-#: ../autoclose/src/autoclose.c:1056
+#: ../autoclose/src/autoclose.c:1100
 msgid "Improve curly brackets completion"
 msgstr "Улучшить автозакрытие фигурных скобок"
 
-#: ../autoclose/src/autoclose.c:1057
+#: ../autoclose/src/autoclose.c:1101
 msgid "Indent when enclosing"
 msgstr "Создавать отступ при окружении"
 
-#: ../autoclose/src/autoclose.c:1058
+#: ../autoclose/src/autoclose.c:1102
 msgid ""
 "If you select some text and press \"{\" or \"}\", plugin will auto-close "
 "selected lines and make new block with indent.\n"
@@ -398,11 +398,11 @@ msgstr ""
 "Вам не нужно точно выделять границы блоки - окружение работает только со "
 "строками целиком."
 
-#: ../autoclose/src/autoclose.c:1063
+#: ../autoclose/src/autoclose.c:1107
 msgid "Move cursor to beginning"
 msgstr "Переместить курсор к началу"
 
-#: ../autoclose/src/autoclose.c:1064
+#: ../autoclose/src/autoclose.c:1108
 msgid ""
 "If you checked \"Indent when enclosing\", moving cursor to beginning may be "
 "useful: usually you make new block and need to create new statement before "
@@ -412,11 +412,11 @@ msgstr ""
 "в начало блока может быть полезным: обычно вы создаёте новый блок и "
 "печатаете оператор перед этим блоком."
 
-#: ../autoclose/src/autoclose.c:1067
+#: ../autoclose/src/autoclose.c:1111
 msgid "Improved auto-indentation"
 msgstr "Улучшить автоотступ"
 
-#: ../autoclose/src/autoclose.c:1068
+#: ../autoclose/src/autoclose.c:1112
 msgid ""
 "Improved auto-indent for curly brackets: type \"{\" and then press Enter - "
 "plugin will create full indented block. Works without \"auto-close { }\" "
@@ -426,11 +426,11 @@ msgstr ""
 "нажмите Enter - модуль создаст полностью готовый блок с отступом. Работает "
 "без параметра \"автозакрытие фигурных скобок { }\"."
 
-#: ../autoclose/src/autoclose.c:1071
+#: ../autoclose/src/autoclose.c:1115
 msgid "\tWhitesmith's style"
 msgstr "\tСтиль Уайтсмит"
 
-#: ../autoclose/src/autoclose.c:1072
+#: ../autoclose/src/autoclose.c:1116
 msgid ""
 "This style puts the brace associated with a control statement on the next "
 "line, indented. Statements within the braces are indented to the same level "
@@ -439,21 +439,21 @@ msgstr ""
 "Данный стиль располагает фигурные скобки с отступом относительно предыдущего "
 "оператора. Операторы внутри блока имеют тот же отступ, что и фигурная скобка."
 
-#: ../autoclose/src/autoclose.c:1077
+#: ../autoclose/src/autoclose.c:1121
 msgid "Delete pairing character while backspacing first"
 msgstr "Удалить парный символ при удалении предыдущего клавишей BackSpace"
 
-#: ../autoclose/src/autoclose.c:1078
+#: ../autoclose/src/autoclose.c:1122
 msgid "Check if you want to delete pairing bracket by pressing BackSpace."
 msgstr ""
 "Включите, если хотите, чтобы модуль удалял соседний парный символ каждый "
 "раз, когда вы нажимете BackSpace."
 
-#: ../autoclose/src/autoclose.c:1080
+#: ../autoclose/src/autoclose.c:1124
 msgid "Suppress double-completion"
 msgstr "Подавлять двойное автозакрытие"
 
-#: ../autoclose/src/autoclose.c:1081
+#: ../autoclose/src/autoclose.c:1125
 msgid ""
 "Check if you want to allow editor automatically fix mistypes with brackets: "
 "if you type \"{}\" you will get \"{}\", not \"{}}\"."
@@ -461,54 +461,54 @@ msgstr ""
 "Включите, если хотите, чтобы модуль автоматически исправлял ошибки в "
 "скобках: если вы печатаете \"{}\", вы получите \"{}\", а не \"{}}\"."
 
-#: ../autoclose/src/autoclose.c:1083
+#: ../autoclose/src/autoclose.c:1127
 msgid "Enclose selections"
 msgstr "Окружать выделенный текст"
 
-#: ../autoclose/src/autoclose.c:1084
+#: ../autoclose/src/autoclose.c:1128
 msgid "Automatically enclose selected text by pressing just one bracket key."
 msgstr ""
 "Автоматически окружать выбранный текст путём нажатия только одной клавиши со "
 "скобкой."
 
-#: ../autoclose/src/autoclose.c:1086
+#: ../autoclose/src/autoclose.c:1130
 msgid "Keep selection when enclosing"
 msgstr "Сохранять выделение при окружении"
 
-#: ../autoclose/src/autoclose.c:1087
+#: ../autoclose/src/autoclose.c:1131
 msgid "Keep your previously selected text after enclosing."
 msgstr "Сохранить предыдущее выделение текст после окружения скобками."
 
-#: ../autoclose/src/autoclose.c:1089
+#: ../autoclose/src/autoclose.c:1133
 msgid "Behaviour inside comments and strings"
 msgstr "Поведение внутри комментариев и строк"
 
-#: ../autoclose/src/autoclose.c:1090
+#: ../autoclose/src/autoclose.c:1134
 msgid "Allow auto-closing in strings and comments"
 msgstr "Разрешить автозакрытие внутри комментариев и строк"
 
-#: ../autoclose/src/autoclose.c:1091
+#: ../autoclose/src/autoclose.c:1135
 msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы автозакрытие также работало внутри "
 "комментариев и строк."
 
-#: ../autoclose/src/autoclose.c:1092
+#: ../autoclose/src/autoclose.c:1136
 msgid "Enclose selections in strings and comments"
 msgstr "Окружать выделение внутри комментариев и строк"
 
-#: ../autoclose/src/autoclose.c:1093
+#: ../autoclose/src/autoclose.c:1137
 msgid ""
 "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 "Включите, если вы хотите, чтобы окружение выделенного блока текст также "
 "работало внутри комментариев и строк."
 
-#: ../autoclose/src/autoclose.c:1096
+#: ../autoclose/src/autoclose.c:1140
 msgid "Auto-complete \";\" for functions"
 msgstr "Автозавершение \";\" для функций"
 
-#: ../autoclose/src/autoclose.c:1097
+#: ../autoclose/src/autoclose.c:1141
 msgid ""
 "Full function auto-closing (works only for C/C++): type \"sin(\" and you "
 "will get \"sin(|);\"."
@@ -516,11 +516,11 @@ msgstr ""
 "Полное автозакрытие для функций (работает только для C/C++): напечатайте "
 "\"sin(\" и вы получите \"sin(|);\"."
 
-#: ../autoclose/src/autoclose.c:1099
+#: ../autoclose/src/autoclose.c:1143
 msgid "Shift+BackSpace removes pairing brace too"
 msgstr "Shift+BackSpace удаляет парную скобку"
 
-#: ../autoclose/src/autoclose.c:1100
+#: ../autoclose/src/autoclose.c:1144
 msgid ""
 "Remove left and right brace while pressing Shift+BackSpace.\n"
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
@@ -531,20 +531,20 @@ msgstr ""
 "Подсказка: чтобы удалить полностью блок с отступом, просто нажмите Shift"
 "+BackSpace рядом с первым символом \"{\" или последним символом \"}\"."
 
-#: ../autoclose/src/autoclose.c:1103
+#: ../autoclose/src/autoclose.c:1147
 msgid "Jump on Tab to enclosed char"
 msgstr "Нажмите Tab для перехода к следующему символу"
 
-#: ../autoclose/src/autoclose.c:1104
+#: ../autoclose/src/autoclose.c:1148
 msgid "Jump behind autoclosed items on Tab press."
 msgstr "Переходить к парному автоматически вставленному символу клавишей Tab."
 
 #. Set metadata
-#: ../autoclose/src/autoclose.c:1160
+#: ../autoclose/src/autoclose.c:1204
 msgid "Auto-close"
 msgstr "Автозакрытие"
 
-#: ../autoclose/src/autoclose.c:1161
+#: ../autoclose/src/autoclose.c:1205
 msgid "Auto-close braces and brackets with lot of features"
 msgstr "Многофункциональное автозакрытие скобок и кавычек"
 
@@ -1013,7 +1013,7 @@ msgid "Book:"
 msgstr "Книга:"
 
 #. i18n: a documentation book
-#: ../devhelp/devhelp/dh-link.c:255 ../latex/src/latex.c:1836
+#: ../devhelp/devhelp/dh-link.c:255 ../latex/src/latex.c:1846
 msgid "Book"
 msgstr "Книга"
 
@@ -1142,7 +1142,8 @@ msgstr "translator_credits"
 msgid "A developers' help browser for GNOME"
 msgstr "Просмотр документации для разработчиков"
 
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2239
+#. Create the current file Submenu
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
 msgid "_File"
 msgstr "_Файл"
 
@@ -1365,7 +1366,7 @@ msgid ""
 "contributing to this plugin?"
 msgstr ""
 
-#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:439
+#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:442
 msgid "Could not parse the output of command"
 msgstr "Невозможно проанализировать вывод команды"
 
@@ -2318,80 +2319,80 @@ msgstr "Всегда выполнять автодополнение в LaTeX"
 msgid "Modus of autocompletion"
 msgstr "Способ автодополнения"
 
-#: ../latex/src/latex.c:885
+#: ../latex/src/latex.c:895
 msgid "Insert Label"
 msgstr "Вставить метку"
 
-#: ../latex/src/latex.c:887
+#: ../latex/src/latex.c:897
 msgid "Label name:"
 msgstr "Название метки:"
 
-#: ../latex/src/latex.c:909
+#: ../latex/src/latex.c:919
 msgid "Insert Command"
 msgstr "Вставить команду"
 
-#: ../latex/src/latex.c:911
+#: ../latex/src/latex.c:921
 msgid "Command name:"
 msgstr "Название команды:"
 
-#: ../latex/src/latex.c:954
+#: ../latex/src/latex.c:964
 msgid "Insert Reference"
 msgstr "Вставить ссылку"
 
-#: ../latex/src/latex.c:967
+#: ../latex/src/latex.c:977
 msgid "Reference name:"
 msgstr "Имя ссылки:"
 
-#: ../latex/src/latex.c:992
+#: ../latex/src/latex.c:1002
 msgid "_Standard Reference"
 msgstr "_Обычная ссылка"
 
-#: ../latex/src/latex.c:997
+#: ../latex/src/latex.c:1007
 msgid "_Page Reference"
 msgstr "Ссылка на _страницу"
 
-#: ../latex/src/latex.c:1002
+#: ../latex/src/latex.c:1012
 msgid "_Add both"
 msgstr "_И то и другое"
 
-#: ../latex/src/latex.c:1199
+#: ../latex/src/latex.c:1209
 msgid "More"
 msgstr "Дополнительно"
 
-#: ../latex/src/latex.c:1255
+#: ../latex/src/latex.c:1265
 msgid "Add additional package"
 msgstr "Добавить пакет"
 
-#: ../latex/src/latex.c:1268
+#: ../latex/src/latex.c:1278
 msgid "Package name:"
 msgstr "Имя пакета:"
 
-#: ../latex/src/latex.c:1271
+#: ../latex/src/latex.c:1281
 msgid "Package options:"
 msgstr "Параметры пакета:"
 
-#: ../latex/src/latex.c:1319
+#: ../latex/src/latex.c:1329
 msgid "Insert BibTeX Reference"
 msgstr "Вставить ссылку BibTeX"
 
-#: ../latex/src/latex.c:1332
+#: ../latex/src/latex.c:1342
 msgid "BibTeX reference name:"
 msgstr "Имя ссылки BibTeX"
 
-#: ../latex/src/latex.c:1756
+#: ../latex/src/latex.c:1766
 msgid "Dear Sir or Madame"
 msgstr "Уважаемый(ая)"
 
-#: ../latex/src/latex.c:1757
+#: ../latex/src/latex.c:1767
 msgid "With kind regards"
 msgstr "С наилучшими пожеланиями"
 
-#: ../latex/src/latex.c:1765
+#: ../latex/src/latex.c:1775
 msgid "No template assigned. Aborting"
 msgstr "Не задан шаблон. Операция прервана"
 
 #. Building the wizard-dialog and showing it
-#: ../latex/src/latex.c:1792
+#: ../latex/src/latex.c:1802
 msgid "LaTeX-Wizard"
 msgstr "Мастер LaTeX"
 
@@ -2399,68 +2400,68 @@ msgstr "Мастер LaTeX"
 #. *  Adds custom templates if there are any. If there are none just
 #. *  adds default one
 #. TEMPLATE FILE
-#: ../latex/src/latex.c:1807 ../markdown/src/conf.c:659
+#: ../latex/src/latex.c:1817 ../markdown/src/conf.c:659
 msgid "Template:"
 msgstr "Шаблон:"
 
-#: ../latex/src/latex.c:1811
+#: ../latex/src/latex.c:1821
 msgid "Set the template which should be used for creating the new document"
 msgstr ""
 "Установить шаблон, который будет использоваться для создания нового документа"
 
-#: ../latex/src/latex.c:1820
+#: ../latex/src/latex.c:1830
 msgid "Default"
 msgstr "По умолчанию"
 
 #. Documentclass
-#: ../latex/src/latex.c:1831
+#: ../latex/src/latex.c:1841
 msgid "Documentclass:"
 msgstr "Класс документа:"
 
-#: ../latex/src/latex.c:1834
+#: ../latex/src/latex.c:1844
 msgid "Choose the kind of document you want to write"
 msgstr "Выберите тип документа, который хотите создать"
 
-#: ../latex/src/latex.c:1838
+#: ../latex/src/latex.c:1848
 msgid "Article"
 msgstr "Статья"
 
-#: ../latex/src/latex.c:1840
+#: ../latex/src/latex.c:1850
 msgid "Report"
 msgstr "Отчёт"
 
-#: ../latex/src/latex.c:1842
+#: ../latex/src/latex.c:1852
 msgid "Letter"
 msgstr "Письмо"
 
-#: ../latex/src/latex.c:1844
+#: ../latex/src/latex.c:1854
 msgid "Presentation"
 msgstr "Презентация"
 
 #. Encoding
-#: ../latex/src/latex.c:1854
+#: ../latex/src/latex.c:1864
 msgid "Encoding:"
 msgstr "Кодировка:"
 
-#: ../latex/src/latex.c:1858
+#: ../latex/src/latex.c:1868
 msgid "Set the encoding for your new document"
 msgstr "Установить кодировку для нового документа"
 
 #. fontsize
-#: ../latex/src/latex.c:1874
+#: ../latex/src/latex.c:1884
 msgid "Font size"
 msgstr "Размер шрифта"
 
-#: ../latex/src/latex.c:1880
+#: ../latex/src/latex.c:1890
 msgid "Set the default font size of your new document"
 msgstr "Установить размер шрифта по умолчанию для нового документа"
 
 #. Author
-#: ../latex/src/latex.c:1892
+#: ../latex/src/latex.c:1902
 msgid "Author:"
 msgstr "Автор:"
 
-#: ../latex/src/latex.c:1895
+#: ../latex/src/latex.c:1905
 msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
@@ -2469,11 +2470,11 @@ msgstr ""
 "должно быть ваше имя"
 
 #. Date
-#: ../latex/src/latex.c:1909
+#: ../latex/src/latex.c:1919
 msgid "Date:"
 msgstr "Дата:"
 
-#: ../latex/src/latex.c:1912
+#: ../latex/src/latex.c:1922
 msgid ""
 "Sets the value of the \\date command inside header of your new created LaTeX-"
 "document. Keeping it at \\today is a good decision if you don't need any "
@@ -2483,37 +2484,37 @@ msgstr ""
 "документа. Оставьте \\today, если вам не нужна конкретная дата."
 
 #. Title of the new document
-#: ../latex/src/latex.c:1924
+#: ../latex/src/latex.c:1934
 msgid "Title:"
 msgstr "Название документа:"
 
-#: ../latex/src/latex.c:1927
+#: ../latex/src/latex.c:1937
 msgid "Sets the title of your new document."
 msgstr "Задаёт название для нового документа."
 
 #. Papersize
-#: ../latex/src/latex.c:1936
+#: ../latex/src/latex.c:1946
 msgid "Paper size:"
 msgstr "Размер страницы:"
 
-#: ../latex/src/latex.c:1939
+#: ../latex/src/latex.c:1949
 msgid "Choose the paper format for the newly created document"
 msgstr "Выберите размер страницы для нового документа"
 
 #. Paper direction
-#: ../latex/src/latex.c:1952
+#: ../latex/src/latex.c:1962
 msgid "Paper Orientation:"
 msgstr "Ориентация страницы"
 
-#: ../latex/src/latex.c:1955
+#: ../latex/src/latex.c:1965
 msgid "Choose the paper orientation for the newly created document"
 msgstr "Выберите ориентацию страницы для нового документа"
 
-#: ../latex/src/latex.c:1976
+#: ../latex/src/latex.c:1986
 msgid "Use KOMA-script classes if possible"
 msgstr "Использовать KOMA-script классы, если возможно"
 
-#: ../latex/src/latex.c:1978
+#: ../latex/src/latex.c:1988
 msgid ""
 "Uses the KOMA-script classes by Markus Kohm.\n"
 "Keep in mind: To compile your document these classes have to be installed "
@@ -2522,11 +2523,11 @@ msgstr ""
 "Использовать KOMA-script классы от Markus Kohm.\n"
 "Примечание: для успешной компиляции этот класс нужно сначала установить."
 
-#: ../latex/src/latex.c:1985
+#: ../latex/src/latex.c:1995
 msgid "Use draft mode"
 msgstr "Использовать режим черновика"
 
-#: ../latex/src/latex.c:1987
+#: ../latex/src/latex.c:1997
 msgid ""
 "Set the draft flag inside new created documents to get documents with a "
 "number of debugging helpers"
@@ -2534,95 +2535,95 @@ msgstr ""
 "Установите флаг черновика внутри нового документа, чтобы включить "
 "вспомогательные отладочные сообщения."
 
-#: ../latex/src/latex.c:2004
+#: ../latex/src/latex.c:2014
 msgid "Run LaTeX-Wizard"
 msgstr "Запустить мастер LaTeX"
 
-#: ../latex/src/latex.c:2006
+#: ../latex/src/latex.c:2016
 msgid "Insert \\label"
 msgstr "Вставить \\label"
 
-#: ../latex/src/latex.c:2008
+#: ../latex/src/latex.c:2018
 msgid "Insert \\ref"
 msgstr "Вставить \\ref"
 
-#: ../latex/src/latex.c:2010
+#: ../latex/src/latex.c:2020
 msgid "Insert linebreak \\\\ "
 msgstr "Вставить разрыв строки \\\\ "
 
-#: ../latex/src/latex.c:2013
+#: ../latex/src/latex.c:2023
 msgid "Insert command"
 msgstr "Вставить команду"
 
-#: ../latex/src/latex.c:2015
+#: ../latex/src/latex.c:2025
 msgid "Turn input replacement on/off"
 msgstr "Переключить автозамену ввода"
 
-#: ../latex/src/latex.c:2019
+#: ../latex/src/latex.c:2029
 msgid "Replace special characters"
 msgstr "Заменять спецсимволы"
 
-#: ../latex/src/latex.c:2022
+#: ../latex/src/latex.c:2032
 msgid "Run insert environment dialog"
 msgstr "Запустить диалог вставки окружения"
 
-#: ../latex/src/latex.c:2024
+#: ../latex/src/latex.c:2034
 msgid "Insert \\item"
 msgstr "Вставить \\item"
 
-#: ../latex/src/latex.c:2026
+#: ../latex/src/latex.c:2036
 msgid "Format selection in bold font face"
 msgstr "Форматировать выделение жирным шрифтом"
 
-#: ../latex/src/latex.c:2028
+#: ../latex/src/latex.c:2038
 msgid "Format selection in italic font face"
 msgstr "Форматировать выделение курсивным шрифтом"
 
-#: ../latex/src/latex.c:2030
+#: ../latex/src/latex.c:2040
 msgid "Format selection in typewriter font face"
 msgstr "Форматировать выделение машинописным шрифтом"
 
-#: ../latex/src/latex.c:2032
+#: ../latex/src/latex.c:2042
 msgid "Format selection centered"
 msgstr "Выровнять выделение по центру"
 
-#: ../latex/src/latex.c:2034
+#: ../latex/src/latex.c:2044
 msgid "Format selection left-aligned"
 msgstr "Выровнять выделение по левому краю"
 
-#: ../latex/src/latex.c:2036
+#: ../latex/src/latex.c:2046
 msgid "Format selection right-aligned"
 msgstr "Выровнять выделение по правому краю"
 
-#: ../latex/src/latex.c:2039
+#: ../latex/src/latex.c:2049
 msgid "Insert description list"
 msgstr "Вставить список с описанием (description)"
 
-#: ../latex/src/latex.c:2042
+#: ../latex/src/latex.c:2052
 msgid "Insert itemize list"
 msgstr "Вставить маркированный список (itemize)"
 
-#: ../latex/src/latex.c:2045
+#: ../latex/src/latex.c:2055
 msgid "Insert enumerate list"
 msgstr "Вставить нумерованный список (enumerate)"
 
-#: ../latex/src/latex.c:2048
+#: ../latex/src/latex.c:2058
 msgid "Set selection one level up"
 msgstr "Выделение на уровень выше"
 
-#: ../latex/src/latex.c:2051
+#: ../latex/src/latex.c:2061
 msgid "Set selection one level down"
 msgstr "Выделение на уровень ниже"
 
-#: ../latex/src/latex.c:2054
+#: ../latex/src/latex.c:2064
 msgid "Insert \\usepackage{}"
 msgstr "Вставить \\usepackage{}"
 
-#: ../latex/src/latex.c:2057
+#: ../latex/src/latex.c:2067
 msgid "Insert BibTeX reference dialog"
 msgstr "Диалог вставки ссылки BibTeX"
 
-#: ../latex/src/latex.c:2064
+#: ../latex/src/latex.c:2074
 #, fuzzy
 msgid ""
 "LaTeX is a plugin to improve support for LaTeX in Geany.\n"
@@ -2633,7 +2634,7 @@ msgstr ""
 "\n"
 "Сообщения об ошибках и предложения отправляйте одному из авторов."
 
-#: ../latex/src/latex.c:2102
+#: ../latex/src/latex.c:2112
 msgid ""
 "glatex_set_autocompletion_contextsize has been initialized with an invalid "
 "value. Default value taken. Please check your configuration file"
@@ -2642,116 +2643,116 @@ msgstr ""
 "значением. Используется стандартное значение. Проверьте ваши файлы "
 "конфигурации"
 
-#: ../latex/src/latex.c:2124 ../latex/src/latex.c:2131
+#: ../latex/src/latex.c:2134 ../latex/src/latex.c:2141
 msgid "page \\pageref{{{reference}}}"
 msgstr "страница \\pageref{{{reference}}}"
 
-#: ../latex/src/latex.c:2128 ../latex/src/latex.c:2135
+#: ../latex/src/latex.c:2138 ../latex/src/latex.c:2145
 msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
 msgstr "\\ref{{{reference}}}, страница \\pageref{{{reference}}}"
 
 #. Build up menu for menubar
-#: ../latex/src/latex.c:2184
+#: ../latex/src/latex.c:2194
 msgid "_LaTeX"
 msgstr "_LaTeX"
 
 #. Filling up menubar menus
 #. LaTeX menu
-#: ../latex/src/latex.c:2194 ../latex/src/latex.c:2407
+#: ../latex/src/latex.c:2204 ../latex/src/latex.c:2417
 msgid "LaTeX-_Wizard"
 msgstr "Мастер LaTeX"
 
-#: ../latex/src/latex.c:2197 ../latex/src/latex.c:2410
+#: ../latex/src/latex.c:2207 ../latex/src/latex.c:2420
 msgid "Starts a Wizard to easily create LaTeX-documents"
 msgstr "Запуск мастера для простого создания документов LaTeX"
 
-#: ../latex/src/latex.c:2202
+#: ../latex/src/latex.c:2212
 msgid "I_nsert Special Character"
 msgstr "_Вставить специальный символ"
 
-#: ../latex/src/latex.c:2204
+#: ../latex/src/latex.c:2214
 msgid "Helps to use some not very common letters and signs"
 msgstr "Доступ к некоторым не распространённым символам и знаками"
 
-#: ../latex/src/latex.c:2214
+#: ../latex/src/latex.c:2224
 msgid "Insert _Reference"
 msgstr "Вставить _ссылку"
 
-#: ../latex/src/latex.c:2216
+#: ../latex/src/latex.c:2226
 msgid "Inserting references to the document"
 msgstr "Вставка ссылок в документ"
 
-#: ../latex/src/latex.c:2221
+#: ../latex/src/latex.c:2231
 msgid "Insert _Label"
 msgstr "Вставить _метку"
 
-#: ../latex/src/latex.c:2223
+#: ../latex/src/latex.c:2233
 msgid "Helps at inserting labels to a document"
 msgstr "Вставляет метки в документ"
 
-#: ../latex/src/latex.c:2229
+#: ../latex/src/latex.c:2239
 msgid "Insert _Environment"
 msgstr "Вставить _окружение"
 
-#: ../latex/src/latex.c:2231
+#: ../latex/src/latex.c:2241
 msgid "Helps at inserting an environment a document"
 msgstr "Вставляет окружение в документ"
 
-#: ../latex/src/latex.c:2237
+#: ../latex/src/latex.c:2247
 msgid "Insert P_ackage"
 msgstr "Вставить _пакет"
 
-#: ../latex/src/latex.c:2239
+#: ../latex/src/latex.c:2249
 msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr "Небольшой диалог для вставки \\usepackage{} в заголовок текущего файла"
 
-#: ../latex/src/latex.c:2244 ../scope/data/scope.glade.h:58
+#: ../latex/src/latex.c:2254 ../scope/data/scope.glade.h:58
 #: ../scope/data/scope_gtk3.glade.h:58
 msgid "_Format"
 msgstr "_Форматирование"
 
 #. Add font size menu
-#: ../latex/src/latex.c:2261
+#: ../latex/src/latex.c:2271
 msgid "F_ont size"
 msgstr "_Размер шрифта"
 
-#: ../latex/src/latex.c:2279
+#: ../latex/src/latex.c:2289
 msgid "_Special Character Replacement"
 msgstr "_Экранирование специальных символов"
 
-#: ../latex/src/latex.c:2287
+#: ../latex/src/latex.c:2297
 msgid "Bulk _Replace Special Characters"
 msgstr "_Экранировать специальные символы"
 
-#: ../latex/src/latex.c:2289
+#: ../latex/src/latex.c:2299
 msgid "_Replace selected special characters with TeX substitutes"
 msgstr "Экранировать специальные символы TeX в выделении"
 
-#: ../latex/src/latex.c:2297
+#: ../latex/src/latex.c:2307
 msgid "Toggle _Special Character Replacement"
 msgstr "_Переключить экранирование символов"
 
-#: ../latex/src/latex.c:2308
+#: ../latex/src/latex.c:2318
 msgid "Insert _Command"
 msgstr "Вставить _команду"
 
-#: ../latex/src/latex.c:2310
+#: ../latex/src/latex.c:2320
 msgid "Inserting customized command to document"
 msgstr "Вставляет пользовательскую команду в документ"
 
-#: ../latex/src/latex.c:2335
+#: ../latex/src/latex.c:2345
 msgid "_BibTeX"
 msgstr "_BibTeX"
 
-#: ../latex/src/latex.c:2344
+#: ../latex/src/latex.c:2354
 msgid "Insert B_ibTeX reference"
 msgstr "Вставить ссылку B_ibTeX"
 
-#: ../latex/src/latex.c:2346
+#: ../latex/src/latex.c:2356
 msgid "Helps to insert a reference out of BibTeX files"
 msgstr "Вставка ссылок из библиотеки BibTeX"
 
-#: ../latex/src/latex.c:2351
+#: ../latex/src/latex.c:2361
 msgid "_BibTeX entries"
 msgstr "Записи _BibTeX"
 
@@ -4564,11 +4565,11 @@ msgstr "Найти в проекте"
 msgid "Remove File"
 msgstr "Удалить файл"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1706
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1689
 msgid "H_ide Sidebar"
 msgstr "Скрыть боковую панель"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1728
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1708
 msgid "Project"
 msgstr "Проект"
 
@@ -4590,60 +4591,60 @@ msgstr "GeanyPy"
 msgid "Python plugins support"
 msgstr "Поддержка модулей на Python"
 
-#: ../geanyvc/src/geanyvc.c:71
+#: ../geanyvc/src/geanyvc.c:73
 msgid "GeanyVC"
 msgstr "Контроль версий"
 
-#: ../geanyvc/src/geanyvc.c:72
+#: ../geanyvc/src/geanyvc.c:74
 msgid ""
 "Interface to different Version Control systems.\n"
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:498
+#: ../geanyvc/src/geanyvc.c:501
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: ошибка s_spawn_sync: %s"
 
-#: ../geanyvc/src/geanyvc.c:584
+#: ../geanyvc/src/geanyvc.c:587
 #, c-format
 msgid "File %s: action %s executed via %s."
 msgstr "Файл %s: действие %s выполняется через %s."
 
-#: ../geanyvc/src/geanyvc.c:637 ../geanyvc/src/geanyvc.c:648
+#: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated: Невозможно переименовать '%s' в '%s'"
 
-#: ../geanyvc/src/geanyvc.c:674 ../geanyvc/src/geanyvc.c:724
+#: ../geanyvc/src/geanyvc.c:677 ../geanyvc/src/geanyvc.c:727
 msgid "No changes were made."
 msgstr "Изменения не были применены."
 
-#: ../geanyvc/src/geanyvc.c:751
+#: ../geanyvc/src/geanyvc.c:754
 msgid "No history available"
 msgstr "История не доступна"
 
-#: ../geanyvc/src/geanyvc.c:944 ../geanyvc/src/geanyvc.c:952
+#: ../geanyvc/src/geanyvc.c:947 ../geanyvc/src/geanyvc.c:955
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Вы действительно хотите отменить изменения: %s?"
 
-#: ../geanyvc/src/geanyvc.c:960
+#: ../geanyvc/src/geanyvc.c:963
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Вы действительно хотите добавить в репозиторий: %s?"
 
-#: ../geanyvc/src/geanyvc.c:967
+#: ../geanyvc/src/geanyvc.c:970
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Вы действительно хотите удалиь из репозитория: %s?"
 
-#: ../geanyvc/src/geanyvc.c:990
+#: ../geanyvc/src/geanyvc.c:993
 msgid "Do you really want to update?"
 msgstr "Вы действительно хотите обновить из репозитория: %s?"
 
-#: ../geanyvc/src/geanyvc.c:1117
+#: ../geanyvc/src/geanyvc.c:1120
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4658,48 +4659,48 @@ msgstr ""
 "различий в Geany непосредственно используя меню GeanyVC (Базовый каталог -> "
 "Разница)."
 
-#: ../geanyvc/src/geanyvc.c:1266
+#: ../geanyvc/src/geanyvc.c:1274
 msgid "Commit Y/N"
 msgstr "Фиксировать изменения Да/Нет"
 
-#: ../geanyvc/src/geanyvc.c:1276
+#: ../geanyvc/src/geanyvc.c:1284
 msgid "Status"
 msgstr "Статус"
 
-#: ../geanyvc/src/geanyvc.c:1283
+#: ../geanyvc/src/geanyvc.c:1291
 msgid "Path"
 msgstr "Путь"
 
-#: ../geanyvc/src/geanyvc.c:1400
+#: ../geanyvc/src/geanyvc.c:1408
 msgid "Choose a previous commit message"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1431
+#: ../geanyvc/src/geanyvc.c:1470
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Строка: %d позиция: %d"
 
-#: ../geanyvc/src/geanyvc.c:1478
+#: ../geanyvc/src/geanyvc.c:1517
 msgid "Commit"
 msgstr "Фиксировать"
 
-#: ../geanyvc/src/geanyvc.c:1519
+#: ../geanyvc/src/geanyvc.c:1558
 msgid "_De-/select all files"
 msgstr "Все файлы"
 
-#: ../geanyvc/src/geanyvc.c:1563
+#: ../geanyvc/src/geanyvc.c:1602
 msgid "<b>Commit message:</b>"
 msgstr "<b>Комментарий к изменениям:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1587
+#: ../geanyvc/src/geanyvc.c:1626
 msgid "C_ommit"
 msgstr "Ф_иксировать изменения"
 
-#: ../geanyvc/src/geanyvc.c:1693
+#: ../geanyvc/src/geanyvc.c:1734
 msgid "Nothing to commit."
 msgstr "Отсутствуют локальные изменения."
 
-#: ../geanyvc/src/geanyvc.c:1741
+#: ../geanyvc/src/geanyvc.c:1782
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
@@ -4707,11 +4708,11 @@ msgstr ""
 "Ошибка инициализации системы проверки правописания: %s. Проверьте настройки "
 "системы."
 
-#: ../geanyvc/src/geanyvc.c:2044
+#: ../geanyvc/src/geanyvc.c:2125
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "Устанавливать флаг \"изменённый\" для вкладок созданных плагином"
 
-#: ../geanyvc/src/geanyvc.c:2047
+#: ../geanyvc/src/geanyvc.c:2128
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4721,44 +4722,44 @@ msgstr ""
 "как модифицированный. Несмотря на то, что данная опция в некоторых случаях "
 "полезна, она может вызвать большое количество диалогов сохранения файла."
 
-#: ../geanyvc/src/geanyvc.c:2055
+#: ../geanyvc/src/geanyvc.c:2136
 msgid "Confirm adding new files to a VCS"
 msgstr "Подтверждать добавление файлов в репозиторий"
 
-#: ../geanyvc/src/geanyvc.c:2058
+#: ../geanyvc/src/geanyvc.c:2139
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "Показывать диалог подтверждения при добавлении новых файлов в репозиторий"
 
-#: ../geanyvc/src/geanyvc.c:2064
+#: ../geanyvc/src/geanyvc.c:2145
 msgid "Maximize commit dialog"
 msgstr "Разворачивать диалог фиксации изменений"
 
-#: ../geanyvc/src/geanyvc.c:2065
+#: ../geanyvc/src/geanyvc.c:2146
 msgid "Show commit dialog maximize."
 msgstr "Максимизировать диалог фиксации изменений "
 
-#: ../geanyvc/src/geanyvc.c:2071
+#: ../geanyvc/src/geanyvc.c:2152
 msgid "Use external diff viewer"
 msgstr "Использовать внешнюю программу просмотра разницы"
 
-#: ../geanyvc/src/geanyvc.c:2073
+#: ../geanyvc/src/geanyvc.c:2154
 msgid "Use external diff viewer for file diff."
 msgstr "Использовать внешнюю программу просмотра разницы для файла"
 
-#: ../geanyvc/src/geanyvc.c:2079
+#: ../geanyvc/src/geanyvc.c:2160
 msgid "Show VC entries at editor menu"
 msgstr "Показывать пункты системы контроля версий в меню редактора"
 
-#: ../geanyvc/src/geanyvc.c:2081
+#: ../geanyvc/src/geanyvc.c:2162
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Показывать пункты меню системы контроля версий в меню редактора"
 
-#: ../geanyvc/src/geanyvc.c:2086
+#: ../geanyvc/src/geanyvc.c:2167
 msgid "Attach menu to menubar"
 msgstr "Разместить меню на главной панели"
 
-#: ../geanyvc/src/geanyvc.c:2088
+#: ../geanyvc/src/geanyvc.c:2169
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4768,213 +4769,213 @@ msgstr ""
 "непосредственно на главной панели меню Geany. Изменения вступают в силу "
 "только после перезапуска расширения GeanyVC"
 
-#: ../geanyvc/src/geanyvc.c:2096
+#: ../geanyvc/src/geanyvc.c:2177
 msgid "Enable CVS"
 msgstr "Включить CVS"
 
-#: ../geanyvc/src/geanyvc.c:2101
+#: ../geanyvc/src/geanyvc.c:2182
 msgid "Enable GIT"
 msgstr "Включить GIT"
 
-#: ../geanyvc/src/geanyvc.c:2110
+#: ../geanyvc/src/geanyvc.c:2187
 msgid "Enable Fossil"
 msgstr "Включить Fossil"
 
-#: ../geanyvc/src/geanyvc.c:2106
+#: ../geanyvc/src/geanyvc.c:2192
 msgid "Enable SVN"
 msgstr "Включить SVN"
 
-#: ../geanyvc/src/geanyvc.c:2111
+#: ../geanyvc/src/geanyvc.c:2197
 msgid "Enable SVK"
 msgstr "Включить SVK"
 
-#: ../geanyvc/src/geanyvc.c:2116
+#: ../geanyvc/src/geanyvc.c:2202
 msgid "Enable Bazaar"
 msgstr "Включить Bazaar"
 
-#: ../geanyvc/src/geanyvc.c:2121
+#: ../geanyvc/src/geanyvc.c:2207
 msgid "Enable Mercurial"
 msgstr "Включить Mercurial"
 
-#: ../geanyvc/src/geanyvc.c:2127
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Spellcheck language"
 msgstr "Язык проверки орфографии"
-
-#: ../geanyvc/src/geanyvc.c:2237
-msgid "_VC file Actions"
-msgstr "Контроль версий"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2243 ../geanyvc/src/geanyvc.c:2320
-#: ../geanyvc/src/geanyvc.c:2360
+#: ../geanyvc/src/geanyvc.c:2342 ../geanyvc/src/geanyvc.c:2437
+#: ../geanyvc/src/geanyvc.c:2477
 msgid "_Diff"
 msgstr "_Разница"
 
-#: ../geanyvc/src/geanyvc.c:2246
+#: ../geanyvc/src/geanyvc.c:2345
 msgid "Make a diff from the current active file"
 msgstr "Показать разницу для текущего файла"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2251 ../geanyvc/src/geanyvc.c:2329
-#: ../geanyvc/src/geanyvc.c:2368
+#: ../geanyvc/src/geanyvc.c:2350 ../geanyvc/src/geanyvc.c:2446
+#: ../geanyvc/src/geanyvc.c:2485
 msgid "_Revert"
 msgstr "Отменить изменения"
 
-#: ../geanyvc/src/geanyvc.c:2254
+#: ../geanyvc/src/geanyvc.c:2353
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr "Восстановить файл из рабочей копии (отмена локальных изменений)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2263
+#: ../geanyvc/src/geanyvc.c:2362
 msgid "_Blame"
 msgstr "_Изменения"
 
-#: ../geanyvc/src/geanyvc.c:2266
+#: ../geanyvc/src/geanyvc.c:2365
 msgid "Shows the changes made at one file per revision and author."
 msgstr "Показать изменения сделанные в файле по номеру ревизии и автору."
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2273 ../geanyvc/src/geanyvc.c:2339
-#: ../geanyvc/src/geanyvc.c:2380
+#: ../geanyvc/src/geanyvc.c:2372 ../geanyvc/src/geanyvc.c:2456
+#: ../geanyvc/src/geanyvc.c:2497
 msgid "_History (log)"
 msgstr "_История"
 
-#: ../geanyvc/src/geanyvc.c:2276
+#: ../geanyvc/src/geanyvc.c:2375
 msgid "Shows the log of the current file"
 msgstr "Показать лог для текущего файла"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2281
+#: ../geanyvc/src/geanyvc.c:2380
 msgid "_Original"
 msgstr "_Оригинал"
 
-#: ../geanyvc/src/geanyvc.c:2284
+#: ../geanyvc/src/geanyvc.c:2383
 msgid "Shows the original of the current file"
 msgstr "Показать оригинальный файл из рабочей копии"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2292
+#: ../geanyvc/src/geanyvc.c:2391
 msgid "_Add to Version Control"
 msgstr "Добавить в репозиторий"
 
-#: ../geanyvc/src/geanyvc.c:2294
+#: ../geanyvc/src/geanyvc.c:2393
 msgid "Add file to repository."
 msgstr "Добавить файл в репозиторий"
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2300
+#: ../geanyvc/src/geanyvc.c:2399
 msgid "_Remove from Version Control"
 msgstr "Удалить из репозитория"
 
-#: ../geanyvc/src/geanyvc.c:2302
+#: ../geanyvc/src/geanyvc.c:2401
 msgid "Remove file from repository."
 msgstr "Удалить файл из репозитория"
 
-#: ../geanyvc/src/geanyvc.c:2317
+#: ../geanyvc/src/geanyvc.c:2434
 msgid "_Directory"
 msgstr "_Каталог"
 
-#: ../geanyvc/src/geanyvc.c:2323
+#: ../geanyvc/src/geanyvc.c:2440
 msgid "Make a diff from the directory of the current active file"
 msgstr "Показать разницу для каталога текущего файла"
 
-#: ../geanyvc/src/geanyvc.c:2332
+#: ../geanyvc/src/geanyvc.c:2449
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr "Восстановить файлы в текущем каталоге из рабочей копии"
 
-#: ../geanyvc/src/geanyvc.c:2342
+#: ../geanyvc/src/geanyvc.c:2459
 msgid "Shows the log of the current directory"
 msgstr "Показать лог для текущего каталога"
 
-#: ../geanyvc/src/geanyvc.c:2356
+#: ../geanyvc/src/geanyvc.c:2473
 msgid "_Base Directory"
 msgstr "_Базовый каталог"
 
-#: ../geanyvc/src/geanyvc.c:2362
+#: ../geanyvc/src/geanyvc.c:2479
 msgid "Make a diff from the top VC directory"
 msgstr "Показать разницу для корневого каталога рабочей копии"
 
-#: ../geanyvc/src/geanyvc.c:2370
+#: ../geanyvc/src/geanyvc.c:2487
 msgid "Revert any local edits."
 msgstr "Отменить все локальные изменения."
 
-#: ../geanyvc/src/geanyvc.c:2383
+#: ../geanyvc/src/geanyvc.c:2500
 msgid "Shows the log of the top VC directory"
 msgstr "Показать лог для корневого каталога рабочей копии"
 
-#: ../geanyvc/src/geanyvc.c:2409
+#: ../geanyvc/src/geanyvc.c:2517
+msgid "_VC file Actions"
+msgstr "Контроль версий"
+
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "VC _Commit"
 msgstr "Фиксировать изменения"
 
-#: ../geanyvc/src/geanyvc.c:2444
+#: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
 msgstr "Показать разницу для файла"
 
-#: ../geanyvc/src/geanyvc.c:2446
+#: ../geanyvc/src/geanyvc.c:2572
 msgid "Show diff of directory"
 msgstr "Показать разницу для каталога"
 
-#: ../geanyvc/src/geanyvc.c:2448
+#: ../geanyvc/src/geanyvc.c:2574
 msgid "Show diff of basedir"
 msgstr "Показать разницу для корневого каталога"
 
-#: ../geanyvc/src/geanyvc.c:2451
+#: ../geanyvc/src/geanyvc.c:2577
 msgid "Commit changes"
 msgstr "Фиксировать локальные изменения"
 
-#: ../geanyvc/src/geanyvc.c:2453
+#: ../geanyvc/src/geanyvc.c:2579
 msgid "Show status"
 msgstr "Показать статус"
 
-#: ../geanyvc/src/geanyvc.c:2455
+#: ../geanyvc/src/geanyvc.c:2581
 msgid "Revert single file"
 msgstr "Отменить изменения для файла"
 
-#: ../geanyvc/src/geanyvc.c:2457
+#: ../geanyvc/src/geanyvc.c:2583
 msgid "Revert directory"
 msgstr "Отменить изменения для каталога"
 
-#: ../geanyvc/src/geanyvc.c:2459
+#: ../geanyvc/src/geanyvc.c:2585
 msgid "Revert base directory"
 msgstr "Отменить изменения для корневого каталога"
 
-#: ../geanyvc/src/geanyvc.c:2461
+#: ../geanyvc/src/geanyvc.c:2587
 msgid "Update file"
 msgstr "Обновить файл"
 
-#: ../geanyvc/src/geanyvc.c:2491
+#: ../geanyvc/src/geanyvc.c:2617
 msgid "_VC"
 msgstr "Контроль версий"
 
-#: ../geanyvc/src/geanyvc.c:2498
+#: ../geanyvc/src/geanyvc.c:2624
 msgid "_Version Control"
 msgstr "Контроль версий"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2520
+#: ../geanyvc/src/geanyvc.c:2646
 msgid "_Status"
 msgstr "_Статус"
 
-#: ../geanyvc/src/geanyvc.c:2522
+#: ../geanyvc/src/geanyvc.c:2648
 msgid "Show status."
 msgstr "Показать статус."
 
-#: ../geanyvc/src/geanyvc.c:2529
+#: ../geanyvc/src/geanyvc.c:2655
 msgid "Update from remote repository."
 msgstr "Обновить из репозитория."
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2534
+#: ../geanyvc/src/geanyvc.c:2660
 msgid "_Commit"
 msgstr "Ф_иксировать"
 
-#: ../geanyvc/src/geanyvc.c:2536
+#: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."
 msgstr "Фиксировать локальные изменения"
 
@@ -5644,17 +5645,32 @@ msgstr ""
 msgid "Overlay"
 msgstr "Затемнение"
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:40
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:43
 msgid "Pair Tag Highlighter"
 msgstr "Подсветка парных тегов"
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:41
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:44
 msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr "Находит и подсвечивает парные HTML-теги"
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:440
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:490
+#, fuzzy
+msgid "Goto Matching XML Tag"
+msgstr "Выделить до парной скобки"
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:491
+#, fuzzy
+msgid "Select Matching XML Tag"
+msgstr "Выделить до парной скобки"
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:502
 #, fuzzy
 msgid "Go To Matching Tag"
+msgstr "Выделить до парной скобки"
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
+#, fuzzy
+msgid "Select To Matching Tag"
 msgstr "Выделить до парной скобки"
 
 #: ../pohelper/data/menus.ui.h:1
@@ -5940,47 +5956,51 @@ msgid ""
 msgstr ""
 "Дерево файлов, индексирование, поиск и навигация в проектах (бывш. GProject)"
 
-#: ../projectorganizer/src/prjorg-menu.c:385
+#: ../projectorganizer/src/prjorg-menu.c:383
 msgid "Find in Project Files..."
 msgstr "Найти в файлах проекта..."
 
-#: ../projectorganizer/src/prjorg-menu.c:391
+#: ../projectorganizer/src/prjorg-menu.c:387
 msgid "Find in project files"
 msgstr "Найти в файлах проекта"
 
-#: ../projectorganizer/src/prjorg-menu.c:395
+#: ../projectorganizer/src/prjorg-menu.c:389
 msgid "Find Project File..."
 msgstr "Найти файл проекта..."
 
-#: ../projectorganizer/src/prjorg-menu.c:401
+#: ../projectorganizer/src/prjorg-menu.c:393
 msgid "Find project file"
 msgstr "Найти файл проекта"
 
-#: ../projectorganizer/src/prjorg-menu.c:405
+#: ../projectorganizer/src/prjorg-menu.c:395
 msgid "Find Project Symbol..."
 msgstr "Найти символ проекта..."
 
-#: ../projectorganizer/src/prjorg-menu.c:411
+#: ../projectorganizer/src/prjorg-menu.c:399
 msgid "Find project symbol"
 msgstr "Найти символ проекта"
 
-#: ../projectorganizer/src/prjorg-menu.c:413
+#: ../projectorganizer/src/prjorg-menu.c:401
 msgid "Swap Header/Source"
 msgstr "Переключить Заголовок/Реализацию"
 
-#: ../projectorganizer/src/prjorg-menu.c:418
+#: ../projectorganizer/src/prjorg-menu.c:406
 msgid "Swap header/source"
 msgstr "Переключить заголовок/реализацию"
 
-#: ../projectorganizer/src/prjorg-menu.c:424
+#: ../projectorganizer/src/prjorg-menu.c:409
+msgid "Focus Project Sidebar"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-menu.c:415
 msgid "Open Selected File (Project Organizer)"
 msgstr "Открыть выбранный файл (органайзер проектов)"
 
-#: ../projectorganizer/src/prjorg-project.c:586
+#: ../projectorganizer/src/prjorg-project.c:604
 msgid "Source patterns:"
 msgstr "Шаблоны файлов с исходным текстом:"
 
-#: ../projectorganizer/src/prjorg-project.c:592
+#: ../projectorganizer/src/prjorg-project.c:610
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -5988,11 +6008,11 @@ msgstr ""
 "Разделённый пробелами список шаблонов для определения файлов с исходным "
 "текстом. Нужно для переключения исходник/заголовок."
 
-#: ../projectorganizer/src/prjorg-project.c:598
+#: ../projectorganizer/src/prjorg-project.c:616
 msgid "Header patterns:"
 msgstr "Шаблоны заголовочных файлов:"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:622
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -6000,11 +6020,11 @@ msgstr ""
 "Разделённый пробелами список шаблонов для определения заголовочных файлов. "
 "Нужно для переключения исходник/заголовок."
 
-#: ../projectorganizer/src/prjorg-project.c:610 ../workbench/src/dialogs.c:396
+#: ../projectorganizer/src/prjorg-project.c:628 ../workbench/src/dialogs.c:396
 msgid "Ignored file patterns:"
 msgstr "Шаблоны игнорируемых файлов:"
 
-#: ../projectorganizer/src/prjorg-project.c:616
+#: ../projectorganizer/src/prjorg-project.c:634
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -6012,11 +6032,11 @@ msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
 "файлов, не отображаемых в дереве файлов проекта."
 
-#: ../projectorganizer/src/prjorg-project.c:622 ../workbench/src/dialogs.c:422
+#: ../projectorganizer/src/prjorg-project.c:640 ../workbench/src/dialogs.c:422
 msgid "Ignored directory patterns:"
 msgstr "Игнорируемые шаблоны каталогов:"
 
-#: ../projectorganizer/src/prjorg-project.c:628
+#: ../projectorganizer/src/prjorg-project.c:646
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -6024,33 +6044,10 @@ msgstr ""
 "Разделённый пробелами список шаблонов, которые используются для определения "
 "каталогов, не просматриваемых на предмет наличия файлов проекта."
 
-#: ../projectorganizer/src/prjorg-project.c:634
-msgid "Index all project files:"
-msgstr "Индексировать все файлы проекта:"
-
-#: ../projectorganizer/src/prjorg-project.c:637
-msgid "Auto (index if less than 300 files)"
-msgstr "Автоматически (индексировать, если файлов не более 300)"
-
-#: ../projectorganizer/src/prjorg-project.c:638
-msgid "Yes"
-msgstr "Да"
-
-#: ../projectorganizer/src/prjorg-project.c:639
-msgid "No"
-msgstr "Нет"
-
-#: ../projectorganizer/src/prjorg-project.c:643
+#: ../projectorganizer/src/prjorg-project.c:655
+#, fuzzy
 msgid ""
-"Generate symbol list for all project files instead of only for the currently "
-"opened files. Might be slow for big projects."
-msgstr ""
-"Генерировать список символов для всех файлов проекта, а не только для "
-"открытых. Может работать медленно для больших проектов."
-
-#: ../projectorganizer/src/prjorg-project.c:649
-msgid ""
-"Note: the patterns above affect only the sidebar and are not used in the "
+"The patterns above affect only sidebar and indexing and are not used in the "
 "Find in Files\n"
 "dialog. You can further restrict the files belonging to the project by "
 "setting the\n"
@@ -6063,6 +6060,46 @@ msgstr ""
 "проекта, устанавливая\n"
 "шаблоны на вкладке \"Проект\", которые также используются в диалоге \"Найти "
 "в файлах\"."
+
+#: ../projectorganizer/src/prjorg-project.c:663
+#, fuzzy
+msgid "<b>Various</b>"
+msgstr "<b>Значения</b>"
+
+#: ../projectorganizer/src/prjorg-project.c:668
+msgid "Show empty directories in sidebar"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-project.c:671
+msgid ""
+"Whether to show empty directories in the sidebar or not. Showing empty "
+"directories is useful when using file operations from the context menu, e.g. "
+"to create a new file in the directory."
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-project.c:681
+msgid "Index all project files:"
+msgstr "Индексировать все файлы проекта:"
+
+#: ../projectorganizer/src/prjorg-project.c:684
+msgid "Auto (index if less than 300 files)"
+msgstr "Автоматически (индексировать, если файлов не более 300)"
+
+#: ../projectorganizer/src/prjorg-project.c:685
+msgid "Yes"
+msgstr "Да"
+
+#: ../projectorganizer/src/prjorg-project.c:686
+msgid "No"
+msgstr "Нет"
+
+#: ../projectorganizer/src/prjorg-project.c:689
+msgid ""
+"Generate symbol list for all project files instead of only for the currently "
+"opened files. Might be slow for big projects."
+msgstr ""
+"Генерировать список символов для всех файлов проекта, а не только для "
+"открытых. Может работать медленно для больших проектов."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:128
 msgid "Find File"
@@ -6166,66 +6203,66 @@ msgstr "Тип соответствия:"
 msgid "Set file patterns under Project->Properties"
 msgstr "Установить шаблоны файлов в Проект->Свойства"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1523
+#: ../projectorganizer/src/prjorg-sidebar.c:1542
 msgid "Reload all"
 msgstr "Перезагрузить всё"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1532
+#: ../projectorganizer/src/prjorg-sidebar.c:1551
 msgid "Add external directory"
 msgstr "Добавить внешний каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1542
+#: ../projectorganizer/src/prjorg-sidebar.c:1561
 msgid "Expand all"
 msgstr "Развернуть всё"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1549
+#: ../projectorganizer/src/prjorg-sidebar.c:1568
 msgid "Collapse to project root"
 msgstr "Свернуть в корень проекта"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1560
+#: ../projectorganizer/src/prjorg-sidebar.c:1579
 msgid "Follow active editor"
 msgstr "Следовать пути активного документа"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1606
+#: ../projectorganizer/src/prjorg-sidebar.c:1625
 msgid "Open a project to start using the plugin"
 msgstr "Откройте проект, чтобы начать использовать дополнение"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1615
+#: ../projectorganizer/src/prjorg-sidebar.c:1632
 msgid "Expand All"
 msgstr "Развернуть всё"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1624
+#: ../projectorganizer/src/prjorg-sidebar.c:1637
 msgid "Find in Files..."
 msgstr "Найти в файлах..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1633
+#: ../projectorganizer/src/prjorg-sidebar.c:1642
 msgid "Find File..."
 msgstr "Найти файл..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1642
+#: ../projectorganizer/src/prjorg-sidebar.c:1647
 msgid "Find Symbol..."
 msgstr "Найти символ..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1655
+#: ../projectorganizer/src/prjorg-sidebar.c:1656
 msgid "Remove External Directory"
 msgstr "Удалить внешний каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1668
+#: ../projectorganizer/src/prjorg-sidebar.c:1665
 #, fuzzy
 msgid "New File..."
 msgstr "Новый файл"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1677
+#: ../projectorganizer/src/prjorg-sidebar.c:1670
 #, fuzzy
 msgid "New Directory..."
 msgstr "Новый каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1686
+#: ../projectorganizer/src/prjorg-sidebar.c:1675
 #, fuzzy
 msgid "Rename..."
 msgstr "Переименовать"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1695
+#: ../projectorganizer/src/prjorg-sidebar.c:1680
 msgid "Delete"
 msgstr "Удалить"
 

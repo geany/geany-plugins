@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-22 11:56+0200\n"
+"POT-Creation-Date: 2020-10-11 21:32+0200\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -42,7 +42,7 @@ msgid "Bookmarks"
 msgstr "ブックマーク"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2527
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2653
 msgid "_Update"
 msgstr "更新(_U)"
 
@@ -161,10 +161,10 @@ msgstr ""
 msgid "Copy the file path of the current document to the clipboard"
 msgstr "現在の文書の綴りを検査"
 
-#: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:876
+#: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:1973 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2053 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
 #: ../treebrowser/src/treebrowser.c:2103
@@ -297,92 +297,92 @@ msgstr "アドオン"
 msgid "Various small addons for Geany."
 msgstr "Geanyむけのアドオン集"
 
-#: ../autoclose/src/autoclose.c:1032
+#: ../autoclose/src/autoclose.c:1076
 msgid "Auto-close quotes and brackets"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1033
+#: ../autoclose/src/autoclose.c:1077
 msgid "Parenthesis ( )"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1034
+#: ../autoclose/src/autoclose.c:1078
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1036
+#: ../autoclose/src/autoclose.c:1080
 msgid "Curly brackets { }"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1037
+#: ../autoclose/src/autoclose.c:1081
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1039
+#: ../autoclose/src/autoclose.c:1083
 msgid "Square brackets [ ]"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1040
+#: ../autoclose/src/autoclose.c:1084
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1041
+#: ../autoclose/src/autoclose.c:1085
 msgid "Angular brackets < >"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1042
+#: ../autoclose/src/autoclose.c:1086
 msgid "Auto-close angular brackets \"<\" -> \"<|>\""
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1044
+#: ../autoclose/src/autoclose.c:1088
 msgid "\tOnly for HTML"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1045
+#: ../autoclose/src/autoclose.c:1089
 msgid "Auto-close angular brackets only in HTML documents"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1046
+#: ../autoclose/src/autoclose.c:1090
 msgid "Double quotes \" \""
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1047
+#: ../autoclose/src/autoclose.c:1091
 msgid "Auto-close double quotes \" -> \"|\""
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1048
+#: ../autoclose/src/autoclose.c:1092
 msgid "Single quotes ' '"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1049
+#: ../autoclose/src/autoclose.c:1093
 msgid "Auto-close single quotes ' -> '|'"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1050
+#: ../autoclose/src/autoclose.c:1094
 msgid "Backquote ` `"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1051
+#: ../autoclose/src/autoclose.c:1095
 msgid "Auto-close backquote ` -> `|`"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1053
+#: ../autoclose/src/autoclose.c:1097
 msgid "\tOnly for Shell-scripts (Bash)"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1054
+#: ../autoclose/src/autoclose.c:1098
 msgid "Auto-close backquote only in Shell-scripts like Bash"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1056
+#: ../autoclose/src/autoclose.c:1100
 msgid "Improve curly brackets completion"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1057
+#: ../autoclose/src/autoclose.c:1101
 #, fuzzy
 msgid "Indent when enclosing"
 msgstr "コードページなし"
 
-#: ../autoclose/src/autoclose.c:1058
+#: ../autoclose/src/autoclose.c:1102
 msgid ""
 "If you select some text and press \"{\" or \"}\", plugin will auto-close "
 "selected lines and make new block with indent.\n"
@@ -390,136 +390,136 @@ msgid ""
 "account only lines."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1063
+#: ../autoclose/src/autoclose.c:1107
 #, fuzzy
 msgid "Move cursor to beginning"
 msgstr "カーソルを行の終わりに移動"
 
-#: ../autoclose/src/autoclose.c:1064
+#: ../autoclose/src/autoclose.c:1108
 msgid ""
 "If you checked \"Indent when enclosing\", moving cursor to beginning may be "
 "useful: usually you make new block and need to create new statement before "
 "this block."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1067
+#: ../autoclose/src/autoclose.c:1111
 #, fuzzy
 msgid "Improved auto-indentation"
 msgstr "ブラウザの方向"
 
-#: ../autoclose/src/autoclose.c:1068
+#: ../autoclose/src/autoclose.c:1112
 msgid ""
 "Improved auto-indent for curly brackets: type \"{\" and then press Enter - "
 "plugin will create full indented block. Works without \"auto-close { }\" "
 "checkbox."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1071
+#: ../autoclose/src/autoclose.c:1115
 msgid "\tWhitesmith's style"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1072
+#: ../autoclose/src/autoclose.c:1116
 msgid ""
 "This style puts the brace associated with a control statement on the next "
 "line, indented. Statements within the braces are indented to the same level "
 "as the braces."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1077
+#: ../autoclose/src/autoclose.c:1121
 msgid "Delete pairing character while backspacing first"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1078
+#: ../autoclose/src/autoclose.c:1122
 msgid "Check if you want to delete pairing bracket by pressing BackSpace."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1080
+#: ../autoclose/src/autoclose.c:1124
 #, fuzzy
 msgid "Suppress double-completion"
 msgstr "自動補完モード"
 
-#: ../autoclose/src/autoclose.c:1081
+#: ../autoclose/src/autoclose.c:1125
 msgid ""
 "Check if you want to allow editor automatically fix mistypes with brackets: "
 "if you type \"{}\" you will get \"{}\", not \"{}}\"."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1083
+#: ../autoclose/src/autoclose.c:1127
 #, fuzzy
 msgid "Enclose selections"
 msgstr "選択を解除"
 
-#: ../autoclose/src/autoclose.c:1084
+#: ../autoclose/src/autoclose.c:1128
 msgid "Automatically enclose selected text by pressing just one bracket key."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1086
+#: ../autoclose/src/autoclose.c:1130
 #, fuzzy
 msgid "Keep selection when enclosing"
 msgstr "レベルを下げる"
 
-#: ../autoclose/src/autoclose.c:1087
+#: ../autoclose/src/autoclose.c:1131
 msgid "Keep your previously selected text after enclosing."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1089
+#: ../autoclose/src/autoclose.c:1133
 msgid "Behaviour inside comments and strings"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1090
+#: ../autoclose/src/autoclose.c:1134
 msgid "Allow auto-closing in strings and comments"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1091
+#: ../autoclose/src/autoclose.c:1135
 msgid "Check if you want to keep auto-closing inside strings and comments too."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1092
+#: ../autoclose/src/autoclose.c:1136
 #, fuzzy
 msgid "Enclose selections in strings and comments"
 msgstr "定義可能なキー入力によって選択したものに括弧をつける"
 
-#: ../autoclose/src/autoclose.c:1093
+#: ../autoclose/src/autoclose.c:1137
 msgid ""
 "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1096
+#: ../autoclose/src/autoclose.c:1140
 msgid "Auto-complete \";\" for functions"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1097
+#: ../autoclose/src/autoclose.c:1141
 msgid ""
 "Full function auto-closing (works only for C/C++): type \"sin(\" and you "
 "will get \"sin(|);\"."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1099
+#: ../autoclose/src/autoclose.c:1143
 msgid "Shift+BackSpace removes pairing brace too"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1100
+#: ../autoclose/src/autoclose.c:1144
 msgid ""
 "Remove left and right brace while pressing Shift+BackSpace.\n"
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
 "last \"}\"."
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1103
+#: ../autoclose/src/autoclose.c:1147
 msgid "Jump on Tab to enclosed char"
 msgstr ""
 
-#: ../autoclose/src/autoclose.c:1104
+#: ../autoclose/src/autoclose.c:1148
 msgid "Jump behind autoclosed items on Tab press."
 msgstr ""
 
 #. Set metadata
-#: ../autoclose/src/autoclose.c:1160
+#: ../autoclose/src/autoclose.c:1204
 #, fuzzy
 msgid "Auto-close"
 msgstr "自動"
 
-#: ../autoclose/src/autoclose.c:1161
+#: ../autoclose/src/autoclose.c:1205
 msgid "Auto-close braces and brackets with lot of features"
 msgstr ""
 
@@ -987,7 +987,7 @@ msgid "Book:"
 msgstr "書籍:"
 
 #. i18n: a documentation book
-#: ../devhelp/devhelp/dh-link.c:255 ../latex/src/latex.c:1836
+#: ../devhelp/devhelp/dh-link.c:255 ../latex/src/latex.c:1846
 msgid "Book"
 msgstr "書籍"
 
@@ -1115,7 +1115,8 @@ msgstr "translator_credits"
 msgid "A developers' help browser for GNOME"
 msgstr "GNOMEの開発者向けヘルプブラウザ"
 
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2239
+#. Create the current file Submenu
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
 msgid "_File"
 msgstr "ファイル(_F)"
 
@@ -1347,7 +1348,7 @@ msgid ""
 "contributing to this plugin?"
 msgstr ""
 
-#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:439
+#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:442
 msgid "Could not parse the output of command"
 msgstr "コマンド出力を解析できません"
 
@@ -2294,80 +2295,80 @@ msgstr "LaTeXで自動補完を常に実行"
 msgid "Modus of autocompletion"
 msgstr "自動補完モード"
 
-#: ../latex/src/latex.c:885
+#: ../latex/src/latex.c:895
 msgid "Insert Label"
 msgstr "ラベルを挿入"
 
-#: ../latex/src/latex.c:887
+#: ../latex/src/latex.c:897
 msgid "Label name:"
 msgstr "ラベル名:"
 
-#: ../latex/src/latex.c:909
+#: ../latex/src/latex.c:919
 msgid "Insert Command"
 msgstr "コマンドを挿入"
 
-#: ../latex/src/latex.c:911
+#: ../latex/src/latex.c:921
 msgid "Command name:"
 msgstr "コマンド名:"
 
-#: ../latex/src/latex.c:954
+#: ../latex/src/latex.c:964
 msgid "Insert Reference"
 msgstr "参照を挿入"
 
-#: ../latex/src/latex.c:967
+#: ../latex/src/latex.c:977
 msgid "Reference name:"
 msgstr "参照名:"
 
-#: ../latex/src/latex.c:992
+#: ../latex/src/latex.c:1002
 msgid "_Standard Reference"
 msgstr "標準参照(_S)"
 
-#: ../latex/src/latex.c:997
+#: ../latex/src/latex.c:1007
 msgid "_Page Reference"
 msgstr "ページ参照(_P)"
 
-#: ../latex/src/latex.c:1002
+#: ../latex/src/latex.c:1012
 msgid "_Add both"
 msgstr "両方追加(_A)"
 
-#: ../latex/src/latex.c:1199
+#: ../latex/src/latex.c:1209
 msgid "More"
 msgstr "詳細"
 
-#: ../latex/src/latex.c:1255
+#: ../latex/src/latex.c:1265
 msgid "Add additional package"
 msgstr "補助パッケージを追加"
 
-#: ../latex/src/latex.c:1268
+#: ../latex/src/latex.c:1278
 msgid "Package name:"
 msgstr "パッケージ名:"
 
-#: ../latex/src/latex.c:1271
+#: ../latex/src/latex.c:1281
 msgid "Package options:"
 msgstr "パッケージオプション:"
 
-#: ../latex/src/latex.c:1319
+#: ../latex/src/latex.c:1329
 msgid "Insert BibTeX Reference"
 msgstr "BibTeX 参照を挿入"
 
-#: ../latex/src/latex.c:1332
+#: ../latex/src/latex.c:1342
 msgid "BibTeX reference name:"
 msgstr "BibTeX 参照名:"
 
-#: ../latex/src/latex.c:1756
+#: ../latex/src/latex.c:1766
 msgid "Dear Sir or Madame"
 msgstr "敬称の書出し(Dear Sir や Madameなど)"
 
-#: ../latex/src/latex.c:1757
+#: ../latex/src/latex.c:1767
 msgid "With kind regards"
 msgstr "文末の定型句(regardsなど)"
 
-#: ../latex/src/latex.c:1765
+#: ../latex/src/latex.c:1775
 msgid "No template assigned. Aborting"
 msgstr "テンプレートが割り当てられていません。終了します"
 
 #. Building the wizard-dialog and showing it
-#: ../latex/src/latex.c:1792
+#: ../latex/src/latex.c:1802
 msgid "LaTeX-Wizard"
 msgstr "LaTeXウィザード"
 
@@ -2375,78 +2376,78 @@ msgstr "LaTeXウィザード"
 #. *  Adds custom templates if there are any. If there are none just
 #. *  adds default one
 #. TEMPLATE FILE
-#: ../latex/src/latex.c:1807 ../markdown/src/conf.c:659
+#: ../latex/src/latex.c:1817 ../markdown/src/conf.c:659
 msgid "Template:"
 msgstr "テンプレート:"
 
-#: ../latex/src/latex.c:1811
+#: ../latex/src/latex.c:1821
 msgid "Set the template which should be used for creating the new document"
 msgstr "新規文書を作成するのに使用されるテンプレートを設定"
 
-#: ../latex/src/latex.c:1820
+#: ../latex/src/latex.c:1830
 msgid "Default"
 msgstr "標準"
 
 #. Documentclass
-#: ../latex/src/latex.c:1831
+#: ../latex/src/latex.c:1841
 msgid "Documentclass:"
 msgstr "文書クラス:"
 
-#: ../latex/src/latex.c:1834
+#: ../latex/src/latex.c:1844
 msgid "Choose the kind of document you want to write"
 msgstr "作成する文書の種類を選択"
 
-#: ../latex/src/latex.c:1838
+#: ../latex/src/latex.c:1848
 msgid "Article"
 msgstr "論文"
 
-#: ../latex/src/latex.c:1840
+#: ../latex/src/latex.c:1850
 msgid "Report"
 msgstr "レポート"
 
-#: ../latex/src/latex.c:1842
+#: ../latex/src/latex.c:1852
 msgid "Letter"
 msgstr "手紙"
 
-#: ../latex/src/latex.c:1844
+#: ../latex/src/latex.c:1854
 msgid "Presentation"
 msgstr "プレゼンテーション"
 
 #. Encoding
-#: ../latex/src/latex.c:1854
+#: ../latex/src/latex.c:1864
 msgid "Encoding:"
 msgstr "エンコード方法:"
 
-#: ../latex/src/latex.c:1858
+#: ../latex/src/latex.c:1868
 msgid "Set the encoding for your new document"
 msgstr "新規文書のエンコード方法を設定"
 
 #. fontsize
-#: ../latex/src/latex.c:1874
+#: ../latex/src/latex.c:1884
 msgid "Font size"
 msgstr "フォントサイズ:"
 
-#: ../latex/src/latex.c:1880
+#: ../latex/src/latex.c:1890
 msgid "Set the default font size of your new document"
 msgstr "新規文書の標準フォントサイズを設定"
 
 #. Author
-#: ../latex/src/latex.c:1892
+#: ../latex/src/latex.c:1902
 msgid "Author:"
 msgstr "著者:"
 
-#: ../latex/src/latex.c:1895
+#: ../latex/src/latex.c:1905
 msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
 msgstr "\\author コマンドの値を設定。通常あなたの氏名を設定します。"
 
 #. Date
-#: ../latex/src/latex.c:1909
+#: ../latex/src/latex.c:1919
 msgid "Date:"
 msgstr "日付:"
 
-#: ../latex/src/latex.c:1912
+#: ../latex/src/latex.c:1922
 msgid ""
 "Sets the value of the \\date command inside header of your new created LaTeX-"
 "document. Keeping it at \\today is a good decision if you don't need any "
@@ -2456,37 +2457,37 @@ msgstr ""
 "定にしたくないときは、\\todayのままにしておくのがよいでしょう。"
 
 #. Title of the new document
-#: ../latex/src/latex.c:1924
+#: ../latex/src/latex.c:1934
 msgid "Title:"
 msgstr "題名:"
 
-#: ../latex/src/latex.c:1927
+#: ../latex/src/latex.c:1937
 msgid "Sets the title of your new document."
 msgstr "新規文書の題名を設定します。"
 
 #. Papersize
-#: ../latex/src/latex.c:1936
+#: ../latex/src/latex.c:1946
 msgid "Paper size:"
 msgstr "用紙サイズ:"
 
-#: ../latex/src/latex.c:1939
+#: ../latex/src/latex.c:1949
 msgid "Choose the paper format for the newly created document"
 msgstr "新規文書の用紙を選択"
 
 #. Paper direction
-#: ../latex/src/latex.c:1952
+#: ../latex/src/latex.c:1962
 msgid "Paper Orientation:"
 msgstr "用紙の向き"
 
-#: ../latex/src/latex.c:1955
+#: ../latex/src/latex.c:1965
 msgid "Choose the paper orientation for the newly created document"
 msgstr "新規文書の用紙の向きを選択"
 
-#: ../latex/src/latex.c:1976
+#: ../latex/src/latex.c:1986
 msgid "Use KOMA-script classes if possible"
 msgstr "可能であれば、KOMAスクリプトクラスを使用してください。"
 
-#: ../latex/src/latex.c:1978
+#: ../latex/src/latex.c:1988
 msgid ""
 "Uses the KOMA-script classes by Markus Kohm.\n"
 "Keep in mind: To compile your document these classes have to be installed "
@@ -2496,106 +2497,106 @@ msgstr ""
 "使用の注意: あなたの文書をコンパイルするには、これらのクラスを事前にインス"
 "トールする必要があります。"
 
-#: ../latex/src/latex.c:1985
+#: ../latex/src/latex.c:1995
 msgid "Use draft mode"
 msgstr "草稿モードを使用"
 
-#: ../latex/src/latex.c:1987
+#: ../latex/src/latex.c:1997
 msgid ""
 "Set the draft flag inside new created documents to get documents with a "
 "number of debugging helpers"
 msgstr ""
 "新規文書に草稿フラグを設定し、デバッグヘルパーを使用した文書を作成します。"
 
-#: ../latex/src/latex.c:2004
+#: ../latex/src/latex.c:2014
 msgid "Run LaTeX-Wizard"
 msgstr "LaTeXウィザードを実行"
 
-#: ../latex/src/latex.c:2006
+#: ../latex/src/latex.c:2016
 msgid "Insert \\label"
 msgstr "ラベル(\\label)を挿入"
 
-#: ../latex/src/latex.c:2008
+#: ../latex/src/latex.c:2018
 msgid "Insert \\ref"
 msgstr "参照(\\ref)を挿入"
 
-#: ../latex/src/latex.c:2010
+#: ../latex/src/latex.c:2020
 msgid "Insert linebreak \\\\ "
 msgstr "改行(\\\\)を挿入 "
 
-#: ../latex/src/latex.c:2013
+#: ../latex/src/latex.c:2023
 msgid "Insert command"
 msgstr "コマンドを挿入"
 
-#: ../latex/src/latex.c:2015
+#: ../latex/src/latex.c:2025
 msgid "Turn input replacement on/off"
 msgstr "入力置き換えのOn/Off"
 
-#: ../latex/src/latex.c:2019
+#: ../latex/src/latex.c:2029
 msgid "Replace special characters"
 msgstr "特殊文字の置き換え"
 
-#: ../latex/src/latex.c:2022
+#: ../latex/src/latex.c:2032
 msgid "Run insert environment dialog"
 msgstr "環境挿入ダイアログを実行"
 
-#: ../latex/src/latex.c:2024
+#: ../latex/src/latex.c:2034
 msgid "Insert \\item"
 msgstr "項目を挿入(\\item)"
 
-#: ../latex/src/latex.c:2026
+#: ../latex/src/latex.c:2036
 msgid "Format selection in bold font face"
 msgstr "太字フォント"
 
-#: ../latex/src/latex.c:2028
+#: ../latex/src/latex.c:2038
 msgid "Format selection in italic font face"
 msgstr "斜体フォント"
 
-#: ../latex/src/latex.c:2030
+#: ../latex/src/latex.c:2040
 msgid "Format selection in typewriter font face"
 msgstr "固定幅フォント"
 
-#: ../latex/src/latex.c:2032
+#: ../latex/src/latex.c:2042
 msgid "Format selection centered"
 msgstr "中央合わせ"
 
-#: ../latex/src/latex.c:2034
+#: ../latex/src/latex.c:2044
 msgid "Format selection left-aligned"
 msgstr "左寄せ"
 
-#: ../latex/src/latex.c:2036
+#: ../latex/src/latex.c:2046
 msgid "Format selection right-aligned"
 msgstr "右寄せ "
 
-#: ../latex/src/latex.c:2039
+#: ../latex/src/latex.c:2049
 msgid "Insert description list"
 msgstr "説明リストを挿入"
 
-#: ../latex/src/latex.c:2042
+#: ../latex/src/latex.c:2052
 msgid "Insert itemize list"
 msgstr "項目リストを挿入"
 
-#: ../latex/src/latex.c:2045
+#: ../latex/src/latex.c:2055
 msgid "Insert enumerate list"
 msgstr "列挙リストを挿入"
 
-#: ../latex/src/latex.c:2048
+#: ../latex/src/latex.c:2058
 msgid "Set selection one level up"
 msgstr "レベルを上げる"
 
-#: ../latex/src/latex.c:2051
+#: ../latex/src/latex.c:2061
 msgid "Set selection one level down"
 msgstr "レベルを下げる"
 
-#: ../latex/src/latex.c:2054
+#: ../latex/src/latex.c:2064
 msgid "Insert \\usepackage{}"
 msgstr "パッケージ(\\usepackage{})を挿入"
 
-#: ../latex/src/latex.c:2057
+#: ../latex/src/latex.c:2067
 msgid "Insert BibTeX reference dialog"
 msgstr "BibTeX参照ダイアログを挿入"
 
-#: ../latex/src/latex.c:2064
+#: ../latex/src/latex.c:2074
 #, fuzzy
 msgid ""
 "LaTeX is a plugin to improve support for LaTeX in Geany.\n"
@@ -2605,7 +2606,7 @@ msgstr ""
 "GeanyLaTeX は Geany で LaTexをよりよくサポートするプラグインです。\n"
 "不具合や機能追加については作者にレポートしてください。"
 
-#: ../latex/src/latex.c:2102
+#: ../latex/src/latex.c:2112
 msgid ""
 "glatex_set_autocompletion_contextsize has been initialized with an invalid "
 "value. Default value taken. Please check your configuration file"
@@ -2613,117 +2614,117 @@ msgstr ""
 "glatex_set_autocompletion_contextsize が不正な値で初期化されました。既定値に"
 "戻します。設定ファイルを確認してください。"
 
-#: ../latex/src/latex.c:2124 ../latex/src/latex.c:2131
+#: ../latex/src/latex.c:2134 ../latex/src/latex.c:2141
 msgid "page \\pageref{{{reference}}}"
 msgstr "page \\pageref{{{reference}}}"
 
-#: ../latex/src/latex.c:2128 ../latex/src/latex.c:2135
+#: ../latex/src/latex.c:2138 ../latex/src/latex.c:2145
 msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
 msgstr "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
 
 #. Build up menu for menubar
-#: ../latex/src/latex.c:2184
+#: ../latex/src/latex.c:2194
 msgid "_LaTeX"
 msgstr "_LaTeX"
 
 #. Filling up menubar menus
 #. LaTeX menu
-#: ../latex/src/latex.c:2194 ../latex/src/latex.c:2407
+#: ../latex/src/latex.c:2204 ../latex/src/latex.c:2417
 msgid "LaTeX-_Wizard"
 msgstr "LaTeXウィザード(_W)"
 
-#: ../latex/src/latex.c:2197 ../latex/src/latex.c:2410
+#: ../latex/src/latex.c:2207 ../latex/src/latex.c:2420
 msgid "Starts a Wizard to easily create LaTeX-documents"
 msgstr "LaTeX 文書を簡単に作成するウィザードを開始"
 
-#: ../latex/src/latex.c:2202
+#: ../latex/src/latex.c:2212
 msgid "I_nsert Special Character"
 msgstr "特殊文字の挿入(_N)"
 
-#: ../latex/src/latex.c:2204
+#: ../latex/src/latex.c:2214
 msgid "Helps to use some not very common letters and signs"
 msgstr "あまり使われない特殊文字や記号を入力するのを補助します。"
 
-#: ../latex/src/latex.c:2214
+#: ../latex/src/latex.c:2224
 msgid "Insert _Reference"
 msgstr "参照を挿入(_R)"
 
-#: ../latex/src/latex.c:2216
+#: ../latex/src/latex.c:2226
 msgid "Inserting references to the document"
 msgstr "文書に参照を挿入します"
 
-#: ../latex/src/latex.c:2221
+#: ../latex/src/latex.c:2231
 msgid "Insert _Label"
 msgstr "ラベルを挿入(_L)"
 
-#: ../latex/src/latex.c:2223
+#: ../latex/src/latex.c:2233
 msgid "Helps at inserting labels to a document"
 msgstr "文書にラベルを挿入します"
 
-#: ../latex/src/latex.c:2229
+#: ../latex/src/latex.c:2239
 msgid "Insert _Environment"
 msgstr "環境を挿入(_E)"
 
-#: ../latex/src/latex.c:2231
+#: ../latex/src/latex.c:2241
 msgid "Helps at inserting an environment a document"
 msgstr "文書に環境を挿入します"
 
-#: ../latex/src/latex.c:2237
+#: ../latex/src/latex.c:2247
 msgid "Insert P_ackage"
 msgstr "パッケージを挿入(_A)"
 
-#: ../latex/src/latex.c:2239
+#: ../latex/src/latex.c:2249
 msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr ""
 "現在のファイルのヘッダに \\usepackage{} を挿入するための小さなダイアログ"
 
-#: ../latex/src/latex.c:2244 ../scope/data/scope.glade.h:58
+#: ../latex/src/latex.c:2254 ../scope/data/scope.glade.h:58
 #: ../scope/data/scope_gtk3.glade.h:58
 msgid "_Format"
 msgstr "書式(_F)"
 
 #. Add font size menu
-#: ../latex/src/latex.c:2261
+#: ../latex/src/latex.c:2271
 msgid "F_ont size"
 msgstr "フォントサイズ(_O)"
 
-#: ../latex/src/latex.c:2279
+#: ../latex/src/latex.c:2289
 msgid "_Special Character Replacement"
 msgstr "特殊文字の置換(_S)"
 
-#: ../latex/src/latex.c:2287
+#: ../latex/src/latex.c:2297
 msgid "Bulk _Replace Special Characters"
 msgstr "特殊文字の大域置換(_R)"
 
-#: ../latex/src/latex.c:2289
+#: ../latex/src/latex.c:2299
 msgid "_Replace selected special characters with TeX substitutes"
 msgstr "選択した特殊文字をTeXの構文に置換(_R)"
 
-#: ../latex/src/latex.c:2297
+#: ../latex/src/latex.c:2307
 msgid "Toggle _Special Character Replacement"
 msgstr "特殊文字置換の切り替え(_S)"
 
-#: ../latex/src/latex.c:2308
+#: ../latex/src/latex.c:2318
 msgid "Insert _Command"
 msgstr "コマンドを挿入(_C)"
 
-#: ../latex/src/latex.c:2310
+#: ../latex/src/latex.c:2320
 msgid "Inserting customized command to document"
 msgstr "文書にカスタムコマンドを挿入します"
 
-#: ../latex/src/latex.c:2335
+#: ../latex/src/latex.c:2345
 msgid "_BibTeX"
 msgstr "_BibTeX"
 
-#: ../latex/src/latex.c:2344
+#: ../latex/src/latex.c:2354
 msgid "Insert B_ibTeX reference"
 msgstr "BibTeX 参照を挿入(_I)"
 
-#: ../latex/src/latex.c:2346
+#: ../latex/src/latex.c:2356
 msgid "Helps to insert a reference out of BibTeX files"
 msgstr "BibTeXファイルの参照を挿入します"
 
-#: ../latex/src/latex.c:2351
+#: ../latex/src/latex.c:2361
 msgid "_BibTeX entries"
 msgstr "_BibTeX エントリー"
 
@@ -4502,11 +4503,11 @@ msgstr "プロジェクト内を検索"
 msgid "Remove File"
 msgstr "ファイルを削除"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1706
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1689
 msgid "H_ide Sidebar"
 msgstr "サイドバーを隠す(_I)"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1728
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1708
 msgid "Project"
 msgstr "プロジェクト"
 
@@ -4529,60 +4530,60 @@ msgstr "GeanyPG"
 msgid "Python plugins support"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:71
+#: ../geanyvc/src/geanyvc.c:73
 msgid "GeanyVC"
 msgstr "GeanyVC"
 
-#: ../geanyvc/src/geanyvc.c:72
+#: ../geanyvc/src/geanyvc.c:74
 msgid ""
 "Interface to different Version Control systems.\n"
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:498
+#: ../geanyvc/src/geanyvc.c:501
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: s_spawn_sync エラー: %s"
 
-#: ../geanyvc/src/geanyvc.c:584
+#: ../geanyvc/src/geanyvc.c:587
 #, c-format
 msgid "File %s: action %s executed via %s."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:637 ../geanyvc/src/geanyvc.c:648
+#: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated:  '%s' から '%s' に名前変更できません。"
 
-#: ../geanyvc/src/geanyvc.c:674 ../geanyvc/src/geanyvc.c:724
+#: ../geanyvc/src/geanyvc.c:677 ../geanyvc/src/geanyvc.c:727
 msgid "No changes were made."
 msgstr "変更されたものはありません。"
 
-#: ../geanyvc/src/geanyvc.c:751
+#: ../geanyvc/src/geanyvc.c:754
 msgid "No history available"
 msgstr "履歴が利用できません"
 
-#: ../geanyvc/src/geanyvc.c:944 ../geanyvc/src/geanyvc.c:952
+#: ../geanyvc/src/geanyvc.c:947 ../geanyvc/src/geanyvc.c:955
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "変更を取り消してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:960
+#: ../geanyvc/src/geanyvc.c:963
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "ファイルを追加してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:967
+#: ../geanyvc/src/geanyvc.c:970
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "ファイルを削除してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:990
+#: ../geanyvc/src/geanyvc.c:993
 msgid "Do you really want to update?"
 msgstr "リポジトリから更新してもよいですか?"
 
-#: ../geanyvc/src/geanyvc.c:1117
+#: ../geanyvc/src/geanyvc.c:1120
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4591,58 +4592,58 @@ msgid ""
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1266
+#: ../geanyvc/src/geanyvc.c:1274
 msgid "Commit Y/N"
 msgstr "リポジトリに反映してもよいですか Y/N"
 
-#: ../geanyvc/src/geanyvc.c:1276
+#: ../geanyvc/src/geanyvc.c:1284
 msgid "Status"
 msgstr "状態"
 
-#: ../geanyvc/src/geanyvc.c:1283
+#: ../geanyvc/src/geanyvc.c:1291
 msgid "Path"
 msgstr "パス"
 
-#: ../geanyvc/src/geanyvc.c:1400
+#: ../geanyvc/src/geanyvc.c:1408
 msgid "Choose a previous commit message"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1431
+#: ../geanyvc/src/geanyvc.c:1470
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1478
+#: ../geanyvc/src/geanyvc.c:1517
 msgid "Commit"
 msgstr "コミット"
 
-#: ../geanyvc/src/geanyvc.c:1519
+#: ../geanyvc/src/geanyvc.c:1558
 msgid "_De-/select all files"
 msgstr "すべてのファイルを選択/解除(_D)"
 
-#: ../geanyvc/src/geanyvc.c:1563
+#: ../geanyvc/src/geanyvc.c:1602
 msgid "<b>Commit message:</b>"
 msgstr "<b>コミット メッセージ:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1587
+#: ../geanyvc/src/geanyvc.c:1626
 msgid "C_ommit"
 msgstr "コミット(_O)"
 
-#: ../geanyvc/src/geanyvc.c:1693
+#: ../geanyvc/src/geanyvc.c:1734
 msgid "Nothing to commit."
 msgstr "反映させるものはありません。"
 
-#: ../geanyvc/src/geanyvc.c:1741
+#: ../geanyvc/src/geanyvc.c:1782
 #, fuzzy, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
 msgstr "スペルチェッカ初期化エラー: %s"
 
-#: ../geanyvc/src/geanyvc.c:2044
+#: ../geanyvc/src/geanyvc.c:2125
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "プラグインによって文書タブに作成された変更フラグを設定"
 
-#: ../geanyvc/src/geanyvc.c:2047
+#: ../geanyvc/src/geanyvc.c:2128
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4652,44 +4653,44 @@ msgstr ""
 "更ありにマークされます。このオプションが便利な場合もありますが、多くの文書に"
 "対して逐一「保存しますか」ダイアログが表示される原因にもなります。"
 
-#: ../geanyvc/src/geanyvc.c:2055
+#: ../geanyvc/src/geanyvc.c:2136
 msgid "Confirm adding new files to a VCS"
 msgstr "新規ファイルをVCSに追加するかどうか確認"
 
-#: ../geanyvc/src/geanyvc.c:2058
+#: ../geanyvc/src/geanyvc.c:2139
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "新規に作成されたファイルをVCSに追加するかどうか確認ダイアログを表示します。"
 
-#: ../geanyvc/src/geanyvc.c:2064
+#: ../geanyvc/src/geanyvc.c:2145
 msgid "Maximize commit dialog"
 msgstr "コミットダイアログを最大化"
 
-#: ../geanyvc/src/geanyvc.c:2065
+#: ../geanyvc/src/geanyvc.c:2146
 msgid "Show commit dialog maximize."
 msgstr "コミットダイアログを最大化して表示します。"
 
-#: ../geanyvc/src/geanyvc.c:2071
+#: ../geanyvc/src/geanyvc.c:2152
 msgid "Use external diff viewer"
 msgstr "外部diffビューアを使用"
 
-#: ../geanyvc/src/geanyvc.c:2073
+#: ../geanyvc/src/geanyvc.c:2154
 msgid "Use external diff viewer for file diff."
 msgstr "ファイルの差分を表示するのに外部のdiffビューアを使用します。"
 
-#: ../geanyvc/src/geanyvc.c:2079
+#: ../geanyvc/src/geanyvc.c:2160
 msgid "Show VC entries at editor menu"
 msgstr "'VCエントリー'をエディタのメニューに追加"
 
-#: ../geanyvc/src/geanyvc.c:2081
+#: ../geanyvc/src/geanyvc.c:2162
 msgid "Show entries for VC functions inside editor menu"
 msgstr "エディタメニュー内にVCの機能を表示"
 
-#: ../geanyvc/src/geanyvc.c:2086
+#: ../geanyvc/src/geanyvc.c:2167
 msgid "Attach menu to menubar"
 msgstr "メニューをメニューバーに追加"
 
-#: ../geanyvc/src/geanyvc.c:2088
+#: ../geanyvc/src/geanyvc.c:2169
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4698,213 +4699,213 @@ msgstr ""
 "このプラグインのメニューがツールメニューの中に表示されるかGeanyのメニューバー"
 "に追加されるかを指定。GeanyVCの次回起動時に有効になります。"
 
-#: ../geanyvc/src/geanyvc.c:2096
+#: ../geanyvc/src/geanyvc.c:2177
 msgid "Enable CVS"
 msgstr "CVSを有効"
 
-#: ../geanyvc/src/geanyvc.c:2101
+#: ../geanyvc/src/geanyvc.c:2182
 msgid "Enable GIT"
 msgstr "GITを有効"
 
-#: ../geanyvc/src/geanyvc.c:2110
+#: ../geanyvc/src/geanyvc.c:2187
 msgid "Enable Fossil"
 msgstr "Fossilを有効"
 
-#: ../geanyvc/src/geanyvc.c:2106
+#: ../geanyvc/src/geanyvc.c:2192
 msgid "Enable SVN"
 msgstr "SVNを有効"
 
-#: ../geanyvc/src/geanyvc.c:2111
+#: ../geanyvc/src/geanyvc.c:2197
 msgid "Enable SVK"
 msgstr "SVKを有効"
 
-#: ../geanyvc/src/geanyvc.c:2116
+#: ../geanyvc/src/geanyvc.c:2202
 msgid "Enable Bazaar"
 msgstr "Bazaarを有効"
 
-#: ../geanyvc/src/geanyvc.c:2121
+#: ../geanyvc/src/geanyvc.c:2207
 msgid "Enable Mercurial"
 msgstr "Mercurialを有効"
 
-#: ../geanyvc/src/geanyvc.c:2127
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Spellcheck language"
 msgstr "スペルチェック言語"
-
-#: ../geanyvc/src/geanyvc.c:2237
-msgid "_VC file Actions"
-msgstr "_VC ファイル アクション"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2243 ../geanyvc/src/geanyvc.c:2320
-#: ../geanyvc/src/geanyvc.c:2360
+#: ../geanyvc/src/geanyvc.c:2342 ../geanyvc/src/geanyvc.c:2437
+#: ../geanyvc/src/geanyvc.c:2477
 msgid "_Diff"
 msgstr "差分(_D)"
 
-#: ../geanyvc/src/geanyvc.c:2246
+#: ../geanyvc/src/geanyvc.c:2345
 msgid "Make a diff from the current active file"
 msgstr "現在のファイルとレポジトリのファイルの差分を作成します。"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2251 ../geanyvc/src/geanyvc.c:2329
-#: ../geanyvc/src/geanyvc.c:2368
+#: ../geanyvc/src/geanyvc.c:2350 ../geanyvc/src/geanyvc.c:2446
+#: ../geanyvc/src/geanyvc.c:2485
 msgid "_Revert"
 msgstr "取り消し(_R)"
 
-#: ../geanyvc/src/geanyvc.c:2254
+#: ../geanyvc/src/geanyvc.c:2353
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr "作業コピーのファイルを最初の状態に戻す(ローカルな編集を破棄)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2263
+#: ../geanyvc/src/geanyvc.c:2362
 msgid "_Blame"
 msgstr "履歴を追跡(_B)"
 
-#: ../geanyvc/src/geanyvc.c:2266
+#: ../geanyvc/src/geanyvc.c:2365
 msgid "Shows the changes made at one file per revision and author."
 msgstr "ファイルの変更履歴を版ごと修正者ごとに表示"
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2273 ../geanyvc/src/geanyvc.c:2339
-#: ../geanyvc/src/geanyvc.c:2380
+#: ../geanyvc/src/geanyvc.c:2372 ../geanyvc/src/geanyvc.c:2456
+#: ../geanyvc/src/geanyvc.c:2497
 msgid "_History (log)"
 msgstr "履歴ログ(_H)"
 
-#: ../geanyvc/src/geanyvc.c:2276
+#: ../geanyvc/src/geanyvc.c:2375
 msgid "Shows the log of the current file"
 msgstr "現在のファイルのログを表示"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2281
+#: ../geanyvc/src/geanyvc.c:2380
 msgid "_Original"
 msgstr "オリジナル(_O)"
 
-#: ../geanyvc/src/geanyvc.c:2284
+#: ../geanyvc/src/geanyvc.c:2383
 msgid "Shows the original of the current file"
 msgstr "現在のファイルのオリジナルを表示"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2292
+#: ../geanyvc/src/geanyvc.c:2391
 msgid "_Add to Version Control"
 msgstr "バージョン管理に追加(_A)"
 
-#: ../geanyvc/src/geanyvc.c:2294
+#: ../geanyvc/src/geanyvc.c:2393
 msgid "Add file to repository."
 msgstr "ファイルをレポジトリに追加"
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2300
+#: ../geanyvc/src/geanyvc.c:2399
 msgid "_Remove from Version Control"
 msgstr "バージョン管理から削除(_R)"
 
-#: ../geanyvc/src/geanyvc.c:2302
+#: ../geanyvc/src/geanyvc.c:2401
 msgid "Remove file from repository."
 msgstr "レポジトリからファイルを削除"
 
-#: ../geanyvc/src/geanyvc.c:2317
+#: ../geanyvc/src/geanyvc.c:2434
 msgid "_Directory"
 msgstr "ディレクトリ(_D)"
 
-#: ../geanyvc/src/geanyvc.c:2323
+#: ../geanyvc/src/geanyvc.c:2440
 msgid "Make a diff from the directory of the current active file"
 msgstr "現在のファイルのディレクトリから差分を作成"
 
-#: ../geanyvc/src/geanyvc.c:2332
+#: ../geanyvc/src/geanyvc.c:2449
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr "現在のディレクトリの元のファイルを復元(ローカルな編集を破棄)"
 
-#: ../geanyvc/src/geanyvc.c:2342
+#: ../geanyvc/src/geanyvc.c:2459
 msgid "Shows the log of the current directory"
 msgstr "現在のディレクトリのログを表示"
 
-#: ../geanyvc/src/geanyvc.c:2356
+#: ../geanyvc/src/geanyvc.c:2473
 msgid "_Base Directory"
 msgstr "_BASE ディレクトリ"
 
-#: ../geanyvc/src/geanyvc.c:2362
+#: ../geanyvc/src/geanyvc.c:2479
 msgid "Make a diff from the top VC directory"
 msgstr "バージョン管理ディレクトリから diff を作成"
 
-#: ../geanyvc/src/geanyvc.c:2370
+#: ../geanyvc/src/geanyvc.c:2487
 msgid "Revert any local edits."
 msgstr "ローカルな編集を元に戻す"
 
-#: ../geanyvc/src/geanyvc.c:2383
+#: ../geanyvc/src/geanyvc.c:2500
 msgid "Shows the log of the top VC directory"
 msgstr "バージョン管理ディレクトリのログを表示"
 
-#: ../geanyvc/src/geanyvc.c:2409
+#: ../geanyvc/src/geanyvc.c:2517
+msgid "_VC file Actions"
+msgstr "_VC ファイル アクション"
+
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "VC _Commit"
 msgstr "VC コミット(_C)"
 
-#: ../geanyvc/src/geanyvc.c:2444
+#: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
 msgstr "ファイルの差分を表示"
 
-#: ../geanyvc/src/geanyvc.c:2446
+#: ../geanyvc/src/geanyvc.c:2572
 msgid "Show diff of directory"
 msgstr "ディレクトリの差分を表示"
 
-#: ../geanyvc/src/geanyvc.c:2448
+#: ../geanyvc/src/geanyvc.c:2574
 msgid "Show diff of basedir"
 msgstr "BASEディレクトリの差分を表示"
 
-#: ../geanyvc/src/geanyvc.c:2451
+#: ../geanyvc/src/geanyvc.c:2577
 msgid "Commit changes"
 msgstr "変更を反映"
 
-#: ../geanyvc/src/geanyvc.c:2453
+#: ../geanyvc/src/geanyvc.c:2579
 msgid "Show status"
 msgstr "状態を表示"
 
-#: ../geanyvc/src/geanyvc.c:2455
+#: ../geanyvc/src/geanyvc.c:2581
 msgid "Revert single file"
 msgstr "1つのファイルを元に戻す"
 
-#: ../geanyvc/src/geanyvc.c:2457
+#: ../geanyvc/src/geanyvc.c:2583
 msgid "Revert directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../geanyvc/src/geanyvc.c:2459
+#: ../geanyvc/src/geanyvc.c:2585
 msgid "Revert base directory"
 msgstr "BASE ディレクトリに戻す"
 
-#: ../geanyvc/src/geanyvc.c:2461
+#: ../geanyvc/src/geanyvc.c:2587
 msgid "Update file"
 msgstr "ファイルを更新"
 
-#: ../geanyvc/src/geanyvc.c:2491
+#: ../geanyvc/src/geanyvc.c:2617
 msgid "_VC"
 msgstr "_VC"
 
-#: ../geanyvc/src/geanyvc.c:2498
+#: ../geanyvc/src/geanyvc.c:2624
 msgid "_Version Control"
 msgstr "バージョン管理(_V)"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2520
+#: ../geanyvc/src/geanyvc.c:2646
 msgid "_Status"
 msgstr "状態(_S)"
 
-#: ../geanyvc/src/geanyvc.c:2522
+#: ../geanyvc/src/geanyvc.c:2648
 msgid "Show status."
 msgstr "状態を表示"
 
-#: ../geanyvc/src/geanyvc.c:2529
+#: ../geanyvc/src/geanyvc.c:2655
 msgid "Update from remote repository."
 msgstr "外部のレポジトリから更新"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2534
+#: ../geanyvc/src/geanyvc.c:2660
 msgid "_Commit"
 msgstr "コミット(_C)"
 
-#: ../geanyvc/src/geanyvc.c:2536
+#: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."
 msgstr "変更を反映"
 
@@ -5568,17 +5569,32 @@ msgstr ""
 msgid "Overlay"
 msgstr ""
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:40
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:43
 msgid "Pair Tag Highlighter"
 msgstr ""
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:41
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:44
 msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr ""
 
-#: ../pairtaghighlighter/src/pair_tag_highlighter.c:440
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:490
+#, fuzzy
+msgid "Goto Matching XML Tag"
+msgstr "対応する括弧で選択(_B)"
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:491
+#, fuzzy
+msgid "Select Matching XML Tag"
+msgstr "対応する括弧で選択(_B)"
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:502
 #, fuzzy
 msgid "Go To Matching Tag"
+msgstr "対応する括弧で選択(_B)"
+
+#: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
+#, fuzzy
+msgid "Select To Matching Tag"
 msgstr "対応する括弧で選択(_B)"
 
 #: ../pohelper/data/menus.ui.h:1
@@ -5866,52 +5882,56 @@ msgid ""
 "options (was GProject)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-menu.c:385
+#: ../projectorganizer/src/prjorg-menu.c:383
 #, fuzzy
 msgid "Find in Project Files..."
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:391
+#: ../projectorganizer/src/prjorg-menu.c:387
 msgid "Find in project files"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:395
+#: ../projectorganizer/src/prjorg-menu.c:389
 #, fuzzy
 msgid "Find Project File..."
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:401
+#: ../projectorganizer/src/prjorg-menu.c:393
 msgid "Find project file"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:405
+#: ../projectorganizer/src/prjorg-menu.c:395
 #, fuzzy
 msgid "Find Project Symbol..."
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:411
+#: ../projectorganizer/src/prjorg-menu.c:399
 #, fuzzy
 msgid "Find project symbol"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-menu.c:413
+#: ../projectorganizer/src/prjorg-menu.c:401
 msgid "Swap Header/Source"
 msgstr "ヘッダ/ソースを交換"
 
-#: ../projectorganizer/src/prjorg-menu.c:418
+#: ../projectorganizer/src/prjorg-menu.c:406
 msgid "Swap header/source"
 msgstr "ヘッダ/ソースを交換"
 
-#: ../projectorganizer/src/prjorg-menu.c:424
+#: ../projectorganizer/src/prjorg-menu.c:409
+msgid "Focus Project Sidebar"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-menu.c:415
 #, fuzzy
 msgid "Open Selected File (Project Organizer)"
 msgstr "選択したファイルを開く(gproject)"
 
-#: ../projectorganizer/src/prjorg-project.c:586
+#: ../projectorganizer/src/prjorg-project.c:604
 msgid "Source patterns:"
 msgstr "ソースのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:592
+#: ../projectorganizer/src/prjorg-project.c:610
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
@@ -5920,11 +5940,11 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:598
+#: ../projectorganizer/src/prjorg-project.c:616
 msgid "Header patterns:"
 msgstr "ヘッダのフィルタ:"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:622
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
@@ -5933,12 +5953,12 @@ msgstr ""
 "空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
 "ソースの交換に使用します。"
 
-#: ../projectorganizer/src/prjorg-project.c:610 ../workbench/src/dialogs.c:396
+#: ../projectorganizer/src/prjorg-project.c:628 ../workbench/src/dialogs.c:396
 #, fuzzy
 msgid "Ignored file patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:616
+#: ../projectorganizer/src/prjorg-project.c:634
 #, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
@@ -5947,12 +5967,12 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:622 ../workbench/src/dialogs.c:422
+#: ../projectorganizer/src/prjorg-project.c:640 ../workbench/src/dialogs.c:422
 #, fuzzy
 msgid "Ignored directory patterns:"
 msgstr "無視するディレクトリ:"
 
-#: ../projectorganizer/src/prjorg-project.c:628
+#: ../projectorganizer/src/prjorg-project.c:646
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -5960,26 +5980,52 @@ msgstr ""
 "空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
 "ト"
 
-#: ../projectorganizer/src/prjorg-project.c:634
+#: ../projectorganizer/src/prjorg-project.c:655
+msgid ""
+"The patterns above affect only sidebar and indexing and are not used in the "
+"Find in Files\n"
+"dialog. You can further restrict the files belonging to the project by "
+"setting the\n"
+"File Patterns under the Project tab (these are also used for the Find in "
+"Files dialog)."
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-project.c:663
+#, fuzzy
+msgid "<b>Various</b>"
+msgstr "<b>値</b>"
+
+#: ../projectorganizer/src/prjorg-project.c:668
+msgid "Show empty directories in sidebar"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-project.c:671
+msgid ""
+"Whether to show empty directories in the sidebar or not. Showing empty "
+"directories is useful when using file operations from the context menu, e.g. "
+"to create a new file in the directory."
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-project.c:681
 #, fuzzy
 msgid "Index all project files:"
 msgstr "プロジェクトファイルを検索"
 
-#: ../projectorganizer/src/prjorg-project.c:637
+#: ../projectorganizer/src/prjorg-project.c:684
 msgid "Auto (index if less than 300 files)"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-project.c:638
+#: ../projectorganizer/src/prjorg-project.c:685
 #, fuzzy
 msgid "Yes"
 msgstr "はい"
 
-#: ../projectorganizer/src/prjorg-project.c:639
+#: ../projectorganizer/src/prjorg-project.c:686
 #, fuzzy
 msgid "No"
 msgstr "番号"
 
-#: ../projectorganizer/src/prjorg-project.c:643
+#: ../projectorganizer/src/prjorg-project.c:689
 #, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
@@ -5988,16 +6034,6 @@ msgstr ""
 "現在開いているファイルだけでなく、プロジェクトの全てのファイルからタグ・リス"
 "トを生成します。大きなプロジェクト(1000ファイル以上)ではとても遅いので、使用"
 "しないでください。"
-
-#: ../projectorganizer/src/prjorg-project.c:649
-msgid ""
-"Note: the patterns above affect only the sidebar and are not used in the "
-"Find in Files\n"
-"dialog. You can further restrict the files belonging to the project by "
-"setting the\n"
-"File Patterns under the Project tab (these are also used for the Find in "
-"Files dialog)."
-msgstr ""
 
 #: ../projectorganizer/src/prjorg-sidebar.c:128
 msgid "Find File"
@@ -6105,71 +6141,71 @@ msgstr ""
 msgid "Set file patterns under Project->Properties"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1523
+#: ../projectorganizer/src/prjorg-sidebar.c:1542
 msgid "Reload all"
 msgstr "すべて読み直し"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1532
+#: ../projectorganizer/src/prjorg-sidebar.c:1551
 #, fuzzy
 msgid "Add external directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1542
+#: ../projectorganizer/src/prjorg-sidebar.c:1561
 msgid "Expand all"
 msgstr "すべて展開"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1549
+#: ../projectorganizer/src/prjorg-sidebar.c:1568
 msgid "Collapse to project root"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1560
+#: ../projectorganizer/src/prjorg-sidebar.c:1579
 msgid "Follow active editor"
 msgstr "アクティブなエディタに従う"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1606
+#: ../projectorganizer/src/prjorg-sidebar.c:1625
 msgid "Open a project to start using the plugin"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1615
+#: ../projectorganizer/src/prjorg-sidebar.c:1632
 msgid "Expand All"
 msgstr "すべて展開"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1624
+#: ../projectorganizer/src/prjorg-sidebar.c:1637
 #, fuzzy
 msgid "Find in Files..."
 msgstr "複数ファイルを検索"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1633
+#: ../projectorganizer/src/prjorg-sidebar.c:1642
 #, fuzzy
 msgid "Find File..."
 msgstr "ファイルを検索"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1642
+#: ../projectorganizer/src/prjorg-sidebar.c:1647
 #, fuzzy
 msgid "Find Symbol..."
 msgstr "ファイルを検索"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1655
+#: ../projectorganizer/src/prjorg-sidebar.c:1656
 #, fuzzy
 msgid "Remove External Directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1668
+#: ../projectorganizer/src/prjorg-sidebar.c:1665
 #, fuzzy
 msgid "New File..."
 msgstr "新規ファイル"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1677
+#: ../projectorganizer/src/prjorg-sidebar.c:1670
 #, fuzzy
 msgid "New Directory..."
 msgstr "新規ディレクトリ"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1686
+#: ../projectorganizer/src/prjorg-sidebar.c:1675
 #, fuzzy
 msgid "Rename..."
 msgstr "名前変更"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1695
+#: ../projectorganizer/src/prjorg-sidebar.c:1680
 msgid "Delete"
 msgstr "削除"
 
