@@ -1629,8 +1629,7 @@ on_treeview_changed(GtkWidget *widget, gpointer user_data)
 		if (g_file_test(uri, G_FILE_TEST_EXISTS)) {
 			if (!g_file_test(uri, G_FILE_TEST_IS_DIR) && CONFIG_ONE_CLICK_CHDOC)
 				document_open_file(uri, FALSE, NULL, NULL);
-		} else
-			treebrowser_tree_store_iter_clear_nodes(&iter, TRUE);
+		}
 
 		g_free(uri);
 	}
