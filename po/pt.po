@@ -2,22 +2,22 @@
 # Copyright (C) 2009 - 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
-# Pedro Albuquerque <palbuquerque73@gmail.com>, 2015 - 2019.
+# Pedro Albuquerque <pmra@protonmail.com>, 2015 -2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.36\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 21:32+0200\n"
-"PO-Revision-Date: 2019-09-22 16:20+0100\n"
-"Last-Translator: Pedro Albuquerque <palbuquerque73@gmail.com>\n"
-"Language-Team: Portuguese <translation-team-pt@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2020-10-13 03:19+0000\n"
+"PO-Revision-Date: 2020-10-13 11:30+0100\n"
+"Last-Translator: Pedro Albuquerque <pmra@protonmail.com>\n"
+"Language-Team: Português <translation-team-pt@lists.sourceforge.net>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Gtranslator 3.30.1\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -5701,23 +5701,20 @@ msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr "Localiza e realça etiquetas de abertura/fecho HTML correspondentes"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:490
-#, fuzzy
 msgid "Goto Matching XML Tag"
-msgstr "Ir até à etiqueta correspondente"
+msgstr "Ir para a etiqueta XML correspondente"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:491
-#, fuzzy
 msgid "Select Matching XML Tag"
-msgstr "Seleccionar até à chaveta _correspondente"
+msgstr "Seleccionar a etiqueta XML correspondente"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:502
 msgid "Go To Matching Tag"
 msgstr "Ir até à etiqueta correspondente"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
-#, fuzzy
 msgid "Select To Matching Tag"
-msgstr "Seleccionar até à chaveta _correspondente"
+msgstr "Seleccionar até à etiqueta correspondente"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -6039,7 +6036,7 @@ msgstr "Trocar cabeçalho/código"
 
 #: ../projectorganizer/src/prjorg-menu.c:409
 msgid "Focus Project Sidebar"
-msgstr ""
+msgstr "Foco na barra alteral de projecto"
 
 #: ../projectorganizer/src/prjorg-menu.c:415
 msgid "Open Selected File (Project Organizer)"
@@ -6094,7 +6091,6 @@ msgstr ""
 "não se procurarão ficheiros de código."
 
 #: ../projectorganizer/src/prjorg-project.c:655
-#, fuzzy
 msgid ""
 "The patterns above affect only sidebar and indexing and are not used in the "
 "Find in Files\n"
@@ -6103,21 +6099,20 @@ msgid ""
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
 msgstr ""
-"Nota: os padrões acima só afectam a barra lateral e não são usados no "
-"diálogo Localizar em\n"
-" ficheiros. Pode restringir os ficheiros que pertencem ao projecto definindo "
-"os Padrões\n"
-"de ficheiro no separador Projecto (estes também são usados no diálogo "
+"Nota: os padrões acima só afectam a barra lateral e a indexação, não são "
+"usados no diálogo\n"
+"Localizar em ficheiros. Pode restringir os ficheiros que pertencem ao "
+"projecto definindo \n"
+"Padrões de ficheiro no separador Projecto (também são usados no diálogo "
 "Localizar em ficheiros)."
 
 #: ../projectorganizer/src/prjorg-project.c:663
-#, fuzzy
 msgid "<b>Various</b>"
-msgstr "<b>Valores</b>"
+msgstr "<b>Vários</b>"
 
 #: ../projectorganizer/src/prjorg-project.c:668
 msgid "Show empty directories in sidebar"
-msgstr ""
+msgstr "Mostrar pastas vazias na barra lateral"
 
 #: ../projectorganizer/src/prjorg-project.c:671
 msgid ""
@@ -6125,6 +6120,9 @@ msgid ""
 "directories is useful when using file operations from the context menu, e.g. "
 "to create a new file in the directory."
 msgstr ""
+"Se deve mostrar pastas vazias na barra lateral ou não. Pode ser útil ao "
+"mostrar operações de ficheiro a partir do menu contextual, por exemplo, para "
+"criar um novo ficheiro na pasta."
 
 #: ../projectorganizer/src/prjorg-project.c:681
 msgid "Index all project files:"
