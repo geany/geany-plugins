@@ -1,24 +1,24 @@
 # translation of es.po to
 # Spanish translation for geany-plugins
-# Copyright (C) 2009 - 2019 Lucas Vieites & Geany contributors
+# Copyright (C) 2009 - 2020 Lucas Vieites & Geany contributors
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Lucas Vieites <lucas@codexion.com>, 2009 - 2019.
+# Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.36\n"
+"Project-Id-Version: Geany-Plugins 1.37\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 21:32+0200\n"
-"PO-Revision-Date: 2019-09-22 15:44+0200\n"
-"Last-Translator: Lucas Vieites Fariña <lucas@codexion.com>\n"
+"POT-Creation-Date: 2020-10-14 03:19+0000\n"
+"PO-Revision-Date: 2020-10-14 16:09+0200\n"
+"Last-Translator: Lucas Vieites <lucas.vieites@gmail.com>\n"
 "Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Geany / PoHelper 1.35\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -5718,23 +5718,20 @@ msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr "Encuentra y resalta etiquetas HTML de apertura/cierre"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:490
-#, fuzzy
 msgid "Goto Matching XML Tag"
-msgstr "Ir a etiqueta correspondiente"
+msgstr "Ir a etiqueta XML correspondiente"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:491
-#, fuzzy
 msgid "Select Matching XML Tag"
-msgstr "Seleccionar hasta _corchete correspondiente"
+msgstr "Seleccionar etiqueta XML correspondiente"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:502
 msgid "Go To Matching Tag"
 msgstr "Ir a etiqueta correspondiente"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
-#, fuzzy
 msgid "Select To Matching Tag"
-msgstr "Seleccionar hasta _corchete correspondiente"
+msgstr "Seleccionar hasta etiqueta correspondiente"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -6057,7 +6054,7 @@ msgstr "Intercambiar cabecera/fuente"
 
 #: ../projectorganizer/src/prjorg-menu.c:409
 msgid "Focus Project Sidebar"
-msgstr ""
+msgstr "Enfocar barra lateral de proyectos"
 
 #: ../projectorganizer/src/prjorg-menu.c:415
 msgid "Open Selected File (Project Organizer)"
@@ -6112,7 +6109,6 @@ msgstr ""
 "directorios en los que no se buscarán archivos de código fuente."
 
 #: ../projectorganizer/src/prjorg-project.c:655
-#, fuzzy
 msgid ""
 "The patterns above affect only sidebar and indexing and are not used in the "
 "Find in Files\n"
@@ -6121,7 +6117,7 @@ msgid ""
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
 msgstr ""
-"Nota: los patrones afecta solo a la barra lateral y no se utilizan en el "
+"Estos patrones solo afectan a la barra lateral y no se utilizan en el "
 "diálogo\n"
 "«Buscar en archivos». Puede restringir todavía más los archivos que "
 "pertenecen\n"
@@ -6129,13 +6125,12 @@ msgstr ""
 "también se utilizarán en el diálogo «Buscar en archivos»)."
 
 #: ../projectorganizer/src/prjorg-project.c:663
-#, fuzzy
 msgid "<b>Various</b>"
-msgstr "<b>Valores</b>"
+msgstr "<b>Varios</b>"
 
 #: ../projectorganizer/src/prjorg-project.c:668
 msgid "Show empty directories in sidebar"
-msgstr ""
+msgstr "Mostrar directorios vacíos en la barra lateral"
 
 #: ../projectorganizer/src/prjorg-project.c:671
 msgid ""
@@ -6143,6 +6138,10 @@ msgid ""
 "directories is useful when using file operations from the context menu, e.g. "
 "to create a new file in the directory."
 msgstr ""
+"Indica si se mostrarán o no directorios vacíos en la barra lateral. Mostrar "
+"directorios vacíos es útil cuando se utilizan operaciones sobre archivos "
+"desde el menú de contexto, p.ej. para crear un archivo nuevo en un "
+"directorio."
 
 #: ../projectorganizer/src/prjorg-project.c:681
 msgid "Index all project files:"
