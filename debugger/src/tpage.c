@@ -142,19 +142,16 @@ void tpage_pack_widgets(gboolean tabbed)
 	GList *children = gtk_container_get_children(GTK_CONTAINER(tab_target));
 	if (children)
 	{
-		int i;
-
 		oldroot = (GtkWidget*)children->data;
-		
+
 		/* unparent widgets */
-		i = 0;
-		while (widgets[i])
+		for (int i = 0; widgets[i]; i++)
 		{
-			g_object_ref(*widgets[i]);
-			gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(*widgets[i])), *widgets[i]);
-			i++;
+			GtkWidget **widget_ref = widgets[i];
+			g_object_ref(*widget_ref);
+			gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(*widget_ref)), *widget_ref);
 		}
-		
+
 		g_list_free(children);
 	}
 	
@@ -265,11 +262,9 @@ void tpage_pack_widgets(gboolean tabbed)
 
 	if (oldroot)
 	{
-		int i = 0;
-		while (widgets[i])
+		for (int i = 0; widgets[i]; i++)
 		{
 			g_object_unref(*widgets[i]);
-			i++;
 		}
 		gtk_container_remove(GTK_CONTAINER(tab_target), oldroot);
 	}
