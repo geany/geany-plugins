@@ -20,8 +20,7 @@ Geany Plugins 1.37 (not released yet)
     * Fix cut-off sidebar tab under GTK3 (PR #917)
 
     GitChangebar:
-    * Make libgit2 version preprocessor conditionals compatible with
-      libgit (PR #956)
+    * Add compatibility with libgit2 0.99 (PR #956)
 
     LaTeX:
     * Indent line in new environment Issue (Issue #950, PR #951)
