@@ -1,57 +1,56 @@
 Geany Plugins 1.37 (not released yet)
 
     General:
-    * Improve cppcheck envirnment for better testing PR#947
+    * Improve cppcheck environment for better testing (PR #947)
 
     Addons:
-    * Improve sizes of color calltip PR#987
+    * Improve sizes of color calltip (PR #987)
 
     Autoclose:
-    * Remove pairing quotes PR#896
+    * Remove pairing quotes (PR #896)
 
     GeanyVC:
-    * Add support for Fossil SCM PR#1004, PR#969, PR#977
-    * Support multiple instances of current File menu PR#971
-    * Allow to toggle single files with Space and Return keys PR#996
-    * Improve libraries included to unittests PR#977
+    * Add support for Fossil SCM (PR #1004, PR #969, PR #977)
+    * Support multiple instances of current File menu (PR #971)
+    * Allow to toggle single files with Space and Return keys
+      in commit dialog (PR #996)
+    * Improve libraries included to unittests (PR #977)
 
-    geanyprj:
-    * Fix cut-off sidebar tab under Gtk3 PR#917
+    GeanyPrj:
+    * Fix cut-off sidebar tab under GTK3 (PR #917)
 
-    gitchangebar:
+    GitChangebar:
     * Make libgit2 version preprocessor conditionals compatible with
-      libgit PR#956
+      libgit (PR #956)
 
     LaTeX:
-    * Indent line in new environment Issue #950, PR#951
+    * Indent line in new environment Issue (Issue #950, PR #951)
 
     Markdown:
-    * Fix colors in Gtk3 PR#965
+    * Fix colors in GTK3 (PR #965)
 
     Overview:
     * Initialize color variables
 
     PairTagHighligher:
-    * Allow to select a matching tag PR#926
+    * Allow to select a matching tag (PR #926)
 
-    Projectorganizer:
-    * Make showing empty directories in the sidebar configurable PR#929
-    * Improve used icon -- don't use stock icons PR#932
-    * Add a keybinding for for focusing the sidebar PR#920
-    * Re-read base path when updating project PR#921
+    ProjectOrganizer:
+    * Make showing empty directories in the sidebar configurable (PR #929)
+    * Improve used icon -- don't use stock icons (PR #932)
+    * Add a keybinding for for focusing the sidebar (PR #920)
+    * Re-read base path when updating project (PR #921)
 
     Vimmode:
-    * Correctly ignore unwanted modifiers PR#975
-    * Don't use word navigation from Scintilla PR#919
-    * Make o/O respect auto indentation PR#918
-
+    * Correctly ignore unwanted modifiers (PR #975)
+    * Don't use word navigation from Scintilla (PR #919)
+    * Make o/O respect auto indentation (PR #918)
 
     Windows:
-    * Update depencies for installer
+    * Update dependencies for installer
 
     Internationalization:
     * Updated translations: de, es, pt, tr
-
 
 
 Geany Plugins 1.36 (2019-09-28)
