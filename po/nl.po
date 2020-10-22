@@ -1,21 +1,22 @@
 # Dutch translations for geany-plugins package.
 # Copyright (C) 2011 THE geany-plugins'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-# Peter Scholtens <peter.scholtens@xs4all.nl>, 2011, 2013-2014
+# Peter Scholtens <peter.scholtens@freedom.nl>, 2011, 2013-2014, 2020
 # hans <alves.h88@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-11 21:32+0200\n"
-"PO-Revision-Date: 2011-09-13 20:24+0100\n"
-"Last-Translator: Peter Scholtens <peter.scholtens@xs4all.nl>\n"
+"PO-Revision-Date: 2020-10-22 21:22+0200\n"
+"Last-Translator: Peter Scholtens <peter.scholtens@freedom.nl>\n"
 "Language-Team: Dutch\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -510,22 +511,21 @@ msgstr ""
 
 #. Set metadata
 #: ../autoclose/src/autoclose.c:1204
-#, fuzzy
 msgid "Auto-close"
-msgstr "Auteur:"
+msgstr "Automatische sluiten"
 
 #: ../autoclose/src/autoclose.c:1205
 msgid "Auto-close braces and brackets with lot of features"
-msgstr ""
+msgstr "Automatisch sluiten van accolades en haakjes met diverse opties"
 
 #. Set metadata
 #: ../automark/src/automark.c:206
 msgid "Auto-mark"
-msgstr ""
+msgstr "Automatische markering"
 
 #: ../automark/src/automark.c:207
 msgid "Auto-mark word under cursor"
-msgstr ""
+msgstr "Markeert automatisch woord waar cursor in staat"
 
 #: ../codenav/src/codenavigation.c:128
 msgid ""
@@ -573,6 +573,7 @@ msgstr "Code navigatie"
 msgid ""
 "This plugin adds features to facilitate navigation between source files."
 msgstr ""
+"Deze plugin voegt mogelijkheden toe om tussen bronbestanden te navigeren"
 
 #. Add the menu item, sensitive only when a document is opened
 #: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
@@ -600,6 +601,8 @@ msgstr "Commando 0:"
 #: ../commander/src/commander-plugin.c:43
 msgid "Provides a command panel for quick access to actions, files and more"
 msgstr ""
+"Brengt een commandopanel aan voor snelle toegang tot acties, bestanden en "
+"meer"
 
 #: ../commander/src/commander-plugin.c:772
 msgid "Show Command Panel"
@@ -771,9 +774,8 @@ msgid "Watch"
 msgstr ""
 
 #: ../debugger/src/tabs.c:140
-#, fuzzy
 msgid "Autos"
-msgstr "Auteur:"
+msgstr ""
 
 #: ../debugger/src/tabs.c:143
 msgid "Call Stack"
@@ -1260,9 +1262,8 @@ msgid "Process execution failed (%s)"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:536
-#, fuzzy
 msgid "Find Tag"
-msgstr "Zoek:"
+msgstr "Zoek label:"
 
 #: ../geanyctags/src/geanyctags.c:547
 #, fuzzy
@@ -1285,9 +1286,8 @@ msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:572
 #: ../projectorganizer/src/prjorg-sidebar.c:653
-#, fuzzy
 msgid "pattern"
-msgstr "Brief"
+msgstr "patroon"
 
 #: ../geanyctags/src/geanyctags.c:581
 #: ../projectorganizer/src/prjorg-sidebar.c:167
@@ -1310,9 +1310,8 @@ msgid "Find Tag Definition (geanyctags)"
 msgstr ""
 
 #: ../geanyctags/src/geanyctags.c:670 ../geanyctags/src/geanyctags.c:675
-#, fuzzy
 msgid "Generate tags"
-msgstr "Algemeen"
+msgstr "Genereer labels"
 
 #: ../geanyctags/src/geanyctags.c:677
 #, fuzzy
@@ -1325,9 +1324,8 @@ msgid "Find tag"
 msgstr "Zoek volgende"
 
 #: ../geanyctags/src/geanyctags.c:714
-#, fuzzy
 msgid "Ctags generation and search plugin for geany projects"
-msgstr "gpg encryptie plugin voor geany"
+msgstr "Plugin om Ctags te genereren en te zoeken voor projecten in Geany"
 
 #: ../geanydoc/src/geanydoc.c:50 ../geanydoc/src/geanydoc.c:341
 msgid "Doc"
@@ -3442,7 +3440,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:181
 msgid "Macros for Geany"
-msgstr ""
+msgstr "Macro's voor Geany"
 
 #: ../geanymacro/src/geanymacro.c:369
 #, fuzzy
@@ -3893,7 +3891,7 @@ msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:61
 msgid "Numbered Bookmarks for Geany"
-msgstr ""
+msgstr "Genummerde bladwijzers voor Geany"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:931
 #, c-format
@@ -4981,11 +4979,11 @@ msgstr ""
 
 #: ../keyrecord/src/keyrecord.c:207
 msgid "Keystrokes recorder"
-msgstr ""
+msgstr "Toetsaanslagenrecorder"
 
 #: ../keyrecord/src/keyrecord.c:208
 msgid "Allows to record some sequence of keystrokes and replay it"
-msgstr ""
+msgstr "Maakt opname en afspelen van een reeks toetsaanslagen mogelijk"
 
 #: ../keyrecord/src/keyrecord.c:210
 msgid "tunyash"
@@ -5051,9 +5049,8 @@ msgid "_Line Operations"
 msgstr "Binaire operatoren"
 
 #: ../lineoperations/src/lineoperations.c:378
-#, fuzzy
 msgid "Line Operations"
-msgstr "Binaire operatoren"
+msgstr "Regelbewerkingen"
 
 #: ../lineoperations/src/lineoperations.c:379
 msgid ""
@@ -5061,6 +5058,9 @@ msgid ""
 "document or selection such as, removing duplicate lines, removing empty "
 "lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
+"Regelbewerkingen voegt een handvol functies toe die op een document of "
+"selectie toegepast kunnen worden zoals verwijderen van duplicaatregels, lege "
+"regels alsook het sorteren van regels."
 
 #. number of lines removed
 #: ../lineoperations/src/lo_fns.c:336
@@ -5302,7 +5302,7 @@ msgstr "Kon default configuratie niet wegschrijven: %s"
 
 #: ../overview/overview/overviewplugin.c:43
 msgid "Provides an overview of the active document"
-msgstr ""
+msgstr "Geeft een overzicht van het actieve document"
 
 #: ../overview/overview/overviewplugin.c:186
 msgid "Toggle Visibility"
@@ -5437,11 +5437,11 @@ msgstr ""
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:43
 msgid "Pair Tag Highlighter"
-msgstr ""
+msgstr "Labelpaar markeerder"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:44
 msgid "Finds and highlights matching opening/closing HTML tag"
-msgstr ""
+msgstr "Vind en markeert HTML opening- en sluitingslabels"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:490
 msgid "Goto Matching XML Tag"
@@ -6994,9 +6994,8 @@ msgid "_Busy"
 msgstr ""
 
 #: ../scope/src/views.c:562
-#, fuzzy
 msgid "GDB Command"
-msgstr "Commando 0:"
+msgstr "GDB Commando"
 
 #: ../sendmail/src/sendmail.c:45
 msgid "SendMail"
@@ -7287,7 +7286,7 @@ msgstr "Tabelconversie"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "Converts lists into tables for different filetypes"
-msgstr ""
+msgstr "Converteert lijsten naar tabellen voor diverse bestandsformaten"
 
 #: ../tableconvert/src/tableconvert.c:58
 msgid "HTML"
@@ -7328,16 +7327,15 @@ msgstr "Meer tabelomzetting"
 
 #: ../treebrowser/src/treebrowser.c:126
 msgid "TreeBrowser"
-msgstr ""
+msgstr "Bestandsboom"
 
 #: ../treebrowser/src/treebrowser.c:127
-#, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
 msgstr ""
-"Deze plug-in voegt een TreeBrowser toe aan Geany, waardoor de gebruiker door "
-"de boomstructuur van de huidige map heen kan bladeren."
+"Deze plug-in voegt een browser toe aan Geany, waardoor de gebruiker door de "
+"boomstructuur van de huidige map heen kan bladeren."
 
 #: ../treebrowser/src/treebrowser.c:462
 #, c-format
@@ -7507,7 +7505,7 @@ msgstr "Adresregel, bijvoorbeeld '/projecten/mijn-project'"
 
 #: ../treebrowser/src/treebrowser.c:1974
 msgid "Tree Browser"
-msgstr ""
+msgstr "Bestandsboom"
 
 #: ../treebrowser/src/treebrowser.c:2115
 msgid "External open command"
@@ -7677,7 +7675,7 @@ msgstr ""
 
 #: ../updatechecker/src/updatechecker.c:328
 msgid "Check for Updates"
-msgstr ""
+msgstr "Controleer updates"
 
 #: ../vimode/src/backends/backend-geany.c:41
 msgid "Vimode"
@@ -7695,11 +7693,11 @@ msgstr ""
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "ON"
-msgstr ""
+msgstr "AAN"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "OFF"
-msgstr ""
+msgstr "UIT"
 
 #: ../vimode/src/backends/backend-geany.c:290
 msgid "_Vim Mode"
