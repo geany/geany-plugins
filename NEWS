@@ -1,4 +1,4 @@
-Geany Plugins 1.37 (not released yet)
+Geany Plugins 1.37 (2020-10-25)
 
     General:
     * Improve cppcheck environment for better testing (PR #947)
