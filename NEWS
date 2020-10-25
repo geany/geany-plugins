@@ -37,7 +37,7 @@ Geany Plugins 1.37 (2020-10-25)
     ProjectOrganizer:
     * Make showing empty directories in the sidebar configurable (PR #929)
     * Improve used icon -- don't use stock icons (PR #932)
-    * Add a keybinding for for focusing the sidebar (PR #920)
+    * Add a keybinding for focusing the sidebar (PR #920)
     * Re-read base path when updating project (PR #921)
 
     Vimmode:
