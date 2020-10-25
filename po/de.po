@@ -5341,9 +5341,8 @@ msgid "Remove _Whitespace Lines"
 msgstr "Entferne Zeilen mit _Leerzeichen"
 
 #: ../lineoperations/src/lineoperations.c:279
-#, fuzzy
 msgid "Remove Every _Nth Line"
-msgstr "Entferne l_eere Zeilen"
+msgstr "Entferne jede _Nte Zeile"
 
 #: ../lineoperations/src/lineoperations.c:282
 msgid "Sort Lines _Ascending"
@@ -5374,14 +5373,12 @@ msgstr ""
 
 #. number of lines removed
 #: ../lineoperations/src/lo_fns.c:336
-#, fuzzy
 msgid "Remove every Nth line"
-msgstr "_Entfernte Zeilen:"
+msgstr "Entferne jede _Nte Zeile:"
 
 #: ../lineoperations/src/lo_fns.c:337
-#, fuzzy
 msgid "Value of N"
-msgstr "Wert"
+msgstr "Wert von N"
 
 #: ../lineoperations/src/lo_prefs.c:83
 msgid "Use collation based string compare"
@@ -5768,23 +5765,20 @@ msgid "Finds and highlights matching opening/closing HTML tag"
 msgstr "Findet und hebt passende öffnende und schließende HTML-Tags hervor"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:490
-#, fuzzy
 msgid "Goto Matching XML Tag"
-msgstr "Zum Korrospondierenden Tag springen"
+msgstr "Zum Korrospondierenden XML-Tag springen"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:491
-#, fuzzy
 msgid "Select Matching XML Tag"
-msgstr "Bis zur passenden _Klammer auswählen"
+msgstr "Korrospondierenden XML-Tag auswählen"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:502
 msgid "Go To Matching Tag"
-msgstr "Zum Korrospondierenden Tag springen"
+msgstr "Zum korrospondierenden Tag springen"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
-#, fuzzy
 msgid "Select To Matching Tag"
-msgstr "Bis zur passenden _Klammer auswählen"
+msgstr "Bis zur korrospondierenden _Tag auswählen"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -6110,7 +6104,7 @@ msgstr "Header und Quellen tauschen"
 
 #: ../projectorganizer/src/prjorg-menu.c:409
 msgid "Focus Project Sidebar"
-msgstr ""
+msgstr "Projekte-Seitenleiste fokusieren"
 
 #: ../projectorganizer/src/prjorg-menu.c:415
 msgid "Open Selected File (Project Organizer)"
@@ -6184,13 +6178,12 @@ msgstr ""
 "suchen«-Dialog eingeschränkt werden."
 
 #: ../projectorganizer/src/prjorg-project.c:663
-#, fuzzy
 msgid "<b>Various</b>"
-msgstr "<b>Werte</b>"
+msgstr "<b>Verschiedene</b>"
 
 #: ../projectorganizer/src/prjorg-project.c:668
 msgid "Show empty directories in sidebar"
-msgstr ""
+msgstr "Zeige leere Verzeichnisse in der Seitenleiste"
 
 #: ../projectorganizer/src/prjorg-project.c:671
 msgid ""
@@ -6198,6 +6191,11 @@ msgid ""
 "directories is useful when using file operations from the context menu, e.g. "
 "to create a new file in the directory."
 msgstr ""
+"Legt fest, ob leere Verzeichnisse in der Seitenleiste angezeigt "
+"werden sollen. Das Anzeigen von leeren Verzeichnissen kann "
+"nützlich sein, wenn man Operationen aus dem Kontextmenü wie z. B. das "
+"Anlegen einer neuen Datei (in einem leeren Verzeichnis) nutzen "
+"möchte."
 
 #: ../projectorganizer/src/prjorg-project.c:681
 msgid "Index all project files:"
@@ -6689,23 +6687,20 @@ msgid "Times"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:82 ../scope/data/scope_gtk3.glade.h:82
-#, fuzzy
 msgid "Ignore"
-msgstr "_Ignorieren"
+msgstr "Ignorieren"
 
 #: ../scope/data/scope.glade.h:84 ../scope/data/scope_gtk3.glade.h:84
-#, fuzzy
 msgid "Script"
-msgstr "Lua-Skript"
+msgstr "Skript"
 
 #: ../scope/data/scope.glade.h:85 ../scope/data/scope_gtk3.glade.h:85
 msgid "#"
 msgstr "#"
 
 #: ../scope/data/scope.glade.h:86 ../scope/data/scope_gtk3.glade.h:86
-#, fuzzy
 msgid "Arguments"
-msgstr "A_rgumente"
+msgstr "Argumente"
 
 #: ../scope/data/scope.glade.h:87 ../scope/data/scope_gtk3.glade.h:87
 msgid "Stack"
@@ -8329,7 +8324,7 @@ msgstr "_OK"
 
 #: ../workbench/src/dialogs.c:365
 msgid "filter files using the workbench plugin"
-msgstr ""
+msgstr "Dateien filtern mit Hilfe des Workbench-Plugins"
 
 #: ../workbench/src/dialogs.c:370
 msgid "File patterns:"
@@ -8364,7 +8359,7 @@ msgstr ""
 
 #: ../workbench/src/dialogs.c:459
 msgid "filter files using git (.gitignore)"
-msgstr ""
+msgstr "Dateien basierend auf git filtern (.gitignore)"
 
 #: ../workbench/src/dialogs.c:465
 msgid ""
