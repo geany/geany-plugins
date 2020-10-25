@@ -7,7 +7,7 @@ Geany Plugins 1.37 (2020-10-25)
     * Improve sizes of color calltip (PR #987)
 
     Autoclose:
-    * Remove pairing quotes (PR #896)
+    * Remove all pairing quotes (PR #896)
 
     GeanyVC:
     * Add support for Fossil SCM (PR #1004, PR #969, PR #977)
@@ -23,7 +23,7 @@ Geany Plugins 1.37 (2020-10-25)
     * Add compatibility with libgit2 0.99 (PR #956)
 
     LaTeX:
-    * Indent line in new environment Issue (Issue #950, PR #951)
+    * Indent line in new environment (Issue #950, PR #951)
 
     Markdown:
     * Fix colors in GTK3 (PR #965)
