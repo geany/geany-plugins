@@ -26,6 +26,7 @@ $ ./configure --help
 
 If there are any errors during compilation, check your build environment
 and try to find the error, otherwise contact one of the authors.
+More information can be found at https://plugins.geany.org/install.html.
 
 
 Usage

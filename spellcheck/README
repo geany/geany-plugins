@@ -28,7 +28,7 @@ Features
 
 Usage
 -----
-[Install the plugin](https://plugins.geany.org/install.html) then
+Install the plugin (https://plugins.geany.org/install.html) then
 load it in Geany's plugin manager. A new menu item in the Tools menu
 will appear. Alternatively, you can assign a keyboard shortcut in
 Geany's preferences dialog to perform a spell check.

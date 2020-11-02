@@ -17,9 +17,10 @@ Features
 Usage
 -----
 
-After installed successfully, load the plugin in Geany's plugin manager
-and new menu items in the Edit menu will appear. You can
-change the keyboard shortcuts in Geany's preferences dialog.
+Install the plugin (https://plugins.geany.org/install.html) then
+load it in Geany's plugin manager. A new menu item in the Edit menu
+will appear. You can change the keyboard shortcuts in Geany's
+preferences dialog.
 
 
 *Switch header/implementation*
