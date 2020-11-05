@@ -12,7 +12,8 @@ write multiline defines with aligned backslash.
 Usage
 -----
 
-After installed successfully, load the plugin in Geany's plugin manager.
+Install the plugin (https://plugins.geany.org/install.html) then
+load it in Geany's plugin manager.
 Try it: open C/C++ file and type:
 
 #define A() do { \

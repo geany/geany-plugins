@@ -42,8 +42,8 @@ Features
 Usage
 -----
 
-After installed successfully, load the plugin in Geany's plugin manager. You may
-change module preferences.
+Install the plugin (https://plugins.geany.org/install.html) then
+load it in Geany's plugin manager. You may change module preferences.
 
 Requirements
 ------------

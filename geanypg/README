@@ -10,8 +10,9 @@ and verify signatures with GnuPG.
 Usage
 -----
 
-After installed successfully, load the plugin in Geany's plugin manager
-and a new menu item in the Tools menu will appear.
+Install the plugin (https://plugins.geany.org/install.html) then
+load it in Geany's plugin manager and a new menu item in the Tools menu
+will appear.
 
 If any text is selected, only the selected text will be encrypted/
 signed/decrypted. When encrypting a message you can choose to sign at

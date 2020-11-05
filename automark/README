@@ -17,7 +17,8 @@ under cursor (see screenshot).
 Usage
 -----
 
-After installed successfully, load the plugin in Geany's plugin manager.
+Install the plugin (https://plugins.geany.org/install.html) then
+load it in Geany's plugin manager.
 As soon as the cursor is moved on a word, all occurences of that word will
 be highlighted. The highlight color is "marker_search".
 
