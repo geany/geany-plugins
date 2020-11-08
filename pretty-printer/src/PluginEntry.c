@@ -186,7 +186,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     ScintillaObject* sco;
     int input_length;
     gboolean has_selection;
-    const gchar* input_buffer;
+    gchar* input_buffer;
     int output_length;
     gchar* output_buffer;
     xmlDoc* parsedDocument;
@@ -198,7 +198,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
 
     editor = doc->editor;
     sco = editor->sci;
-    
+
     /* default printing options */
     if (prettyPrintingOptions == NULL) { prettyPrintingOptions = createDefaultPrettyPrintingOptions(); }
 
