@@ -2523,7 +2523,7 @@ add_menuitems_to_editor_menu(void)
 	/* Add commit item to editor menu */
 	if (set_editor_menu_entries == TRUE && editor_menu_commit == NULL)
 	{
-		editor_menu_commit = gtk_menu_item_new_with_mnemonic(_("VC _Commit"));
+		editor_menu_commit = gtk_menu_item_new_with_mnemonic(_("VC _Commit..."));
 		gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), editor_menu_commit);
 		g_signal_connect(editor_menu_commit, "activate",
 			G_CALLBACK(vccommit_activated), NULL);
@@ -2657,7 +2657,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	g_signal_connect(menu_vc_update, "activate", G_CALLBACK(vcupdate_activated), NULL);
 
 	/* Commit all changes */
-	menu_vc_commit = gtk_menu_item_new_with_mnemonic(_("_Commit"));
+	menu_vc_commit = gtk_menu_item_new_with_mnemonic(_("_Commit..."));
 	gtk_container_add(GTK_CONTAINER(menu_vc_menu), menu_vc_commit);
 	gtk_widget_set_tooltip_text(menu_vc_commit, _("Commit changes."));
 
