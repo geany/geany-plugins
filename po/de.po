@@ -5004,8 +5004,8 @@ msgid "_VC file Actions"
 msgstr "_VC Dateioperationen"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
-msgstr "VC ein_tragen (commit)"
+msgid "VC _Commit..."
+msgstr "VC ein_tragen (commit)..."
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -5066,8 +5066,8 @@ msgstr "Aus dem Repositorium aktualisieren"
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "Ein_tragen (commit)"
+msgid "_Commit..."
+msgstr "Ein_tragen (commit)..."
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."

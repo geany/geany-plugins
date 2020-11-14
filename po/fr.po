@@ -4973,8 +4973,8 @@ msgid "_VC file Actions"
 msgstr "Actions du _VCS sur le fichier"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
-msgstr "Co_mmit du VCS"
+msgid "VC _Commit..."
+msgstr "Co_mmit du VCS..."
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -5035,8 +5035,8 @@ msgstr "Mettre à jour depuis le dépôt distant."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "_Commit"
+msgid "_Commit..."
+msgstr "_Commit..."
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."

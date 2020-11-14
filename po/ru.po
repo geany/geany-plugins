@@ -4910,8 +4910,8 @@ msgid "_VC file Actions"
 msgstr "Контроль версий"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
-msgstr "Фиксировать изменения"
+msgid "VC _Commit..."
+msgstr "Фиксировать изменения..."
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -4972,8 +4972,8 @@ msgstr "Обновить из репозитория."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "Ф_иксировать"
+msgid "_Commit..."
+msgstr "Ф_иксировать..."
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."

@@ -4924,8 +4924,8 @@ msgid "_VC file Actions"
 msgstr "Ações de arquivo _VC"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
-msgstr "VC _Commit"
+msgid "VC _Commit..."
+msgstr "VC _Commit..."
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -4987,8 +4987,8 @@ msgstr "Atualizar do repositório remoto."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "_Submeter"
+msgid "_Commit..."
+msgstr "_Submeter..."
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."
