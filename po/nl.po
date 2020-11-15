@@ -4709,8 +4709,8 @@ msgid "_VC file Actions"
 msgstr "VB bestandhandelingen"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
-msgstr "VB doorvoeren"
+msgid "VC _Commit..."
+msgstr "VB doorvoeren..."
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -4771,8 +4771,8 @@ msgstr "Update van opslagplaats op afstand"
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "Doorvoeren"
+msgid "_Commit..."
+msgstr "Doorvoeren..."
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."

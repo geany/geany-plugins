@@ -4840,8 +4840,8 @@ msgid "_VC file Actions"
 msgstr "_VC ファイル アクション"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
-msgstr "VC コミット(_C)"
+msgid "VC _Commit..."
+msgstr "VC コミット...(_C)"
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -4902,8 +4902,8 @@ msgstr "外部のレポジトリから更新"
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "コミット(_C)"
+msgid "_Commit..."
+msgstr "コミット...(_C)"
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."

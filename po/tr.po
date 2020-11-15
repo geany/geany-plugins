@@ -4813,7 +4813,7 @@ msgid "_VC file Actions"
 msgstr "_VC dosyası İşlemleri"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
+msgid "VC _Commit..."
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2570
@@ -4875,8 +4875,8 @@ msgstr "Uzak depodan güncelle."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "_Teslim Et"
+msgid "_Commit..."
+msgstr "_Teslim Et..."
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."

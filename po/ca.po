@@ -4673,7 +4673,7 @@ msgid "_VC file Actions"
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
+msgid "VC _Commit..."
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:2570
@@ -4735,8 +4735,8 @@ msgstr "Actualitza des dels repositoris."
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "Publica els _canvis"
+msgid "_Commit..."
+msgstr "Publica els _canvis..."
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."

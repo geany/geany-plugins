@@ -4910,8 +4910,8 @@ msgid "_VC file Actions"
 msgstr "_VC 文件操作"
 
 #: ../geanyvc/src/geanyvc.c:2526
-msgid "VC _Commit"
-msgstr "VC 提交(_C)"
+msgid "VC _Commit..."
+msgstr "VC 提交...(_C)"
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -4974,8 +4974,8 @@ msgstr "从远程库更新。"
 
 #. Commit all changes
 #: ../geanyvc/src/geanyvc.c:2660
-msgid "_Commit"
-msgstr "提交(_C)"
+msgid "_Commit..."
+msgstr "提交...(_C)"
 
 #: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."
