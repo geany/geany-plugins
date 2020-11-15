@@ -40,7 +40,8 @@ Unicode true
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
-!define REQUIRED_GEANY_VERSION "1.38.0"
+; Geany version should be major.minor only (patch level is ignored for version checking)
+!define REQUIRED_GEANY_VERSION "1.38"
 !define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
@@ -443,12 +444,10 @@ Function CheckForGeany
 	IntOp $R2 $R0 >> 16
 	IntOp $R2 $R2 & 0x0000FFFF ; $R2 now contains major version
 	IntOp $R3 $R0 & 0x0000FFFF ; $R3 now contains minor version
-	IntOp $R4 $R1 >> 16
-	IntOp $R4 $R4 & 0x0000FFFF ; $R4 now contains release
-	StrCpy $0 "$R2.$R3.$R4"
+	StrCpy $0 "$R2.$R3"
 	StrCmp $0 ${REQUIRED_GEANY_VERSION} version_check_done 0
 	MessageBox MB_YESNO|MB_ICONEXCLAMATION \
-		"You have Geany $0 installed but you need Geany ${REQUIRED_GEANY_VERSION}.$\nDo you really want to continue?" \
+		"You have Geany $0 installed but you need Geany ${REQUIRED_GEANY_VERSION}.x.$\nDo you really want to continue?" \
 		/SD IDNO IDNO stop IDYES ignore
 stop:
 	Abort
