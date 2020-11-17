@@ -2165,7 +2165,7 @@ plugin_configure(GtkDialog * dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_editor_menu_entries, TRUE, FALSE, 2);
 
 	widgets.cb_attach_to_menubar = gtk_check_button_new_with_label(_("Attach menu to menubar"));
-	gtk_widget_set_tooltip_text(widgets.cb_editor_menu_entries,
+	gtk_widget_set_tooltip_text(widgets.cb_attach_to_menubar,
 				 _("Whether menu for this plugin are getting placed either "
 				   "inside tools menu or directly inside Geany's menubar. "
 				   "Will take in account after next start of GeanyVC"));
