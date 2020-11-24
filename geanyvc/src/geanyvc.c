@@ -201,6 +201,12 @@ free_commit_list(GSList * lst)
 	g_slist_free(lst);
 }
 
+int
+commititem_compare_by_path(const CommitItem * a, const CommitItem * b)
+{
+	return (g_strcmp0(a->path, b->path));
+}
+
 gchar *
 find_subdir_path(const gchar * filename, const gchar * subdir)
 {
@@ -591,14 +597,64 @@ execute_command(const VC_RECORD * vc, gchar ** std_out, gchar ** std_err, const 
 	return ret;
 }
 
+static void
+diff_external(const VC_RECORD * vc, const gchar * filename)
+{
+	gchar *new, *old;
+	gchar *localename;
+
+	g_return_if_fail(vc);
+	g_return_if_fail(filename);
+	g_return_if_fail(get_external_diff_viewer());
+
+	/*  1) rename file to file.geany.~NEW~
+	   2) revert file
+	   3) rename file to file.geanyvc.~BASE~
+	   4) rename file.geany.~NEW~ to origin file
+	   5) show diff
+	 */
+	localename = utils_get_locale_from_utf8(filename);
+
+	new = g_strconcat(filename, ".geanyvc.~NEW~", NULL);
+	setptr(new, utils_get_locale_from_utf8(new));
+
+	old = g_strconcat(filename, ".geanyvc.~BASE~", NULL);
+	setptr(old, utils_get_locale_from_utf8(old));
+
+	if (g_rename(localename, new) != 0)
+	{
+		g_warning(_
+			  ("geanyvc: diff_external: Unable to rename '%s' to '%s'"),
+			  localename, new);
+		goto end;
+	}
+
+	execute_command(vc, NULL, NULL, filename, VC_COMMAND_REVERT_FILE, NULL, NULL);
+
+	if (g_rename(localename, old) != 0)
+	{
+		g_warning(_
+			  ("geanyvc: diff_external: Unable to rename '%s' to '%s'"),
+			  localename, old);
+		g_rename(new, localename);
+		goto end;
+	}
+	g_rename(new, localename);
+
+	vc_external_diff(old, localename);
+	g_unlink(old);
+end:
+	g_free(old);
+	g_free(new);
+	g_free(localename);
+}
+
 /* Callback if menu item for a single file was activated */
 static void
 vcdiff_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer gdata)
 {
 	gchar *text = NULL;
-	gchar *new, *old;
 	gchar *name;
-	gchar *localename;
 	const VC_RECORD *vc;
 	GeanyDocument *doc;
 
@@ -619,48 +675,7 @@ vcdiff_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpoint
 		if (set_external_diff && get_external_diff_viewer())
 		{
 			g_free(text);
-
-			/*  1) rename file to file.geany.~NEW~
-			   2) revert file
-			   3) rename file to file.geanyvc.~BASE~
-			   4) rename file.geany.~NEW~ to origin file
-			   5) show diff
-			 */
-			localename = utils_get_locale_from_utf8(doc->file_name);
-
-			new = g_strconcat(doc->file_name, ".geanyvc.~NEW~", NULL);
-			setptr(new, utils_get_locale_from_utf8(new));
-
-			old = g_strconcat(doc->file_name, ".geanyvc.~BASE~", NULL);
-			setptr(old, utils_get_locale_from_utf8(old));
-
-			if (g_rename(localename, new) != 0)
-			{
-				g_warning(_
-					  ("geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"),
-					  localename, new);
-				goto end;
-			}
-
-			execute_command(vc, NULL, NULL, doc->file_name,
-					VC_COMMAND_REVERT_FILE, NULL, NULL);
-
-			if (g_rename(localename, old) != 0)
-			{
-				g_warning(_
-					  ("geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"),
-					  localename, old);
-				g_rename(new, localename);
-				goto end;
-			}
-			g_rename(new, localename);
-
-			vc_external_diff(old, localename);
-			g_unlink(old);
-			  end:
-			g_free(old);
-			g_free(new);
-			g_free(localename);
+			diff_external(vc, doc->file_name);
 			return;
 		}
 		else
@@ -716,11 +731,47 @@ vcdiff_dir_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, gpointer data)
 	execute_command(vc, &text, NULL, dir, VC_COMMAND_DIFF_DIR, NULL, NULL);
 	if (text)
 	{
-		gchar *name;
-		name = g_strconcat(dir, ".vc.diff", NULL);
-		show_output(text, name, doc->encoding, NULL, 0);
-		g_free(text);
-		g_free(name);
+		if (set_external_diff && get_external_diff_viewer())
+		{
+			GSList *lst;
+
+			g_free(text);
+			lst = vc->get_commit_files(dir);
+
+			if (lst)
+			{
+				GSList *list_item = NULL;
+				gchar *prev_path = NULL;
+
+				/* - sort the file-list by path; some files may appear with
+				     multiple statuses (e.g. Modified and Added)
+				   - diff each file only once
+				*/
+				g_slist_sort(lst,(GCompareFunc)commititem_compare_by_path);
+
+				foreach_slist(list_item, lst)
+				{
+					CommitItem *item = (CommitItem *)(list_item->data);
+
+					if (flags & FLAG_DIR && !g_str_has_prefix(item->path, dir)) continue;
+
+					if (g_strcmp0(item->path, prev_path))
+					{
+						diff_external(vc, item->path);
+						prev_path = item->path;
+					}
+				}
+				free_commit_list(lst);
+			}
+		}
+		else
+		{
+			gchar *name;
+			name = g_strconcat(dir, ".vc.diff", NULL);
+			show_output(text, name, doc->encoding, NULL, 0);
+			g_free(text);
+			g_free(name);
+		}
 	}
 	else
 	{

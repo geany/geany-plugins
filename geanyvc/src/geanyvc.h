@@ -130,6 +130,8 @@ typedef struct _CommitItem
 #define REGISTER_VC(vc,enable) {extern VC_RECORD VC_##vc;if(enable){path = g_find_program_in_path(VC_##vc.program); \
 							if (path) { g_free(path); VC = g_slist_append(VC, &VC_##vc);} }}
 
+int commititem_compare_by_path(const CommitItem * a, const CommitItem * b);
+
 /* Blank functions and values */
 GSList *get_commit_files_null(const gchar * dir);
 extern const gchar *NO_ENV[];
