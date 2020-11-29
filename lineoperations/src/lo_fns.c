@@ -23,12 +23,19 @@
 #include "lo_fns.h"
 #include "lo_prefs.h"
 
+#define LEXICAL_ORDER 1
+#define COLLATION_ORDER 2
+#define VERSION_ORDER 3
 
 /* Get sort function based on user preferences */
 lo_strcmpfns
 getcmpfns(void)
 {
-	if(lo_info->use_collation_compare)
+	if (lo_info->compare_type == VERSION_ORDER)
+	{
+		return strverscmp;
+	}
+	else if (lo_info->compare_type == COLLATION_ORDER)
 	{
 		return g_utf8_collate;
 	}
