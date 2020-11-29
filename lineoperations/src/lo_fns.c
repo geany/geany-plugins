@@ -19,6 +19,8 @@
  *      51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#define _GNU_SOURCE
+#include <string.h>
 
 #include "lo_fns.h"
 #include "lo_prefs.h"
