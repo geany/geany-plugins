@@ -30,7 +30,7 @@ typedef struct
 {
 	/* general settings */
 	gchar *config_file;
-	gboolean use_collation_compare;
+	gint compare_type;
 } LineOpsInfo;
 
 
