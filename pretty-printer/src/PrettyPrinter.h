@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <stdbool.h>
 
 #ifdef HAVE_GLIB
 #include <glib.h>
@@ -52,15 +53,13 @@
 #define TRUE !(FALSE)
 #endif
 
-typedef unsigned int bool;
-
 /*========================================== STRUCTURES =======================================================*/
 
 /**
  * The PrettyPrintingOptions struct allows the programmer to tell the
  * PrettyPrinter how it must format the XML output.
  */
-typedef struct 
+typedef struct
 {
       const char* newLineChars;                                                             /* char used to generate a new line (generally \r\n) */
       char indentChar;                                                                      /* char used for indentation */
