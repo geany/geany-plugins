@@ -337,6 +337,12 @@ markdown_viewer_get_html(MarkdownViewer *self)
     update_internal_text(self, "");
   }
 
+  if((self->priv->text->len > 1) && (self->priv->text->str[0]=='<') ) 
+  {
+	  html = g_malloc(strlen(self->priv->text->str) + 1); 
+	  strcpy(html, self->priv->text->str); html[strlen(self->priv->text->str)]='\0';
+  }
+  else
   {
 #ifndef FULL_PRICE  /* this version using Discount markdown library
                      * is faster but may invoke endless discussions
@@ -383,7 +389,7 @@ markdown_viewer_update_view(MarkdownViewer *self)
      * substituting the file's basename for `index.html`. */
     if (DOC_VALID(doc) && doc->real_path != NULL) {
       gchar *base_dir = g_path_get_dirname(doc->real_path);
-      base_path = g_build_filename(base_dir, "index.html", NULL);
+      base_path = g_build_filename(doc->real_path, NULL);
       g_free(base_dir);
     }
     /* Otherwise assume use a file `index.html` in the current working directory. */

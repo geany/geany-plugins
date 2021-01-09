@@ -24,6 +24,9 @@ Features
 * Allows simple customization of fonts and colours and complete control
   with custom template files.
 
+* New: .html and .svg files are previewd real-time in the Webkit as they
+  would apear in a web-browser. Templates are not applied here.
+
 Usage
 -----
 

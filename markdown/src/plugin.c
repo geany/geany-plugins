@@ -43,7 +43,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
 #  define MARKDOWN_HELP_FILE MARKDOWN_DOC_DIR "/html/help.html"
 #endif
 
-#define MARKDOWN_PREVIEW_LABEL _("Markdown Preview")
+#define MARKDOWN_PREVIEW_LABEL _("Markdown")
 
 /* Global data */
 static MarkdownViewer *g_viewer = NULL;
@@ -171,6 +171,15 @@ update_markdown_viewer(MarkdownViewer *viewer)
     text = (gchar*) scintilla_send_message(doc->editor->sci, SCI_GETCHARACTERPOINTER, 0, 0);
     markdown_viewer_set_markdown(viewer, text, doc->encoding);
     gtk_widget_set_sensitive(g_export_html, TRUE);
+  }
+  else  if (DOC_VALID(doc) && doc->file_name) {
+    if( strrchr(doc->file_name,'.') && ( (g_strcmp0(strrchr(doc->file_name,'.'), ".svg")==0)
+        || (g_strcmp0(strrchr(doc->file_name,'.'  ), ".html")==0) ) ) {
+       gchar *text;
+       text = (gchar*) scintilla_send_message(doc->editor->sci, SCI_GETCHARACTERPOINTER, 0, 0);
+       markdown_viewer_set_markdown(viewer, text, doc->encoding);
+       gtk_widget_set_sensitive(g_export_html, FALSE);
+     }
   } else {
     markdown_viewer_set_markdown(viewer,
       _("The current document does not have a Markdown filetype."), "UTF-8");

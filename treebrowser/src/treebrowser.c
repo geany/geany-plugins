@@ -123,7 +123,7 @@ PLUGIN_VERSION_CHECK(224)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
-	_("TreeBrowser"),
+	_("FileTreeBrowser"),// affects the alphabetical sorting in sidebar, puts TreeBrowser just after "Documents"
 	_("This plugin adds a tree browser to Geany, allowing the user to "
 	  "browse files using a tree view of the directory being browsed."),
 	"1.32" ,
