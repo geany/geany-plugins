@@ -591,6 +591,12 @@ execute_command(const VC_RECORD * vc, gchar ** std_out, gchar ** std_err, const 
 	return ret;
 }
 
+static gint
+get_command_exit_status(gint exit_code)
+{
+	return (SPAWN_WIFEXITED(exit_code) ? SPAWN_WEXITSTATUS(exit_code) : exit_code);
+}
+
 /* Callback if menu item for a single file was activated */
 static void
 vcdiff_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer gdata)
@@ -1800,8 +1806,28 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 		gtk_tree_model_foreach(model, get_commit_files_foreach, &selected_files);
 		if (!EMPTY(message) && selected_files)
 		{
-			execute_command(vc, NULL, NULL, dir, VC_COMMAND_COMMIT, selected_files,
+			gchar *err_output = NULL;
+			gint exit_code;
+
+			exit_code = execute_command(vc, NULL, &err_output, dir, VC_COMMAND_COMMIT, selected_files,
 					message);
+
+			if (err_output)
+			{
+				gint status = get_command_exit_status(exit_code);
+
+				/* - log the commit error (may be a very long message) into the Message Window
+				   - overwrite the status bar with a more concise message
+				*/
+				g_warning("geanyvc: vccommit_activated: Commit failed (status:%d).", status);
+				ui_set_statusbar(TRUE, _("Commit failed (status: %d, error: %s)."), status, err_output);
+				ui_set_statusbar(FALSE, _("Commit failed; see status in the Message window."));
+				g_free(err_output);
+			}
+			else
+			{
+				ui_set_statusbar(FALSE, _("Changes committed."));
+			}
 			free_text_list(selected_files);
 		}
 		g_free(message);

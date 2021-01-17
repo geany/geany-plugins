@@ -49,7 +49,7 @@ git_commit(G_GNUC_UNUSED gchar ** std_out, G_GNUC_UNUSED gchar ** std_err, const
 		commit = g_slist_prepend(commit, (gchar *) tmp->data + len + 1);
 	}
 
-	ret = execute_custom_command(base_dir, argv, NULL, NULL, NULL, base_dir, commit, message);
+	ret = execute_custom_command(base_dir, argv, NULL, NULL, std_err, base_dir, commit, message);
 	g_slist_free(commit);
 	g_free(base_dir);
 	return ret;
