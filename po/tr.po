@@ -1,24 +1,25 @@
 # Turkish translation for geany-plugins
 # Copyright (C) 2009 - 2014 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-#
 # Gürkan Gür <seqizz@gmail.com>, 2009 - 2014
+# Muha Aliss <muhaaliss@pm.me>,
+# Serkan ÖNDER <serkanonder@outlook.com>, 2021
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.30\n"
+"Project-Id-Version: Geany-Plugins 1.38\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-11 21:32+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Muha Aliss <muhaaliss@pm.me>\n"
-"Language-Team: Muha Aliss <muhaaliss@gmail.com>\n"
-"Language: tr_TR\n"
+"Last-Translator: Serkan ÖNDER <serkanonder@outlook.com>\n"
+"Language-Team: \n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -127,7 +128,7 @@ msgstr "Tamam"
 #: ../addons/src/ao_wrapwords.c:263
 #, c-format
 msgid "Enclose combo %d"
-msgstr ""
+msgstr "%d kombinasyonunu dahil et"
 
 #: ../addons/src/ao_wrapwords.c:279
 msgid "Opening Character"
@@ -264,7 +265,7 @@ msgstr "Tek tıkla önceki vurgulamanı seçimini kaldır"
 
 #: ../addons/src/addons.c:596
 msgid "Strip trailing blank lines"
-msgstr ""
+msgstr "Sondaki boş satırları soyun"
 
 #: ../addons/src/addons.c:602
 msgid "XML tagging for selection"
@@ -272,11 +273,11 @@ msgstr "Seçim için XML etiketleme"
 
 #: ../addons/src/addons.c:608
 msgid "Enclose selection on configurable keybindings"
-msgstr ""
+msgstr "Yapılandırılabilir tuş bağlantılarına seçimi dahil edin"
 
 #: ../addons/src/addons.c:612
 msgid "Configure enclose pairs"
-msgstr ""
+msgstr "Çevreleyen çiftleri yapılandırın"
 
 #: ../addons/src/addons.c:620
 msgid "Enclose selection automatically (without having to press a keybinding)"
@@ -377,7 +378,7 @@ msgstr "Ters tırnakları yalnızca Bash gibi kabuk betiklerinde otomatik kapat"
 
 #: ../autoclose/src/autoclose.c:1100
 msgid "Improve curly brackets completion"
-msgstr ""
+msgstr "Küme parantezlerinin tamamlanmasını iyileştirin"
 
 #: ../autoclose/src/autoclose.c:1101
 msgid "Indent when enclosing"
@@ -406,6 +407,9 @@ msgid ""
 "useful: usually you make new block and need to create new statement before "
 "this block."
 msgstr ""
+"\"Kapsarken girintile\" seçeneğini işaretlediyseniz, imleci başa taşımak "
+"faydalı olabilir: genellikle yeni blok yaparsınız ve bu bloktan önce yeni "
+"ifade oluşturmanız gerekir."
 
 #: ../autoclose/src/autoclose.c:1111
 msgid "Improved auto-indentation"
@@ -442,15 +446,17 @@ msgstr ""
 
 #: ../autoclose/src/autoclose.c:1121
 msgid "Delete pairing character while backspacing first"
-msgstr ""
+msgstr "Önce geri giderken eşleştirme karakterini silin"
 
 #: ../autoclose/src/autoclose.c:1122
 msgid "Check if you want to delete pairing bracket by pressing BackSpace."
 msgstr ""
+"BackSpace'e basarak eşleştirme dirseğini silmek isteyip istemediğinizi "
+"kontrol edin."
 
 #: ../autoclose/src/autoclose.c:1124
 msgid "Suppress double-completion"
-msgstr ""
+msgstr "Çift tamamlamayı bastır"
 
 #: ../autoclose/src/autoclose.c:1125
 msgid ""
@@ -468,6 +474,8 @@ msgstr "Seçimleri dahil et"
 #: ../autoclose/src/autoclose.c:1128
 msgid "Automatically enclose selected text by pressing just one bracket key."
 msgstr ""
+"Yalnızca bir köşeli ayraç tuşuna basarak seçili metni otomatik olarak "
+"çevreleyin."
 
 #: ../autoclose/src/autoclose.c:1130
 msgid "Keep selection when enclosing"
@@ -475,7 +483,7 @@ msgstr "Eklerken seçimi koru"
 
 #: ../autoclose/src/autoclose.c:1131
 msgid "Keep your previously selected text after enclosing."
-msgstr ""
+msgstr "Ekledikten sonra önceden seçtiğiniz metni koruyun."
 
 #: ../autoclose/src/autoclose.c:1133
 msgid "Behaviour inside comments and strings"
@@ -493,12 +501,14 @@ msgstr ""
 
 #: ../autoclose/src/autoclose.c:1136
 msgid "Enclose selections in strings and comments"
-msgstr ""
+msgstr "Seçimleri dizelere ve yorumlara dahil edin"
 
 #: ../autoclose/src/autoclose.c:1137
 msgid ""
 "Check if you want to enclose selections inside strings and comments too."
 msgstr ""
+"Seçimleri dizelerin ve yorumların içine de dahil etmek isteyip "
+"istemediğinizi kontrol edin."
 
 #: ../autoclose/src/autoclose.c:1140
 msgid "Auto-complete \";\" for functions"
@@ -509,10 +519,12 @@ msgid ""
 "Full function auto-closing (works only for C/C++): type \"sin(\" and you "
 "will get \"sin(|);\"."
 msgstr ""
+"Tam işlevli otomatik kapanma (yalnızca C/C++ için çalışır): \"sin (\" yazın "
+"ve \"sin (|);\" alacaksınız."
 
 #: ../autoclose/src/autoclose.c:1143
 msgid "Shift+BackSpace removes pairing brace too"
-msgstr ""
+msgstr "Shift+BackSpace, eşleştirme ayracını da kaldırır"
 
 #: ../autoclose/src/autoclose.c:1144
 msgid ""
@@ -520,14 +532,17 @@ msgid ""
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
 "last \"}\"."
 msgstr ""
+"Shift+BackSpace tuşlarına basarken sol ve sağ küme ayracı kaldırın.\n"
+"İpucu: girintili bloğu tamamen kaldırmak için yalnızca Shift+BackSpace önce "
+"\"{\" veya son olarak \"}\"."
 
 #: ../autoclose/src/autoclose.c:1147
 msgid "Jump on Tab to enclosed char"
-msgstr ""
+msgstr "Sekmede ekli karaktere atla"
 
 #: ../autoclose/src/autoclose.c:1148
 msgid "Jump behind autoclosed items on Tab press."
-msgstr ""
+msgstr "Tab tuşuna basarak otomatik kapatılan öğelerin arkasına geçin."
 
 #. Set metadata
 #: ../autoclose/src/autoclose.c:1204
@@ -541,24 +556,26 @@ msgstr "Parantezleri otomatik kapatan yetenekli bir araç"
 #. Set metadata
 #: ../automark/src/automark.c:206
 msgid "Auto-mark"
-msgstr ""
+msgstr "Otomatik işaretleme"
 
 #: ../automark/src/automark.c:207
 msgid "Auto-mark word under cursor"
-msgstr ""
+msgstr "İmleç altındaki kelimeyi otomatik işaretle"
 
 #: ../codenav/src/codenavigation.c:128
 msgid ""
 "Codenav head/impl lists should have been same length. Geany will use the "
 "default configuration."
 msgstr ""
+"Codenav head/impl listeleri aynı uzunlukta olmalıydı. Geany varsayılan "
+"yapılandırmayı kullanacaktır."
 
 #. Frame, which is the returned widget
 #. Add the menu item and make it sensitive only when a document is opened
 #: ../codenav/src/codenavigation.c:384 ../codenav/src/switch_head_impl.c:70
 #: ../codenav/src/switch_head_impl.c:84
 msgid "Switch header/implementation"
-msgstr ""
+msgstr "Başlığı/uygulamayı değiştir"
 
 #. Help label
 #: ../codenav/src/codenavigation.c:391
@@ -567,11 +584,11 @@ msgstr "Birden çok uzantıyı virgülle ayırarak belirleyebilirsiniz."
 
 #: ../codenav/src/codenavigation.c:414
 msgid "Implementations extensions"
-msgstr ""
+msgstr "Uygulama uzantıları"
 
 #: ../codenav/src/codenavigation.c:423
 msgid "Headers extensions"
-msgstr ""
+msgstr "Üstbilgi uzantıları"
 
 #. Add the "reset to default" button to the frame's hbox
 #: ../codenav/src/codenavigation.c:450
@@ -619,7 +636,7 @@ msgstr "%s bulunamadı, oluşturulsun mu?"
 
 #: ../commander/src/commander-plugin.c:42
 msgid "Commander"
-msgstr ""
+msgstr "Kumanda"
 
 #: ../commander/src/commander-plugin.c:43
 msgid "Provides a command panel for quick access to actions, files and more"
@@ -651,7 +668,6 @@ msgid "Debugger"
 msgstr "Hata Ayıklayıcı"
 
 #: ../debugger/src/plugin.c:199
-#, fuzzy
 msgid "Various debuggers integration."
 msgstr "Çeşitli hata ayıklayıcıların entegrasyonu."
 
@@ -723,9 +739,9 @@ msgid "Program received signal %s (%s)"
 msgstr "Program %s sinyali aldı (%s)"
 
 #: ../debugger/src/dbm_gdb.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "Program exited with code \"%i\""
-msgstr "Program kodu ile sonlandı \"%i\""
+msgstr "Program \"%i\" koduyla kapatıldı"
 
 #: ../debugger/src/dbm_gdb.c:737
 msgid "Failed to spawn gdb process"
@@ -748,7 +764,7 @@ msgid "Error configuring GDB"
 msgstr "GDB ayarlanırken hata"
 
 #: ../debugger/src/dbm_gdb.c:835
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
 "Debugger message: %s"
@@ -767,12 +783,12 @@ msgstr "Aktif çerçeve"
 
 #: ../debugger/src/stree.c:164
 msgid "Click an arrow to switch to a frame"
-msgstr ""
+msgstr "Bir çerçeveye geçmek için bir oku tıklayın"
 
 #: ../debugger/src/stree.c:350
 #, c-format
 msgid "Thread %i"
-msgstr ""
+msgstr "Konu %i"
 
 #: ../debugger/src/stree.c:395 ../latex/src/bibtexlabels.c:46
 #: ../scope/data/scope.glade.h:75 ../scope/data/scope_gtk3.glade.h:75
@@ -801,11 +817,11 @@ msgstr "İzle"
 
 #: ../debugger/src/tabs.c:140
 msgid "Autos"
-msgstr ""
+msgstr "Arabalar"
 
 #: ../debugger/src/tabs.c:143
 msgid "Call Stack"
-msgstr ""
+msgstr "Çağrı yığını"
 
 #: ../debugger/src/tabs.c:146
 msgid "Debug Terminal"
@@ -830,17 +846,17 @@ msgstr "Yeniden Başlat"
 #: ../debugger/src/keys.c:51 ../debugger/src/btnpanel.c:126
 #: ../scope/src/scope.c:67 ../scope/src/scope.c:164
 msgid "Step into"
-msgstr ""
+msgstr "Prosedürün içine gir"
 
 #: ../debugger/src/keys.c:52 ../debugger/src/btnpanel.c:123
 #: ../scope/src/scope.c:68 ../scope/src/scope.c:165
 msgid "Step over"
-msgstr ""
+msgstr "Üzerinden atla"
 
 #: ../debugger/src/keys.c:53 ../debugger/src/btnpanel.c:140
 #: ../scope/src/scope.c:69 ../scope/src/scope.c:166
 msgid "Step out"
-msgstr ""
+msgstr "Dışarı Çık"
 
 #: ../debugger/src/keys.c:54 ../debugger/src/btnpanel.c:143
 #: ../scope/src/scope.c:65 ../scope/src/scope.c:162
@@ -861,7 +877,7 @@ msgstr "İfade değerlendirilemiyor"
 
 #: ../debugger/src/callbacks.c:257
 msgid "To edit source files stop debugging session"
-msgstr ""
+msgstr "Kaynak dosyaları düzenlemek için hata ayıklamayı durdurun"
 
 #: ../debugger/src/btnpanel.c:93 ../debugger/src/btnpanel.c:181
 msgid "Run"
@@ -881,16 +897,16 @@ msgstr "Devam"
 
 #: ../debugger/src/dconfig.c:678
 msgid "Save debug session data to a project"
-msgstr ""
+msgstr "Hata ayıklama oturumu verilerini bir projeye kaydedin"
 
 #. Set metadata
 #: ../defineformat/src/defineformat.c:266
 msgid "Define formatter"
-msgstr ""
+msgstr "Biçimlendiriciyi tanımla"
 
 #: ../defineformat/src/defineformat.c:267
 msgid "Automatically align backslash in multi-line defines"
-msgstr ""
+msgstr "Çok satırlı tanımlarda ters eğik çizgiyi otomatik olarak hizala"
 
 #. never search for more than this many chars
 #: ../devhelp/src/dhp.h:38
@@ -903,7 +919,7 @@ msgstr "Kod"
 
 #: ../devhelp/src/dhp-object.c:387
 msgid "Search for 'Tag' Documentation in"
-msgstr ""
+msgstr "'Etiket' Dokümantasyonunu Ara"
 
 #. i18n: Please don't translate "Devhelp" (it's marked as translatable
 #. * for transliteration only)
@@ -943,9 +959,9 @@ msgid "Search for '%s' Documentation in"
 msgstr "Belgelerde '%s' için ara"
 
 #: ../devhelp/src/dhp-plugin.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create config dir at '%s'"
-msgstr "Ayar dizini oluşturulamadı '%s'"
+msgstr "\"%s\" konumunda yapılandırma dizini oluşturulamıyor"
 
 #: ../devhelp/src/dhp-plugin.c:134
 #, c-format
@@ -975,11 +991,11 @@ msgstr "Tüm sekmeleri etkinleştir"
 
 #: ../devhelp/src/dhp-plugin.c:183
 msgid "Search for current tag in Devhelp"
-msgstr ""
+msgstr "Geliştirme yardımında mevcut etiketi arayın"
 
 #: ../devhelp/src/dhp-plugin.c:187
 msgid "Search for current tag in Manual Pages"
-msgstr ""
+msgstr "Manuel Sayfalarda geçerli etiketi ara"
 
 #. Set metadata
 #: ../devhelp/src/dhp-plugin.c:217
@@ -991,11 +1007,13 @@ msgid ""
 "Adds support for looking up documentation in Devhelp, manual pages, and "
 "Google Code Search in the integrated viewer."
 msgstr ""
+"Entegre görüntüleyicide Devhelp, kılavuz sayfaları ve Google Code Search'te "
+"dokümantasyon arama desteği ekler."
 
 #. i18n: Please don't translate "Devhelp".
 #: ../devhelp/devhelp/dh-assistant.c:74
 msgid "Devhelp — Assistant"
-msgstr ""
+msgstr "Geliştirici yardımı - Asistan"
 
 #: ../devhelp/devhelp/dh-assistant-view.c:336
 msgid "Book:"
@@ -1022,7 +1040,7 @@ msgstr "Anahtar kelime"
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:272
 msgid "Struct"
-msgstr ""
+msgstr "Yapı"
 
 #. i18n: in the programming language context, if you don't
 #. * have an ESTABLISHED term for it, leave it
@@ -1036,54 +1054,52 @@ msgstr "Makro"
 #. * untranslated.
 #: ../devhelp/devhelp/dh-link.c:282
 msgid "Enum"
-msgstr ""
+msgstr "Sıralama"
 
 #: ../devhelp/devhelp/dh-parser.c:91 ../devhelp/devhelp/dh-parser.c:185
 #: ../devhelp/devhelp/dh-parser.c:249 ../devhelp/devhelp/dh-parser.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "Expected '%s', got '%s' at line %d, column %d"
-msgstr "Beklenen '%s', %d satırında '%s' var, sütun %d"
+msgstr "Beklenen '%s', var '%s' satırında %d, sütünün %d"
 
 #: ../devhelp/devhelp/dh-parser.c:108
 #, c-format
 msgid "Invalid namespace '%s' at line %d, column %d"
-msgstr ""
+msgstr "Geçersiz ad alanı '%s' satırda %d, sütünda %d"
 
 #: ../devhelp/devhelp/dh-parser.c:136
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
-msgstr "\"title\", \"name\" ve \"link\" elemanları %d, %d sütununda gerekli"
+msgstr ""
+"%d satırı, %d sütununda \"başlık\", \"ad\" ve \"bağlantı\" öğeleri gereklidir"
 
 #: ../devhelp/devhelp/dh-parser.c:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\"name\" and \"link\" elements are required inside <sub> on line %d, column "
 "%d"
 msgstr ""
-"\"name\" ve \"link\" elemanları, <sub> içinde %d satırında, %d sütununda "
-"gerekli"
+"\"ad\" ve \"bağlantı\" öğeleri %d satır, %d sütunundaki <alt> içinde gerekli"
 
 #: ../devhelp/devhelp/dh-parser.c:284
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
 msgstr ""
-"\"name\" ve \"link\" elemanları, %d satırındaki '%s' içinde gereklidir, %d "
-"sütunu"
+"içinde \"ad\" ve \"bağlantı\" öğeleri gereklidir '%s' satırı %d, sutünü %d"
 
 #: ../devhelp/devhelp/dh-parser.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "\"type\" element is required inside <keyword> on line %d, column %d"
-msgstr "\"anahtar\" öğesi, <keyword> içinde %d satırında, %d sütununda gerekli"
+msgstr "%d satırı, %d sütunundaki <anahtarkelime> içinde \"tip\" öğesi gerekli"
 
 #: ../devhelp/devhelp/dh-parser.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot uncompress book '%s': %s"
 msgstr "'%s' kitabının sıkıştırması açılamıyor: %s"
 
 #: ../devhelp/devhelp/dh-search.c:498
-#, fuzzy
 msgid "All books"
 msgstr "Bütün kitaplar"
 
@@ -1129,11 +1145,11 @@ msgstr "400%"
 
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
-msgstr ""
+msgstr "çevirmenler"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
-msgstr ""
+msgstr "GNOME için geliştiricilerin yardım tarayıcısı"
 
 #. Create the current file Submenu
 #: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
@@ -1322,15 +1338,15 @@ msgstr "Büyük/küçük h_arf duyarlı"
 #: ../geanyctags/src/geanyctags.c:584
 #: ../projectorganizer/src/prjorg-sidebar.c:677
 msgid "_Declaration"
-msgstr ""
+msgstr "_Tanım"
 
 #: ../geanyctags/src/geanyctags.c:656
 msgid "Find Tag Declaration (geanyctags)"
-msgstr ""
+msgstr "Etiket Beyanı Bul (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:661
 msgid "Find Tag Definition (geanyctags)"
-msgstr ""
+msgstr "Etiket Tanımını Bul (geanyctags)"
 
 #: ../geanyctags/src/geanyctags.c:670 ../geanyctags/src/geanyctags.c:675
 msgid "Generate tags"
@@ -1358,6 +1374,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Mevcut sembol üzerinde belge görüntüleyiciyi arayın.\n"
+"Bu eklentinin şu anda bakımcısı yok. Bu eklentiye katkıda bulunarak yardım "
+"etmek ister misiniz?"
 
 #: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:442
 msgid "Could not parse the output of command"
@@ -1381,10 +1400,9 @@ msgstr "%w mevcut cümle ile yer değiştirecek\n"
 
 #: ../geanydoc/src/geanydoc.c:434
 msgid "Document current word"
-msgstr ""
+msgstr "Geçerli kelimeyi belgeleyin"
 
 #: ../geanydoc/src/geanydoc.c:435
-#, fuzzy
 msgid "Document interactive"
 msgstr "İnteraktif Belge"
 
@@ -1398,6 +1416,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Sütun modu, çizgi / köşeli ayraç / çapa seçin.\n"
+"Bu eklentinin şu anda bakımcısı yok. Bu eklentiye katkıda bulunarak yardım "
+"etmek ister misiniz?"
 
 #: ../geanyextrasel/src/extrasel.c:500
 msgid "E_xtra Selection"
@@ -1429,7 +1450,7 @@ msgstr "Eşleşen ayracı seç"
 
 #: ../geanyextrasel/src/extrasel.c:526
 msgid "_Toggle Stream/Rectangular"
-msgstr ""
+msgstr "Akışı _Değiştir/Dikdörtgen"
 
 #: ../geanyextrasel/src/extrasel.c:530
 msgid "Convert selection"
@@ -1437,27 +1458,27 @@ msgstr "Seçimi dönüştür"
 
 #: ../geanyextrasel/src/extrasel.c:535
 msgid "_Set Anchor"
-msgstr ""
+msgstr "Sabitleyiciyi _Ayarla"
 
 #: ../geanyextrasel/src/extrasel.c:539
 msgid "Set anchor"
-msgstr ""
+msgstr "Sabitleyiciyi ayarla"
 
 #: ../geanyextrasel/src/extrasel.c:541
 msgid "Select to _Anchor"
-msgstr ""
+msgstr "_Sabitlemek İçin Seçin"
 
 #: ../geanyextrasel/src/extrasel.c:545
 msgid "Select to anchor"
-msgstr ""
+msgstr "Sabitlemek İçin Seçin"
 
 #: ../geanyextrasel/src/extrasel.c:547
 msgid "_Rectangle Select to Anchor"
-msgstr ""
+msgstr "Dikdörtgen _Tutturmak İçin Seçin"
 
 #: ../geanyextrasel/src/extrasel.c:552
 msgid "Rectangle select to anchor"
-msgstr ""
+msgstr "Dikdörtgen Tutturmak İçin Seçin"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:117
 msgid "boolean value"
@@ -1531,16 +1552,16 @@ msgstr "Bilinmeyen tür \"%s\", yazım hatası mı yaptınız?"
 #: ../geanygendoc/src/ggd-file-type-loader.c:502
 #: ../geanygendoc/src/ggd-file-type-loader.c:540
 msgid "match identifier"
-msgstr ""
+msgstr "eşleşme tanımlayıcı"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:454
 #, c-format
 msgid "match identifier is empty"
-msgstr ""
+msgstr "eşleşme tanımlayıcı boş"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:472
 msgid "documentation type identifier"
-msgstr ""
+msgstr "dokümantasyon türü tanımlayıcı"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:576
 #: ../geanygendoc/src/ggd-file-type-loader.c:588
@@ -1551,12 +1572,12 @@ msgstr "belgelendirme türü"
 #: ../geanygendoc/src/ggd-file-type-loader.c:645
 #, c-format
 msgid "invalid regular expression: %s"
-msgstr ""
+msgstr "geçersiz normal ifade: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:702
 #, c-format
 msgid "invalid environment description: %s"
-msgstr ""
+msgstr "geçersiz ortam açıklaması: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:739
 #: ../geanygendoc/src/ggd-file-type-loader.c:750
@@ -1569,7 +1590,7 @@ msgid "section name"
 msgstr "bölüm adı"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "duplicated section \"%s\""
 msgstr "yinelenen bölüm \"%s\""
 
@@ -1587,12 +1608,12 @@ msgstr "girdi boş"
 #: ../geanygendoc/src/ggd-file-type-loader.c:864
 #, c-format
 msgid "Parser warning: %s:%u:%u: %s"
-msgstr ""
+msgstr "Ayrıştırıcı uyarısı: %s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:867
 #, c-format
 msgid "Parser error: %s:%u:%u: %s"
-msgstr ""
+msgstr "Ayrıştırıcı hata: %s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:871
 #, c-format
@@ -1653,27 +1674,27 @@ msgstr "\"%s\" dosyası yüklenirken hata: %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:425 ../geanygendoc/src/ggd-plugin.c:436
 msgid "Insert Documentation Comment"
-msgstr ""
+msgstr "Dokümantasyon Yorumu Ekle"
 
 #: ../geanygendoc/src/ggd-plugin.c:490
 msgid "_Document Current Symbol"
-msgstr ""
+msgstr "_Belge Mevcut Sembol"
 
 #: ../geanygendoc/src/ggd-plugin.c:491
 msgid "Generate documentation for the current symbol"
-msgstr ""
+msgstr "Mevcut sembol için dokümantasyon oluşturun"
 
 #: ../geanygendoc/src/ggd-plugin.c:497
 msgid "Document _All Symbols"
-msgstr ""
+msgstr "Belge _Tüm Sembol"
 
 #: ../geanygendoc/src/ggd-plugin.c:498
 msgid "Generate documentation for all symbols in the current document"
-msgstr ""
+msgstr "Mevcut belgedeki tüm semboller için belgeler oluşturun"
 
 #: ../geanygendoc/src/ggd-plugin.c:508
 msgid "_Reload Configuration Files"
-msgstr ""
+msgstr "Yapılandırma Dosyalarını _Yeniden Yükleyin"
 
 #: ../geanygendoc/src/ggd-plugin.c:509
 msgid "Force reloading of the configuration files"
@@ -1728,13 +1749,15 @@ msgstr ""
 #. indent
 #: ../geanygendoc/src/ggd-plugin.c:647
 msgid "_Indent inserted documentation"
-msgstr ""
+msgstr "Eklenen belgelerin _girintisini artır"
 
 #: ../geanygendoc/src/ggd-plugin.c:649
 msgid ""
 "Whether the inserted documentation should be indented to fit the indentation "
 "at the insertion position."
 msgstr ""
+"Eklenen dokümantasyonun, ekleme konumundaki girintiye uyması için girintili "
+"olup olmayacağı."
 
 #. Documentation type
 #: ../geanygendoc/src/ggd-plugin.c:656
@@ -1748,17 +1771,22 @@ msgid ""
 "language \"All\" on top of the list is used to choose the default "
 "documentation type, used for all languages that haven't one set."
 msgstr ""
+"Her dosya türüyle kullanılacak belge türünü seçin. Listenin en üstündeki "
+"özel dil \"Tümü\", varsayılan belge türünü seçmek için kullanılır ve tek bir "
+"dil içermeyen tüm diller için kullanılır."
 
 #. Environ editor
 #: ../geanygendoc/src/ggd-plugin.c:672
 msgid "Global environment"
-msgstr ""
+msgstr "Küresel çevre"
 
 #: ../geanygendoc/src/ggd-plugin.c:674
 msgid ""
 "Global environment overrides and additions. This environment will be merged "
 "with the file-type-specific ones."
 msgstr ""
+"Küresel ortam geçersiz kılmalar ve eklemeler. Bu ortam, dosya türüne özgü "
+"olanlarla birleştirilecektir."
 
 #: ../geanygendoc/src/ggd-utils.c:202 ../geanygendoc/src/ggd-utils.c:213
 #, c-format
@@ -1773,18 +1801,20 @@ msgstr "%s: dosya veya dizin bulunamadı"
 #: ../geanygendoc/src/ggd.c:85
 #, c-format
 msgid "Failed to resize memory output stream"
-msgstr ""
+msgstr "Bellek çıkış akışı yeniden boyutlandırılamadı"
 
 #: ../geanygendoc/src/ggd.c:114
 #, c-format
 msgid ""
 "Argument parsing regular expression did not match (argument list was: \"%s\")"
 msgstr ""
+"Normal ifadeyi ayrıştıran bağımsız değişken eşleşmedi (bağımsız değişken "
+"listesi: \"%s\")"
 
 #: ../geanygendoc/src/ggd.c:248
 #, c-format
 msgid "Failed to add global environment, skipping: %s"
-msgstr ""
+msgstr "Global ortam eklenemedi, atlanıyor: %s"
 
 #: ../geanygendoc/src/ggd.c:254
 #, c-format
@@ -1800,6 +1830,7 @@ msgstr "\"%s\" belgelendirme türü \"%s\" dili için kullanılamaz."
 #, c-format
 msgid "No setting applies to symbol \"%s\" of type \"%s\" at line %lu."
 msgstr ""
+"Sembol için hiçbir ayar geçerli değildir \"%s\" tip \"%s\" satırda %lu."
 
 #: ../geanygendoc/src/ggd.c:533
 #, c-format
@@ -1819,16 +1850,17 @@ msgid ""
 "Invalid option or proxy: either the proxy's property or the option type is "
 "incompatible."
 msgstr ""
+"Geçersiz seçenek veya proxy: proxy'nin özelliği veya seçenek türü uyumsuzdur."
 
 #: ../geanygendoc/src/ggd-options.c:512
 #, c-format
 msgid "Unknown value type for keyfile entry %s::%s"
-msgstr ""
+msgstr "%s::%s anahtar dosyası girişi için bilinmeyen değer türü"
 
 #: ../geanygendoc/src/ggd-options.c:516
 #, c-format
 msgid "Error retrieving keyfile entry %s::%s: %s"
-msgstr ""
+msgstr "%s::%s: %s anahtar dosyası girişi alınırken hata oluştu"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:135
 msgid "Language"
@@ -1836,11 +1868,11 @@ msgstr "Dil"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:155
 msgid "_Change associated documentation type"
-msgstr ""
+msgstr "İlişkili belge türünü _değiştirin"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:163
 msgid "_Disassociate documentation type"
-msgstr ""
+msgstr "Dokümantasyon türünü _ayır"
 
 #: ../geanygendoc/src/ggd-widget-doctype-selector.c:194
 msgid "All"
@@ -1860,6 +1892,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Sütunları sayılarla ekleyin/doldurun.\n"
+"Bu eklentinin şu anda bakımcısı yok. Bu eklentiye katkıda bulunarak yardım "
+"etmek ister misiniz?"
 
 #: ../geanyinsertnum/src/insertnum.c:146
 msgid "Counting..."
@@ -1875,7 +1910,7 @@ msgstr "Ekleniyor..."
 
 #: ../geanyinsertnum/src/insertnum.c:333
 msgid "For base 11 and above"
-msgstr ""
+msgstr "11. taban ve üstü için"
 
 #: ../geanyinsertnum/src/insertnum.c:353
 msgid "_Start:"
@@ -1899,15 +1934,15 @@ msgstr "_Büyük"
 
 #: ../geanyinsertnum/src/insertnum.c:388
 msgid "_Lower"
-msgstr ""
+msgstr "_Düşük"
 
 #: ../geanyinsertnum/src/insertnum.c:393
 msgid "Base _prefix"
-msgstr ""
+msgstr "Temel _önek"
 
 #: ../geanyinsertnum/src/insertnum.c:395
 msgid "0 for octal, 0x for hex, + for positive decimal"
-msgstr ""
+msgstr "Sekizlik için 0, onaltılık için 0x, pozitif ondalık için +"
 
 #: ../geanyinsertnum/src/insertnum.c:397
 msgid "Padding:"
@@ -1981,7 +2016,7 @@ msgstr "Kitap (@Book)"
 
 #: ../latex/src/bibtexlabels.c:29
 msgid "Booklet (@Booklet)"
-msgstr ""
+msgstr "Kitapçık (@Kitapçık)"
 
 #: ../latex/src/bibtexlabels.c:30
 msgid "Conference (@Conference)"
@@ -1989,15 +2024,15 @@ msgstr "Konferans (@Conference)"
 
 #: ../latex/src/bibtexlabels.c:31
 msgid "Inbook (@Inbook)"
-msgstr ""
+msgstr "Kitapta (@Kitapta)"
 
 #: ../latex/src/bibtexlabels.c:32
 msgid "Incollection (@Incollection)"
-msgstr ""
+msgstr "Koleksiyon (@Koleksiyon)"
 
 #: ../latex/src/bibtexlabels.c:33
 msgid "Inproceedings (@Inproceedings)"
-msgstr ""
+msgstr "Yargılama (@Yargılama)"
 
 #: ../latex/src/bibtexlabels.c:34
 msgid "Manual (@Manual)"
@@ -2017,11 +2052,11 @@ msgstr "Doktora Tezi (@PhdThesis)"
 
 #: ../latex/src/bibtexlabels.c:38
 msgid "Proceedings (@Proceedings)"
-msgstr ""
+msgstr "Bildiriler (@Bildiriler)"
 
 #: ../latex/src/bibtexlabels.c:39
 msgid "Techreport (@Techreport)"
-msgstr ""
+msgstr "Teknikrapor (@Teknikrapor)"
 
 #: ../latex/src/bibtexlabels.c:40
 msgid "Unpublished (@Unpublished)"
@@ -2029,7 +2064,7 @@ msgstr "Yayınlanmamış (@Unpublished)"
 
 #: ../latex/src/bibtexlabels.c:47
 msgid "Annote"
-msgstr ""
+msgstr "Açıklama"
 
 #: ../latex/src/bibtexlabels.c:48
 msgid "Author"
@@ -2037,7 +2072,7 @@ msgstr "Yazar"
 
 #: ../latex/src/bibtexlabels.c:49
 msgid "Booktitle"
-msgstr ""
+msgstr "Kitap başlığı"
 
 #: ../latex/src/bibtexlabels.c:50
 msgid "Chapter"
@@ -2045,7 +2080,7 @@ msgstr "Bölüm"
 
 #: ../latex/src/bibtexlabels.c:51
 msgid "Crossref"
-msgstr ""
+msgstr "Çapraz referans"
 
 #: ../latex/src/bibtexlabels.c:52
 msgid "Edition"
@@ -2057,11 +2092,11 @@ msgstr "Düzenleyici"
 
 #: ../latex/src/bibtexlabels.c:54
 msgid "E-print"
-msgstr ""
+msgstr "E-baskı"
 
 #: ../latex/src/bibtexlabels.c:55
 msgid "HowPublished"
-msgstr ""
+msgstr "Nasıl Yayınlandı"
 
 #: ../latex/src/bibtexlabels.c:56
 msgid "Institution"
@@ -2129,7 +2164,7 @@ msgstr "Yayıncının adresi"
 
 #: ../latex/src/bibtexlabels.c:104
 msgid "Annotation for annotated bibliography styles"
-msgstr ""
+msgstr "Açıklamalı kaynakça stilleri için ek açıklama"
 
 #: ../latex/src/bibtexlabels.c:105
 msgid "Name(s) of the author(s), separated by 'and' if more than one"
@@ -2137,7 +2172,7 @@ msgstr "Yazarların isim veya isimleri, eğer birden fazla ise 've' ile ayırın
 
 #: ../latex/src/bibtexlabels.c:106
 msgid "Title of the book, if only part of it is being cited"
-msgstr ""
+msgstr "Kitabın sadece bir kısmına atıfta bulunuluyorsa başlığı"
 
 #: ../latex/src/bibtexlabels.c:107
 msgid "Chapter number"
@@ -2145,16 +2180,15 @@ msgstr "Bölüm numarası"
 
 #: ../latex/src/bibtexlabels.c:108
 msgid "Citation key of the cross-referenced entry"
-msgstr ""
+msgstr "Çapraz referanslı girişin alıntı anahtarı"
 
 #: ../latex/src/bibtexlabels.c:109
-#, fuzzy
 msgid "Edition of the book (such as \"first\" or \"second\")"
 msgstr "Kitabın baskısı (\"ilk\" veya \"ikinci\" gibi)"
 
 #: ../latex/src/bibtexlabels.c:110
 msgid "Name(s) of the editor(s), separated by 'and' if more than one"
-msgstr ""
+msgstr "Editör(ler) in isimleri, birden fazla ise 've' ile ayrılmış"
 
 #: ../latex/src/bibtexlabels.c:111
 msgid "Specification of electronic publication"
@@ -2162,25 +2196,27 @@ msgstr "Elektronik yayımlama özellikleri"
 
 #: ../latex/src/bibtexlabels.c:112
 msgid "Publishing method if the method is nonstandard"
-msgstr ""
+msgstr "Yöntem standart değilse yayınlama yöntemi"
 
 #: ../latex/src/bibtexlabels.c:113
 msgid "Institution that was involved in the publishing"
-msgstr ""
+msgstr "Yayıncılığa dahil olan kurum"
 
 #: ../latex/src/bibtexlabels.c:114
 msgid "Journal or magazine in which the work was published"
-msgstr ""
+msgstr "Çalışmanın yayınlandığı dergi veya dergi"
 
 #: ../latex/src/bibtexlabels.c:115
 msgid ""
 "Hidden field used for specifying or overriding the alphabetical order of "
 "entries"
 msgstr ""
+"Girişlerin alfabetik sırasını belirtmek veya geçersiz kılmak için kullanılan "
+"gizli alan"
 
 #: ../latex/src/bibtexlabels.c:116
 msgid "Month of publication or creation if unpublished"
-msgstr ""
+msgstr "Yayınlanmamışsa yayınlanma veya oluşturulma ayı"
 
 #: ../latex/src/bibtexlabels.c:117
 msgid "Miscellaneous extra information"
@@ -2188,7 +2224,7 @@ msgstr "Diğer bilgiler"
 
 #: ../latex/src/bibtexlabels.c:118
 msgid "Number of journal, magazine, or tech-report"
-msgstr ""
+msgstr "Dergi, dergi veya teknik rapor sayısı"
 
 #: ../latex/src/bibtexlabels.c:119
 msgid "Sponsor of the conference"
@@ -2275,21 +2311,20 @@ msgid "Show extra plugin toolbar"
 msgstr "Ekstra eklenti araç çubuğunu göster"
 
 #: ../latex/src/latex.c:354
-#, fuzzy
 msgid "Capitalize sentence on typing"
 msgstr "Cümleye büyük harfle başla"
 
 #: ../latex/src/latex.c:356
 msgid "Add a wizard icon to Geany's main toolbar"
-msgstr ""
+msgstr "Geany'nin ana araç çubuğuna bir sihirbaz simgesi ekleyin"
 
 #: ../latex/src/latex.c:358
 msgid "Lower selection when formatting smallcaps (\\textsc{})"
-msgstr ""
+msgstr "Küçük harfleri (\\textsc{}) biçimlendirirken seçimi düşür"
 
 #: ../latex/src/latex.c:362
 msgid "Don't care about this inside plugin"
-msgstr ""
+msgstr "Bunun içinde eklenti önemli değil"
 
 #: ../latex/src/latex.c:364
 msgid "Always perform autocompletion on LaTeX"
@@ -2297,7 +2332,7 @@ msgstr "Her zaman LaTeX'te otomatik tamamlama işlemini gerçekleştir"
 
 #: ../latex/src/latex.c:377
 msgid "Modus of autocompletion"
-msgstr ""
+msgstr "Otomatik tamamlama modu"
 
 #: ../latex/src/latex.c:895
 msgid "Insert Label"
@@ -2333,7 +2368,7 @@ msgstr "_Sayfa Referansı"
 
 #: ../latex/src/latex.c:1012
 msgid "_Add both"
-msgstr ""
+msgstr "İkisini de _ekle"
 
 #: ../latex/src/latex.c:1209
 msgid "More"
@@ -2341,7 +2376,7 @@ msgstr "Daha fazla"
 
 #: ../latex/src/latex.c:1265
 msgid "Add additional package"
-msgstr ""
+msgstr "Ek paket ekle"
 
 #: ../latex/src/latex.c:1278
 msgid "Package name:"
@@ -2353,7 +2388,7 @@ msgstr "Paket seçenekleri:"
 
 #: ../latex/src/latex.c:1329
 msgid "Insert BibTeX Reference"
-msgstr ""
+msgstr "BibTeX Referansı Ekle"
 
 #: ../latex/src/latex.c:1342
 msgid "BibTeX reference name:"
@@ -2386,7 +2421,7 @@ msgstr "Şablon:"
 
 #: ../latex/src/latex.c:1821
 msgid "Set the template which should be used for creating the new document"
-msgstr ""
+msgstr "Yeni belgeyi oluşturmak için kullanılması gereken şablonu ayarlayın"
 
 #: ../latex/src/latex.c:1830
 msgid "Default"
@@ -2445,6 +2480,7 @@ msgid ""
 "Sets the value of the \\author command. In most cases this should be your "
 "name"
 msgstr ""
+"\\yazar komutunun değerini ayarlar. Çoğu durumda bu sizin adınız olmalıdır"
 
 #. Date
 #: ../latex/src/latex.c:1919
@@ -2457,6 +2493,9 @@ msgid ""
 "document. Keeping it at \\today is a good decision if you don't need any "
 "fixed date."
 msgstr ""
+"Yeni oluşturulan LaTeX belgenizin üstbilgisinin içindeki \tarih komutunun "
+"değerini ayarlar. Sabit bir tarihe ihtiyacınız yoksa \\bugün olarak tutmak "
+"iyi bir karardır."
 
 #. Title of the new document
 #: ../latex/src/latex.c:1934
@@ -2482,7 +2521,6 @@ msgid "Paper Orientation:"
 msgstr "Kağıt Oryantasyonu:"
 
 #: ../latex/src/latex.c:1965
-#, fuzzy
 msgid "Choose the paper orientation for the newly created document"
 msgstr "Yeni oluşturulan belge için kağıt yönünü seçin"
 
@@ -2508,6 +2546,8 @@ msgid ""
 "Set the draft flag inside new created documents to get documents with a "
 "number of debugging helpers"
 msgstr ""
+"Bir dizi hata ayıklama yardımcısı olan belgeleri almak için yeni oluşturulan "
+"belgelerin içindeki taslak bayrağını ayarlayın"
 
 #: ../latex/src/latex.c:2014
 msgid "Run LaTeX-Wizard"
@@ -2531,7 +2571,7 @@ msgstr "Komut girin"
 
 #: ../latex/src/latex.c:2025
 msgid "Turn input replacement on/off"
-msgstr ""
+msgstr "Giriş değiştirmeyi açma/kapatma"
 
 #: ../latex/src/latex.c:2029
 msgid "Replace special characters"
@@ -2539,7 +2579,7 @@ msgstr "Özel karakterleri değiştir"
 
 #: ../latex/src/latex.c:2032
 msgid "Run insert environment dialog"
-msgstr ""
+msgstr "Ortam ekleme iletişim kutusunu çalıştır"
 
 #: ../latex/src/latex.c:2034
 msgid "Insert \\item"
@@ -2547,15 +2587,15 @@ msgstr "\\item ekle"
 
 #: ../latex/src/latex.c:2036
 msgid "Format selection in bold font face"
-msgstr ""
+msgstr "Seçimi kalın yazı tipiyle biçimlendir"
 
 #: ../latex/src/latex.c:2038
 msgid "Format selection in italic font face"
-msgstr ""
+msgstr "Seçimi italik yazı tipiyle biçimlendir"
 
 #: ../latex/src/latex.c:2040
 msgid "Format selection in typewriter font face"
-msgstr ""
+msgstr "Daktilo yazı tipi yüzünde seçimi formatlama"
 
 #: ../latex/src/latex.c:2042
 msgid "Format selection centered"
@@ -2571,19 +2611,19 @@ msgstr "Seçimi sağa hizala"
 
 #: ../latex/src/latex.c:2049
 msgid "Insert description list"
-msgstr ""
+msgstr "Açıklama listesi ekle"
 
 #: ../latex/src/latex.c:2052
 msgid "Insert itemize list"
-msgstr ""
+msgstr "Öğe listesi ekle"
 
 #: ../latex/src/latex.c:2055
 msgid "Insert enumerate list"
-msgstr ""
+msgstr "Numaralandırma listesi ekle"
 
 #: ../latex/src/latex.c:2058
 msgid "Set selection one level up"
-msgstr ""
+msgstr "Seçimi bir seviye yukarı ayarla"
 
 #: ../latex/src/latex.c:2061
 msgid "Set selection one level down"
@@ -2591,7 +2631,7 @@ msgstr "Seçimi bir seviye aşağıya ayarla"
 
 #: ../latex/src/latex.c:2064
 msgid "Insert \\usepackage{}"
-msgstr ""
+msgstr "\\kullanım paketi{} ekle"
 
 #: ../latex/src/latex.c:2067
 msgid "Insert BibTeX reference dialog"
@@ -2613,14 +2653,17 @@ msgid ""
 "glatex_set_autocompletion_contextsize has been initialized with an invalid "
 "value. Default value taken. Please check your configuration file"
 msgstr ""
+"glateks_seti_otomatiktamamlama_bağlam boyutu geçersiz bir değerle "
+"başlatıldı. Varsayılan değer alınmıştır. Lütfen yapılandırma dosyanızı "
+"kontrol edin"
 
 #: ../latex/src/latex.c:2134 ../latex/src/latex.c:2141
 msgid "page \\pageref{{{reference}}}"
-msgstr ""
+msgstr "sayfa \\sayfa referansı{{{referans}}}"
 
 #: ../latex/src/latex.c:2138 ../latex/src/latex.c:2145
 msgid "\\ref{{{reference}}}, page \\pageref{{{reference}}}"
-msgstr ""
+msgstr "\\ref{{{referans}}}, sayfa \\sayfa referansı{{{referans}}}"
 
 #. Build up menu for menubar
 #: ../latex/src/latex.c:2194
@@ -2651,7 +2694,7 @@ msgstr "_Referans Ekle"
 
 #: ../latex/src/latex.c:2226
 msgid "Inserting references to the document"
-msgstr ""
+msgstr "Belgeye referans eklemek"
 
 #: ../latex/src/latex.c:2231
 msgid "Insert _Label"
@@ -2663,11 +2706,11 @@ msgstr "Bir dökümana etiket eklemeye yardımcı olur"
 
 #: ../latex/src/latex.c:2239
 msgid "Insert _Environment"
-msgstr ""
+msgstr "_Ortam Ekle"
 
 #: ../latex/src/latex.c:2241
 msgid "Helps at inserting an environment a document"
-msgstr ""
+msgstr "Bir ortama bir belge eklemeye yardımcı olur"
 
 #: ../latex/src/latex.c:2247
 msgid "Insert P_ackage"
@@ -2676,6 +2719,8 @@ msgstr "P_aket Ekle"
 #: ../latex/src/latex.c:2249
 msgid "A small dialog to insert \\usepackage{} into header of current file"
 msgstr ""
+"Mevcut dosyanın başlığına \\kullanım paketi{} eklemek için küçük bir "
+"iletişim kutusu"
 
 #: ../latex/src/latex.c:2254 ../scope/data/scope.glade.h:58
 #: ../scope/data/scope_gtk3.glade.h:58
@@ -2692,17 +2737,16 @@ msgid "_Special Character Replacement"
 msgstr "_Özel Karakter Yer Değişimi"
 
 #: ../latex/src/latex.c:2297
-#, fuzzy
 msgid "Bulk _Replace Special Characters"
-msgstr "Toplu Özel Karakterleri _Değiştir"
+msgstr "Özel Karakterleri Toplu Olarak _Değiştirin"
 
 #: ../latex/src/latex.c:2299
 msgid "_Replace selected special characters with TeX substitutes"
-msgstr ""
+msgstr "Seçilen özel karakterleri TeX ikameleriyle _değiştirin"
 
 #: ../latex/src/latex.c:2307
 msgid "Toggle _Special Character Replacement"
-msgstr ""
+msgstr "_Özel Karakter Değiştirmeyi Aç/Kapat"
 
 #: ../latex/src/latex.c:2318
 msgid "Insert _Command"
@@ -2710,11 +2754,11 @@ msgstr "_Komut Ekle"
 
 #: ../latex/src/latex.c:2320
 msgid "Inserting customized command to document"
-msgstr ""
+msgstr "Belgeye özelleştirilmiş komut ekle"
 
 #: ../latex/src/latex.c:2345
 msgid "_BibTeX"
-msgstr ""
+msgstr "_BibTeX"
 
 #: ../latex/src/latex.c:2354
 msgid "Insert B_ibTeX reference"
@@ -2722,11 +2766,11 @@ msgstr "B_iBTeX referansı ekle"
 
 #: ../latex/src/latex.c:2356
 msgid "Helps to insert a reference out of BibTeX files"
-msgstr ""
+msgstr "BibTeX dosyalarından bir referans eklemeye yardımcı olur"
 
 #: ../latex/src/latex.c:2361
 msgid "_BibTeX entries"
-msgstr ""
+msgstr "_BibTeX girişleri"
 
 #: ../latex/src/letters.c:40
 msgid "LaTeX letters"
@@ -2738,7 +2782,7 @@ msgstr "Yunan harfleri"
 
 #: ../latex/src/letters.c:42
 msgid "German umlauts"
-msgstr ""
+msgstr "Alman umlautları"
 
 #: ../latex/src/letters.c:43
 msgid "Misc"
@@ -2753,7 +2797,6 @@ msgid "Relational"
 msgstr "İlişkisel"
 
 #: ../latex/src/letters.c:46
-#, fuzzy
 msgid "Binary operation"
 msgstr "İkili işlem"
 
@@ -2771,15 +2814,15 @@ msgstr "Altı Çizgili"
 
 #: ../latex/src/formatpatterns.c:41
 msgid "Typewriter"
-msgstr ""
+msgstr "Daktilo"
 
 #: ../latex/src/formatpatterns.c:42
 msgid "Small Caps"
-msgstr ""
+msgstr "Küçük Harfler"
 
 #: ../latex/src/formatpatterns.c:43
 msgid "Slanted"
-msgstr ""
+msgstr "Eğimli"
 
 #: ../latex/src/formatpatterns.c:44
 msgid "Emphasis"
@@ -2791,11 +2834,11 @@ msgstr "minik"
 
 #: ../latex/src/formatpatterns.c:65
 msgid "scriptsize"
-msgstr ""
+msgstr "komut dosyası boyutu"
 
 #: ../latex/src/formatpatterns.c:66
 msgid "footnotesize"
-msgstr ""
+msgstr "dipnot boyutu"
 
 #: ../latex/src/formatpatterns.c:67
 msgid "small"
@@ -2807,15 +2850,15 @@ msgstr "normal boyut"
 
 #: ../latex/src/formatpatterns.c:69
 msgid "large"
-msgstr "geniş"
+msgstr "büyük"
 
 #: ../latex/src/formatpatterns.c:70
 msgid "Large"
-msgstr "GenişLaTeX"
+msgstr "Büyük"
 
 #: ../latex/src/formatpatterns.c:71
 msgid "LARGE"
-msgstr "GENİŞ"
+msgstr "BÜYÜK"
 
 #: ../latex/src/formatpatterns.c:72
 msgid "huge"
@@ -2880,6 +2923,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" for argument #%d\n"
 msgstr ""
+"Modülde hata \"%s\" işlevinde %s():\n"
+" beklenen tip \"%s\" bağımsız değişken #%d\n"
 
 #: ../geanylua/glspi.h:97
 #, c-format
@@ -2887,6 +2932,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 " expected type \"%s\" or \"%s\" for argument #%d\n"
 msgstr ""
+"Modülde hata \"%s\" işlev %s():\n"
+" beklenen tip \"%s\" yada \"%s\" değişken #%d\n"
 
 #: ../geanylua/glspi.h:111 ../geanylua/gsdlg_lua.c:108
 #, c-format
@@ -2908,7 +2955,6 @@ msgid "Lua Script"
 msgstr "Lua Betiği"
 
 #: ../geanylua/glspi_ver.h:9
-#, fuzzy
 msgid ""
 "Write and run Lua scripts for custom commands.\n"
 "This plugin currently has no maintainer. Would you like to help by "
@@ -2984,6 +3030,11 @@ msgid ""
 "\n"
 "to add your own custom configuration dialog."
 msgstr ""
+"Komut dosyasını oluşturabilirsiniz:\n"
+"\n"
+"\"%s\"\n"
+"\n"
+"kendi özel yapılandırma iletişim kutunuzu eklemek için."
 
 #: ../geanylua/gsdlg.c:100 ../geanylua/glspi_dlg.c:420
 msgid "Open file"
@@ -3019,6 +3070,8 @@ msgid ""
 "Error in module \"%s\" at function navigate():\n"
 "unknown navigation mode \"%s\" for argument #1.\n"
 msgstr ""
+"Modülünde hata \"%s\" gezinme işlevi():\n"
+"bilinmeyen gezinme modu \"%s\" değişken #1.\n"
 
 #: ../geanylua/glspi_sci.c:588
 #, c-format
@@ -3026,6 +3079,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "API command \"%s\" not implemented.\n"
 msgstr ""
+"Modülünde hata \"%s\" işlevi %s():\n"
+"API komutu \"%s\" uygulanmadı.\n"
 
 #: ../geanylua/glspi_sci.c:599
 #, c-format
@@ -3042,6 +3097,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "unknown command \"%s\" given for argument #1.\n"
 msgstr ""
+"Modülünde hata \"%s\" işlevinde %s():\n"
+"bilinmeyen komut \"%s\" 1 numaralı bağımsız değişken için verilmiştir.\n"
 
 #: ../geanylua/glspi_sci.c:781
 #, c-format
@@ -3051,8 +3108,8 @@ msgid ""
 " unknown flag \"%s\" for element #%d\n"
 msgstr ""
 "\"%s\" modülü %s() fonksiyonunda hata:\n"
-" geçersiz argüman #%d:\n"
-" \"%s\" geçersiz bayrak, #%d elementi için\n"
+"bağımsız değişkende geçersiz tablo #%d:\n"
+" \"%s\" geçersiz işaret, #%d elementi için\n"
 
 #: ../geanylua/glspi_sci.c:785
 msgid "<too large to display>"
@@ -3080,6 +3137,8 @@ msgid ""
 "Error in module \"%s\" at function pickfile():\n"
 "failed to parse filter string at argument #3.\n"
 msgstr ""
+"Modülde hata \"%s\" işlevinde():\n"
+"#3 numaralı bağımsız değişkendeki filtre dizesi ayrıştırılamadı.\n"
 
 #: ../geanylua/glspi_dlg.c:489
 #, c-format
@@ -3087,6 +3146,8 @@ msgid ""
 "Error in module \"%s\" at function %s():\n"
 "expected string \"open\" or \"save\" for argument #1.\n"
 msgstr ""
+"Modülde hata \"%s\" işlevinde %s():\n"
+"#1 numaralı bağımsız değişken için beklenen dizge \"aç\" veya \"kaydet\".\n"
 
 #: ../geanylua/geanylua.c:153
 #, c-format
@@ -3101,12 +3162,12 @@ msgstr "%s: Destek kütüphanesi %s kullanılamıyor!\n"
 #: ../geanylua/geanylua.c:170
 #, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
-msgstr ""
+msgstr "%s: Destek kitaplığı sürüm uyuşmazlığı: %s için %s (%s olmalıdır)!\n"
 
 #: ../geanylua/geanylua.c:176
 #, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
-msgstr ""
+msgstr "%s: Destek kitaplığı ABI uyuşmazlığı: %d için %s (%d olmalıdır)!\n"
 
 #: ../geanylua/geanylua.c:205
 #, c-format
@@ -3251,11 +3312,11 @@ msgstr "İşaretçiyi sağa doğru kelimenin başına kadar kaydır"
 
 #: ../geanymacro/src/geanymacro.c:83
 msgid "Move Cursor to start of Part of Word to the Left"
-msgstr ""
+msgstr "İmleci Sola Doğru Kelime Parçasının başlangıcına taşı"
 
 #: ../geanymacro/src/geanymacro.c:84
 msgid "Move Cursor to start of Part of Word to the Right"
-msgstr ""
+msgstr "İmleci Sağdaki Sözcük Parçasının başlangıcına taşı"
 
 #: ../geanymacro/src/geanymacro.c:85
 msgid "Move Cursor to start of line"
@@ -3294,6 +3355,8 @@ msgid ""
 "Move Cursor to 1st non-whitespace character of line, or 1st character of "
 "line if already at 1st non-whitespace character"
 msgstr ""
+"İmleci, satırın boşluk olmayan 1. karakterine veya zaten 1. boşluk olmayan "
+"karakterdeyse, satırın 1. karakterine taşı"
 
 #: ../geanymacro/src/geanymacro.c:95
 msgid "Move Cursor to beginning of next paragraph"
@@ -3301,15 +3364,15 @@ msgstr "İmleci sonraki paragrafın başına götür"
 
 #: ../geanymacro/src/geanymacro.c:96
 msgid "Move Cursor up to beginning of current/previous paragraph"
-msgstr ""
+msgstr "İmleci geçerli / önceki paragrafın başına taşı"
 
 #: ../geanymacro/src/geanymacro.c:97
 msgid "Move Cursor to end of Word to the Left"
-msgstr ""
+msgstr "İmleci Soldaki Kelimenin sonuna taşı"
 
 #: ../geanymacro/src/geanymacro.c:98
 msgid "Move Cursor to end of Word to the Right"
-msgstr ""
+msgstr "İmleci Sağdaki Kelimenin sonuna taşı"
 
 #: ../geanymacro/src/geanymacro.c:100
 msgid "Extend Selection down a line"
@@ -3329,19 +3392,19 @@ msgstr "Seçimi sağa genişlet"
 
 #: ../geanymacro/src/geanymacro.c:104
 msgid "Extend Selection to start of Word to the Left"
-msgstr ""
+msgstr "Seçimi Kelimenin başlangıcına kadar sola doğru genişlet"
 
 #: ../geanymacro/src/geanymacro.c:105
 msgid "Extend Selection to start of Word to the Right"
-msgstr ""
+msgstr "Seçimi Kelimenin başlangıcına kadar sağa doğru genişlet"
 
 #: ../geanymacro/src/geanymacro.c:106
 msgid "Extend Selection to start of Part of Word to the Left"
-msgstr ""
+msgstr "Seçimi Kelimenin Bir Kısmının başlangıcına kadar sola doğru genişlet"
 
 #: ../geanymacro/src/geanymacro.c:107
 msgid "Extend Selection to start of Part of Word to the Right"
-msgstr ""
+msgstr "Seçimi, Kelimenin Bir Kısmının başlangıcına kadar sağa doğru genişlet"
 
 #: ../geanymacro/src/geanymacro.c:108
 msgid "Extend Selection to start of line"
@@ -3353,11 +3416,11 @@ msgstr "Seçimi satır sonuna genişlet"
 
 #: ../geanymacro/src/geanymacro.c:110
 msgid "Extend Selection to start of document"
-msgstr ""
+msgstr "Seçimi belgenin başına kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:111
 msgid "Extend Selection to end of document"
-msgstr ""
+msgstr "Seçimi belgenin sonuna kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:112
 msgid "Extend Selection up one Page"
@@ -3369,71 +3432,75 @@ msgstr "Seçimi bir sayfa aşağı genişlet"
 
 #: ../geanymacro/src/geanymacro.c:114
 msgid "Extend Selection to fist visible character"
-msgstr ""
+msgstr "Seçimi ilk görünür karaktere kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:115
 msgid "Extend Selection to last visible character"
-msgstr ""
+msgstr "Seçimi son görünür karaktere kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:116
 msgid ""
 "Extend Selection to 1st non-whitespace character of line, or 1st character "
 "of line if already at 1st non-whitespace character"
 msgstr ""
+"Seçimi, satırın boşluk olmayan 1. karakterine veya zaten 1. boşluk olmayan "
+"karakterdeyse, satırın 1. karakterine genişletir"
 
 #: ../geanymacro/src/geanymacro.c:118
 msgid "Extend Selection to beginning of next paragraph"
-msgstr ""
+msgstr "Seçimi sonraki paragrafın başına kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:119
 msgid "Extend Selection up to beginning of current/previous paragraph"
-msgstr ""
+msgstr "Seçimi geçerli / önceki paragrafın başına kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:120
 msgid "Extend Selection to end of Word to the Left"
-msgstr ""
+msgstr "Seçimi Kelimenin sonuna kadar sola doğru genişlet"
 
 #: ../geanymacro/src/geanymacro.c:121
 msgid "Extend Selection to end of Word to the Right"
-msgstr ""
+msgstr "Seçimi Kelimenin sonuna kadar sağa doğru genişlet"
 
 #: ../geanymacro/src/geanymacro.c:123
 msgid "Extend Rectangular Selection down a line"
-msgstr ""
+msgstr "Dikdörtgen Seçimi bir satır aşağı genişlet"
 
 #: ../geanymacro/src/geanymacro.c:124
 msgid "Extend Rectangular Selection up a line"
-msgstr ""
+msgstr "Dikdörtgen Seçimi bir satır yukarı genişlet"
 
 #: ../geanymacro/src/geanymacro.c:125
 msgid "Extend Rectangular Selection Left a line"
-msgstr ""
+msgstr "Dikdörtgen Seçimi Genişlet Bir satır sola"
 
 #: ../geanymacro/src/geanymacro.c:126
 msgid "Extend Rectangular Selection Right a line"
-msgstr ""
+msgstr "Dikdörtgen Seçimi Bir Satır Sağa Genişlet"
 
 #: ../geanymacro/src/geanymacro.c:127
 msgid "Extend Rectangular Selection to start of line"
-msgstr ""
+msgstr "Dikdörtgen Seçimi satırın başına kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:128
 msgid "Extend Rectangular Selection to end of line"
-msgstr ""
+msgstr "Dikdörtgen Seçimi satırın sonuna kadar genişlet"
 
 #: ../geanymacro/src/geanymacro.c:129
 msgid "Extend Rectangular Selection up one Page"
-msgstr ""
+msgstr "Dikdörtgen Seçimi bir Sayfa Yukarı Genişlet"
 
 #: ../geanymacro/src/geanymacro.c:130
 msgid "Extend Rectangular Selection down one Page"
-msgstr ""
+msgstr "Dikdörtgen Seçimi bir Sayfa aşağı genişlet"
 
 #: ../geanymacro/src/geanymacro.c:131
 msgid ""
 "Extend Rectangular Selection to 1st non-whitespace character of line, or 1st "
 "character of line if already at 1st non-whitespace character"
 msgstr ""
+"Dikdörtgen Seçimi, satırın boşluk olmayan 1. karakterine veya zaten 1. "
+"boşluk olmayan karakterdeyse satırın 1. karakterine genişletir"
 
 #: ../geanymacro/src/geanymacro.c:134
 msgid "Cancel Selection"
@@ -3441,7 +3508,7 @@ msgstr "Seçimi iptal et"
 
 #: ../geanymacro/src/geanymacro.c:136
 msgid "Toggle Insert/Overwrite mode"
-msgstr ""
+msgstr "Ekle / Üzerine Yaz modunu değiştir"
 
 #: ../geanymacro/src/geanymacro.c:137 ../pretty-printer/src/ConfigUI.c:429
 msgid "Tab"
@@ -3454,11 +3521,11 @@ msgstr "Yenisatır"
 #: ../geanymacro/src/geanymacro.c:140 ../geanymacro/src/geanymacro.c:1625
 #, c-format
 msgid "Insert/replace with \"\""
-msgstr ""
+msgstr "Ekle/ile değiştir \"\""
 
 #: ../geanymacro/src/geanymacro.c:142
 msgid "Swap current line with one above"
-msgstr ""
+msgstr "Mevcut satırı yukarıdakilerden biriyle değiştir"
 
 #: ../geanymacro/src/geanymacro.c:143
 msgid "Change selected text to lowercase"
@@ -3470,13 +3537,15 @@ msgstr "Seçilen metni büyük harfe çevir"
 
 #: ../geanymacro/src/geanymacro.c:146
 msgid "Insert duplicate of current line below"
-msgstr ""
+msgstr "Aşağıya mevcut satırın kopyasını ekle"
 
 #: ../geanymacro/src/geanymacro.c:147
 msgid ""
 "Insert duplicate of selected text after selection. If nothing selected, "
 "duplicate line"
 msgstr ""
+"Seçimden sonra seçili metnin kopyasını ekle. Hiçbir şey seçilmezse, "
+"yinelenen satırı"
 
 #: ../geanymacro/src/geanymacro.c:150
 msgid "Search for next \"\""
@@ -3488,7 +3557,7 @@ msgstr "Önceki için ara \"\""
 
 #: ../geanymacro/src/geanymacro.c:152
 msgid "Set start of search to beginning of selection"
-msgstr ""
+msgstr "Aramanın başlangıcını seçimin başlangıcına ayarlayın"
 
 #: ../geanymacro/src/geanymacro.c:181
 msgid "Macros"
@@ -3607,12 +3676,17 @@ msgid ""
 "You can also click on a macro's name and change it, or the key combination "
 "and re-define that assuming that it's not already in use. "
 msgstr ""
+"Ayrıca bir makronun adına tıklayıp onu değiştirebilir veya tuş "
+"kombinasyonunu değiştirebilir ve zaten kullanımda olmadığını varsayarak bunu "
+"yeniden tanımlayabilirsiniz. "
 
 #: ../geanymacro/src/geanymacro.c:872
 msgid ""
 "Selecting the edit option allows you to view all the individual elements "
 "that make up the macro. "
 msgstr ""
+"Düzenleme seçeneğinin seçilmesi, makroyu oluşturan tüm bireysel öğeleri "
+"görüntülemenize olanak sağlar. "
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
@@ -3621,6 +3695,10 @@ msgid ""
 "that replaces the selected text, or is inserted.\n"
 "\n"
 msgstr ""
+"Her öğe için farklı bir komut seçebilir, taşıyabilir, yeni öğeler "
+"ekleyebilir, öğeleri silebilir veya değiştir / ekle ise, seçili metnin "
+"yerini alan veya eklenen metni düzenleyebilirsiniz.\n"
+"\n"
 
 #: ../geanymacro/src/geanymacro.c:878
 msgid ""
@@ -3628,6 +3706,9 @@ msgid ""
 "recorded, and won't be replayed when the macro is re-run.\n"
 "\n"
 msgstr ""
+"Akılda tutulması gereken tek şey, geri alma ve yineleme eylemlerinin "
+"kaydedilmemesi ve makro yeniden çalıştırıldığında yeniden oynatılmamasıdır.\n"
+"\n"
 
 #: ../geanymacro/src/geanymacro.c:881
 msgid ""
@@ -3635,6 +3716,9 @@ msgid ""
 "Manager under the Tools menu, selecting this plugin, and clicking "
 "Preferences. "
 msgstr ""
+"Araçlar menüsü altında Eklenti Yöneticisi'ni seçip, bu eklentiyi seçerek ve "
+"Tercihler'i tıklayarak bu eklentinin varsayılan davranışını "
+"değiştirebilirsiniz. "
 
 #: ../geanymacro/src/geanymacro.c:883
 msgid "You can change:\n"
@@ -3646,9 +3730,11 @@ msgid ""
 "recorded macros and reload them for use the next time you open Geany, if not "
 "they will be lost when Geany is closed.\n"
 msgstr ""
+"Geany kapatıldığında Makroları Kaydet - Bu seçilirse, Geany kaydedilen "
+"makroları kaydedecek ve Geany'yi bir sonraki açışınızda kullanım için "
+"yeniden yükleyecektir, yoksa Geany kapatıldığında bunlar kaybolacaktır.\n"
 
 #: ../geanymacro/src/geanymacro.c:887
-#, fuzzy
 msgid ""
 "Ask before replacing existing Macros - If this is selected then if you try "
 "recording a macro over an existing one it will check before over-writing it, "
@@ -3656,11 +3742,11 @@ msgid ""
 "otherwise it will simply erase any existing macros with the same name, or "
 "the same key trigger combination."
 msgstr ""
-"Mevcut Makroları değiştirmeden önce sor - Eğer bu seçilirse, o zaman varolan "
-"bir makro üzerine bir makro kaydetmeyi denerseniz, üzerine yazmadan önce "
-"kontrol eder, size farklı bir isim veya tuş tetikleyici kombinasyonunu "
-"deneme seçeneği sunar, aksi taktirde sadece aynı isimde veya aynı tuş "
-"tetikleyici kombinasyonu olan mevcut makroları siler."
+"Mevcut Makroları değiştirmeden önce sor - Bu seçilirse, mevcut bir makro "
+"üzerine bir makro kaydetmeyi denerseniz, üzerine yazmadan önce kontrol eder "
+"ve size farklı bir ad veya tuş tetikleme kombinasyonunu deneme seçeneği "
+"sunar, aksi takdirde sadece herhangi bir şeyi siler. aynı ada veya aynı tuş "
+"tetik kombinasyonuna sahip mevcut makrolar."
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1057
@@ -3763,17 +3849,16 @@ msgstr "Kelime başlangıcını ara"
 
 #: ../geanymacro/src/geanymacro.c:1457
 msgid "Search text is regular expression"
-msgstr ""
+msgstr "Arama metni normal ifadedir"
 
 #: ../geanymacro/src/geanymacro.c:1462
 msgid "Search text is POSIX compatible"
-msgstr ""
+msgstr "Arama metni POSIX uyumludur"
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1531
-#, fuzzy
 msgid "Edit Insert/Replace Text"
-msgstr "Metin Ekle/Değiştir"
+msgstr "Eklemeyi Düzenle/Metni Değiştir"
 
 #: ../geanymacro/src/geanymacro.c:1544
 msgid "Text:"
@@ -3782,7 +3867,7 @@ msgstr "Yazı:"
 #: ../geanymacro/src/geanymacro.c:1570 ../geanymacro/src/geanymacro.c:1758
 #, c-format
 msgid "Insert/replace with \"%s\""
-msgstr ""
+msgstr "Ekle/ile değiştir \"%s\""
 
 #. create dialog box
 #: ../geanymacro/src/geanymacro.c:1735
@@ -3806,11 +3891,11 @@ msgstr "Aş_ağı Taşı"
 
 #: ../geanymacro/src/geanymacro.c:1820
 msgid "New _Above"
-msgstr ""
+msgstr "Yeni _Yukarıda"
 
 #: ../geanymacro/src/geanymacro.c:1821
 msgid "New _Below"
-msgstr ""
+msgstr "Yeni _Altında"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
 #: ../treebrowser/src/treebrowser.c:1338 ../treebrowser/src/treebrowser.c:1340
@@ -3852,7 +3937,6 @@ msgstr "Makroları Düz_enle"
 
 #. *< \brief It's the information message about geany mini script
 #: ../geanyminiscript/src/gms_gui.c:129
-#, fuzzy
 msgid ""
 "<b>GMS : Geany Mini-Script filter Plugin</b>\n"
 "This plugin is a tool to apply a script filter on:\n"
@@ -3877,28 +3961,28 @@ msgid ""
 "Software Foundation; either version 2 of the License,\n"
 "or (at your option) any later version."
 msgstr ""
-"<b>GMS: Geany Mini-Komut Dosyası filtresi Eklentisi</b>\n"
-"Bu eklenti, üzerine bir komut dosyası filtresi uygulamak için bir araçtır:\n"
-"    o Metin seçimi,\n"
-"    o Mevcut belge,\n"
-"    o Geçerli oturumun tüm belgeleri.\n"
+"<b>GMS: Geany Mini-Script filtre Eklentisi</b>\n"
+"Bu eklenti, bir komut dosyası filtresi uygulamak için bir araçtır:\n"
+"    o metin seçimi,\n"
+"    o mevcut belge,\n"
+"    o mevcut oturumun tüm belgeleri.\n"
 "\n"
-"Filtre tipi şöyle olabilir:\n"
+"Filtre türü şunlar olabilir:\n"
 "    o Unix kabuk betiği,\n"
 "    o perl betiği,\n"
-"    o python betiği,\n"
+"    o python komut dosyası,\n"
 "    o sed komutları,\n"
-"    o awk betiği.\n"
+"    o awk komut dosyası.\n"
 "\n"
 "<b>YAZAR</b>\n"
-"    Pascal BURLOT tarafından yazıldı. (Aralık 2008)\n"
+"   Pascal BURLOT tarafından yazıldı (Aralık, 2008)\n"
 "\n"
-"<b>LICENSE:</b>\n"
-"This program is free software; you can redistribute\n"
-"it and/or modify it under the terms of the GNU \n"
-"General Public License as published by the Free\n"
-"Software Foundation; either version 2 of the License,\n"
-"or (at your option) any later version."
+"<b>LİSANS:</b>\n"
+"Bu program ücretsiz bir yazılımdır; yeniden dağıtabilirsin\n"
+"ve / veya GNU koşulları altında değiştirir\n"
+"Free tarafından yayınlanan Genel Kamu Lisansı\n"
+"Yazılım Vakfı; Lisansın her iki sürümü 2,\n"
+"veya (sizin tercihinize göre) daha sonraki bir sürüm."
 
 #: ../geanyminiscript/src/gms_gui.c:253
 msgid "Load Mini-Script File"
@@ -3910,7 +3994,7 @@ msgstr "Mini-Betik Dosyasını Kaydet"
 
 #: ../geanyminiscript/src/gms_gui.c:419
 msgid "Mini-Script Filter"
-msgstr ""
+msgstr "Mini Komut Dosyası Filtresi"
 
 #: ../geanyminiscript/src/gms_gui.c:445
 msgid "Clear the mini-script window"
@@ -3936,11 +4020,11 @@ msgstr "mini-betik türünü seçiniz"
 #. *                   selection/current document/all documents of the current session
 #: ../geanyminiscript/src/gms_gui.c:499
 msgid "filter input"
-msgstr ""
+msgstr "filtre girişi"
 
 #: ../geanyminiscript/src/gms_gui.c:501
 msgid "select the input of mini-script filter"
-msgstr ""
+msgstr "mini komut dosyası filtresinin girdisini seçin"
 
 #: ../geanyminiscript/src/gms_gui.c:507
 msgid "selection"
@@ -3958,11 +4042,11 @@ msgstr "oturum"
 #. *                   current document/ or new document
 #: ../geanyminiscript/src/gms_gui.c:518
 msgid "filter output"
-msgstr ""
+msgstr "filtre çıkışı"
 
 #: ../geanyminiscript/src/gms_gui.c:520
 msgid "select the output of mini-script filter"
-msgstr ""
+msgstr "mini komut dosyası filtresinin çıktısını seçin"
 
 #: ../geanyminiscript/src/gms_gui.c:526
 msgid "Current Doc."
@@ -3992,7 +4076,7 @@ msgstr "Pascal BURLOT, bir Geany kullanıcısı"
 #. Add an item to the Tools menu
 #: ../geanyminiscript/src/gms.c:246
 msgid "_Mini-Script"
-msgstr ""
+msgstr "_Mini-Betik"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:61
 msgid "Numbered Bookmarks for Geany"
@@ -4001,7 +4085,7 @@ msgstr "Geany için Numaralı Yer imleri"
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:931
 #, c-format
 msgid "Unable to apply all markers to '%s' as all being used."
-msgstr ""
+msgstr "Tüm işaretçiler kullanıldığı için \"%s\" öğesine uygulanamıyor."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:933
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:977
@@ -4026,11 +4110,11 @@ msgstr "_Yoksay"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1223
 msgid "remember fold state"
-msgstr ""
+msgstr "kıvrım durumunu hatırla"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1229
 msgid "Center view when goto bookmark"
-msgstr ""
+msgstr "Yer işaretine gittiğinizde orta görünümü"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1236
 msgid "Move to start of line"
@@ -4038,11 +4122,11 @@ msgstr "Satır başına taşı"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
 msgid "Move to remembered position in line"
-msgstr ""
+msgstr "Satırda hatırlanan konuma git"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1238
 msgid "Move to position in current line"
-msgstr ""
+msgstr "Geçerli satırdaki konuma git"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1239
 msgid "Move to End of line"
@@ -4050,15 +4134,15 @@ msgstr "Satır sonuna taşı"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1245
 msgid "Save file settings with program settings"
-msgstr ""
+msgstr "Dosya ayarlarını program ayarlarıyla kaydedin"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1246
 msgid "Save file settings to filename with suffix"
-msgstr ""
+msgstr "Dosya ayarlarını sonekle dosya adına kaydedin"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1251
 msgid "remember normal Bookmarks"
-msgstr ""
+msgstr "normal yer imlerini hatırla"
 
 #. create dialog box
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1271
@@ -4080,10 +4164,23 @@ msgid ""
 "shown, but you can have more than one bookmark per line. To move to a "
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
+"Bu Eklenti, Geany'de Numaralı Yer İmlerini uygular ve bir dosya "
+"kaydedildiğinde kıvrımların durumunu ve standart numaralandırılmamış yer "
+"imlerinin konumlarını hatırlar.\n"
+"\n"
+"En fazla 10 numaralı yer imi kullanmanıza izin verir. Numaralandırılmış bir "
+"yer imi ayarlamak için Ctrl + Shift + 0 ile 9 arasında bir sayı tuşlarına "
+"basın. Satır numarasının yanında bir işaretçi göreceksiniz. Bir satırda Ctrl "
+"+ Shift + o yer imi numarasına sahip bir sayıya basarsanız, yer imini "
+"kaldırır, aksi takdirde yer imini farklı bir satıra ayarlanmışsa oraya taşır "
+"veya önceden ayarlanmamışsa oluşturur. . Bir satırda yalnızca en son "
+"ayarlanan yer imi gösterilir, ancak her satırda birden fazla yer iminiz "
+"olabilir. Önceden ayarlanmış bir yer imine gitmek için Ctrl + 0 ile 9 "
+"arasında bir sayıya basın."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1408
 msgid "Unable to apply markers as all being used."
-msgstr ""
+msgstr "İşaretçilerin tümü kullanıldığı için uygulanamıyor."
 
 #: ../geanypg/src/decrypt_cb.c:33 ../geanypg/src/encrypt_cb.c:32
 #: ../geanypg/src/sign_cb.c:33
@@ -4112,6 +4209,8 @@ msgid ""
 "No recipients were selected,\n"
 "use symmetric cipher?"
 msgstr ""
+"Hiçbir alıcı seçilmedi,\n"
+"simetrik şifre kullanıyor musunuz?"
 
 #: ../geanypg/src/geanypg.c:36
 msgid ""
@@ -4210,7 +4309,7 @@ msgstr ""
 
 #: ../geanypg/src/verify_aux.c:53
 msgid "a key with fingerprint"
-msgstr ""
+msgstr "parmak izi olan bir anahtar"
 
 #: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:610
 #: ../spellcheck/src/gui.c:621
@@ -4235,10 +4334,9 @@ msgstr "tam"
 
 #: ../geanypg/src/verify_aux.c:71
 msgid "ultimate"
-msgstr ""
+msgstr "nihai"
 
 #: ../geanypg/src/verify_aux.c:72 ../geanypg/src/verify_aux.c:74
-#, fuzzy
 msgid "[bad validity value]"
 msgstr "[kötü geçerlilik değeri]"
 
@@ -4281,7 +4379,7 @@ msgstr " CRL çok eski"
 
 #: ../geanypg/src/verify_aux.c:88
 msgid " bad-policy"
-msgstr ""
+msgstr " kötü-politika"
 
 #: ../geanypg/src/verify_aux.c:89
 msgid " sys-error"
@@ -4306,6 +4404,17 @@ msgid ""
 "other flags:%s%s\n"
 "notations .: %s\n"
 msgstr ""
+"durum ....: %s\n"
+"özet ...:%s\n"
+"parmak izi: %s\n"
+"oluşturuldu ...:%ssona eriyor ...: %sgeçerlilik ..: %s\n"
+"val.neden: %s\n"
+"pubkey algo: %s\n"
+"sindirim algo: %s\n"
+"pka adresi: %s\n"
+"pka güveni.: %s\n"
+"diğer işaretler:%s%s\n"
+"gösterimler.: %s\n"
 
 #: ../geanypg/src/verify_aux.c:126 ../geanypg/src/verify_aux.c:133
 msgid "[None]"
@@ -4329,16 +4438,15 @@ msgstr "tamam"
 
 #: ../geanypg/src/verify_aux.c:134
 msgid "RFU"
-msgstr ""
+msgstr "RFU"
 
 #: ../geanypg/src/verify_aux.c:135
-#, fuzzy
 msgid " wrong-key-usage"
 msgstr " yanlış-anahtar-kullanımı"
 
 #: ../geanypg/src/verify_aux.c:135
 msgid " chain-model"
-msgstr ""
+msgstr " zincir-modeli"
 
 #: ../geanypg/src/verify_aux.c:136
 msgid "yes"
@@ -4369,7 +4477,6 @@ msgid "Open a signature file"
 msgstr "Bir imza dosyası aç"
 
 #: ../geanyprj/src/geanyprj.c:39
-#, fuzzy
 msgid ""
 "Alternative project support. \n"
 "This plugin currently has no maintainer. Would you like to help by "
@@ -4381,7 +4488,7 @@ msgstr ""
 
 #: ../geanyprj/src/geanyprj.c:228
 msgid "Find a text in geanyprj's project"
-msgstr ""
+msgstr "Geanyprj'nin projesinde bir metin bulun"
 
 #: ../geanyprj/src/geanyprj.c:242
 msgid "Display sidebar"
@@ -4502,7 +4609,7 @@ msgstr "GeanyPy"
 
 #: ../geanypy/src/geanypy-plugin.c:416
 msgid "Python plugins support"
-msgstr ""
+msgstr "Python eklentileri desteği"
 
 #: ../geanyvc/src/geanyvc.c:73
 msgid "GeanyVC"
@@ -4514,6 +4621,9 @@ msgid ""
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Farklı Sürüm Kontrol sistemlerine arayüz.\n"
+"Bu eklentiler şu anda aktif olarak geliştirilmemiştir. Bu eklentiye katkıda "
+"bulunarak yardım etmek ister misiniz?"
 
 #: ../geanyvc/src/geanyvc.c:501
 #, c-format
@@ -4523,10 +4633,10 @@ msgstr "geanyvc: s_spawn_sync hatası: %s"
 #: ../geanyvc/src/geanyvc.c:587
 #, c-format
 msgid "File %s: action %s executed via %s."
-msgstr ""
+msgstr "%s dosyası: %s eylemi %s üzerinden yürütüldü."
 
 #: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
-#, fuzzy, c-format
+#, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr ""
 "geanyvc: vcdiff_file_activated: '%s' değerini yeniden adlandırırken hata '%s'"
@@ -4566,6 +4676,13 @@ msgid ""
 "To view the differences, cancel this dialog and open the differences in "
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
+"Ortaya çıkan farklılıklar gösterilemez çünkü değişiklikler burada "
+"görüntülenemeyecek kadar büyüktür ve kullanıcı arayüzünü önemli ölçüde "
+"yavaşlatır.\n"
+"\n"
+"Farklılıkları görüntülemek için, bu iletişim kutusunu iptal edin ve GeanyVC "
+"menüsünü (Temel Dizin -> Fark) kullanarak Geany'deki farklılıkları doğrudan "
+"açın."
 
 #: ../geanyvc/src/geanyvc.c:1274
 msgid "Commit Y/N"
@@ -4581,32 +4698,32 @@ msgstr "Yol"
 
 #: ../geanyvc/src/geanyvc.c:1408
 msgid "Choose a previous commit message"
-msgstr ""
+msgstr "Önceki bir kaydetme mesajı seçin"
 
 #: ../geanyvc/src/geanyvc.c:1470
 #, c-format
 msgid "Line: %d Column: %d"
-msgstr ""
+msgstr "Satır: %d Sütun: %d"
 
 #: ../geanyvc/src/geanyvc.c:1517
 msgid "Commit"
-msgstr "Teslim et"
+msgstr "İşleme"
 
 #: ../geanyvc/src/geanyvc.c:1558
 msgid "_De-/select all files"
-msgstr ""
+msgstr "_Bırak-/tüm dosyaları seç"
 
 #: ../geanyvc/src/geanyvc.c:1602
 msgid "<b>Commit message:</b>"
-msgstr "<b>Teslim mesajı:</b>"
+msgstr "<b>İşleme mesajı:</b>"
 
 #: ../geanyvc/src/geanyvc.c:1626
 msgid "C_ommit"
-msgstr "G_önder"
+msgstr "İ_şle"
 
 #: ../geanyvc/src/geanyvc.c:1734
 msgid "Nothing to commit."
-msgstr "Teslim edilecek bir şey yok."
+msgstr "İşlenecek bir şey yok."
 
 #: ../geanyvc/src/geanyvc.c:1782
 #, c-format
@@ -4619,6 +4736,8 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:2125
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
+"Eklenti tarafından oluşturulan belge sekmeleri için Değiştirilmiş bayrağı "
+"ayarla"
 
 #: ../geanyvc/src/geanyvc.c:2128
 msgid ""
@@ -4626,15 +4745,20 @@ msgid ""
 "will be marked as changed. Even this option is useful in some cases, it "
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
+"Bu seçenek etkinleştirilirse, VC eklentisi tarafından oluşturulan her yeni "
+"belge sekmesi değiştirilmiş olarak işaretlenecektir. Bu seçenek bazı "
+"durumlarda yararlı olsa bile, çok sayıda can sıkıcı \"kaydetmek istiyor "
+"musunuz\"-diyaloglarına neden olabilir."
 
 #: ../geanyvc/src/geanyvc.c:2136
-#, fuzzy
 msgid "Confirm adding new files to a VCS"
 msgstr "Bir VCS'ye yeni dosyalar eklemeyi onaylayın"
 
 #: ../geanyvc/src/geanyvc.c:2139
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
+"VCS'ye yeni (oluşturulmuş) bir dosya eklemeyle ilgili bir onay iletişim "
+"kutusu gösterir."
 
 #: ../geanyvc/src/geanyvc.c:2145
 msgid "Maximize commit dialog"
@@ -4654,15 +4778,15 @@ msgstr "Dosya değişiklikleri için harici bir diff izleyici kullan."
 
 #: ../geanyvc/src/geanyvc.c:2160
 msgid "Show VC entries at editor menu"
-msgstr ""
+msgstr "Düzenleyici menüsünde VC girişlerini göster"
 
 #: ../geanyvc/src/geanyvc.c:2162
 msgid "Show entries for VC functions inside editor menu"
-msgstr ""
+msgstr "Düzenleyici menüsünde VC işlevleri için girişleri göster"
 
 #: ../geanyvc/src/geanyvc.c:2167
 msgid "Attach menu to menubar"
-msgstr ""
+msgstr "Menü çubuğuna menü ekle"
 
 #: ../geanyvc/src/geanyvc.c:2169
 msgid ""
@@ -4670,6 +4794,9 @@ msgid ""
 "directly inside Geany's menubar. Will take in account after next start of "
 "GeanyVC"
 msgstr ""
+"Bu eklentinin menüsünün araçlar menüsüne mi yoksa doğrudan Geany'nin menü "
+"çubuğuna mı yerleştirileceği. GeanyVC'nin bir sonraki başlangıcından sonra "
+"hesaba katılacak"
 
 #: ../geanyvc/src/geanyvc.c:2177
 msgid "Enable CVS"
@@ -4726,15 +4853,17 @@ msgstr "_Eskiye dön"
 #: ../geanyvc/src/geanyvc.c:2353
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
+"Bozulmamış çalışan kopya dosyasını geri yükleyin (yerel düzenlemeleri geri "
+"alın)."
 
 #. Blame for current file
 #: ../geanyvc/src/geanyvc.c:2362
 msgid "_Blame"
-msgstr ""
+msgstr "_Kusur"
 
 #: ../geanyvc/src/geanyvc.c:2365
 msgid "Shows the changes made at one file per revision and author."
-msgstr ""
+msgstr "Revizyon ve yazar başına bir dosyada yapılan değişiklikleri gösterir."
 
 #. History/log of current file
 #. History/log of the current dir
@@ -4786,6 +4915,8 @@ msgstr "Şimdiki aktif dosyanın dizininden bir diff dosyası oluştur"
 #: ../geanyvc/src/geanyvc.c:2449
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
+"Geçerli klasördeki orijinal dosyaları geri yükleyin (yerel düzenlemeleri "
+"geri alın)."
 
 #: ../geanyvc/src/geanyvc.c:2459
 msgid "Shows the log of the current directory"
@@ -4797,7 +4928,7 @@ msgstr "_Temel Dizin"
 
 #: ../geanyvc/src/geanyvc.c:2479
 msgid "Make a diff from the top VC directory"
-msgstr ""
+msgstr "En üstteki VC dizininden bir fark yaratın"
 
 #: ../geanyvc/src/geanyvc.c:2487
 msgid "Revert any local edits."
@@ -4805,16 +4936,15 @@ msgstr "Tüm yerel değişiklikleri geri al."
 
 #: ../geanyvc/src/geanyvc.c:2500
 msgid "Shows the log of the top VC directory"
-msgstr ""
+msgstr "En üstteki VC dizininin günlüğünü gösterir"
 
 #: ../geanyvc/src/geanyvc.c:2517
-#, fuzzy
 msgid "_VC file Actions"
 msgstr "_VC dosyası İşlemleri"
 
 #: ../geanyvc/src/geanyvc.c:2526
 msgid "VC _Commit..."
-msgstr ""
+msgstr "VC _İşle..."
 
 #: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
@@ -4826,7 +4956,7 @@ msgstr "Dizinin farkını göster"
 
 #: ../geanyvc/src/geanyvc.c:2574
 msgid "Show diff of basedir"
-msgstr ""
+msgstr "Basedir farkını göster"
 
 #: ../geanyvc/src/geanyvc.c:2577
 msgid "Commit changes"
@@ -4894,7 +5024,7 @@ msgstr "\"%s\" grubu bulunamadı."
 #: ../geniuspaste/src/geniuspaste.c:141
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
-msgstr ""
+msgstr "Grubun \"%s\" anahtarı yok \"%s\"."
 
 #: ../geniuspaste/src/geniuspaste.c:791
 msgid "Invalid pastebin service."
@@ -4906,10 +5036,13 @@ msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
 "preferences or create an appropriate pastebin configuration and retry."
 msgstr ""
+"Bilinmeyen pastebin hizmeti \"%s\". Tercihlerde mevcut bir pastebin "
+"hizmetini seçin veya uygun bir pastebin yapılandırması oluşturup yeniden "
+"deneyin."
 
 #: ../geniuspaste/src/geniuspaste.c:804
 msgid "Refusing to create blank paste"
-msgstr ""
+msgstr "Boş yapıştırma oluşturmayı reddetme"
 
 #: ../geniuspaste/src/geniuspaste.c:824
 msgid "Failed to paste the code"
@@ -4923,6 +5056,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Kodu yapıştırma kutusu hizmetine yapıştırırken hata oluştu %s.\n"
+"Hata kodu: %u (%s).\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:829
 msgid "Check your connection or the pastebin configuration and retry."
@@ -4943,7 +5080,7 @@ msgstr "Pastebin konfigürasyonunu kontrol edin ve tekrar deneyin."
 
 #: ../geniuspaste/src/geniuspaste.c:844
 msgid "Failed to obtain paste URL."
-msgstr ""
+msgstr "Yapıştırma URL'si alınamadı."
 
 #: ../geniuspaste/src/geniuspaste.c:845
 #, c-format
@@ -4953,6 +5090,10 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Kod başarıyla %s üzerine yapıştırıldı, ancak URL'sini almaya çalışırken bir "
+"hata oluştu: %s\n"
+"\n"
+"%s"
 
 #: ../geniuspaste/src/geniuspaste.c:849
 msgid "Unexpected response from the pastebin service."
@@ -4960,7 +5101,7 @@ msgstr "Pastebin servisinden beklenmeyen yanıt."
 
 #: ../geniuspaste/src/geniuspaste.c:862
 msgid "Paste Successful"
-msgstr ""
+msgstr "Yapıştırma Başarılı"
 
 #: ../geniuspaste/src/geniuspaste.c:863
 #, c-format
@@ -4968,10 +5109,13 @@ msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr ""
+"Yapıştırmanız burada bulunabilir:\n"
+"<a href=\"%s\" title=\"Tarayıcınızda yapıştırmayı açmak için tıklayın\">%s</"
+"a>"
 
 #: ../geniuspaste/src/geniuspaste.c:881
 msgid "There are no opened documents. Open one and retry.\n"
-msgstr ""
+msgstr "Açık belge yok. Birini açın ve tekrar deneyin.\n"
 
 #: ../geniuspaste/src/geniuspaste.c:894
 msgid "The author name field is empty!"
@@ -4987,7 +5131,7 @@ msgstr "Yazar adını girin:"
 
 #: ../geniuspaste/src/geniuspaste.c:938
 msgid "Show your paste in a new browser tab"
-msgstr ""
+msgstr "Yapıştırmanızı yeni bir tarayıcı sekmesinde gösterin"
 
 #: ../geniuspaste/src/geniuspaste.c:959
 msgid "_Paste it!"
@@ -4995,17 +5139,16 @@ msgstr "_Yapıştır!"
 
 #: ../git-changebar/data/prefs.ui.h:1
 msgid "_Monitor repository for changes"
-msgstr ""
+msgstr "Depoyu değişiklikler için _izleyin"
 
 #: ../git-changebar/data/prefs.ui.h:2
-#, fuzzy
 msgid ""
 "Whether to automatically update the diff in order to maintain it up to date "
 "when the underlying Git repository changes.  This should generally be "
 "enabled for optimal user experience."
 msgstr ""
 "Temel Git deposu değiştiğinde güncel tutmak için farkın otomatik olarak "
-"güncellenip güncellenmeyeceği. Bu genellikle en iyi kullanıcı deneyimi için "
+"güncellenip güncellenmeyeceği.  Bu genellikle en iyi kullanıcı deneyimi için "
 "etkinleştirilmelidir."
 
 #: ../git-changebar/data/prefs.ui.h:3
@@ -5026,7 +5169,7 @@ msgstr "Renkler"
 
 #: ../git-changebar/src/gcb-plugin.c:62
 msgid "Git Change Bar"
-msgstr ""
+msgstr "Git Değiştirme Çubuğu"
 
 #: ../git-changebar/src/gcb-plugin.c:63
 msgid "Highlights uncommitted changes in files tracked with Git"
@@ -5061,7 +5204,7 @@ msgstr "Sonraki parçaya git"
 
 #: ../git-changebar/src/gcb-plugin.c:1507
 msgid "Undo hunk at the cursor position"
-msgstr ""
+msgstr "İmleç konumunda hunk'ı geri al"
 
 #: ../git-changebar/src/gcb-plugin.c:1655 ../pohelper/src/gph-plugin.c:1456
 #: ../pohelper/src/gph-plugin.c:1791
@@ -5089,37 +5232,37 @@ msgstr "Ttuş vuruşlarını kaydetme ve tekrar etme"
 
 #: ../keyrecord/src/keyrecord.c:210
 msgid "tunyash"
-msgstr ""
+msgstr "tunyash"
 
 #: ../lineoperations/src/lineoperations.c:136
 #, c-format
 msgid "Operation successful! %d lines removed."
-msgstr ""
+msgstr "İşlem başarılı! %d satırı kaldırıldı."
 
 #: ../lineoperations/src/lineoperations.c:147
 msgid "Operation successful! No lines removed."
-msgstr ""
+msgstr "İşlem başarılı! Hiçbir satır kaldırılmadı."
 
 #: ../lineoperations/src/lineoperations.c:155
 #, c-format
 msgid "Operation successful! %d lines affected."
-msgstr ""
+msgstr "İşlem başarılı! %d satırı etkilendi."
 
 #: ../lineoperations/src/lineoperations.c:265
 msgid "Remove Duplicate Lines, _Sorted"
-msgstr ""
+msgstr "Yinelenen Satırları Kaldır, _Sıralanmış"
 
 #: ../lineoperations/src/lineoperations.c:267
 msgid "Remove Duplicate Lines, _Ordered"
-msgstr ""
+msgstr "Yinelenen Satırları Kaldır, _Sipariş Verildi"
 
 #: ../lineoperations/src/lineoperations.c:269
 msgid "Remove _Unique Lines"
-msgstr ""
+msgstr "_Benzersiz Satırları Kaldır"
 
 #: ../lineoperations/src/lineoperations.c:271
 msgid "Keep _Unique Lines"
-msgstr ""
+msgstr "_Benzersiz Satırları Koru"
 
 #: ../lineoperations/src/lineoperations.c:274
 msgid "Remove _Empty Lines"
@@ -5127,27 +5270,27 @@ msgstr "_Boş Satırları Kaldır"
 
 #: ../lineoperations/src/lineoperations.c:276
 msgid "Remove _Whitespace Lines"
-msgstr ""
+msgstr "_Boşluk Çizgilerini Kaldır"
 
 #: ../lineoperations/src/lineoperations.c:279
 msgid "Remove Every _Nth Line"
-msgstr ""
+msgstr "Her _Nth Satırlarını Kaldır"
 
 #: ../lineoperations/src/lineoperations.c:282
 msgid "Sort Lines _Ascending"
-msgstr ""
+msgstr "Satırları _Artan Sırala"
 
 #: ../lineoperations/src/lineoperations.c:284
 msgid "Sort Lines _Descending"
-msgstr ""
+msgstr "Satırları _Azalan Sırala"
 
 #: ../lineoperations/src/lineoperations.c:310
 msgid "_Line Operations"
-msgstr ""
+msgstr "_Satır İşlemleri"
 
 #: ../lineoperations/src/lineoperations.c:378
 msgid "Line Operations"
-msgstr ""
+msgstr "Satır İşlemleri"
 
 #: ../lineoperations/src/lineoperations.c:379
 msgid ""
@@ -5155,20 +5298,22 @@ msgid ""
 "document or selection such as, removing duplicate lines, removing empty "
 "lines, removing lines with only whitespace, and sorting lines."
 msgstr ""
+"Satır İşlemleri, bir belgeye veya seçime uygulanabilen, yinelenen satırları "
+"kaldırma, boş satırları kaldırma, yalnızca boşluk içeren satırları kaldırma "
+"ve satırları sıralama gibi bir dizi işlev sağlar."
 
 #. number of lines removed
 #: ../lineoperations/src/lo_fns.c:336
 msgid "Remove every Nth line"
-msgstr ""
+msgstr "Her Nth Satırlarını Kaldır"
 
 #: ../lineoperations/src/lo_fns.c:337
-#, fuzzy
 msgid "Value of N"
 msgstr "N değeri"
 
 #: ../lineoperations/src/lo_prefs.c:83
 msgid "Use collation based string compare"
-msgstr ""
+msgstr "Harmanlamaya dayalı dize karşılaştırması kullan"
 
 #: ../lipsum/src/lipsum.c:43
 msgid "Lipsum"
@@ -5197,13 +5342,21 @@ msgid ""
 "Warning: This will not include your keybindings.\n"
 "Move now?"
 msgstr ""
+"Yeniden adlandırılan eklenti tespit edildi!\n"
+"\n"
+"Daha önce fark etmiş olabileceğiniz gibi, GeanyLipsum'un adı sadece Lipsum "
+"olarak değiştirildi. \n"
+"Geany, eski yapılandırma dosyasını yeni konuma taşıyarak eski eklenti "
+"yapılandırmanızı taşıyabilir.\n"
+"Uyarı: Bu, tuş atamalarınızı içermeyecektir.\n"
+"Şimdi Taşınsınmı?"
 
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
 "Your configuration directory has been successfully moved from \"%s\" to \"%s"
 "\"."
-msgstr ""
+msgstr "Konfigürasyon dizininiz başarıyla \"%s\" den \"%s\" e taşındı."
 
 #: ../lipsum/src/lipsum.c:199
 #, c-format
@@ -5211,6 +5364,8 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please manually move the directory to the new location."
 msgstr ""
+"Eski yapılandırma dizininiz \"%s\", \"%s\" (%s) klasörüne taşınamadı. Lütfen "
+"dizini manuel olarak yeni konuma taşıyın."
 
 #: ../lipsum/src/lipsum.c:223 ../lipsum/src/lipsum.c:225
 msgid "_Lipsum..."
@@ -5218,7 +5373,7 @@ msgstr "_Lipsum..."
 
 #: ../lipsum/src/lipsum.c:227
 msgid "Include Pseudotext to your code"
-msgstr ""
+msgstr "Kodunuza Sözde metin ekleyin"
 
 #: ../lipsum/src/lipsum.c:241
 msgid "Insert Lipsum text"
@@ -5259,11 +5414,11 @@ msgstr "Şablon Dosyası seçin"
 
 #: ../markdown/src/plugin.c:34
 msgid "Real-time Markdown preview"
-msgstr ""
+msgstr "Gerçek zamanlı Markdown önizlemesi"
 
 #: ../markdown/src/plugin.c:46
 msgid "Markdown Preview"
-msgstr ""
+msgstr "Markdown Önizlemesi"
 
 #: ../markdown/src/plugin.c:102
 msgid "Export Markdown as HTML..."
@@ -5271,7 +5426,7 @@ msgstr "Markdown'ı HTML olarak dışa aktar..."
 
 #: ../markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
-msgstr ""
+msgstr "Mevcut belgede Markdown dosya türü yok."
 
 #: ../markdown/src/plugin.c:278
 msgid "Save HTML File As"
@@ -5279,7 +5434,7 @@ msgstr "HTML Dosyasını Farklı Kaydet"
 
 #: ../markdown/src/plugin.c:306
 msgid "HTML Files"
-msgstr ""
+msgstr "HTML Dosyaları"
 
 #: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:156
 #: ../workbench/src/dialogs.c:195
@@ -5289,7 +5444,7 @@ msgstr "Tüm dosyalar"
 #: ../markdown/src/plugin.c:322
 #, c-format
 msgid "Failed to export Markdown HTML to file '%s': %s"
-msgstr ""
+msgstr "Markdown HTML '%s' dosyasına aktarılamadı: %s"
 
 #: ../multiterm/src/config.vala:47
 #, c-format
@@ -5315,11 +5470,11 @@ msgstr "Sekmeyi Aç"
 
 #: ../multiterm/src/context-menu.vala:96
 msgid "Open Window"
-msgstr ""
+msgstr "Pencere Aç"
 
 #: ../multiterm/src/context-menu.vala:103
 msgid "Next tab"
-msgstr ""
+msgstr "Sonraki Sekme"
 
 #. this.append(item);
 #. item.show();
@@ -5337,7 +5492,7 @@ msgstr "Sekmeleri Göster"
 #: ../multiterm/src/notebook.vala:91
 #, c-format
 msgid "Unable to launch external terminal: %s"
-msgstr ""
+msgstr "Harici terminal başlatılamıyor: %s"
 
 #: ../multiterm/src/notebook.vala:137
 msgid "Unable to locate default shell in configuration file"
@@ -5349,11 +5504,11 @@ msgstr "Yeni uçbirim"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
 msgid "MultiTerm"
-msgstr ""
+msgstr "Çoklu Dönem"
 
 #: ../multiterm/src/plugin.vala:47
 msgid "Multi-tabbed virtual terminal emulator."
-msgstr ""
+msgstr "Çok sekmeli sanal terminal emülatörü."
 
 #: ../multiterm/src/plugin.vala:78
 #, c-format
@@ -5380,7 +5535,7 @@ msgstr "Komut çalıştırılamıyor: %s"
 
 #: ../overview/overview/overviewplugin.c:43
 msgid "Provides an overview of the active document"
-msgstr ""
+msgstr "Etkin belgeye genel bir bakış sağlar"
 
 #: ../overview/overview/overviewplugin.c:186
 msgid "Toggle Visibility"
@@ -5388,16 +5543,16 @@ msgstr "Görünürlüğü Değiştir"
 
 #: ../overview/overview/overviewplugin.c:193
 msgid "Toggle Left/Right Position"
-msgstr ""
+msgstr "Sol/Sağ Konumu Değiştir"
 
 #: ../overview/overview/overviewplugin.c:200
 msgid "Toggle Overlay Inversion"
-msgstr ""
+msgstr "Yer Paylaşımlı Ters Çevirmeyi Aç/Kapat"
 
 #: ../overview/overview/overviewscintilla.c:516
 #, c-format
 msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
-msgstr ""
+msgstr "Satır <b>%d</b>, Sütün <b>%d</b>, Konum <b>%d</b>"
 
 #: ../overview/overview/overviewui.c:289
 msgid "Show Overview"
@@ -5408,6 +5563,8 @@ msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
 msgstr ""
+"Genel bakış kenar çubuğunu yakınlaştırma miktarı. Kenar çubuğunun "
+"uzaklaştırılmasını istiyorsanız, bu muhtemelen negatif olacaktır."
 
 #: ../overview/data/prefs.ui.h:2
 msgid "Zoom Level:"
@@ -5415,7 +5572,7 @@ msgstr "Yakınlaştırma seviyesi:"
 
 #: ../overview/data/prefs.ui.h:3
 msgid "The width of the overview sidebar."
-msgstr ""
+msgstr "Genel bakış kenar çubuğunun genişliği."
 
 #: ../overview/data/prefs.ui.h:4
 msgid "Width:"
@@ -5425,10 +5582,11 @@ msgstr "Genişlik:"
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
 msgstr ""
+"Genel bakış kenar çubuğunu kaydırırken aynı anda kaydırılacak satır sayısı."
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
-msgstr ""
+msgstr "Kaydırma Satırları:"
 
 #: ../overview/data/prefs.ui.h:7
 msgid "Position on left"
@@ -5439,6 +5597,8 @@ msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
 msgstr ""
+"Genel bakış çubuğunu sağ yerine sola yerleştirin (Geany 1.25 veya üstü "
+"gerektirir)."
 
 #: ../overview/data/prefs.ui.h:9
 msgid "Hide tooltip"
@@ -5449,10 +5609,12 @@ msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
 msgstr ""
+"Çizgi, sütun ve konum bilgilerini gösteren genel bakış üzerinde fare ile "
+"gezindiğinizde görüntülenen araç ipucunu gizleyin."
 
 #: ../overview/data/prefs.ui.h:11
 msgid "Hide editor scrollbar"
-msgstr ""
+msgstr "Düzenleyici kaydırma çubuğunu gizle"
 
 #: ../overview/data/prefs.ui.h:12
 msgid ""
@@ -5464,13 +5626,15 @@ msgstr ""
 
 #: ../overview/data/prefs.ui.h:13
 msgid "Disable overlay"
-msgstr ""
+msgstr "Yer paylaşımını devre dışı bırak"
 
 #: ../overview/data/prefs.ui.h:14
 msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
 msgstr ""
+"Genel bakış çubuğunun üstünde, şu anda görünümde olan ana düzenleyici "
+"görünümünün bölgesini gösteren çizim kaplamasını kapatın."
 
 #: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:130
 #: ../scope/data/scope_gtk3.glade.h:130
@@ -5481,6 +5645,7 @@ msgstr "Seçenekler"
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
 msgstr ""
+"Bindirme kenar çubuğunun üstündeki bindirme çiziminin rengi ve opaklığı."
 
 #: ../overview/data/prefs.ui.h:17
 msgid "Color:"
@@ -5491,6 +5656,9 @@ msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
 msgstr ""
+"Genel bakış kenar çubuğunda gösterilen alanın etrafına çizilen kenarlığın "
+"rengi ve opaklığı. Devre dışı bırakmak için Kaplama Rengi ile aynı şekilde "
+"ayarlayın."
 
 #: ../overview/data/prefs.ui.h:19
 msgid "Outline Color:"
@@ -5498,7 +5666,7 @@ msgstr "Anahat Rengi:"
 
 #: ../overview/data/prefs.ui.h:20
 msgid "Draw over visible area"
-msgstr ""
+msgstr "Görünür alan üzerine çiz"
 
 #: ../overview/data/prefs.ui.h:21
 msgid ""
@@ -5506,36 +5674,38 @@ msgid ""
 "the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
 msgstr ""
+"İşaretlendiğinde, ana düzenleyici görünümünde görünen alanın üzerine "
+"bindirmeyi çizecek, işaretli olmadığında, tam tersini yapacak ve kaplamayı "
+"görünür alan dışında her yere çizecek ve görünür kısmı \"ortaya çıkaracaktır"
+"\"."
 
 #: ../overview/data/prefs.ui.h:22
 msgid "Overlay"
-msgstr ""
+msgstr "Kaplama"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:43
 msgid "Pair Tag Highlighter"
-msgstr ""
+msgstr "Çift Etiket Vurgulayıcı"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:44
 msgid "Finds and highlights matching opening/closing HTML tag"
-msgstr ""
+msgstr "Açılış / kapanış HTML etiketiyle eşleşen bulur ve vurgular"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:490
 msgid "Goto Matching XML Tag"
-msgstr ""
+msgstr "Eşleşen XML Etiketine Git"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:491
-#, fuzzy
 msgid "Select Matching XML Tag"
-msgstr "Eşleşen _Ayracı Seç"
+msgstr "Eşleşen XML Etiketi Seçin"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:502
 msgid "Go To Matching Tag"
-msgstr ""
+msgstr "Eşleşen Etikete Git"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
-#, fuzzy
 msgid "Select To Matching Tag"
-msgstr "Eşleşen _Ayracı Seç"
+msgstr "Eşleşen Etikete Seçin"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -5543,7 +5713,7 @@ msgstr "_Çeviri Yardımcısı"
 
 #: ../pohelper/data/menus.ui.h:2
 msgid "_Previous String"
-msgstr ""
+msgstr "_Önceki Dize"
 
 #: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1590
 msgid "Go to previous string"
@@ -5551,7 +5721,7 @@ msgstr "Önceki metne git"
 
 #: ../pohelper/data/menus.ui.h:4
 msgid "_Next String"
-msgstr ""
+msgstr "_Sonraki Dize"
 
 #: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1593
 msgid "Go to next string"
@@ -5559,75 +5729,75 @@ msgstr "Sonraki metne git"
 
 #: ../pohelper/data/menus.ui.h:6
 msgid "Pre_vious Untranslated"
-msgstr ""
+msgstr "Ön_ceki Çevrilmemiş"
 
 #: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1596
 msgid "Go to previous untranslated string"
-msgstr ""
+msgstr "Önceki çevrilmemiş dizeye git"
 
 #: ../pohelper/data/menus.ui.h:8
 msgid "Next _Untranslated"
-msgstr ""
+msgstr "Sonraki _Çevrilmemiş"
 
 #: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1599
 msgid "Go to next untranslated string"
-msgstr ""
+msgstr "Sonraki çevrilmemiş dizeye git"
 
 #: ../pohelper/data/menus.ui.h:10
 msgid "Previous Fu_zzy"
-msgstr ""
+msgstr "Önceki Bu_lanık"
 
 #: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1602
 msgid "Go to previous fuzzily translated string"
-msgstr ""
+msgstr "Önceki belirsiz çevrilmiş dizeye git"
 
 #: ../pohelper/data/menus.ui.h:12
 msgid "Next _Fuzzy"
-msgstr ""
+msgstr "Sonraki _Bulanık"
 
 #: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1605
 msgid "Go to next fuzzily translated string"
-msgstr ""
+msgstr "Sonraki belirsiz çevrilmiş dizeye git"
 
 #: ../pohelper/data/menus.ui.h:14
 msgid "Previous Untranslated or Fuzz_y"
-msgstr ""
+msgstr "Önceki Çevrilmemiş veya Belirsi_z"
 
 #: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1608
 msgid "Go to previous untranslated or fuzzy string"
-msgstr ""
+msgstr "Önceki çevrilmemiş veya belirsiz dizeye git"
 
 #: ../pohelper/data/menus.ui.h:16
 msgid "Next Untranslated _or Fuzzy"
-msgstr ""
+msgstr "Sonraki Çevrilmemiş _veya Bulanık"
 
 #: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1612
 msgid "Go to next untranslated or fuzzy string"
-msgstr ""
+msgstr "Sonraki çevrilmemiş veya belirsiz dizeye git"
 
 #: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1623
 msgid "Toggle current translation fuzziness"
-msgstr ""
+msgstr "Mevcut çeviri belirsizliğini değiştir"
 
 #: ../pohelper/data/menus.ui.h:19
 msgid "_Toggle Fuzziness"
-msgstr ""
+msgstr "Belirsizliği Aç/Kapat"
 
 #: ../pohelper/data/menus.ui.h:20
 msgid "Paste _Message as Translation"
-msgstr ""
+msgstr "_Mesajı Çeviri Olarak Yapıştır"
 
 #: ../pohelper/data/menus.ui.h:21
 msgid "Paste the original untranslated string to the translation"
-msgstr ""
+msgstr "Orijinal çevrilmemiş dizeyi çeviriye yapıştırın"
 
 #: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1620
 msgid "Reflow the current translation string"
-msgstr ""
+msgstr "Geçerli çeviri dizesini yeniden düzenleyin"
 
 #: ../pohelper/data/menus.ui.h:23
 msgid "_Reflow Translation"
-msgstr ""
+msgstr "_Yeniden Düzenleme Çevirisi"
 
 #: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1626
 msgid "Show statistics of the current document"
@@ -5642,6 +5812,8 @@ msgid ""
 "Whether to update the translation headers (author, revision date, ...) upon "
 "file save"
 msgstr ""
+"Dosya kaydedildiğinde çeviri başlıklarının (yazar, yenileme tarihi, ...) "
+"güncellenip güncellenmeyeceği"
 
 #: ../pohelper/data/menus.ui.h:27
 msgid "Update _Headers Upon Save"
@@ -5652,17 +5824,14 @@ msgid "Translation statistics"
 msgstr "Çeviri istatistikleri"
 
 #: ../pohelper/data/stats.ui.h:2
-#, fuzzy
 msgid "Choose a color for translated strings"
-msgstr "Çevrilmiş dizeler için bir renk seçin"
+msgstr "Çevrilen dizeler için bir renk seçin"
 
 #: ../pohelper/data/stats.ui.h:3
-#, fuzzy
 msgid "Choose a color for fuzzily translated strings"
 msgstr "Düzgünce çevrilmiş dizeler için bir renk seçin"
 
 #: ../pohelper/data/stats.ui.h:4
-#, fuzzy
 msgid "Choose a color for untranslated strings"
 msgstr "Çevrilmemiş dizeler için bir renk seçin"
 
@@ -5672,7 +5841,7 @@ msgstr "Çevriri:"
 
 #: ../pohelper/data/stats.ui.h:6
 msgid "Fuzzy:"
-msgstr ""
+msgstr "Bulanık:"
 
 #: ../pohelper/data/stats.ui.h:7
 msgid "Untranslated:"
@@ -5684,7 +5853,7 @@ msgstr "Çeviri Yardımcısı"
 
 #: ../pohelper/src/gph-plugin.c:41
 msgid "Improves support for GetText translation files."
-msgstr ""
+msgstr "GetText çeviri dosyaları için desteği geliştirir."
 
 #: ../pohelper/src/gph-plugin.c:1370 ../pohelper/src/gph-plugin.c:1387
 #, c-format
@@ -5694,7 +5863,7 @@ msgstr "<b>Çeviri:</b> %.3g%%"
 #: ../pohelper/src/gph-plugin.c:1372 ../pohelper/src/gph-plugin.c:1390
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Bulanık:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1374 ../pohelper/src/gph-plugin.c:1392
 #, c-format
@@ -5704,25 +5873,24 @@ msgstr "<b>Çevrilmemiş:</b> %.3g%%"
 #: ../pohelper/src/gph-plugin.c:1490
 #, c-format
 msgid "%u (%.3g%%)"
-msgstr ""
+msgstr "%u (%.3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1616
 msgid "Paste original untranslated string to translation"
-msgstr ""
+msgstr "Orijinal çevrilmemiş dizeyi çeviriye yapıştır"
 
 #: ../pohelper/src/gph-plugin.c:1833
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
 "installation."
 msgstr ""
-"Kullanıcı arayüzü tanımında \"%s\" widget'ı bulunamıyor, lütfen kurulumunuzu "
+"Kullanıcı arayüzü tanımında \"%s\" aracı bulunamıyor, lütfen kurulumunuzu "
 "kontrol edin."
 
 #: ../pretty-printer/src/PluginEntry.c:41
-#, fuzzy
 msgid "XML PrettyPrinter"
-msgstr "XML Güzelleyici"
+msgstr "XML Güzel Yazıcı"
 
 #: ../pretty-printer/src/PluginEntry.c:42
 msgid ""
@@ -5730,15 +5898,18 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Bir XML'i biçimlendirir ve onu insan tarafından okunabilir hale getirir.\n"
+"Bu eklentinin şu anda bakımcısı yok. Bu eklentiye katkıda bulunarak yardım "
+"etmek ister misiniz?"
 
 #. put the menu into the Tools
 #: ../pretty-printer/src/PluginEntry.c:125
 msgid "PrettyPrinter XML"
-msgstr ""
+msgstr "PrettyPrinter XML"
 
 #: ../pretty-printer/src/PluginEntry.c:134
 msgid "Run the PrettyPrinter XML"
-msgstr ""
+msgstr "PrettyPrinter XML'i çalıştırın"
 
 #: ../pretty-printer/src/PluginEntry.c:216
 msgid "Unable to parse the content as XML."
@@ -5751,6 +5922,10 @@ msgid ""
 "\n"
 "See Help > Debug messages for more details..."
 msgstr ""
+"PrettyPrinting belirtilen XML üzerinde işlenemiyor çünkü bazı özellikler "
+"desteklenmiyor.\n"
+"\n"
+"Daha fazla ayrıntı için Yardım> Mesajlarda hata ayıklama bölümüne bakın..."
 
 #: ../pretty-printer/src/ConfigUI.c:73
 msgid "Comments"
@@ -5759,12 +5934,12 @@ msgstr "Yorumlar"
 #: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
 msgid "Put on one line"
-msgstr ""
+msgstr "Bir satıra koyun"
 
 #: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
 msgid "Inline if possible"
-msgstr ""
+msgstr "Mümkünse satır içi"
 
 #: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
@@ -5773,7 +5948,7 @@ msgstr "Hizalama"
 
 #: ../pretty-printer/src/ConfigUI.c:74
 msgid "Text nodes"
-msgstr ""
+msgstr "Metin düğümleri"
 
 #: ../pretty-printer/src/ConfigUI.c:75
 msgid "CDATA"
@@ -5781,7 +5956,7 @@ msgstr "CDATA"
 
 #: ../pretty-printer/src/ConfigUI.c:395
 msgid "Empty nodes"
-msgstr ""
+msgstr "Boş düğümler"
 
 #: ../pretty-printer/src/ConfigUI.c:396
 msgid "Concatenation (<x></x> to <x/>)"
@@ -5816,6 +5991,8 @@ msgid ""
 "Project file tree, project-wide indexing and search, extra navigation "
 "options (was GProject)"
 msgstr ""
+"Proje dosyası ağacı, proje çapında indeksleme ve arama, ekstra gezinme "
+"seçenekleri (GProject idi)"
 
 #: ../projectorganizer/src/prjorg-menu.c:383
 msgid "Find in Project Files..."
@@ -5843,15 +6020,15 @@ msgstr "Proje sembolünü bul"
 
 #: ../projectorganizer/src/prjorg-menu.c:401
 msgid "Swap Header/Source"
-msgstr ""
+msgstr "Üstbilgi / Kaynağı Değiştir"
 
 #: ../projectorganizer/src/prjorg-menu.c:406
 msgid "Swap header/source"
-msgstr ""
+msgstr "Başlığı / kaynağı değiştir"
 
 #: ../projectorganizer/src/prjorg-menu.c:409
 msgid "Focus Project Sidebar"
-msgstr ""
+msgstr "Proje Kenar Çubuğuna Odaklan"
 
 #: ../projectorganizer/src/prjorg-menu.c:415
 msgid "Open Selected File (Project Organizer)"
@@ -5859,43 +6036,51 @@ msgstr "Seçili Dosyayı Aç (Proje Düzenleyici)"
 
 #: ../projectorganizer/src/prjorg-project.c:604
 msgid "Source patterns:"
-msgstr ""
+msgstr "Kaynak modelleri:"
 
 #: ../projectorganizer/src/prjorg-project.c:610
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
 msgstr ""
+"Kaynak dosyaları tanımlamak için kullanılan kalıpların boşlukla ayrılmış "
+"listesi. Başlık / kaynak değişimi için kullanılır."
 
 #: ../projectorganizer/src/prjorg-project.c:616
 msgid "Header patterns:"
-msgstr ""
+msgstr "Üstbilgi kalıpları:"
 
 #: ../projectorganizer/src/prjorg-project.c:622
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
 msgstr ""
+"Üstbilgileri tanımlamak için kullanılan kalıpların boşlukla ayrılmış "
+"listesi. Başlık / kaynak değişimi için kullanılır."
 
 #: ../projectorganizer/src/prjorg-project.c:628 ../workbench/src/dialogs.c:396
 msgid "Ignored file patterns:"
-msgstr ""
+msgstr "Yoksayılan dosya kalıpları:"
 
 #: ../projectorganizer/src/prjorg-project.c:634
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
 msgstr ""
+"Proje ağacında görüntülenmeyen dosyaları tanımlamak için kullanılan "
+"kalıpların boşlukla ayrılmış listesi."
 
 #: ../projectorganizer/src/prjorg-project.c:640 ../workbench/src/dialogs.c:422
 msgid "Ignored directory patterns:"
-msgstr ""
+msgstr "Yoksayılan dizin kalıpları:"
 
 #: ../projectorganizer/src/prjorg-project.c:646
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
 msgstr ""
+"Kaynak dosyalar için taranmayan dizinleri tanımlamak için kullanılan, "
+"boşlukla ayrılmış desen listesi."
 
 #: ../projectorganizer/src/prjorg-project.c:655
 msgid ""
@@ -5906,15 +6091,19 @@ msgid ""
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
 msgstr ""
+"Yukarıdaki modeller yalnızca kenar çubuğunu ve indekslemeyi etkiler ve "
+"Dosyalarda Bul'da kullanılmaz.\n"
+"iletişim. Projeye ait dosyaları daha da kısıtlayabilirsiniz.\n"
+"Proje sekmesi altındaki Dosya Kalıpları (bunlar ayrıca Dosyalarda Bul "
+"iletişim kutusu için de kullanılır)."
 
 #: ../projectorganizer/src/prjorg-project.c:663
-#, fuzzy
 msgid "<b>Various</b>"
-msgstr "<b>Değerler</b>"
+msgstr "<b>Çeşitli</b>"
 
 #: ../projectorganizer/src/prjorg-project.c:668
 msgid "Show empty directories in sidebar"
-msgstr ""
+msgstr "Kenar çubuğunda boş dizinleri göster"
 
 #: ../projectorganizer/src/prjorg-project.c:671
 msgid ""
@@ -5922,6 +6111,9 @@ msgid ""
 "directories is useful when using file operations from the context menu, e.g. "
 "to create a new file in the directory."
 msgstr ""
+"Kenar çubuğunda boş dizinlerin gösterilip gösterilmeyeceği. Boş dizinlerin "
+"gösterilmesi, bağlam menüsünden dosya işlemlerini kullanırken kullanışlıdır, "
+"örn. dizinde yeni bir dosya oluşturmak için."
 
 #: ../projectorganizer/src/prjorg-project.c:681
 msgid "Index all project files:"
@@ -5929,7 +6121,7 @@ msgstr "Tüm proje dosyalarını endeksle:"
 
 #: ../projectorganizer/src/prjorg-project.c:684
 msgid "Auto (index if less than 300 files)"
-msgstr ""
+msgstr "Otomatik (300 dosyadan azsa indeks)"
 
 #: ../projectorganizer/src/prjorg-project.c:685
 msgid "Yes"
@@ -5944,6 +6136,8 @@ msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
 msgstr ""
+"Yalnızca şu anda açık olan dosyalar yerine tüm proje dosyaları için sembol "
+"listesi oluşturun. Büyük projeler için yavaş olabilir."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:128
 msgid "Find File"
@@ -5956,7 +6150,7 @@ msgstr "Şurada ara:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:170
 msgid "Search in full path"
-msgstr ""
+msgstr "Tam yolda ara"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:181
 #: ../projectorganizer/src/prjorg-sidebar.c:825
@@ -5982,7 +6176,7 @@ msgstr "Dosya Adı:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:391
 msgid "newfile.txt"
-msgstr ""
+msgstr "yenidosya.txt"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:405
 #, c-format
@@ -5999,7 +6193,7 @@ msgstr "Dizin adı:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:422
 msgid "newdir"
-msgstr ""
+msgstr "newdir"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:435
 #, c-format
@@ -6030,24 +6224,22 @@ msgid "Cannot delete file '%s'."
 msgstr "'%s' dosyası silinemiyor."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:617
-#, fuzzy
 msgid "Find Symbol"
 msgstr "Sembol Bul"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:646
 msgid "Match type:"
-msgstr ""
+msgstr "Eşleşme türü:"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1236
 msgid "Set file patterns under Project->Properties"
-msgstr ""
+msgstr "Proje->Özellikler altında dosya modellerini ayarlayın"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1542
 msgid "Reload all"
 msgstr "Hepsini yeniden yükle"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1551
-#, fuzzy
 msgid "Add external directory"
 msgstr "Dış dizin ekle"
 
@@ -6061,11 +6253,11 @@ msgstr "Proje köküne daralt"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1579
 msgid "Follow active editor"
-msgstr ""
+msgstr "Aktif düzenleyiciyi takip edin"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1625
 msgid "Open a project to start using the plugin"
-msgstr ""
+msgstr "Eklentiyi kullanmaya başlamak için bir proje açın"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1632
 msgid "Expand All"
@@ -6109,7 +6301,7 @@ msgstr "Hata A_yıkla"
 
 #: ../scope/data/scope.glade.h:2 ../scope/data/scope_gtk3.glade.h:2
 msgid "_Setup Program"
-msgstr ""
+msgstr "Program _Kur"
 
 #: ../scope/data/scope.glade.h:3 ../scope/data/scope_gtk3.glade.h:3
 msgid "Recent _Programs"
@@ -6121,7 +6313,7 @@ msgstr "_Çalıştır/Devam Et"
 
 #: ../scope/data/scope.glade.h:5 ../scope/data/scope_gtk3.glade.h:5
 msgid "Run to _Cursor"
-msgstr ""
+msgstr "_İmlece Kadar Çalıştır"
 
 #: ../scope/data/scope.glade.h:6 ../scope/data/scope_gtk3.glade.h:6
 msgid "Run to _Source"
@@ -6129,15 +6321,15 @@ msgstr "_Kaynağı Çalıştır"
 
 #: ../scope/data/scope.glade.h:7 ../scope/data/scope_gtk3.glade.h:7
 msgid "Step _Into"
-msgstr ""
+msgstr "İçine _Gir"
 
 #: ../scope/data/scope.glade.h:8 ../scope/data/scope_gtk3.glade.h:8
 msgid "Step _Over"
-msgstr ""
+msgstr "Dışına _Çık"
 
 #: ../scope/data/scope.glade.h:9 ../scope/data/scope_gtk3.glade.h:9
 msgid "Step O_ut"
-msgstr ""
+msgstr "Dışarı Ç_ık"
 
 #: ../scope/data/scope.glade.h:10 ../scope/data/scope_gtk3.glade.h:10
 msgid "_Terminate"
@@ -6145,7 +6337,7 @@ msgstr "_Sonlandır"
 
 #: ../scope/data/scope.glade.h:11 ../scope/data/scope_gtk3.glade.h:11
 msgid "Toggle _Breakpoint"
-msgstr ""
+msgstr "_Kesme Noktasını Değiştir"
 
 #: ../scope/data/scope.glade.h:12 ../scope/data/scope_gtk3.glade.h:12
 msgid "_GDB Command"
@@ -6161,15 +6353,15 @@ msgstr "Terminali _Göster"
 
 #: ../scope/data/scope.glade.h:15 ../scope/data/scope_gtk3.glade.h:15
 msgid "_Reset Markers"
-msgstr ""
+msgstr "İşaretçileri _Sıfırla"
 
 #: ../scope/data/scope.glade.h:16 ../scope/data/scope_gtk3.glade.h:16
 msgid "_Cleanup Files"
-msgstr ""
+msgstr "Dosyaları _Temizle"
 
 #: ../scope/data/scope.glade.h:17 ../scope/data/scope_gtk3.glade.h:17
 msgid "_Feed"
-msgstr ""
+msgstr "_Besleme"
 
 #: ../scope/data/scope.glade.h:18 ../scope/data/scope_gtk3.glade.h:18
 msgid "_Window"
@@ -6185,11 +6377,11 @@ msgstr "Otomatik _Gizle"
 
 #: ../scope/data/scope.glade.h:21 ../scope/data/scope_gtk3.glade.h:21
 msgid "Show on _Error"
-msgstr ""
+msgstr "_Hatada Göster"
 
 #: ../scope/data/scope.glade.h:22 ../scope/data/scope_gtk3.glade.h:22
 msgid "_Unsorted"
-msgstr ""
+msgstr "_Sınıflandırılmamış"
 
 #: ../scope/data/scope.glade.h:23 ../scope/data/scope_gtk3.glade.h:23
 msgid "_View Source"
@@ -6197,19 +6389,19 @@ msgstr "Kaynağı _Görüntüle"
 
 #: ../scope/data/scope.glade.h:24 ../scope/data/scope_gtk3.glade.h:24
 msgid "S_ynchronize"
-msgstr ""
+msgstr "S_enkronize"
 
 #: ../scope/data/scope.glade.h:25 ../scope/data/scope_gtk3.glade.h:25
 msgid "_Interrupt"
-msgstr ""
+msgstr "_Yarıda Kes"
 
 #: ../scope/data/scope.glade.h:26 ../scope/data/scope_gtk3.glade.h:26
 msgid "_Send Signal"
-msgstr ""
+msgstr "_Sinyal Gönder"
 
 #: ../scope/data/scope.glade.h:27 ../scope/data/scope_gtk3.glade.h:27
 msgid "S_elect on"
-msgstr ""
+msgstr "S_eçim açık"
 
 #: ../scope/data/scope.glade.h:28 ../scope/data/scope_gtk3.glade.h:28
 msgid "_Running"
@@ -6225,7 +6417,7 @@ msgstr "_Çıkıldı"
 
 #: ../scope/data/scope.glade.h:31 ../scope/data/scope_gtk3.glade.h:31
 msgid "_Follow"
-msgstr ""
+msgstr "_Takip Et"
 
 #: ../scope/data/scope.glade.h:32 ../scope/data/scope_gtk3.glade.h:32
 msgid "_Columns"
@@ -6233,10 +6425,9 @@ msgstr "_Sütunlar"
 
 #: ../scope/data/scope.glade.h:33 ../scope/data/scope_gtk3.glade.h:33
 msgid "Show _Group"
-msgstr ""
+msgstr "_Grubu göster"
 
 #: ../scope/data/scope.glade.h:34 ../scope/data/scope_gtk3.glade.h:34
-#, fuzzy
 msgid "Show _Core"
 msgstr "_Çekirdeği Göster"
 
@@ -6250,11 +6441,11 @@ msgstr "_İzleme ekle"
 
 #: ../scope/data/scope.glade.h:37 ../scope/data/scope_gtk3.glade.h:37
 msgid "Apply on _Run"
-msgstr ""
+msgstr "Uygula _Çalıştır"
 
 #: ../scope/data/scope.glade.h:38 ../scope/data/scope_gtk3.glade.h:38
 msgid "_Show @entry"
-msgstr ""
+msgstr "@Girişi _göster"
 
 #: ../scope/data/scope.glade.h:39 ../scope/data/scope_gtk3.glade.h:39
 msgid "Show _Address"
@@ -6262,15 +6453,15 @@ msgstr "_Adresi Göster"
 
 #: ../scope/data/scope.glade.h:40 ../scope/data/scope_gtk3.glade.h:40
 msgid "_Modify"
-msgstr ""
+msgstr "_Değiştir"
 
 #: ../scope/data/scope.glade.h:41 ../scope/data/scope_gtk3.glade.h:41
 msgid "_Watch"
-msgstr ""
+msgstr "_İzle"
 
 #: ../scope/data/scope.glade.h:42 ../scope/data/scope_gtk3.glade.h:42
 msgid "_Inspect"
-msgstr ""
+msgstr "_İncele"
 
 #: ../scope/data/scope.glade.h:43 ../scope/data/scope_gtk3.glade.h:43
 msgid "_8-bit mode"
@@ -6286,7 +6477,7 @@ msgstr "_7 bit"
 
 #: ../scope/data/scope.glade.h:46 ../scope/data/scope_gtk3.glade.h:46
 msgid "_Locale"
-msgstr ""
+msgstr "_Yerel"
 
 #: ../scope/data/scope.glade.h:47 ../scope/data/scope_gtk3.glade.h:47
 msgid "_UTF-8"
@@ -6294,7 +6485,7 @@ msgstr "_UTF-8"
 
 #: ../scope/data/scope.glade.h:48 ../scope/data/scope_gtk3.glade.h:48
 msgid "_Show .names"
-msgstr ""
+msgstr ".İsimleri _göster"
 
 #: ../scope/data/scope.glade.h:49 ../scope/data/scope_gtk3.glade.h:49
 msgid "R_ead"
@@ -6302,7 +6493,7 @@ msgstr "O_ku"
 
 #: ../scope/data/scope.glade.h:50 ../scope/data/scope_gtk3.glade.h:50
 msgid "_Group by"
-msgstr ""
+msgstr "_Gruplama ölçütü"
 
 #: ../scope/data/scope.glade.h:51 ../scope/data/scope_gtk3.glade.h:51
 msgid "_1"
@@ -6322,7 +6513,7 @@ msgstr "_8"
 
 #: ../scope/data/scope.glade.h:55 ../scope/data/scope_gtk3.glade.h:55
 msgid "_Jump To"
-msgstr ""
+msgstr "_Atla"
 
 #: ../scope/data/scope.glade.h:56 ../scope/data/scope_gtk3.glade.h:56
 msgid "_Apply"
@@ -6334,7 +6525,7 @@ msgstr "_Genişlet"
 
 #: ../scope/data/scope.glade.h:59 ../scope/data/scope_gtk3.glade.h:59
 msgid "_Natural"
-msgstr ""
+msgstr "_Doğal"
 
 #: ../scope/data/scope.glade.h:60 ../scope/data/scope_gtk3.glade.h:60
 msgid "_Decimal"
@@ -6346,7 +6537,7 @@ msgstr "_Hex"
 
 #: ../scope/data/scope.glade.h:62 ../scope/data/scope_gtk3.glade.h:62
 msgid "_Octal"
-msgstr ""
+msgstr "_Sekizli"
 
 #: ../scope/data/scope.glade.h:63 ../scope/data/scope_gtk3.glade.h:63
 msgid "_Binary"
@@ -6354,15 +6545,15 @@ msgstr "_İkili"
 
 #: ../scope/data/scope.glade.h:64 ../scope/data/scope_gtk3.glade.h:64
 msgid "_Raw"
-msgstr ""
+msgstr "_Ham"
 
 #: ../scope/data/scope.glade.h:65 ../scope/data/scope_gtk3.glade.h:65
 msgid "_Evaluate/Modify"
-msgstr ""
+msgstr "_Değerlendir/değiştir"
 
 #: ../scope/data/scope.glade.h:66 ../scope/data/scope_gtk3.glade.h:66
 msgid "_Watch Expression"
-msgstr ""
+msgstr "İfadeyi _İzle"
 
 #: ../scope/data/scope.glade.h:67 ../scope/data/scope_gtk3.glade.h:67
 msgid "_Inspect Variable"
@@ -6370,42 +6561,39 @@ msgstr "Değ_işkeni İncele"
 
 #: ../scope/data/scope.glade.h:68 ../scope/data/scope_gtk3.glade.h:68
 msgid "Id"
-msgstr ""
+msgstr "Kimlik"
 
 #: ../scope/data/scope.glade.h:69 ../scope/data/scope_gtk3.glade.h:69
 msgid "Pid"
-msgstr ""
+msgstr "Pid"
 
 #: ../scope/data/scope.glade.h:70 ../scope/data/scope_gtk3.glade.h:70
 msgid "Gid"
-msgstr ""
+msgstr "Gid"
 
 #: ../scope/data/scope.glade.h:71 ../scope/data/scope_gtk3.glade.h:71
 msgid "State"
 msgstr "Durum"
 
 #: ../scope/data/scope.glade.h:76 ../scope/data/scope_gtk3.glade.h:76
-#, fuzzy
 msgid "Target Id"
 msgstr "Hedef kimliği"
 
 #: ../scope/data/scope.glade.h:77 ../scope/data/scope_gtk3.glade.h:77
-#, fuzzy
 msgid "Core"
 msgstr "Çekirdek"
 
 #: ../scope/data/scope.glade.h:78 ../scope/data/scope_gtk3.glade.h:78
 msgid "Threads"
-msgstr ""
+msgstr "İş Parçacığı"
 
 #: ../scope/data/scope.glade.h:80 ../scope/data/scope_gtk3.glade.h:80
-#, fuzzy
 msgid "Location or expr"
 msgstr "Yer veya ifade"
 
 #: ../scope/data/scope.glade.h:81 ../scope/data/scope_gtk3.glade.h:81
 msgid "Times"
-msgstr ""
+msgstr "Defa"
 
 #: ../scope/data/scope.glade.h:82 ../scope/data/scope_gtk3.glade.h:82
 msgid "Ignore"
@@ -6420,18 +6608,16 @@ msgid "#"
 msgstr "#"
 
 #: ../scope/data/scope.glade.h:86 ../scope/data/scope_gtk3.glade.h:86
-#, fuzzy
 msgid "Arguments"
-msgstr "Argümanlar"
+msgstr "Parametreler"
 
 #: ../scope/data/scope.glade.h:87 ../scope/data/scope_gtk3.glade.h:87
-#, fuzzy
 msgid "Stack"
-msgstr "Takip yığını"
+msgstr "Yığın"
 
 #: ../scope/data/scope.glade.h:90 ../scope/data/scope_gtk3.glade.h:90
 msgid "Locals"
-msgstr ""
+msgstr "Yereller"
 
 #: ../scope/data/scope.glade.h:91 ../scope/data/scope_gtk3.glade.h:91
 msgid "Expression"
@@ -6439,7 +6625,7 @@ msgstr "İfade"
 
 #: ../scope/data/scope.glade.h:92 ../scope/data/scope_gtk3.glade.h:92
 msgid "Watches"
-msgstr ""
+msgstr "İzlemler"
 
 #: ../scope/data/scope.glade.h:93 ../scope/data/scope_gtk3.glade.h:93
 msgid "Memory"
@@ -6455,11 +6641,11 @@ msgstr "_UTF-8'i yerel ayara dönüştür"
 
 #: ../scope/data/scope.glade.h:96 ../scope/data/scope_gtk3.glade.h:94
 msgid "_Thread"
-msgstr ""
+msgstr "_Başlık"
 
 #: ../scope/data/scope.glade.h:97 ../scope/data/scope_gtk3.glade.h:95
 msgid "_Group"
-msgstr ""
+msgstr "_Grupla"
 
 #: ../scope/data/scope.glade.h:98 ../scope/data/scope_gtk3.glade.h:96
 msgid "_Frame"
@@ -6475,7 +6661,7 @@ msgstr "_Çalıştırılabilir:"
 
 #: ../scope/data/scope.glade.h:101 ../scope/data/scope_gtk3.glade.h:101
 msgid "_Arguments:"
-msgstr ""
+msgstr "_Parametreler:"
 
 #: ../scope/data/scope.glade.h:102 ../scope/data/scope_gtk3.glade.h:102
 msgid "En_vironment:"
@@ -6491,19 +6677,19 @@ msgstr "Betik _Yükle:"
 
 #: ../scope/data/scope.glade.h:105 ../scope/data/scope_gtk3.glade.h:105
 msgid "Auto _run program/exit gdb"
-msgstr ""
+msgstr "Programı otomatik _çalıştır/gdb'den çık"
 
 #: ../scope/data/scope.glade.h:106 ../scope/data/scope_gtk3.glade.h:106
 msgid "_Non-stop mode"
-msgstr ""
+msgstr "_Kesintisiz mod"
 
 #: ../scope/data/scope.glade.h:107 ../scope/data/scope_gtk3.glade.h:107
 msgid "_Temporary breakpoint on load at:"
-msgstr ""
+msgstr "Yükleme sırasında _geçici kesme noktası:"
 
 #: ../scope/data/scope.glade.h:108 ../scope/data/scope_gtk3.glade.h:108
 msgid "_Delete all breakpoints, watches, inspects and registers"
-msgstr ""
+msgstr "Tüm kesme noktalarını, saatleri, incelemeleri ve kayıtları _silin"
 
 #: ../scope/data/scope.glade.h:109 ../scope/data/scope_gtk3.glade.h:109
 #: ../scope/src/scope.c:514
@@ -6512,15 +6698,15 @@ msgstr "Program"
 
 #: ../scope/data/scope.glade.h:110 ../scope/data/scope_gtk3.glade.h:110
 msgid "Open on"
-msgstr ""
+msgstr "Aç"
 
 #: ../scope/data/scope.glade.h:111 ../scope/data/scope_gtk3.glade.h:111
 msgid "g_db load"
-msgstr ""
+msgstr "g_db yükle"
 
 #: ../scope/data/scope.glade.h:112 ../scope/data/scope_gtk3.glade.h:112
 msgid "p_rogram start"
-msgstr ""
+msgstr "p_rogram başlangıcı"
 
 #: ../scope/data/scope.glade.h:113 ../scope/data/scope_gtk3.glade.h:113
 msgid "Update all _views"
@@ -6531,7 +6717,6 @@ msgid "<b>Panel</b>"
 msgstr "<b>Panel</b>"
 
 #: ../scope/data/scope.glade.h:115 ../scope/data/scope_gtk3.glade.h:115
-#, fuzzy
 msgid "Default 8-bit text mode:"
 msgstr "Varsayılan 8 bit metin modu:"
 
@@ -6553,7 +6738,7 @@ msgstr "ve"
 
 #: ../scope/data/scope.glade.h:120 ../scope/data/scope_gtk3.glade.h:120
 msgid "_argument"
-msgstr ""
+msgstr "_argüman"
 
 #: ../scope/data/scope.glade.h:121 ../scope/data/scope_gtk3.glade.h:121
 msgid "names"
@@ -6565,7 +6750,7 @@ msgstr "<b>Değerler</b>"
 
 #: ../scope/data/scope.glade.h:123 ../scope/data/scope_gtk3.glade.h:123
 msgid "E_xpand on apply"
-msgstr ""
+msgstr "Uygulandığında g_enişletin"
 
 #: ../scope/data/scope.glade.h:124 ../scope/data/scope_gtk3.glade.h:124
 msgid "S_how"
@@ -6573,7 +6758,7 @@ msgstr "G_öster"
 
 #: ../scope/data/scope.glade.h:125 ../scope/data/scope_gtk3.glade.h:125
 msgid "children"
-msgstr ""
+msgstr "çocuk"
 
 #: ../scope/data/scope.glade.h:126 ../scope/data/scope_gtk3.glade.h:126
 msgid "<b>Inspect</b>"
@@ -6581,7 +6766,7 @@ msgstr "<b>İncele</b>"
 
 #: ../scope/data/scope.glade.h:127 ../scope/data/scope_gtk3.glade.h:127
 msgid "Show =li_brary messages"
-msgstr ""
+msgstr "Show =ki_taplık mesajları"
 
 #: ../scope/data/scope.glade.h:128 ../scope/data/scope_gtk3.glade.h:128
 msgid "Show _tooltips"
@@ -6596,7 +6781,6 @@ msgid "_Import"
 msgstr "_İçe aktar"
 
 #: ../scope/data/scope.glade.h:132 ../scope/data/scope_gtk3.glade.h:132
-#, fuzzy
 msgid "Enter assignment expression:"
 msgstr "Atama ifadesini girin:"
 
@@ -6638,16 +6822,16 @@ msgstr "Miktar:"
 
 #: ../scope/data/scope.glade.h:143 ../scope/data/scope_gtk3.glade.h:143
 msgid "_Expand on apply"
-msgstr ""
+msgstr "Uygulandığında _genişletin"
 
 #: ../scope/data/scope.glade.h:144 ../scope/data/scope_gtk3.glade.h:144
 #: ../scope/src/scope.c:514
 msgid "Program Terminal"
-msgstr ""
+msgstr "Program Terminali"
 
 #: ../scope/data/scope.glade.h:146 ../scope/data/scope_gtk3.glade.h:146
 msgid "Registers"
-msgstr ""
+msgstr "Kayıtlar"
 
 #: ../scope/src/break.c:101
 msgid "breakpoint"
@@ -6655,47 +6839,47 @@ msgstr "kesme noktası"
 
 #: ../scope/src/break.c:102
 msgid "hardware breakpoint"
-msgstr ""
+msgstr "donanım kesme noktası"
 
 #: ../scope/src/break.c:103
 msgid "tracepoint"
-msgstr ""
+msgstr "izleme noktası"
 
 #: ../scope/src/break.c:104
 msgid "fast tracepoint"
-msgstr ""
+msgstr "hızlı izleme noktası"
 
 #: ../scope/src/break.c:105
 msgid "write watchpoint"
-msgstr ""
+msgstr "izleme noktası yaz"
 
 #: ../scope/src/break.c:108
 msgid "access watchpoint"
-msgstr ""
+msgstr "izleme noktasına erişme"
 
 #: ../scope/src/break.c:110
 msgid "read watchpoint"
-msgstr ""
+msgstr "izleme noktasını oku"
 
 #: ../scope/src/break.c:112
 msgid "catchpoint"
-msgstr ""
+msgstr "yakalama noktası"
 
 #: ../scope/src/break.c:139 ../scope/src/break.c:143
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../scope/src/break.c:140
 msgid "unsupported MI"
-msgstr ""
+msgstr "desteklenmeyen MI"
 
 #: ../scope/src/break.c:145
 msgid "on load"
-msgstr ""
+msgstr "yükle"
 
 #: ../scope/src/break.c:146
 msgid "Run to Cursor"
-msgstr ""
+msgstr "İmleci Çalıştır"
 
 #: ../scope/src/break.c:1017
 #, c-format
@@ -6704,6 +6888,9 @@ msgid ""
 "\n"
 "Use the breakpoint list to remove the exact one."
 msgstr ""
+"%s:%d konumunda iki veya daha fazla kesme noktası var.\n"
+"\n"
+"Tam olanı kaldırmak için kesme noktası listesini kullanın."
 
 #: ../scope/src/break.c:1254
 #, c-format
@@ -6713,7 +6900,7 @@ msgstr ", %s"
 #: ../scope/src/break.c:1280
 #, c-format
 msgid "func %s"
-msgstr ""
+msgstr "işlev %s"
 
 #: ../scope/src/break.c:1311
 msgid "Add Breakpoint"
@@ -6725,7 +6912,7 @@ msgstr "İzleme noktası ekle"
 
 #: ../scope/src/conterm.c:110
 msgid "Feed Terminal"
-msgstr ""
+msgstr "Besleme Terminali"
 
 #: ../scope/src/conterm.c:110
 msgid "Enter char # (0..255):"
@@ -6738,12 +6925,12 @@ msgstr "Kapsam: %s."
 
 #: ../scope/src/debug.c:142
 msgid "No breakpoints. Hanging."
-msgstr ""
+msgstr "Kesme noktası yok. Asılı."
 
 #: ../scope/src/debug.c:366
 #, c-format
 msgid "GDB died unexpectedly with status %d."
-msgstr ""
+msgstr "GDB %d durumuyla beklenmedik bir şekilde öldü."
 
 #: ../scope/src/debug.c:368
 msgid "Program terminated."
@@ -6758,6 +6945,8 @@ msgstr "%s: %s."
 msgid ""
 "No executable set. Please set an executable under \"Debug/Setup Program\"."
 msgstr ""
+"Yürütülebilir ayar yok. Lütfen \"Hata Ayıklama/Kurulum Programı\" altında "
+"bir yürütülebilir dosya ayarlayın."
 
 #: ../scope/src/debug.c:553 ../scope/src/thread.c:97
 #, c-format
@@ -6774,25 +6963,24 @@ msgstr "geçersiz veri"
 
 #: ../scope/src/inspect.c:375
 msgid "no children in range"
-msgstr ""
+msgstr "menzilde çocuk yok"
 
 #: ../scope/src/inspect.c:458
 msgid "out of scope"
 msgstr "kapsam dışında"
 
 #: ../scope/src/inspect.c:631
-#, fuzzy
 msgid "Duplicate inspect variable name."
 msgstr "Yinelenen değişken adını denetle."
 
 #: ../scope/src/memory.c:296
 msgid "Read Memory"
-msgstr ""
+msgstr "Hafızayı Oku"
 
 #: ../scope/src/memory.c:401
 #, c-format
 msgid "Scope: pointer size > %d, Data disabled."
-msgstr ""
+msgstr "Kapsam: işaretçi boyutu > %d, Veri devre dışı."
 
 #: ../scope/src/menu.c:386
 msgid "Modify"
@@ -6800,11 +6988,11 @@ msgstr "Düzenle"
 
 #: ../scope/src/menu.c:495
 msgid "Evaluate/modify"
-msgstr ""
+msgstr "Değerlendir/değiştir"
 
 #: ../scope/src/menu.c:496
 msgid "Watch expression"
-msgstr ""
+msgstr "İfadeyi izle"
 
 #: ../scope/src/menu.c:497
 msgid "Inspect variable"
@@ -6812,7 +7000,7 @@ msgstr "Değişkeni incele"
 
 #: ../scope/src/parse.c:442
 msgid "Undefined GDB error."
-msgstr ""
+msgstr "Tanımsız GDB hatası."
 
 #: ../scope/src/plugme.c:87
 msgid "Select Folder"
@@ -6834,7 +7022,7 @@ msgstr "Kapsam: yapılandırma dosyası yaratıldı."
 #: ../scope/src/program.c:259
 #, c-format
 msgid "Loaded debug settings for %s."
-msgstr ""
+msgstr "%s için hata ayıklama ayarları yüklendi."
 
 #: ../scope/src/program.c:267
 #, c-format
@@ -6854,15 +7042,15 @@ msgstr ""
 
 #: ../scope/src/program.c:423
 msgid "Delete all breakpoints, watches et cetera?"
-msgstr ""
+msgstr "Tüm kesme noktaları, saatler vb. Silinsin mi?"
 
 #: ../scope/src/program.c:531
 msgid "as _Name=value"
-msgstr ""
+msgstr "_İsim=değer"
 
 #: ../scope/src/program.c:532
 msgid "as _Name = value"
-msgstr ""
+msgstr "_İsim = değer"
 
 #: ../scope/src/scope.c:35
 msgid "Scope Debugger"
@@ -6870,7 +7058,7 @@ msgstr "Kapsam Hata Ayıklayıcı"
 
 #: ../scope/src/scope.c:36
 msgid "Relatively simple GDB front-end."
-msgstr ""
+msgstr "Nispeten basit GDB ön-ucu."
 
 #: ../scope/src/scope.c:63
 msgid "Setup program"
@@ -6890,7 +7078,7 @@ msgstr "Sonlandır"
 
 #: ../scope/src/scope.c:71 ../scope/src/scope.c:168
 msgid "Toggle breakpoint"
-msgstr ""
+msgstr "Kesme noktasını Değiştir"
 
 #: ../scope/src/scope.c:73 ../scope/src/scope.c:76
 msgid "GDB command"
@@ -6914,7 +7102,7 @@ msgstr "Askıda"
 
 #: ../scope/src/scope.c:229
 msgid "Assem"
-msgstr ""
+msgstr "Assem"
 
 #: ../scope/src/scope.c:229
 msgid "Load"
@@ -6926,7 +7114,7 @@ msgstr "İnşa eylemi aktifleştirildi. Hata ayıklamayı sonlandır?"
 
 #: ../scope/src/scope.c:516
 msgid "Breaks"
-msgstr ""
+msgstr "Kopmalar"
 
 #: ../scope/src/scope.c:518
 msgid "Console"
@@ -6939,11 +7127,11 @@ msgstr "Hata Ayıklama Konsolu"
 #: ../scope/src/thread.c:53
 #, c-format
 msgid "Thread group %s started."
-msgstr ""
+msgstr "%s iş parçacığı grubu başladı."
 
 #: ../scope/src/thread.c:68
 msgid "Thread group "
-msgstr ""
+msgstr "Konu grubu "
 
 #: ../scope/src/thread.c:88
 msgid " exited"
@@ -7006,7 +7194,7 @@ msgstr "GDB Komutu"
 
 #: ../sendmail/src/sendmail.c:45
 msgid "SendMail"
-msgstr ""
+msgstr "Sendmail"
 
 #: ../sendmail/src/sendmail.c:46
 msgid "Sends the current file as attachment with your favorite mailer"
@@ -7025,12 +7213,15 @@ msgstr "Alıcının e-posta adresini girin:"
 #: ../sendmail/src/sendmail.c:143
 msgid "Filename placeholder not found. The executed command might have failed."
 msgstr ""
+"Dosya adı yer tutucusu bulunamadı. Yürütülen komut başarısız olmuş olabilir."
 
 #: ../sendmail/src/sendmail.c:149
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
 msgstr ""
+"Alıcı adresi yer tutucusu bulunamadı. Yürütülen komut başarısız olmuş "
+"olabilir."
 
 #: ../sendmail/src/sendmail.c:163
 msgid "Could not execute mailer. Please check your configuration."
@@ -7058,7 +7249,6 @@ msgid "Path and options for the mail client:"
 msgstr "E-posta istemcisi için yol ve seçenekler:"
 
 #: ../sendmail/src/sendmail.c:322
-#, fuzzy
 msgid ""
 "Note: \n"
 "\t%f will be replaced by your file.\n"
@@ -7073,8 +7263,8 @@ msgstr ""
 "\t\\%r alıcının e-posta adresinin yerine geçecek.\n"
 "\t\\%b dosyanızın yolunun yerine geçecek\n"
 "\tÖrnekler:\n"
-"\tsylpheed --attach \"%f\" --compose \"%r\"\n"
-"\tmutt -s \"Sending '%b'\" -a \"%f\" \"%r\""
+"\tsylpheed --ekle \"%f\" --oluştur \"%r\"\n"
+"\tmutt -s \"gönderiliyor '%b'\" -a \"%f\" \"%r\""
 
 #: ../sendmail/src/sendmail.c:332
 msgid "Show toolbar icon"
@@ -7102,6 +7292,13 @@ msgid ""
 "configuration file to new location.\n"
 "Move now?"
 msgstr ""
+"Yeniden adlandırılan eklenti tespit edildi!\n"
+"\n"
+"GeanySendMail, sendmail olarak yeniden adlandırıldı -- kesinlikle onu zaten "
+"tanımışsınızdır. \n"
+"Geany, eski yapılandırma dosyasını yeni konuma taşıyarak eski eklenti "
+"yapılandırmanızı taşıyabilir.\n"
+"Şimdi taşınsınmı?"
 
 #: ../sendmail/src/sendmail.c:411
 #, c-format
@@ -7109,6 +7306,8 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
 msgstr ""
+"Eski yapılandırma dizininiz \"%s\", \"%s\" (%s) klasörüne taşınamadı. Lütfen "
+"dizini manuel olarak yeni konuma taşıyın."
 
 #. Build up menu entry
 #: ../sendmail/src/sendmail.c:442
@@ -7119,6 +7318,8 @@ msgstr "Dökü_manı e-postala"
 msgid ""
 "Sends the opened file as unzipped attachment by any mailer from your $PATH"
 msgstr ""
+"Açılan dosyayı $PATH yolunuzdaki herhangi bir postacı tarafından "
+"sıkıştırılmamış ek olarak gönderir"
 
 #: ../spellcheck/src/speller.c:179
 msgid "Try: "
@@ -7178,15 +7379,15 @@ msgstr "İmla denetimini açıp kapamak için araç çubuğu öğesini göster"
 
 #: ../spellcheck/src/scplugin.c:295
 msgid "Show editor menu item to show spelling suggestions"
-msgstr ""
+msgstr "Yazım önerilerini göstermek için düzenleyici menü öğesini göster"
 
 #: ../spellcheck/src/scplugin.c:300
 msgid "Show suggestions in a sub menu of the editor menu"
-msgstr ""
+msgstr "Düzenleyici menüsünün bir alt menüsünde önerileri göster"
 
 #: ../spellcheck/src/scplugin.c:315
 msgid "Print misspelled words and suggestions in the messages window"
-msgstr ""
+msgstr "Mesaj penceresinde yanlış yazılan sözcükleri ve önerileri yazdırın"
 
 #: ../spellcheck/src/scplugin.c:325
 msgid "<b>Interface</b>"
@@ -7205,6 +7406,9 @@ msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
 msgstr ""
+"Bu seçeneğin etkinleştirilmesi, Geany'de açıldıktan sonra her belgeyi "
+"kontrol edecektir. Bir belgeyi yeniden yüklemek de yeniden denetimi "
+"tetikleyecektir."
 
 #: ../spellcheck/src/scplugin.c:342
 msgid "Language to use for the spell check:"
@@ -7212,7 +7416,7 @@ msgstr "İmla denetimi için kullanılacak dil:"
 
 #: ../spellcheck/src/scplugin.c:354
 msgid "_Directory to look for dictionary files:"
-msgstr ""
+msgstr "Sözlük dosyalarını aramak için _dizin:"
 
 #: ../spellcheck/src/scplugin.c:361
 msgid ""
@@ -7221,6 +7425,10 @@ msgid ""
 "dictionaries are searched in a subfolder called \"hunspell\". See the "
 "plugin's Help for details."
 msgstr ""
+"Bu dizinden ek sözlük dosyalarını okuyun. Şimdilik, bu sadece hunspell "
+"sözlüklerinde çalışıyor. Enchant 2.0 veya sonraki sürümlerde, sözlükler "
+"\"hunspell\" adlı bir alt klasörde aranır. Ayrıntılar için eklentinin "
+"Yardımına bakın."
 
 #: ../spellcheck/src/scplugin.c:394
 msgid "<b>Behavior</b>"
@@ -7256,6 +7464,8 @@ msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
 msgstr ""
+"Arama terimi sağlanamayacak kadar uzun\n"
+"düzenleyici menüsünde yazım önerileri."
 
 #: ../spellcheck/src/gui.c:447
 msgid "Perform Spell Check"
@@ -7285,6 +7495,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Bir seçimi sola ve sağa kaydırın.\n"
+"Bu eklentinin şu anda bakımcısı yok. Bu eklentiye katkıda bulunarak yardım "
+"etmek ister misiniz?"
 
 #: ../shiftcolumn/src/shiftcolumn.c:357 ../shiftcolumn/src/shiftcolumn.c:378
 msgid "Shift Left"
@@ -7296,19 +7509,19 @@ msgstr "Sağa Kaydır"
 
 #: ../tableconvert/src/tableconvert.c:31
 msgid "Tableconvert"
-msgstr ""
+msgstr "Tablo dönüştürme"
 
 #: ../tableconvert/src/tableconvert.c:32
 msgid "Converts lists into tables for different filetypes"
-msgstr ""
+msgstr "Listeleri farklı dosya türleri için tablolara dönüştürür"
 
 #: ../tableconvert/src/tableconvert.c:58
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../tableconvert/src/tableconvert.c:78
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 #: ../tableconvert/src/tableconvert.c:95
 msgid "DokuWiki"
@@ -7337,7 +7550,7 @@ msgstr "İşaretlenmiş listeyi tabloya çevirir."
 #: ../tableconvert/src/tableconvert_ui.c:53
 #: ../tableconvert/src/tableconvert_ui.c:55
 msgid "_More TableConvert"
-msgstr ""
+msgstr "_Daha Fazla Tablo Dönüştürme"
 
 #: ../treebrowser/src/treebrowser.c:126
 msgid "TreeBrowser"
@@ -7496,6 +7709,7 @@ msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
+"Filtre (*.c;*.h;*.cpp), ve tersini deneyin '!' örneğin '!;*.c;*.h;*.cpp'"
 
 #: ../treebrowser/src/treebrowser.c:1949
 msgid "Addressbar for example '/projects/my-project'"
@@ -7518,10 +7732,14 @@ msgid ""
 "%d will be replaced with the path name of the selected file without the "
 "filename"
 msgstr ""
+"\"Birlikte Aç\" kullanılırken yürütülecek komut. %f ve %d joker "
+"karakterlerini kullanabilirsiniz.\n"
+"%f tam yol dahil dosya adı ile değiştirilecek\n"
+"%d dosya adı olmadan seçilen dosyanın yol adıyla değiştirilecek"
 
 #: ../treebrowser/src/treebrowser.c:2144
 msgid "The terminal to use with the command \"Open Terminal\""
-msgstr ""
+msgstr "\"Terminali Aç\" komutuyla kullanılacak terminal"
 
 #: ../treebrowser/src/treebrowser.c:2150
 msgid "Toolbar"
@@ -7583,15 +7801,15 @@ msgstr ""
 
 #: ../treebrowser/src/treebrowser.c:2195
 msgid "Reverse filter"
-msgstr ""
+msgstr "Ters filtre"
 
 #: ../treebrowser/src/treebrowser.c:2204
 msgid "Follow current document"
-msgstr ""
+msgstr "Mevcut belgeyi takip et"
 
 #: ../treebrowser/src/treebrowser.c:2213
 msgid "Single click, open document and focus it"
-msgstr ""
+msgstr "Tek tıklayın, belgeyi açın ve odaklayın"
 
 #: ../treebrowser/src/treebrowser.c:2222
 msgid "Double click open directory"
@@ -7603,11 +7821,11 @@ msgstr "Silme tuşu, eğer açık ise kapat"
 
 #: ../treebrowser/src/treebrowser.c:2240
 msgid "Focus editor on file open"
-msgstr ""
+msgstr "Dosya açıldığında düzenleyiciye odaklan"
 
 #: ../treebrowser/src/treebrowser.c:2249
 msgid "Show tree lines"
-msgstr ""
+msgstr "Ağaç satırını göster"
 
 #: ../treebrowser/src/treebrowser.c:2258
 msgid "Show bookmarks"
@@ -7635,10 +7853,9 @@ msgstr "Yeni Dosya"
 
 #: ../treebrowser/src/treebrowser.c:2363
 msgid "Track Current"
-msgstr ""
+msgstr "Geçerli Parça"
 
 #: ../updatechecker/src/updatechecker.c:40
-#, fuzzy
 msgid "Updatechecker"
 msgstr "Güncelleme Kontrolü"
 
@@ -7662,6 +7879,9 @@ msgid ""
 "Error code: %d \n"
 "Error message: »%s«"
 msgstr ""
+"Sürüm kontrolü yapılamıyor.\n"
+"Hata kodu: %d\n"
+"Hata mesajı: »%s«"
 
 #: ../updatechecker/src/updatechecker.c:285
 msgid "Run updatecheck on startup"
@@ -7673,7 +7893,7 @@ msgstr "Güncellemeleri Kontrol Et"
 
 #: ../vimode/src/backends/backend-geany.c:41
 msgid "Vimode"
-msgstr ""
+msgstr "Vimode"
 
 #: ../vimode/src/backends/backend-geany.c:42
 msgid "Vim mode for Geany"
@@ -7682,15 +7902,15 @@ msgstr "Geany için Vim modu"
 #: ../vimode/src/backends/backend-geany.c:140
 #, c-format
 msgid "Insert Mode for Dummies: %s"
-msgstr ""
+msgstr "Acemiler için Mod Ekle: %s"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "ON"
-msgstr ""
+msgstr "AÇIK"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "OFF"
-msgstr ""
+msgstr "KAPALI"
 
 #: ../vimode/src/backends/backend-geany.c:290
 msgid "_Vim Mode"
@@ -7706,15 +7926,15 @@ msgstr "Vim Modunu Etkinleştir"
 
 #: ../vimode/src/backends/backend-geany.c:303
 msgid "Insert Mode for _Dummies"
-msgstr ""
+msgstr "_Acemiler için Mod Ekle"
 
 #: ../vimode/src/backends/backend-geany.c:309
 msgid "Insert Mode for Dummies"
-msgstr ""
+msgstr "Acemiler için Mod Ekle"
 
 #: ../vimode/src/backends/backend-geany.c:311
 msgid "Start in _Insert Mode"
-msgstr ""
+msgstr "_Ekleme Modunda Başlayın"
 
 #: ../webhelper/src/gwh-enum-types.c:15
 msgid "message-window"
@@ -7726,7 +7946,7 @@ msgstr "yan panel"
 
 #: ../webhelper/src/gwh-enum-types.c:17
 msgid "separate-window"
-msgstr ""
+msgstr "ayrı-pencere"
 
 #: ../webhelper/src/gwh-enum-types.c:32
 msgid "none"
@@ -7734,7 +7954,7 @@ msgstr "hiçbiri"
 
 #: ../webhelper/src/gwh-enum-types.c:33
 msgid "on-connexion"
-msgstr ""
+msgstr "bağlantılı"
 
 #: ../webhelper/src/gwh-enum-types.c:48
 msgid "normal"
@@ -7759,11 +7979,11 @@ msgstr "_Yakınlaştırma"
 
 #: ../webhelper/src/gwh-browser.c:667
 msgid "Full-_content zoom"
-msgstr ""
+msgstr "Tam-_içerik yakınlaştırma"
 
 #: ../webhelper/src/gwh-browser.c:678
 msgid "Flip panes orientation"
-msgstr ""
+msgstr "Bölmelerin yönünü çevir"
 
 #: ../webhelper/src/gwh-browser.c:950
 msgid "Back"
@@ -7786,16 +8006,14 @@ msgid "Website information and settings"
 msgstr "Web sitesi bilgileri ve ayarları"
 
 #: ../webhelper/src/gwh-browser.c:987 ../webhelper/src/gwh-browser.c:1037
-#, fuzzy
 msgid "Web inspector"
-msgstr "Web gezgini"
+msgstr "Web denetçisi"
 
 #: ../webhelper/src/gwh-browser.c:988
 msgid "Toggle web inspector"
 msgstr "Web denetçisini değiştir"
 
 #: ../webhelper/src/gwh-plugin.c:49
-#, fuzzy
 msgid "Web helper"
 msgstr "Web yardımcısı"
 
@@ -7805,6 +8023,9 @@ msgid ""
 "provide web analysis and debugging tools (aka Web Inspector), all using "
 "WebKit."
 msgstr ""
+"Tümü WebKit kullanarak belge kaydedildikten sonra güncellenen ve web analizi "
+"ve hata ayıklama araçları (diğer adıyla Web Denetçisi) sağlayan bir önizleme "
+"web sayfası görüntüleyin."
 
 #: ../webhelper/src/gwh-plugin.c:140
 msgid "Web view"
@@ -7816,7 +8037,7 @@ msgstr "Web önizleme"
 
 #: ../webhelper/src/gwh-plugin.c:264
 msgid "Reload upon document saving"
-msgstr ""
+msgstr "Belge kaydedildikten sonra yeniden yükleyin"
 
 #: ../webhelper/src/gwh-plugin.c:316
 msgid "Browser auto reload"
@@ -7825,14 +8046,15 @@ msgstr "Tarayıcı otomatik yenileme"
 #: ../webhelper/src/gwh-plugin.c:317
 msgid "Whether the browser reloads itself upon document saving"
 msgstr ""
+"Tarayıcının belge kaydedildikten sonra kendini yeniden yükleyip yüklemediği"
 
 #: ../webhelper/src/gwh-plugin.c:322
 msgid "Browser last URI"
-msgstr ""
+msgstr "Tarayıcının son URI'si"
 
 #: ../webhelper/src/gwh-plugin.c:323
 msgid "Last URI visited by the browser"
-msgstr ""
+msgstr "Tarayıcı tarafından ziyaret edilen son URI"
 
 #: ../webhelper/src/gwh-plugin.c:329
 msgid "List of bookmarks"
@@ -7844,7 +8066,7 @@ msgstr "Tarayıcı oryantasyonu"
 
 #: ../webhelper/src/gwh-plugin.c:335
 msgid "Orientation of the browser widget"
-msgstr ""
+msgstr "Tarayıcı aracı`nın yönü"
 
 #: ../webhelper/src/gwh-plugin.c:341
 msgid "Browser position"
@@ -7852,59 +8074,60 @@ msgstr "Tarayıcı pozisyonu"
 
 #: ../webhelper/src/gwh-plugin.c:342
 msgid "Position of the browser widget in Geany's UI"
-msgstr ""
+msgstr "Tarayıcı aracı'nın Geany'nin kullanıcı arayüzündeki konumu"
 
 #: ../webhelper/src/gwh-plugin.c:348
 msgid "Browser separate window geometry"
-msgstr ""
+msgstr "Tarayıcı ayrı pencere geometrisi"
 
 #: ../webhelper/src/gwh-plugin.c:349
 msgid "Last geometry of the separated browser's window"
-msgstr ""
+msgstr "Ayrılmış tarayıcı penceresinin son geometrisi"
 
 #: ../webhelper/src/gwh-plugin.c:354
 msgid "Inspector window geometry"
-msgstr ""
+msgstr "Denetçi penceresi geometrisi"
 
 #: ../webhelper/src/gwh-plugin.c:355
 msgid "Last geometry of the inspector window"
-msgstr ""
+msgstr "Denetçi penceresinin son geometrisi"
 
 #: ../webhelper/src/gwh-plugin.c:360
 msgid "Inspector detached"
-msgstr ""
+msgstr "Denetçi ayrıldı"
 
 #: ../webhelper/src/gwh-plugin.c:361
-#, fuzzy
 msgid "Whether the inspector is in a separate window or docked in the browser"
-msgstr "Denetçinin ayrı bir pencerede mi yoksa tarayıcıya mi yerleştirildiği"
+msgstr ""
+"Denetçinin ayrı bir pencerede mi yoksa tarayıcıya yerleştirilmiş mi olduğu"
 
 #: ../webhelper/src/gwh-plugin.c:366
 msgid "Secondary windows skip task bar"
-msgstr ""
+msgstr "İkincil pencereler görev çubuğunu atlar"
 
 #: ../webhelper/src/gwh-plugin.c:367
 msgid ""
 "Whether to tell the window manager not to show the secondary windows in the "
 "task bar"
 msgstr ""
+"Pencere yöneticisine ikincil pencereleri görev çubuğunda göstermemesinin "
+"söylenip söylenmeyeceği"
 
 #: ../webhelper/src/gwh-plugin.c:372
 msgid "Secondary windows are transient"
-msgstr ""
+msgstr "İkincil pencereler geçicidir"
 
 #: ../webhelper/src/gwh-plugin.c:373
-#, fuzzy
 msgid "Whether secondary windows are transient children of their parent"
 msgstr "İkincil pencerelerin ebeveynlerinin geçici çocukları olup olmadığı"
 
 #: ../webhelper/src/gwh-plugin.c:378
 msgid "Secondary windows type"
-msgstr ""
+msgstr "İkincil pencere türü"
 
 #: ../webhelper/src/gwh-plugin.c:379
 msgid "The type of the secondary windows"
-msgstr ""
+msgstr "İkincil pencerelerin türü"
 
 #: ../webhelper/src/gwh-plugin.c:455
 msgid "Toggle Web Inspector"
@@ -7912,10 +8135,9 @@ msgstr "Web İnceleyicisini Aç/Kapat"
 
 #: ../webhelper/src/gwh-plugin.c:460
 msgid "Show/Hide Web View's Window"
-msgstr ""
+msgstr "Web Görünümü Penceresini Göster / Gizle"
 
 #: ../webhelper/src/gwh-plugin.c:463
-#, fuzzy
 msgid "Toggle bookmark for the current website"
 msgstr "Mevcut web sitesi için yer imini değiştir"
 
@@ -7943,14 +8165,13 @@ msgstr "Yeni workbench oluştur"
 
 #: ../workbench/src/dialogs.c:146
 msgid "Open workbench"
-msgstr ""
+msgstr "Çalışma tezgahını aç"
 
 #: ../workbench/src/dialogs.c:149
 msgid "_Open"
 msgstr "_Aç"
 
 #: ../workbench/src/dialogs.c:152
-#, fuzzy
 msgid "Workbench files (.geanywb)"
 msgstr "Workbench dosyası (.geanywb)"
 
@@ -7982,7 +8203,7 @@ msgstr "_TAMAM"
 
 #: ../workbench/src/dialogs.c:365
 msgid "filter files using the workbench plugin"
-msgstr ""
+msgstr "çalışma tezgahı eklentisini kullanarak dosyaları filtreleyin"
 
 #: ../workbench/src/dialogs.c:370
 msgid "File patterns:"
@@ -7993,22 +8214,28 @@ msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "be displayed in the directory tree."
 msgstr ""
+"Dizin ağacında görüntülenecek dosyaları tanımlamak için kullanılan "
+"kalıpların boşlukla ayrılmış listesi."
 
 #: ../workbench/src/dialogs.c:417
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "not be displayed in the directory tree."
 msgstr ""
+"Dizin ağacında gösterilmeyecek dosyaları tanımlamak için kullanılan "
+"kalıpların boşlukla ayrılmış listesi."
 
 #: ../workbench/src/dialogs.c:443
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "shall not be scanned for source files."
 msgstr ""
+"Kaynak dosyalar için taranmayacak dizinleri tanımlamak için kullanılan "
+"kalıpların boşlukla ayrılmış listesi."
 
 #: ../workbench/src/dialogs.c:459
 msgid "filter files using git (.gitignore)"
-msgstr ""
+msgstr "git (.gitignore) kullanarak dosyaları filtrele"
 
 #: ../workbench/src/dialogs.c:465
 msgid ""
@@ -8016,6 +8243,9 @@ msgid ""
 "used in the Find in Files\n"
 "dialog."
 msgstr ""
+"Not: Yukarıdaki modeller yalnızca çalışma tezgahı dizinini etkiler ve "
+"Dosyalarda Bul'da kullanılmaz.\n"
+"iletişim."
 
 #: ../workbench/src/dialogs.c:588
 msgid "Workbench settings"
@@ -8030,10 +8260,12 @@ msgid ""
 "If the option is activated (default), then all projects will be re-scanned "
 "on opening of the workbench."
 msgstr ""
+"Seçenek etkinleştirilirse (varsayılan), o zaman tüm projeler çalışma tezgahı "
+"açıldığında yeniden taranacaktır."
 
 #: ../workbench/src/dialogs.c:624
 msgid "_Enable live update"
-msgstr ""
+msgstr "_Canlı güncellemeyi etkinleştirin"
 
 #: ../workbench/src/dialogs.c:635
 msgid ""
@@ -8041,26 +8273,34 @@ msgid ""
 "will be updated automatically if a file or directory is created, removed or "
 "renamed. A manual re-scan is not required if the option is enabled."
 msgstr ""
+"Seçenek etkinleştirilirse (varsayılan), bir dosya veya dizin oluşturulursa, "
+"kaldırılırsa veya yeniden adlandırılırsa, dosya listesi ve kenar çubuğu "
+"otomatik olarak güncellenecektir. Seçenek etkinleştirilirse manuel yeniden "
+"taramaya gerek yoktur."
 
 #: ../workbench/src/dialogs.c:641
 msgid "_Expand on hover"
-msgstr ""
+msgstr "_Üzerine gelindiğinde genişletin"
 
 #: ../workbench/src/dialogs.c:652
 msgid ""
 "If the option is activated, then a tree node in the sidebar will be expanded "
 "or collapsed by hovering over it with the mouse cursor."
 msgstr ""
+"Seçenek etkinleştirilirse, kenar çubuğundaki bir ağaç düğümü, fare imleci "
+"üzerine gelindiğinde genişletilecek veya daraltılacaktır."
 
 #: ../workbench/src/dialogs.c:657
 msgid "_Enable tree lines"
-msgstr ""
+msgstr "_Ağaç satırını etkinleştirin"
 
 #: ../workbench/src/dialogs.c:668
 msgid ""
 "If the option is activated, lines will be drawn between the nodes in the "
 "sidebar tree."
 msgstr ""
+"Seçenek etkinleştirilirse, kenar çubuğu ağacındaki düğümler arasında "
+"çizgiler çizilecektir."
 
 #: ../workbench/src/menu.c:103
 #, c-format
@@ -8074,26 +8314,25 @@ msgstr "Workbench dosyası açılamadı: %s"
 
 #: ../workbench/src/menu.c:155 ../workbench/src/popup_menu.c:265
 #: ../workbench/src/search_projects.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save workbench file: %s"
 msgstr "Workbench dosyası kaydedilemedi: %s"
 
 #. Set metadata
 #: ../workbench/src/menu.c:207 ../workbench/src/plugin_main.c:132
 #: ../workbench/src/sidebar.c:1433
-#, fuzzy
 msgid "Workbench"
 msgstr "Workbench"
 
 #. Create new menu item "New Workbench"
 #: ../workbench/src/menu.c:211
 msgid "_New..."
-msgstr ""
+msgstr "_Yeni..."
 
 #. Create new menu item "Open Workbench"
 #: ../workbench/src/menu.c:218
 msgid "_Open..."
-msgstr ""
+msgstr "_Aç..."
 
 #. Create new menu item "Workbench Settings"
 #: ../workbench/src/menu.c:225
@@ -8102,7 +8341,6 @@ msgstr "A_yarlar"
 
 #. Create new menu item "Search Projects"
 #: ../workbench/src/menu.c:232
-#, fuzzy
 msgid "Search _projects"
 msgstr "_Projeleri ara"
 
@@ -8121,7 +8359,7 @@ msgstr ""
 
 #: ../workbench/src/plugin_main.c:133
 msgid "Manage and customize multiple projects."
-msgstr ""
+msgstr "Birden çok projeyi yönetin ve özelleştirin."
 
 #: ../workbench/src/popup_menu.c:291
 #, c-format
@@ -8188,7 +8426,7 @@ msgstr "Projeyi _katla/aç"
 
 #: ../workbench/src/popup_menu.c:828
 msgid "_Open all files in project"
-msgstr ""
+msgstr "Projedeki tüm dosyaları _aç"
 
 #: ../workbench/src/popup_menu.c:834
 msgid "_Close all files in project"
@@ -8239,7 +8477,6 @@ msgid "_Collapse all"
 msgstr "Hepsini _daralt"
 
 #: ../workbench/src/popup_menu.c:922
-#, fuzzy
 msgid "_Add to Workbench Bookmarks"
 msgstr "Workbench'i Yer imlerine _Ekle"
 
@@ -8261,7 +8498,7 @@ msgstr "Burada dizin _oluştur..."
 
 #: ../workbench/src/popup_menu.c:956
 msgid "_Remove..."
-msgstr ""
+msgstr "_Kaldır..."
 
 #: ../workbench/src/search_projects.c:93
 msgid "Select search directory"
@@ -8273,14 +8510,14 @@ msgid ""
 "Found %lu project files in directory \"%s\".\n"
 "Please select the projects to add to the workbench."
 msgstr ""
+"Bulundu %lu dizindeki proje dosyaları \"%s\".\n"
+"Lütfen tezgaha eklenecek projeleri seçin."
 
 #: ../workbench/src/search_projects.c:457
-#, fuzzy
 msgid "Search projects"
 msgstr "Projeleri ara"
 
 #: ../workbench/src/search_projects.c:482
-#, fuzzy
 msgid "Add to workbench?"
 msgstr "Workbench'e ekle?"
 
@@ -8291,10 +8528,9 @@ msgstr "Proje yolu"
 #. Add label to vbox
 #: ../workbench/src/search_projects.c:507
 msgid "Scanning directory:"
-msgstr ""
+msgstr "Tarama dizini:"
 
 #: ../workbench/src/sidebar.c:329
-#, fuzzy
 msgid "Base dir"
 msgstr "Temel dizin"
 
@@ -8305,7 +8541,7 @@ msgstr "Dizin yok"
 #. *** label ***
 #: ../workbench/src/sidebar.c:857 ../workbench/src/sidebar.c:1384
 msgid "No workbench opened."
-msgstr ""
+msgstr "Tezgah açılmadı."
 
 #: ../workbench/src/sidebar.c:875
 #, c-format
@@ -8336,9 +8572,11 @@ msgid ""
 "This project has no directories. Directories can be added to a project using "
 "the context menu."
 msgstr ""
+"Bu projenin dizini yok. Dizinler, bağlam menüsü kullanılarak bir projeye "
+"eklenebilir."
 
 #: ../workbench/src/wb_monitor.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
 msgstr "Dizin için dosya izleme kurulamadı: \"%s\". Hata: %s"
 
@@ -8355,7 +8593,7 @@ msgstr "%s klasöründeki git deposu açıldı."
 #: ../workbench/src/wb_project.c:482
 #, c-format
 msgid "Closed git repository in folder %s."
-msgstr ""
+msgstr "%s klasöründe kapalı git deposu."
 
 #: ../workbench/src/wb_project.c:1191
 #, c-format
@@ -8373,11 +8611,11 @@ msgstr "Dosya Desenleri:"
 
 #: ../workbench/src/wb_project.c:1206
 msgid "Ignored Dir. Patterns:"
-msgstr ""
+msgstr "Yoksayılan Dir. Desenler:"
 
 #: ../workbench/src/wb_project.c:1218
 msgid "Ignored File Patterns:"
-msgstr ""
+msgstr "Yoksayılan Dosya Kalıpları:"
 
 #: ../workbench/src/wb_project.c:1230
 #, c-format
@@ -8419,11 +8657,11 @@ msgstr "\"%s\" dosyası bulundu ama geçerli değil!"
 
 #: ../xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
-msgstr "XML Snippets"
+msgstr "XML Parçacıklar"
 
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
-msgstr ""
+msgstr "Parçacıklar kullanarak XML / HTML etiketlerini otomatik tamamlar."
 
 #~ msgid "GeanyLaTeX"
 #~ msgstr "GeanyLaTeX"
