@@ -28,7 +28,37 @@ extern GeanyData *geany_data;
 static gchar *
 get_base_dir(const gchar * path)
 {
-	return find_subdir_path(path, ".git");
+	gchar *base_dir = NULL;
+	const gchar *argv[] = { "git", "rev-parse", "--show-toplevel", NULL };
+	gchar *dir = NULL;
+	gchar *filename = NULL;
+	gchar *std_out = NULL;
+	gchar *std_err = NULL;
+
+	base_dir = find_subdir_path(path, ".git");
+	if (base_dir) return base_dir;
+
+	if (g_file_test(path, G_FILE_TEST_IS_DIR))
+		dir = g_strdup(path);
+	else
+		dir = g_path_get_dirname(path);
+
+	execute_custom_command(dir, (const gchar **) argv, NULL, &std_out, &std_err,
+			       dir, NULL, NULL);
+	g_free(dir);
+	if (!std_out) return NULL;
+
+	/* trim the trailing newline */
+	sscanf(std_out, "%s\n", std_out);
+	dir = std_out;
+
+	filename = g_build_filename(dir, ".", NULL); /* in case of a trailing slash */
+	base_dir = g_path_get_dirname(filename);
+
+	g_free(filename);
+	g_free(dir);
+
+	return base_dir;
 }
 
 static gint
@@ -187,11 +217,15 @@ in_vc_git(const gchar * filename)
 	gboolean ret = FALSE;
 	gchar *std_output;
 
-	if (!find_dir(filename, ".git", TRUE))
-		return FALSE;
-
 	if (g_file_test(filename, G_FILE_TEST_IS_DIR))
+	{
+		gchar *base_dir = get_base_dir(filename);
+
+		if (!base_dir) return FALSE;
+
+		g_free(base_dir);
 		return TRUE;
+	}
 
 	dir = g_path_get_dirname(filename);
 	base_name = g_path_get_basename(filename);
@@ -254,7 +288,7 @@ get_commit_files_git(const gchar * file)
 	const gchar *argv[] = { "git", "status", NULL };
 	const gchar *env[] = { "PAGES=cat", NULL };
 	gchar *std_out = NULL;
-	gchar *base_dir = find_subdir_path(file, ".git");
+	gchar *base_dir = get_base_dir(file);
 	GSList *ret = NULL;
 
 	g_return_val_if_fail(base_dir, NULL);
