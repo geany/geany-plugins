@@ -29,10 +29,16 @@ static gboolean call_key(gpointer *unused, guint key_id, gpointer data)
 {
 	PyObject *callback = data;
 	PyObject *args;
+	PyObject *py_ret;
+	gboolean ret;
 
 	args = Py_BuildValue("(i)", key_id);
-	PyObject_CallObject(callback, args);
+	py_ret = PyObject_CallObject(callback, args);
 	Py_DECREF(args);
+	ret = (PyObject_IsTrue(py_ret) == 1);
+	Py_DECREF(py_ret);
+
+	return ret;
 }
 
 
