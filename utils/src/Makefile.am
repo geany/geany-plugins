@@ -5,7 +5,8 @@ lib_LTLIBRARIES = libgeanypluginutils.la
 libgeanypluginutils_la_SOURCES = \
 	filelist.h \
 	filelist.c \
-	gp_gtkcompat.h
+	gp_gtkcompat.h \
+	gp_gtkcompat.c
 
 if ENABLE_UTILSLIB_VTECOMPAT
 libgeanypluginutils_la_SOURCES += \
