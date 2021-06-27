@@ -71,7 +71,7 @@ Example of usage
 
 Lets see plugin work at Geany source code example:
 
-1) Download geany-0.15.tar.gz (http://prdownloads.sourceforge.net/geany/geany-0.15.tar.gz?download)
+1) Download geany-0.15.tar.gz (https://download.geany.org/old/geany-0.15.tar.gz)
 
 2) Unpack it somewhere, for example in ~/src/geany-0.15
 
