@@ -1076,7 +1076,13 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 				gtk_tree_model_get(model, &iter_parent, TREEBROWSER_COLUMN_URI, &uri, -1);
 			}
 			else
+			{
+				gchar* tmp = g_path_get_dirname(uri);
+				g_free(uri);
+				uri = tmp;
+				
 				refresh_root = TRUE;
+			}
 		}
 	}
 	else
