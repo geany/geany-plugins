@@ -19,11 +19,15 @@
 #ifndef __PRJORG_SIDEBAR_H__
 #define __PRJORG_SIDEBAR_H__
 
-
+enum {
+  COL_FILE_LABEL,
+  COL_FILE_NAME,
+  COL_FILE_COUNT
+};
 void prjorg_sidebar_init(void);
 void prjorg_sidebar_cleanup(void);
 void prjorg_sidebar_activate(gboolean activate);
-
+void prjorg_kb_find_file_in_active(GPatternSpec *pattern, GtkListStore *find_file_store);
 void prjorg_sidebar_find_file_in_active(void);
 void prjorg_sidebar_find_tag_in_active(void);
 

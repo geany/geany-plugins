@@ -518,7 +518,7 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 }
 
 
-static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboolean full_path, GPatternSpec *pattern)
+static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboolean full_path, GPatternSpec *pattern, GtkListStore *find_file_store)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL(s_file_store);
 	GtkTreeIter child;
@@ -529,7 +529,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 	{
 		while (iterate)
 		{
-			find_file_recursive(&child, case_sensitive, full_path, pattern);
+			find_file_recursive(&child, case_sensitive, full_path, pattern, find_file_store);
 			iterate = gtk_tree_model_iter_next(model, &child);
 		}
 	}
@@ -593,7 +593,7 @@ static void find_file(GtkTreeIter *iter)
 
 		msgwin_clear_tab(MSG_MESSAGE);
 		msgwin_set_messages_dir(locale_base_path);
-		find_file_recursive(iter, case_sensitive, is_full_path, pattern);
+		find_file_recursive(iter, case_sensitive, is_full_path, pattern, NULL);
 		msgwin_switch_tab(MSG_MESSAGE, TRUE);
 		g_free(utf8_base_path);
 		g_free(locale_base_path);
@@ -1480,6 +1480,14 @@ void prjorg_sidebar_update(gboolean reload)
 	plugin_idle_add(geany_plugin, (GSourceFunc)expand_on_idle, expand_data);
 }
 
+void prjorg_kb_find_file_in_active(GPatternSpec *pattern, GtkListStore *find_file_store)
+{
+        // gchar *path = build_path(NULL);
+	if (pattern == NULL || find_file_store == NULL)
+                return;
+        find_file_recursive(NULL, FALSE, TRUE, pattern, find_file_store);
+        // g_free(path);
+}
 
 void prjorg_sidebar_find_file_in_active(void)
 {
