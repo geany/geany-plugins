@@ -1464,7 +1464,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 		return TRUE;
 	}
 	/* control+shift+number */
-	if(ev->state==5) {
+	if(ev->state==5 || ev->state==21) {
 		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
 		 * have logical default to fall back on
 		*/
