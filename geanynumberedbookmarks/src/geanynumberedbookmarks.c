@@ -1452,19 +1452,8 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 
 	if(ev->type!=GDK_KEY_RELEASE)
 		return FALSE;
-
-	/* control and number pressed */
-	if(ev->state==4)
-	{
-		i=((gint)(ev->keyval))-'0';
-		if(i<0 || i>9)
-			return FALSE;
-
-		GotoBookMark(doc, i);
-		return TRUE;
-	}
 	/* control+shift+number */
-	if(ev->state==5 || ev->state==21) {
+	if(ev->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) {
 		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
 		 * have logical default to fall back on
 		*/
@@ -1474,6 +1463,16 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 			return TRUE;
 		}
 
+	}
+	/* control and number pressed */
+	if(ev->state & GDK_CONTROL_MASK)
+	{
+		i=((gint)(ev->keyval))-'0';
+		if(i<0 || i>9)
+			return FALSE;
+
+		GotoBookMark(doc, i);
+		return TRUE;
 	}
 
 	return FALSE;
