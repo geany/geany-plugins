@@ -1453,26 +1453,25 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 	if(ev->type!=GDK_KEY_RELEASE)
 		return FALSE;
 	/* control+shift+number */
-	if(ev->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) {
+	if(ev->state & GDK_CONTROL_MASK) {
 		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
 		 * have logical default to fall back on
 		*/
-		for(i=0;i<10;i++) if((gint)(ev->keyval)==iShiftNumbers[i])
-		{
-			SetBookMark(doc, i);
+		if(ev->state & GDK_SHIFT_MASK) {
+			for(i=0;i<10;i++) if((gint)(ev->keyval)==iShiftNumbers[i])
+			{
+				SetBookMark(doc, i);
+				return TRUE;
+			}
+		} else {
+			/* control and number pressed */
+			i=((gint)(ev->keyval))-'0';
+			if(i<0 || i>9)
+				return FALSE;
+
+			GotoBookMark(doc, i);
 			return TRUE;
 		}
-
-	}
-	/* control and number pressed */
-	if(ev->state & GDK_CONTROL_MASK)
-	{
-		i=((gint)(ev->keyval))-'0';
-		if(i<0 || i>9)
-			return FALSE;
-
-		GotoBookMark(doc, i);
-		return TRUE;
 	}
 
 	return FALSE;
