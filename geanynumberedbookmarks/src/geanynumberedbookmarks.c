@@ -1452,12 +1452,13 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 
 	if(ev->type!=GDK_KEY_RELEASE)
 		return FALSE;
-	/* control+shift+number */
+	/* control pressed */
 	if(ev->state & GDK_CONTROL_MASK) {
 		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
 		 * have logical default to fall back on
 		*/
 		if(ev->state & GDK_SHIFT_MASK) {
+			/* shift pressed */
 			for(i=0;i<10;i++) if((gint)(ev->keyval)==iShiftNumbers[i])
 			{
 				SetBookMark(doc, i);
