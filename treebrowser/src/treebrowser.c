@@ -79,6 +79,7 @@ static gboolean 			CONFIG_SHOW_TREE_LINES 		= TRUE;
 static gboolean 			CONFIG_SHOW_BOOKMARKS 		= FALSE;
 static gint 				CONFIG_SHOW_ICONS 			= 2;
 static gboolean				CONFIG_OPEN_NEW_FILES 		= TRUE;
+static gint 				CONFIG_HOME_DIRECTORIES 			= 0;
 
 /* ------------------
  * TREEVIEW STRUCT
@@ -426,6 +427,32 @@ get_default_dir(void)
 		return utils_get_locale_from_utf8(dir);
 
 	return g_get_current_dir();
+}
+
+static gchar*
+get_project_home_dir(void)
+{
+	GeanyProject 	*project 	= geany->app->project;
+	const gchar 	*dir;
+
+	if (project)
+		dir = project->base_path;
+	else
+		dir = geany->prefs->default_open_path;
+
+	return utils_get_locale_from_utf8(dir);
+}
+
+static gchar *
+get_terminal(void)
+{
+	gchar 		*terminal;
+#ifdef G_OS_WIN32
+	terminal = g_strdup("cmd");
+#else
+	terminal = g_strdup(CONFIG_OPEN_TERMINAL);
+#endif
+	return terminal;
 }
 
 static gboolean
@@ -1468,7 +1495,14 @@ on_button_go_home(void)
 {
 	gchar *uri;
 
-	uri = g_strdup(g_get_home_dir());
+	if (CONFIG_HOME_DIRECTORIES == 1) {
+		// try first project home, then user home
+		uri = get_project_home_dir();
+		if (EMPTY(uri)) SETPTR(uri, g_strdup(g_get_home_dir()));
+	}
+	else {
+		uri = g_strdup(g_get_home_dir());
+	}
 	treebrowser_chroot(uri);
 	g_free(uri);
 }
@@ -2023,6 +2057,7 @@ static struct
 	GtkWidget *SHOW_BOOKMARKS;
 	GtkWidget *SHOW_ICONS;
 	GtkWidget *OPEN_NEW_FILES;
+	GtkWidget *HOME_DIRECTORYIES;
 } configure_widgets;
 
 static void
@@ -2047,6 +2082,7 @@ load_settings(void)
 	CONFIG_SHOW_BOOKMARKS 			= utils_get_setting_boolean(config, "treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
 	CONFIG_SHOW_ICONS 				= utils_get_setting_integer(config, "treebrowser", "show_icons", 			CONFIG_SHOW_ICONS);
 	CONFIG_OPEN_NEW_FILES			= utils_get_setting_boolean(config, "treebrowser", "open_new_files",		CONFIG_OPEN_NEW_FILES);
+	CONFIG_HOME_DIRECTORIES 		= utils_get_setting_integer(config, "treebrowser", "home_directories", 			CONFIG_HOME_DIRECTORIES);
 
 	g_key_file_free(config);
 }
@@ -2081,6 +2117,7 @@ save_settings(void)
 	g_key_file_set_boolean(config, 	"treebrowser", "show_bookmarks", 		CONFIG_SHOW_BOOKMARKS);
 	g_key_file_set_integer(config, 	"treebrowser", "show_icons", 			CONFIG_SHOW_ICONS);
 	g_key_file_set_boolean(config,	"treebrowser", "open_new_files",		CONFIG_OPEN_NEW_FILES);
+	g_key_file_set_integer(config, 	"treebrowser", "home_directories", 			CONFIG_HOME_DIRECTORIES);
 
 	data = g_key_file_to_data(config, NULL, NULL);
 	utils_write_file(CONFIG_FILE, data);
@@ -2114,6 +2151,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 	CONFIG_SHOW_BOOKMARKS 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.SHOW_BOOKMARKS));
 	CONFIG_SHOW_ICONS 			= gtk_combo_box_get_active(GTK_COMBO_BOX(configure_widgets.SHOW_ICONS));
 	CONFIG_OPEN_NEW_FILES		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.OPEN_NEW_FILES));
+	CONFIG_HOME_DIRECTORIES = gtk_combo_box_get_active(GTK_COMBO_BOX(configure_widgets.HOME_DIRECTORYIES));
 
 	if (save_settings() == TRUE)
 	{
@@ -2194,6 +2232,16 @@ plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.SHOW_ICONS, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(configure_widgets.SHOW_ICONS), CONFIG_SHOW_ICONS);
+
+	hbox = gtk_hbox_new(FALSE, 0);
+	label = gtk_label_new(_("Home directory"));
+	configure_widgets.HOME_DIRECTORYIES = gtk_combo_box_text_new();
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.HOME_DIRECTORYIES), _("User home"));
+	gtk_combo_box_text_append_text( GTK_COMBO_BOX_TEXT(configure_widgets.HOME_DIRECTORYIES), _("Project base"));
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.HOME_DIRECTORYIES, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(configure_widgets.HOME_DIRECTORYIES), CONFIG_HOME_DIRECTORIES);
 
 	configure_widgets.SHOW_HIDDEN_FILES = gtk_check_button_new_with_label(_("Show hidden files"));
 #if GTK_CHECK_VERSION(3, 20, 0)
