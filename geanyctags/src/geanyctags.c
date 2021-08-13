@@ -183,7 +183,7 @@ static gchar *generate_find_string(GeanyProject *prj)
 {
 	gchar *ret;
 
-	ret = g_strdup("find -L . -not -path '*/\\.*'");
+	ret = g_strdup("find -L . -not -path '*/\\.*' -type f");
 
 	if (!EMPTY(prj->file_patterns))
 	{
