@@ -611,14 +611,25 @@ static gboolean perform_repeat_cmd(CmdContext *ctx)
 	gint i;
 
 	def = get_cmd_to_run(ctx->repeat_kpl, edit_cmds, FALSE);
-	if (!def)
-		return FALSE;
-
 	num = num == -1 ? 1 : num;
-	for (i = 0; i < num; i++)
-		perform_cmd(def, ctx);
+	if (def) {
+		for (i = 0; i < num; i++)
+			perform_cmd(def, ctx);
+		return TRUE;
+	}
+	else if (ctx->insert_buf_len > 0) {
+		gint pos;
 
-	return TRUE;
+		SSM(ctx->sci, SCI_BEGINUNDOACTION, 0, 0);
+		for (i = 0; i < num; i++)
+			SSM(ctx->sci, SCI_ADDTEXT, ctx->insert_buf_len, (sptr_t) ctx->insert_buf);
+		pos = SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0);
+		SET_POS(ctx->sci, PREV(ctx->sci, pos), FALSE);
+		SSM(ctx->sci, SCI_ENDUNDOACTION, 0, 0);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 
