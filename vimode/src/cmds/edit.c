@@ -81,24 +81,60 @@ void cmd_clear_right(CmdContext *c, CmdParams *p)
 }
 
 
+static gboolean insert_eof_nl_if_missing(CmdParams *p)
+{
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	gint last_line = SSM(p->sci, SCI_GETLINECOUNT, 0, 0);
+	gint line_start_pos = SSM(p->sci, SCI_POSITIONFROMLINE, last_line, 0);
+	gint line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, last_line, 0);
+
+	if (line_start_pos == line_end_pos) {
+		SET_POS(p->sci, line_end_pos, FALSE);
+		SSM(p->sci, SCI_NEWLINE, 0, 0);
+		SET_POS(p->sci, pos, FALSE);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
+static void remove_char_from_eof(CmdParams *p)
+{
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	gint last_line = SSM(p->sci, SCI_GETLINECOUNT, 0, 0);
+	gint line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, last_line, 0);
+
+	SET_POS(p->sci, line_end_pos, FALSE);
+	SSM(p->sci, SCI_DELETEBACK, 0, 0);
+	SET_POS(p->sci, pos, FALSE);
+}
+
+
 void cmd_delete_line(CmdContext *c, CmdParams *p)
 {
+	gboolean nl_inserted = insert_eof_nl_if_missing(p);
 	gint num = get_line_number_rel(p->sci, p->num);
 	gint end = SSM(p->sci, SCI_POSITIONFROMLINE, num, 0);
 
 	c->line_copy = TRUE;
 	SSM(p->sci, SCI_COPYRANGE, p->line_start_pos, end);
 	SSM(p->sci, SCI_DELETERANGE, p->line_start_pos, end - p->line_start_pos);
+	if (nl_inserted)
+		remove_char_from_eof(p);
+	goto_nonempty(p->sci, GET_CUR_LINE(p->sci), TRUE);
 }
 
 
 void cmd_copy_line(CmdContext *c, CmdParams *p)
 {
+	gboolean nl_inserted = insert_eof_nl_if_missing(p);
 	gint num = get_line_number_rel(p->sci, p->num);
 	gint end = SSM(p->sci, SCI_POSITIONFROMLINE, num, 0);
 
 	c->line_copy = TRUE;
 	SSM(p->sci, SCI_COPYRANGE, p->line_start_pos, end);
+	if (nl_inserted)
+		remove_char_from_eof(p);
 }
 
 
@@ -146,13 +182,17 @@ void cmd_redo(CmdContext *c, CmdParams *p)
 
 static void paste(CmdContext *c, CmdParams *p, gboolean after)
 {
+	gboolean nl_inserted = FALSE;
 	gint pos;
 	gint i;
 
 	if (c->line_copy)
 	{
 		if (after)
+		{
+			nl_inserted = insert_eof_nl_if_missing(p);
 			pos = SSM(p->sci, SCI_POSITIONFROMLINE, p->line+1, 0);
+		}
 		else
 			pos = p->line_start_pos;
 	}
@@ -167,7 +207,12 @@ static void paste(CmdContext *c, CmdParams *p, gboolean after)
 	for (i = 0; i < p->num; i++)
 		SSM(p->sci, SCI_PASTE, 0, 0);
 	if (c->line_copy)
+	{
 		SET_POS(p->sci, pos, TRUE);
+		if (nl_inserted)
+			remove_char_from_eof(p);
+		goto_nonempty(p->sci, GET_CUR_LINE(p->sci), TRUE);
+	}
 	else if (!VI_IS_INSERT(vi_get_mode()))
 		SSM(p->sci, SCI_CHARLEFT, 0, 0);
 }
