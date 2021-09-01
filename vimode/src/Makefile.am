@@ -36,8 +36,8 @@ vi_srcs = \
 	cmds/special.c \
 	cmds/edit.h \
 	cmds/edit.c \
-	excmds/excmds.h \
-	excmds/excmds.c
+	cmds/excmds.h \
+	cmds/excmds.c
 
 vimode_la_SOURCES = \
 	backends/backend-geany.c \

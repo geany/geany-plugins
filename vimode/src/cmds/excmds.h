@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __VIMODE_EXCMDS_EXCMDS_H__
-#define __VIMODE_EXCMDS_EXCMDS_H__
+#ifndef __VIMODE_CMDS_EXCMDS_H__
+#define __VIMODE_CMDS_EXCMDS_H__
 
 #include "excmd-params.h"
 #include "context.h"
