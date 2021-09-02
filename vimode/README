@@ -550,12 +550,22 @@ a new command, please do not forget to update the table below.::
     tag           command         action 
     ------------------------------------------------------------------------------
     :&            :&              repeat last ":substitute"
+    :<            :<              shift lines one 'shiftwidth' left
+    :>            :>              shift lines one 'shiftwidth' right
+    :copy         :co[py]         copy lines
     :cquit        :cq[uit]        quit Vim with an error code
+    :delete       :d[elete]       delete lines
     :exit         :exi[t]         same as ":xit"
+    :join         :j[oin]         join lines
+    :move         :m[ove]         move lines
+    :put          :pu[t]          insert contents of register in the text
     :quit         :q[uit]         quit current window (when one window quit Vim)
     :quitall      :quita[ll]      quit Vim
     :qall         :qa[ll]         quit Vim
+    :redo         :red[o]         redo one undone change
     :substitute   :s[ubstitute]   find and replace text
+    :t            :t              same as ":copy"
+    :undo         :u[ndo]         undo last change(s)
     :update       :up[date]       write buffer if modified
     :write        :w[rite]        write to a file
     :wall         :wa[ll]         write all (changed) buffers
@@ -563,3 +573,5 @@ a new command, please do not forget to update the table below.::
     :wqall        :wqa[ll]        write all changed buffers and quit Vim
     :xit          :x[it]          write if buffer changed and quit window or Vim
     :xall         :xa[ll]         same as ":wqall"
+    :yank         :y[ank]         yank lines into a register
+    :~            :~              repeat last ":substitute"
