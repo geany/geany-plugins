@@ -17,6 +17,7 @@
  */
 
 #include "cmds/excmds.h"
+#include "cmds/edit.h"
 #include "utils.h"
 
 void excmd_save(CmdContext *c, ExCmdParams *p)
@@ -64,3 +65,71 @@ void excmd_repeat_subst_orig_flags(CmdContext *c, ExCmdParams *p)
 {
 	perform_substitute(c->sci, c->substitute_text, p->range_from, p->range_to, NULL);
 }
+
+
+static void prepare_cmd_params(CmdParams *params, CmdContext *c, ExCmdParams *p)
+{
+	gint start = SSM(c->sci, SCI_POSITIONFROMLINE, p->range_from, 0);
+	SET_POS(c->sci, start, TRUE);
+	cmd_params_init(params, c->sci, p->range_to - p->range_from + 1, FALSE, NULL, FALSE, 0, 0);
+}
+
+
+void excmd_yank(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	prepare_cmd_params(&params, c, p);
+	cmd_copy_line(c, &params);
+}
+
+
+void excmd_put(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	prepare_cmd_params(&params, c, p);
+	cmd_paste_after(c, &params);
+}
+
+
+void excmd_undo(CmdContext *c, ExCmdParams *p)
+{
+	SSM(c->sci, SCI_UNDO, 0, 0);
+}
+
+
+void excmd_redo(CmdContext *c, ExCmdParams *p)
+{
+	SSM(c->sci, SCI_REDO, 0, 0);
+}
+
+
+void excmd_shift_left(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	prepare_cmd_params(&params, c, p);
+	cmd_unindent(c, &params);
+}
+
+
+void excmd_shift_right(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	prepare_cmd_params(&params, c, p);
+	cmd_indent(c, &params);
+}
+
+
+void excmd_delete(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	prepare_cmd_params(&params, c, p);
+	cmd_delete_line(c, &params);
+}
+
+void excmd_join(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	prepare_cmd_params(&params, c, p);
+	cmd_join_lines(c, &params);
+}
+

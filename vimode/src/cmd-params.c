@@ -26,7 +26,7 @@ void cmd_params_init(CmdParams *param, ScintillaObject *sci,
 
 	param->num = num;
 	param->num_present = num_present;
-	param->last_kp = g_slist_nth_data(kpl, 0);
+	param->last_kp = kpl != NULL ? g_slist_nth_data(kpl, 0) : NULL;
 	param->is_operator_cmd = is_operator_cmd;
 
 	param->sel_start = sel_start;
