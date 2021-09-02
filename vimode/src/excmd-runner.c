@@ -86,6 +86,13 @@ ExCmdDef ex_cmds[] = {
 	{excmd_join, "join"},
 	{excmd_join, "j"},
 
+	{excmd_copy, "copy"},
+	{excmd_copy, "co"},
+	{excmd_copy, "t"},
+
+	{excmd_move, "move"},
+	{excmd_move, "m"},
+
 	{NULL, NULL}
 };
 
@@ -433,7 +440,11 @@ static void perform_simple_ex_cmd(CmdContext *ctx, const gchar *cmd)
 			ExCmdDef *def = &ex_cmds[i];
 			if (strcmp(def->name, cmd_name) == 0)
 			{
+				if (def->cmd == excmd_copy || def->cmd == excmd_move)
+					parse_ex_range(&(params.param1), ctx, &(params.dest), &(params.dest));
+				SSM(ctx->sci, SCI_BEGINUNDOACTION, 0, 0);
 				def->cmd(ctx, &params);
+				SSM(ctx->sci, SCI_ENDUNDOACTION, 0, 0);
 				break;
 			}
 		}

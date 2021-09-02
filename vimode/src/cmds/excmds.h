@@ -37,5 +37,7 @@ void excmd_shift_left(CmdContext *c, ExCmdParams *p);
 void excmd_shift_right(CmdContext *c, ExCmdParams *p);
 void excmd_delete(CmdContext *c, ExCmdParams *p);
 void excmd_join(CmdContext *c, ExCmdParams *p);
+void excmd_copy(CmdContext *c, ExCmdParams *p);
+void excmd_move(CmdContext *c, ExCmdParams *p);
 
 #endif

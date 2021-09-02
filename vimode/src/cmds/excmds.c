@@ -133,3 +133,31 @@ void excmd_join(CmdContext *c, ExCmdParams *p)
 	cmd_join_lines(c, &params);
 }
 
+
+void excmd_copy(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	gint dest = SSM(c->sci, SCI_POSITIONFROMLINE, p->dest, 0);
+	excmd_yank(c, p);
+	SET_POS(c->sci, dest, TRUE);
+	cmd_params_init(&params, c->sci, 1, FALSE, NULL, FALSE, 0, 0);
+	cmd_paste_after(c, &params);
+}
+
+
+void excmd_move(CmdContext *c, ExCmdParams *p)
+{
+	CmdParams params;
+	gint dest;
+
+	if (p->dest >= p->range_from && p->dest <= p->range_to)
+		return;
+
+	excmd_delete(c, p);
+	if (p->dest > p->range_to)
+		p->dest -= p->range_to - p->range_from + 1;
+	dest = SSM(c->sci, SCI_POSITIONFROMLINE, p->dest, 0);
+	SET_POS(c->sci, dest, TRUE);
+	cmd_params_init(&params, c->sci, 1, FALSE, NULL, FALSE, 0, 0);
+	cmd_paste_after(c, &params);
+}
