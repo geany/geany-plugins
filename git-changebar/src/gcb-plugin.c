@@ -801,7 +801,7 @@ get_widget_for_buf_range (GeanyDocument *doc,
                                          "UTF-8", doc->encoding, NULL);
   }
   
-  scintilla_send_message (sci, SCI_ADDTEXT, buf_len, (glong) buf);
+  scintilla_send_message (sci, SCI_ADDTEXT, buf_len, (sptr_t) buf);
   
   if (free_buf) {
     g_free (buf);
@@ -1144,7 +1144,7 @@ insert_buf_range (GeanyDocument *doc,
                                          "UTF-8", doc->encoding, NULL);
   }
   
-  scintilla_send_message (old_sci, SCI_ADDTEXT, old_buf_len, (glong) old_buf);
+  scintilla_send_message (old_sci, SCI_ADDTEXT, old_buf_len, (sptr_t) old_buf);
 
   old_pos_start = sci_get_position_from_line (old_sci, old_start);
   old_pos_end = sci_get_position_from_line (old_sci, old_start + old_lines);
