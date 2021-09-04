@@ -42,7 +42,6 @@ Unicode true
 !define GEANY_DIR_REGKEY "Software\Geany"
 ; Geany version should be major.minor only (patch level is ignored for version checking)
 !define REQUIRED_GEANY_VERSION "1.38"
-!define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; Version resource  ;
@@ -54,14 +53,25 @@ VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "LegalCopyright" "Copyright 2009-2019 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
-BrandingText "$(^NAME) installer (NSIS 3.04)"
+BrandingText "$(^NAME) installer (NSIS ${NSIS_VERSION})"
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 SetCompressor /SOLID lzma
 ShowInstDetails hide
 ShowUnInstDetails hide
 XPStyle on
 ManifestSupportedOS all
-OutFile "geany-plugins-${PRODUCT_VERSION}_setup.exe"
+
+!ifndef GEANY_PLUGINS_INSTALLER_NAME
+!define GEANY_PLUGINS_INSTALLER_NAME "geany-plugins-${PRODUCT_VERSION}_setup.exe"
+!endif
+!ifndef GEANY_PLUGINS_RELEASE_DIR
+!define GEANY_PLUGINS_RELEASE_DIR "geany-plugins-${PRODUCT_VERSION}"
+!endif
+!ifndef DEPENDENCY_BUNDLE_DIR
+!define DEPENDENCY_BUNDLE_DIR "contrib"
+!endif
+
+OutFile "${GEANY_PLUGINS_INSTALLER_NAME}"
 
 Var Answer
 Var UserName
@@ -87,7 +97,7 @@ ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
 !insertmacro MUI_PAGE_WELCOME
 ; License page
 ; FIXME
-!insertmacro MUI_PAGE_LICENSE "${RESOURCEDIR}\share\doc\geany-plugins\addons\Copying"
+!insertmacro MUI_PAGE_LICENSE "${GEANY_PLUGINS_RELEASE_DIR}\share\doc\geany-plugins\addons\Copying"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
 ; Directory page
@@ -110,36 +120,36 @@ Section "!Program Files" SEC01
 	SetOverwrite ifnewer
 
 	SetOutPath "$INSTDIR\bin"
-	File /r "${RESOURCEDIR}\bin\libgeanypluginutils-0.dll"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\bin\libgeanypluginutils-0.dll"
 
 	SetOutPath "$INSTDIR\lib"
-	File /r "${RESOURCEDIR}\lib\*.dll"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\lib\*.dll"
 
 	SetOutPath "$INSTDIR\share\geany-plugins"
-	File /r "${RESOURCEDIR}\share\geany-plugins\*"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\share\geany-plugins\*"
 SectionEnd
 
 Section "Language Files" SEC02
 	SectionIn 1
 	SetOutPath "$INSTDIR\share\locale"
-	File /r "${RESOURCEDIR}\share\locale\*"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\share\locale\*"
 	; dependency translations
 	SetOutPath "$INSTDIR\share\locale"
-	File /r "contrib\share\locale\*"
+	File /r "${DEPENDENCY_BUNDLE_DIR}\share\locale\*"
 SectionEnd
 
 Section "Documentation" SEC03
 	SectionIn 1
 	SetOverwrite ifnewer
 	SetOutPath "$INSTDIR\share\doc\geany-plugins"
-	File /r "${RESOURCEDIR}\share\doc\geany-plugins\*"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\share\doc\geany-plugins\*"
 SectionEnd
 
 Section "Dependencies" SEC04
 	SectionIn 1
 	SetOverwrite ifnewer
 	SetOutPath "$INSTDIR"
-	File /r /x "*.mo" "contrib\"
+	File /r /x "*.mo" "${DEPENDENCY_BUNDLE_DIR}\"
 SectionEnd
 
 Section -Post
