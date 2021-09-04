@@ -19,65 +19,38 @@ EXE_WRAPPER_64="mingw-w64-x86_64-wine"
 # ctags - binary for GeanyCTags plugin
 # ctpl-git - for GeanyGenDoc plugin
 # enchant, hunspell - for SpellCheck plugin
-# curl, glib-networking, gnutls, icu, libproxy, sqlite3, webkitgtk2/3 for WebHelper and Markdown plugins
 # lua51 - for GeanyLua plugin
 # gnupg, gpgme - for GeanyPG plugin
 # libsoup - for UpdateChecker plugin
 # libgit2 - for GitChangeBar plugin
 # libxml2 - for PrettyPrinter plugin
-# gtkspell - for GeanyVC plugin
+# gtkspell3 - for GeanyVC plugin
 # the rest is dependency-dependency
 packages="
-p11-kit
-brotli
 ca-certificates
 ctags
 ctpl-git
-curl
-dbus
-dbus-glib
 enchant
-geoclue
-giflib
-glib-networking
-gmp
 gnupg
-gnutls
 gpgme
-gstreamer
-gst-plugins-base
 http-parser
 hunspell
-icu
 libassuan
 libgcrypt
-libgpg-error
 libgit2
+libgpg-error
 libidn2
-libjpeg-turbo
-libogg
 libpsl
-libproxy
 libsoup
 libssh2
 libsystre
-libtasn1
-libtheora
-libtiff
-libtre-git
 libunistring
-libvorbis
-libvorbisidec-svn
-libwebp
 libxml2
-libxslt
 lua51
-nettle
 nghttp2
 openssl
-orc
+p11-kit
 readline
-rtmpdump-git
 sqlite3
 termcap
 xz
@@ -182,9 +155,6 @@ _remember_package_source() {
 }
 
 extract_packages() {
-	# hack for libxml2 postinstall script which expects "bin/mkdir"
-	mkdir -p bin
-	cp /bin/mkdir bin/
 	# extract packages
 	for i in $pkgs; do
 		pkg=$(_getpkg $i)
@@ -259,11 +229,10 @@ cleanup_unnecessary_files() {
 	rm -rf lib/cmake
 	rm -rf lib/pkgconfig
 	rm -rf lib/girepository-1.0
-	rm -rf lib/icu
 	rm -rf lib/lua
 	rm -rf lib/p11-kit
-	rm -rf lib/python2.7
-	rm -rf lib/python3.8
+	rm -rf lib/python3.9
+	rm -rf lib/sqlite3.36.*
 	find lib -name '*.h' -delete
 	find lib -name '*.a' -delete
 	find lib -name '*.typelib' -delete
@@ -275,8 +244,6 @@ cleanup_unnecessary_files() {
 	rm -f lib/bin/libenchant_zemberek.dll
 	# enchant: remove aspell engine (it would require the aspell library which we don't need)
 	rm -f lib/enchant/libenchant_aspell.dll
-	# libproxy: remove KDE module
-	rm -f lib/modules/config_kde.dll
 	# sbin: cleanup sbin files
 	rm -rf sbin
 	# share: cleanup other unnecessary files
@@ -288,19 +255,17 @@ cleanup_unnecessary_files() {
 	rm -rf share/doc
 	rm -rf share/emacs
 	rm -rf share/GConf
-	rm -rf share/geoclue-providers
 	rm -rf share/gir-1.0
 	rm -rf share/glib-2.0
 	rm -rf share/gnupg
-	rm -rf share/gst-plugins-base
-	rm -rf share/gstreamer-1.0
 	rm -rf share/gtk-doc
-	rm -rf share/icu
 	rm -rf share/info
 	rm -rf share/lua
 	rm -rf share/man
 	rm -rf share/nghttp2
 	rm -rf share/readline
+	rm -rf share/sqlite
+	rm -rf share/vala
 	rm -rf share/zsh
 	# ssl: cleanup ssl files
 	rm -rf ssl/*.cnf
@@ -310,7 +275,7 @@ cleanup_unnecessary_files() {
 	find bin \
 		! -name '*.dll' \
 		! -name ctags.exe \
-		! -name gpg2.exe \
+		! -name gpg.exe \
 		! -name gpgme-w32spawn.exe \
 		! -name gpgme-tool.exe \
 		! -name gpgconf.exe \
