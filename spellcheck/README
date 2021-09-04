@@ -83,6 +83,24 @@ Then in the plugin configuration dialog set the dictionary for
 dictionary files to: `C:\\dictionaries`.
 
 
+Maintaining personal dictionaries
+---------------------------------
+When you manually add words to your personal dictionary
+(using the "Add <word> to Dictionary" menu item), those words are stored
+in a personal dictionary per language.
+If you want to add, modify or remove words from these dictionaries,
+you need to open the dictionaries with an editor like Geany and edit them.
+As far as we know, there is no graphical tool to edit those files. However,
+they are plain text files with one word per line.
+
+These files are usually located in:
+`/home/<username>/.config/enchant/<LANG>.dic`.
+The exact storage location might differ between operating systems.
+
+Additional informationcan be found on https://github.com/AbiWord/enchant,
+section "Sharing personal word lists between spell-checkers".
+
+
 Known issues
 ------------
 * Spell checking with some languages like Hindi might be incorrect, i.e. some
