@@ -30,7 +30,7 @@ typedef struct
 {
 	gint message;
 	gulong wparam;
-	glong lparam;
+	sptr_t lparam;
 } MacroEvent;
 
 /* structure to hold details of a macro */
@@ -370,7 +370,7 @@ static void ReplayMacro(Macro *m)
 				break;
 			}
 
-			scintilla_send_message(sci,me->message,me->wparam,(glong)clipboardcontents);
+			scintilla_send_message(sci,me->message,me->wparam,(sptr_t)clipboardcontents);
 		}
 		else
 			scintilla_send_message(sci,me->message,me->wparam,me->lparam);
@@ -431,12 +431,12 @@ static MacroEvent * GetMacroEventFromString(gchar **s,gint *k)
 		case SCI_SEARCHNEXT:
 		case SCI_SEARCHPREV:
 			/* get text */
-			me->lparam=(glong)(g_strcompress(s[(*k)++]));
+			me->lparam=(sptr_t)(g_strcompress(s[(*k)++]));
 			/* if text is empty string replace with NULL to signify use clipboard */
 			if((*((gchar*)(me->lparam)))==0)
 			{
 				g_free((gchar*)me->lparam);
-				me->lparam=(glong)NULL;
+				me->lparam=(sptr_t)NULL;
 			}
 
 			/* get search flags */
@@ -444,7 +444,7 @@ static MacroEvent * GetMacroEventFromString(gchar **s,gint *k)
 			break;
 		case SCI_REPLACESEL:
 			/* get text */
-			me->lparam=(glong)(g_strcompress(s[(*k)++]));
+			me->lparam=(sptr_t)(g_strcompress(s[(*k)++]));
 			break;
 		/* default handler for messages without extra data */
 		default:
@@ -556,7 +556,7 @@ static gboolean Notification_Handler(GObject *obj,GeanyEditor *ed,SCNotification
 	me->lparam=(me->message==SCI_SEARCHNEXT ||
 	            me->message==SCI_SEARCHPREV ||
 	            me->message==SCI_REPLACESEL)
-		?((glong) g_strdup((gchar *)(nt->lParam))) : nt->lParam;
+		?((sptr_t) g_strdup((gchar *)(nt->lParam))) : nt->lParam;
 
 	/* more efficient to create reverse list and reverse it at the end */
 	RecordingMacro->MacroEvents=g_slist_prepend(RecordingMacro->MacroEvents,me);
@@ -1971,7 +1971,7 @@ static void EditMacroElements(Macro *m)
 
 				/* Special handling for text inserting, duplicate inserted string */
 				if(me->message==SCI_REPLACESEL)
-					me->lparam=(glong)((cTemp!=NULL)?g_strdup(cTemp):g_strdup(""));
+					me->lparam=(sptr_t)((cTemp!=NULL)?g_strdup(cTemp):g_strdup(""));
 
 				/* Special handling for search */
 				if(me->message==SCI_SEARCHNEXT || me->message==SCI_SEARCHPREV)
@@ -1979,7 +1979,7 @@ static void EditMacroElements(Macro *m)
 					cTemp2=strchr(cTemp,',');
 					cTemp2++;
 
-					me->lparam=(glong)(((*cTemp2)==0)?NULL:g_strdup(cTemp2));
+					me->lparam=(sptr_t)(((*cTemp2)==0)?NULL:g_strdup(cTemp2));
 					me->wparam=strtoll(cTemp,NULL,10);
 				}
 

@@ -452,7 +452,7 @@ static gint glspi_copy(lua_State* L)
 			if (!lua_isstring(L,1)) {return FAIL_STRING_ARG(1);}
 			content=lua_tostring(L,1);
 			len=strlen(content);
-			if (len) { scintilla_send_message(doc->editor->sci,SCI_COPYTEXT,len,(glong)content); }
+			if (len) { scintilla_send_message(doc->editor->sci,SCI_COPYTEXT,len,(sptr_t)content); }
 			push_number(L, len);
 			return 1;
 		default:
