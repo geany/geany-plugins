@@ -89,15 +89,13 @@ ReserveFile "${NSISDIR}\Plugins\x86-unicode\InstallOptions.dll"
 ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
 
 !define MUI_ABORTWARNING
-; FIXME hard-coded path...should we add geany.ico to the geany-plugins repo?
-!define MUI_ICON "..\geany\icons\geany.ico"
+!define MUI_ICON "geany-plugins.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-full.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-; FIXME
-!insertmacro MUI_PAGE_LICENSE "${GEANY_PLUGINS_RELEASE_DIR}\share\doc\geany-plugins\addons\Copying"
+!insertmacro MUI_PAGE_LICENSE "${GEANY_PLUGINS_RELEASE_DIR}\share\doc\geany-plugins\addons\COPYING"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
 ; Directory page
