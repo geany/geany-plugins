@@ -842,7 +842,7 @@ static gint NextFreeMarker(GeanyDocument* doc)
 				break;
 
 		/* insert new marker */
-		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,m,(glong)(aszMarkerImages[k]));
+		scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,m,(sptr_t)(aszMarkerImages[k]));
 		scintilla_send_message(sci,SCI_MARKERADD,l,m);
 
 		/* update markers record */
@@ -880,7 +880,7 @@ static void SetMarker(GeanyDocument* doc,gint bookmarkNumber,gint markerNumber,g
 
 	/* insert new marker */
 	scintilla_send_message(sci,SCI_MARKERDEFINEPIXMAP,markerNumber,
-	                       (glong)(aszMarkerImages[bookmarkNumber]));
+	                       (sptr_t)(aszMarkerImages[bookmarkNumber]));
 	scintilla_send_message(sci,SCI_MARKERADD,line,markerNumber);
 
 	/* update record of which bookmark uses which marker */
