@@ -22,17 +22,20 @@
 #include "config.h"
 #include <string.h>
 #include <gtk/gtk.h>
+#include <geanyplugin.h>
+
 #ifdef MARKDOWN_WEBKIT2
 # include <webkit2/webkit2.h>
 #else
 # include <webkit/webkitwebview.h>
 #endif
-#include <geanyplugin.h>
+
 #ifndef FULL_PRICE
 # include <mkdio.h>
 #else
 # include "markdown_lib.h"
 #endif
+
 #include "viewer.h"
 #include "conf.h"
 
@@ -247,9 +250,47 @@ template_replace(MarkdownViewer *self, const gchar *html_text)
   return g_string_free(tmpl, FALSE);
 }
 
-static gboolean
-push_scroll_pos(MarkdownViewer *self)
-{
+#ifdef MARKDOWN_WEBKIT2
+/* save scroll position callback for webkit2 */
+static void push_scroll_pos_callback(GObject *obj, GAsyncResult *result,
+                                     gpointer user_data) {
+
+  MarkdownViewer *self = MARKDOWN_VIEWER(obj);
+
+  WebKitJavascriptResult *js_result;
+  JSCValue *value;
+  GError *error = NULL;
+
+  js_result = webkit_web_view_run_javascript_finish(WEBKIT_WEB_VIEW(obj),
+                                                    result, &error);
+  if (!js_result) {
+    g_warning("Error running javascript: %s", error->message);
+    g_error_free(error);
+    return;
+  }
+
+  value = webkit_javascript_result_get_js_value(js_result);
+  gint32 temp = jsc_value_to_int32(value);
+  webkit_javascript_result_unref(js_result);
+
+  if (temp > 0) {
+    self->priv->vscroll_pos = (gdouble) temp;
+  }
+}
+
+/* save scroll position for webkit2 */
+static gboolean push_scroll_pos(MarkdownViewer *self) {
+  gchar *script;
+  script = g_strdup("window.scrollY");
+
+  webkit_web_view_run_javascript(WEBKIT_WEB_VIEW(self), script, NULL,
+                                 push_scroll_pos_callback, NULL);
+  g_free(script);
+  return TRUE;
+}
+#else
+/* save scroll position for webkit v1 */
+static gboolean push_scroll_pos(MarkdownViewer *self) {
   GtkWidget *parent;
   gboolean pushed = FALSE;
 
@@ -270,7 +311,28 @@ push_scroll_pos(MarkdownViewer *self)
 
   return pushed;
 }
+#endif
 
+#ifdef MARKDOWN_WEBKIT2
+/* load scroll position callback for webkit2 */
+static void pop_scroll_pos_callback(GObject *object, GAsyncResult *result,
+                                    gpointer user_data) {
+  /* nothing to do */
+  return;
+}
+
+/* load scroll position for webkit2 */
+static gboolean pop_scroll_pos(MarkdownViewer *self) {
+  gchar *script;
+  script = g_strdup_printf("window.scrollTo(0, %d);", (int) self->priv->vscroll_pos);
+
+  webkit_web_view_run_javascript(WEBKIT_WEB_VIEW(self), script, NULL,
+                                 pop_scroll_pos_callback, NULL);
+  g_free(script);
+  return TRUE;
+}
+#else
+/* load scroll position for webkit v1 */
 static gboolean
 pop_scroll_pos(MarkdownViewer *self)
 {
@@ -299,19 +361,18 @@ pop_scroll_pos(MarkdownViewer *self)
 
   return popped;
 }
+#endif
 
 #ifdef MARKDOWN_WEBKIT2
-static void
-on_webview_load_changed(MarkdownViewer  *self,
-                        WebKitLoadEvent  load_event,
-                        WebKitWebView   *web_view)
-{
-  /* When the webkit is done loading, reset the scroll position. */
-  if (load_event == WEBKIT_LOAD_FINISHED) {
-    pop_scroll_pos(self);
-  }
+/* scroll position callback for webkit2 */
+static void on_webview_load_status_notify(WebKitWebView *view,
+                                          WebKitLoadEvent load_event,
+                                          MarkdownViewer *self) {
+  // preview will flicker if wait until WEBKIT_LOAD_FINISHED
+  pop_scroll_pos(self);
 }
 #else
+/* scroll position callback for webkit v1 */
 static void
 on_webview_load_status_notify(WebKitWebView *view, GParamSpec *pspec,
   MarkdownViewer *self)
@@ -373,6 +434,21 @@ markdown_viewer_update_view(MarkdownViewer *self)
 
   push_scroll_pos(self);
 
+#ifdef MARKDOWN_WEBKIT2
+  /* Connect a signal handler to restore the scroll position.*/
+  if (self->priv->load_handle == 0) {
+    self->priv->load_handle = g_signal_connect_swapped(
+        WEBKIT_WEB_VIEW(self), "load-changed",
+        G_CALLBACK(on_webview_load_status_notify), self);
+  }
+#else
+  if (self->priv->load_handle == 0) {
+    self->priv->load_handle = g_signal_connect_swapped(
+        WEBKIT_WEB_VIEW(self), "notify::load-status",
+        G_CALLBACK(on_webview_load_status_notify), self);
+  }
+#endif
+
   if (html) {
     gchar *base_path;
     gchar *base_uri; /* A file URI not a path URI; last component is stripped */
@@ -400,21 +476,6 @@ markdown_viewer_update_view(MarkdownViewer *self)
       base_uri = g_strdup("file://./index.html");
       g_debug("using phony base URI '%s', broken relative paths are likely", base_uri);
     }
-    g_free(base_path);
-
-    /* Connect a signal handler (only needed once) to restore the scroll
-     * position once the webview is reloaded. */
-    if (self->priv->load_handle == 0) {
-#ifdef MARKDOWN_WEBKIT2
-      self->priv->load_handle =
-        g_signal_connect_swapped(WEBKIT_WEB_VIEW(self), "load-changed",
-          G_CALLBACK(on_webview_load_changed), self);
-#else
-      self->priv->load_handle =
-        g_signal_connect_swapped(WEBKIT_WEB_VIEW(self), "notify::load-status",
-          G_CALLBACK(on_webview_load_status_notify), self);
-#endif
-    }
 
 #ifdef MARKDOWN_WEBKIT2
     webkit_web_view_load_html(WEBKIT_WEB_VIEW(self), html, base_uri);
@@ -423,6 +484,7 @@ markdown_viewer_update_view(MarkdownViewer *self)
       self->priv->enc, base_uri);
 #endif
 
+    g_free(base_path);
     g_free(base_uri);
     g_free(html);
   }
