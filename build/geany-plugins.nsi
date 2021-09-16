@@ -75,6 +75,7 @@ OutFile "${GEANY_PLUGINS_INSTALLER_NAME}"
 
 Var Answer
 Var UserName
+Var GEANY_INSTDIR
 Var UNINSTDIR
 
 ;;;;;;;;;;;;;;;;
@@ -346,13 +347,13 @@ done:
 
 Function CheckForGeany
 	; find and read Geany's installation directory and use it as our installation directory
-	ReadRegStr $INSTDIR SHCTX "${GEANY_DIR_REGKEY}" "Path"
-	StrCmp $INSTDIR "" 0 +3
+	ReadRegStr $GEANY_INSTDIR SHCTX "${GEANY_DIR_REGKEY}" "Path"
+	StrCmp $GEANY_INSTDIR "" 0 +3
 	MessageBox MB_OK|MB_ICONSTOP "Geany could not be found. Please install Geany first." /SD IDOK
 	Abort
 
 	; check Geany's version
-	GetDLLVersion "$INSTDIR\bin\geany.exe" $R0 $R1
+	GetDLLVersion "$GEANY_INSTDIR\bin\geany.exe" $R0 $R1
 	IntOp $R2 $R0 >> 16
 	IntOp $R2 $R2 & 0x0000FFFF ; $R2 now contains major version
 	IntOp $R3 $R0 & 0x0000FFFF ; $R3 now contains minor version
@@ -394,6 +395,10 @@ Function .onInit
 	Abort
 
 	Call CheckForGeany
+	; if $INSTDIR is empty (i.e. it was not provided via /D=... on command line), use Geany's one
+	${If} $INSTDIR == ""
+		StrCpy $INSTDIR "$GEANY_INSTDIR"
+	${EndIf}
 
 	; warn about a new install over an existing installation
 	ReadRegStr $R0 SHCTX "${PRODUCT_UNINST_KEY}" "UninstallString"
