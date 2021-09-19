@@ -42,7 +42,6 @@ Unicode true
 !define GEANY_DIR_REGKEY "Software\Geany"
 ; Geany version should be major.minor only (patch level is ignored for version checking)
 !define REQUIRED_GEANY_VERSION "1.38"
-!define RESOURCEDIR "geany-plugins-${PRODUCT_VERSION}"
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; Version resource  ;
@@ -54,17 +53,29 @@ VIAddVersionKey "ProductVersion" "${PRODUCT_VERSION}"
 VIAddVersionKey "LegalCopyright" "Copyright 2009-2019 by the Geany developer team"
 VIAddVersionKey "FileDescription" "${PRODUCT_NAME} Installer"
 
-BrandingText "$(^NAME) installer (NSIS 3.04)"
+BrandingText "$(^NAME) installer (NSIS ${NSIS_VERSION})"
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 SetCompressor /SOLID lzma
 ShowInstDetails hide
 ShowUnInstDetails hide
 XPStyle on
 ManifestSupportedOS all
-OutFile "geany-plugins-${PRODUCT_VERSION}_setup.exe"
+
+!ifndef GEANY_PLUGINS_INSTALLER_NAME
+!define GEANY_PLUGINS_INSTALLER_NAME "geany-plugins-${PRODUCT_VERSION}_setup.exe"
+!endif
+!ifndef GEANY_PLUGINS_RELEASE_DIR
+!define GEANY_PLUGINS_RELEASE_DIR "geany-plugins-${PRODUCT_VERSION}"
+!endif
+!ifndef DEPENDENCY_BUNDLE_DIR
+!define DEPENDENCY_BUNDLE_DIR "contrib"
+!endif
+
+OutFile "${GEANY_PLUGINS_INSTALLER_NAME}"
 
 Var Answer
 Var UserName
+Var GEANY_INSTDIR
 Var UNINSTDIR
 
 ;;;;;;;;;;;;;;;;
@@ -79,15 +90,13 @@ ReserveFile "${NSISDIR}\Plugins\x86-unicode\InstallOptions.dll"
 ReserveFile "${NSISDIR}\Plugins\x86-unicode\LangDLL.dll"
 
 !define MUI_ABORTWARNING
-; FIXME hard-coded path...should we add geany.ico to the geany-plugins repo?
-!define MUI_ICON "..\geany\icons\geany.ico"
+!define MUI_ICON "geany-plugins.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-full.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-; FIXME
-!insertmacro MUI_PAGE_LICENSE "${RESOURCEDIR}\share\doc\geany-plugins\addons\Copying"
+!insertmacro MUI_PAGE_LICENSE "${GEANY_PLUGINS_RELEASE_DIR}\share\doc\geany-plugins\addons\COPYING"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
 ; Directory page
@@ -110,36 +119,36 @@ Section "!Program Files" SEC01
 	SetOverwrite ifnewer
 
 	SetOutPath "$INSTDIR\bin"
-	File /r "${RESOURCEDIR}\bin\libgeanypluginutils-0.dll"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\bin\libgeanypluginutils-0.dll"
 
 	SetOutPath "$INSTDIR\lib"
-	File /r "${RESOURCEDIR}\lib\*.dll"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\lib\*.dll"
 
 	SetOutPath "$INSTDIR\share\geany-plugins"
-	File /r "${RESOURCEDIR}\share\geany-plugins\*"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\share\geany-plugins\*"
 SectionEnd
 
 Section "Language Files" SEC02
 	SectionIn 1
 	SetOutPath "$INSTDIR\share\locale"
-	File /r "${RESOURCEDIR}\share\locale\*"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\share\locale\*"
 	; dependency translations
 	SetOutPath "$INSTDIR\share\locale"
-	File /r "contrib\share\locale\*"
+	File /r "${DEPENDENCY_BUNDLE_DIR}\share\locale\*"
 SectionEnd
 
 Section "Documentation" SEC03
 	SectionIn 1
 	SetOverwrite ifnewer
 	SetOutPath "$INSTDIR\share\doc\geany-plugins"
-	File /r "${RESOURCEDIR}\share\doc\geany-plugins\*"
+	File /r "${GEANY_PLUGINS_RELEASE_DIR}\share\doc\geany-plugins\*"
 SectionEnd
 
 Section "Dependencies" SEC04
 	SectionIn 1
 	SetOverwrite ifnewer
 	SetOutPath "$INSTDIR"
-	File /r /x "*.mo" "contrib\"
+	File /r /x "*.mo" "${DEPENDENCY_BUNDLE_DIR}\"
 SectionEnd
 
 Section -Post
@@ -175,23 +184,18 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\geanyinsertnum.dll"
 	Delete "$INSTDIR\lib\geany\geanylatex.dll"
 	Delete "$INSTDIR\lib\geany\latex.dll"
-	; Keep for geanylipsum propper deleting old dll some time
-	Delete "$INSTDIR\lib\geany\geanylipsum.dll"
 	Delete "$INSTDIR\lib\geany\geanylua.dll"
 	Delete "$INSTDIR\lib\geany\geanymacro.dll"
 	Delete "$INSTDIR\lib\geany\geanyminiscript.dll"
 	Delete "$INSTDIR\lib\geany\geanynumberedbookmarks.dll"
 	Delete "$INSTDIR\lib\geany\geanypg.dll"
 	Delete "$INSTDIR\lib\geany\geanyprj.dll"
-	; Keep for geanysendmail propper deleting old dll some time
-	Delete "$INSTDIR\lib\geany\geanysendmail.dll"
 	Delete "$INSTDIR\lib\geany\geanyvc.dll"
 	Delete "$INSTDIR\lib\geany\geniuspaste.dll"
 	Delete "$INSTDIR\lib\geany\git-changebar.dll"
 	Delete "$INSTDIR\lib\geany\keyrecord.dll"
 	Delete "$INSTDIR\lib\geany\lipsum.dll"
 	Delete "$INSTDIR\lib\geany\lineoperations.dll"
-	Delete "$INSTDIR\lib\geany\markdown.dll"
 	Delete "$INSTDIR\lib\geany\overview.dll"
 	Delete "$INSTDIR\lib\geany\pairtaghighlighter.dll"
 	Delete "$INSTDIR\lib\geany\pohelper.dll"
@@ -205,151 +209,60 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\treebrowser.dll"
 	Delete "$INSTDIR\lib\geany\updatechecker.dll"
 	Delete "$INSTDIR\lib\geany\vimode.dll"
-	Delete "$INSTDIR\lib\geany\webhelper.dll"
 	Delete "$INSTDIR\lib\geany\workbench.dll"
 	Delete "$INSTDIR\lib\geany\xmlsnippets.dll"
 
 	Delete "$INSTDIR\bin\ctags.exe"
-	Delete "$INSTDIR\bin\gpg2.exe"
+	Delete "$INSTDIR\bin\gpg.exe"
 	Delete "$INSTDIR\bin\gpgconf.exe"
 	Delete "$INSTDIR\bin\gpgme-tool.exe"
 	Delete "$INSTDIR\bin\gpgme-w32spawn.exe"
 	Delete "$INSTDIR\bin\libassuan-0.dll"
-	Delete "$INSTDIR\bin\libbrotlicommon.dll"
-	Delete "$INSTDIR\bin\libbrotlidec.dll"
-	Delete "$INSTDIR\bin\libbrotlienc.dll"
+	Delete "$INSTDIR\bin\libcrypto-1_1-x64.dll"
 	Delete "$INSTDIR\bin\libctpl-2.dll"
-	Delete "$INSTDIR\bin\libcrypto-1_1.dll"
-	Delete "$INSTDIR\bin\libcurl-4.dll"
-	Delete "$INSTDIR\bin\libdbus-1-3.dll"
-	Delete "$INSTDIR\bin\libdbus-glib-1-2.dll"
-	Delete "$INSTDIR\bin\libeay32.dll"
 	Delete "$INSTDIR\bin\libenchant-2.dll"
-	Delete "$INSTDIR\bin\libexslt-0.dll"
 	Delete "$INSTDIR\bin\libgcrypt-20.dll"
-	Delete "$INSTDIR\bin\libgeoclue-0.dll"
-	Delete "$INSTDIR\bin\libgif-7.dll"
 	Delete "$INSTDIR\bin\libgit2.dll"
-	Delete "$INSTDIR\bin\libgmp-10.dll"
-	Delete "$INSTDIR\bin\libgmpxx-4.dll"
-	Delete "$INSTDIR\bin\libgnutls-30.dll"
-	Delete "$INSTDIR\bin\libgnutlsxx-28.dll"
 	Delete "$INSTDIR\bin\libgpg-error-0.dll"
 	Delete "$INSTDIR\bin\libgpgme-11.dll"
 	Delete "$INSTDIR\bin\libgpgme-glib-11.dll"
-	Delete "$INSTDIR\bin\libqgpgme-7.dll"
 	Delete "$INSTDIR\bin\libgpgmepp-6.dll"
-	Delete "$INSTDIR\bin\libgstallocators-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstapp-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstaudio-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstbase-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstcheck-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstcontroller-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstfft-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstgl-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstnet-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstpbutils-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstreamer-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstriff-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstrtp-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstrtsp-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstsdp-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgsttag-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgstvideo-1.0-0.dll"
-	Delete "$INSTDIR\bin\libgtkspell-0.dll"
-	Delete "$INSTDIR\bin\libgtkspell3-*.dll"
+	Delete "$INSTDIR\bin\libgtkspell3-3-0.dll"
 	Delete "$INSTDIR\bin\libhistory8.dll"
-	Delete "$INSTDIR\bin\libhogweed-6.dll"
 	Delete "$INSTDIR\bin\libhttp_parser-2.dll"
 	Delete "$INSTDIR\bin\libhunspell-1.7-0.dll"
-	Delete "$INSTDIR\bin\libicudt61.dll"
-	Delete "$INSTDIR\bin\libicutu61.dll"
-	Delete "$INSTDIR\bin\libicuuc61.dll"
-	Delete "$INSTDIR\bin\libicuin61.dll"
-	Delete "$INSTDIR\bin\libicuio61.dll"
-	Delete "$INSTDIR\bin\libicule61.dll"
-	Delete "$INSTDIR\bin\libiculx61.dll"
-	Delete "$INSTDIR\bin\libicutest61.dll"
-	Delete "$INSTDIR\bin\libicutu67.dll"
-	Delete "$INSTDIR\bin\libicuuc67.dll"
-	Delete "$INSTDIR\bin\libicudt67.dll"
-	Delete "$INSTDIR\bin\libicuin67.dll"
-	Delete "$INSTDIR\bin\libicuio67.dll"
-	Delete "$INSTDIR\bin\libicule67.dll"
-	Delete "$INSTDIR\bin\libiculx67.dll"
-	Delete "$INSTDIR\bin\libicutest67.dll"
-	Delete "$INSTDIR\bin\libicutu67.dll"
-	Delete "$INSTDIR\bin\libicuuc67.dll"
 	Delete "$INSTDIR\bin\libidn2-0.dll"
-	Delete "$INSTDIR\bin\libjavascriptcoregtk-1.0-0.dll"
-	Delete "$INSTDIR\bin\libjavascriptcoregtk-3.0-0.dll"
-	Delete "$INSTDIR\bin\libjpeg-8.dll"
 	Delete "$INSTDIR\bin\liblzma-5.dll"
-	Delete "$INSTDIR\bin\libnettle-8.dll"
 	Delete "$INSTDIR\bin\libnghttp2-14.dll"
-	Delete "$INSTDIR\bin\libogg-0.dll"
-	Delete "$INSTDIR\bin\liborc-0.4-0.dll"
-	Delete "$INSTDIR\bin\liborc-test-0.4-0.dll"
 	Delete "$INSTDIR\bin\libp11-kit-0.dll"
-	Delete "$INSTDIR\bin\libproxy-1.dll"
 	Delete "$INSTDIR\bin\libpsl-5.dll"
+	Delete "$INSTDIR\bin\libqgpgme-7.dll"
 	Delete "$INSTDIR\bin\libreadline8.dll"
-	Delete "$INSTDIR\bin\librtmp-1.dll"
 	Delete "$INSTDIR\bin\libsoup-2.4-1.dll"
 	Delete "$INSTDIR\bin\libsoup-gnome-2.4-1.dll"
 	Delete "$INSTDIR\bin\libsqlite3-0.dll"
 	Delete "$INSTDIR\bin\libssh2-1.dll"
-	Delete "$INSTDIR\bin\libssl-1_1.dll"
+	Delete "$INSTDIR\bin\libssl-1_1-x64.dll"
 	Delete "$INSTDIR\bin\libsystre-0.dll"
-	Delete "$INSTDIR\bin\libtasn1-6.dll"
 	Delete "$INSTDIR\bin\libtermcap-0.dll"
-	Delete "$INSTDIR\bin\libtheora-0.dll"
-	Delete "$INSTDIR\bin\libtheoradec-1.dll"
-	Delete "$INSTDIR\bin\libtheoraenc-1.dll"
-	Delete "$INSTDIR\bin\libtiff-5.dll"
-	Delete "$INSTDIR\bin\libtiffxx-5.dll"
-	Delete "$INSTDIR\bin\libtre-5.dll"
-	Delete "$INSTDIR\bin\libturbojpeg.dll"
 	Delete "$INSTDIR\bin\libunistring-2.dll"
-	Delete "$INSTDIR\bin\libvorbis-0.dll"
-	Delete "$INSTDIR\bin\libvorbisenc-2.dll"
-	Delete "$INSTDIR\bin\libvorbisfile-3.dll"
-	Delete "$INSTDIR\bin\libvorbisidec-1.dll"
-	Delete "$INSTDIR\bin\libwebkitgtk-1.0-0.dll"
-	Delete "$INSTDIR\bin\libwebkitgtk-3.0-0.dll"
-	Delete "$INSTDIR\bin\libwebp-7.dll"
-	Delete "$INSTDIR\bin\libwebpdecoder-3.dll"
-	Delete "$INSTDIR\bin\libwebpdemux-2.dll"
-	Delete "$INSTDIR\bin\libwebpextras-0.dll"
-	Delete "$INSTDIR\bin\libwebpmux-3.dll"
 	Delete "$INSTDIR\bin\libxml2-2.dll"
-	Delete "$INSTDIR\bin\libxslt-1.dll"
 	Delete "$INSTDIR\bin\lua51.dll"
-	Delete "$INSTDIR\bin\ssleay32.dll"
 
 	RMDir /r "$INSTDIR\etc\pki"
 	RMDir /r "$INSTDIR\lib\enchant-2"
-	RMDir /r "$INSTDIR\lib\engines"
 	RMDir /r "$INSTDIR\lib\engines-1_1"
-	RMDir /r "$INSTDIR\lib\gio"
-	RMDir /r "$INSTDIR\lib\gstreamer-1.0"
 	RMDir /r "$INSTDIR\lib\pkcs11"
-	RMDir /r "$INSTDIR\lib\sqlite3.33.0"
 	RMDir /r "$INSTDIR\lib\geany-plugins"
-	RMDir /r "$INSTDIR\libexec\gstreamer-1.0"
 	RMDir /r "$INSTDIR\libexec\p11-kit"
 	RMDir /r "$INSTDIR\share\doc\geany-plugins"
 	RMDir /r "$INSTDIR\share\geany-plugins"
 	RMDir /r "$INSTDIR\share\enchant"
-	RMDir /r "$INSTDIR\share\gstreamer-1.0"
 	RMDir /r "$INSTDIR\share\libgpg-error"
 	RMDir /r "$INSTDIR\share\p11-kit"
 	RMDir /r "$INSTDIR\share\pki"
 	RMDir /r "$INSTDIR\share\sqlite"
 	RMDir /r "$INSTDIR\share\vala"
-	RMDir /r "$INSTDIR\share\webkitgtk-1.0"
-	RMDir /r "$INSTDIR\share\webkitgtk-3.0"
-	RMDir /r "$INSTDIR\share\xml\dbus-1"
 	RMDir /r "$INSTDIR\ssl\certs"
 
 	FindFirst $0 $1 "$INSTDIR\share\locale\*"
@@ -434,13 +347,13 @@ done:
 
 Function CheckForGeany
 	; find and read Geany's installation directory and use it as our installation directory
-	ReadRegStr $INSTDIR SHCTX "${GEANY_DIR_REGKEY}" "Path"
-	StrCmp $INSTDIR "" 0 +3
+	ReadRegStr $GEANY_INSTDIR SHCTX "${GEANY_DIR_REGKEY}" "Path"
+	StrCmp $GEANY_INSTDIR "" 0 +3
 	MessageBox MB_OK|MB_ICONSTOP "Geany could not be found. Please install Geany first." /SD IDOK
 	Abort
 
 	; check Geany's version
-	GetDLLVersion "$INSTDIR\bin\geany.exe" $R0 $R1
+	GetDLLVersion "$GEANY_INSTDIR\bin\geany.exe" $R0 $R1
 	IntOp $R2 $R0 >> 16
 	IntOp $R2 $R2 & 0x0000FFFF ; $R2 now contains major version
 	IntOp $R3 $R0 & 0x0000FFFF ; $R3 now contains minor version
@@ -482,6 +395,10 @@ Function .onInit
 	Abort
 
 	Call CheckForGeany
+	; if $INSTDIR is empty (i.e. it was not provided via /D=... on command line), use Geany's one
+	${If} $INSTDIR == ""
+		StrCpy $INSTDIR "$GEANY_INSTDIR"
+	${EndIf}
 
 	; warn about a new install over an existing installation
 	ReadRegStr $R0 SHCTX "${PRODUCT_UNINST_KEY}" "UninstallString"
