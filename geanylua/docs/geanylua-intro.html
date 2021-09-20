@@ -22,6 +22,7 @@ the <i style="font-family:sans-serif">Tools->Lua Scripts</i> menu in Geany.
 You can create additional scripts yourself, but all script files must have
 names that end with the <tt><b>.lua</b></tt> file extension. &nbsp;
 The menu labels are generated from the filenames like this:
+</p>
 <ol>
   <li> The &nbsp;<tt><b>.lua</b></tt>&nbsp; filename extension is removed.
   <li> If the filename <i>begins</i> with two decimal digits, followed by a dot,
@@ -59,23 +60,45 @@ user data files, modules, etc.
 <a name="events"><br></a>The special directory  &nbsp;<tt>./plugins/geanylua/events/</tt>&nbsp;
 can contain some scripts that
 will be invoked whenever the respective event is triggered by Geany.
-</p><p>
-Currently, there are nine valid filenames for the event scripts:
+(See <a href="https://www.geany.org/manual/reference/pluginsignals_8c.html">Plugin Signals</a> for more information.)
+</p
+
 <dl compact>
- <dt><tt>init.lua &nbsp; </tt></dt><dd>      -- Runs when the plugin is loaded.</dd>
- <dt><tt>cleanup.lua &nbsp; </tt></dt><dd>      -- Runs when the plugin is unloaded.</dd>
-
- <dt><tt>saved.lua &nbsp; </tt></dt><dd>      -- Runs when an open document is saved.</dd>
- <dt><tt>created.lua  &nbsp; </tt></dt><dd>    -- Runs when a new document is created.</dd>
- <dt><tt>opened.lua  &nbsp; </tt></dt><dd>     -- Runs when an existing file is opened.</dd>
- <dt><tt>activated.lua</tt></dt><dd>  -- Runs when switching documents (notebook tabs).</dd>
-
- <dt><tt>proj-opened.lua &nbsp; </tt></dt><dd>      -- Runs when a project is opened.</dd>
- <dt><tt>proj-saved.lua &nbsp; </tt></dt><dd>      -- Runs when a project is saved.</dd>
- <dt><tt>proj-closed.lua &nbsp; </tt></dt><dd>      -- Runs when a project is closed.</dd>
+ <dt><tt>init.lua</tt></dt>
+ <dd>      -- Runs when the GeanyLua plugin is loaded.</dd>
+ <dt><tt>cleanup.lua</tt></dt>
+ <dd>      -- Runs when the GeanyLua plugin is unloaded.</dd>
 </dl>
+
+<dl compact>
+ <dt><tt>build-start.lua</tt></dt>
+ <dt><tt>editor-notify.lua</tt></dt>
+ <dt><tt>geany-startup-complete.lua</tt></dt>
+ <dt><tt>key-press.lua</tt></dt>
+ <dt><tt>update-editor-menu.lua</tt></dt>
+</dl>
+<dl compact>
+ <dt><tt>document-activate.lua</tt></dt>
+ <dt><tt>document-before-save.lua</tt></dt>
+ <dt><tt>document-close.lua</tt></dt>
+ <dt><tt>document-filetype-set.lua</tt></dt>
+ <dt><tt>document-new.lua</tt></dt>
+ <dt><tt>document-open.lua</tt></dt>
+ <dt><tt>document-reload.lua</tt></dt>
+ <dt><tt>document-save.lua</tt></dt>
+</dl>
+<dl compact>
+ <dt><tt>project-before-close.lua</tt></dt>
+ <dt><tt>project-close.lua</tt></dt>
+ <dt><tt>project-dialog-close.lua</tt></dt>
+ <dt><tt>project-dialog-confirmed.lua</tt></dt>
+ <dt><tt>project-dialog-open.lua</tt></dt>
+ <dt><tt>project-open.lua</tt></dt>
+ <dt><tt>project-save.lua</tt></dt>
+</dl>
+
 <p>
-Note that if any of these nine files exists, it will be executed each time
+Note that if any of these files exists, it will be executed each time
 its corresponding event occurs, which will result in some increase in disk activity.
 In particular, you might notice a delay in startup time with the &nbsp;<tt>opened.lua</tt>&nbsp;
 script when you open a bunch of files at once from the commmand line, etc.
@@ -83,11 +106,10 @@ script when you open a bunch of files at once from the commmand line, etc.
 <br><br>
 Consult the <a href="geanylua-ref.html">reference</a> page for documentation of the Geany-specific Lua functions.
 </p><p>
-
 A complete discussion of the Lua language is way beyond the scope of this
 plugin package, but there is plenty of information available on the net,
 For starters, you can check out:
-</p><p>&nbsp;
+</p>
 <dl>
 
 <dt>
@@ -125,7 +147,6 @@ immediately, and any unsaved changes will be lost! </p><p>
 You should also take some caution not to write a script that hangs indefinitely,
 if this happens, the only way out is to kill the editor.
 </p>
-
 
 </body>
 </html>

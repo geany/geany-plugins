@@ -12,14 +12,28 @@
 
 #define EVENTS_FOLDER  USER_SCRIPT_FOLDER DIR_SEP  "events"  DIR_SEP
 
-#define ON_SAVED_SCRIPT      EVENTS_FOLDER  "saved.lua"
-#define ON_OPENED_SCRIPT     EVENTS_FOLDER  "opened.lua"
-#define ON_CREATED_SCRIPT    EVENTS_FOLDER  "created.lua"
-#define ON_ACTIVATED_SCRIPT  EVENTS_FOLDER  "activated.lua"
+#define ON_DOCUMENT_ACTIVATE_SCRIPT  EVENTS_FOLDER  "document-activate.lua"
+#define ON_DOCUMENT_BEFORE_SAVE_SCRIPT  EVENTS_FOLDER  "document-before-save.lua"
+#define ON_DOCUMENT_CLOSE_SCRIPT  EVENTS_FOLDER  "document-close.lua"
+#define ON_DOCUMENT_FILETYPE_SET_SCRIPT  EVENTS_FOLDER  "document-filetype-set.lua"
+#define ON_DOCUMENT_NEW_SCRIPT  EVENTS_FOLDER  "document-new.lua"
+#define ON_DOCUMENT_OPEN_SCRIPT  EVENTS_FOLDER  "document-open.lua"
+#define ON_DOCUMENT_RELOAD_SCRIPT  EVENTS_FOLDER  "document-reload.lua"
+#define ON_DOCUMENT_SAVE_SCRIPT  EVENTS_FOLDER  "document-save.lua"
 
-#define ON_PROJ_OPENED_SCRIPT  EVENTS_FOLDER  "proj-opened.lua"
-#define ON_PROJ_SAVED_SCRIPT   EVENTS_FOLDER  "proj-saved.lua"
-#define ON_PROJ_CLOSED_SCRIPT  EVENTS_FOLDER  "proj-closed.lua"
+#define ON_PROJECT_BEFORE_CLOSE_SCRIPT  EVENTS_FOLDER  "project-before-close.lua"
+#define ON_PROJECT_CLOSE_SCRIPT  EVENTS_FOLDER  "project-close.lua"
+#define ON_PROJECT_DIALOG_CLOSE_SCRIPT  EVENTS_FOLDER  "project-dialog-close.lua"
+#define ON_PROJECT_DIALOG_CONFIRMED_SCRIPT  EVENTS_FOLDER  "project-dialog-confirmed.lua"
+#define ON_PROJECT_DIALOG_OPEN_SCRIPT  EVENTS_FOLDER  "project-dialog-open.lua"
+#define ON_PROJECT_OPEN_SCRIPT  EVENTS_FOLDER  "project-open.lua"
+#define ON_PROJECT_SAVE_SCRIPT  EVENTS_FOLDER  "project-save.lua"
+
+#define ON_BUILD_START_SCRIPT  EVENTS_FOLDER  "build-start.lua"
+#define ON_EDITOR_NOTIFY_SCRIPT  EVENTS_FOLDER  "editor-notify.lua"
+#define ON_GEANY_STARTUP_COMPLETE_SCRIPT  EVENTS_FOLDER  "geany-startup-complete.lua"
+#define ON_KEY_PRESS_SCRIPT  EVENTS_FOLDER  "key-press.lua"
+#define ON_UPDATE_EDITOR_MENU_SCRIPT  EVENTS_FOLDER  "update-editor-menu.lua"
 
 #define ON_INIT_SCRIPT       EVENTS_FOLDER  "init.lua"
 #define ON_CLEANUP_SCRIPT    EVENTS_FOLDER  "cleanup.lua"
@@ -39,16 +53,33 @@ GeanyPlugin *glspi_geany_plugin=NULL;
 static struct {
 	GtkWidget *menu_item;
 	gchar *script_dir;
-	gchar *on_saved_script;
-	gchar *on_created_script;
-	gchar *on_opened_script;
-	gchar *on_activated_script;
 	gchar *on_init_script;
 	gchar *on_cleanup_script;
 	gchar *on_configure_script;
-	gchar *on_proj_opened_script;
-	gchar *on_proj_saved_script;
-	gchar *on_proj_closed_script;
+
+	gchar *on_build_start_script;
+	gchar *on_editor_notify_script;
+	gchar *on_geany_startup_complete_script;
+	gchar *on_key_press_script;
+	gchar *on_update_editor_menu_script;
+
+	gchar *on_document_activate_script;
+	gchar *on_document_before_save_script;
+	gchar *on_document_close_script;
+	gchar *on_document_filetype_set_script;
+	gchar *on_document_new_script;
+	gchar *on_document_open_script;
+	gchar *on_document_reload_script;
+	gchar *on_document_save_script;
+
+	gchar *on_project_before_close_script;
+	gchar *on_project_close_script;
+	gchar *on_project_dialog_close_script;
+	gchar *on_project_dialog_confirmed_script;
+	gchar *on_project_dialog_open_script;
+	gchar *on_project_open_script;
+	gchar *on_project_save_script;
+
 	GSList *script_list;
 	GtkAccelGroup *acc_grp;
 	GeanyKeyGroup *keybind_grp;
@@ -174,83 +205,183 @@ static void hotkey_init(void)
 	g_free(hotkeys_cfg);
 }
 
-
-
-
-static void on_doc_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
+/*
+ * Callbacks to run scripts
+ */
+static void on_build_start(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	gint idx = doc->index;
-	if (g_file_test(local_data.on_created_script,G_FILE_TEST_IS_REGULAR)) {
-		glspi_run_script(local_data.on_created_script,idx+1, NULL, SD);
+	if (g_file_test(local_data.on_build_start_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_build_start_script,idx+1, NULL, SD);
 	}
 }
 
-
-static void on_doc_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+static void on_editor_notify(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	gint idx = doc->index;
-	if (g_file_test(local_data.on_saved_script,G_FILE_TEST_IS_REGULAR)) {
-		glspi_run_script(local_data.on_saved_script,idx+1, NULL, SD);
+	if (g_file_test(local_data.on_editor_notify_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_editor_notify_script,idx+1, NULL, SD);
 	}
 }
 
-
-
-static void on_doc_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
+static void on_geany_startup_complete(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	gint idx = doc->index;
-	if (g_file_test(local_data.on_opened_script,G_FILE_TEST_IS_REGULAR)) {
-		glspi_run_script(local_data.on_opened_script,idx+1, NULL, SD);
+	if (g_file_test(local_data.on_geany_startup_complete_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_geany_startup_complete_script,idx+1, NULL, SD);
 	}
 }
 
-
-
-static void on_doc_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
+static void on_key_press(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	gint idx = doc->index;
-	if (g_file_test(local_data.on_activated_script,G_FILE_TEST_IS_REGULAR)) {
-		glspi_run_script(local_data.on_activated_script,idx+1, NULL, SD);
+	if (g_file_test(local_data.on_key_press_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_key_press_script,idx+1, NULL, SD);
 	}
 }
 
-
-
-static void on_proj_open(GObject *obj, GKeyFile *config, gpointer user_data)
+static void on_update_editor_menu(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	if (g_file_test(local_data.on_proj_opened_script,G_FILE_TEST_IS_REGULAR)) {
-		glspi_run_script(local_data.on_proj_opened_script,0,config, SD);
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_update_editor_menu_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_update_editor_menu_script,idx+1, NULL, SD);
 	}
 }
 
-
-
-static void on_proj_save(GObject *obj, GKeyFile *config, gpointer user_data)
+static void on_document_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	if (g_file_test(local_data.on_proj_saved_script,G_FILE_TEST_IS_REGULAR)) {
-		glspi_run_script(local_data.on_proj_saved_script,0,config, SD);
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_new_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_new_script,idx+1, NULL, SD);
 	}
 }
 
-
-
-static void on_proj_close(GObject *obj, gpointer user_data)
+static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
-	if (g_file_test(local_data.on_proj_closed_script,G_FILE_TEST_IS_REGULAR)) {
-		glspi_run_script(local_data.on_proj_closed_script,0, NULL, SD);
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_open_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_open_script,idx+1, NULL, SD);
 	}
 }
 
+static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_save_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_save_script,idx+1, NULL, SD);
+	}
+}
+
+static void on_document_activate(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_activate_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_activate_script,idx+1, NULL, SD);
+	}
+}
+
+static void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_close_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_close_script,idx+1, NULL, SD);
+	}
+}
+
+static void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_before_save_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_before_save_script,idx+1, NULL, SD);
+	}
+}
+
+static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_filetype_set_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_filetype_set_script,idx+1, NULL, SD);
+	}
+}
+
+static void on_document_reload(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_document_reload_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_document_reload_script,idx+1, NULL, SD);
+	}
+}
+
+static void on_project_open(GObject *obj, GKeyFile *config, gpointer user_data)
+{
+	if (g_file_test(local_data.on_project_open_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_project_open_script,0,config, SD);
+	}
+}
+
+static void on_project_close(GObject *obj, GKeyFile *config, gpointer user_data)
+{
+	if (g_file_test(local_data.on_project_close_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_project_close_script,0,config, SD);
+	}
+}
+
+static void on_project_save(GObject *obj, GKeyFile *config, gpointer user_data)
+{
+	if (g_file_test(local_data.on_project_save_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_project_save_script,0,config, SD);
+	}
+}
+static void on_project_before_close(GObject *obj, GKeyFile *config, gpointer user_data)
+{
+	if (g_file_test(local_data.on_project_before_close_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_project_before_close_script,0,config, SD);
+	}
+}
+
+static void on_project_dialog_close(GObject *obj, GKeyFile *config, gpointer user_data)
+{
+	if (g_file_test(local_data.on_project_dialog_close_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_project_dialog_close_script,0,config, SD);
+	}
+}
+
+static void on_project_dialog_confirmed(GObject *obj, GKeyFile *config, gpointer user_data)
+{
+	if (g_file_test(local_data.on_project_dialog_confirmed_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_project_dialog_confirmed_script,0,config, SD);
+	}
+}
+
+static void on_project_dialog_open(GObject *obj, GKeyFile *config, gpointer user_data)
+{
+	if (g_file_test(local_data.on_project_dialog_open_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_project_dialog_open_script,0,config, SD);
+	}
+}
 
 PLUGIN_EXPORT
 PluginCallback	glspi_geany_callbacks[] = {
-	{"document-new", (GCallback) &on_doc_new, TRUE, NULL},
-	{"document-open", (GCallback) &on_doc_open, TRUE, NULL},
-	{"document-save", (GCallback) &on_doc_save, TRUE, NULL},
-	{"document-activate", (GCallback) &on_doc_activate, TRUE, NULL},
-	{"project-open", (GCallback) &on_proj_open, TRUE, NULL},
-	{"project-save", (GCallback) &on_proj_save, TRUE, NULL},
-	{"project-close", (GCallback) &on_proj_close, TRUE, NULL},
+	{"build_start", (GCallback) &on_build_start, FALSE, NULL},
+	{"editor_notify", (GCallback) &on_editor_notify, FALSE, NULL},
+	{"geany_startup_complete", (GCallback) &on_geany_startup_complete, FALSE, NULL},
+	{"key_press", (GCallback) &on_key_press, FALSE, NULL},
+	{"update_editor_menu", (GCallback) &on_update_editor_menu, FALSE, NULL},
+	{"document_activate", (GCallback) &on_document_activate, FALSE, NULL},
+	{"document_before_save", (GCallback) &on_document_before_save, FALSE, NULL},
+	{"document_close", (GCallback) &on_document_close, FALSE, NULL},
+	{"document_filetype_set", (GCallback) &on_document_filetype_set, FALSE, NULL},
+	{"document_new", (GCallback) &on_document_new, FALSE, NULL},
+	{"document_open", (GCallback) &on_document_open, FALSE, NULL},
+	{"document_reload", (GCallback) &on_document_reload, FALSE, NULL},
+	{"document_save", (GCallback) &on_document_save, FALSE, NULL},
+	{"project_before_close", (GCallback) &on_project_before_close, FALSE, NULL},
+	{"project_close", (GCallback) &on_project_close, FALSE, NULL},
+	{"project_dialog_close", (GCallback) &on_project_dialog_close, FALSE, NULL},
+	{"project_dialog_confirmed", (GCallback) &on_project_dialog_confirmed, FALSE, NULL},
+	{"project_dialog_open", (GCallback) &on_project_dialog_open, FALSE, NULL},
+	{"project_open", (GCallback) &on_project_open, FALSE, NULL},
+	{"project_save", (GCallback) &on_project_save, FALSE, NULL},
 	{NULL, NULL, FALSE, NULL}
 };
 
@@ -425,26 +556,55 @@ void glspi_init (GeanyData *data, GeanyPlugin *plugin)
 		g_printerr(_("     ==>> %s: Building menu from '%s'\n"),
 			PLUGIN_NAME, local_data.script_dir);
 	}
-	local_data.on_saved_script =
-		g_strconcat(geany->app->configdir, ON_SAVED_SCRIPT, NULL);
-	local_data.on_opened_script =
-		g_strconcat(geany->app->configdir, ON_OPENED_SCRIPT, NULL);
-	local_data.on_created_script =
-		g_strconcat(geany->app->configdir, ON_CREATED_SCRIPT, NULL);
-	local_data.on_activated_script =
-		g_strconcat(geany->app->configdir, ON_ACTIVATED_SCRIPT, NULL);
 	local_data.on_init_script =
 		g_strconcat(geany->app->configdir, ON_INIT_SCRIPT, NULL);
 	local_data.on_cleanup_script =
 		g_strconcat(geany->app->configdir, ON_CLEANUP_SCRIPT, NULL);
 	local_data.on_configure_script =
 		g_strconcat(geany->app->configdir, ON_CONFIGURE_SCRIPT, NULL);
-	local_data.on_proj_opened_script =
-		g_strconcat(geany->app->configdir, ON_PROJ_OPENED_SCRIPT, NULL);
-	local_data.on_proj_saved_script =
-		g_strconcat(geany->app->configdir, ON_PROJ_SAVED_SCRIPT, NULL);
-	local_data.on_proj_closed_script =
-		g_strconcat(geany->app->configdir, ON_PROJ_CLOSED_SCRIPT, NULL);
+
+	local_data.on_build_start_script =
+		g_strconcat(geany->app->configdir, ON_BUILD_START_SCRIPT, NULL);
+	local_data.on_editor_notify_script =
+		g_strconcat(geany->app->configdir, ON_EDITOR_NOTIFY_SCRIPT, NULL);
+	local_data.on_geany_startup_complete_script =
+		g_strconcat(geany->app->configdir, ON_GEANY_STARTUP_COMPLETE_SCRIPT, NULL);
+	local_data.on_key_press_script =
+		g_strconcat(geany->app->configdir, ON_KEY_PRESS_SCRIPT, NULL);
+	local_data.on_update_editor_menu_script =
+		g_strconcat(geany->app->configdir, ON_UPDATE_EDITOR_MENU_SCRIPT, NULL);
+
+	local_data.on_document_activate_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_ACTIVATE_SCRIPT, NULL);
+	local_data.on_document_before_save_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_BEFORE_SAVE_SCRIPT, NULL);
+	local_data.on_document_close_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_CLOSE_SCRIPT, NULL);
+	local_data.on_document_filetype_set_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_FILETYPE_SET_SCRIPT, NULL);
+	local_data.on_document_new_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_NEW_SCRIPT, NULL);
+	local_data.on_document_open_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_OPEN_SCRIPT, NULL);
+	local_data.on_document_reload_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_RELOAD_SCRIPT, NULL);
+	local_data.on_document_save_script =
+		g_strconcat(geany->app->configdir, ON_DOCUMENT_SAVE_SCRIPT, NULL);
+
+	local_data.on_project_before_close_script =
+		g_strconcat(geany->app->configdir, ON_PROJECT_BEFORE_CLOSE_SCRIPT, NULL);
+	local_data.on_project_close_script =
+		g_strconcat(geany->app->configdir, ON_PROJECT_CLOSE_SCRIPT, NULL);
+	local_data.on_project_dialog_close_script =
+		g_strconcat(geany->app->configdir, ON_PROJECT_DIALOG_CLOSE_SCRIPT, NULL);
+	local_data.on_project_dialog_confirmed_script =
+		g_strconcat(geany->app->configdir, ON_PROJECT_DIALOG_CONFIRMED_SCRIPT, NULL);
+	local_data.on_project_dialog_open_script =
+		g_strconcat(geany->app->configdir, ON_PROJECT_DIALOG_OPEN_SCRIPT, NULL);
+	local_data.on_project_open_script =
+		g_strconcat(geany->app->configdir, ON_PROJECT_OPEN_SCRIPT, NULL);
+	local_data.on_project_save_script =
+		g_strconcat(geany->app->configdir, ON_PROJECT_SAVE_SCRIPT, NULL);
 
 	glspi_set_sci_cmd_hash(TRUE);
 	glspi_set_key_cmd_hash(TRUE);
@@ -454,8 +614,6 @@ void glspi_init (GeanyData *data, GeanyPlugin *plugin)
 		glspi_run_script(local_data.on_init_script,0,NULL, SD);
 	}
 }
-
-
 
 /* GSList "for each" callback to free our script list items */
 static void free_script_names(gpointer data, gpointer user_data)
@@ -484,16 +642,33 @@ void glspi_cleanup(void)
 	remove_menu();
 	hotkey_cleanup();
 	done(script_dir);
-	done(on_saved_script);
-	done(on_created_script);
-	done(on_opened_script);
-	done(on_activated_script);
+
 	done(on_init_script);
 	done(on_cleanup_script);
 	done(on_configure_script);
-	done(on_proj_opened_script);
-	done(on_proj_saved_script);
-	done(on_proj_closed_script);
+
+	done(on_build_start_script);
+	done(on_editor_notify_script);
+	done(on_geany_startup_complete_script);
+	done(on_key_press_script);
+	done(on_update_editor_menu_script);
+
+	done(on_document_activate_script);
+	done(on_document_before_save_script);
+	done(on_document_close_script);
+	done(on_document_filetype_set_script);
+	done(on_document_new_script);
+	done(on_document_open_script);
+	done(on_document_reload_script);
+	done(on_document_save_script);
+
+	done(on_project_before_close_script);
+	done(on_project_close_script);
+	done(on_project_dialog_close_script);
+	done(on_project_dialog_confirmed_script);
+	done(on_project_dialog_open_script);
+	done(on_project_open_script);
+	done(on_project_save_script);
 
 	if (local_data.script_list) {
 		g_slist_foreach(local_data.script_list, free_script_names, NULL);
