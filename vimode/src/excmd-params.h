@@ -30,6 +30,8 @@ typedef struct
 	/* ex range start and end */
 	gint range_from;
 	gint range_to;
+	/* "address" destination for copy/move */
+	gint dest;
 } ExCmdParams;
 
 typedef void (*ExCmd)(CmdContext *c, ExCmdParams *p);

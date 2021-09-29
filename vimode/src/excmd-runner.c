@@ -18,7 +18,7 @@
 
 #include "excmd-runner.h"
 #include "excmd-params.h"
-#include "excmds/excmds.h"
+#include "cmds/excmds.h"
 #include "utils.h"
 
 #include <string.h>
@@ -64,7 +64,34 @@ ExCmdDef ex_cmds[] = {
 	{excmd_repeat_subst, "s"},
 	{excmd_repeat_subst, "substitute"},
 	{excmd_repeat_subst, "&"},
+	{excmd_repeat_subst, "~"},
 	{excmd_repeat_subst_orig_flags, "&&"},
+
+	{excmd_yank, "yank"},
+	{excmd_yank, "y"},
+	{excmd_put, "put"},
+	{excmd_put, "pu"},
+
+	{excmd_undo, "undo"},
+	{excmd_undo, "u"},
+	{excmd_redo, "redo"},
+	{excmd_redo, "red"},
+
+	{excmd_shift_left, "<"},
+	{excmd_shift_right, ">"},
+
+	{excmd_delete, "delete"},
+	{excmd_delete, "d"},
+
+	{excmd_join, "join"},
+	{excmd_join, "j"},
+
+	{excmd_copy, "copy"},
+	{excmd_copy, "co"},
+	{excmd_copy, "t"},
+
+	{excmd_move, "move"},
+	{excmd_move, "m"},
 
 	{NULL, NULL}
 };
@@ -413,7 +440,11 @@ static void perform_simple_ex_cmd(CmdContext *ctx, const gchar *cmd)
 			ExCmdDef *def = &ex_cmds[i];
 			if (strcmp(def->name, cmd_name) == 0)
 			{
+				if (def->cmd == excmd_copy || def->cmd == excmd_move)
+					parse_ex_range(&(params.param1), ctx, &(params.dest), &(params.dest));
+				SSM(ctx->sci, SCI_BEGINUNDOACTION, 0, 0);
 				def->cmd(ctx, &params);
+				SSM(ctx->sci, SCI_ENDUNDOACTION, 0, 0);
 				break;
 			}
 		}

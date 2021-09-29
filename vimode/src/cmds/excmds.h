@@ -16,8 +16,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __VIMODE_EXCMDS_EXCMDS_H__
-#define __VIMODE_EXCMDS_EXCMDS_H__
+#ifndef __VIMODE_CMDS_EXCMDS_H__
+#define __VIMODE_CMDS_EXCMDS_H__
 
 #include "excmd-params.h"
 #include "context.h"
@@ -29,5 +29,15 @@ void excmd_save_quit(CmdContext *c, ExCmdParams *p);
 void excmd_save_all_quit(CmdContext *c, ExCmdParams *p);
 void excmd_repeat_subst(CmdContext *c, ExCmdParams *p);
 void excmd_repeat_subst_orig_flags(CmdContext *c, ExCmdParams *p);
+void excmd_yank(CmdContext *c, ExCmdParams *p);
+void excmd_put(CmdContext *c, ExCmdParams *p);
+void excmd_undo(CmdContext *c, ExCmdParams *p);
+void excmd_redo(CmdContext *c, ExCmdParams *p);
+void excmd_shift_left(CmdContext *c, ExCmdParams *p);
+void excmd_shift_right(CmdContext *c, ExCmdParams *p);
+void excmd_delete(CmdContext *c, ExCmdParams *p);
+void excmd_join(CmdContext *c, ExCmdParams *p);
+void excmd_copy(CmdContext *c, ExCmdParams *p);
+void excmd_move(CmdContext *c, ExCmdParams *p);
 
 #endif
