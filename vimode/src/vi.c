@@ -109,8 +109,6 @@ static void repeat_insert(gboolean replace)
 		SSM(sci, SCI_ENDUNDOACTION, 0, 0);
 	}
 	ctx.num = 1;
-	ctx.insert_buf_len = 0;
-	ctx.insert_buf[0] = '\0';
 	ctx.newline_insert = FALSE;
 }
 
@@ -156,6 +154,10 @@ void vi_set_mode(ViMode mode)
 				gint start_pos = SSM(sci, SCI_POSITIONFROMLINE, GET_CUR_LINE(sci), 0);
 				if (pos > start_pos)
 					SET_POS(sci, PREV(sci, pos), FALSE);
+
+				/* erase kpl so '.' command repeats last inserted text and not command */
+				g_slist_free_full(ctx.kpl, g_free);
+				ctx.kpl = NULL;
 			}
 			else if (VI_IS_VISUAL(prev_mode))
 				SSM(sci, SCI_SETEMPTYSELECTION, pos, 0);
