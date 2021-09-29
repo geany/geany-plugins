@@ -522,7 +522,7 @@ static CmdDef *get_cmd_to_run(GSList *kpl, CmdDef *cmds, gboolean have_selection
 				if (cmd->cmd == c)
 					return cmd;
 			}
-			else if (prev && prev->key == GDK_KEY_g)
+			else if (prev && prev->key == GDK_KEY_g && !VI_IS_INSERT(mode))
 			{
 				// takes care of operator commands like g~, gu, gU where we
 				// have no selection yet so the 2-letter command isn't found
@@ -530,7 +530,7 @@ static CmdDef *get_cmd_to_run(GSList *kpl, CmdDef *cmds, gboolean have_selection
 				// would be used instead of waiting for the full command
 			}
 			else if (is_cmdpart(kpl, text_object_cmds) &&
-					get_cmd_to_run(below, operator_cmds, TRUE))
+					get_cmd_to_run(below, operator_cmds, TRUE) && !VI_IS_INSERT(mode))
 			{
 				// if we received "a" or "i", we have to check if there's not
 				// an operator command below because these can be part of
