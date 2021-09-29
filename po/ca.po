@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 21:32+0200\n"
+"POT-Creation-Date: 2021-09-29 19:41+0200\n"
 "PO-Revision-Date: 2013-03-07 23:48+0100\n"
 "Last-Translator: Toni Garcia-Navarro <topi@elpiset.net>\n"
 "Language-Team: ca <topi@elpiset.net>\n"
@@ -42,7 +42,7 @@ msgid "Bookmarks"
 msgstr "Marcadors"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2653
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2679
 msgid "_Update"
 msgstr "Act_ualitza"
 
@@ -163,10 +163,10 @@ msgstr "Comprova l'ortografia del document actual."
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2053 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2079 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
-#: ../treebrowser/src/treebrowser.c:2103
+#: ../treebrowser/src/treebrowser.c:2102
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr "No s'ha pogut crear el directori de configuració de connectors."
@@ -640,26 +640,26 @@ msgid "Choose target file"
 msgstr ""
 
 #. target
-#: ../debugger/src/tpage.c:296
+#: ../debugger/src/tpage.c:291
 msgid "Target:"
 msgstr "Objectiu:"
 
-#: ../debugger/src/tpage.c:300 ../debugger/src/tpage.c:303
+#: ../debugger/src/tpage.c:295 ../debugger/src/tpage.c:298
 msgid "Browse"
 msgstr "Navega"
 
 #. debugger
-#: ../debugger/src/tpage.c:309
+#: ../debugger/src/tpage.c:304
 msgid "Debugger:"
 msgstr "Depurador:"
 
 #. arguments
-#: ../debugger/src/tpage.c:320
+#: ../debugger/src/tpage.c:315
 msgid "Command Line Arguments"
 msgstr "Arguments de la Línia d'Ordres"
 
 #. environment
-#: ../debugger/src/tpage.c:331
+#: ../debugger/src/tpage.c:326
 msgid "Environment Variables"
 msgstr "Variables d'Entorn"
 
@@ -1100,7 +1100,7 @@ msgid "A developers' help browser for GNOME"
 msgstr "Un navegador d'ajuda per a desenvolupadors per al GNOME"
 
 #. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2660
 msgid "_File"
 msgstr "_Fitxer"
 
@@ -4390,39 +4390,39 @@ msgstr ""
 msgid "File %s: action %s executed via %s."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
+#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:657
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:677 ../geanyvc/src/geanyvc.c:727
+#: ../geanyvc/src/geanyvc.c:683 ../geanyvc/src/geanyvc.c:733
 msgid "No changes were made."
 msgstr "No s'han fet canvis."
 
-#: ../geanyvc/src/geanyvc.c:754
+#: ../geanyvc/src/geanyvc.c:760
 msgid "No history available"
 msgstr "No hi ha cap historial disponible"
 
-#: ../geanyvc/src/geanyvc.c:947 ../geanyvc/src/geanyvc.c:955
+#: ../geanyvc/src/geanyvc.c:953 ../geanyvc/src/geanyvc.c:961
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Esteu segurs de voler revertir: %s?"
 
-#: ../geanyvc/src/geanyvc.c:963
+#: ../geanyvc/src/geanyvc.c:969
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Esteu segurs de voler afegir: %s?"
 
-#: ../geanyvc/src/geanyvc.c:970
+#: ../geanyvc/src/geanyvc.c:976
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Esteu segurs de voler eliminar: %s?"
 
-#: ../geanyvc/src/geanyvc.c:993
+#: ../geanyvc/src/geanyvc.c:999
 msgid "Do you really want to update?"
 msgstr "Esteu segurs de voler actualitzar?"
 
-#: ../geanyvc/src/geanyvc.c:1120
+#: ../geanyvc/src/geanyvc.c:1126
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4431,314 +4431,327 @@ msgid ""
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1274
+#: ../geanyvc/src/geanyvc.c:1280
 msgid "Commit Y/N"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1284
+#: ../geanyvc/src/geanyvc.c:1290
 msgid "Status"
 msgstr "Estat"
 
-#: ../geanyvc/src/geanyvc.c:1291
+#: ../geanyvc/src/geanyvc.c:1297
 msgid "Path"
 msgstr "Directori base"
 
-#: ../geanyvc/src/geanyvc.c:1408
+#: ../geanyvc/src/geanyvc.c:1414
 msgid "Choose a previous commit message"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1470
+#: ../geanyvc/src/geanyvc.c:1476
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1517
+#: ../geanyvc/src/geanyvc.c:1523
 msgid "Commit"
 msgstr "Confirmació"
 
-#: ../geanyvc/src/geanyvc.c:1558
+#: ../geanyvc/src/geanyvc.c:1564
 msgid "_De-/select all files"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1602
+#: ../geanyvc/src/geanyvc.c:1608
 msgid "<b>Commit message:</b>"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1626
+#: ../geanyvc/src/geanyvc.c:1632
 msgid "C_ommit"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1734
+#: ../geanyvc/src/geanyvc.c:1740
 msgid "Nothing to commit."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1782
+#: ../geanyvc/src/geanyvc.c:1788
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2125
+#: ../geanyvc/src/geanyvc.c:1823
+#, c-format
+msgid "Commit failed (status: %d, error: %s)."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1824
+msgid "Commit failed; see status in the Message window."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1829
+msgid "Changes committed."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:2151
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2128
+#: ../geanyvc/src/geanyvc.c:2154
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2136
+#: ../geanyvc/src/geanyvc.c:2162
 msgid "Confirm adding new files to a VCS"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2139
+#: ../geanyvc/src/geanyvc.c:2165
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2145
+#: ../geanyvc/src/geanyvc.c:2171
 msgid "Maximize commit dialog"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2146
+#: ../geanyvc/src/geanyvc.c:2172
 msgid "Show commit dialog maximize."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2178
 msgid "Use external diff viewer"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2180
 msgid "Use external diff viewer for file diff."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2160
+#: ../geanyvc/src/geanyvc.c:2186
 msgid "Show VC entries at editor menu"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2188
 msgid "Show entries for VC functions inside editor menu"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2167
+#: ../geanyvc/src/geanyvc.c:2193
 msgid "Attach menu to menubar"
 msgstr "Annexar el menú a la barra d'eines"
 
-#: ../geanyvc/src/geanyvc.c:2169
+#: ../geanyvc/src/geanyvc.c:2195
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2177
+#: ../geanyvc/src/geanyvc.c:2203
 msgid "Enable CVS"
 msgstr "Activa CVS"
 
-#: ../geanyvc/src/geanyvc.c:2182
+#: ../geanyvc/src/geanyvc.c:2208
 msgid "Enable GIT"
 msgstr "Activa GIT"
 
-#: ../geanyvc/src/geanyvc.c:2187
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Enable Fossil"
 msgstr "Activa Fossil"
 
-#: ../geanyvc/src/geanyvc.c:2192
+#: ../geanyvc/src/geanyvc.c:2218
 msgid "Enable SVN"
 msgstr "Activa SVN"
 
-#: ../geanyvc/src/geanyvc.c:2197
+#: ../geanyvc/src/geanyvc.c:2223
 msgid "Enable SVK"
 msgstr "Activa SVK"
 
-#: ../geanyvc/src/geanyvc.c:2202
+#: ../geanyvc/src/geanyvc.c:2228
 msgid "Enable Bazaar"
 msgstr "Activa Bazaar"
 
-#: ../geanyvc/src/geanyvc.c:2207
+#: ../geanyvc/src/geanyvc.c:2233
 msgid "Enable Mercurial"
 msgstr "Activa Mercurial"
 
-#: ../geanyvc/src/geanyvc.c:2213
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "Spellcheck language"
 msgstr ""
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2342 ../geanyvc/src/geanyvc.c:2437
-#: ../geanyvc/src/geanyvc.c:2477
+#: ../geanyvc/src/geanyvc.c:2368 ../geanyvc/src/geanyvc.c:2463
+#: ../geanyvc/src/geanyvc.c:2503
 msgid "_Diff"
 msgstr "_Diferències"
 
-#: ../geanyvc/src/geanyvc.c:2345
+#: ../geanyvc/src/geanyvc.c:2371
 msgid "Make a diff from the current active file"
 msgstr ""
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2350 ../geanyvc/src/geanyvc.c:2446
-#: ../geanyvc/src/geanyvc.c:2485
+#: ../geanyvc/src/geanyvc.c:2376 ../geanyvc/src/geanyvc.c:2472
+#: ../geanyvc/src/geanyvc.c:2511
 msgid "_Revert"
 msgstr "_Reverteix"
 
-#: ../geanyvc/src/geanyvc.c:2353
+#: ../geanyvc/src/geanyvc.c:2379
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2362
+#: ../geanyvc/src/geanyvc.c:2388
 msgid "_Blame"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2365
+#: ../geanyvc/src/geanyvc.c:2391
 msgid "Shows the changes made at one file per revision and author."
 msgstr ""
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2372 ../geanyvc/src/geanyvc.c:2456
-#: ../geanyvc/src/geanyvc.c:2497
+#: ../geanyvc/src/geanyvc.c:2398 ../geanyvc/src/geanyvc.c:2482
+#: ../geanyvc/src/geanyvc.c:2523
 msgid "_History (log)"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2375
+#: ../geanyvc/src/geanyvc.c:2401
 msgid "Shows the log of the current file"
 msgstr ""
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2380
+#: ../geanyvc/src/geanyvc.c:2406
 msgid "_Original"
 msgstr "_Original"
 
-#: ../geanyvc/src/geanyvc.c:2383
+#: ../geanyvc/src/geanyvc.c:2409
 msgid "Shows the original of the current file"
 msgstr ""
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2391
+#: ../geanyvc/src/geanyvc.c:2417
 msgid "_Add to Version Control"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2393
+#: ../geanyvc/src/geanyvc.c:2419
 msgid "Add file to repository."
 msgstr "Afegeix el fitxer al repositori."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2399
+#: ../geanyvc/src/geanyvc.c:2425
 msgid "_Remove from Version Control"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2401
+#: ../geanyvc/src/geanyvc.c:2427
 msgid "Remove file from repository."
 msgstr "Elimina el fitxer del repositori."
 
-#: ../geanyvc/src/geanyvc.c:2434
+#: ../geanyvc/src/geanyvc.c:2460
 msgid "_Directory"
 msgstr "_Directori"
 
-#: ../geanyvc/src/geanyvc.c:2440
+#: ../geanyvc/src/geanyvc.c:2466
 msgid "Make a diff from the directory of the current active file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2449
+#: ../geanyvc/src/geanyvc.c:2475
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2459
+#: ../geanyvc/src/geanyvc.c:2485
 msgid "Shows the log of the current directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2473
+#: ../geanyvc/src/geanyvc.c:2499
 msgid "_Base Directory"
 msgstr "Directori _Base"
 
-#: ../geanyvc/src/geanyvc.c:2479
+#: ../geanyvc/src/geanyvc.c:2505
 msgid "Make a diff from the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2487
+#: ../geanyvc/src/geanyvc.c:2513
 msgid "Revert any local edits."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2500
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "Shows the log of the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2517
+#: ../geanyvc/src/geanyvc.c:2543
 msgid "_VC file Actions"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2526
+#: ../geanyvc/src/geanyvc.c:2552
 msgid "VC _Commit..."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2570
+#: ../geanyvc/src/geanyvc.c:2596
 msgid "Show diff of file"
 msgstr "Mostra diferències entre fitxers"
 
-#: ../geanyvc/src/geanyvc.c:2572
+#: ../geanyvc/src/geanyvc.c:2598
 msgid "Show diff of directory"
 msgstr "Mostra diferències entre directoris"
 
-#: ../geanyvc/src/geanyvc.c:2574
+#: ../geanyvc/src/geanyvc.c:2600
 msgid "Show diff of basedir"
 msgstr "Mostra diferències entre directoris base"
 
-#: ../geanyvc/src/geanyvc.c:2577
+#: ../geanyvc/src/geanyvc.c:2603
 msgid "Commit changes"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2579
+#: ../geanyvc/src/geanyvc.c:2605
 msgid "Show status"
 msgstr "Mostra l'estat"
 
-#: ../geanyvc/src/geanyvc.c:2581
+#: ../geanyvc/src/geanyvc.c:2607
 msgid "Revert single file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2583
+#: ../geanyvc/src/geanyvc.c:2609
 msgid "Revert directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2585
+#: ../geanyvc/src/geanyvc.c:2611
 msgid "Revert base directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2587
+#: ../geanyvc/src/geanyvc.c:2613
 msgid "Update file"
 msgstr "Actualitza el fitxer"
 
-#: ../geanyvc/src/geanyvc.c:2617
+#: ../geanyvc/src/geanyvc.c:2643
 msgid "_VC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2624
+#: ../geanyvc/src/geanyvc.c:2650
 msgid "_Version Control"
 msgstr "Control de _Versions"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2646
+#: ../geanyvc/src/geanyvc.c:2672
 msgid "_Status"
 msgstr "_Estat"
 
-#: ../geanyvc/src/geanyvc.c:2648
+#: ../geanyvc/src/geanyvc.c:2674
 msgid "Show status."
 msgstr "Mostra l'estat."
 
-#: ../geanyvc/src/geanyvc.c:2655
+#: ../geanyvc/src/geanyvc.c:2681
 msgid "Update from remote repository."
 msgstr "Actualitza des dels repositoris."
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2660
+#: ../geanyvc/src/geanyvc.c:2686
 msgid "_Commit..."
 msgstr "Publica els _canvis..."
 
-#: ../geanyvc/src/geanyvc.c:2662
+#: ../geanyvc/src/geanyvc.c:2688
 msgid "Commit changes."
 msgstr "Publica els canvis."
 
@@ -5248,7 +5261,7 @@ msgstr "No s'ha pogut escriure la configuració per defecte: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "No s'ha pogut crear el directori de configuració '%s'"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2133
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2132
 #, fuzzy
 msgid "Terminal"
 msgstr "Finalitza"
@@ -5874,7 +5887,7 @@ msgid "Add"
 msgstr "Afegits"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2357
+#: ../treebrowser/src/treebrowser.c:2356
 #, fuzzy
 msgid "New File"
 msgstr "NouFitxer"
@@ -7388,54 +7401,54 @@ msgstr "Mostra els fitxers ocults"
 msgid "Show Tool_bars"
 msgstr "Mostra les barres d'eines"
 
-#: ../treebrowser/src/treebrowser.c:1748
+#: ../treebrowser/src/treebrowser.c:1747
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Ja existeix un fitxer anomenat \"%s\", voleu reemplaçar-lo?"
 
-#: ../treebrowser/src/treebrowser.c:1884
+#: ../treebrowser/src/treebrowser.c:1883
 msgid "Go up"
 msgstr "Vés cap a dalt"
 
-#: ../treebrowser/src/treebrowser.c:1894 ../treebrowser/src/treebrowser.c:2361
+#: ../treebrowser/src/treebrowser.c:1893 ../treebrowser/src/treebrowser.c:2360
 msgid "Refresh"
 msgstr "Actualitza"
 
-#: ../treebrowser/src/treebrowser.c:1904
+#: ../treebrowser/src/treebrowser.c:1903
 msgid "Home"
 msgstr "Inici"
 
-#: ../treebrowser/src/treebrowser.c:1914
+#: ../treebrowser/src/treebrowser.c:1913
 msgid "Set path from document"
 msgstr "Especifica el directori pel document"
 
-#: ../treebrowser/src/treebrowser.c:1924
+#: ../treebrowser/src/treebrowser.c:1923
 msgid "Track path"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1934
+#: ../treebrowser/src/treebrowser.c:1933
 msgid "Hide bars"
 msgstr "Amaga les barres"
 
-#: ../treebrowser/src/treebrowser.c:1944
+#: ../treebrowser/src/treebrowser.c:1943
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1949
+#: ../treebrowser/src/treebrowser.c:1948
 msgid "Addressbar for example '/projects/my-project'"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1973
 msgid "Tree Browser"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2115
+#: ../treebrowser/src/treebrowser.c:2114
 msgid "External open command"
 msgstr "Ordre externa per obrir"
 
-#: ../treebrowser/src/treebrowser.c:2125
+#: ../treebrowser/src/treebrowser.c:2124
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7449,119 +7462,119 @@ msgstr ""
 "%f serà substituit amb el nom del fitxer, incloent la ruta completa\n"
 "%d serà substituit amb la ruta completa, sense el nom del fitxer"
 
-#: ../treebrowser/src/treebrowser.c:2144
+#: ../treebrowser/src/treebrowser.c:2143
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2150
+#: ../treebrowser/src/treebrowser.c:2149
 msgid "Toolbar"
 msgstr "Barra d'Eines"
 
-#: ../treebrowser/src/treebrowser.c:2152
+#: ../treebrowser/src/treebrowser.c:2151
 msgid "Hidden"
 msgstr "Ocult"
 
-#: ../treebrowser/src/treebrowser.c:2153
+#: ../treebrowser/src/treebrowser.c:2152
 msgid "Top"
 msgstr "Part superior"
 
-#: ../treebrowser/src/treebrowser.c:2154
+#: ../treebrowser/src/treebrowser.c:2153
 msgid "Bottom"
 msgstr "Part inferior"
 
-#: ../treebrowser/src/treebrowser.c:2159
+#: ../treebrowser/src/treebrowser.c:2158
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2163
+#: ../treebrowser/src/treebrowser.c:2162
 msgid "Show icons"
 msgstr "Mostra les icones"
 
-#: ../treebrowser/src/treebrowser.c:2165
+#: ../treebrowser/src/treebrowser.c:2164
 msgid "None"
 msgstr "Cap"
 
-#: ../treebrowser/src/treebrowser.c:2166
+#: ../treebrowser/src/treebrowser.c:2165
 msgid "Base"
 msgstr "Base"
 
-#: ../treebrowser/src/treebrowser.c:2167
+#: ../treebrowser/src/treebrowser.c:2166
 msgid "Content-type"
 msgstr "Tipus de continguts"
 
-#: ../treebrowser/src/treebrowser.c:2173
+#: ../treebrowser/src/treebrowser.c:2172
 msgid "Show hidden files"
 msgstr "Mostra els fitxers ocults"
 
-#: ../treebrowser/src/treebrowser.c:2182
+#: ../treebrowser/src/treebrowser.c:2181
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2184
+#: ../treebrowser/src/treebrowser.c:2183
 msgid "Hide object files"
 msgstr "Amaga els fitxers objecte"
 
-#: ../treebrowser/src/treebrowser.c:2193
+#: ../treebrowser/src/treebrowser.c:2192
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2195
+#: ../treebrowser/src/treebrowser.c:2194
 msgid "Reverse filter"
 msgstr "Inverteix el filtre"
 
-#: ../treebrowser/src/treebrowser.c:2204
+#: ../treebrowser/src/treebrowser.c:2203
 msgid "Follow current document"
 msgstr "Segueix el document actual"
 
-#: ../treebrowser/src/treebrowser.c:2213
+#: ../treebrowser/src/treebrowser.c:2212
 msgid "Single click, open document and focus it"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2222
+#: ../treebrowser/src/treebrowser.c:2221
 msgid "Double click open directory"
 msgstr "Doble clic obre els directoris"
 
-#: ../treebrowser/src/treebrowser.c:2231
+#: ../treebrowser/src/treebrowser.c:2230
 msgid "On delete file, close it if is opened"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2240
+#: ../treebrowser/src/treebrowser.c:2239
 msgid "Focus editor on file open"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2249
+#: ../treebrowser/src/treebrowser.c:2248
 msgid "Show tree lines"
 msgstr "Mostra les línies de l'arbre"
 
-#: ../treebrowser/src/treebrowser.c:2258
+#: ../treebrowser/src/treebrowser.c:2257
 msgid "Show bookmarks"
 msgstr "Mostra les adreces d'interès"
 
-#: ../treebrowser/src/treebrowser.c:2267
+#: ../treebrowser/src/treebrowser.c:2266
 #, fuzzy
 msgid "Open new files"
 msgstr "Obre un Fitxer"
 
-#: ../treebrowser/src/treebrowser.c:2351
+#: ../treebrowser/src/treebrowser.c:2350
 msgid "Focus File List"
 msgstr "Enfoca la Llista de Fitxers"
 
-#: ../treebrowser/src/treebrowser.c:2353
+#: ../treebrowser/src/treebrowser.c:2352
 msgid "Focus Path Entry"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2355
+#: ../treebrowser/src/treebrowser.c:2354
 msgid "Rename Object"
 msgstr "Reanomena Objecte"
 
-#: ../treebrowser/src/treebrowser.c:2359
+#: ../treebrowser/src/treebrowser.c:2358
 #, fuzzy
 msgid "New Folder"
 msgstr "Selecciona Directory"
 
-#: ../treebrowser/src/treebrowser.c:2363
+#: ../treebrowser/src/treebrowser.c:2362
 msgid "Track Current"
 msgstr ""
 

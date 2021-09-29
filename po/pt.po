@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.36\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-13 03:19+0000\n"
+"POT-Creation-Date: 2021-09-29 19:41+0200\n"
 "PO-Revision-Date: 2020-10-13 11:30+0100\n"
 "Last-Translator: Pedro Albuquerque <pmra@protonmail.com>\n"
 "Language-Team: Português <translation-team-pt@lists.sourceforge.net>\n"
@@ -43,7 +43,7 @@ msgid "Bookmarks"
 msgstr "Marcadores"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2653
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2679
 msgid "_Update"
 msgstr "Act_ualizar"
 
@@ -165,10 +165,10 @@ msgstr "Copiar o caminho do actual documento para a área de transferência."
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2053 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2079 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
-#: ../treebrowser/src/treebrowser.c:2103
+#: ../treebrowser/src/treebrowser.c:2102
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr "A pasta de configuração da extensão não pôde ser criada."
@@ -681,26 +681,26 @@ msgid "Choose target file"
 msgstr "Escolha o ficheiro destino"
 
 #. target
-#: ../debugger/src/tpage.c:296
+#: ../debugger/src/tpage.c:291
 msgid "Target:"
 msgstr "Destino:"
 
-#: ../debugger/src/tpage.c:300 ../debugger/src/tpage.c:303
+#: ../debugger/src/tpage.c:295 ../debugger/src/tpage.c:298
 msgid "Browse"
 msgstr "Explorar"
 
 #. debugger
-#: ../debugger/src/tpage.c:309
+#: ../debugger/src/tpage.c:304
 msgid "Debugger:"
 msgstr "Depurador:"
 
 #. arguments
-#: ../debugger/src/tpage.c:320
+#: ../debugger/src/tpage.c:315
 msgid "Command Line Arguments"
 msgstr "Argumentos de linha de comandos"
 
 #. environment
-#: ../debugger/src/tpage.c:331
+#: ../debugger/src/tpage.c:326
 msgid "Environment Variables"
 msgstr "Variáveis de ambiente"
 
@@ -1152,7 +1152,7 @@ msgid "A developers' help browser for GNOME"
 msgstr "Um navegador de ajuda ao programador para GNOME"
 
 #. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2660
 msgid "_File"
 msgstr "_Ficheiro"
 
@@ -4649,39 +4649,39 @@ msgstr "geanyvc:  erro s_spawn_sync: %s"
 msgid "File %s: action %s executed via %s."
 msgstr "Ficheiro %s: acção %s executada via %s."
 
-#: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
+#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:657
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated: impossível renomear \"%s\" para \"%s\""
 
-#: ../geanyvc/src/geanyvc.c:677 ../geanyvc/src/geanyvc.c:727
+#: ../geanyvc/src/geanyvc.c:683 ../geanyvc/src/geanyvc.c:733
 msgid "No changes were made."
 msgstr "Não foram efetuadas quaisquer alterações."
 
-#: ../geanyvc/src/geanyvc.c:754
+#: ../geanyvc/src/geanyvc.c:760
 msgid "No history available"
 msgstr "Nenhum histórico disponível"
 
-#: ../geanyvc/src/geanyvc.c:947 ../geanyvc/src/geanyvc.c:955
+#: ../geanyvc/src/geanyvc.c:953 ../geanyvc/src/geanyvc.c:961
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Tem a certeza que quer reverter: %s?"
 
-#: ../geanyvc/src/geanyvc.c:963
+#: ../geanyvc/src/geanyvc.c:969
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Tem a certeza que quer adicionar: %s?"
 
-#: ../geanyvc/src/geanyvc.c:970
+#: ../geanyvc/src/geanyvc.c:976
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Tem a certeza que quer remover: %s?"
 
-#: ../geanyvc/src/geanyvc.c:993
+#: ../geanyvc/src/geanyvc.c:999
 msgid "Do you really want to update?"
 msgstr "Tem a certeza que quer actualizar?"
 
-#: ../geanyvc/src/geanyvc.c:1120
+#: ../geanyvc/src/geanyvc.c:1126
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4695,48 +4695,48 @@ msgstr ""
 "Para ver as diferenças, cancele o diálogo e abra as diferenças directamente "
 "no Geany usando o menu GeanyVC (pasta base -> Diff)."
 
-#: ../geanyvc/src/geanyvc.c:1274
+#: ../geanyvc/src/geanyvc.c:1280
 msgid "Commit Y/N"
 msgstr "Submeter S/N"
 
-#: ../geanyvc/src/geanyvc.c:1284
+#: ../geanyvc/src/geanyvc.c:1290
 msgid "Status"
 msgstr "Estado"
 
-#: ../geanyvc/src/geanyvc.c:1291
+#: ../geanyvc/src/geanyvc.c:1297
 msgid "Path"
 msgstr "Caminho"
 
-#: ../geanyvc/src/geanyvc.c:1408
+#: ../geanyvc/src/geanyvc.c:1414
 msgid "Choose a previous commit message"
 msgstr "Escolha uma mensagem de commit anterior"
 
-#: ../geanyvc/src/geanyvc.c:1470
+#: ../geanyvc/src/geanyvc.c:1476
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Linha: %d coluna: %d"
 
-#: ../geanyvc/src/geanyvc.c:1517
+#: ../geanyvc/src/geanyvc.c:1523
 msgid "Commit"
 msgstr "Submeter"
 
-#: ../geanyvc/src/geanyvc.c:1558
+#: ../geanyvc/src/geanyvc.c:1564
 msgid "_De-/select all files"
 msgstr "Remover selecção/Seleccionar to_dos os ficheiros"
 
-#: ../geanyvc/src/geanyvc.c:1602
+#: ../geanyvc/src/geanyvc.c:1608
 msgid "<b>Commit message:</b>"
 msgstr "<b>Mensagem de submissão:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1626
+#: ../geanyvc/src/geanyvc.c:1632
 msgid "C_ommit"
 msgstr "_Submeter"
 
-#: ../geanyvc/src/geanyvc.c:1734
+#: ../geanyvc/src/geanyvc.c:1740
 msgid "Nothing to commit."
 msgstr "Nada para submeter."
 
-#: ../geanyvc/src/geanyvc.c:1782
+#: ../geanyvc/src/geanyvc.c:1788
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
@@ -4744,13 +4744,28 @@ msgstr ""
 "Falha ao inicializar a correcção ortográfica GeanyVC: %s. Verifique a sua "
 "configuração."
 
-#: ../geanyvc/src/geanyvc.c:2125
+#: ../geanyvc/src/geanyvc.c:1823
+#, c-format
+msgid "Commit failed (status: %d, error: %s)."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1824
+#, fuzzy
+msgid "Commit failed; see status in the Message window."
+msgstr "Mostrar tarefas existentes na janela de mensagens"
+
+#: ../geanyvc/src/geanyvc.c:1829
+#, fuzzy
+msgid "Changes committed."
+msgstr "Nada para submeter."
+
+#: ../geanyvc/src/geanyvc.c:2151
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 "Definir estado Modificado nos separadores dos documentos criados pela "
 "extensão"
 
-#: ../geanyvc/src/geanyvc.c:2128
+#: ../geanyvc/src/geanyvc.c:2154
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4761,46 +4776,46 @@ msgstr ""
 "gerar um elevado número de irritantes diálogos \"Tem a certeza que quer "
 "gravar?\" "
 
-#: ../geanyvc/src/geanyvc.c:2136
+#: ../geanyvc/src/geanyvc.c:2162
 msgid "Confirm adding new files to a VCS"
 msgstr "Confirmar adicionar novos ficheiros a um SCV"
 
-#: ../geanyvc/src/geanyvc.c:2139
+#: ../geanyvc/src/geanyvc.c:2165
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "Mostra um diálogo de confirmação ao adicionar um novo (criado) ficheiro ao "
 "SCV."
 
-#: ../geanyvc/src/geanyvc.c:2145
+#: ../geanyvc/src/geanyvc.c:2171
 msgid "Maximize commit dialog"
 msgstr "Maximizar janela de submissão"
 
-#: ../geanyvc/src/geanyvc.c:2146
+#: ../geanyvc/src/geanyvc.c:2172
 msgid "Show commit dialog maximize."
 msgstr "Mostra a janela de submissão maximizada."
 
-#: ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2178
 msgid "Use external diff viewer"
 msgstr "Usar aplicação de diferenças externa"
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2180
 msgid "Use external diff viewer for file diff."
 msgstr ""
 "Usar uma aplicação de diferenças externa para ver diferenças entre ficheiros."
 
-#: ../geanyvc/src/geanyvc.c:2160
+#: ../geanyvc/src/geanyvc.c:2186
 msgid "Show VC entries at editor menu"
 msgstr "Mostrar entrada do CV no menu do editor"
 
-#: ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2188
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Mostra entradas das funções do VC dentro do menu do editor"
 
-#: ../geanyvc/src/geanyvc.c:2167
+#: ../geanyvc/src/geanyvc.c:2193
 msgid "Attach menu to menubar"
 msgstr "Anexar menu à barra de menus"
 
-#: ../geanyvc/src/geanyvc.c:2169
+#: ../geanyvc/src/geanyvc.c:2195
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4810,215 +4825,215 @@ msgstr ""
 "na barra de menus do Geany. Será tido em conta no arranque seguinte do "
 "GeanyVC."
 
-#: ../geanyvc/src/geanyvc.c:2177
+#: ../geanyvc/src/geanyvc.c:2203
 msgid "Enable CVS"
 msgstr "Activar SCV"
 
-#: ../geanyvc/src/geanyvc.c:2182
+#: ../geanyvc/src/geanyvc.c:2208
 msgid "Enable GIT"
 msgstr "Activar GIT"
 
-#: ../geanyvc/src/geanyvc.c:2187
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Enable Fossil"
 msgstr "Activar Fossil"
 
-#: ../geanyvc/src/geanyvc.c:2192
+#: ../geanyvc/src/geanyvc.c:2218
 msgid "Enable SVN"
 msgstr "Activar SVN"
 
-#: ../geanyvc/src/geanyvc.c:2197
+#: ../geanyvc/src/geanyvc.c:2223
 msgid "Enable SVK"
 msgstr "Activar SVK"
 
-#: ../geanyvc/src/geanyvc.c:2202
+#: ../geanyvc/src/geanyvc.c:2228
 msgid "Enable Bazaar"
 msgstr "Activar Bazaar"
 
-#: ../geanyvc/src/geanyvc.c:2207
+#: ../geanyvc/src/geanyvc.c:2233
 msgid "Enable Mercurial"
 msgstr "Activar Mercurial"
 
-#: ../geanyvc/src/geanyvc.c:2213
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "Spellcheck language"
 msgstr "Idioma para correcção ortográfica"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2342 ../geanyvc/src/geanyvc.c:2437
-#: ../geanyvc/src/geanyvc.c:2477
+#: ../geanyvc/src/geanyvc.c:2368 ../geanyvc/src/geanyvc.c:2463
+#: ../geanyvc/src/geanyvc.c:2503
 msgid "_Diff"
 msgstr "_Diferenças"
 
-#: ../geanyvc/src/geanyvc.c:2345
+#: ../geanyvc/src/geanyvc.c:2371
 msgid "Make a diff from the current active file"
 msgstr "Inicia uma comparação de diferenças no ficheiro activo"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2350 ../geanyvc/src/geanyvc.c:2446
-#: ../geanyvc/src/geanyvc.c:2485
+#: ../geanyvc/src/geanyvc.c:2376 ../geanyvc/src/geanyvc.c:2472
+#: ../geanyvc/src/geanyvc.c:2511
 msgid "_Revert"
 msgstr "_Reverter"
 
-#: ../geanyvc/src/geanyvc.c:2353
+#: ../geanyvc/src/geanyvc.c:2379
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 "Restaurar a antiga cópia original do ficheiro (descarta alterações locais)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2362
+#: ../geanyvc/src/geanyvc.c:2388
 msgid "_Blame"
 msgstr "_Culpar"
 
-#: ../geanyvc/src/geanyvc.c:2365
+#: ../geanyvc/src/geanyvc.c:2391
 msgid "Shows the changes made at one file per revision and author."
 msgstr "Mostra as alterações realizadas a um ficheiro por revisão e autor."
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2372 ../geanyvc/src/geanyvc.c:2456
-#: ../geanyvc/src/geanyvc.c:2497
+#: ../geanyvc/src/geanyvc.c:2398 ../geanyvc/src/geanyvc.c:2482
+#: ../geanyvc/src/geanyvc.c:2523
 msgid "_History (log)"
 msgstr "_Histórico (diário)"
 
-#: ../geanyvc/src/geanyvc.c:2375
+#: ../geanyvc/src/geanyvc.c:2401
 msgid "Shows the log of the current file"
 msgstr "Mostra o histórico do ficheiro activo"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2380
+#: ../geanyvc/src/geanyvc.c:2406
 msgid "_Original"
 msgstr "_Original"
 
-#: ../geanyvc/src/geanyvc.c:2383
+#: ../geanyvc/src/geanyvc.c:2409
 msgid "Shows the original of the current file"
 msgstr "Mostra o original do ficheiro activo"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2391
+#: ../geanyvc/src/geanyvc.c:2417
 msgid "_Add to Version Control"
 msgstr "_Adicionar ao controlo de versão"
 
-#: ../geanyvc/src/geanyvc.c:2393
+#: ../geanyvc/src/geanyvc.c:2419
 msgid "Add file to repository."
 msgstr "Adiciona o ficheiro ao repositório."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2399
+#: ../geanyvc/src/geanyvc.c:2425
 msgid "_Remove from Version Control"
 msgstr "_Remover do controlo de versão"
 
-#: ../geanyvc/src/geanyvc.c:2401
+#: ../geanyvc/src/geanyvc.c:2427
 msgid "Remove file from repository."
 msgstr "Remove o ficheiro do repositório."
 
-#: ../geanyvc/src/geanyvc.c:2434
+#: ../geanyvc/src/geanyvc.c:2460
 msgid "_Directory"
 msgstr "_Pasta"
 
-#: ../geanyvc/src/geanyvc.c:2440
+#: ../geanyvc/src/geanyvc.c:2466
 msgid "Make a diff from the directory of the current active file"
 msgstr "Inicia uma comparação de diferenças na pasta do ficheiro activo"
 
-#: ../geanyvc/src/geanyvc.c:2449
+#: ../geanyvc/src/geanyvc.c:2475
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 "Restaura os ficheiros originais na pasta actual (descarta alterações locais)."
 
-#: ../geanyvc/src/geanyvc.c:2459
+#: ../geanyvc/src/geanyvc.c:2485
 msgid "Shows the log of the current directory"
 msgstr "Mostra o diário da pasta actual"
 
-#: ../geanyvc/src/geanyvc.c:2473
+#: ../geanyvc/src/geanyvc.c:2499
 msgid "_Base Directory"
 msgstr "Pasta _base"
 
-#: ../geanyvc/src/geanyvc.c:2479
+#: ../geanyvc/src/geanyvc.c:2505
 msgid "Make a diff from the top VC directory"
 msgstr "Inicia uma comparação de diferenças a partir da primeira pasta do CV"
 
-#: ../geanyvc/src/geanyvc.c:2487
+#: ../geanyvc/src/geanyvc.c:2513
 msgid "Revert any local edits."
 msgstr "Reverte quaisquer alterações locais."
 
-#: ../geanyvc/src/geanyvc.c:2500
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "Shows the log of the top VC directory"
 msgstr "Mostra o diário da primeira pasta do CV"
 
-#: ../geanyvc/src/geanyvc.c:2517
+#: ../geanyvc/src/geanyvc.c:2543
 msgid "_VC file Actions"
 msgstr "Acções C_V sobre ficheiros"
 
-#: ../geanyvc/src/geanyvc.c:2526
+#: ../geanyvc/src/geanyvc.c:2552
 msgid "VC _Commit..."
 msgstr "_Submeter CV..."
 
-#: ../geanyvc/src/geanyvc.c:2570
+#: ../geanyvc/src/geanyvc.c:2596
 msgid "Show diff of file"
 msgstr "Mostrar diferenças do ficheiro"
 
-#: ../geanyvc/src/geanyvc.c:2572
+#: ../geanyvc/src/geanyvc.c:2598
 msgid "Show diff of directory"
 msgstr "Mostrar diferenças da pasta"
 
-#: ../geanyvc/src/geanyvc.c:2574
+#: ../geanyvc/src/geanyvc.c:2600
 msgid "Show diff of basedir"
 msgstr "Mostrar diferenças da pasta base"
 
-#: ../geanyvc/src/geanyvc.c:2577
+#: ../geanyvc/src/geanyvc.c:2603
 msgid "Commit changes"
 msgstr "Submeter alterações"
 
-#: ../geanyvc/src/geanyvc.c:2579
+#: ../geanyvc/src/geanyvc.c:2605
 msgid "Show status"
 msgstr "Mostrar estado"
 
-#: ../geanyvc/src/geanyvc.c:2581
+#: ../geanyvc/src/geanyvc.c:2607
 msgid "Revert single file"
 msgstr "Reverter ficheiro único"
 
-#: ../geanyvc/src/geanyvc.c:2583
+#: ../geanyvc/src/geanyvc.c:2609
 msgid "Revert directory"
 msgstr "Reverter pasta"
 
-#: ../geanyvc/src/geanyvc.c:2585
+#: ../geanyvc/src/geanyvc.c:2611
 msgid "Revert base directory"
 msgstr "Reverter pasta base"
 
-#: ../geanyvc/src/geanyvc.c:2587
+#: ../geanyvc/src/geanyvc.c:2613
 msgid "Update file"
 msgstr "Actualizar ficheiro"
 
-#: ../geanyvc/src/geanyvc.c:2617
+#: ../geanyvc/src/geanyvc.c:2643
 msgid "_VC"
 msgstr "C_V"
 
-#: ../geanyvc/src/geanyvc.c:2624
+#: ../geanyvc/src/geanyvc.c:2650
 msgid "_Version Control"
 msgstr "Controlo de _versão"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2646
+#: ../geanyvc/src/geanyvc.c:2672
 msgid "_Status"
 msgstr "E_stado"
 
-#: ../geanyvc/src/geanyvc.c:2648
+#: ../geanyvc/src/geanyvc.c:2674
 msgid "Show status."
 msgstr "Mostrar estado."
 
-#: ../geanyvc/src/geanyvc.c:2655
+#: ../geanyvc/src/geanyvc.c:2681
 msgid "Update from remote repository."
 msgstr "Actualizar a partir de repositório remoto."
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2660
+#: ../geanyvc/src/geanyvc.c:2686
 msgid "_Commit..."
 msgstr "_Submeter..."
 
-#: ../geanyvc/src/geanyvc.c:2662
+#: ../geanyvc/src/geanyvc.c:2688
 msgid "Commit changes."
 msgstr "Submeter alterações."
 
@@ -5529,7 +5544,7 @@ msgstr "Impossível escrever configuração predefinida: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "Impossível ler valor para \"%s\": %s"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2133
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2132
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -6175,7 +6190,7 @@ msgid "Add"
 msgstr "Adicionar"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2357
+#: ../treebrowser/src/treebrowser.c:2356
 msgid "New File"
 msgstr "Novo ficheiro"
 
@@ -7690,36 +7705,36 @@ msgstr "Mostrar ficheiros oc_ultos"
 msgid "Show Tool_bars"
 msgstr "Mostrar _barras de ferramentas"
 
-#: ../treebrowser/src/treebrowser.c:1748
+#: ../treebrowser/src/treebrowser.c:1747
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "O ficheiro destino \"%s\" já existe, quer realmente substituir?"
 
-#: ../treebrowser/src/treebrowser.c:1884
+#: ../treebrowser/src/treebrowser.c:1883
 msgid "Go up"
 msgstr "Ir para cima"
 
-#: ../treebrowser/src/treebrowser.c:1894 ../treebrowser/src/treebrowser.c:2361
+#: ../treebrowser/src/treebrowser.c:1893 ../treebrowser/src/treebrowser.c:2360
 msgid "Refresh"
 msgstr "Actualizar"
 
-#: ../treebrowser/src/treebrowser.c:1904
+#: ../treebrowser/src/treebrowser.c:1903
 msgid "Home"
 msgstr "Pasta pessoal"
 
-#: ../treebrowser/src/treebrowser.c:1914
+#: ../treebrowser/src/treebrowser.c:1913
 msgid "Set path from document"
 msgstr "Definir caminho a partir do documento"
 
-#: ../treebrowser/src/treebrowser.c:1924
+#: ../treebrowser/src/treebrowser.c:1923
 msgid "Track path"
 msgstr "Rastrear caminho"
 
-#: ../treebrowser/src/treebrowser.c:1934
+#: ../treebrowser/src/treebrowser.c:1933
 msgid "Hide bars"
 msgstr "Ocultar barras"
 
-#: ../treebrowser/src/treebrowser.c:1944
+#: ../treebrowser/src/treebrowser.c:1943
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7727,19 +7742,19 @@ msgstr ""
 "Filtrar (*.c;*.h;*.cpp) e, se quiser uma filtragem temporária, use \"!\". "
 "Tente por exemplo isto \"!;*.c;*.h;*.cpp\""
 
-#: ../treebrowser/src/treebrowser.c:1949
+#: ../treebrowser/src/treebrowser.c:1948
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Barra de endereço por exemplo \"/projectos/meu-projecto\""
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1973
 msgid "Tree Browser"
 msgstr "Navegador em árvore"
 
-#: ../treebrowser/src/treebrowser.c:2115
+#: ../treebrowser/src/treebrowser.c:2114
 msgid "External open command"
 msgstr "Comando externo para abrir"
 
-#: ../treebrowser/src/treebrowser.c:2125
+#: ../treebrowser/src/treebrowser.c:2124
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7754,59 +7769,59 @@ msgstr ""
 "%d será substituído pelo nome do caminho do ficheiro seleccionado, sem o "
 "nome do ficheiro."
 
-#: ../treebrowser/src/treebrowser.c:2144
+#: ../treebrowser/src/treebrowser.c:2143
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr "O terminal a usar com o comando \"Abrir terminal\""
 
-#: ../treebrowser/src/treebrowser.c:2150
+#: ../treebrowser/src/treebrowser.c:2149
 msgid "Toolbar"
 msgstr "Barra de ferramentas"
 
-#: ../treebrowser/src/treebrowser.c:2152
+#: ../treebrowser/src/treebrowser.c:2151
 msgid "Hidden"
 msgstr "Oculto"
 
-#: ../treebrowser/src/treebrowser.c:2153
+#: ../treebrowser/src/treebrowser.c:2152
 msgid "Top"
 msgstr "Topo"
 
-#: ../treebrowser/src/treebrowser.c:2154
+#: ../treebrowser/src/treebrowser.c:2153
 msgid "Bottom"
 msgstr "Fundo"
 
-#: ../treebrowser/src/treebrowser.c:2159
+#: ../treebrowser/src/treebrowser.c:2158
 msgid "If position is changed, the option require plugin restart."
 msgstr "Se a posição mudar, esta opção requer reinicialização da extensão."
 
-#: ../treebrowser/src/treebrowser.c:2163
+#: ../treebrowser/src/treebrowser.c:2162
 msgid "Show icons"
 msgstr "Mostrar ícones"
 
-#: ../treebrowser/src/treebrowser.c:2165
+#: ../treebrowser/src/treebrowser.c:2164
 msgid "None"
 msgstr "Nenhum"
 
-#: ../treebrowser/src/treebrowser.c:2166
+#: ../treebrowser/src/treebrowser.c:2165
 msgid "Base"
 msgstr "Base"
 
-#: ../treebrowser/src/treebrowser.c:2167
+#: ../treebrowser/src/treebrowser.c:2166
 msgid "Content-type"
 msgstr "Tipo de conteúdo"
 
-#: ../treebrowser/src/treebrowser.c:2173
+#: ../treebrowser/src/treebrowser.c:2172
 msgid "Show hidden files"
 msgstr "Mostrar ficheiros ocultos"
 
-#: ../treebrowser/src/treebrowser.c:2182
+#: ../treebrowser/src/treebrowser.c:2181
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "Em Windows, isto apenas oculta ficheiros precedidos de \".\" (ponto)"
 
-#: ../treebrowser/src/treebrowser.c:2184
+#: ../treebrowser/src/treebrowser.c:2183
 msgid "Hide object files"
 msgstr "Ocultar ficheiros objecto"
 
-#: ../treebrowser/src/treebrowser.c:2193
+#: ../treebrowser/src/treebrowser.c:2192
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7814,59 +7829,59 @@ msgstr ""
 "Não mostrar ficheiros objecto gerados no navegador, isto inclui *.o, *.obj, "
 "*.so, *.dll, *.a, *.lib"
 
-#: ../treebrowser/src/treebrowser.c:2195
+#: ../treebrowser/src/treebrowser.c:2194
 msgid "Reverse filter"
 msgstr "Reverte o filtro"
 
-#: ../treebrowser/src/treebrowser.c:2204
+#: ../treebrowser/src/treebrowser.c:2203
 msgid "Follow current document"
 msgstr "Seguir o documento activo"
 
-#: ../treebrowser/src/treebrowser.c:2213
+#: ../treebrowser/src/treebrowser.c:2212
 msgid "Single click, open document and focus it"
 msgstr "Clique único abre documento e foca-o"
 
-#: ../treebrowser/src/treebrowser.c:2222
+#: ../treebrowser/src/treebrowser.c:2221
 msgid "Double click open directory"
 msgstr "Clique duplo abre pasta"
 
-#: ../treebrowser/src/treebrowser.c:2231
+#: ../treebrowser/src/treebrowser.c:2230
 msgid "On delete file, close it if is opened"
 msgstr "Ao eliminar ficheiro, fechá-lo caso esteja aberto"
 
-#: ../treebrowser/src/treebrowser.c:2240
+#: ../treebrowser/src/treebrowser.c:2239
 msgid "Focus editor on file open"
 msgstr "Focar o editor ao abrir ficheiro"
 
-#: ../treebrowser/src/treebrowser.c:2249
+#: ../treebrowser/src/treebrowser.c:2248
 msgid "Show tree lines"
 msgstr "Mostrar as linhas da árvore"
 
-#: ../treebrowser/src/treebrowser.c:2258
+#: ../treebrowser/src/treebrowser.c:2257
 msgid "Show bookmarks"
 msgstr "Mostrar marcadores"
 
-#: ../treebrowser/src/treebrowser.c:2267
+#: ../treebrowser/src/treebrowser.c:2266
 msgid "Open new files"
 msgstr "Abrir novos ficheiros"
 
-#: ../treebrowser/src/treebrowser.c:2351
+#: ../treebrowser/src/treebrowser.c:2350
 msgid "Focus File List"
 msgstr "Focar a lista de ficheiros"
 
-#: ../treebrowser/src/treebrowser.c:2353
+#: ../treebrowser/src/treebrowser.c:2352
 msgid "Focus Path Entry"
 msgstr "Focar a entrada de caminho"
 
-#: ../treebrowser/src/treebrowser.c:2355
+#: ../treebrowser/src/treebrowser.c:2354
 msgid "Rename Object"
 msgstr "Renomear objecto"
 
-#: ../treebrowser/src/treebrowser.c:2359
+#: ../treebrowser/src/treebrowser.c:2358
 msgid "New Folder"
 msgstr "Nova pasta"
 
-#: ../treebrowser/src/treebrowser.c:2363
+#: ../treebrowser/src/treebrowser.c:2362
 msgid "Track Current"
 msgstr "Rastrear actual"
 

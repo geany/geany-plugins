@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.30\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 21:32+0200\n"
+"POT-Creation-Date: 2021-09-29 19:41+0200\n"
 "PO-Revision-Date: 2011-10-21 14:08+0100\n"
 "Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
 "Language-Team: Japanese\n"
@@ -42,7 +42,7 @@ msgid "Bookmarks"
 msgstr "ブックマーク"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2653
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2679
 msgid "_Update"
 msgstr "更新(_U)"
 
@@ -164,10 +164,10 @@ msgstr "現在の文書の綴りを検査"
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2053 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2079 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
-#: ../treebrowser/src/treebrowser.c:2103
+#: ../treebrowser/src/treebrowser.c:2102
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr "プラグイン設定ディレクトリを作成できません。"
@@ -652,26 +652,26 @@ msgid "Choose target file"
 msgstr "対象ファイルを選択"
 
 #. target
-#: ../debugger/src/tpage.c:296
+#: ../debugger/src/tpage.c:291
 msgid "Target:"
 msgstr "対象:"
 
-#: ../debugger/src/tpage.c:300 ../debugger/src/tpage.c:303
+#: ../debugger/src/tpage.c:295 ../debugger/src/tpage.c:298
 msgid "Browse"
 msgstr "参照"
 
 #. debugger
-#: ../debugger/src/tpage.c:309
+#: ../debugger/src/tpage.c:304
 msgid "Debugger:"
 msgstr "デバッガ:"
 
 #. arguments
-#: ../debugger/src/tpage.c:320
+#: ../debugger/src/tpage.c:315
 msgid "Command Line Arguments"
 msgstr "コマンドライン引数:"
 
 #. environment
-#: ../debugger/src/tpage.c:331
+#: ../debugger/src/tpage.c:326
 msgid "Environment Variables"
 msgstr "環境変数"
 
@@ -1116,7 +1116,7 @@ msgid "A developers' help browser for GNOME"
 msgstr "GNOMEの開発者向けヘルプブラウザ"
 
 #. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2660
 msgid "_File"
 msgstr "ファイル(_F)"
 
@@ -4551,39 +4551,39 @@ msgstr "geanyvc: s_spawn_sync エラー: %s"
 msgid "File %s: action %s executed via %s."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
+#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:657
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated:  '%s' から '%s' に名前変更できません。"
 
-#: ../geanyvc/src/geanyvc.c:677 ../geanyvc/src/geanyvc.c:727
+#: ../geanyvc/src/geanyvc.c:683 ../geanyvc/src/geanyvc.c:733
 msgid "No changes were made."
 msgstr "変更されたものはありません。"
 
-#: ../geanyvc/src/geanyvc.c:754
+#: ../geanyvc/src/geanyvc.c:760
 msgid "No history available"
 msgstr "履歴が利用できません"
 
-#: ../geanyvc/src/geanyvc.c:947 ../geanyvc/src/geanyvc.c:955
+#: ../geanyvc/src/geanyvc.c:953 ../geanyvc/src/geanyvc.c:961
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "変更を取り消してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:963
+#: ../geanyvc/src/geanyvc.c:969
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "ファイルを追加してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:970
+#: ../geanyvc/src/geanyvc.c:976
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "ファイルを削除してもよいですか: %s?"
 
-#: ../geanyvc/src/geanyvc.c:993
+#: ../geanyvc/src/geanyvc.c:999
 msgid "Do you really want to update?"
 msgstr "リポジトリから更新してもよいですか?"
 
-#: ../geanyvc/src/geanyvc.c:1120
+#: ../geanyvc/src/geanyvc.c:1126
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4592,58 +4592,73 @@ msgid ""
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1274
+#: ../geanyvc/src/geanyvc.c:1280
 msgid "Commit Y/N"
 msgstr "リポジトリに反映してもよいですか Y/N"
 
-#: ../geanyvc/src/geanyvc.c:1284
+#: ../geanyvc/src/geanyvc.c:1290
 msgid "Status"
 msgstr "状態"
 
-#: ../geanyvc/src/geanyvc.c:1291
+#: ../geanyvc/src/geanyvc.c:1297
 msgid "Path"
 msgstr "パス"
 
-#: ../geanyvc/src/geanyvc.c:1408
+#: ../geanyvc/src/geanyvc.c:1414
 msgid "Choose a previous commit message"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1470
+#: ../geanyvc/src/geanyvc.c:1476
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1517
+#: ../geanyvc/src/geanyvc.c:1523
 msgid "Commit"
 msgstr "コミット"
 
-#: ../geanyvc/src/geanyvc.c:1558
+#: ../geanyvc/src/geanyvc.c:1564
 msgid "_De-/select all files"
 msgstr "すべてのファイルを選択/解除(_D)"
 
-#: ../geanyvc/src/geanyvc.c:1602
+#: ../geanyvc/src/geanyvc.c:1608
 msgid "<b>Commit message:</b>"
 msgstr "<b>コミット メッセージ:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1626
+#: ../geanyvc/src/geanyvc.c:1632
 msgid "C_ommit"
 msgstr "コミット(_O)"
 
-#: ../geanyvc/src/geanyvc.c:1734
+#: ../geanyvc/src/geanyvc.c:1740
 msgid "Nothing to commit."
 msgstr "反映させるものはありません。"
 
-#: ../geanyvc/src/geanyvc.c:1782
+#: ../geanyvc/src/geanyvc.c:1788
 #, fuzzy, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
 msgstr "スペルチェッカ初期化エラー: %s"
 
-#: ../geanyvc/src/geanyvc.c:2125
+#: ../geanyvc/src/geanyvc.c:1823
+#, c-format
+msgid "Commit failed (status: %d, error: %s)."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1824
+#, fuzzy
+msgid "Commit failed; see status in the Message window."
+msgstr "メッセージウィンドウに利用可能なタスクを表示"
+
+#: ../geanyvc/src/geanyvc.c:1829
+#, fuzzy
+msgid "Changes committed."
+msgstr "反映させるものはありません。"
+
+#: ../geanyvc/src/geanyvc.c:2151
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "プラグインによって文書タブに作成された変更フラグを設定"
 
-#: ../geanyvc/src/geanyvc.c:2128
+#: ../geanyvc/src/geanyvc.c:2154
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4653,44 +4668,44 @@ msgstr ""
 "更ありにマークされます。このオプションが便利な場合もありますが、多くの文書に"
 "対して逐一「保存しますか」ダイアログが表示される原因にもなります。"
 
-#: ../geanyvc/src/geanyvc.c:2136
+#: ../geanyvc/src/geanyvc.c:2162
 msgid "Confirm adding new files to a VCS"
 msgstr "新規ファイルをVCSに追加するかどうか確認"
 
-#: ../geanyvc/src/geanyvc.c:2139
+#: ../geanyvc/src/geanyvc.c:2165
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "新規に作成されたファイルをVCSに追加するかどうか確認ダイアログを表示します。"
 
-#: ../geanyvc/src/geanyvc.c:2145
+#: ../geanyvc/src/geanyvc.c:2171
 msgid "Maximize commit dialog"
 msgstr "コミットダイアログを最大化"
 
-#: ../geanyvc/src/geanyvc.c:2146
+#: ../geanyvc/src/geanyvc.c:2172
 msgid "Show commit dialog maximize."
 msgstr "コミットダイアログを最大化して表示します。"
 
-#: ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2178
 msgid "Use external diff viewer"
 msgstr "外部diffビューアを使用"
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2180
 msgid "Use external diff viewer for file diff."
 msgstr "ファイルの差分を表示するのに外部のdiffビューアを使用します。"
 
-#: ../geanyvc/src/geanyvc.c:2160
+#: ../geanyvc/src/geanyvc.c:2186
 msgid "Show VC entries at editor menu"
 msgstr "'VCエントリー'をエディタのメニューに追加"
 
-#: ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2188
 msgid "Show entries for VC functions inside editor menu"
 msgstr "エディタメニュー内にVCの機能を表示"
 
-#: ../geanyvc/src/geanyvc.c:2167
+#: ../geanyvc/src/geanyvc.c:2193
 msgid "Attach menu to menubar"
 msgstr "メニューをメニューバーに追加"
 
-#: ../geanyvc/src/geanyvc.c:2169
+#: ../geanyvc/src/geanyvc.c:2195
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4699,213 +4714,213 @@ msgstr ""
 "このプラグインのメニューがツールメニューの中に表示されるかGeanyのメニューバー"
 "に追加されるかを指定。GeanyVCの次回起動時に有効になります。"
 
-#: ../geanyvc/src/geanyvc.c:2177
+#: ../geanyvc/src/geanyvc.c:2203
 msgid "Enable CVS"
 msgstr "CVSを有効"
 
-#: ../geanyvc/src/geanyvc.c:2182
+#: ../geanyvc/src/geanyvc.c:2208
 msgid "Enable GIT"
 msgstr "GITを有効"
 
-#: ../geanyvc/src/geanyvc.c:2187
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Enable Fossil"
 msgstr "Fossilを有効"
 
-#: ../geanyvc/src/geanyvc.c:2192
+#: ../geanyvc/src/geanyvc.c:2218
 msgid "Enable SVN"
 msgstr "SVNを有効"
 
-#: ../geanyvc/src/geanyvc.c:2197
+#: ../geanyvc/src/geanyvc.c:2223
 msgid "Enable SVK"
 msgstr "SVKを有効"
 
-#: ../geanyvc/src/geanyvc.c:2202
+#: ../geanyvc/src/geanyvc.c:2228
 msgid "Enable Bazaar"
 msgstr "Bazaarを有効"
 
-#: ../geanyvc/src/geanyvc.c:2207
+#: ../geanyvc/src/geanyvc.c:2233
 msgid "Enable Mercurial"
 msgstr "Mercurialを有効"
 
-#: ../geanyvc/src/geanyvc.c:2213
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "Spellcheck language"
 msgstr "スペルチェック言語"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2342 ../geanyvc/src/geanyvc.c:2437
-#: ../geanyvc/src/geanyvc.c:2477
+#: ../geanyvc/src/geanyvc.c:2368 ../geanyvc/src/geanyvc.c:2463
+#: ../geanyvc/src/geanyvc.c:2503
 msgid "_Diff"
 msgstr "差分(_D)"
 
-#: ../geanyvc/src/geanyvc.c:2345
+#: ../geanyvc/src/geanyvc.c:2371
 msgid "Make a diff from the current active file"
 msgstr "現在のファイルとレポジトリのファイルの差分を作成します。"
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2350 ../geanyvc/src/geanyvc.c:2446
-#: ../geanyvc/src/geanyvc.c:2485
+#: ../geanyvc/src/geanyvc.c:2376 ../geanyvc/src/geanyvc.c:2472
+#: ../geanyvc/src/geanyvc.c:2511
 msgid "_Revert"
 msgstr "取り消し(_R)"
 
-#: ../geanyvc/src/geanyvc.c:2353
+#: ../geanyvc/src/geanyvc.c:2379
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr "作業コピーのファイルを最初の状態に戻す(ローカルな編集を破棄)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2362
+#: ../geanyvc/src/geanyvc.c:2388
 msgid "_Blame"
 msgstr "履歴を追跡(_B)"
 
-#: ../geanyvc/src/geanyvc.c:2365
+#: ../geanyvc/src/geanyvc.c:2391
 msgid "Shows the changes made at one file per revision and author."
 msgstr "ファイルの変更履歴を版ごと修正者ごとに表示"
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2372 ../geanyvc/src/geanyvc.c:2456
-#: ../geanyvc/src/geanyvc.c:2497
+#: ../geanyvc/src/geanyvc.c:2398 ../geanyvc/src/geanyvc.c:2482
+#: ../geanyvc/src/geanyvc.c:2523
 msgid "_History (log)"
 msgstr "履歴ログ(_H)"
 
-#: ../geanyvc/src/geanyvc.c:2375
+#: ../geanyvc/src/geanyvc.c:2401
 msgid "Shows the log of the current file"
 msgstr "現在のファイルのログを表示"
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2380
+#: ../geanyvc/src/geanyvc.c:2406
 msgid "_Original"
 msgstr "オリジナル(_O)"
 
-#: ../geanyvc/src/geanyvc.c:2383
+#: ../geanyvc/src/geanyvc.c:2409
 msgid "Shows the original of the current file"
 msgstr "現在のファイルのオリジナルを表示"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2391
+#: ../geanyvc/src/geanyvc.c:2417
 msgid "_Add to Version Control"
 msgstr "バージョン管理に追加(_A)"
 
-#: ../geanyvc/src/geanyvc.c:2393
+#: ../geanyvc/src/geanyvc.c:2419
 msgid "Add file to repository."
 msgstr "ファイルをレポジトリに追加"
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2399
+#: ../geanyvc/src/geanyvc.c:2425
 msgid "_Remove from Version Control"
 msgstr "バージョン管理から削除(_R)"
 
-#: ../geanyvc/src/geanyvc.c:2401
+#: ../geanyvc/src/geanyvc.c:2427
 msgid "Remove file from repository."
 msgstr "レポジトリからファイルを削除"
 
-#: ../geanyvc/src/geanyvc.c:2434
+#: ../geanyvc/src/geanyvc.c:2460
 msgid "_Directory"
 msgstr "ディレクトリ(_D)"
 
-#: ../geanyvc/src/geanyvc.c:2440
+#: ../geanyvc/src/geanyvc.c:2466
 msgid "Make a diff from the directory of the current active file"
 msgstr "現在のファイルのディレクトリから差分を作成"
 
-#: ../geanyvc/src/geanyvc.c:2449
+#: ../geanyvc/src/geanyvc.c:2475
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr "現在のディレクトリの元のファイルを復元(ローカルな編集を破棄)"
 
-#: ../geanyvc/src/geanyvc.c:2459
+#: ../geanyvc/src/geanyvc.c:2485
 msgid "Shows the log of the current directory"
 msgstr "現在のディレクトリのログを表示"
 
-#: ../geanyvc/src/geanyvc.c:2473
+#: ../geanyvc/src/geanyvc.c:2499
 msgid "_Base Directory"
 msgstr "_BASE ディレクトリ"
 
-#: ../geanyvc/src/geanyvc.c:2479
+#: ../geanyvc/src/geanyvc.c:2505
 msgid "Make a diff from the top VC directory"
 msgstr "バージョン管理ディレクトリから diff を作成"
 
-#: ../geanyvc/src/geanyvc.c:2487
+#: ../geanyvc/src/geanyvc.c:2513
 msgid "Revert any local edits."
 msgstr "ローカルな編集を元に戻す"
 
-#: ../geanyvc/src/geanyvc.c:2500
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "Shows the log of the top VC directory"
 msgstr "バージョン管理ディレクトリのログを表示"
 
-#: ../geanyvc/src/geanyvc.c:2517
+#: ../geanyvc/src/geanyvc.c:2543
 msgid "_VC file Actions"
 msgstr "_VC ファイル アクション"
 
-#: ../geanyvc/src/geanyvc.c:2526
+#: ../geanyvc/src/geanyvc.c:2552
 msgid "VC _Commit..."
 msgstr "VC コミット...(_C)"
 
-#: ../geanyvc/src/geanyvc.c:2570
+#: ../geanyvc/src/geanyvc.c:2596
 msgid "Show diff of file"
 msgstr "ファイルの差分を表示"
 
-#: ../geanyvc/src/geanyvc.c:2572
+#: ../geanyvc/src/geanyvc.c:2598
 msgid "Show diff of directory"
 msgstr "ディレクトリの差分を表示"
 
-#: ../geanyvc/src/geanyvc.c:2574
+#: ../geanyvc/src/geanyvc.c:2600
 msgid "Show diff of basedir"
 msgstr "BASEディレクトリの差分を表示"
 
-#: ../geanyvc/src/geanyvc.c:2577
+#: ../geanyvc/src/geanyvc.c:2603
 msgid "Commit changes"
 msgstr "変更を反映"
 
-#: ../geanyvc/src/geanyvc.c:2579
+#: ../geanyvc/src/geanyvc.c:2605
 msgid "Show status"
 msgstr "状態を表示"
 
-#: ../geanyvc/src/geanyvc.c:2581
+#: ../geanyvc/src/geanyvc.c:2607
 msgid "Revert single file"
 msgstr "1つのファイルを元に戻す"
 
-#: ../geanyvc/src/geanyvc.c:2583
+#: ../geanyvc/src/geanyvc.c:2609
 msgid "Revert directory"
 msgstr "ディレクトリを元に戻す"
 
-#: ../geanyvc/src/geanyvc.c:2585
+#: ../geanyvc/src/geanyvc.c:2611
 msgid "Revert base directory"
 msgstr "BASE ディレクトリに戻す"
 
-#: ../geanyvc/src/geanyvc.c:2587
+#: ../geanyvc/src/geanyvc.c:2613
 msgid "Update file"
 msgstr "ファイルを更新"
 
-#: ../geanyvc/src/geanyvc.c:2617
+#: ../geanyvc/src/geanyvc.c:2643
 msgid "_VC"
 msgstr "_VC"
 
-#: ../geanyvc/src/geanyvc.c:2624
+#: ../geanyvc/src/geanyvc.c:2650
 msgid "_Version Control"
 msgstr "バージョン管理(_V)"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2646
+#: ../geanyvc/src/geanyvc.c:2672
 msgid "_Status"
 msgstr "状態(_S)"
 
-#: ../geanyvc/src/geanyvc.c:2648
+#: ../geanyvc/src/geanyvc.c:2674
 msgid "Show status."
 msgstr "状態を表示"
 
-#: ../geanyvc/src/geanyvc.c:2655
+#: ../geanyvc/src/geanyvc.c:2681
 msgid "Update from remote repository."
 msgstr "外部のレポジトリから更新"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2660
+#: ../geanyvc/src/geanyvc.c:2686
 msgid "_Commit..."
 msgstr "コミット...(_C)"
 
-#: ../geanyvc/src/geanyvc.c:2662
+#: ../geanyvc/src/geanyvc.c:2688
 msgid "Commit changes."
 msgstr "変更を反映"
 
@@ -5417,7 +5432,7 @@ msgstr "既定の設定の保存に失敗: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "設定ディレクトリを '%s' に作成できません"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2133
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2132
 #, fuzzy
 msgid "Terminal"
 msgstr "終了"
@@ -6065,7 +6080,7 @@ msgid "Add"
 msgstr "アドオン"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2357
+#: ../treebrowser/src/treebrowser.c:2356
 #, fuzzy
 msgid "New File"
 msgstr "新規ファイル"
@@ -7614,36 +7629,36 @@ msgstr "隠しファイルを表示"
 msgid "Show Tool_bars"
 msgstr "ツールバーを表示"
 
-#: ../treebrowser/src/treebrowser.c:1748
+#: ../treebrowser/src/treebrowser.c:1747
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "対象ファイル '%s' が存在します。置き換えてもいいですか?"
 
-#: ../treebrowser/src/treebrowser.c:1884
+#: ../treebrowser/src/treebrowser.c:1883
 msgid "Go up"
 msgstr "上に移動"
 
-#: ../treebrowser/src/treebrowser.c:1894 ../treebrowser/src/treebrowser.c:2361
+#: ../treebrowser/src/treebrowser.c:1893 ../treebrowser/src/treebrowser.c:2360
 msgid "Refresh"
 msgstr "表示を更新"
 
-#: ../treebrowser/src/treebrowser.c:1904
+#: ../treebrowser/src/treebrowser.c:1903
 msgid "Home"
 msgstr "ホーム"
 
-#: ../treebrowser/src/treebrowser.c:1914
+#: ../treebrowser/src/treebrowser.c:1913
 msgid "Set path from document"
 msgstr "文書からパスを設定"
 
-#: ../treebrowser/src/treebrowser.c:1924
+#: ../treebrowser/src/treebrowser.c:1923
 msgid "Track path"
 msgstr "パスを記録"
 
-#: ../treebrowser/src/treebrowser.c:1934
+#: ../treebrowser/src/treebrowser.c:1933
 msgid "Hide bars"
 msgstr "バーを隠す"
 
-#: ../treebrowser/src/treebrowser.c:1944
+#: ../treebrowser/src/treebrowser.c:1943
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7651,19 +7666,19 @@ msgstr ""
 "フィルタ(*.c;*.h;*.cpp)と '!' 反転を使った一時フィルタを使用するには次のよう"
 "にします '!;*.c;*.h;*.cpp'"
 
-#: ../treebrowser/src/treebrowser.c:1949
+#: ../treebrowser/src/treebrowser.c:1948
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "アドレスバーの入力例 '/projects/my-project'"
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1973
 msgid "Tree Browser"
 msgstr "ツリーブラウザ"
 
-#: ../treebrowser/src/treebrowser.c:2115
+#: ../treebrowser/src/treebrowser.c:2114
 msgid "External open command"
 msgstr "他のプログラムで開く"
 
-#: ../treebrowser/src/treebrowser.c:2125
+#: ../treebrowser/src/treebrowser.c:2124
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7677,59 +7692,59 @@ msgstr ""
 "%f は完全パスを含むファイル名に置き換えられます。\n"
 "%d は選択したファイルがあるパス名に置き換えられます。"
 
-#: ../treebrowser/src/treebrowser.c:2144
+#: ../treebrowser/src/treebrowser.c:2143
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2150
+#: ../treebrowser/src/treebrowser.c:2149
 msgid "Toolbar"
 msgstr "ツールバー"
 
-#: ../treebrowser/src/treebrowser.c:2152
+#: ../treebrowser/src/treebrowser.c:2151
 msgid "Hidden"
 msgstr "非表示"
 
-#: ../treebrowser/src/treebrowser.c:2153
+#: ../treebrowser/src/treebrowser.c:2152
 msgid "Top"
 msgstr "上"
 
-#: ../treebrowser/src/treebrowser.c:2154
+#: ../treebrowser/src/treebrowser.c:2153
 msgid "Bottom"
 msgstr "下"
 
-#: ../treebrowser/src/treebrowser.c:2159
+#: ../treebrowser/src/treebrowser.c:2158
 msgid "If position is changed, the option require plugin restart."
 msgstr "位置を変更したときは、プラグインの再起動が必要です。"
 
-#: ../treebrowser/src/treebrowser.c:2163
+#: ../treebrowser/src/treebrowser.c:2162
 msgid "Show icons"
 msgstr "アイコンを表示"
 
-#: ../treebrowser/src/treebrowser.c:2165
+#: ../treebrowser/src/treebrowser.c:2164
 msgid "None"
 msgstr "なし"
 
-#: ../treebrowser/src/treebrowser.c:2166
+#: ../treebrowser/src/treebrowser.c:2165
 msgid "Base"
 msgstr "基本"
 
-#: ../treebrowser/src/treebrowser.c:2167
+#: ../treebrowser/src/treebrowser.c:2166
 msgid "Content-type"
 msgstr "内容"
 
-#: ../treebrowser/src/treebrowser.c:2173
+#: ../treebrowser/src/treebrowser.c:2172
 msgid "Show hidden files"
 msgstr "隠しファイルを表示"
 
-#: ../treebrowser/src/treebrowser.c:2182
+#: ../treebrowser/src/treebrowser.c:2181
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "'.'(ドット)から始まるファイルを隠します"
 
-#: ../treebrowser/src/treebrowser.c:2184
+#: ../treebrowser/src/treebrowser.c:2183
 msgid "Hide object files"
 msgstr "オブジェクトファイルを表示しない"
 
-#: ../treebrowser/src/treebrowser.c:2193
+#: ../treebrowser/src/treebrowser.c:2192
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7737,61 +7752,61 @@ msgstr ""
 "ファイルブラウザにオブジェクトファイルを表示しません。除外されるファイルは *."
 "o, *.obj. *.so, *.dll, *.a, *.lib です。"
 
-#: ../treebrowser/src/treebrowser.c:2195
+#: ../treebrowser/src/treebrowser.c:2194
 msgid "Reverse filter"
 msgstr "フィルタを反転"
 
-#: ../treebrowser/src/treebrowser.c:2204
+#: ../treebrowser/src/treebrowser.c:2203
 msgid "Follow current document"
 msgstr "現在の文書のディレクトリに合わせる"
 
-#: ../treebrowser/src/treebrowser.c:2213
+#: ../treebrowser/src/treebrowser.c:2212
 msgid "Single click, open document and focus it"
 msgstr "シングルクリックで文書を表示"
 
-#: ../treebrowser/src/treebrowser.c:2222
+#: ../treebrowser/src/treebrowser.c:2221
 msgid "Double click open directory"
 msgstr "ダブルクリックでディレクトリを表示"
 
-#: ../treebrowser/src/treebrowser.c:2231
+#: ../treebrowser/src/treebrowser.c:2230
 msgid "On delete file, close it if is opened"
 msgstr "ファイル削除時に、開いていたら閉じる"
 
-#: ../treebrowser/src/treebrowser.c:2240
+#: ../treebrowser/src/treebrowser.c:2239
 msgid "Focus editor on file open"
 msgstr ""
 
-#: ../treebrowser/src/treebrowser.c:2249
+#: ../treebrowser/src/treebrowser.c:2248
 msgid "Show tree lines"
 msgstr "ツリー行数を表示"
 
-#: ../treebrowser/src/treebrowser.c:2258
+#: ../treebrowser/src/treebrowser.c:2257
 msgid "Show bookmarks"
 msgstr "ブックマークを表示"
 
-#: ../treebrowser/src/treebrowser.c:2267
+#: ../treebrowser/src/treebrowser.c:2266
 #, fuzzy
 msgid "Open new files"
 msgstr "ファイルを開く"
 
-#: ../treebrowser/src/treebrowser.c:2351
+#: ../treebrowser/src/treebrowser.c:2350
 msgid "Focus File List"
 msgstr "ファイル覧に切り替え"
 
-#: ../treebrowser/src/treebrowser.c:2353
+#: ../treebrowser/src/treebrowser.c:2352
 msgid "Focus Path Entry"
 msgstr "パス入力に切り替え"
 
-#: ../treebrowser/src/treebrowser.c:2355
+#: ../treebrowser/src/treebrowser.c:2354
 msgid "Rename Object"
 msgstr "オブジェクトの名前変更"
 
-#: ../treebrowser/src/treebrowser.c:2359
+#: ../treebrowser/src/treebrowser.c:2358
 #, fuzzy
 msgid "New Folder"
 msgstr "フォルダを選択"
 
-#: ../treebrowser/src/treebrowser.c:2363
+#: ../treebrowser/src/treebrowser.c:2362
 #, fuzzy
 msgid "Track Current"
 msgstr "パスを記録"

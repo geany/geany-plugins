@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.38\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-01 22:35-0600\n"
+"POT-Creation-Date: 2021-09-29 19:41+0200\n"
 "PO-Revision-Date: 2020-05-01 16:20+1000\n"
 "Last-Translator: Artur Shepilko <nomadbyte@gmail.com>\n"
 "Language-Team: Ukrainian <geany-i18n@uvena.de>\n"
@@ -42,7 +42,7 @@ msgid "Bookmarks"
 msgstr "Закладки"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2653
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2679
 msgid "_Update"
 msgstr "_Оновити"
 
@@ -162,10 +162,10 @@ msgstr "Копіювати шлях до поточного документа �
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2053 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2079 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
-#: ../treebrowser/src/treebrowser.c:2103
+#: ../treebrowser/src/treebrowser.c:2102
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr "Не вдалось створити каталог конфігурації плаґіну."
@@ -1127,7 +1127,7 @@ msgid "A developers' help browser for GNOME"
 msgstr "Браузер документації програмування для GNOME"
 
 #. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2660
 msgid "_File"
 msgstr "_Файл"
 
@@ -4580,39 +4580,39 @@ msgstr "geanyvc: помилка s_spawn_sync: %s"
 msgid "File %s: action %s executed via %s."
 msgstr "Файл %s: команда %s виконана програмою %s."
 
-#: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
+#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:657
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activate: Не вдалось перейменувати ' %s' у ' %s'"
 
-#: ../geanyvc/src/geanyvc.c:677 ../geanyvc/src/geanyvc.c:727
+#: ../geanyvc/src/geanyvc.c:683 ../geanyvc/src/geanyvc.c:733
 msgid "No changes were made."
 msgstr "Без змін."
 
-#: ../geanyvc/src/geanyvc.c:754
+#: ../geanyvc/src/geanyvc.c:760
 msgid "No history available"
 msgstr "Історія не доступна"
 
-#: ../geanyvc/src/geanyvc.c:947 ../geanyvc/src/geanyvc.c:955
+#: ../geanyvc/src/geanyvc.c:953 ../geanyvc/src/geanyvc.c:961
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Ви дійсно хочете скасувати зміни у файлі: %s?"
 
-#: ../geanyvc/src/geanyvc.c:963
+#: ../geanyvc/src/geanyvc.c:969
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Ви дійсно хочете додати у репозиторій файл: %s?"
 
-#: ../geanyvc/src/geanyvc.c:970
+#: ../geanyvc/src/geanyvc.c:976
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Ви дійсно хочете видалити із репозиторію файл: %s?"
 
-#: ../geanyvc/src/geanyvc.c:993
+#: ../geanyvc/src/geanyvc.c:999
 msgid "Do you really want to update?"
 msgstr "Ви дійсно хочете оновити до найновішої версії?"
 
-#: ../geanyvc/src/geanyvc.c:1120
+#: ../geanyvc/src/geanyvc.c:1126
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4627,48 +4627,48 @@ msgstr ""
 "список відмінностей безпосередньо з меню Контроль версій (Базовий каталог -> "
 "Порівняти)."
 
-#: ../geanyvc/src/geanyvc.c:1274
+#: ../geanyvc/src/geanyvc.c:1280
 msgid "Commit Y/N"
 msgstr "Фіксувати"
 
-#: ../geanyvc/src/geanyvc.c:1284
+#: ../geanyvc/src/geanyvc.c:1290
 msgid "Status"
 msgstr "Статус"
 
-#: ../geanyvc/src/geanyvc.c:1291
+#: ../geanyvc/src/geanyvc.c:1297
 msgid "Path"
 msgstr "Файл"
 
-#: ../geanyvc/src/geanyvc.c:1408
+#: ../geanyvc/src/geanyvc.c:1414
 msgid "Choose a previous commit message"
 msgstr "Нещодавні коментарі"
 
-#: ../geanyvc/src/geanyvc.c:1470
+#: ../geanyvc/src/geanyvc.c:1476
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "рядок: %d стовпець: %d"
 
-#: ../geanyvc/src/geanyvc.c:1517
+#: ../geanyvc/src/geanyvc.c:1523
 msgid "Commit"
 msgstr "Фіксувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:1558
+#: ../geanyvc/src/geanyvc.c:1564
 msgid "_De-/select all files"
 msgstr "Усі файли"
 
-#: ../geanyvc/src/geanyvc.c:1602
+#: ../geanyvc/src/geanyvc.c:1608
 msgid "<b>Commit message:</b>"
 msgstr "<b>Коментар:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1626
+#: ../geanyvc/src/geanyvc.c:1632
 msgid "C_ommit"
 msgstr "_Фіксувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:1734
+#: ../geanyvc/src/geanyvc.c:1740
 msgid "Nothing to commit."
 msgstr "Без змін."
 
-#: ../geanyvc/src/geanyvc.c:1782
+#: ../geanyvc/src/geanyvc.c:1788
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
@@ -4676,11 +4676,26 @@ msgstr ""
 "Помилка ініціалізації системи перевірки правопису:%s. Перевірте настройки "
 "системи."
 
-#: ../geanyvc/src/geanyvc.c:2125
+#: ../geanyvc/src/geanyvc.c:1823
+#, c-format
+msgid "Commit failed (status: %d, error: %s)."
+msgstr ""
+
+#: ../geanyvc/src/geanyvc.c:1824
+#, fuzzy
+msgid "Commit failed; see status in the Message window."
+msgstr "Вкладка зі списком завдань у вікні повідомлень"
+
+#: ../geanyvc/src/geanyvc.c:1829
+#, fuzzy
+msgid "Changes committed."
+msgstr "Без змін."
+
+#: ../geanyvc/src/geanyvc.c:2151
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "Позначати документи у вкладках, створених плаґіном, як змінені"
 
-#: ../geanyvc/src/geanyvc.c:2128
+#: ../geanyvc/src/geanyvc.c:2154
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4691,43 +4706,43 @@ msgstr ""
 "корисною, але це може спричинити надмірну кількість запитів на збереження "
 "файлу."
 
-#: ../geanyvc/src/geanyvc.c:2136
+#: ../geanyvc/src/geanyvc.c:2162
 msgid "Confirm adding new files to a VCS"
 msgstr "Підтверджувати додавання файлу у репозиторій"
 
-#: ../geanyvc/src/geanyvc.c:2139
+#: ../geanyvc/src/geanyvc.c:2165
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr "Показувати діалог підтвердження при додаванні файлу у репозиторій."
 
-#: ../geanyvc/src/geanyvc.c:2145
+#: ../geanyvc/src/geanyvc.c:2171
 msgid "Maximize commit dialog"
 msgstr "Розгортати діалог фіксації змін"
 
-#: ../geanyvc/src/geanyvc.c:2146
+#: ../geanyvc/src/geanyvc.c:2172
 msgid "Show commit dialog maximize."
 msgstr "Максимізувати діалогове вікно фіксації змін."
 
-#: ../geanyvc/src/geanyvc.c:2152
+#: ../geanyvc/src/geanyvc.c:2178
 msgid "Use external diff viewer"
 msgstr "Використовувати зовнішню програму порівняння файлів"
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2180
 msgid "Use external diff viewer for file diff."
 msgstr "Використовувати зовнішню програму перегляду змін у файлі."
 
-#: ../geanyvc/src/geanyvc.c:2160
+#: ../geanyvc/src/geanyvc.c:2186
 msgid "Show VC entries at editor menu"
 msgstr "Показувати меню \"Зміни\" у контекстному меню редактора"
 
-#: ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2188
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Показувати команди меню \"Зміни\" у контекстному меню редактора."
 
-#: ../geanyvc/src/geanyvc.c:2167
+#: ../geanyvc/src/geanyvc.c:2193
 msgid "Attach menu to menubar"
 msgstr "Приєднати меню до головної панелі"
 
-#: ../geanyvc/src/geanyvc.c:2169
+#: ../geanyvc/src/geanyvc.c:2195
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4737,68 +4752,68 @@ msgstr ""
 "головній панелі меню Geany. Набуває чинності після перезапуску плаґіна "
 "GeanyVC."
 
-#: ../geanyvc/src/geanyvc.c:2177
+#: ../geanyvc/src/geanyvc.c:2203
 msgid "Enable CVS"
 msgstr "CVS"
 
-#: ../geanyvc/src/geanyvc.c:2182
+#: ../geanyvc/src/geanyvc.c:2208
 msgid "Enable GIT"
 msgstr "Git"
 
-#: ../geanyvc/src/geanyvc.c:2187
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Enable Fossil"
 msgstr "Fossil"
 
-#: ../geanyvc/src/geanyvc.c:2192
+#: ../geanyvc/src/geanyvc.c:2218
 msgid "Enable SVN"
 msgstr "Subversion (SVN)"
 
-#: ../geanyvc/src/geanyvc.c:2197
+#: ../geanyvc/src/geanyvc.c:2223
 msgid "Enable SVK"
 msgstr "SVK"
 
-#: ../geanyvc/src/geanyvc.c:2202
+#: ../geanyvc/src/geanyvc.c:2228
 msgid "Enable Bazaar"
 msgstr "Bazaar"
 
-#: ../geanyvc/src/geanyvc.c:2207
+#: ../geanyvc/src/geanyvc.c:2233
 msgid "Enable Mercurial"
 msgstr "Mercurial"
 
-#: ../geanyvc/src/geanyvc.c:2213
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "Spellcheck language"
 msgstr "Мова для перевірки правопису"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2342 ../geanyvc/src/geanyvc.c:2437
-#: ../geanyvc/src/geanyvc.c:2477
+#: ../geanyvc/src/geanyvc.c:2368 ../geanyvc/src/geanyvc.c:2463
+#: ../geanyvc/src/geanyvc.c:2503
 msgid "_Diff"
 msgstr "_Порівняти"
 
-#: ../geanyvc/src/geanyvc.c:2345
+#: ../geanyvc/src/geanyvc.c:2371
 msgid "Make a diff from the current active file"
 msgstr "Показати відмінності поточного файлу від оригіналу."
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2350 ../geanyvc/src/geanyvc.c:2446
-#: ../geanyvc/src/geanyvc.c:2485
+#: ../geanyvc/src/geanyvc.c:2376 ../geanyvc/src/geanyvc.c:2472
+#: ../geanyvc/src/geanyvc.c:2511
 msgid "_Revert"
 msgstr "_Скасувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:2353
+#: ../geanyvc/src/geanyvc.c:2379
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr "Відновити файл з робочої копії (скасувати локальні зміни)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2362
+#: ../geanyvc/src/geanyvc.c:2388
 msgid "_Blame"
 msgstr "_Анотація"
 
-#: ../geanyvc/src/geanyvc.c:2365
+#: ../geanyvc/src/geanyvc.c:2391
 msgid "Shows the changes made at one file per revision and author."
 msgstr ""
 "Показати ім'я автора та номер версії останньої зміни для кожного рядка файлу."
@@ -4806,147 +4821,147 @@ msgstr ""
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2372 ../geanyvc/src/geanyvc.c:2456
-#: ../geanyvc/src/geanyvc.c:2497
+#: ../geanyvc/src/geanyvc.c:2398 ../geanyvc/src/geanyvc.c:2482
+#: ../geanyvc/src/geanyvc.c:2523
 msgid "_History (log)"
 msgstr "_Історія"
 
-#: ../geanyvc/src/geanyvc.c:2375
+#: ../geanyvc/src/geanyvc.c:2401
 msgid "Shows the log of the current file"
 msgstr "Показати журнал змін для поточного файлу."
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2380
+#: ../geanyvc/src/geanyvc.c:2406
 msgid "_Original"
 msgstr "_Оригінал"
 
-#: ../geanyvc/src/geanyvc.c:2383
+#: ../geanyvc/src/geanyvc.c:2409
 msgid "Shows the original of the current file"
 msgstr "Показати оригінальний файл з робочої копії."
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2391
+#: ../geanyvc/src/geanyvc.c:2417
 msgid "_Add to Version Control"
 msgstr "_Додати у репозиторій"
 
-#: ../geanyvc/src/geanyvc.c:2393
+#: ../geanyvc/src/geanyvc.c:2419
 msgid "Add file to repository."
 msgstr "Додати файл у репозиторій."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2399
+#: ../geanyvc/src/geanyvc.c:2425
 msgid "_Remove from Version Control"
 msgstr "_Видалити із репозиторію"
 
-#: ../geanyvc/src/geanyvc.c:2401
+#: ../geanyvc/src/geanyvc.c:2427
 msgid "Remove file from repository."
 msgstr "Видалити файл із репозиторію."
 
-#: ../geanyvc/src/geanyvc.c:2434
+#: ../geanyvc/src/geanyvc.c:2460
 msgid "_Directory"
 msgstr "_Каталог"
 
-#: ../geanyvc/src/geanyvc.c:2440
+#: ../geanyvc/src/geanyvc.c:2466
 msgid "Make a diff from the directory of the current active file"
 msgstr "Показати відмінності для каталогу поточного файлу."
 
-#: ../geanyvc/src/geanyvc.c:2449
+#: ../geanyvc/src/geanyvc.c:2475
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 "Відновити оригінали усіх файлів з каталогу поточного файлу робочої копії "
 "(скасувати локальні зміни)."
 
-#: ../geanyvc/src/geanyvc.c:2459
+#: ../geanyvc/src/geanyvc.c:2485
 msgid "Shows the log of the current directory"
 msgstr "Показати журнал змін для базового каталогу репозиторію."
 
-#: ../geanyvc/src/geanyvc.c:2473
+#: ../geanyvc/src/geanyvc.c:2499
 msgid "_Base Directory"
 msgstr "_Базовий каталог"
 
-#: ../geanyvc/src/geanyvc.c:2479
+#: ../geanyvc/src/geanyvc.c:2505
 msgid "Make a diff from the top VC directory"
 msgstr "Показати відмінності для базового каталогу репозиторію."
 
-#: ../geanyvc/src/geanyvc.c:2487
+#: ../geanyvc/src/geanyvc.c:2513
 msgid "Revert any local edits."
 msgstr "Скасувати усі локальні зміни."
 
-#: ../geanyvc/src/geanyvc.c:2500
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "Shows the log of the top VC directory"
 msgstr "Показати журнал змін для каталогу поточного файлу."
 
-#: ../geanyvc/src/geanyvc.c:2517
+#: ../geanyvc/src/geanyvc.c:2543
 msgid "_VC file Actions"
 msgstr "З_міни"
 
-#: ../geanyvc/src/geanyvc.c:2526
+#: ../geanyvc/src/geanyvc.c:2552
 msgid "VC _Commit..."
 msgstr "Фіксувати _зміни..."
 
-#: ../geanyvc/src/geanyvc.c:2570
+#: ../geanyvc/src/geanyvc.c:2596
 msgid "Show diff of file"
 msgstr "Показати зміни для файлу"
 
-#: ../geanyvc/src/geanyvc.c:2572
+#: ../geanyvc/src/geanyvc.c:2598
 msgid "Show diff of directory"
 msgstr "Показати зміни для каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2574
+#: ../geanyvc/src/geanyvc.c:2600
 msgid "Show diff of basedir"
 msgstr "Показати зміни для базового каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2577
+#: ../geanyvc/src/geanyvc.c:2603
 msgid "Commit changes"
 msgstr "Фіксувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:2579
+#: ../geanyvc/src/geanyvc.c:2605
 msgid "Show status"
 msgstr "Показати статус"
 
-#: ../geanyvc/src/geanyvc.c:2581
+#: ../geanyvc/src/geanyvc.c:2607
 msgid "Revert single file"
 msgstr "Скасувати зміни для файлу"
 
-#: ../geanyvc/src/geanyvc.c:2583
+#: ../geanyvc/src/geanyvc.c:2609
 msgid "Revert directory"
 msgstr "Скасувати зміни для каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2585
+#: ../geanyvc/src/geanyvc.c:2611
 msgid "Revert base directory"
 msgstr "Скасувати зміни для базового каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2587
+#: ../geanyvc/src/geanyvc.c:2613
 msgid "Update file"
 msgstr "Оновити"
 
-#: ../geanyvc/src/geanyvc.c:2617
+#: ../geanyvc/src/geanyvc.c:2643
 msgid "_VC"
 msgstr "З_міни"
 
-#: ../geanyvc/src/geanyvc.c:2624
+#: ../geanyvc/src/geanyvc.c:2650
 msgid "_Version Control"
 msgstr "З_міни"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2646
+#: ../geanyvc/src/geanyvc.c:2672
 msgid "_Status"
 msgstr "_Статус"
 
-#: ../geanyvc/src/geanyvc.c:2648
+#: ../geanyvc/src/geanyvc.c:2674
 msgid "Show status."
 msgstr "Показати статус."
 
-#: ../geanyvc/src/geanyvc.c:2655
+#: ../geanyvc/src/geanyvc.c:2681
 msgid "Update from remote repository."
 msgstr "Оновити з віддаленого репозиторію."
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2660
+#: ../geanyvc/src/geanyvc.c:2686
 msgid "_Commit..."
 msgstr "Фіксува_ти..."
 
-#: ../geanyvc/src/geanyvc.c:2662
+#: ../geanyvc/src/geanyvc.c:2688
 msgid "Commit changes."
 msgstr "Фіксувати локальні зміни."
 
@@ -5455,7 +5470,7 @@ msgstr ""
 msgid "Unable to read value for '%s' key: %s"
 msgstr ""
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2133
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2132
 msgid "Terminal"
 msgstr "Термінал"
 
@@ -6098,7 +6113,7 @@ msgid "Add"
 msgstr "Додати"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2357
+#: ../treebrowser/src/treebrowser.c:2356
 msgid "New File"
 msgstr "Створити файл"
 
@@ -7600,36 +7615,36 @@ msgstr "При_ховані файли"
 msgid "Show Tool_bars"
 msgstr "Панель _інструментів"
 
-#: ../treebrowser/src/treebrowser.c:1748
+#: ../treebrowser/src/treebrowser.c:1747
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Файл \"%s\" вже існує, ви дійсно хочете його замінити?"
 
-#: ../treebrowser/src/treebrowser.c:1884
+#: ../treebrowser/src/treebrowser.c:1883
 msgid "Go up"
 msgstr "Каталог рівнем вище"
 
-#: ../treebrowser/src/treebrowser.c:1894 ../treebrowser/src/treebrowser.c:2361
+#: ../treebrowser/src/treebrowser.c:1893 ../treebrowser/src/treebrowser.c:2360
 msgid "Refresh"
 msgstr "Оновити"
 
-#: ../treebrowser/src/treebrowser.c:1904
+#: ../treebrowser/src/treebrowser.c:1903
 msgid "Home"
 msgstr "Домашній каталог"
 
-#: ../treebrowser/src/treebrowser.c:1914
+#: ../treebrowser/src/treebrowser.c:1913
 msgid "Set path from document"
 msgstr "Каталог документа"
 
-#: ../treebrowser/src/treebrowser.c:1924
+#: ../treebrowser/src/treebrowser.c:1923
 msgid "Track path"
 msgstr "Показати файл документа"
 
-#: ../treebrowser/src/treebrowser.c:1934
+#: ../treebrowser/src/treebrowser.c:1933
 msgid "Hide bars"
 msgstr "Приховати панель інструментів"
 
-#: ../treebrowser/src/treebrowser.c:1944
+#: ../treebrowser/src/treebrowser.c:1943
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7637,19 +7652,19 @@ msgstr ""
 "Фільтр імен файлів (список, розділений \";\"), або інверсний фільтр (список "
 "починається з \"!;\"). Наприклад, \"*.c;*.h;*.cpp\", або \"!;*.obj;temp*\""
 
-#: ../treebrowser/src/treebrowser.c:1949
+#: ../treebrowser/src/treebrowser.c:1948
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Шлях до каталогу"
 
-#: ../treebrowser/src/treebrowser.c:1974
+#: ../treebrowser/src/treebrowser.c:1973
 msgid "Tree Browser"
 msgstr "Провідник каталогів"
 
-#: ../treebrowser/src/treebrowser.c:2115
+#: ../treebrowser/src/treebrowser.c:2114
 msgid "External open command"
 msgstr "Зовнішня команда:"
 
-#: ../treebrowser/src/treebrowser.c:2125
+#: ../treebrowser/src/treebrowser.c:2124
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7662,60 +7677,60 @@ msgstr ""
 "використання маркерів %f (повний шлях до файлу) та %d (повний шлях до "
 "каталогу вибраного файлу)."
 
-#: ../treebrowser/src/treebrowser.c:2144
+#: ../treebrowser/src/treebrowser.c:2143
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr "Програма терміналу"
 
-#: ../treebrowser/src/treebrowser.c:2150
+#: ../treebrowser/src/treebrowser.c:2149
 msgid "Toolbar"
 msgstr "Панель інструментів:"
 
-#: ../treebrowser/src/treebrowser.c:2152
+#: ../treebrowser/src/treebrowser.c:2151
 msgid "Hidden"
 msgstr "Не показувати"
 
-#: ../treebrowser/src/treebrowser.c:2153
+#: ../treebrowser/src/treebrowser.c:2152
 msgid "Top"
 msgstr "Зверху"
 
-#: ../treebrowser/src/treebrowser.c:2154
+#: ../treebrowser/src/treebrowser.c:2153
 msgid "Bottom"
 msgstr "Знизу"
 
-#: ../treebrowser/src/treebrowser.c:2159
+#: ../treebrowser/src/treebrowser.c:2158
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 "Перезапустіть плаґін, щоб зміни позиції панелі інструментів набули чинності."
 
-#: ../treebrowser/src/treebrowser.c:2163
+#: ../treebrowser/src/treebrowser.c:2162
 msgid "Show icons"
 msgstr "Піктограми файлів:"
 
-#: ../treebrowser/src/treebrowser.c:2165
+#: ../treebrowser/src/treebrowser.c:2164
 msgid "None"
 msgstr "Не показувати"
 
-#: ../treebrowser/src/treebrowser.c:2166
+#: ../treebrowser/src/treebrowser.c:2165
 msgid "Base"
 msgstr "Основні"
 
-#: ../treebrowser/src/treebrowser.c:2167
+#: ../treebrowser/src/treebrowser.c:2166
 msgid "Content-type"
 msgstr "Тип файлу"
 
-#: ../treebrowser/src/treebrowser.c:2173
+#: ../treebrowser/src/treebrowser.c:2172
 msgid "Show hidden files"
 msgstr "Показувати приховані файли"
 
-#: ../treebrowser/src/treebrowser.c:2182
+#: ../treebrowser/src/treebrowser.c:2181
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "У Windows це впливає лише на dot-файли (ім'я починається з крапки)."
 
-#: ../treebrowser/src/treebrowser.c:2184
+#: ../treebrowser/src/treebrowser.c:2183
 msgid "Hide object files"
 msgstr "Не показувати об'єктні файли"
 
-#: ../treebrowser/src/treebrowser.c:2193
+#: ../treebrowser/src/treebrowser.c:2192
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7723,59 +7738,59 @@ msgstr ""
 "Не показувати згенеровані об'єктні файли (*.o, *.obj, *.so, *.dll, *.a, *."
 "lib)."
 
-#: ../treebrowser/src/treebrowser.c:2195
+#: ../treebrowser/src/treebrowser.c:2194
 msgid "Reverse filter"
 msgstr "Дозволити інверсний формат фільтру імен файлів"
 
-#: ../treebrowser/src/treebrowser.c:2204
+#: ../treebrowser/src/treebrowser.c:2203
 msgid "Follow current document"
 msgstr "Показувати шлях до поточного документа"
 
-#: ../treebrowser/src/treebrowser.c:2213
+#: ../treebrowser/src/treebrowser.c:2212
 msgid "Single click, open document and focus it"
 msgstr "Відкривати документ одним натисканням кнопки миші"
 
-#: ../treebrowser/src/treebrowser.c:2222
+#: ../treebrowser/src/treebrowser.c:2221
 msgid "Double click open directory"
 msgstr "Подвійне клацання відкриває разом усі файли з каталогу"
 
-#: ../treebrowser/src/treebrowser.c:2231
+#: ../treebrowser/src/treebrowser.c:2230
 msgid "On delete file, close it if is opened"
 msgstr "Закривати файл при видаленні (якщо відкритий)"
 
-#: ../treebrowser/src/treebrowser.c:2240
+#: ../treebrowser/src/treebrowser.c:2239
 msgid "Focus editor on file open"
 msgstr "Переходити на вкладку відкритого файлу"
 
-#: ../treebrowser/src/treebrowser.c:2249
+#: ../treebrowser/src/treebrowser.c:2248
 msgid "Show tree lines"
 msgstr "Показувати лінії рівнів дерева каталогів"
 
-#: ../treebrowser/src/treebrowser.c:2258
+#: ../treebrowser/src/treebrowser.c:2257
 msgid "Show bookmarks"
 msgstr "Показувати закладки"
 
-#: ../treebrowser/src/treebrowser.c:2267
+#: ../treebrowser/src/treebrowser.c:2266
 msgid "Open new files"
 msgstr "Відкривати створені файли"
 
-#: ../treebrowser/src/treebrowser.c:2351
+#: ../treebrowser/src/treebrowser.c:2350
 msgid "Focus File List"
 msgstr "Перейти до списку файлів"
 
-#: ../treebrowser/src/treebrowser.c:2353
+#: ../treebrowser/src/treebrowser.c:2352
 msgid "Focus Path Entry"
 msgstr "Ввести шлях"
 
-#: ../treebrowser/src/treebrowser.c:2355
+#: ../treebrowser/src/treebrowser.c:2354
 msgid "Rename Object"
 msgstr "Перейменувати"
 
-#: ../treebrowser/src/treebrowser.c:2359
+#: ../treebrowser/src/treebrowser.c:2358
 msgid "New Folder"
 msgstr "Створити каталог"
 
-#: ../treebrowser/src/treebrowser.c:2363
+#: ../treebrowser/src/treebrowser.c:2362
 msgid "Track Current"
 msgstr "Перейти на файл документа"
 
