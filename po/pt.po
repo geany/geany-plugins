@@ -2,22 +2,22 @@
 # Copyright (C) 2009 - 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
-# Pedro Albuquerque <pmra@protonmail.com>, 2015 -2020.
+# Pedro Albuquerque <pmra@protonmail.com>, 2015-2020, 2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.36\n"
+"Project-Id-Version: Geany-Plugins 1.38\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-29 19:41+0200\n"
-"PO-Revision-Date: 2020-10-13 11:30+0100\n"
+"POT-Creation-Date: 2021-09-30 03:19+0000\n"
+"PO-Revision-Date: 2021-09-30 07:50+0100\n"
 "Last-Translator: Pedro Albuquerque <pmra@protonmail.com>\n"
 "Language-Team: Português <translation-team-pt@lists.sourceforge.net>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Gtranslator 3.30.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -160,7 +160,7 @@ msgstr "Copiar caminho do ficheiro"
 
 #: ../addons/src/ao_copyfilepath.c:122
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Copiar o caminho do actual documento para a área de transferência."
+msgstr "Copiar o caminho do actual documento para a área de transferência"
 
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
@@ -637,7 +637,7 @@ msgstr "Commander"
 #: ../commander/src/commander-plugin.c:43
 msgid "Provides a command panel for quick access to actions, files and more"
 msgstr ""
-"Fornece um painel de comandos para acesso rápido a acções, ficheiros e mais."
+"Fornece um painel de comandos para acesso rápido a acções, ficheiros e mais"
 
 #: ../commander/src/commander-plugin.c:772
 msgid "Show Command Panel"
@@ -1595,7 +1595,7 @@ msgstr "secção \"%s\" duplicada"
 #: ../geanygendoc/src/ggd-file-type-loader.c:837
 #, c-format
 msgid "invalid section name \"%s\""
-msgstr "nome da secção \"%s\" inválido "
+msgstr "nome da secção \"%s\" inválido"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:850
 #: ../geanygendoc/src/ggd-file-type-loader.c:902
@@ -2008,7 +2008,7 @@ msgid ""
 "Please try insert package manually"
 msgstr ""
 "Impossível determinar onde inserir o pacote: %s\n"
-"Por favor tente inserir o pacote manualmente."
+"Por favor tente inserir o pacote manualmente"
 
 #: ../latex/src/latexutils.c:89
 #, c-format
@@ -2241,7 +2241,7 @@ msgstr "Patrocinador da conferência"
 
 #: ../latex/src/bibtexlabels.c:120
 msgid "Page numbers separated by commas or double-hyphens"
-msgstr "Números de página separados por vírgulas ou dois hífenes  "
+msgstr "Números de página separados por vírgulas ou dois hífenes"
 
 #: ../latex/src/bibtexlabels.c:121
 msgid "Name of publisher"
@@ -2366,7 +2366,7 @@ msgstr "Inserir referência"
 
 #: ../latex/src/latex.c:977
 msgid "Reference name:"
-msgstr "Nome da referência"
+msgstr "Nome da referência:"
 
 #: ../latex/src/latex.c:1002
 msgid "_Standard Reference"
@@ -2465,7 +2465,7 @@ msgstr "Apresentacção"
 #. Encoding
 #: ../latex/src/latex.c:1864
 msgid "Encoding:"
-msgstr "Codificação: "
+msgstr "Codificação:"
 
 #: ../latex/src/latex.c:1868
 msgid "Set the encoding for your new document"
@@ -2537,7 +2537,7 @@ msgstr "Escolha a orientação do papel para o seu novo documento"
 
 #: ../latex/src/latex.c:1986
 msgid "Use KOMA-script classes if possible"
-msgstr "Usar as classes do script KOMA, se possível "
+msgstr "Usar as classes do script KOMA, se possível"
 
 #: ../latex/src/latex.c:1988
 msgid ""
@@ -2575,7 +2575,7 @@ msgstr "Inserir \\ref"
 
 #: ../latex/src/latex.c:2020
 msgid "Insert linebreak \\\\ "
-msgstr "Inserir quebra de linha \\\\"
+msgstr "Inserir quebra de linha \\\\ "
 
 #: ../latex/src/latex.c:2023
 msgid "Insert command"
@@ -2627,7 +2627,7 @@ msgstr "Inserir lista de descrição"
 
 #: ../latex/src/latex.c:2052
 msgid "Insert itemize list"
-msgstr "Inserir lista de itens "
+msgstr "Inserir lista de itens"
 
 #: ../latex/src/latex.c:2055
 msgid "Insert enumerate list"
@@ -2838,7 +2838,7 @@ msgstr "Inclinado"
 
 #: ../latex/src/formatpatterns.c:44
 msgid "Emphasis"
-msgstr "Enfatizar "
+msgstr "Enfatizar"
 
 #: ../latex/src/formatpatterns.c:64
 msgid "tiny"
@@ -3021,7 +3021,7 @@ msgstr "Erro desconhecido ao carregar o script."
 
 #: ../geanylua/glspi_init.c:381
 msgid "_Lua Scripts"
-msgstr "Scripts _Lua "
+msgstr "Scripts _Lua"
 
 #: ../geanylua/glspi_init.c:425
 #, c-format
@@ -3204,7 +3204,7 @@ msgid ""
 "Copyright (c) 2007-2010 "
 msgstr ""
 "%s %s: %s\n"
-"Copyright (c) 2007-2010"
+"Copyright (c) 2007-2010 "
 
 #: ../geanylua/glspi_app.c:152
 #, c-format
@@ -3617,7 +3617,7 @@ msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:856
 msgid "This plugin allows you to record and use your own macros. "
-msgstr "Esta extensão permite-lhe gravar e usar as suas próprias macros."
+msgstr "Esta extensão permite-lhe gravar e usar as suas próprias macros. "
 
 #: ../geanymacro/src/geanymacro.c:857
 msgid ""
@@ -3625,7 +3625,7 @@ msgid ""
 "combination. "
 msgstr ""
 "Estas são sequências de acções que podem ser repetidas com uma única "
-"combinação de teclas."
+"combinação de teclas. "
 
 #: ../geanymacro/src/geanymacro.c:858
 msgid ""
@@ -3635,7 +3635,7 @@ msgid ""
 msgstr ""
 "Assim, se tiver dúzias de linhas onde quer eliminar os últimos dois "
 "caracteres, pode simplesmente começar a gravar, premir End, Recuo, Recuo, "
-"linha abaixo e depois parar de gravar."
+"linha abaixo e depois parar de gravar. "
 
 #: ../geanymacro/src/geanymacro.c:860
 msgid ""
@@ -3643,13 +3643,13 @@ msgid ""
 "move to the next. "
 msgstr ""
 "A seguir é só activar a macro e ela vai automaticamente editar a linha e "
-"mover-se para a seguinte."
+"mover-se para a seguinte. "
 
 #: ../geanymacro/src/geanymacro.c:861
 msgid ""
 "Select Record Macro from the Tools menu and you will be prompted with a "
 "dialog box. "
-msgstr "Seleccione Gravar macro no menu Ferramentas e verá um diálogo."
+msgstr "Seleccione Gravar macro no menu Ferramentas e verá um diálogo. "
 
 #: ../geanymacro/src/geanymacro.c:862
 msgid ""
@@ -3657,11 +3657,11 @@ msgid ""
 "the macro to help you identify it. "
 msgstr ""
 "Tem de especificar uma combinação de teclas que não esteja em uso e um nome "
-"para a macro para o ajudar a identificá-la."
+"para a macro para o ajudar a identificá-la. "
 
 #: ../geanymacro/src/geanymacro.c:864
 msgid "Then press Record. "
-msgstr "Depois prima Gravar."
+msgstr "Depois prima Gravar. "
 
 #: ../geanymacro/src/geanymacro.c:865
 msgid ""
@@ -3669,20 +3669,20 @@ msgid ""
 "Macro from the Tools menu. "
 msgstr ""
 "Tudo aquilo que fizer no editor é gravado até que seleccione Parar gravação "
-"da macro, no menu Ferramentas."
+"da macro, no menu Ferramentas. "
 
 #: ../geanymacro/src/geanymacro.c:867
 msgid "Simply pressing the specified key combination will re-run the macro. "
-msgstr "Premindo a combinação especificada vai voltar a executar a macro."
+msgstr "Premindo a combinação especificada vai voltar a executar a macro. "
 
 #: ../geanymacro/src/geanymacro.c:868
 msgid "To edit the macros you have, select Edit Macro from the Tools menu. "
 msgstr ""
-"Para editar as macros que tem, seleccione Editar macro, no menu Ferramentas."
+"Para editar as macros que tem, seleccione Editar macro, no menu Ferramentas. "
 
 #: ../geanymacro/src/geanymacro.c:869
 msgid "You can select a macro and delete it, or re-record it. "
-msgstr "Pode seleccionar uma macro e apagá-la ou voltar a gravá-la."
+msgstr "Pode seleccionar uma macro e apagá-la ou voltar a gravá-la. "
 
 #: ../geanymacro/src/geanymacro.c:870
 msgid ""
@@ -3690,7 +3690,7 @@ msgid ""
 "and re-define that assuming that it's not already in use. "
 msgstr ""
 "Também pode clicar no nome de uma macro e alterá-lo ou clicar na combinação "
-"de teclas e redefini-la, desde que não esteja já em uso."
+"de teclas e redefini-la, desde que não esteja já em uso. "
 
 #: ../geanymacro/src/geanymacro.c:872
 msgid ""
@@ -3698,7 +3698,7 @@ msgid ""
 "that make up the macro. "
 msgstr ""
 "Seleccionar a opção de edição permite-lhe ver todos os elementos individuais "
-"que constituem a macro."
+"que constituem a macro. "
 
 #: ../geanymacro/src/geanymacro.c:874
 msgid ""
@@ -3730,7 +3730,7 @@ msgid ""
 msgstr ""
 "Pode alterar o comportamento predefinido desta extensão seleccionando Gestor "
 "de extensões no menu Ferramentas, seleccionando depois a extensão e clicando "
-"em Preferências."
+"em Preferências. "
 
 #: ../geanymacro/src/geanymacro.c:883
 msgid "You can change:\n"
@@ -4062,11 +4062,11 @@ msgstr "Seleccionar a saída do filtro Mini-Script"
 
 #: ../geanyminiscript/src/gms_gui.c:526
 msgid "Current Doc."
-msgstr "doc. actual"
+msgstr "Doc. actual"
 
 #: ../geanyminiscript/src/gms_gui.c:527
 msgid "New Doc."
-msgstr "novo doc."
+msgstr "Novo doc."
 
 #: ../geanyminiscript/src/gms_gui.c:748
 msgid "script configuration"
@@ -4357,47 +4357,47 @@ msgstr "[mau valor de validação]"
 #. buffer should be more than 105 bytes long
 #: ../geanypg/src/verify_aux.c:79
 msgid " valid"
-msgstr "válido"
+msgstr " válido"
 
 #: ../geanypg/src/verify_aux.c:80
 msgid " green"
-msgstr "verde"
+msgstr " verde"
 
 #: ../geanypg/src/verify_aux.c:81
 msgid " red"
-msgstr "vermelho"
+msgstr " vermelho"
 
 #: ../geanypg/src/verify_aux.c:82
 msgid " revoked"
-msgstr "revogada"
+msgstr " revogada"
 
 #: ../geanypg/src/verify_aux.c:83
 msgid " key-expired"
-msgstr "chave expirada"
+msgstr " chave expirada"
 
 #: ../geanypg/src/verify_aux.c:84
 msgid " sig-expired"
-msgstr "sig expirado"
+msgstr " sig expirado"
 
 #: ../geanypg/src/verify_aux.c:85
 msgid " key-missing"
-msgstr "falta chave"
+msgstr " falta chave"
 
 #: ../geanypg/src/verify_aux.c:86
 msgid " crl-missing"
-msgstr "falta crl"
+msgstr " falta crl"
 
 #: ../geanypg/src/verify_aux.c:87
 msgid " crl-too-old"
-msgstr "crl demasiado antigo"
+msgstr " crl demasiado antigo"
 
 #: ../geanypg/src/verify_aux.c:88
 msgid " bad-policy"
-msgstr "má regra"
+msgstr " má regra"
 
 #: ../geanypg/src/verify_aux.c:89
 msgid " sys-error"
-msgstr "erro sistema"
+msgstr " erro sistema"
 
 #: ../geanypg/src/verify_aux.c:103 ../geanypg/src/verify_aux.c:108
 msgid "Unknown\n"
@@ -4456,11 +4456,11 @@ msgstr "RFU"
 
 #: ../geanypg/src/verify_aux.c:135
 msgid " wrong-key-usage"
-msgstr "uso errado da chave"
+msgstr " uso errado da chave"
 
 #: ../geanypg/src/verify_aux.c:135
 msgid " chain-model"
-msgstr "modelo encadeado"
+msgstr " modelo encadeado"
 
 #: ../geanypg/src/verify_aux.c:136
 msgid "yes"
@@ -4747,17 +4747,15 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:1823
 #, c-format
 msgid "Commit failed (status: %d, error: %s)."
-msgstr ""
+msgstr "Falha ao submeter (estado: %d, erro: %s)."
 
 #: ../geanyvc/src/geanyvc.c:1824
-#, fuzzy
 msgid "Commit failed; see status in the Message window."
-msgstr "Mostrar tarefas existentes na janela de mensagens"
+msgstr "Falha ao submeter; veja o estado na janela de mensagens."
 
 #: ../geanyvc/src/geanyvc.c:1829
-#, fuzzy
 msgid "Changes committed."
-msgstr "Nada para submeter."
+msgstr "Alterações submetidas."
 
 #: ../geanyvc/src/geanyvc.c:2151
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -4772,9 +4770,9 @@ msgid ""
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 "Se activar esta opção, todos os novos criados pela extensão VC serão "
-"marcados como Modificados. Mesmo sendo esta opção útil em alguns casos, pode "
+"marcados como modificados. Mesmo sendo esta opção útil em alguns casos, pode "
 "gerar um elevado número de irritantes diálogos \"Tem a certeza que quer "
-"gravar?\" "
+"gravar?\"."
 
 #: ../geanyvc/src/geanyvc.c:2162
 msgid "Confirm adding new files to a VCS"
@@ -4823,7 +4821,7 @@ msgid ""
 msgstr ""
 "Se o menu da extensão é colocado dentro do menu Ferramentas ou directamente "
 "na barra de menus do Geany. Será tido em conta no arranque seguinte do "
-"GeanyVC."
+"GeanyVC"
 
 #: ../geanyvc/src/geanyvc.c:2203
 msgid "Enable CVS"
@@ -5345,7 +5343,7 @@ msgstr "Lipsum"
 
 #: ../lipsum/src/lipsum.c:44
 msgid "Creating dummy text with Geany"
-msgstr "Criar texto fictício com o Geany."
+msgstr "Criar texto fictício com o Geany"
 
 #: ../lipsum/src/lipsum.c:92
 msgid "Lipsum-Generator"
@@ -5596,7 +5594,7 @@ msgstr "Factor de ampliação:"
 
 #: ../overview/data/prefs.ui.h:3
 msgid "The width of the overview sidebar."
-msgstr "A largura da barra lateral da vista geral"
+msgstr "A largura da barra lateral da vista geral."
 
 #: ../overview/data/prefs.ui.h:4
 msgid "Width:"
@@ -5611,7 +5609,7 @@ msgstr ""
 
 #: ../overview/data/prefs.ui.h:6
 msgid "Scroll Lines:"
-msgstr "Rolar linhas"
+msgstr "Rolar linhas:"
 
 #: ../overview/data/prefs.ui.h:7
 msgid "Position on left"
@@ -6743,7 +6741,7 @@ msgstr "<b>Painel</b>"
 
 #: ../scope/data/scope.glade.h:115 ../scope/data/scope_gtk3.glade.h:115
 msgid "Default 8-bit text mode:"
-msgstr "Modo de texto 8-bit predefinido"
+msgstr "Modo de texto 8-bit predefinido:"
 
 #: ../scope/data/scope.glade.h:116 ../scope/data/scope_gtk3.glade.h:116
 msgid "_7-bit \\nnn"
@@ -6996,7 +6994,7 @@ msgstr "fora do âmbito"
 
 #: ../scope/src/inspect.c:631
 msgid "Duplicate inspect variable name."
-msgstr "Nome de inspecção de variável duplicado"
+msgstr "Nome de inspecção de variável duplicado."
 
 #: ../scope/src/memory.c:296
 msgid "Read Memory"
@@ -7083,7 +7081,7 @@ msgstr "Depurador de âmbito"
 
 #: ../scope/src/scope.c:36
 msgid "Relatively simple GDB front-end."
-msgstr "Front-end GDB relativamente simples"
+msgstr "Front-end GDB relativamente simples."
 
 #: ../scope/src/scope.c:63
 msgid "Setup program"
@@ -7156,16 +7154,16 @@ msgstr "Grupo de linha %s iniciado."
 
 #: ../scope/src/thread.c:68
 msgid "Thread group "
-msgstr "Grupo de linha"
+msgstr "Grupo de linha "
 
 #: ../scope/src/thread.c:88
 msgid " exited"
-msgstr "saído"
+msgstr " saído"
 
 #: ../scope/src/thread.c:91
 #, c-format
 msgid " with exit code %s"
-msgstr "com código de saída %s"
+msgstr " com código de saída %s"
 
 #: ../scope/src/thread.c:753
 msgid "Send Signal"
@@ -7352,7 +7350,7 @@ msgstr ""
 
 #: ../spellcheck/src/speller.c:179
 msgid "Try: "
-msgstr "Tentar:"
+msgstr "Tentar: "
 
 #: ../spellcheck/src/speller.c:286
 msgid "Checking"
@@ -7411,7 +7409,7 @@ msgstr ""
 
 #: ../spellcheck/src/scplugin.c:295
 msgid "Show editor menu item to show spelling suggestions"
-msgstr "Mostrar menu no editor para sugestões dactilográficas "
+msgstr "Mostrar menu no editor para sugestões ortográficas"
 
 #: ../spellcheck/src/scplugin.c:300
 msgid "Show suggestions in a sub menu of the editor menu"
@@ -7607,7 +7605,7 @@ msgstr "(vazio)"
 #: ../treebrowser/src/treebrowser.c:1018
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
-msgstr "Impossível executar o comando externo \"%s\" (%s). "
+msgstr "Impossível executar o comando externo configurado \"%s\" (%s)."
 
 #: ../treebrowser/src/treebrowser.c:1089
 msgid "NewDirectory"
@@ -7679,7 +7677,7 @@ msgstr "Fechar: %s"
 #: ../treebrowser/src/treebrowser.c:1359 ../treebrowser/src/treebrowser.c:1361
 #, c-format
 msgid "Clo_se Child Documents "
-msgstr "Fechar documento_s-filho"
+msgstr "Fechar documento_s-filho "
 
 #: ../treebrowser/src/treebrowser.c:1368 ../treebrowser/src/treebrowser.c:1370
 msgid "_Copy Full Path to Clipboard"
@@ -7767,7 +7765,7 @@ msgstr ""
 "%d.\n"
 "%f será substituído pelo nome do ficheiro incluindo o seu caminho completo\n"
 "%d será substituído pelo nome do caminho do ficheiro seleccionado, sem o "
-"nome do ficheiro."
+"nome do ficheiro"
 
 #: ../treebrowser/src/treebrowser.c:2143
 msgid "The terminal to use with the command \"Open Terminal\""
@@ -8013,7 +8011,7 @@ msgstr "Ampliar o texto _completo"
 
 #: ../webhelper/src/gwh-browser.c:678
 msgid "Flip panes orientation"
-msgstr "Inverter orientação dos painéis "
+msgstr "Inverter orientação dos painéis"
 
 #: ../webhelper/src/gwh-browser.c:950
 msgid "Back"
@@ -8124,7 +8122,7 @@ msgstr "Última geometria da janela do inspector"
 
 #: ../webhelper/src/gwh-plugin.c:360
 msgid "Inspector detached"
-msgstr "inspector separado"
+msgstr "Inspector separado"
 
 #: ../webhelper/src/gwh-plugin.c:361
 msgid "Whether the inspector is in a separate window or docked in the browser"
@@ -8281,7 +8279,7 @@ msgstr "Definições da bancada"
 
 #: ../workbench/src/dialogs.c:608
 msgid "_Rescan all projects on open"
-msgstr "_Re-analisar todos os projectos ao abrir:"
+msgstr "_Re-analisar todos os projectos ao abrir"
 
 #: ../workbench/src/dialogs.c:619
 msgid ""
@@ -8332,18 +8330,18 @@ msgstr ""
 #: ../workbench/src/menu.c:103
 #, c-format
 msgid "Could not create new workbench file: %s"
-msgstr "Impossível criar ficheiro de bancada: %s."
+msgstr "Impossível criar ficheiro de bancada: %s"
 
 #: ../workbench/src/menu.c:130
 #, c-format
 msgid "Could not open workbench file: %s"
-msgstr "Impossível abrir ficheiro de bancada: %s."
+msgstr "Impossível abrir ficheiro de bancada: %s"
 
 #: ../workbench/src/menu.c:155 ../workbench/src/popup_menu.c:265
 #: ../workbench/src/search_projects.c:188
 #, c-format
 msgid "Could not save workbench file: %s"
-msgstr "Impossível gravar ficheiro de bancada: %s."
+msgstr "Impossível gravar ficheiro de bancada: %s"
 
 #. Set metadata
 #: ../workbench/src/menu.c:207 ../workbench/src/plugin_main.c:132
