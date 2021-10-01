@@ -2,7 +2,7 @@
 # Copyright (C) 2009 - 2014 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 #
-# Gürkan Gür <seqizz@gmail.com>, 2009 - 2014
+# Gürkan Gür <seqizz@gmail.com>, 2009 - 2021
 #
 msgid ""
 msgstr ""
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.4.3\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -264,7 +264,7 @@ msgstr "Tek tıkla önceki vurgulamanı seçimini kaldır"
 
 #: ../addons/src/addons.c:596
 msgid "Strip trailing blank lines"
-msgstr ""
+msgstr "Sondaki boş satırları sil"
 
 #: ../addons/src/addons.c:602
 msgid "XML tagging for selection"
@@ -377,7 +377,7 @@ msgstr "Ters tırnakları yalnızca Bash gibi kabuk betiklerinde otomatik kapat"
 
 #: ../autoclose/src/autoclose.c:1100
 msgid "Improve curly brackets completion"
-msgstr ""
+msgstr "Süslü parantez tamamlamayı geliştir"
 
 #: ../autoclose/src/autoclose.c:1101
 msgid "Indent when enclosing"
@@ -450,7 +450,7 @@ msgstr ""
 
 #: ../autoclose/src/autoclose.c:1124
 msgid "Suppress double-completion"
-msgstr ""
+msgstr "Çifte tamamlamayı engelle"
 
 #: ../autoclose/src/autoclose.c:1125
 msgid ""
@@ -651,7 +651,6 @@ msgid "Debugger"
 msgstr "Hata Ayıklayıcı"
 
 #: ../debugger/src/plugin.c:199
-#, fuzzy
 msgid "Various debuggers integration."
 msgstr "Çeşitli hata ayıklayıcıların entegrasyonu."
 
@@ -723,9 +722,9 @@ msgid "Program received signal %s (%s)"
 msgstr "Program %s sinyali aldı (%s)"
 
 #: ../debugger/src/dbm_gdb.c:547
-#, fuzzy, c-format
+#, c-format
 msgid "Program exited with code \"%i\""
-msgstr "Program kodu ile sonlandı \"%i\""
+msgstr "Program şu kod ile sonlandı: \"%i\""
 
 #: ../debugger/src/dbm_gdb.c:737
 msgid "Failed to spawn gdb process"
@@ -1384,9 +1383,8 @@ msgid "Document current word"
 msgstr ""
 
 #: ../geanydoc/src/geanydoc.c:435
-#, fuzzy
 msgid "Document interactive"
-msgstr "İnteraktif Belge"
+msgstr "Döküman interaktif"
 
 #: ../geanyextrasel/src/extrasel.c:34
 msgid "Extra Selection"
@@ -1587,12 +1585,12 @@ msgstr "girdi boş"
 #: ../geanygendoc/src/ggd-file-type-loader.c:864
 #, c-format
 msgid "Parser warning: %s:%u:%u: %s"
-msgstr ""
+msgstr "Çözümleyici uyarısı: %s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:867
 #, c-format
 msgid "Parser error: %s:%u:%u: %s"
-msgstr ""
+msgstr "Çözümleyici hatası: %s:%u:%u: %s"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:871
 #, c-format
@@ -2333,7 +2331,7 @@ msgstr "_Sayfa Referansı"
 
 #: ../latex/src/latex.c:1012
 msgid "_Add both"
-msgstr ""
+msgstr "İkisini de _ekle"
 
 #: ../latex/src/latex.c:1209
 msgid "More"
@@ -2341,7 +2339,7 @@ msgstr "Daha fazla"
 
 #: ../latex/src/latex.c:1265
 msgid "Add additional package"
-msgstr ""
+msgstr "Harici paket ekle"
 
 #: ../latex/src/latex.c:1278
 msgid "Package name:"
@@ -2547,15 +2545,15 @@ msgstr "\\item ekle"
 
 #: ../latex/src/latex.c:2036
 msgid "Format selection in bold font face"
-msgstr ""
+msgstr "Seçili bölümü kalın font ile biçimlendir"
 
 #: ../latex/src/latex.c:2038
 msgid "Format selection in italic font face"
-msgstr ""
+msgstr "Seçili bölümü italik font ile biçimlendir"
 
 #: ../latex/src/latex.c:2040
 msgid "Format selection in typewriter font face"
-msgstr ""
+msgstr "Seçili bölümü daktilo fontu ile biçimlendir"
 
 #: ../latex/src/latex.c:2042
 msgid "Format selection centered"
@@ -2583,7 +2581,7 @@ msgstr ""
 
 #: ../latex/src/latex.c:2058
 msgid "Set selection one level up"
-msgstr ""
+msgstr "Seçimi bir üst seviyeye ayarla"
 
 #: ../latex/src/latex.c:2061
 msgid "Set selection one level down"
@@ -4369,14 +4367,13 @@ msgid "Open a signature file"
 msgstr "Bir imza dosyası aç"
 
 #: ../geanyprj/src/geanyprj.c:39
-#, fuzzy
 msgid ""
 "Alternative project support. \n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
 "Alternatif proje desteği. \n"
-"Bu eklentinin şu anda bakımcısı yok. Bu eklentiye katkıda bulunarak yardım "
+"Bu eklentinin şu anda bakıcısı yok. Bu eklentiye katkıda bulunarak yardım "
 "etmek ister misiniz?"
 
 #: ../geanyprj/src/geanyprj.c:228
@@ -4622,14 +4619,12 @@ msgid "Commit failed (status: %d, error: %s)."
 msgstr ""
 
 #: ../geanyvc/src/geanyvc.c:1824
-#, fuzzy
 msgid "Commit failed; see status in the Message window."
-msgstr "Mesajlar penceresinde erişilebilir görevleri göster"
+msgstr "Teslim hatası; Mesajlar penceresinden detaylara bakın"
 
 #: ../geanyvc/src/geanyvc.c:1829
-#, fuzzy
 msgid "Changes committed."
-msgstr "Teslim edilecek bir şey yok."
+msgstr "Değişiklikler teslim edildi."
 
 #: ../geanyvc/src/geanyvc.c:2151
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -5274,11 +5269,11 @@ msgstr "Şablon Dosyası seçin"
 
 #: ../markdown/src/plugin.c:34
 msgid "Real-time Markdown preview"
-msgstr ""
+msgstr "Gerçek zamanlı Markdown önizlemesi"
 
 #: ../markdown/src/plugin.c:46
 msgid "Markdown Preview"
-msgstr ""
+msgstr "Markdown Önizleme"
 
 #: ../markdown/src/plugin.c:102
 msgid "Export Markdown as HTML..."
@@ -5286,7 +5281,7 @@ msgstr "Markdown'ı HTML olarak dışa aktar..."
 
 #: ../markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
-msgstr ""
+msgstr "Mevcut döküman Markdown türünde değil."
 
 #: ../markdown/src/plugin.c:278
 msgid "Save HTML File As"
@@ -5294,7 +5289,7 @@ msgstr "HTML Dosyasını Farklı Kaydet"
 
 #: ../markdown/src/plugin.c:306
 msgid "HTML Files"
-msgstr ""
+msgstr "HTML Dosyaları"
 
 #: ../markdown/src/plugin.c:311 ../workbench/src/dialogs.c:156
 #: ../workbench/src/dialogs.c:195
@@ -5334,7 +5329,7 @@ msgstr ""
 
 #: ../multiterm/src/context-menu.vala:103
 msgid "Next tab"
-msgstr ""
+msgstr "Sonraki sekme"
 
 #. this.append(item);
 #. item.show();
@@ -5364,11 +5359,11 @@ msgstr "Yeni uçbirim"
 
 #: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
 msgid "MultiTerm"
-msgstr ""
+msgstr "MultiTerm"
 
 #: ../multiterm/src/plugin.vala:47
 msgid "Multi-tabbed virtual terminal emulator."
-msgstr ""
+msgstr "Çok sekmeli konsol"
 
 #: ../multiterm/src/plugin.vala:78
 #, c-format
@@ -5395,7 +5390,7 @@ msgstr "Komut çalıştırılamıyor: %s"
 
 #: ../overview/overview/overviewplugin.c:43
 msgid "Provides an overview of the active document"
-msgstr ""
+msgstr "Geçerli dökümanın önizlemesini görüntüler"
 
 #: ../overview/overview/overviewplugin.c:186
 msgid "Toggle Visibility"
@@ -5558,7 +5553,7 @@ msgstr "_Çeviri Yardımcısı"
 
 #: ../pohelper/data/menus.ui.h:2
 msgid "_Previous String"
-msgstr ""
+msgstr "Önce_ki Yazı"
 
 #: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1590
 msgid "Go to previous string"
@@ -5566,7 +5561,7 @@ msgstr "Önceki metne git"
 
 #: ../pohelper/data/menus.ui.h:4
 msgid "_Next String"
-msgstr ""
+msgstr "_Sonraki Yazı"
 
 #: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1593
 msgid "Go to next string"
@@ -5574,59 +5569,59 @@ msgstr "Sonraki metne git"
 
 #: ../pohelper/data/menus.ui.h:6
 msgid "Pre_vious Untranslated"
-msgstr ""
+msgstr "Ön_ceki Çevirilmemiş"
 
 #: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1596
 msgid "Go to previous untranslated string"
-msgstr ""
+msgstr "Bir önceki çevirilmemiş yazıya git"
 
 #: ../pohelper/data/menus.ui.h:8
 msgid "Next _Untranslated"
-msgstr ""
+msgstr "Son_raki Çevirilmemiş"
 
 #: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1599
 msgid "Go to next untranslated string"
-msgstr ""
+msgstr "Bir sonraki çevirilmemiş yazıya git"
 
 #: ../pohelper/data/menus.ui.h:10
 msgid "Previous Fu_zzy"
-msgstr ""
+msgstr "_Önceki Bulanık"
 
 #: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1602
 msgid "Go to previous fuzzily translated string"
-msgstr ""
+msgstr "Bir önceki bulanık çeviriye git"
 
 #: ../pohelper/data/menus.ui.h:12
 msgid "Next _Fuzzy"
-msgstr ""
+msgstr "Sonraki _Bulanık"
 
 #: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1605
 msgid "Go to next fuzzily translated string"
-msgstr ""
+msgstr "Bir sonraki bulanık çeviriye git"
 
 #: ../pohelper/data/menus.ui.h:14
 msgid "Previous Untranslated or Fuzz_y"
-msgstr ""
+msgstr "Önceki Çevirilmemiş veya B_ulanık"
 
 #: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1608
 msgid "Go to previous untranslated or fuzzy string"
-msgstr ""
+msgstr "Önceki çevirilmemiş veya bulanık çeviriye git"
 
 #: ../pohelper/data/menus.ui.h:16
 msgid "Next Untranslated _or Fuzzy"
-msgstr ""
+msgstr "Sonraki Çe_virilmemiş veya Bulanık"
 
 #: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1612
 msgid "Go to next untranslated or fuzzy string"
-msgstr ""
+msgstr "Sonraki çevirilmemiş veya bulanık çeviriye git"
 
 #: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1623
 msgid "Toggle current translation fuzziness"
-msgstr ""
+msgstr "Mevcut çeviriyi bulanık olarak işaretle veya bulanıklığı kaldır"
 
 #: ../pohelper/data/menus.ui.h:19
 msgid "_Toggle Fuzziness"
-msgstr ""
+msgstr "Bulanıklığı _Değiştir"
 
 #: ../pohelper/data/menus.ui.h:20
 msgid "Paste _Message as Translation"
@@ -5687,7 +5682,7 @@ msgstr "Çevriri:"
 
 #: ../pohelper/data/stats.ui.h:6
 msgid "Fuzzy:"
-msgstr ""
+msgstr "Bulanık:"
 
 #: ../pohelper/data/stats.ui.h:7
 msgid "Untranslated:"
@@ -5709,7 +5704,7 @@ msgstr "<b>Çeviri:</b> %.3g%%"
 #: ../pohelper/src/gph-plugin.c:1372 ../pohelper/src/gph-plugin.c:1390
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr ""
+msgstr "<b>Bulanık:</b> %.3g%%"
 
 #: ../pohelper/src/gph-plugin.c:1374 ../pohelper/src/gph-plugin.c:1392
 #, c-format
@@ -5719,7 +5714,7 @@ msgstr "<b>Çevrilmemiş:</b> %.3g%%"
 #: ../pohelper/src/gph-plugin.c:1490
 #, c-format
 msgid "%u (%.3g%%)"
-msgstr ""
+msgstr "%u (%.3g%%)"
 
 #: ../pohelper/src/gph-plugin.c:1616
 msgid "Paste original untranslated string to translation"
@@ -5774,7 +5769,7 @@ msgstr "Yorumlar"
 #: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
 msgid "Put on one line"
-msgstr ""
+msgstr "Tek satıra koy"
 
 #: ../pretty-printer/src/ConfigUI.c:73 ../pretty-printer/src/ConfigUI.c:74
 #: ../pretty-printer/src/ConfigUI.c:75
@@ -6251,7 +6246,6 @@ msgid "Show _Group"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:34 ../scope/data/scope_gtk3.glade.h:34
-#, fuzzy
 msgid "Show _Core"
 msgstr "_Çekirdeği Göster"
 
@@ -6405,7 +6399,6 @@ msgid "Target Id"
 msgstr "Hedef kimliği"
 
 #: ../scope/data/scope.glade.h:77 ../scope/data/scope_gtk3.glade.h:77
-#, fuzzy
 msgid "Core"
 msgstr "Çekirdek"
 
@@ -6435,7 +6428,6 @@ msgid "#"
 msgstr "#"
 
 #: ../scope/data/scope.glade.h:86 ../scope/data/scope_gtk3.glade.h:86
-#, fuzzy
 msgid "Arguments"
 msgstr "Argümanlar"
 
