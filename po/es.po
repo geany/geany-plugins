@@ -1,24 +1,24 @@
-# translation of es.po to
+# translation of es.po to Spanish
 # Spanish translation for geany-plugins
-# Copyright (C) 2009 - 2020 Lucas Vieites & Geany contributors
+# Copyright (C) 2009 - 2021 Lucas Vieites & Geany contributors
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2020.
+# Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.37\n"
+"Project-Id-Version: Geany-Plugins 1.38\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-29 19:41+0200\n"
-"PO-Revision-Date: 2020-10-14 16:09+0200\n"
-"Last-Translator: Lucas Vieites <lucas.vieites@gmail.com>\n"
+"POT-Creation-Date: 2021-09-30 03:19+0000\n"
+"PO-Revision-Date: 2021-09-30 12:17+0200\n"
+"Last-Translator: Lucas Vieites Fariña <lucas.vieites@gmail.com>\n"
 "Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Geany / PoHelper 1.37\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -1146,7 +1146,7 @@ msgstr "400%"
 msgid "translator_credits"
 msgstr ""
 "Andrew Janke <a.janke@gmail.com>, 2009\n"
-"Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2017"
+"Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2021"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
@@ -4762,17 +4762,15 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:1823
 #, c-format
 msgid "Commit failed (status: %d, error: %s)."
-msgstr ""
+msgstr "Ha fallado el commit (estado: %d, error: %s)."
 
 #: ../geanyvc/src/geanyvc.c:1824
-#, fuzzy
 msgid "Commit failed; see status in the Message window."
-msgstr "Mostrar tareas disponibles en la ventana de mensajes"
+msgstr "Ha fallado el commit, vea el estado en la ventana de mensajes."
 
 #: ../geanyvc/src/geanyvc.c:1829
-#, fuzzy
 msgid "Changes committed."
-msgstr "No hay nada para commit."
+msgstr "Los cambios han sido enviados."
 
 #: ../geanyvc/src/geanyvc.c:2151
 msgid "Set Changed-flag for document tabs created by the plugin"
