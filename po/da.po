@@ -1,16 +1,15 @@
 # Danish translation for geany-plugins
-# Copyright (C) 2009 THE PACKAGE'S COPYRIGHT HOLDER
+# Copyright (C) 2021 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
-# Andrew Janke <a.janke@gmail.com>, 2009
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.30\n"
+"Project-Id-Version: geany-plugins 1.38\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-29 19:41+0200\n"
-"PO-Revision-Date: 2009-06-11 10:15+0200\n"
-"Last-Translator: Andrew L Janke <a.janke@gmail.com>\n"
-"Language-Team: Danish <geany-i18n@uvena.de>\n"
+"POT-Creation-Date: 2021-09-29 03:19+0000\n"
+"PO-Revision-Date: 2021-09-29 03:19+0000\n"
+"Last-Translator: \n"
+"Language-Team: Danish\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +40,7 @@ msgid "Bookmarks"
 msgstr ""
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2679
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2653
 msgid "_Update"
 msgstr ""
 
@@ -161,7 +160,7 @@ msgstr ""
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2079 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2053 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
 #: ../treebrowser/src/treebrowser.c:2102
@@ -385,9 +384,8 @@ msgid ""
 msgstr ""
 
 #: ../autoclose/src/autoclose.c:1107
-#, fuzzy
 msgid "Move cursor to beginning"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../autoclose/src/autoclose.c:1108
 msgid ""
@@ -437,9 +435,8 @@ msgid ""
 msgstr ""
 
 #: ../autoclose/src/autoclose.c:1127
-#, fuzzy
 msgid "Enclose selections"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../autoclose/src/autoclose.c:1128
 msgid "Automatically enclose selected text by pressing just one bracket key."
@@ -1095,7 +1092,7 @@ msgid "A developers' help browser for GNOME"
 msgstr ""
 
 #. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2660
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2634
 msgid "_File"
 msgstr ""
 
@@ -1390,9 +1387,8 @@ msgid "_Toggle Stream/Rectangular"
 msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:530
-#, fuzzy
 msgid "Convert selection"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:535
 msgid "_Set Anchor"
@@ -2506,14 +2502,12 @@ msgid "Format selection centered"
 msgstr ""
 
 #: ../latex/src/latex.c:2044
-#, fuzzy
 msgid "Format selection left-aligned"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../latex/src/latex.c:2046
-#, fuzzy
 msgid "Format selection right-aligned"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../latex/src/latex.c:2049
 msgid "Insert description list"
@@ -3112,9 +3106,8 @@ msgid "Delete up to end of word to the Right"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:67
-#, fuzzy
 msgid "Delete to beginning of line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:68
 msgid "Delete to end of line"
@@ -3201,9 +3194,8 @@ msgid "Move Cursor down one Page"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:91
-#, fuzzy
 msgid "Move Cursor to first visible character"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:92
 msgid "Move Cursor to last visible character"
@@ -3216,9 +3208,8 @@ msgid ""
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:95
-#, fuzzy
 msgid "Move Cursor to beginning of next paragraph"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:96
 msgid "Move Cursor up to beginning of current/previous paragraph"
@@ -3233,84 +3224,68 @@ msgid "Move Cursor to end of Word to the Right"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:100
-#, fuzzy
 msgid "Extend Selection down a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:101
-#, fuzzy
 msgid "Extend Selection up a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:102
-#, fuzzy
 msgid "Extend Selection Left a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:103
-#, fuzzy
 msgid "Extend Selection Right a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:104
-#, fuzzy
 msgid "Extend Selection to start of Word to the Left"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:105
-#, fuzzy
 msgid "Extend Selection to start of Word to the Right"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:106
-#, fuzzy
 msgid "Extend Selection to start of Part of Word to the Left"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:107
-#, fuzzy
 msgid "Extend Selection to start of Part of Word to the Right"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:108
-#, fuzzy
 msgid "Extend Selection to start of line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:109
-#, fuzzy
 msgid "Extend Selection to end of line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:110
-#, fuzzy
 msgid "Extend Selection to start of document"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:111
-#, fuzzy
 msgid "Extend Selection to end of document"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:112
-#, fuzzy
 msgid "Extend Selection up one Page"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:113
-#, fuzzy
 msgid "Extend Selection down one Page"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:114
-#, fuzzy
 msgid "Extend Selection to fist visible character"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:115
-#, fuzzy
 msgid "Extend Selection to last visible character"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:116
 msgid ""
@@ -3319,63 +3294,52 @@ msgid ""
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:118
-#, fuzzy
 msgid "Extend Selection to beginning of next paragraph"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:119
 msgid "Extend Selection up to beginning of current/previous paragraph"
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:120
-#, fuzzy
 msgid "Extend Selection to end of Word to the Left"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:121
-#, fuzzy
 msgid "Extend Selection to end of Word to the Right"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:123
-#, fuzzy
 msgid "Extend Rectangular Selection down a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:124
-#, fuzzy
 msgid "Extend Rectangular Selection up a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:125
-#, fuzzy
 msgid "Extend Rectangular Selection Left a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:126
-#, fuzzy
 msgid "Extend Rectangular Selection Right a line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:127
-#, fuzzy
 msgid "Extend Rectangular Selection to start of line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:128
-#, fuzzy
 msgid "Extend Rectangular Selection to end of line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:129
-#, fuzzy
 msgid "Extend Rectangular Selection up one Page"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:130
-#, fuzzy
 msgid "Extend Rectangular Selection down one Page"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:131
 msgid ""
@@ -3435,9 +3399,8 @@ msgid "Search for previous \"\""
 msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:152
-#, fuzzy
 msgid "Set start of search to beginning of selection"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanymacro/src/geanymacro.c:181
 msgid "Macros"
@@ -3926,9 +3889,8 @@ msgid "Center view when goto bookmark"
 msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1236
-#, fuzzy
 msgid "Move to start of line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1237
 msgid "Move to remembered position in line"
@@ -3939,9 +3901,8 @@ msgid "Move to position in current line"
 msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1239
-#, fuzzy
 msgid "Move to End of line"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1245
 msgid "Save file settings with program settings"
@@ -4399,39 +4360,39 @@ msgstr ""
 msgid "File %s: action %s executed via %s."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:657
+#: ../geanyvc/src/geanyvc.c:640 ../geanyvc/src/geanyvc.c:651
 #, c-format
 msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:683 ../geanyvc/src/geanyvc.c:733
+#: ../geanyvc/src/geanyvc.c:677 ../geanyvc/src/geanyvc.c:727
 msgid "No changes were made."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:760
+#: ../geanyvc/src/geanyvc.c:754
 msgid "No history available"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:953 ../geanyvc/src/geanyvc.c:961
+#: ../geanyvc/src/geanyvc.c:947 ../geanyvc/src/geanyvc.c:955
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:969
+#: ../geanyvc/src/geanyvc.c:963
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:976
+#: ../geanyvc/src/geanyvc.c:970
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:999
+#: ../geanyvc/src/geanyvc.c:993
 msgid "Do you really want to update?"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1126
+#: ../geanyvc/src/geanyvc.c:1120
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4440,327 +4401,314 @@ msgid ""
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1280
+#: ../geanyvc/src/geanyvc.c:1274
 msgid "Commit Y/N"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1290
+#: ../geanyvc/src/geanyvc.c:1284
 msgid "Status"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1297
+#: ../geanyvc/src/geanyvc.c:1291
 msgid "Path"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1414
+#: ../geanyvc/src/geanyvc.c:1408
 msgid "Choose a previous commit message"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1476
+#: ../geanyvc/src/geanyvc.c:1470
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1523
+#: ../geanyvc/src/geanyvc.c:1517
 msgid "Commit"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1564
+#: ../geanyvc/src/geanyvc.c:1558
 msgid "_De-/select all files"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1608
+#: ../geanyvc/src/geanyvc.c:1602
 msgid "<b>Commit message:</b>"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1632
+#: ../geanyvc/src/geanyvc.c:1626
 msgid "C_ommit"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1740
+#: ../geanyvc/src/geanyvc.c:1734
 msgid "Nothing to commit."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1788
+#: ../geanyvc/src/geanyvc.c:1782
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1823
-#, c-format
-msgid "Commit failed (status: %d, error: %s)."
-msgstr ""
-
-#: ../geanyvc/src/geanyvc.c:1824
-msgid "Commit failed; see status in the Message window."
-msgstr ""
-
-#: ../geanyvc/src/geanyvc.c:1829
-msgid "Changes committed."
-msgstr ""
-
-#: ../geanyvc/src/geanyvc.c:2151
+#: ../geanyvc/src/geanyvc.c:2125
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2128
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
 "could cause a big number of annoying \"Do you want to save\"-dialogs."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2136
 msgid "Confirm adding new files to a VCS"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2165
+#: ../geanyvc/src/geanyvc.c:2139
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2171
+#: ../geanyvc/src/geanyvc.c:2145
 msgid "Maximize commit dialog"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2172
+#: ../geanyvc/src/geanyvc.c:2146
 msgid "Show commit dialog maximize."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2178
+#: ../geanyvc/src/geanyvc.c:2152
 msgid "Use external diff viewer"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2180
+#: ../geanyvc/src/geanyvc.c:2154
 msgid "Use external diff viewer for file diff."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2186
+#: ../geanyvc/src/geanyvc.c:2160
 msgid "Show VC entries at editor menu"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2188
+#: ../geanyvc/src/geanyvc.c:2162
 msgid "Show entries for VC functions inside editor menu"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2193
+#: ../geanyvc/src/geanyvc.c:2167
 msgid "Attach menu to menubar"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2195
+#: ../geanyvc/src/geanyvc.c:2169
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
 "GeanyVC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2203
+#: ../geanyvc/src/geanyvc.c:2177
 msgid "Enable CVS"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2208
+#: ../geanyvc/src/geanyvc.c:2182
 msgid "Enable GIT"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2213
+#: ../geanyvc/src/geanyvc.c:2187
 msgid "Enable Fossil"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2218
+#: ../geanyvc/src/geanyvc.c:2192
 msgid "Enable SVN"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2223
+#: ../geanyvc/src/geanyvc.c:2197
 msgid "Enable SVK"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2228
+#: ../geanyvc/src/geanyvc.c:2202
 msgid "Enable Bazaar"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2233
+#: ../geanyvc/src/geanyvc.c:2207
 msgid "Enable Mercurial"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2239
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Spellcheck language"
 msgstr ""
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2368 ../geanyvc/src/geanyvc.c:2463
-#: ../geanyvc/src/geanyvc.c:2503
+#: ../geanyvc/src/geanyvc.c:2342 ../geanyvc/src/geanyvc.c:2437
+#: ../geanyvc/src/geanyvc.c:2477
 msgid "_Diff"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2371
+#: ../geanyvc/src/geanyvc.c:2345
 msgid "Make a diff from the current active file"
 msgstr ""
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2376 ../geanyvc/src/geanyvc.c:2472
-#: ../geanyvc/src/geanyvc.c:2511
+#: ../geanyvc/src/geanyvc.c:2350 ../geanyvc/src/geanyvc.c:2446
+#: ../geanyvc/src/geanyvc.c:2485
 msgid "_Revert"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2379
+#: ../geanyvc/src/geanyvc.c:2353
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2388
+#: ../geanyvc/src/geanyvc.c:2362
 msgid "_Blame"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2391
+#: ../geanyvc/src/geanyvc.c:2365
 msgid "Shows the changes made at one file per revision and author."
 msgstr ""
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2398 ../geanyvc/src/geanyvc.c:2482
-#: ../geanyvc/src/geanyvc.c:2523
+#: ../geanyvc/src/geanyvc.c:2372 ../geanyvc/src/geanyvc.c:2456
+#: ../geanyvc/src/geanyvc.c:2497
 msgid "_History (log)"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2401
+#: ../geanyvc/src/geanyvc.c:2375
 msgid "Shows the log of the current file"
 msgstr ""
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2406
+#: ../geanyvc/src/geanyvc.c:2380
 msgid "_Original"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2409
+#: ../geanyvc/src/geanyvc.c:2383
 msgid "Shows the original of the current file"
 msgstr ""
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2417
+#: ../geanyvc/src/geanyvc.c:2391
 msgid "_Add to Version Control"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2419
+#: ../geanyvc/src/geanyvc.c:2393
 msgid "Add file to repository."
 msgstr ""
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2425
+#: ../geanyvc/src/geanyvc.c:2399
 msgid "_Remove from Version Control"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2427
+#: ../geanyvc/src/geanyvc.c:2401
 msgid "Remove file from repository."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2460
+#: ../geanyvc/src/geanyvc.c:2434
 msgid "_Directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2466
+#: ../geanyvc/src/geanyvc.c:2440
 msgid "Make a diff from the directory of the current active file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2475
+#: ../geanyvc/src/geanyvc.c:2449
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2485
+#: ../geanyvc/src/geanyvc.c:2459
 msgid "Shows the log of the current directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2499
+#: ../geanyvc/src/geanyvc.c:2473
 msgid "_Base Directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2505
+#: ../geanyvc/src/geanyvc.c:2479
 msgid "Make a diff from the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2513
+#: ../geanyvc/src/geanyvc.c:2487
 msgid "Revert any local edits."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2526
+#: ../geanyvc/src/geanyvc.c:2500
 msgid "Shows the log of the top VC directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2543
+#: ../geanyvc/src/geanyvc.c:2517
 msgid "_VC file Actions"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2552
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "VC _Commit..."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2596
+#: ../geanyvc/src/geanyvc.c:2570
 msgid "Show diff of file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2598
+#: ../geanyvc/src/geanyvc.c:2572
 msgid "Show diff of directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2600
+#: ../geanyvc/src/geanyvc.c:2574
 msgid "Show diff of basedir"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2603
+#: ../geanyvc/src/geanyvc.c:2577
 msgid "Commit changes"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2605
+#: ../geanyvc/src/geanyvc.c:2579
 msgid "Show status"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2607
+#: ../geanyvc/src/geanyvc.c:2581
 msgid "Revert single file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2609
+#: ../geanyvc/src/geanyvc.c:2583
 msgid "Revert directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2611
+#: ../geanyvc/src/geanyvc.c:2585
 msgid "Revert base directory"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2613
+#: ../geanyvc/src/geanyvc.c:2587
 msgid "Update file"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2643
+#: ../geanyvc/src/geanyvc.c:2617
 msgid "_VC"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2650
+#: ../geanyvc/src/geanyvc.c:2624
 msgid "_Version Control"
 msgstr ""
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2672
+#: ../geanyvc/src/geanyvc.c:2646
 msgid "_Status"
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2674
+#: ../geanyvc/src/geanyvc.c:2648
 msgid "Show status."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2681
+#: ../geanyvc/src/geanyvc.c:2655
 msgid "Update from remote repository."
 msgstr ""
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2686
+#: ../geanyvc/src/geanyvc.c:2660
 msgid "_Commit..."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:2688
+#: ../geanyvc/src/geanyvc.c:2662
 msgid "Commit changes."
 msgstr ""
 
@@ -5176,14 +5124,12 @@ msgid "Unable to load config file %s: %s"
 msgstr ""
 
 #: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
-#, fuzzy
 msgid "Move to message window"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
-#, fuzzy
 msgid "Move to sidebar"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../multiterm/src/context-menu.vala:81
 msgid "Open Tab"
@@ -6091,9 +6037,8 @@ msgid "_Follow"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:32 ../scope/data/scope_gtk3.glade.h:32
-#, fuzzy
 msgid "_Columns"
-msgstr "Flyt Kolonne"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:33 ../scope/data/scope_gtk3.glade.h:33
 msgid "Show _Group"
@@ -6308,9 +6253,8 @@ msgid "Enter gdb command:"
 msgstr ""
 
 #: ../scope/data/scope.glade.h:95 ../scope/data/scope_gtk3.glade.h:98
-#, fuzzy
 msgid "Convert _UTF-8 to locale"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #: ../scope/data/scope.glade.h:96 ../scope/data/scope_gtk3.glade.h:94
 msgid "_Thread"
@@ -7120,7 +7064,7 @@ msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:41
 msgid "Shift Column"
-msgstr "Flyt Kolonne"
+msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:42
 msgid ""
@@ -7131,11 +7075,11 @@ msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:357 ../shiftcolumn/src/shiftcolumn.c:378
 msgid "Shift Left"
-msgstr "Flyt til Venstre"
+msgstr ""
 
 #: ../shiftcolumn/src/shiftcolumn.c:364 ../shiftcolumn/src/shiftcolumn.c:380
 msgid "Shift Right"
-msgstr "Flyt til Højre"
+msgstr ""
 
 #: ../tableconvert/src/tableconvert.c:31
 msgid "Tableconvert"
@@ -7165,9 +7109,8 @@ msgid "Something went wrong on parsing selection. Aborting"
 msgstr ""
 
 #: ../tableconvert/src/tableconvert.c:328
-#, fuzzy
 msgid "Convert selection to table"
-msgstr "Flyt det valgte til højre/venstre"
+msgstr ""
 
 #. Build up menu entry for table_convert based on global file type
 #: ../tableconvert/src/tableconvert_ui.c:40
@@ -8229,6 +8172,3 @@ msgstr ""
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
-
-#~ msgid "Shift a selection left and right"
-#~ msgstr "Flyt det valgte til højre/venstre"
