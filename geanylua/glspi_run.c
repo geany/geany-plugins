@@ -428,7 +428,7 @@ gint luaopen_libgeanylua(lua_State *L)
 
 
 /* Load and run the script */
-void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir)
+void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir, const gchar *script_cache)
 {
 	gint status;
 	lua_State *L = glspi_state_new();
@@ -436,7 +436,13 @@ void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, cons
 #if 0
 	while (gtk_events_pending()) { gtk_main_iteration(); }
 #endif
-	status = luaL_loadfile(L, script_file);
+
+	if (!script_cache) {
+		status = luaL_loadfile(L, script_file);
+	} else {
+		status = luaL_loadstring(L, script_cache);
+	}
+
 	switch (status) {
 	case 0: {
 		gint base = lua_gettop(L); /* function index */
@@ -466,4 +472,3 @@ void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, cons
 	}
 	glspi_state_done(L);
 }
-

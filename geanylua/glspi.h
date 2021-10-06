@@ -135,7 +135,7 @@ void glspi_init_mnu_funcs(lua_State *L);
 void glspi_init_sci_funcs(lua_State *L);
 /* custom dialogs module */
 void glspi_init_gsdlg_module(lua_State *L, GsDlgRunHook hook, GtkWindow *toplevel);
-void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir);
+void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir, const gchar *script_cache);
 
 /* Pass TRUE to create hashes, FALSE to destroy them */
 void glspi_set_sci_cmd_hash(gboolean create);
