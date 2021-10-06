@@ -52,10 +52,12 @@
 			if (script_cache && length != strlen(script_cache)) {                 \
 				g_free(script_cache);                                              \
 				script_cache = NULL;                                               \
+				g_free(script_fn);                                                 \
+				script_fn = NULL;                                                  \
 			}                                                                     \
 		}                                                                        \
 		gint idx = doc->index;                                                   \
-		if (script_cache) {                                                      \
+		if (script_fn && script_cache) {                                         \
 			glspi_run_script(script_fn, idx + 1, NULL, SD, script_cache);         \
 		}                                                                        \
 	} while (0)
@@ -313,27 +315,27 @@ static void on_editor_notify(GObject *obj, GeanyDocument *doc,
 static void on_geany_startup_complete(GObject *obj, GeanyDocument *doc,
 												  gpointer user_data) {
 	SET_SCRIPT_FILENAME(ON_GEANY_STARTUP_COMPLETE_SCRIPT);
-	RUN_SCRIPT();
+	CACHE_RUN_SCRIPT();
 }
 
 static void on_key_press(GObject *obj, GeanyDocument *doc, gpointer user_data) {
 	SET_SCRIPT_FILENAME(ON_KEY_PRESS_SCRIPT);
 	DISABLE_SCRIPT_IF_NOT_EXIST();
-	RUN_SCRIPT_IDX();
+	CACHE_RUN_SCRIPT_IDX();
 }
 
 static void on_update_editor_menu(GObject *obj, GeanyDocument *doc,
 											 gpointer user_data) {
 	SET_SCRIPT_FILENAME(ON_UPDATE_EDITOR_MENU_SCRIPT);
 	DISABLE_SCRIPT_IF_NOT_EXIST();
-	RUN_SCRIPT_IDX();
+	CACHE_RUN_SCRIPT_IDX();
 }
 
 static void on_document_new(GObject *obj, GeanyDocument *doc,
 									 gpointer user_data) {
 	SET_SCRIPT_FILENAME(ON_DOCUMENT_NEW_SCRIPT);
 	FIND_DEPRECATED_SCRIPT(ON_DOCUMENT_NEW_SCRIPT);
-	RUN_SCRIPT_IDX();
+	CACHE_RUN_SCRIPT_IDX();
 }
 
 static void on_document_open(GObject *obj, GeanyDocument *doc,
@@ -441,29 +443,29 @@ static void on_project_dialog_open(GObject *obj, GKeyFile *config,
 
 PLUGIN_EXPORT
 PluginCallback glspi_geany_callbacks[] = {
-	 {"build_start", (GCallback)&on_build_start, FALSE, NULL},
-	 {"editor_notify", (GCallback)&on_editor_notify, FALSE, NULL},
-	 {"geany_startup_complete", (GCallback)&on_geany_startup_complete, FALSE,
+	 {"build_start", (GCallback)&on_build_start, TRUE, NULL},
+	 {"editor_notify", (GCallback)&on_editor_notify, TRUE, NULL},
+	 {"geany_startup_complete", (GCallback)&on_geany_startup_complete, TRUE,
 	  NULL},
-	 {"key_press", (GCallback)&on_key_press, FALSE, NULL},
-	 {"update_editor_menu", (GCallback)&on_update_editor_menu, FALSE, NULL},
-	 {"document_activate", (GCallback)&on_document_activate, FALSE, NULL},
-	 {"document_before_save", (GCallback)&on_document_before_save, FALSE, NULL},
-	 {"document_close", (GCallback)&on_document_close, FALSE, NULL},
-	 {"document_filetype_set", (GCallback)&on_document_filetype_set, FALSE,
+	 {"key_press", (GCallback)&on_key_press, TRUE, NULL},
+	 {"update_editor_menu", (GCallback)&on_update_editor_menu, TRUE, NULL},
+	 {"document_activate", (GCallback)&on_document_activate, TRUE, NULL},
+	 {"document_before_save", (GCallback)&on_document_before_save, TRUE, NULL},
+	 {"document_close", (GCallback)&on_document_close, TRUE, NULL},
+	 {"document_filetype_set", (GCallback)&on_document_filetype_set, TRUE,
 	  NULL},
-	 {"document_new", (GCallback)&on_document_new, FALSE, NULL},
-	 {"document_open", (GCallback)&on_document_open, FALSE, NULL},
-	 {"document_reload", (GCallback)&on_document_reload, FALSE, NULL},
-	 {"document_save", (GCallback)&on_document_save, FALSE, NULL},
-	 {"project_before_close", (GCallback)&on_project_before_close, FALSE, NULL},
-	 {"project_close", (GCallback)&on_project_close, FALSE, NULL},
-	 {"project_dialog_close", (GCallback)&on_project_dialog_close, FALSE, NULL},
+	 {"document_new", (GCallback)&on_document_new, TRUE, NULL},
+	 {"document_open", (GCallback)&on_document_open, TRUE, NULL},
+	 {"document_reload", (GCallback)&on_document_reload, TRUE, NULL},
+	 {"document_save", (GCallback)&on_document_save, TRUE, NULL},
+	 {"project_before_close", (GCallback)&on_project_before_close, TRUE, NULL},
+	 {"project_close", (GCallback)&on_project_close, TRUE, NULL},
+	 {"project_dialog_close", (GCallback)&on_project_dialog_close, TRUE, NULL},
 	 {"project_dialog_confirmed", (GCallback)&on_project_dialog_confirmed, FALSE,
 	  NULL},
-	 {"project_dialog_open", (GCallback)&on_project_dialog_open, FALSE, NULL},
-	 {"project_open", (GCallback)&on_project_open, FALSE, NULL},
-	 {"project_save", (GCallback)&on_project_save, FALSE, NULL},
+	 {"project_dialog_open", (GCallback)&on_project_dialog_open, TRUE, NULL},
+	 {"project_open", (GCallback)&on_project_open, TRUE, NULL},
+	 {"project_save", (GCallback)&on_project_save, TRUE, NULL},
 	 {NULL, NULL, FALSE, NULL}};
 
 /* Callback when the menu item is clicked */
