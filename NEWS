@@ -1,6 +1,42 @@
-Geany Plugins 1.38 (not released yet)
+Geany Plugins 1.38 (2021-10-09)
 
-    * nothing so far
+    GeanyCTags
+    * Fix (re-)generating ctags file with relative paths (PR #708)
+
+    GeanyVC:
+    * Report a completion status of the commit command  (Issue #837, PR #1026)
+    * Correct tooltip display for the attach to menubar action
+      (Issue #1032 PR #1033)
+
+    PrettyPrinter:
+    * Use stdbool.h istead of redefining bool
+      (Issue #1059, Issue #1023, PR #1053)
+
+    Spellcheck:
+    * Add documentation about maintaining personal dictionaries (PR #1108)
+
+    Treebrowser:
+    * Avoid double node clear (PR #1015)
+
+    Vimmode:
+    * Ignore key-presses containing command on macOS (Issue #991, PR #1099)
+    * Ignore special command handling in insert mode (Issue #1075, PR #1100)
+    * Enable '.' to also repeat last inserted text (Issue #1101, PR #1102)
+    * Fix line operation problems when NL is missing at EOF
+      (Issue #1060, PR #1103)
+    * Add special handling to include destination char for some commands
+      (Issue #1052, PR #1104)
+    * Add some more ex commands (PR #1104)
+
+    Windows
+    * Switch Windows builds to GTK3 and x86_64 (PR #1107).
+    * Fix crashes in Git Changebar, Lua, Macro and Numbered Bookmarks plugins
+      (PR #1106)
+    * Remove Markdown and WebHelper plugins from Windows installer due to
+      missing dependencies (WebkitGTK) (PR #1107)
+
+    Internationalization:
+    * Updated translations: es, pt, tr, uk
 
 
 Geany Plugins 1.37 (2020-10-25)
