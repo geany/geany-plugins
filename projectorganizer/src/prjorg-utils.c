@@ -149,9 +149,16 @@ gboolean create_dir(char *utf8_name)
 
 gboolean remove_file_or_dir(char *utf8_name)
 {
+	gboolean ret = FALSE;
 	gchar *name = utils_get_locale_from_utf8(utf8_name);
-	gboolean ret = g_remove(utf8_name) == 0;
+
+	GFile *file = g_file_new_for_path(name);
+	ret = g_file_trash(file, NULL, NULL);
+	if (!ret)
+		ret = g_file_delete(file, NULL, NULL);
+
 	g_free(name);
+	g_object_unref(file);
 	return ret;
 }
 
