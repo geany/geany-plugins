@@ -609,6 +609,103 @@ static gint glspi_fail_arg_count(lua_State* L, const gchar*funcname, const gchar
 
 #define FAIL_ARGC glspi_fail_arg_count(L,__FUNCTION__,he->name)
 
+static uptr_t glspi_scintilla_param(lua_State* L, int ptype, int pnum, SciCmdHashEntry *he)
+{
+	switch (ptype) {
+		case SLT_VOID:
+			return 0;
+			break;
+
+		case SLT_BOOL:
+			if (!lua_isboolean(L,pnum)) { return FAIL_BOOL_ARG(pnum); };
+			return lua_toboolean(L,pnum);
+			break;
+
+		case SLT_STRING:
+			if (!lua_isstring(L,pnum)) { return FAIL_STRING_ARG(pnum); };
+			return (uptr_t)lua_tostring(L,pnum);
+			break;
+
+		/* treat most parameters as number */
+		case SLT_ACCESSIBILITY:
+		case SLT_ALPHA:
+		case SLT_ANNOTATIONVISIBLE:
+		case SLT_AUTOCOMPLETEOPTION:
+		case SLT_AUTOMATICFOLD:
+		case SLT_BIDIRECTIONAL:
+		case SLT_CARETPOLICY:
+		case SLT_CARETSTICKY:
+		case SLT_CARETSTYLE:
+		case SLT_CASEINSENSITIVEBEHAVIOUR:
+		case SLT_CASEVISIBLE:
+		case SLT_CELLS:
+		case SLT_CHARACTERSET:
+		case SLT_COLOURALPHA:
+		case SLT_CURSORSHAPE:
+		case SLT_DOCUMENTOPTION:
+		case SLT_EDGEVISUALSTYLE:
+		case SLT_ELEMENT:
+		case SLT_ENDOFLINE:
+		case SLT_EOLANNOTATIONVISIBLE:
+		case SLT_FINDOPTION:
+		case SLT_FINDTEXT:
+		case SLT_FOLDACTION:
+		case SLT_FOLDDISPLAYTEXTSTYLE:
+		case SLT_FOLDFLAG:
+		case SLT_FOLDLEVEL:
+		case SLT_FONTQUALITY:
+		case SLT_FONTWEIGHT:
+		case SLT_FORMATRANGE:
+		case SLT_IDLESTYLING:
+		case SLT_IMEINTERACTION:
+		case SLT_INDENTVIEW:
+		case SLT_INDICATORSTYLE:
+		case SLT_INDICFLAG:
+		case SLT_LAST:
+		case SLT_LAYER:
+		case SLT_LINE:
+		case SLT_LINECACHE:
+		case SLT_LINECHARACTERINDEXTYPE:
+		case SLT_LINEENDTYPE:
+		case SLT_MARGINOPTION:
+		case SLT_MARGINTYPE:
+		case SLT_MARKERSYMBOL:
+		case SLT_MODIFICATIONFLAGS:
+		case SLT_MULTIAUTOCOMPLETE:
+		case SLT_MULTIPASTE:
+		case SLT_ORDERING:
+		case SLT_PHASESDRAW:
+		case SLT_POINTER:
+		case SLT_POPUP:
+		case SLT_PRINTOPTION:
+		case SLT_REPRESENTATIONAPPEARANCE:
+		case SLT_SELECTIONMODE:
+		case SLT_STATUS:
+		case SLT_SUPPORTS:
+		case SLT_TABDRAWMODE:
+		case SLT_TECHNOLOGY:
+		case SLT_TEXTRANGE:
+		case SLT_TYPEPROPERTY:
+		case SLT_UNDOFLAGS:
+		case SLT_VIRTUALSPACE:
+		case SLT_VISIBLEPOLICY:
+		case SLT_WHITESPACE:
+		case SLT_WRAP:
+		case SLT_WRAPINDENTMODE:
+		case SLT_WRAPVISUALFLAG:
+		case SLT_WRAPVISUALLOCATION:
+		case SLT_INT:
+			if (!lua_isnumber(L,pnum)) { return FAIL_NUMERIC_ARG(pnum); };
+			return lua_tonumber(L,pnum);
+
+		case SLT_STRINGRESULT:
+		default:
+			return FAIL_API;
+	}
+
+	return FAIL_API;
+}
+
 static gint glspi_scintilla(lua_State* L)
 {
 	uptr_t wparam=0;
@@ -641,54 +738,31 @@ static gint glspi_scintilla(lua_State* L)
 		return 0;
 	}
 
-	if (((he->wparam==SLT_INT)&&(he->lparam==SLT_STRINGRESULT))) {
-		/* We can allow missing wparam (length) for some string result types */
-	} else {
-		if ((he->lparam!=SLT_VOID)&&(argc<3)) { return FAIL_ARGC; }
-		if (((he->wparam!=SLT_VOID)&&(argc<2))) { return FAIL_ARGC; }
-	}
-	switch (he->wparam) {
-		case SLT_VOID:
-		break;
-		case SLT_INT:
-			if (argc>=2) {
-				if (!lua_isnumber(L,2)) {return FAIL_NUMERIC_ARG(2); };
-				wparam=lua_tonumber(L,2);
-			}
+	/* Don't allow lexer changes, but allow getting lexer info */
+	switch (he->msgid) {
+		case SCI_CHANGELEXERSTATE:
+		case SCI_PRIVATELEXERCALL:
+		case SCI_SETILEXER:
+			return FAIL_STRING_ARG(1);
+
+		case SCI_GETLEXER:
+		case SCI_GETLEXERLANGUAGE:
+		default:
 			break;
-		case SLT_STRING:
-			if (!lua_isstring(L,2)) {return FAIL_STRING_ARG(2); };
-			wparam=(uptr_t)lua_tostring(L,2);
-		break;
-		case SLT_CELLS: return FAIL_API;
-		case SLT_BOOL:
-			if (!lua_isboolean(L,2)) {return FAIL_BOOL_ARG(2); };
-			wparam=lua_toboolean(L,2);
-		break;
-		case SLT_TEXTRANGE: return FAIL_API;
-		case SLT_STRINGRESULT: return FAIL_API;
-		case SLT_FINDTEXT: return FAIL_API;
-		case SLT_FORMATRANGE: return FAIL_API;
-		default:return FAIL_API;
 	}
 
+	if (he->lparam==SLT_STRINGRESULT) {
+	/* We can allow missing wparam (length) for some string result types */
+	} else {
+		if ((he->lparam!=SLT_VOID)&&(argc<3)) { return FAIL_ARGC; }
+		if ((he->wparam!=SLT_VOID)&&(argc<2)) { return FAIL_ARGC; }
+	}
+
+	/* first scintilla parameter */
+	wparam = glspi_scintilla_param(L, he->wparam, 2, he);
+
+	/* second scintilla parameter */
 	switch (he->lparam) {
-		case SLT_VOID:
-		break;
-		case SLT_INT:
-			if (!lua_isnumber(L,3)) { return FAIL_NUMERIC_ARG(2); };
-			lparam=lua_tonumber(L,3);
-		break;
-		case SLT_STRING:
-			if (!lua_isstring(L,3)) {return FAIL_STRING_ARG(2); };
-			lparam=(sptr_t)lua_tostring(L,3);
-		break;
-		case SLT_CELLS: return FAIL_API;
-		case SLT_BOOL:
-			if (!lua_isboolean(L,3)) {return FAIL_BOOL_ARG(3); };
-			lparam=lua_toboolean(L,3);
-			break;
-		case SLT_TEXTRANGE: return FAIL_API;
 		case SLT_STRINGRESULT:
 			if ((he->msgid==SCI_GETTEXT)&&(wparam==0)) {
 				wparam=scintilla_send_message(doc->editor->sci, SCI_GETLENGTH, 0,0);
@@ -712,15 +786,88 @@ static gint glspi_scintilla(lua_State* L)
 				return 1;
 			}
 			break;
-		case SLT_FINDTEXT: return FAIL_API;
-		case SLT_FORMATRANGE: return FAIL_API;
-		default:return FAIL_API;
+		default:
+			lparam = (sptr_t)glspi_scintilla_param(L, he->lparam, 3, he);
+			break;
 	}
+
+	/* send scintilla message and process result */
 	switch (he->result) {
 		case SLT_VOID:
 			scintilla_send_message(doc->editor->sci, he->msgid, wparam, lparam);
 			lua_pushnil(L);
 			return 1;
+		case SLT_BOOL:
+			lua_pushboolean(L, scintilla_send_message(doc->editor->sci, he->msgid, wparam, lparam));
+			return 1;
+
+		case SLT_ACCESSIBILITY:
+		case SLT_ALPHA:
+		case SLT_ANNOTATIONVISIBLE:
+		case SLT_AUTOCOMPLETEOPTION:
+		case SLT_AUTOMATICFOLD:
+		case SLT_BIDIRECTIONAL:
+		case SLT_CARETPOLICY:
+		case SLT_CARETSTICKY:
+		case SLT_CARETSTYLE:
+		case SLT_CASEINSENSITIVEBEHAVIOUR:
+		case SLT_CASEVISIBLE:
+		case SLT_CELLS:
+		case SLT_CHARACTERSET:
+		case SLT_COLOURALPHA:
+		case SLT_CURSORSHAPE:
+		case SLT_DOCUMENTOPTION:
+		case SLT_EDGEVISUALSTYLE:
+		case SLT_ELEMENT:
+		case SLT_ENDOFLINE:
+		case SLT_EOLANNOTATIONVISIBLE:
+		case SLT_FINDOPTION:
+		case SLT_FINDTEXT:
+		case SLT_FOLDACTION:
+		case SLT_FOLDDISPLAYTEXTSTYLE:
+		case SLT_FOLDFLAG:
+		case SLT_FOLDLEVEL:
+		case SLT_FONTQUALITY:
+		case SLT_FONTWEIGHT:
+		case SLT_FORMATRANGE:
+		case SLT_IDLESTYLING:
+		case SLT_IMEINTERACTION:
+		case SLT_INDENTVIEW:
+		case SLT_INDICATORSTYLE:
+		case SLT_INDICFLAG:
+		case SLT_LAST:
+		case SLT_LAYER:
+		case SLT_LINE:
+		case SLT_LINECACHE:
+		case SLT_LINECHARACTERINDEXTYPE:
+		case SLT_LINEENDTYPE:
+		case SLT_MARGINOPTION:
+		case SLT_MARGINTYPE:
+		case SLT_MARKERSYMBOL:
+		case SLT_MODIFICATIONFLAGS:
+		case SLT_MULTIAUTOCOMPLETE:
+		case SLT_MULTIPASTE:
+		case SLT_ORDERING:
+		case SLT_PHASESDRAW:
+		case SLT_POINTER:
+		case SLT_POPUP:
+		case SLT_PRINTOPTION:
+		case SLT_REPRESENTATIONAPPEARANCE:
+		case SLT_SELECTIONMODE:
+		case SLT_STATUS:
+		case SLT_SUPPORTS:
+		case SLT_TABDRAWMODE:
+		case SLT_TECHNOLOGY:
+		case SLT_TEXTRANGE:
+		case SLT_TYPEPROPERTY:
+		case SLT_UNDOFLAGS:
+		case SLT_VIRTUALSPACE:
+		case SLT_VISIBLEPOLICY:
+		case SLT_WHITESPACE:
+		case SLT_WRAP:
+		case SLT_WRAPINDENTMODE:
+		case SLT_WRAPVISUALFLAG:
+		case SLT_WRAPVISUALLOCATION:
 		case SLT_INT:
 			if (he->lparam==SLT_STRINGRESULT) {
 				scintilla_send_message(doc->editor->sci, he->msgid, wparam, lparam);
@@ -730,10 +877,11 @@ static gint glspi_scintilla(lua_State* L)
 				push_number(L, scintilla_send_message(doc->editor->sci, he->msgid, wparam, lparam));
 			}
 			return 1;
-		case SLT_BOOL:
-			lua_pushboolean(L, scintilla_send_message(doc->editor->sci, he->msgid, wparam, lparam));
-			return 1;
-		default:return FAIL_API;
+
+		case SLT_STRING:
+		case SLT_STRINGRESULT:
+		default:
+			return FAIL_API;
 	}
 }
 
