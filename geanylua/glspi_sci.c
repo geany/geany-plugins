@@ -614,17 +614,12 @@ static uptr_t glspi_scintilla_param(lua_State* L, int ptype, int pnum, SciCmdHas
 	switch (ptype) {
 		case SLT_VOID:
 			return 0;
-			break;
-
 		case SLT_BOOL:
 			if (!lua_isboolean(L,pnum)) { return FAIL_BOOL_ARG(pnum); };
 			return lua_toboolean(L,pnum);
-			break;
-
 		case SLT_STRING:
 			if (!lua_isstring(L,pnum)) { return FAIL_STRING_ARG(pnum); };
 			return (uptr_t)lua_tostring(L,pnum);
-			break;
 
 		/* treat most parameters as number */
 		case SLT_ACCESSIBILITY:
