@@ -194,7 +194,7 @@ replace_all(MarkdownViewer *self,
 {
   gchar *ptr;
   gsize needle_len = strlen(needle);
-  gsize replacement_len_minus_one = strlen(replacement) - 1;
+  gsize replacement_len = strlen(replacement);
   goffset offset = 0;
 
   /* For each occurrence of needle in haystack */
@@ -202,7 +202,7 @@ replace_all(MarkdownViewer *self,
     offset = ptr - haystack->str;
     g_string_erase(haystack, offset, needle_len);
     g_string_insert(haystack, offset, replacement);
-    offset += replacement_len_minus_one;
+    offset += replacement_len;
   }
 }
 
