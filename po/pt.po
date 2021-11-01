@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the geany-plugins package.
 # André Glória, 2009 - 2011
 # Pedro Albuquerque <pmra@protonmail.com>, 2015-2020, 2021.
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.38\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-30 03:19+0000\n"
-"PO-Revision-Date: 2021-09-30 07:50+0100\n"
-"Last-Translator: Pedro Albuquerque <pmra@protonmail.com>\n"
+"PO-Revision-Date: 2021-11-01 20:50+0000\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Português <translation-team-pt@lists.sourceforge.net>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 3.0\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -30,7 +31,7 @@ msgstr "_Remover marcador"
 #. Translators: Number is meant at this point.
 #: ../addons/src/ao_bookmarklist.c:342
 msgid "No."
-msgstr "Não."
+msgstr "Nº."
 
 #: ../addons/src/ao_bookmarklist.c:350 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
@@ -97,8 +98,8 @@ msgid ""
 "%s will be replaced with your current selection. Please keep care on your "
 "selection"
 msgstr ""
-"%s será substituído na sua selecção actual. Por favor, tenha em atenção o "
-"que tem seleccionado"
+"%s será substituído na sua selecção actual. Tenha em atenção o que tem "
+"seleccionado"
 
 #: ../addons/src/ao_openuri.c:165
 msgid "Open URI"
@@ -156,11 +157,11 @@ msgstr "Caminho de ficheiro \"%s\" copiado para a área de transferência."
 
 #: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:456
 msgid "Copy File Path"
-msgstr "Copiar caminho do ficheiro"
+msgstr "Copiar localização do ficheiro"
 
 #: ../addons/src/ao_copyfilepath.c:122
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "Copiar o caminho do actual documento para a área de transferência"
+msgstr "Copiar a localização do actual documento para a área de transferência"
 
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
@@ -171,7 +172,7 @@ msgstr "Copiar o caminho do actual documento para a área de transferência"
 #: ../treebrowser/src/treebrowser.c:2102
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
-msgstr "A pasta de configuração da extensão não pôde ser criada."
+msgstr "Não foi possível criar a pasta de configuração da extensão."
 
 #: ../addons/src/addons.c:447
 msgid "Focus Bookmark List"
@@ -1145,7 +1146,9 @@ msgstr "400%"
 
 #: ../devhelp/devhelp/dh-window.c:722
 msgid "translator_credits"
-msgstr "Pedro Albuquerque <palbuquerque73@gmail.com>"
+msgstr ""
+"Pedro Albuquerque <palbuquerque73@gmail.com>\n"
+"Hugo Carvalho <hugokarvalho@hotmail.com>"
 
 #: ../devhelp/devhelp/dh-window.c:729
 msgid "A developers' help browser for GNOME"
@@ -1184,7 +1187,7 @@ msgstr "Novo _separador"
 
 #: ../devhelp/devhelp/dh-window.c:770
 msgid "_Print…"
-msgstr "Im_primir..."
+msgstr "Im_primir…"
 
 #: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
 msgid "Find Next"
@@ -1262,7 +1265,7 @@ msgstr "Acerca do Devhelp"
 
 #: ../devhelp/devhelp/dh-window.c:1100
 msgid "Preferences…"
-msgstr "Preferências..."
+msgstr "Preferências…"
 
 #: ../devhelp/devhelp/dh-window.c:1330
 msgid "Error opening the requested link."
@@ -2842,27 +2845,27 @@ msgstr "Enfatizar"
 
 #: ../latex/src/formatpatterns.c:64
 msgid "tiny"
-msgstr "Minúsculo"
+msgstr "minúsculo"
 
 #: ../latex/src/formatpatterns.c:65
 msgid "scriptsize"
-msgstr "Pequeníssimo"
+msgstr "pequeníssimo"
 
 #: ../latex/src/formatpatterns.c:66
 msgid "footnotesize"
-msgstr "Muito pequeno"
+msgstr "muito pequeno"
 
 #: ../latex/src/formatpatterns.c:67
 msgid "small"
-msgstr "Pequeno"
+msgstr "pequeno"
 
 #: ../latex/src/formatpatterns.c:68
 msgid "normalsize"
-msgstr "Normal"
+msgstr "normal"
 
 #: ../latex/src/formatpatterns.c:69
 msgid "large"
-msgstr "Grande"
+msgstr "grande"
 
 #: ../latex/src/formatpatterns.c:70
 msgid "Large"
@@ -2874,7 +2877,7 @@ msgstr "Muitíssimo grande"
 
 #: ../latex/src/formatpatterns.c:72
 msgid "huge"
-msgstr "Enorme"
+msgstr "enorme"
 
 #: ../latex/src/formatpatterns.c:73
 msgid "Huge"
@@ -4026,17 +4029,17 @@ msgstr "Mostrar informação sobre a extensão Mini-Script"
 
 #: ../geanyminiscript/src/gms_gui.c:468
 msgid "select the mini-script type"
-msgstr "Seleccionar o tipo de Mini-Script"
+msgstr "seleccionar o tipo de mini-script"
 
 #. Hbox : Radio bouttons for choosing the input:
 #. *                   selection/current document/all documents of the current session
 #: ../geanyminiscript/src/gms_gui.c:499
 msgid "filter input"
-msgstr "Entrada do filtro"
+msgstr "entrada do filtro"
 
 #: ../geanyminiscript/src/gms_gui.c:501
 msgid "select the input of mini-script filter"
-msgstr "Seleccione a entrada do filtro Mini-Script"
+msgstr "seleccionar a entrada do filtro mini-script"
 
 #: ../geanyminiscript/src/gms_gui.c:507
 msgid "selection"
@@ -4054,11 +4057,11 @@ msgstr "sessão"
 #. *                   current document/ or new document
 #: ../geanyminiscript/src/gms_gui.c:518
 msgid "filter output"
-msgstr "Saída do filtro"
+msgstr "saída do filtro"
 
 #: ../geanyminiscript/src/gms_gui.c:520
 msgid "select the output of mini-script filter"
-msgstr "Seleccionar a saída do filtro Mini-Script"
+msgstr "seleccionar a saída do filtro mini-script"
 
 #: ../geanyminiscript/src/gms_gui.c:526
 msgid "Current Doc."
@@ -4157,7 +4160,7 @@ msgstr "Gravar definições do ficheiro em ficheiro com nome com sufixo"
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1251
 msgid "remember normal Bookmarks"
-msgstr "Lembrar marcadores normais"
+msgstr "lembrar marcadores normais"
 
 #. create dialog box
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1271
@@ -6729,7 +6732,7 @@ msgstr "carga g_db"
 
 #: ../scope/data/scope.glade.h:112 ../scope/data/scope_gtk3.glade.h:112
 msgid "p_rogram start"
-msgstr "Início do p_rograma"
+msgstr "início do p_rograma"
 
 #: ../scope/data/scope.glade.h:113 ../scope/data/scope_gtk3.glade.h:113
 msgid "Update all _views"
