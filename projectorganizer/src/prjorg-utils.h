@@ -37,4 +37,8 @@ gchar *get_project_base_path(void);
 
 GtkWidget *menu_item_new(const gchar *icon_name, const gchar *label);
 
+gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns);
+gchar *find_header_source(GeanyDocument *doc);
+void set_header_filetype(GeanyDocument * doc);
+
 #endif

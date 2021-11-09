@@ -500,16 +500,16 @@ void prjorg_project_open(GKeyFile * key_file)
 
 	source_patterns = g_key_file_get_string_list(key_file, "prjorg", "source_patterns", NULL, NULL);
 	if (!source_patterns)
-		source_patterns = g_strsplit("*.c *.C *.cpp *.cxx *.c++ *.cc *.m", " ", -1);
+		source_patterns = g_strsplit(PRJORG_PATTERNS_SOURCE, " ", -1);
 	header_patterns = g_key_file_get_string_list(key_file, "prjorg", "header_patterns", NULL, NULL);
 	if (!header_patterns)
-		header_patterns = g_strsplit("*.h *.H *.hpp *.hxx *.h++ *.hh", " ", -1);
+		header_patterns = g_strsplit(PRJORG_PATTERNS_HEADER, " ", -1);
 	ignored_dirs_patterns = g_key_file_get_string_list(key_file, "prjorg", "ignored_dirs_patterns", NULL, NULL);
 	if (!ignored_dirs_patterns)
-		ignored_dirs_patterns = g_strsplit(".* CVS", " ", -1);
+		ignored_dirs_patterns = g_strsplit(PRJORG_PATTERNS_IGNORED_DIRS, " ", -1);
 	ignored_file_patterns = g_key_file_get_string_list(key_file, "prjorg", "ignored_file_patterns", NULL, NULL);
 	if (!ignored_file_patterns)
-		ignored_file_patterns = g_strsplit("*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo", " ", -1);
+		ignored_file_patterns = g_strsplit(PRJORG_PATTERNS_IGNORED_FILE, " ", -1);
 	generate_tag_prefs = utils_get_setting_integer(key_file, "prjorg", "generate_tag_prefs", PrjOrgTagAuto);
 	show_empty_dirs = utils_get_setting_boolean(key_file, "prjorg", "show_empty_dirs", TRUE);
 
