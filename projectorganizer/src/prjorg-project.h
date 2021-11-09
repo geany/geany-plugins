@@ -19,6 +19,11 @@
 #ifndef __PRJORG_PROJECT_H__
 #define __PRJORG_PROJECT_H__
 
+#define PRJORG_PATTERNS_SOURCE "*.c *.C *.cpp *.cxx *.c++ *.cc *.m"
+#define PRJORG_PATTERNS_HEADER "*.h *.H *.hpp *.hxx *.h++ *.hh"
+#define PRJORG_PATTERNS_IGNORED_DIRS ".* CVS"
+#define PRJORG_PATTERNS_IGNORED_FILE "*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo"
+
 typedef struct
 {
 	gchar *base_dir;
