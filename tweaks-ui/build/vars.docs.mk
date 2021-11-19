@@ -1,0 +1,11 @@
+#plugindocdir = $(docdir)/$(plugin)
+#htmldocdir = $(plugindocdir)
+#plugindatadir = $(pkgdatadir)/$(plugin)
+#pluginlibdir = $(pkglibdir)/$(plugin)
+#examplesdir = $(plugindatadir)
+
+plugindocdir = $(docdir)
+htmldocdir = $(plugindocdir)
+plugindatadir = $(pkgdatadir)
+pluginlibdir = $(pkglibdir)
+examplesdir = $(plugindatadir)

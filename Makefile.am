@@ -168,6 +168,10 @@ if ENABLE_TREEBROWSER
 SUBDIRS += treebrowser
 endif
 
+if ENABLE_TWEAKS_UI
+SUBDIRS += tweaks-ui
+endif
+
 if ENABLE_UPDATECHECKER
 SUBDIRS += updatechecker
 endif
