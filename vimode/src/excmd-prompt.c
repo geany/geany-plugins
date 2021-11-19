@@ -225,6 +225,7 @@ void ex_prompt_init(GtkWidget *parent_window, CmdContext *c)
 	prompt = g_object_new(GTK_TYPE_WINDOW,
 			"decorated", FALSE,
 			"default-width", PROMPT_WIDTH,
+			"default-height", 1,
 			"transient-for", parent_window,
 			"window-position", GTK_WIN_POS_CENTER_ON_PARENT,
 			"type-hint", GDK_WINDOW_TYPE_HINT_DIALOG,
