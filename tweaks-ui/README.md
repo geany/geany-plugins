@@ -46,7 +46,7 @@ This plugin is not yet available in distro package repositories.  Experimental (
 
 If you are having problems with geany-plugins, you may report problems at [geany/plugins](https://github.com/geany/plugins/).
 
-If you are using packages from the [PPA](https://launchpad.net/~xiota/+archive/ubuntu/geany-plugins), please report problems at [xiota/tweaks-ui](https://github.com/xiota/tweaks-ui/).
+If you are using packages from the [PPA](https://launchpad.net/~xiota/+archive/ubuntu/geany-plugins), please report problems at [xiota/geany-tweaks-ui](https://github.com/xiota/geany-tweaks-ui/).
 
 ## License
 

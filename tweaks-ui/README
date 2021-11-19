@@ -30,8 +30,8 @@ Ported from the Addons plugin
    chooser tool.
 -  MarkWord: Highlight double clicked words throughout the document.
 
-Keybindings:
-~~~~~~~~~~~~
+Keybindings
+~~~~~~~~~~~
 
 -  Extra Copy and Paste
 -  Toggle menubar visibility
@@ -82,7 +82,7 @@ at `geany/plugins <https://github.com/geany/plugins/>`__.
 If you are using packages from the
 `PPA <https://launchpad.net/~xiota/+archive/ubuntu/geany-plugins>`__,
 please report problems at
-`xiota/tweaks-ui <https://github.com/xiota/tweaks-ui/>`__.
+`xiota/geany-tweaks-ui <https://github.com/xiota/geany-tweaks-ui/>`__.
 
 License
 -------
