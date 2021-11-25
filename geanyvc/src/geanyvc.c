@@ -397,7 +397,7 @@ get_cmd(const gchar ** argv, const gchar * dir, const gchar * filename, GSList *
 			utils_string_replace_all(repl, P_ABS_FILENAME, filename);
 			utils_string_replace_all(repl, P_BASENAME, basename);
 			ret[j] = g_string_free(repl, FALSE);
-			setptr(ret[j], utils_get_locale_from_utf8(ret[j]));
+			SETPTR(ret[j], utils_get_locale_from_utf8(ret[j]));
 		}
 	}
 	g_free(abs_dir);
@@ -510,11 +510,11 @@ execute_custom_command(const gchar * dir, const gchar ** argv, const gchar ** en
 			tmp = g_string_new(*std_out);
 			utils_string_replace_all(tmp, "\r\n", "\n");
 			utils_string_replace_all(tmp, "\r", "\n");
-			setptr(*std_out, g_string_free(tmp, FALSE));
+			SETPTR(*std_out, g_string_free(tmp, FALSE));
 
 			if (!g_utf8_validate(*std_out, -1, NULL))
 			{
-				setptr(*std_out, encodings_convert_to_utf8(*std_out,
+				SETPTR(*std_out, encodings_convert_to_utf8(*std_out,
 									   strlen(*std_out), NULL));
 			}
 			if (EMPTY(*std_out))
@@ -528,11 +528,11 @@ execute_custom_command(const gchar * dir, const gchar ** argv, const gchar ** en
 			tmp = g_string_new(*std_err);
 			utils_string_replace_all(tmp, "\r\n", "\n");
 			utils_string_replace_all(tmp, "\r", "\n");
-			setptr(*std_err, g_string_free(tmp, FALSE));
+			SETPTR(*std_err, g_string_free(tmp, FALSE));
 
 			if (!g_utf8_validate(*std_err, -1, NULL))
 			{
-				setptr(*std_err, encodings_convert_to_utf8(*std_err,
+				SETPTR(*std_err, encodings_convert_to_utf8(*std_err,
 									   strlen(*std_err), NULL));
 			}
 			if (EMPTY(*std_err))
@@ -635,10 +635,10 @@ vcdiff_file_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpoint
 			localename = utils_get_locale_from_utf8(doc->file_name);
 
 			new = g_strconcat(doc->file_name, ".geanyvc.~NEW~", NULL);
-			setptr(new, utils_get_locale_from_utf8(new));
+			SETPTR(new, utils_get_locale_from_utf8(new));
 
 			old = g_strconcat(doc->file_name, ".geanyvc.~BASE~", NULL);
-			setptr(old, utils_get_locale_from_utf8(old));
+			SETPTR(old, utils_get_locale_from_utf8(old));
 
 			if (g_rename(localename, new) != 0)
 			{

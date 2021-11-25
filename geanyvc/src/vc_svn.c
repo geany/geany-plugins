@@ -142,13 +142,13 @@ get_base_dir(const gchar * path)
 			g_free(test_dir);
 			continue;
 		}
-		setptr(test_dir, g_build_filename(base, "branches", NULL));
+		SETPTR(test_dir, g_build_filename(base, "branches", NULL));
 		if (!g_file_test(test_dir, G_FILE_TEST_IS_DIR))
 		{
 			g_free(test_dir);
 			continue;
 		}
-		setptr(test_dir, g_build_filename(base, "tags", NULL));
+		SETPTR(test_dir, g_build_filename(base, "tags", NULL));
 		if (!g_file_test(test_dir, G_FILE_TEST_IS_DIR))
 		{
 			g_free(test_dir);

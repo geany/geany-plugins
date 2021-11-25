@@ -141,9 +141,9 @@ static void configure_response_cb(GtkDialog *dialog, gint response, gpointer use
 	{
 		GtkComboBox *combo = GTK_COMBO_BOX(g_object_get_data(G_OBJECT(dialog), "combo"));
 
-		setptr(sc_info->default_language, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo)));
+		SETPTR(sc_info->default_language, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(combo)));
 #ifdef HAVE_ENCHANT_1_5
-		setptr(sc_info->dictionary_dir, g_strdup(gtk_entry_get_text(GTK_ENTRY(
+		SETPTR(sc_info->dictionary_dir, g_strdup(gtk_entry_get_text(GTK_ENTRY(
 			g_object_get_data(G_OBJECT(dialog), "dict_dir")))));
 #endif
 		sc_speller_reinit_enchant_dict();

@@ -63,8 +63,8 @@ static gchar *get_tree_path_filename(GtkTreePath *treepath)
 
 	gtk_tree_model_get_iter(model, &iter, treepath);
 	gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
-	setptr(name, utils_get_locale_from_utf8(name));
-	setptr(name, get_full_path(g_current_project->path, name));
+	SETPTR(name, utils_get_locale_from_utf8(name));
+	SETPTR(name, get_full_path(g_current_project->path, name));
 	return name;
 }
 

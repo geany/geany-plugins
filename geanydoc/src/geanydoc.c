@@ -184,7 +184,7 @@ show_doc(const gchar * word, gint cmd_num)
 	if (tmp != NULL)
 	{
 		tmp[1] = 's';
-		setptr(command, g_strdup_printf(command, word));
+		SETPTR(command, g_strdup_printf(command, word));
 	}
 
 	if (intern)

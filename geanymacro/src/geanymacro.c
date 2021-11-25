@@ -687,7 +687,7 @@ static void SaveSettings(void)
 	g_mkdir_with_parents(config_file,0755);
 
 	/* make config_file hold name of settings file */
-	setptr(config_file,g_build_filename(config_file,"settings.conf",NULL));
+	SETPTR(config_file,g_build_filename(config_file,"settings.conf",NULL));
 
 	/* write data */
 	utils_write_file(config_file, data);
@@ -719,7 +719,7 @@ static void LoadSettings(void)
 	g_mkdir_with_parents(config_file,0755);
 
 	/* make config_file hold name of settings file */
-	setptr(config_file,g_build_filename(config_file,"settings.conf",NULL));
+	SETPTR(config_file,g_build_filename(config_file,"settings.conf",NULL));
 
 	/* either load settings file, or create one from default */
 	config=g_key_file_new();

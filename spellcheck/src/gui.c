@@ -463,7 +463,7 @@ void sc_gui_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 
 		clickinfo.pos = pos;
 		clickinfo.doc = doc;
-		setptr(clickinfo.word, search_word);
+		SETPTR(clickinfo.word, search_word);
 
 		update_editor_menu_items(search_word, (const gchar**) suggs, n_suggs);
 
@@ -644,7 +644,7 @@ static void menu_item_toggled_cb(GtkCheckMenuItem *menuitem, gpointer gdata)
 	/* Another language was chosen from the menu item, so make it default for this session. */
     if (gdata != NULL)
 	{
-		setptr(sc_info->default_language, g_strdup(gdata));
+		SETPTR(sc_info->default_language, g_strdup(gdata));
 		sc_speller_reinit_enchant_dict();
 		sc_gui_update_menu();
 		update_labels();

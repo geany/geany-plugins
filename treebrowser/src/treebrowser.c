@@ -480,7 +480,7 @@ treebrowser_chroot(const gchar *dir)
 	gtk_entry_set_text(GTK_ENTRY(addressbar), directory);
 
 	if (!directory || strlen(directory) == 0)
-		setptr(directory, g_strdup(G_DIR_SEPARATOR_S));
+		SETPTR(directory, g_strdup(G_DIR_SEPARATOR_S));
 
 	if (! treebrowser_checkdir(directory))
 	{
@@ -490,7 +490,7 @@ treebrowser_chroot(const gchar *dir)
 
 	treebrowser_bookmarks_set_state();
 
-	setptr(addressbar_last_address, directory);
+	SETPTR(addressbar_last_address, directory);
 
 	treebrowser_browse(addressbar_last_address, NULL);
 	treebrowser_load_bookmarks();
@@ -1098,7 +1098,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 			gboolean creation_success = FALSE;
 
 			while(g_file_test(uri_new, G_FILE_TEST_EXISTS))
-				setptr(uri_new, g_strconcat(uri_new, "_", NULL));
+				SETPTR(uri_new, g_strconcat(uri_new, "_", NULL));
 
 			if (utils_str_equal(type, "directory"))
 				creation_success = (g_mkdir(uri_new, 0755) == 0);
