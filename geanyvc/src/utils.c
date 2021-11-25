@@ -95,8 +95,8 @@ get_full_path(const gchar * location, const gchar * path)
 	gchar *dir;
 
 	dir = g_path_get_dirname(location);
-	setptr(dir, g_build_filename(dir, path, NULL));
-	setptr(dir, normpath(dir));
+	SETPTR(dir, g_build_filename(dir, path, NULL));
+	SETPTR(dir, normpath(dir));
 	return dir;
 }
 

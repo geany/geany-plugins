@@ -538,7 +538,7 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 
 	/* retrieve the following line and use it for the tooltip */
 	context = g_strstrip(sci_get_line(doc->editor->sci, line + 1));
-	setptr(context, g_strconcat(
+	SETPTR(context, g_strconcat(
 		_("Context:"), "\n", line_buf, "\n", context, NULL));
 	tooltip = g_markup_escape_text(context, -1);
 

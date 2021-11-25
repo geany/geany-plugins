@@ -256,7 +256,7 @@ void ao_open_uri_update_menu(AoOpenUri *openuri, GeanyDocument *doc, gint pos)
 		if (text[len - 1] == '.' || text[len - 1] == ':')
 			text[len - 1] = '\0';
 
-		setptr(priv->uri, text);
+		SETPTR(priv->uri, text);
 
 		gtk_widget_show(priv->menu_item_open);
 		gtk_widget_show(priv->menu_item_copy);

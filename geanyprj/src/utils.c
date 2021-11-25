@@ -121,8 +121,8 @@ gchar *get_full_path(const gchar *location, const gchar *path)
 	gchar *dir;
 
 	dir = g_path_get_dirname(location);
-	setptr(dir, g_build_filename(dir, path, NULL));
-	setptr(dir, normpath(dir));
+	SETPTR(dir, g_build_filename(dir, path, NULL));
+	SETPTR(dir, normpath(dir));
 	return dir;
 }
 
@@ -139,7 +139,7 @@ gchar *get_relative_path(const gchar *location, const gchar *path)
 	}
 
 	dir = g_path_get_dirname(location);
-	setptr(dir, normpath(dir));
+	SETPTR(dir, normpath(dir));
 
 	plen = strlen(path);
 	dlen = strlen(dir);
@@ -148,7 +148,7 @@ gchar *get_relative_path(const gchar *location, const gchar *path)
 	{
 		if (plen > dlen)
 		{
-			setptr(dir, g_strdup(path + strlen(dir) + 1));
+			SETPTR(dir, g_strdup(path + strlen(dir) + 1));
 			return dir;
 		}
 		else if (plen == dlen)
@@ -213,7 +213,7 @@ GSList *get_file_list(const gchar *path, guint * length, gboolean(*func)(const g
 	else
 	{
 		abs_path = g_get_current_dir();
-		setptr(abs_path, g_build_filename(abs_path, path, NULL));
+		SETPTR(abs_path, g_build_filename(abs_path, path, NULL));
 	}
 	if (!g_file_test(abs_path, G_FILE_TEST_IS_DIR))
 	{
