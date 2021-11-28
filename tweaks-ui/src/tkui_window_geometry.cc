@@ -26,58 +26,66 @@ void TweakUiWindowGeometry::initialize() {
 
     geany_sidebar = geany_data->main_widgets->sidebar_notebook;
     geany_msgwin = geany_data->main_widgets->message_window_notebook;
+  } else {
+    return;
+  }
 
-    // hack to work around GTK moving pane positions around
-    maximized = gtk_window_is_maximized(GTK_WINDOW(geany_window));
-    if (maximized) {
-      // unmaximize, set geometry/positions
-      gtk_window_unmaximize(GTK_WINDOW(geany_window));
-      GdkWindow *gdk_window = gtk_widget_get_window(geany_window);
-      gdk_window_move_resize(gdk_window, xpos, ypos, width, height);
+  if (!enable) {
+    return;
+  }
 
-      if (msgwin_normal >= 0) {
-        gtk_paned_set_position(GTK_PANED(geany_vpane), msgwin_normal);
-      }
-      if (sidebar_normal >= 0) {
-        gtk_paned_set_position(GTK_PANED(geany_hpane), sidebar_normal);
-      }
+  // hack to work around GTK moving pane positions around
+  maximized = gtk_window_is_maximized(GTK_WINDOW(geany_window));
+  if (maximized) {
+    // unmaximize, set geometry/positions
+    gtk_window_unmaximize(GTK_WINDOW(geany_window));
+    GdkWindow *gdk_window = gtk_widget_get_window(geany_window);
+    gdk_window_move_resize(gdk_window, xpos, ypos, width, height);
 
-      // remaximize, set geometry/positions
-      gtk_window_maximize(GTK_WINDOW(geany_window));
-      if (msgwin_maximized >= 0) {
-        gtk_paned_set_position(GTK_PANED(geany_vpane), msgwin_maximized);
-      }
-      if (sidebar_maximized >= 0) {
-        gtk_paned_set_position(GTK_PANED(geany_hpane), sidebar_maximized);
-      }
-    } else {
-      // normal window, adjust positions
-      int cur_width, cur_height;
-      gtk_window_get_size(GTK_WINDOW(geany_window), &cur_width, &cur_height);
+    if (msgwin_normal >= 0 && msgwin_maximized >= 0) {
+      gtk_paned_set_position(GTK_PANED(geany_vpane), msgwin_normal);
+    }
+    if (sidebar_normal >= 0 && sidebar_maximized >= 0) {
+      gtk_paned_set_position(GTK_PANED(geany_hpane), sidebar_normal);
+    }
 
-      if (msgwin_normal >= 0 &&
-          gtk_orientable_get_orientation(GTK_ORIENTABLE(geany_hpane)) ==
-              GTK_ORIENTATION_HORIZONTAL) {
+    // remaximize, set geometry/positions
+    gtk_window_maximize(GTK_WINDOW(geany_window));
+    if (msgwin_maximized >= 0) {
+      gtk_paned_set_position(GTK_PANED(geany_vpane), msgwin_maximized);
+    }
+    if (sidebar_maximized >= 0) {
+      gtk_paned_set_position(GTK_PANED(geany_hpane), sidebar_maximized);
+    }
+  } else {
+    // normal window, adjust positions
+    int cur_width, cur_height;
+    gtk_window_get_size(GTK_WINDOW(geany_window), &cur_width, &cur_height);
+
+    if (msgwin_normal >= 0) {
+      if (gtk_orientable_get_orientation(GTK_ORIENTABLE(geany_hpane)) ==
+          GTK_ORIENTATION_HORIZONTAL) {
         gtk_paned_set_position(GTK_PANED(geany_vpane),
                                cur_width - width + msgwin_normal);
       } else {
         gtk_paned_set_position(GTK_PANED(geany_vpane),
                                cur_height - height + msgwin_normal);
       }
-
-      if (sidebar_normal >= 0 &&
-          geany_sidebar == gtk_paned_get_child2(GTK_PANED(geany_hpane))) {
-        gtk_paned_set_position(GTK_PANED(geany_hpane),
-                               cur_width - width + sidebar_normal);
-      } else {
-        gtk_paned_set_position(GTK_PANED(geany_hpane), sidebar_normal);
-      }
-      GdkWindow *gdk_window = gtk_widget_get_window(geany_window);
-      gdk_window_move_resize(gdk_window, xpos, ypos, width, height);
     }
 
-    connect(enable);
+    if (sidebar_normal >= 0) {
+      if (geany_sidebar == gtk_paned_get_child2(GTK_PANED(geany_hpane))) {
+        gtk_paned_set_position(GTK_PANED(geany_hpane),
+                               cur_width - width + sidebar_normal);
+      } else if (sidebar_normal >= 0) {
+        gtk_paned_set_position(GTK_PANED(geany_hpane), sidebar_normal);
+      }
+    }
+    GdkWindow *gdk_window = gtk_widget_get_window(geany_window);
+    gdk_window_move_resize(gdk_window, xpos, ypos, width, height);
   }
+
+  connect(enable);
 }
 
 void TweakUiWindowGeometry::setEnabled(bool const val) {
