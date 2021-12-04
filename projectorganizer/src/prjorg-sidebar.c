@@ -52,6 +52,7 @@ typedef struct
 {
 	GeanyProject *project;
 	GPtrArray *expanded_paths;
+	gchar *selected_path;
 } ExpandData;
 
 
@@ -1487,6 +1488,7 @@ static gboolean expand_path(gchar *utf8_expanded_path, gboolean select)
 static gboolean expand_on_idle(ExpandData *expand_data)
 {
 	GeanyDocument *doc = document_get_current();
+	gboolean selected = FALSE;
 
 	if (!prj_org)
 		return FALSE;
@@ -1502,9 +1504,16 @@ static gboolean expand_on_idle(ExpandData *expand_data)
 		g_ptr_array_free(expand_data->expanded_paths, TRUE);
 	}
 
+	if (expand_data->selected_path)
+	{
+		expand_path(expand_data->selected_path, TRUE);
+		g_free(expand_data->selected_path);
+		selected = TRUE;
+	}
+
 	g_free(expand_data);
 
-	if (!s_follow_editor || !doc || !doc->file_name)
+	if (selected || !s_follow_editor || !doc || !doc->file_name)
 		return FALSE;
 
 	expand_path(doc->file_name, TRUE);
@@ -1558,6 +1567,19 @@ static GPtrArray *get_expanded_paths(void)
 }
 
 
+static gchar *get_selected_path(void)
+{
+	GtkTreeSelection *treesel;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
+	if (gtk_tree_selection_get_selected(treesel, &model, &iter))
+		return build_path(&iter);
+	return NULL;
+}
+
+
 void prjorg_sidebar_update(gboolean reload)
 {
 	ExpandData *expand_data = g_new0(ExpandData, 1);
@@ -1566,7 +1588,12 @@ void prjorg_sidebar_update(gboolean reload)
 
 	if (reload)
 	{
+		GtkTreeSelection *treesel;
+		GtkTreeIter iter;
+		GtkTreeModel *model;
+
 		expand_data->expanded_paths = get_expanded_paths();
+		expand_data->selected_path = get_selected_path();
 
 		load_project();
 		/* we get color information only after the sidebar is realized -
