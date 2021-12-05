@@ -52,6 +52,7 @@ typedef struct
 extern PrjOrg *prj_org;
 
 void prjorg_project_open(GKeyFile * key_file);
+gchar **prjorg_project_load_expanded_paths(GKeyFile * key_file);
 
 GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook);
 

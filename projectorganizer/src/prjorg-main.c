@@ -130,10 +130,13 @@ static void on_project_open(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 {
 	if (!prj_org)
 	{
+		gchar **arr = prjorg_project_load_expanded_paths(config);
+
 		prjorg_project_open(config);
-		prjorg_sidebar_update(TRUE);
+		prjorg_sidebar_update_full(TRUE, arr);
 		prjorg_sidebar_activate(TRUE);
 		prjorg_menu_activate_menu_items(TRUE);
+		g_strfreev(arr);
 	}
 }
 
