@@ -1556,7 +1556,7 @@ static void on_map_expanded(GtkTreeView *tree_view, GtkTreePath *tree_path, GPtr
 }
 
 
-static GPtrArray *get_expanded_paths(void)
+GPtrArray *prjorg_sidebar_get_expanded_paths(void)
 {
 	GPtrArray *expanded_paths = g_ptr_array_new_with_free_func(g_free);
 
@@ -1580,7 +1580,7 @@ static gchar *get_selected_path(void)
 }
 
 
-void prjorg_sidebar_update(gboolean reload)
+void prjorg_sidebar_update_full(gboolean reload, gchar **expanded_paths)
 {
 	ExpandData *expand_data = g_new0(ExpandData, 1);
 
@@ -1591,8 +1591,15 @@ void prjorg_sidebar_update(gboolean reload)
 		GtkTreeSelection *treesel;
 		GtkTreeIter iter;
 		GtkTreeModel *model;
+		gchar **path;
+		GPtrArray *exp_paths_arr = g_ptr_array_new();
 
-		expand_data->expanded_paths = get_expanded_paths();
+		foreach_strv (path, expanded_paths)
+		{
+			g_ptr_array_add(exp_paths_arr, g_strdup(*path));
+		}
+
+		expand_data->expanded_paths = expanded_paths != NULL ? exp_paths_arr : prjorg_sidebar_get_expanded_paths();
 		expand_data->selected_path = get_selected_path();
 
 		load_project();
@@ -1604,6 +1611,12 @@ void prjorg_sidebar_update(gboolean reload)
 
 	/* perform on idle - avoids unnecessary jumps on project load */
 	plugin_idle_add(geany_plugin, (GSourceFunc)expand_on_idle, expand_data);
+}
+
+
+void prjorg_sidebar_update(gboolean reload)
+{
+	prjorg_sidebar_update_full(reload, NULL);
 }
 
 
