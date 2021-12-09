@@ -380,17 +380,11 @@ static void update_project(
 
 static void save_expanded_paths(GKeyFile * key_file)
 {
-	GPtrArray *expanded_paths = prjorg_sidebar_get_expanded_paths();
-	gchar **expanded_paths_v = g_new (gchar *, expanded_paths->len + 1);
-	guint i;
+	gchar **expanded_paths = prjorg_sidebar_get_expanded_paths();
 
-	for (i = 0; i < expanded_paths->len; i++)
-		expanded_paths_v[i] = expanded_paths->pdata[i];
-	expanded_paths_v[expanded_paths->len] = NULL;
 	g_key_file_set_string_list(key_file, "prjorg", "expanded_paths",
-		(const gchar**) expanded_paths_v, g_strv_length(expanded_paths_v));
-	g_free(expanded_paths_v);
-	g_ptr_array_free(expanded_paths, TRUE);
+		(const gchar**) expanded_paths, g_strv_length(expanded_paths));
+	g_strfreev(expanded_paths);
 }
 
 

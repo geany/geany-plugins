@@ -51,7 +51,7 @@ typedef enum
 typedef struct
 {
 	GeanyProject *project;
-	GPtrArray *expanded_paths;
+	gchar **expanded_paths;
 	gchar *selected_path;
 } ExpandData;
 
@@ -1496,12 +1496,10 @@ static gboolean expand_on_idle(ExpandData *expand_data)
 	if (geany_data->app->project == expand_data->project &&
 		expand_data->expanded_paths)
 	{
-		gchar *item;
-		guint i;
-
-		foreach_ptr_array(item, i, expand_data->expanded_paths)
-			expand_path(item, FALSE);
-		g_ptr_array_free(expand_data->expanded_paths, TRUE);
+		gchar **item;
+		foreach_strv(item, expand_data->expanded_paths)
+			expand_path(*item, FALSE);
+		g_strfreev(expand_data->expanded_paths);
 	}
 
 	if (expand_data->selected_path)
@@ -1556,14 +1554,15 @@ static void on_map_expanded(GtkTreeView *tree_view, GtkTreePath *tree_path, GPtr
 }
 
 
-GPtrArray *prjorg_sidebar_get_expanded_paths(void)
+gchar **prjorg_sidebar_get_expanded_paths(void)
 {
-	GPtrArray *expanded_paths = g_ptr_array_new_with_free_func(g_free);
+	GPtrArray *expanded_paths = g_ptr_array_new();
 
 	gtk_tree_view_map_expanded_rows(GTK_TREE_VIEW(s_file_view),
 		(GtkTreeViewMappingFunc)on_map_expanded, expanded_paths);
+	g_ptr_array_add(expanded_paths, NULL);
 
-	return expanded_paths;
+	return g_ptr_array_free(expanded_paths, FALSE);
 }
 
 
@@ -1591,15 +1590,8 @@ void prjorg_sidebar_update_full(gboolean reload, gchar **expanded_paths)
 		GtkTreeSelection *treesel;
 		GtkTreeIter iter;
 		GtkTreeModel *model;
-		gchar **path;
-		GPtrArray *exp_paths_arr = g_ptr_array_new();
 
-		foreach_strv (path, expanded_paths)
-		{
-			g_ptr_array_add(exp_paths_arr, g_strdup(*path));
-		}
-
-		expand_data->expanded_paths = expanded_paths != NULL ? exp_paths_arr : prjorg_sidebar_get_expanded_paths();
+		expand_data->expanded_paths = expanded_paths != NULL ? expanded_paths : prjorg_sidebar_get_expanded_paths();
 		expand_data->selected_path = get_selected_path();
 
 		load_project();
