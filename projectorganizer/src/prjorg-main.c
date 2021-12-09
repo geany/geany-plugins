@@ -136,7 +136,6 @@ static void on_project_open(G_GNUC_UNUSED GObject * obj, GKeyFile * config,
 		prjorg_sidebar_update_full(TRUE, arr);
 		prjorg_sidebar_activate(TRUE);
 		prjorg_menu_activate_menu_items(TRUE);
-		g_strfreev(arr);
 	}
 }
 
