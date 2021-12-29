@@ -86,7 +86,7 @@ static gboolean plugin_workbench_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointe
 	/* At start there is no workbench open:
 	   deactive save and close menu item and sidebar */
 	menu_set_context(MENU_CONTEXT_WB_CLOSED);
-	sidebar_show_intro_message(_("Create or open a workbench\nusing the workbench menu."), FALSE);
+	sidebar_show_intro_message(_("Create or open a workbench, using the workbench menu."), FALSE);
 
 	/* Init libgit2. */
 	git_libgit2_init();
