@@ -246,7 +246,6 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libsystre-0.dll"
 	Delete "$INSTDIR\bin\libtermcap-0.dll"
 	Delete "$INSTDIR\bin\libunistring-2.dll"
-	Delete "$INSTDIR\bin\libxml2-2.dll"
 	Delete "$INSTDIR\bin\lua51.dll"
 
 	RMDir /r "$INSTDIR\etc\pki"
