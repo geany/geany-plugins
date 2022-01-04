@@ -23,7 +23,6 @@ EXE_WRAPPER_64="mingw-w64-x86_64-wine"
 # gnupg, gpgme - for GeanyPG plugin
 # libsoup - for UpdateChecker plugin
 # libgit2 - for GitChangeBar plugin
-# libxml2 - for PrettyPrinter plugin
 # gtkspell3 - for GeanyVC plugin
 # the rest is dependency-dependency
 packages="
@@ -45,7 +44,6 @@ libsoup
 libssh2
 libsystre
 libunistring
-libxml2
 lua51
 nghttp2
 openssl
