@@ -26,6 +26,8 @@ addons:
     - python-docutils
     - check
     - cppcheck
+    # geany
+    - gettext autopoint
     # debugger
     - libvte-dev
     - libvte-2.91-dev
