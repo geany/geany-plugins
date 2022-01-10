@@ -51,7 +51,6 @@ p11-kit
 readline
 sqlite3
 termcap
-xz
 "
 
 gtk3_dependency_pkgs="
