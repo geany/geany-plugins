@@ -133,24 +133,17 @@ void geanypg_load_buffer(gpgme_data_t * buffer)
 {
     /* gpgme_data_new_from_mem(buffer, text, size, 0); */
     GeanyDocument * doc = document_get_current();
-    char * data = NULL;
-    unsigned long size = 0;
+    char * data;
     if (sci_has_selection(doc->editor->sci))
     {
-        size = scintilla_send_message(doc->editor->sci, SCI_GETSELTEXT, 0, 0) - 1;
-        data = (char *) malloc(size + 1);
-        scintilla_send_message(doc->editor->sci, SCI_GETSELTEXT, 0, (sptr_t)data);
-        gpgme_data_new_from_mem(buffer, data, size, 1);
+        data = sci_get_selection_contents(doc->editor->sci);
     }
     else
     {
-        size = scintilla_send_message(doc->editor->sci, SCI_GETLENGTH, 0, 0);
-        data = (char *) malloc(size + 1);
-        scintilla_send_message(doc->editor->sci, SCI_GETTEXT, (uptr_t)(size + 1), (sptr_t)data);
-        gpgme_data_new_from_mem(buffer, data, size, 1);
+        data = sci_get_contents(doc->editor->sci, -1);
     }
-    if (data) /* if there is no text data may still be NULL */
-        free(data);
+    gpgme_data_new_from_mem(buffer, data, strlen(data), 1);
+    free(data);
     gpgme_data_set_encoding(*buffer, GPGME_DATA_ENCODING_BINARY);
 }
 
