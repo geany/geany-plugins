@@ -177,31 +177,36 @@ The Geany module provides these functions and variables...<br><br><br>
 </tr>
 
 <tr class="odd">
+  <td>&nbsp; function <a href="#settype"><b>settype</b></a> ( filetype )<br></td>
+  <td class="desc">-- Change the current file type.</td>
+</tr>
+
+<tr class="even">
   <td>&nbsp; function <a href="#signal"><b>signal</b></a> ( widget, signal )<br></td>
   <td class="desc">-- Send a GTK signal to a Geany interface widget.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#status"><b>status</b></a> ( message )<br></td>
   <td class="desc">-- Send a string to display in the status tab of the messages window.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#text"><b>text</b></a> ( [content] )<br></td>
   <td class="desc">-- Get or set the contents of the entire document.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#word"><b>word</b></a> ( [position] )<br></td>
   <td class="desc">-- Get the word at the specified location.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#xsel"><b>xsel</b></a> ( [text] )<br></td>
   <td class="desc">-- Get or set the contents of the primary X selection.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#yield"><b>yield</b></a> ()<br></td>
   <td class="desc">-- Refreshes the user interface.</td>
 </tr>
@@ -953,6 +958,12 @@ will be replaced with the specified <tt>content</tt>
 string.<br>
 If no text is currently selected, the text will be inserted at the current
 (caret) position.
+</p><br><br>
+
+<a name="settype"></a><hr><h3><tt>geany.settype ( filetype )</tt></h3>
+<p>Will change the current file type. Use one-word description of the
+file type, e.g. "C" or "Python" (see the "<tt>filetype_extensions.conf</tt>"
+file).
 </p><br><br>
 
 <a name="signal"></a><hr><h3><tt>geany.signal ( widget, signal )</tt></h3><p>

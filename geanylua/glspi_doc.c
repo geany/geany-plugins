@@ -334,11 +334,35 @@ static gint glspi_fileinfo(lua_State* L)
 }
 
 
+/* Change the current file type */
+static gint glspi_setfiletype(lua_State* L)
+{
+	GeanyDocument *doc=NULL;
+	GeanyFiletype *ft=NULL;
+	const gchar *ftn=NULL;
+
+	if (lua_gettop(L)==1){
+		if (!lua_isstring(L, 1)) { return FAIL_STRING_ARG(1); }
+		doc = document_get_current();
+		if (!(doc && doc->is_valid)) { return 0; }
+		ftn=lua_tostring(L, 1);
+		if ('\0' == ftn[0]) { return 0; }
+		ft=filetypes_lookup_by_name(ftn);
+		if (ft != NULL){
+			document_set_filetype(doc, ft);
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
 
 
 static const struct luaL_reg glspi_doc_funcs[] = {
 	{"filename",  glspi_filename},
 	{"fileinfo",  glspi_fileinfo},
+	{"settype",   glspi_setfiletype},
 	{"documents", glspi_documents},
 	{"count",     glspi_count},
 	{"activate",  glspi_activate},
