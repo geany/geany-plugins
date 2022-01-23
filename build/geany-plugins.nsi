@@ -232,7 +232,6 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libhttp_parser-2.dll"
 	Delete "$INSTDIR\bin\libhunspell-1.7-0.dll"
 	Delete "$INSTDIR\bin\libidn2-0.dll"
-	Delete "$INSTDIR\bin\liblzma-5.dll"
 	Delete "$INSTDIR\bin\libnghttp2-14.dll"
 	Delete "$INSTDIR\bin\libp11-kit-0.dll"
 	Delete "$INSTDIR\bin\libpsl-5.dll"
