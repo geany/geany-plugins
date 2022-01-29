@@ -614,7 +614,7 @@ static void update_labels(void)
 	if (sc_info->toolbar_button != NULL)
 	{
 		gchar *text = g_strdup_printf(
-			_("Toggle spell check while typing (current language: %s)"),
+			_("Toggle spell check (current language: %s)"),
 			(sc_info->default_language != NULL) ? sc_info->default_language : _("unknown"));
 		gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(sc_info->toolbar_button), text);
 		g_free(text);

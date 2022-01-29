@@ -222,10 +222,10 @@ void plugin_init(GeanyData *data)
 	/* setup keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "spellcheck", KB_COUNT, NULL);
 	keybindings_set_item(key_group, KB_SPELL_CHECK, sc_gui_kb_run_activate_cb,
-		0, 0, "spell_check", _("Run Spell Check"), sc_info->submenu_item_default);
+		0, 0, "spell_check", _("Run Spell Check Once"), sc_info->submenu_item_default);
 	keybindings_set_item(key_group, KB_SPELL_TOOGLE_TYPING,
 		sc_gui_kb_toggle_typing_activate_cb, 0, 0, "spell_toggle_typing",
-		_("Toggle Check While Typing"), NULL);
+		_("Toggle Spell Check"), NULL);
 }
 
 
@@ -330,7 +330,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox), frame_interface, FALSE, FALSE, 3);
 
 
-	check_type = gtk_check_button_new_with_label(_("Check spelling while typing"));
+	check_type = gtk_check_button_new_with_label(_("Toggle spell check"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_type), sc_info->check_while_typing);
 
 	check_on_open = gtk_check_button_new_with_label(_("Check spelling when opening a document"));
