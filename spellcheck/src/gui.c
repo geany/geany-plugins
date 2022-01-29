@@ -70,8 +70,20 @@ static void clear_spellcheck_error_markers(GeanyDocument *doc)
 }
 
 
-static void print_typing_changed_message(void)
+static void perform_spell_check_toggle(void)
 {
+	/* force a rescan of the document if 'check while typing' has been turned on and clean
+	 * errors if it has been turned off */
+	GeanyDocument *doc = document_get_current();
+	if (sc_info->check_while_typing)
+	{
+		perform_check(doc);
+	}
+	else
+	{
+		clear_spellcheck_error_markers(doc);
+	}
+
 	if (sc_info->check_while_typing)
 		ui_set_statusbar(FALSE, _("Spell checking while typing is now enabled"));
 	else
@@ -81,27 +93,12 @@ static void print_typing_changed_message(void)
 
 static void toolbar_item_toggled_cb(GtkToggleToolButton *button, gpointer user_data)
 {
-	gboolean check_while_typing_changed, check_while_typing;
-
 	if (sc_ignore_callback)
 		return;
 
-	check_while_typing = gtk_toggle_tool_button_get_active(button);
-	check_while_typing_changed = check_while_typing != sc_info->check_while_typing;
-	sc_info->check_while_typing = check_while_typing;
+	sc_info->check_while_typing = gtk_toggle_tool_button_get_active(button);
 
-	print_typing_changed_message();
-
-	/* force a rescan of the document if 'check while typing' has been turned on and clean
-	 * errors if it has been turned off */
-	if (check_while_typing_changed)
-	{
-		GeanyDocument *doc = document_get_current();
-		if (sc_info->check_while_typing)
-			perform_check(doc);
-		else
-			clear_spellcheck_error_markers(doc);
-	}
+	perform_spell_check_toggle();
 }
 
 
@@ -664,7 +661,7 @@ void sc_gui_kb_toggle_typing_activate_cb(guint key_id)
 {
 	sc_info->check_while_typing = ! sc_info->check_while_typing;
 
-	print_typing_changed_message();
+	perform_spell_check_toggle();
 
 	sc_gui_update_toolbar();
 }
