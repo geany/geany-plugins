@@ -54,15 +54,13 @@ extern GeanyData		*geany_data;
 /* root boxes border width */
 #define ROOT_BORDER_WIDTH 10
 
-/* root boxes border width */
-#define BROWSE_BUTTON_WIDTH 65
-
 /* widgets */
 
 /* target */
 static GtkWidget *target_label = NULL;
 static GtkWidget *target_name = NULL;
 static GtkWidget *target_button_browse = NULL;
+static GtkWidget *target_button_clear = NULL;
 
 /* debugger type */
 static GtkWidget *debugger_label =	NULL;
@@ -81,7 +79,7 @@ static GtkWidget *env_frame = NULL;
 
 /* widgets array for reference management when moving to another container */
 static GtkWidget **widgets[] = {
-	&target_label, &target_name, &target_button_browse,
+	&target_label, &target_name, &target_button_browse, &target_button_clear,
 	&debugger_label, &debugger_cmb, &debugger_mode,
 	&args_frame,
 	&env_frame,
@@ -137,6 +135,15 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 }
 
 /*
+ * target clear button clicked handler
+ */
+static void on_target_clear_clicked(GtkButton *button, gpointer   user_data)
+{
+	gtk_entry_set_text(GTK_ENTRY(target_name), "");
+	config_set_debug_changed();
+}
+
+/*
  * packs widgets into page depending one tabbed mode state 
  */
 void tpage_pack_widgets(gboolean tabbed)
@@ -180,6 +187,7 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_button_browse, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox), target_button_clear, FALSE, FALSE, 0);
 		
 		/* lower hbox */
 #if GTK_CHECK_VERSION(3, 0, 0)
@@ -251,6 +259,7 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_button_browse, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox), target_button_clear, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(rbox), hbox, FALSE, FALSE, 0);
 		/* arguments */
 		gtk_box_pack_start(GTK_BOX(rbox), args_frame, TRUE, TRUE, 0);
@@ -313,12 +322,14 @@ static void tpage_create_widgets(void)
 #if GTK_CHECK_VERSION(3, 0, 0)
 	gtk_editable_set_editable(GTK_EDITABLE(target_name), FALSE);
 	target_button_browse = create_stock_button("document-open", _("Browse"));
+	target_button_clear = create_stock_button("edit-clear", _("Clear"));
 #else
 	gtk_entry_set_editable(GTK_ENTRY(target_name), FALSE);
 	target_button_browse = create_stock_button(GTK_STOCK_OPEN, _("Browse"));
+	target_button_clear = create_stock_button(GTK_STOCK_CLEAR, _("Clear"));
 #endif
-	gtk_widget_set_size_request(target_button_browse, BROWSE_BUTTON_WIDTH, 0);
 	g_signal_connect(G_OBJECT(target_button_browse), "clicked", G_CALLBACK (on_target_browse_clicked), NULL);
+	g_signal_connect(G_OBJECT(target_button_clear), "clicked", G_CALLBACK (on_target_clear_clicked), NULL);
 
 	/* debugger */
 	debugger_label = gtk_label_new(_("Debugger:")); 
@@ -530,6 +541,7 @@ void tpage_set_readonly(gboolean readonly)
 {
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (args_textview), !readonly);
 	gtk_widget_set_sensitive (target_button_browse, !readonly);
+	gtk_widget_set_sensitive (target_button_clear, !readonly);
 	gtk_widget_set_sensitive (debugger_cmb, !readonly);
 	gtk_widget_set_sensitive (debugger_mode, !readonly);
 

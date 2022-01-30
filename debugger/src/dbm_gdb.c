@@ -796,11 +796,13 @@ static gboolean run(gint dbgmode, const gchar* file, const gchar* commandline, G
 
 	/* collect commands */
 
-	if (!remote_session)
+	if (file && file[0]) /* File is optional in remote mode. */
 	{
-		/* loading file */
+		/* loading file (Only for symbols in remote mode) */
+		const gchar *keyword =
+			remote_session ? "-file-symbol-file" : "-file-exec-and-symbols";
 		escaped = escape_string(file);
-		command = g_strdup_printf("-file-exec-and-symbols \"%s\"", escaped);
+		command = g_strdup_printf("%s \"%s\"", keyword, escaped);
 		commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
 		g_free(command);
 		g_free(escaped);
