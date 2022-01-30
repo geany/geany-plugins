@@ -1189,11 +1189,13 @@ void debug_run(void)
 {
 	if (DBS_IDLE == debug_state)
 	{
+		int mode;
 		gchar *target, *commandline;
 		GList *env, *watches, *breaks;
 
 		target = g_strstrip(tpage_get_target());
-		if (!strlen(target))
+		mode = tpage_get_debug_mode_index();
+		if ((!strlen(target)) && (!mode))
 		{
 			g_free(target);
 			return;
@@ -1205,7 +1207,7 @@ void debug_run(void)
 
 		/* init selected debugger  module */
 		active_module = modules[tpage_get_debug_module_index()].module;
-		if(active_module->run(target, commandline, env, watches, breaks, ttyname(pty_slave), &callbacks))
+		if(active_module->run(mode, target, commandline, env, watches, breaks, ttyname(pty_slave), &callbacks))
 		{
 			/* set target page - readonly */
 			tpage_set_readonly(TRUE);

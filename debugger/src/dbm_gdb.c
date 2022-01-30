@@ -79,7 +79,10 @@ enum sr {
 static dbg_callbacks* dbg_cbs;
 
 /* GDB command line arguments*/
-static const gchar *gdb_args[] = { "gdb", "-i=mi", NULL };
+static const gchar *gdb_args_local[] = { "gdb", "-i=mi", NULL };
+static const gchar *gdb_args_multi[] = { "gdb-multiarch", "-i=mi", NULL };
+
+static gboolean remote_session = FALSE;
 
 /* GDB pid*/
 static GPid gdb_pid = 0;
@@ -369,7 +372,10 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				update_files();
 
 				/* -exec-run */
-				exec_async_command("-exec-run");
+				if (remote_session)
+					exec_async_command("-exec-continue");
+				else
+					exec_async_command("-exec-run");
 			}
 		}
 		else
@@ -715,7 +721,7 @@ static gchar *escape_string(const gchar *str)
 /*
  * starts gdb, collects commands and start the first one
  */
-static gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
+static gboolean run(gint dbgmode, const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
 {
 	const gchar *exclude[] = { "LANG", NULL };
 	gchar **gdb_env = utils_copy_environment(exclude, "LANG", "C", NULL);
@@ -726,8 +732,20 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	gchar *escaped;
 	int bp_index;
 	queue_item *item;
+	const gchar **gdb_args = gdb_args_local;
 
 	dbg_cbs = callbacks;
+
+	remote_session = FALSE;
+	switch (dbgmode)
+	{
+	case 1:
+		remote_session = TRUE;
+		break;
+	case 2:
+		remote_session = TRUE;
+		gdb_args = gdb_args_multi;
+	}
 
 	/* spawn GDB */
 	if (!g_spawn_async_with_pipes(working_directory, (gchar**)gdb_args, gdb_env,
@@ -778,12 +796,15 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 
 	/* collect commands */
 
-	/* loading file */
-	escaped = escape_string(file);
-	command = g_strdup_printf("-file-exec-and-symbols \"%s\"", escaped);
-	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
-	g_free(command);
-	g_free(escaped);
+	if (!remote_session)
+	{
+		/* loading file */
+		escaped = escape_string(file);
+		command = g_strdup_printf("-file-exec-and-symbols \"%s\"", escaped);
+		commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
+		g_free(command);
+		g_free(escaped);
+	}
 
 	/* setting asyncronous mode */
 	commands = add_to_queue(commands, NULL, "-gdb-set target-async 1", _("Error configuring GDB"), FALSE);
@@ -800,11 +821,27 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	g_free(command);
 
 	/* set arguments */
-	command = g_strdup_printf("-exec-arguments %s", commandline);
+	if (remote_session)
+	{
+		/* (remote sessions handle the progran name on debugserver side) */
+		if (strchr(commandline, ':') == NULL)
+		{
+			/* Use gdbserver's default port. */
+			command = g_strdup_printf("target remote %s:3278", commandline);
+		}
+		else
+		{
+			command = g_strdup_printf("target remote %s", commandline);
+		}
+	}
+	else
+	{
+		command = g_strdup_printf("-exec-arguments %s", commandline);
+	}
 	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
 	g_free(command);
 
-	/* set passed evironment */
+	/* set passed environment */
 	iter = env;
 	while (iter)
 	{

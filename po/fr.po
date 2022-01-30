@@ -694,6 +694,26 @@ msgstr "Débogueur :"
 msgid "Command Line Arguments"
 msgstr "Arguments de la ligne de commande"
 
+#. arguments
+#: ../debugger/src/tpage.c:537
+msgid "Remote Address"
+msgstr "Addresse de la machine distante"
+
+#. arguments
+#: ../debugger/src/tpage.c:537
+msgid "Local Mode"
+msgstr "Mode Local"
+
+#. arguments
+#: ../debugger/src/tpage.c:537
+msgid "Remote Mode"
+msgstr "Mode à Distance"
+
+#. arguments
+#: ../debugger/src/tpage.c:537
+msgid "Cross Development Mode"
+msgstr "Mode Dévelopement Croisé"
+
 #. environment
 #: ../debugger/src/tpage.c:326
 msgid "Environment Variables"
