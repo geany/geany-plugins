@@ -1,3 +1,7 @@
+01-29-2022 	Pascal Martin <pascal.fb.martin@gmail.com>
+
+	* add remote and cross development debugging mode.
+
 14-06-2012 	Alexander Petukhov <devel@apetukhov.ru>
 
 	* fixed reverse children order in watch/autos

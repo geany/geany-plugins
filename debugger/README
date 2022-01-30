@@ -31,6 +31,7 @@ Features
 * Saving debug session data in a Geany project (can be switched through settings)
 * Double or single panel modes
 * Hotkeys
+* Remote and cross development debug sessions.
 
 Usage
 -----
