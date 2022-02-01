@@ -25,6 +25,7 @@
 #include <glib.h>
 
 void					editor_open_position(const char* file, int line);
+gboolean				editor_open_position_with_status(const char* file, int line);
 GString*				get_word_at_position(ScintillaObject *sci, int position);
 
 #endif /* guard */

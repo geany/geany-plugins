@@ -628,15 +628,8 @@ static void enable_sensitive_widgets(gboolean enable)
  * Debug state changed hanflers
  */
 
-/* 
- * called from debug module when debugger is being run 
- */
-static void on_debugger_run (void)
+static void clear_stack (void)
 {
-	/* update debug state */
-	debug_state = DBS_RUNNING;
-
-	/* if curren instruction marker was set previously - remove it */
 	if (stack)
 	{
 		remove_stack_markers();
@@ -646,6 +639,20 @@ static void on_debugger_run (void)
 
 		stree_remove_frames();
 	}
+}
+
+/* 
+ * called from debug module when debugger is being run 
+ */
+static void on_debugger_run (void)
+{
+	/* update debug state */
+	debug_state = DBS_RUNNING;
+
+    /* Do not clear the stack yet. We do not want to loose the position
+     * if the target program stops at a new position with no source info.
+     * The previous position is better than some random editor cursor.
+     */
 
 	/* disable widgets */
 	enable_sensitive_widgets(FALSE);
@@ -699,9 +706,35 @@ static void on_debugger_stopped (int thread_id)
 	stree_set_active_thread_id(thread_id);
 
 	/* get current stack trace and put in the tree view */
-	stack = active_module->get_stack();
-	stree_add (stack);
-	stree_select_first_frame(TRUE);
+	GList* new_stack = active_module->get_stack();
+	if (new_stack)
+	{
+        /* Is this new stack referencing a source file that we can access?
+         * If not, it is better to keep the previous stack info, as it is
+         * closer to the truth than some random editor cursor.
+         */
+		gboolean found_source = FALSE;
+		frame *current = (frame*)new_stack->data;
+
+		if (current->have_source)
+		{
+			/* open current instruction position */
+			found_source = editor_open_position_with_status(current->file, current->line);
+		}
+
+		if (found_source)
+        {
+			/* clear previous stack tree view */
+            clear_stack();
+            stack = new_stack;
+
+			stree_add (stack);
+			stree_select_first_frame(TRUE);
+
+			/* add current instruction marker */
+			add_stack_markers();
+        }
+	}
 
 	/* files */
 	files = active_module->get_files();
@@ -759,20 +792,6 @@ static void on_debugger_stopped (int thread_id)
 	/* watches */
 	watches = active_module->get_watches();
 	update_variables(GTK_TREE_VIEW(wtree), NULL, watches);
-
-	if (stack)
-	{
-		frame *current = (frame*)stack->data;
-
-		if (current->have_source)
-		{
-			/* open current instruction position */
-			editor_open_position(current->file, current->line);
-		}
-
-		/* add current instruction marker */
-		add_stack_markers();
-	}
 
 	/* enable widgets */
 	enable_sensitive_widgets(TRUE);

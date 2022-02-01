@@ -42,7 +42,7 @@
 /*
  * opens position in a editor 
  */
-void editor_open_position(const gchar *filename, int line)
+gboolean editor_open_position_with_status(const gchar *filename, int line)
 {
 	GeanyDocument* doc = NULL;
 	gboolean already_open = (doc = document_get_current()) && !strcmp(DOC_FILENAME(doc), filename);
@@ -65,7 +65,14 @@ void editor_open_position(const gchar *filename, int line)
 	else
 	{
 		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Can't find a source file \"%s\""), filename);
+		return FALSE;
 	}
+	return TRUE;
+}
+
+void editor_open_position(const gchar *filename, int line)
+{
+    editor_open_position_with_status (filename, line);
 }
 
 /*
