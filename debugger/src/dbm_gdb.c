@@ -83,6 +83,7 @@ static const gchar *gdb_args_local[] = { "gdb", "-i=mi", NULL };
 static const gchar *gdb_args_multi[] = { "gdb-multiarch", "-i=mi", NULL };
 
 static gboolean remote_session = FALSE;
+static gboolean detected_prompt = FALSE; /* Async commands */
 
 /* GDB pid*/
 static GPid gdb_pid = 0;
@@ -200,6 +201,18 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 	dbg_cbs->set_exited(0);
 }
 
+static void discard_until_prompt (void)
+{
+	gchar *line = NULL;
+
+	while (G_IO_STATUS_NORMAL == g_io_channel_read_line(gdb_ch_out, &line, NULL, NULL, NULL))
+	{
+		int prompted = !strcmp(GDB_PROMPT, line);
+		g_free(line);
+		if (prompted) return;
+	}
+}
+
 /*
  * reads gdb_out until "(gdb)" prompt met
  */
@@ -212,12 +225,14 @@ static GList* read_until_prompt(void)
 	while (G_IO_STATUS_NORMAL == g_io_channel_read_line(gdb_ch_out, &line, NULL, &terminator, NULL))
 	{
 		if (!strcmp(GDB_PROMPT, line))
+        {
+            g_free (line);
 			break;
+        }
 
 		line[terminator] = '\0';
 		lines = g_list_prepend (lines, line);
 	}
-
 	return g_list_reverse(lines);
 }
 
@@ -322,7 +337,6 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 	{
 		/* got some result */
 
-		GList *lines;
 		GList *commands = (GList*)data;
 
 		if (gdb_id_out)
@@ -331,9 +345,7 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 			gdb_id_out = 0;
 		}
 
-		lines = read_until_prompt();
-		g_list_foreach(lines, (GFunc)g_free, NULL);
-		g_list_free (lines);
+		discard_until_prompt();
 
 		if (!strcmp(record->klass, "done"))
 		{
@@ -425,6 +437,21 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 	if (G_IO_STATUS_NORMAL != g_io_channel_read_line(src, &line, NULL, &length, NULL))
 		return TRUE;
 
+    /* When the target program stops, gdb sometimes sends the "(gdb)" prompt
+     * before sending in the "stopped" event. There might be some timing..
+     * It is important to make sure that we received the prompt before
+     * issuing any new command, or else a leftover prompt will cause
+     * the next commands to be off by one prompt, and nothing works.
+     * The solution is to detect the prompt asynchronously. When the target
+     * is stopped, wait for the prompt only if it has not been received yet.
+     */
+    if (!strcmp(GDB_PROMPT, line))
+	{
+        g_free(line);
+        detected_prompt = TRUE;
+        return TRUE;
+    }
+
 	record = gdb_mi_record_parse(line);
 
 	if (! record || record->type != GDB_MI_TYPE_PROMPT)
@@ -480,6 +507,8 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			g_source_remove(gdb_id_out);
 			gdb_id_out = 0;
 		}
+
+        if (!detected_prompt) discard_until_prompt();
 
 		/* looking for a reason to stop */
 		if ((reason = gdb_mi_result_var(record->first, "reason", GDB_MI_VAL_STRING)) != NULL)
@@ -581,15 +610,18 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		}
 
 		/* reading until prompt */
-		lines = read_until_prompt();
-		for (iter = lines; iter; iter = iter->next)
-		{
-			gchar *l = (gchar*)iter->data;
-			if (strcmp(l, GDB_PROMPT))
-				colorize_message(l);
-			g_free(l);
+        if (!detected_prompt)
+        {
+			lines = read_until_prompt();
+			for (iter = lines; iter; iter = iter->next)
+			{
+				gchar *l = (gchar*)iter->data;
+				if (strcmp(l, GDB_PROMPT))
+					colorize_message(l);
+				g_free(l);
+			}
+			g_list_free (lines);
 		}
-		g_list_free (lines);
 
 		/* send error message */
 		dbg_cbs->report_error(msg);
@@ -616,6 +648,7 @@ static void exec_async_command(const gchar* command)
 	gdb_input_write_line(command);
 
 	/* connect read callback to the output chanel */
+    detected_prompt = FALSE;
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_from_gdb, NULL);
 }
 
