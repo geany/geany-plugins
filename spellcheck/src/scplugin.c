@@ -222,10 +222,10 @@ void plugin_init(GeanyData *data)
 	/* setup keybindings */
 	key_group = plugin_set_key_group(geany_plugin, "spellcheck", KB_COUNT, NULL);
 	keybindings_set_item(key_group, KB_SPELL_CHECK, sc_gui_kb_run_activate_cb,
-		0, 0, "spell_check", _("Run Spell Check Once"), sc_info->submenu_item_default);
+		0, 0, "spell_check", _("Run spell check once"), sc_info->submenu_item_default);
 	keybindings_set_item(key_group, KB_SPELL_TOOGLE_TYPING,
 		sc_gui_kb_toggle_typing_activate_cb, 0, 0, "spell_toggle_typing",
-		_("Toggle Spell Check"), NULL);
+		_("Toggle spell check"), NULL);
 }
 
 
