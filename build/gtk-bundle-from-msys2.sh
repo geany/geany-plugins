@@ -229,7 +229,7 @@ cleanup_unnecessary_files() {
 	rm -rf lib/lua
 	rm -rf lib/p11-kit
 	rm -rf lib/python3.9
-	rm -rf lib/sqlite3.36.*
+	rm -rf lib/sqlite3.37.*
 	find lib -name '*.h' -delete
 	find lib -name '*.a' -delete
 	find lib -name '*.typelib' -delete
