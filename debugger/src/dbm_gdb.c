@@ -79,7 +79,11 @@ enum sr {
 static dbg_callbacks* dbg_cbs;
 
 /* GDB command line arguments*/
-static const gchar *gdb_args[] = { "gdb", "-i=mi", NULL };
+static const gchar *gdb_args_local[] = { "gdb", "-i=mi", NULL };
+static const gchar *gdb_args_multi[] = { "gdb-multiarch", "-i=mi", NULL };
+
+static gboolean remote_session = FALSE;
+static gboolean detected_prompt = FALSE; /* Async commands */
 
 /* GDB pid*/
 static GPid gdb_pid = 0;
@@ -197,6 +201,18 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 	dbg_cbs->set_exited(0);
 }
 
+static void discard_until_prompt (void)
+{
+	gchar *line = NULL;
+
+	while (G_IO_STATUS_NORMAL == g_io_channel_read_line(gdb_ch_out, &line, NULL, NULL, NULL))
+	{
+		int prompted = !strcmp(GDB_PROMPT, line);
+		g_free(line);
+		if (prompted) return;
+	}
+}
+
 /*
  * reads gdb_out until "(gdb)" prompt met
  */
@@ -209,12 +225,14 @@ static GList* read_until_prompt(void)
 	while (G_IO_STATUS_NORMAL == g_io_channel_read_line(gdb_ch_out, &line, NULL, &terminator, NULL))
 	{
 		if (!strcmp(GDB_PROMPT, line))
+        {
+            g_free (line);
 			break;
+        }
 
 		line[terminator] = '\0';
 		lines = g_list_prepend (lines, line);
 	}
-
 	return g_list_reverse(lines);
 }
 
@@ -319,7 +337,6 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 	{
 		/* got some result */
 
-		GList *lines;
 		GList *commands = (GList*)data;
 
 		if (gdb_id_out)
@@ -328,9 +345,7 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 			gdb_id_out = 0;
 		}
 
-		lines = read_until_prompt();
-		g_list_foreach(lines, (GFunc)g_free, NULL);
-		g_list_free (lines);
+		discard_until_prompt();
 
 		if (!strcmp(record->klass, "done"))
 		{
@@ -369,7 +384,10 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 				update_files();
 
 				/* -exec-run */
-				exec_async_command("-exec-run");
+				if (remote_session)
+					exec_async_command("-exec-continue");
+				else
+					exec_async_command("-exec-run");
 			}
 		}
 		else
@@ -418,6 +436,21 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 
 	if (G_IO_STATUS_NORMAL != g_io_channel_read_line(src, &line, NULL, &length, NULL))
 		return TRUE;
+
+    /* When the target program stops, gdb sometimes sends the "(gdb)" prompt
+     * before sending in the "stopped" event. There might be some timing..
+     * It is important to make sure that we received the prompt before
+     * issuing any new command, or else a leftover prompt will cause
+     * the next commands to be off by one prompt, and nothing works.
+     * The solution is to detect the prompt asynchronously. When the target
+     * is stopped, wait for the prompt only if it has not been received yet.
+     */
+    if (!strcmp(GDB_PROMPT, line))
+	{
+        g_free(line);
+        detected_prompt = TRUE;
+        return TRUE;
+    }
 
 	record = gdb_mi_record_parse(line);
 
@@ -474,6 +507,8 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 			g_source_remove(gdb_id_out);
 			gdb_id_out = 0;
 		}
+
+        if (!detected_prompt) discard_until_prompt();
 
 		/* looking for a reason to stop */
 		if ((reason = gdb_mi_result_var(record->first, "reason", GDB_MI_VAL_STRING)) != NULL)
@@ -575,15 +610,18 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		}
 
 		/* reading until prompt */
-		lines = read_until_prompt();
-		for (iter = lines; iter; iter = iter->next)
-		{
-			gchar *l = (gchar*)iter->data;
-			if (strcmp(l, GDB_PROMPT))
-				colorize_message(l);
-			g_free(l);
+        if (!detected_prompt)
+        {
+			lines = read_until_prompt();
+			for (iter = lines; iter; iter = iter->next)
+			{
+				gchar *l = (gchar*)iter->data;
+				if (strcmp(l, GDB_PROMPT))
+					colorize_message(l);
+				g_free(l);
+			}
+			g_list_free (lines);
 		}
-		g_list_free (lines);
 
 		/* send error message */
 		dbg_cbs->report_error(msg);
@@ -610,6 +648,7 @@ static void exec_async_command(const gchar* command)
 	gdb_input_write_line(command);
 
 	/* connect read callback to the output chanel */
+    detected_prompt = FALSE;
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_from_gdb, NULL);
 }
 
@@ -715,7 +754,7 @@ static gchar *escape_string(const gchar *str)
 /*
  * starts gdb, collects commands and start the first one
  */
-static gboolean run(const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
+static gboolean run(gint dbgmode, const gchar* file, const gchar* commandline, GList* env, GList *witer, GList *biter, const gchar* terminal_device, dbg_callbacks* callbacks)
 {
 	const gchar *exclude[] = { "LANG", NULL };
 	gchar **gdb_env = utils_copy_environment(exclude, "LANG", "C", NULL);
@@ -726,8 +765,20 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	gchar *escaped;
 	int bp_index;
 	queue_item *item;
+	const gchar **gdb_args = gdb_args_local;
 
 	dbg_cbs = callbacks;
+
+	remote_session = FALSE;
+	switch (dbgmode)
+	{
+	case 1:
+		remote_session = TRUE;
+		break;
+	case 2:
+		remote_session = TRUE;
+		gdb_args = gdb_args_multi;
+	}
 
 	/* spawn GDB */
 	if (!g_spawn_async_with_pipes(working_directory, (gchar**)gdb_args, gdb_env,
@@ -778,12 +829,17 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 
 	/* collect commands */
 
-	/* loading file */
-	escaped = escape_string(file);
-	command = g_strdup_printf("-file-exec-and-symbols \"%s\"", escaped);
-	commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
-	g_free(command);
-	g_free(escaped);
+	if (file && file[0]) /* File is optional in remote mode. */
+	{
+		/* loading file (Only for symbols in remote mode) */
+		const gchar *keyword =
+			remote_session ? "-file-symbol-file" : "-file-exec-and-symbols";
+		escaped = escape_string(file);
+		command = g_strdup_printf("%s \"%s\"", keyword, escaped);
+		commands = add_to_queue(commands, _("~\"Loading target file.\\n\""), command, _("Error loading file"), FALSE);
+		g_free(command);
+		g_free(escaped);
+	}
 
 	/* setting asyncronous mode */
 	commands = add_to_queue(commands, NULL, "-gdb-set target-async 1", _("Error configuring GDB"), FALSE);
@@ -800,11 +856,27 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	g_free(command);
 
 	/* set arguments */
-	command = g_strdup_printf("-exec-arguments %s", commandline);
+	if (remote_session)
+	{
+		/* (remote sessions handle the progran name on debugserver side) */
+		if (strchr(commandline, ':') == NULL)
+		{
+			/* Use gdbserver's default port. */
+			command = g_strdup_printf("target remote %s:3278", commandline);
+		}
+		else
+		{
+			command = g_strdup_printf("target remote %s", commandline);
+		}
+	}
+	else
+	{
+		command = g_strdup_printf("-exec-arguments %s", commandline);
+	}
 	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
 	g_free(command);
 
-	/* set passed evironment */
+	/* set passed environment */
 	iter = env;
 	while (iter)
 	{

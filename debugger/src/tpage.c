@@ -54,19 +54,21 @@ extern GeanyData		*geany_data;
 /* root boxes border width */
 #define ROOT_BORDER_WIDTH 10
 
-/* root boxes border width */
-#define BROWSE_BUTTON_WIDTH 65
-
 /* widgets */
 
 /* target */
 static GtkWidget *target_label = NULL;
 static GtkWidget *target_name = NULL;
 static GtkWidget *target_button_browse = NULL;
+static GtkWidget *target_button_clear = NULL;
 
 /* debugger type */
 static GtkWidget *debugger_label =	NULL;
 static GtkWidget *debugger_cmb =	NULL;
+static GtkWidget *debugger_mode =   NULL;
+
+static const gchar *debugger_supported_modes[] = {"Local Mode", "Remote Mode", "Cross Development Mode"};
+#define DEBUGGER_SUPPORTED_MODES_COUNT 3
 
 /* argments */
 static GtkWidget *args_frame = NULL;
@@ -77,8 +79,8 @@ static GtkWidget *env_frame = NULL;
 
 /* widgets array for reference management when moving to another container */
 static GtkWidget **widgets[] = {
-	&target_label, &target_name, &target_button_browse,
-	&debugger_label, &debugger_cmb,
+	&target_label, &target_name, &target_button_browse, &target_button_clear,
+	&debugger_label, &debugger_cmb, &debugger_mode,
 	&args_frame,
 	&env_frame,
 	NULL
@@ -133,6 +135,15 @@ static void on_target_browse_clicked(GtkButton *button, gpointer   user_data)
 }
 
 /*
+ * target clear button clicked handler
+ */
+static void on_target_clear_clicked(GtkButton *button, gpointer   user_data)
+{
+	gtk_entry_set_text(GTK_ENTRY(target_name), "");
+	config_set_debug_changed();
+}
+
+/*
  * packs widgets into page depending one tabbed mode state 
  */
 void tpage_pack_widgets(gboolean tabbed)
@@ -176,6 +187,7 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_button_browse, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox), target_button_clear, FALSE, FALSE, 0);
 		
 		/* lower hbox */
 #if GTK_CHECK_VERSION(3, 0, 0)
@@ -211,6 +223,7 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_cmb, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(rbox), hbox, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(rbox), debugger_mode, FALSE, TRUE, 0);
 	}
 	else
 	{
@@ -246,6 +259,7 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(hbox), target_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_name, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), target_button_browse, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox), target_button_clear, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(rbox), hbox, FALSE, FALSE, 0);
 		/* arguments */
 		gtk_box_pack_start(GTK_BOX(rbox), args_frame, TRUE, TRUE, 0);
@@ -258,6 +272,7 @@ void tpage_pack_widgets(gboolean tabbed)
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(hbox), debugger_cmb, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(rbox), hbox, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(rbox), debugger_mode, FALSE, TRUE, 0);
 	}
 
 	if (oldroot)
@@ -277,11 +292,25 @@ void tpage_pack_widgets(gboolean tabbed)
 	gtk_widget_show_all(tab_target);
 }
 
+static void on_debugger_mode_changed (GtkComboBox *box, gpointer data)
+{
+    if (tpage_get_debug_mode_index())
+    {
+        gtk_frame_set_label (GTK_FRAME(args_frame), _("Remote Address"));
+    }
+    else
+    {
+        gtk_frame_set_label (GTK_FRAME(args_frame), _("Command Line Arguments"));
+    }
+    if (box != NULL) config_set_debug_changed();
+}
+
 /*
  * create widgets 
  */
 static void tpage_create_widgets(void)
 {
+    int i;
 	GList *modules, *iter;
 	GtkWidget *hbox;
 	GtkTextBuffer *buffer;
@@ -293,12 +322,14 @@ static void tpage_create_widgets(void)
 #if GTK_CHECK_VERSION(3, 0, 0)
 	gtk_editable_set_editable(GTK_EDITABLE(target_name), FALSE);
 	target_button_browse = create_stock_button("document-open", _("Browse"));
+	target_button_clear = create_stock_button("edit-clear", _("Clear"));
 #else
 	gtk_entry_set_editable(GTK_ENTRY(target_name), FALSE);
 	target_button_browse = create_stock_button(GTK_STOCK_OPEN, _("Browse"));
+	target_button_clear = create_stock_button(GTK_STOCK_CLEAR, _("Clear"));
 #endif
-	gtk_widget_set_size_request(target_button_browse, BROWSE_BUTTON_WIDTH, 0);
 	g_signal_connect(G_OBJECT(target_button_browse), "clicked", G_CALLBACK (on_target_browse_clicked), NULL);
+	g_signal_connect(G_OBJECT(target_button_clear), "clicked", G_CALLBACK (on_target_clear_clicked), NULL);
 
 	/* debugger */
 	debugger_label = gtk_label_new(_("Debugger:")); 
@@ -310,6 +341,15 @@ static void tpage_create_widgets(void)
 	}
 	g_list_free(modules);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_cmb), 0);
+
+    debugger_mode = gtk_combo_box_text_new();
+    for (i = 0; i < DEBUGGER_SUPPORTED_MODES_COUNT; i++)
+    {
+        gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(debugger_mode), (gchar*)_(debugger_supported_modes[i]));
+    }
+	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_mode), 0);
+
+    g_signal_connect(G_OBJECT(debugger_mode), "changed", G_CALLBACK(on_debugger_mode_changed), NULL);
 
 	/* arguments */
 	args_frame = gtk_frame_new(_("Command Line Arguments"));
@@ -353,6 +393,22 @@ void tpage_set_debugger(const gchar *newvalue)
 }
 
 /*
+ * set debugger mode
+ */
+void tpage_set_debugger_mode(const gchar *newvalue)
+{
+	int i = 0;
+    if (newvalue != NULL) {
+        for (i = DEBUGGER_SUPPORTED_MODES_COUNT - 1; i > 0; i--)
+        {
+            if (strcmp (newvalue, debugger_supported_modes[i]) == 0) break;
+        }
+    }
+	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_mode), i);
+    on_debugger_mode_changed (NULL, NULL);
+}
+
+/*
  * set command line 
  */
 void tpage_set_commandline(const gchar *newvalue)
@@ -381,6 +437,8 @@ void tpage_clear(void)
 	
 	/* reset debugger type */
 	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_cmb), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(debugger_mode), 0);
+    on_debugger_mode_changed (NULL, NULL);
 
 	/* arguments */
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(args_textview));
@@ -407,11 +465,30 @@ int tpage_get_debug_module_index(void)
 }
 
 /*
+ * get selected debugger mode index
+ */
+int tpage_get_debug_mode_index(void)
+{
+	return gtk_combo_box_get_active(GTK_COMBO_BOX(debugger_mode));
+}
+
+/*
  * get selected debugger name
  */
 gchar* tpage_get_debugger(void)
 {
 	return gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(debugger_cmb));
+}
+
+/*
+ * get selected debugger mode
+ * (Do _not_ return a translated name.)
+ */
+gchar* tpage_get_debugger_mode(void)
+{
+    int index = tpage_get_debug_mode_index();
+    if (index < 0 || index >= DEBUGGER_SUPPORTED_MODES_COUNT) index = 0;
+    return (gchar*)(debugger_supported_modes[index]);
 }
 
 /*
@@ -464,7 +541,9 @@ void tpage_set_readonly(gboolean readonly)
 {
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (args_textview), !readonly);
 	gtk_widget_set_sensitive (target_button_browse, !readonly);
+	gtk_widget_set_sensitive (target_button_clear, !readonly);
 	gtk_widget_set_sensitive (debugger_cmb, !readonly);
+	gtk_widget_set_sensitive (debugger_mode, !readonly);
 
 	envtree_set_readonly(readonly);
 }

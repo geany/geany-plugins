@@ -108,6 +108,7 @@ static void debug_load_from_keyfile(GKeyFile *keyfile)
 	g_free(value);
 	/* debugger */
 	tpage_set_debugger(value = g_key_file_get_string(keyfile, DEBUGGER_GROUP, "debugger", NULL));
+	tpage_set_debugger_mode(value = g_key_file_get_string(keyfile, DEBUGGER_GROUP, "debugger_mode", NULL));
 	g_free(value);
 	/* arguments */
 	tpage_set_commandline(value = g_key_file_get_string(keyfile, DEBUGGER_GROUP, "arguments", NULL));
@@ -186,6 +187,7 @@ static void save_to_keyfile(GKeyFile *keyfile)
 	
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "target", tpage_get_target());
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "debugger", tpage_get_debugger());
+	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "debugger_mode", tpage_get_debugger_mode());
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "arguments", tpage_get_commandline());
 	
 	/* environment */
@@ -404,6 +406,7 @@ static void config_set_debug_defaults(GKeyFile *keyfile)
 {
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "target", "");
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "debugger", "");
+	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "debugger_mode", "");
 	g_key_file_set_string(keyfile, DEBUGGER_GROUP, "arguments", "");
 
 	g_key_file_set_integer(keyfile, DEBUGGER_GROUP, "envvar_count", 0);

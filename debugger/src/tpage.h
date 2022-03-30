@@ -33,7 +33,11 @@ void			tpage_set_target(const gchar *newvalue);
 gchar*		tpage_get_debugger(void);
 void			tpage_set_debugger(const gchar *newvalue);
 
+gchar*		tpage_get_debugger_mode(void);
+void			tpage_set_debugger_mode(const gchar *newvalue);
+
 int				tpage_get_debug_module_index(void);
+int             tpage_get_debug_mode_index(void);
 
 gchar*		tpage_get_commandline(void);
 void			tpage_set_commandline(const gchar *newvalue);

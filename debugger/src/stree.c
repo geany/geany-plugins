@@ -75,13 +75,14 @@ G_DEFINE_BOXED_TYPE(frame, frame, frame_ref, frame_unref)
 /* finds the iter for thread @thread_id */
 static gboolean find_thread_iter (gint thread_id, GtkTreeIter *iter)
 {
+    static gboolean recursive = FALSE;
 	gboolean found = FALSE;
 
 	if (gtk_tree_model_get_iter_first(model, iter))
 	{
 		do
 		{
-			gint existing_thread_id;
+			gint existing_thread_id = -1;
 
 			gtk_tree_model_get(model, iter, S_THREAD_ID, &existing_thread_id, -1);
 			if (existing_thread_id == thread_id)
@@ -90,6 +91,18 @@ static gboolean find_thread_iter (gint thread_id, GtkTreeIter *iter)
 		while (! found && gtk_tree_model_iter_next(model, iter));
 	}
 
+    /* In cross development mode, gdb seems to experience issues with
+     * threads. It cannot use the native thread library and seems to
+     * not detect new threads. For the time being, any unknown thread
+     * is new..
+     */
+    if ((!found) && (!recursive))
+    {
+        stree_add_thread (thread_id);
+        recursive = TRUE;
+        found = find_thread_iter (thread_id, iter);
+        recursive = FALSE;
+    }
 	return found;
 }
 
@@ -550,7 +563,6 @@ void stree_add_thread(int thread_id)
 void stree_remove_thread(int thread_id)
 {
 	GtkTreeIter iter;
-
 	if (find_thread_iter (thread_id, &iter))
 		gtk_tree_store_remove(store, &iter);
 }
