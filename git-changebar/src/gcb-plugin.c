@@ -49,6 +49,11 @@
 # define git_buf_dispose  git_buf_free
 # define git_error_last   giterr_last
 #endif
+#if ! defined (LIBGIT2_VER_MINOR) || (LIBGIT2_VER_MAJOR < 1) || ( (LIBGIT2_VER_MAJOR == 1) && (LIBGIT2_VER_MINOR < 4) )
+# define gcb_git_buf_reserved asize
+#else
+# define gcb_git_buf_reserved reserved
+#endif
 
 
 GeanyPlugin      *geany_plugin;
@@ -216,7 +221,7 @@ static int
 gcb_git_buf_grow (git_buf  *buf,
                   size_t    target_size)
 {
-  if (buf->asize == 0) {
+  if (buf->gcb_git_buf_reserved == 0) {
     if (target_size == 0) {
       target_size = buf->size;
     }
@@ -234,7 +239,7 @@ buf_zero (git_buf *buf)
   if (buf) {
     buf->ptr = NULL;
     buf->size = 0;
-    buf->asize = 0;
+    buf->gcb_git_buf_reserved = 0;
   }
 }
 
