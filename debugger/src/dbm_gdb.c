@@ -115,7 +115,7 @@ static GList *watches = NULL;
 static GList *files = NULL;
 
 /* set to true if library was loaded/unloaded
-and it's nessesary to refresh files list */
+and it's necessary to refresh files list */
 static gboolean file_refresh_needed = FALSE;
 
 /* current frame number */
@@ -219,7 +219,7 @@ static GList* read_until_prompt(void)
 }
 
 /*
- * write a command to a gdb channel and flush with a newlinw character
+ * write a command to a gdb channel and flush with a newline character
  */
 static void gdb_input_write_line(const gchar *line)
 {
@@ -251,9 +251,9 @@ static void gdb_input_write_line(const gchar *line)
 	{
 		if (err)
 		{
-			#ifdef DEBUG_OUTPUT
+#ifdef DEBUG_OUTPUT
 			dbg_cbs->send_message(err->message, "red");
-			#endif
+#endif
 			g_clear_error(&err);
 		}
 	}
@@ -299,9 +299,9 @@ static GList* add_to_queue(GList* queue, const gchar *message, const gchar *comm
 }
 
 /*
- * asyncronous output reader
+ * asynchronous output reader
  * reads from startup async commands.
- * looks for a command completion (normal or abnormal), if noraml - executes next command
+ * looks for a command completion (normal or abnormal), if normal - executes next command
  */
 static void exec_async_command(const gchar* command);
 static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpointer data)
@@ -334,10 +334,10 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 
 		if (!strcmp(record->klass, "done"))
 		{
-			/* command completed succesfully - run next command if exists */
+			/* command completed successfully - run next command if exists */
 			if (commands->next)
 			{
-				/* if there are commads left */
+				/* if there are commands left */
 				queue_item *item;
 
 				commands = commands->next;
@@ -405,7 +405,7 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 }
 
 /*
- * asyncronous gdb output reader
+ * asynchronous gdb output reader
  * looks for a stopped event, then notifies "debug" module and removes async handler
  */
 enum dbs debug_get_state(void);
@@ -458,7 +458,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 		dbg_cbs->remove_thread(atoi(id));
 	}
 	else if (gdb_mi_record_matches(record, '=', "library-loaded", NULL) ||
-			 gdb_mi_record_matches(record, '=', "library-unloaded", NULL))
+		 gdb_mi_record_matches(record, '=', "library-unloaded", NULL))
 	{
 		file_refresh_needed = TRUE;
 	}
@@ -468,7 +468,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 	{
 		const gchar *reason;
 
-		/* removing read callback (will pulling all output left manually) */
+		/* removing read callback (will be pulling all output left manually) */
 		if (gdb_id_out)
 		{
 			g_source_remove(gdb_id_out);
@@ -596,7 +596,7 @@ static gboolean on_read_from_gdb(GIOChannel * src, GIOCondition cond, gpointer d
 }
 
 /*
- * execute "command" asyncronously
+ * execute "command" asynchronously
  * after writing command to an input channel
  * connects reader to output channel and exits
  * after execution
@@ -609,12 +609,12 @@ static void exec_async_command(const gchar* command)
 
 	gdb_input_write_line(command);
 
-	/* connect read callback to the output chanel */
+	/* connect read callback to the output channel */
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_from_gdb, NULL);
 }
 
 /*
- * execute "command" syncronously
+ * execute "command" synchronously
  * i.e. reading output right
  * after execution
  */
@@ -748,7 +748,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	/* set handler for gdb process exit event */
 	gdb_src_id = g_child_watch_add(gdb_pid, on_gdb_exit, NULL);
 
-	/* create GDB GIO chanels */
+	/* create GDB GIO channels */
 	gdb_ch_in = g_io_channel_unix_new(gdb_in);
 	gdb_ch_out = g_io_channel_unix_new(gdb_out);
 
@@ -785,7 +785,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	g_free(command);
 	g_free(escaped);
 
-	/* setting asyncronous mode */
+	/* setting asynchronous mode */
 	commands = add_to_queue(commands, NULL, "-gdb-set target-async 1", _("Error configuring GDB"), FALSE);
 
 	/* setting null-stop array printing */
@@ -804,7 +804,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
 	g_free(command);
 
-	/* set passed evironment */
+	/* set passed environment */
 	iter = env;
 	while (iter)
 	{
@@ -868,7 +868,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 	commands = add_to_queue(commands, NULL, command, NULL, FALSE);
 	g_free(command);
 
-	/* connect read callback to the output chanel */
+	/* connect read callback to the output channel */
 	gdb_id_out = g_io_add_watch(gdb_ch_out, G_IO_IN, on_read_async_output, commands);
 
 	item = (queue_item*)commands->data;
@@ -1321,7 +1321,7 @@ static void update_watches(void)
 	}
 
 	/* create GDB variables, adding successfully created
-	variables to the list then passed for updatind */
+	variables to the list then passed for updating */
 	for (iter = watches; iter; iter = iter->next)
 	{
 		variable *var = (variable*)iter->data;

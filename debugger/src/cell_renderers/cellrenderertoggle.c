@@ -22,7 +22,7 @@
 /*
  * 		cell renderer that inherits from toggle
  * 		the only difference - checks for a x position in "activate" signal
- * 		to ensure the "toggled" signal is sent only when clicked on a particulary cell renderer
+ * 		to ensure the "toggled" signal is sent only when clicked on a particular cell renderer
  */
 
 #include <geanyplugin.h>

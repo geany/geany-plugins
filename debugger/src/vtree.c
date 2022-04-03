@@ -41,7 +41,7 @@
 #include "pixbuf.h"
 
 
-/* columns minumum width in characters */
+/* columns minimum width in characters */
 #define MIN_COLUMN_CHARS 20
 
 /*
@@ -74,7 +74,7 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
 
 
 /*
- * value rendere function
+ * value renderer function
  */
 static void render_icon(GtkTreeViewColumn *tree_column,
 	 GtkCellRenderer *cell,
@@ -111,7 +111,7 @@ static void render_icon(GtkTreeViewColumn *tree_column,
 }
 
 /*
- * value rendere function
+ * value renderer function
  */
 static void render_value(GtkTreeViewColumn *tree_column,
 	 GtkCellRenderer *cell,
@@ -207,25 +207,25 @@ GtkWidget* vtree_create(watch_render_name on_render_name, watch_expression_chang
 	column = gtk_tree_view_column_new_with_attributes ("", renderer, "text", W_LAST_VISIBLE, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
-	/* Internal (unvisible column) */
+	/* Internal (invisible column) */
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes ("Internal", renderer, "text", W_INTERNAL, NULL);
 	gtk_tree_view_column_set_visible(column, FALSE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	
-	/* Path expression (unvisible column) */
+	/* Path expression (invisible column) */
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes ("Expression", renderer, "text", W_EXPRESSION, NULL);
 	gtk_tree_view_column_set_visible(column, FALSE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 
-	/* STUB (unvisible column) */
+	/* STUB (invisible column) */
 	renderer = gtk_cell_renderer_toggle_new ();
 	column = gtk_tree_view_column_new_with_attributes ("Need Update", renderer, "active", W_STUB, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
 	gtk_tree_view_column_set_visible(column, FALSE);
 
-	/* Changed (unvisible column) */
+	/* Changed (invisible column) */
 	renderer = gtk_cell_renderer_toggle_new ();
 	column = gtk_tree_view_column_new_with_attributes ("Changed", renderer, "active", W_CHANGED, NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);

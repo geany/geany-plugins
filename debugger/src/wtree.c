@@ -199,7 +199,7 @@ void wtree_remove_all(void)
 }
 
 /*
- * add new watche to the tree view
+ * add new watch to the tree view
  */
 void wtree_add_watch(gchar *watch)
 {

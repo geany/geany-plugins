@@ -155,7 +155,7 @@ static gchar *parse_cstring(const gchar **p)
 						}
 						else
 						{
-							g_warning("Unkown escape \"\\%c\"", **p);
+							g_warning("Unknown escape \"\\%c\"", **p);
 							(*p)--; /* put the \ back */
 							c = **p;
 						}

@@ -61,11 +61,11 @@ static GtkTreeRowReference *empty_row = NULL;
 
 static GtkTreePath *being_edited_value = NULL;
 
-/* env variable name cloumn */
+/* env variable name column */
 static GtkTreeViewColumn *column_name = NULL;
 static GtkCellRenderer *renderer_name = NULL;
 
-/* env variable value cloumn */
+/* env variable value column */
 static GtkTreeViewColumn *column_value = NULL;
 static GtkCellRenderer *renderer_value = NULL;
 
@@ -86,7 +86,7 @@ static void add_empty_row(void)
 		VALUE, "",
 		-1);
 
-	/* remeber reference */
+	/* remember reference */
 	path = gtk_tree_model_get_path(GTK_TREE_MODEL(store), &empty);
 	empty_row = gtk_tree_row_reference_new(GTK_TREE_MODEL(store), path);
 	gtk_tree_path_free(path);
@@ -250,8 +250,8 @@ static void on_value_changed(GtkCellRendererText *renderer, gchar *path, gchar *
 	striped = g_strstrip(g_strdup(new_text));
 	if (!strlen(striped))
 	{
-		/* if new value is empty string, if it's a new row - do nothig
-		 otheerwise - offer to delete a variable */
+		/* if new value is empty string, if it's a new row - do nothing
+		 otherwise - offer to delete a variable */
 		if (empty)
 			gtk_list_store_set(store, &iter, NAME, "", -1);
 		else
@@ -307,7 +307,7 @@ static void on_value_editing_started(GtkCellRenderer *renderer, GtkCellEditable 
 }
 
 /*
- * env tree view value editing cancelled (Escape pressed)
+ * env tree view value editing canceled (Escape pressed)
  */
 static void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_data)
 {
@@ -337,7 +337,7 @@ static void on_value_editing_cancelled(GtkCellRenderer *renderer, gpointer user_
 }
 
 /*
- * env tree view name changed hadler 
+ * env tree view name changed handler
  */
 static void on_name_changed(GtkCellRendererText *renderer, gchar *path, gchar *new_text, gpointer user_data)
 {

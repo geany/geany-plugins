@@ -72,7 +72,7 @@ static GCond cond;
 static GThread *saving_thread;
 
 /* flags that indicate that part of a config has been changed and
- * is going to be saved on the savng thread */
+ * is going to be saved on the saving thread */
 static gboolean debug_config_changed = FALSE;
 static gboolean panel_config_changed = FALSE;
 
@@ -522,7 +522,7 @@ int	config_get_right_selected_tab_index(void)
 }
 
 /*
- *	update GUI fron the store specified
+ *	update GUI from the store specified
  *  also handles default values insertion in a keyfile if debug section doesn't exist 
  */
 void config_set_debug_store(debug_store store)
@@ -587,7 +587,7 @@ void config_on_project_close(GObject *obj, gpointer user_data)
 	{
 		if (DBS_IDLE != debug_get_state())
 		{
-			/* stop a debugger and ait for it to be stopped */
+			/* stop a debugger and wait for it to be stopped */
 			debug_stop();
 			
 			while (DBS_IDLE != debug_get_state())
@@ -602,7 +602,7 @@ void config_on_project_close(GObject *obj, gpointer user_data)
 
 /*
  *	project save handler
- * 	handles ne project creation and updatng a project using project properties dialog 
+ * 	handles new project creation and updating a project using project properties dialog
  */
 void config_on_project_save(GObject *obj, GKeyFile *config, gpointer user_data)
 {
