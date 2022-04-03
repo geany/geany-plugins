@@ -966,6 +966,10 @@ static void on_select_thread(int thread_id)
 {
 	gboolean success;
 
+	/* interactive use - only when in stopped state */
+	if (debug_state != DBS_STOPPED)
+		return;
+
 	if (stack)
 		remove_stack_markers();
 
