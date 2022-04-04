@@ -83,7 +83,7 @@ static void hash_table_foreach_add_to_list(gpointer key, gpointer value, gpointe
 }
 
 /*
- * functions to perform markers and tree vew operation when breakpoint
+ * functions to perform markers and tree view operation when breakpoint
  * is finally updated/added/removed
  */
 static void on_add(breakpoint *bp)
@@ -175,7 +175,7 @@ static gint compare_func(gconstpointer a, gconstpointer b, gpointer user_data)
 }
 
 /*
- * functions that are called when a breakpoint is altered while debuginng session is active.
+ * functions that are called when a breakpoint is altered while debugging session is active.
  * Therefore, these functions try to alter break in debug session first and if successful -
  * do what on_... do or simply call on_... function directly
  */
@@ -366,7 +366,7 @@ void breaks_add(const char* file, int line, char* condition, int enabled, int hi
 	enum dbs state = debug_get_state();
 
 	/* do not process async break manipulation on modules
-	that do not support async interuppt */
+	that do not support async interrupt */
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 	
@@ -385,7 +385,7 @@ void breaks_add(const char* file, int line, char* condition, int enabled, int hi
 	g_tree_insert(tree, GINT_TO_POINTER(bp->line), bp);
 
 	/* handle creation instantly if debugger is idle or stopped
-	and request debug module interruption overwise */
+	and request debug module interruption otherwise */
 	if (DBS_IDLE == state)
 	{
 		on_add(bp);
@@ -409,7 +409,7 @@ void breaks_remove(const char* file, int line)
 	enum dbs state = debug_get_state();
 
 	/* do not process async break manipulation on modules
-	that do not support async interuppt */
+	that do not support async interrupt */
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
@@ -418,7 +418,7 @@ void breaks_remove(const char* file, int line)
 		return;
 
 	/* handle removing instantly if debugger is idle or stopped
-	and request debug module interruption overwise */
+	and request debug module interruption otherwise */
 	if (DBS_IDLE == state)
 	{
 		on_remove(bp);
@@ -438,13 +438,13 @@ void breaks_remove(const char* file, int line)
 void breaks_remove_list(GList *list)
 {
 	/* do not process async break manipulation on modules
-	that do not support async interuppt */
+	that do not support async interrupt */
 	enum dbs state = debug_get_state();
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
 	/* handle removing instantly if debugger is idle or stopped
-	and request debug module interruption overwise */
+	and request debug module interruption otherwise */
 	if (DBS_IDLE == state)
 	{
 		on_remove_list(list);
@@ -472,7 +472,7 @@ void breaks_remove_all(void)
  * sets all breakpoints fo the file enabled or disabled.
  * arguments:
  * 		file - list of breakpoints
- * 		enabled - anble or disable breakpoints
+ * 		enabled - enable or disable breakpoints
  */
 void breaks_set_enabled_for_file(const char *file, gboolean enabled)
 {
@@ -480,14 +480,14 @@ void breaks_set_enabled_for_file(const char *file, gboolean enabled)
 	enum dbs state = debug_get_state();
 
 	/* do not process async break manipulation on modules
-	that do not support async interuppt */
+	that do not support async interrupt */
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
 	breaks = breaks_get_for_document(file);
 
 	/* handle switching instantly if debugger is idle or stopped
-	and request debug module interruption overwise */
+	and request debug module interruption otherwise */
 	if (DBS_IDLE == state)
 	{
 		on_set_enabled_list(breaks, enabled);
@@ -512,7 +512,7 @@ void breaks_switch(const char* file, int line)
 	enum dbs state = debug_get_state();
 
 	/* do not process async break manipulation on modules
-	that do not support async interuppt */
+	that do not support async interrupt */
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
@@ -524,7 +524,7 @@ void breaks_switch(const char* file, int line)
 	bp->enabled = !bp->enabled;
 	
 	/* handle switching instantly if debugger is idle or stopped
-	and request debug module interruption overwise */
+	and request debug module interruption otherwise */
 	if (DBS_IDLE == state)
 	{
 		on_switch(bp);
@@ -549,7 +549,7 @@ void breaks_set_hits_count(const char* file, int line, int count)
 	enum dbs state = debug_get_state();
 
 	/* do not process async break manipulation on modules
-	that do not support async interuppt */
+	that do not support async interrupt */
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
@@ -561,7 +561,7 @@ void breaks_set_hits_count(const char* file, int line, int count)
 	bp->hitscount = count;
 	
 	/* handle setting hits count instantly if debugger is idle or stopped
-	and request debug module interruption overwise */
+	and request debug module interruption otherwise */
 	if (state == DBS_IDLE)
 	{
 		on_set_hits_count(bp);
@@ -586,7 +586,7 @@ void breaks_set_condition(const char* file, int line, const char* condition)
 	enum dbs state = debug_get_state();
 
 	/* do not process async break manipulation on modules
-	that do not support async interuppt */
+	that do not support async interrupt */
 	if (DBS_RUNNING == state &&  !debug_supports_async_breaks())
 		return;
 
@@ -598,7 +598,7 @@ void breaks_set_condition(const char* file, int line, const char* condition)
 	strncpy(bp->condition, condition, G_N_ELEMENTS(bp->condition) - 1);
 	
 	/* handle setting condition instantly if debugger is idle or stopped
-	and request debug module interruption overwise */
+	and request debug module interruption otherwise */
 	if (state == DBS_IDLE)
 	{
 		on_set_condition(bp);

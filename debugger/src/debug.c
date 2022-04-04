@@ -22,7 +22,7 @@
 /*
  * 		Debug activities handlers (Run, Stop, etc)
  *		Manages GUI that is debug-state dependent.
- * 		Finaly, after checking current debug state - passes
+ * 		Finally, after checking current debug state - passes
  * 		command to the active debug module.
  * 		Also creates debug-related GUI (local, debug terminal pages)
  * 		and handles run-time watches and breakpoints changes.
@@ -76,7 +76,7 @@ extern GeanyData		*geany_data;
 
 /*
  *  calltip size  
- */ 
+ */
 #define CALLTIP_HEIGHT 20
 #define CALLTIP_WIDTH 200
 
@@ -96,9 +96,9 @@ extern dbg_module dbg_module_gdb;
 /* active debug module */
 dbg_module *active_module = NULL;
 
-/* Interrupt relateed data
- * Interrtion is requested when breakpoint is set/added/removed
- * asyncronously. Then debug_request_interrupt is called,
+/* Interrupt related data
+ * Interruption is requested when breakpoint is set/added/removed
+ * asynchronously. Then debug_request_interrupt is called,
  * supplied with interrupt reason (interrupt_flags),
  * breakpoint pointer (interrupt_data) and callback to call
  * after interruption
@@ -127,7 +127,7 @@ static GtkWidget *debugger_messages_textview = NULL;
 static GtkAdjustment *hadj = NULL;
 static GtkAdjustment *vadj = NULL;
 
-/* stack trace/watch/autos CtkTreeView widgets */
+/* stack trace/watch/autos GtkTreeView widgets */
 static GtkWidget *stree = NULL;
 static GtkWidget *wtree = NULL;
 static GtkWidget *atree = NULL;
@@ -141,7 +141,7 @@ static GtkWidget **sensitive_widget[] = {&stree, &wtree, &atree, NULL};
 
 /* 
  * current stack for holding
- * position of ffreames markers
+ * position of frames markers
  */
 static GList* stack = NULL;
 
@@ -219,7 +219,7 @@ static void add_stack_markers(void)
 }
 
 /* 
- * Handlers for GUI maked changes in watches
+ * Handlers for GUI-made changes in watches
  */
 
 /* 
@@ -364,7 +364,7 @@ static void on_watch_dragged_callback(GtkWidget *wgt, GdkDragContext *context, i
 	}
 	
 	/* if debugger is active (in stopped condition) - add to run-time watch list
-	 *  if not - just set new expession in the tree view */ 
+	 *  if not - just set new expression in the tree view */
 	if (DBS_STOPPED == debug_state)
 	{
 		variable *var = active_module->add_watch(expression);
@@ -401,7 +401,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 	if (1 != gtk_tree_selection_count_selected_rows(selection) ||
 	    (rows && gtk_tree_path_compare((GtkTreePath*)rows->data, empty_path)))
 	{
-		/* path reference to select after deleteing finishes */
+		/* path reference to select after deleting finishes */
 		GtkTreeRowReference *reference_to_select = NULL;
 		GtkTreePath *path_to_select;
 
@@ -429,7 +429,7 @@ static gboolean on_watch_key_pressed_callback(GtkWidget *widget, GdkEvent  *even
 		{
 			GtkTreeRowReference *reference = (GtkTreeRowReference*)iter->data;
 			/* check for valid reference because two or more equal
-			refernces could be put in the list if several child items
+			references could be put in the list if several children items
 			of the same node were selected and the path for the
 			current reference was already deleted */
 			if (gtk_tree_row_reference_valid(reference))
@@ -540,7 +540,7 @@ static gboolean on_watch_button_pressed_callback(GtkWidget *treeview, GdkEventBu
 				gtk_tree_store_insert_before(wstore, &newvar, NULL, &empty);
 			
 				/* if debugger is active (in stopped condition) - add to run-time watch list
-				 *  if not - just set new expession in the tree view */ 
+				 *  if not - just set new expression in the tree view */
 				if (DBS_STOPPED == debug_state)
 				{
 					variable *var = active_module->add_watch(expression);
@@ -625,7 +625,7 @@ static void enable_sensitive_widgets(gboolean enable)
 }
 
 /* 
- * Debug state changed hanflers
+ * Debug state changed handlers
  */
 
 /* 
@@ -636,7 +636,7 @@ static void on_debugger_run (void)
 	/* update debug state */
 	debug_state = DBS_RUNNING;
 
-	/* if curren instruction marker was set previously - remove it */
+	/* if current instruction marker was set previously - remove it */
 	if (stack)
 	{
 		remove_stack_markers();
@@ -675,7 +675,7 @@ static void on_debugger_stopped (int thread_id)
 	if (calltips)
 		g_hash_table_remove_all(calltips);
 
-	/* if a stop was requested for asyncronous exiting -
+	/* if a stop was requested for asynchronous exiting -
 	 * stop debug module and exit */
 	if (exit_pending)
 	{
@@ -893,7 +893,7 @@ static void on_debugger_error (const gchar* message)
 }
 
 /* 
- * called from debugger module when a thead has been removed 
+ * called from debugger module when a thread has been removed 
  */
 static void on_thread_removed(int thread_id)
 {
@@ -901,7 +901,7 @@ static void on_thread_removed(int thread_id)
 }
 
 /* 
- * called from debugger module when a new thead has been added 
+ * called from debugger module when a new thread has been added 
  */
 static void on_thread_added (int thread_id)
 {
@@ -960,7 +960,7 @@ static void on_select_frame(int frame_number)
 }
 
 /*
- * called when a thread should been selected
+ * called when a thread has been selected
  */
 static void on_select_thread(int thread_id)
 {
@@ -1091,7 +1091,7 @@ void debug_init(void)
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(tab_messages), debugger_messages_textview);
 #endif
 	
-	/* create tex tags */
+	/* create text tags */
 	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(debugger_messages_textview));
 	gtk_text_buffer_create_tag(buffer, "black", "foreground", "#000000", NULL); 
 	gtk_text_buffer_create_tag(buffer, "grey", "foreground", "#AAAAAA", NULL); 
@@ -1133,7 +1133,7 @@ enum dbs debug_get_state(void)
 }
 
 /*
- * gets current stack frames lisy
+ * gets current stack frames list
  */
 GList* debug_get_stack(void)
 {
@@ -1175,7 +1175,7 @@ GList* debug_get_modules(void)
 }
 
 /*
- * checks whether currently active debug module supports asyncronous breaks
+ * checks whether currently active debug module supports asynchronous breaks
  */
 gboolean debug_supports_async_breaks(void)
 {
@@ -1210,7 +1210,7 @@ void debug_run(void)
 			/* set target page - readonly */
 			tpage_set_readonly(TRUE);
 
-			/* update debuf state */
+			/* update debug state */
 			debug_state = DBS_RUN_REQUESTED;
 		}
 
@@ -1310,7 +1310,7 @@ void debug_execute_until(const gchar *file, int line)
 /*
  * sets a break
  * arguments:
- *		bp - breakpoitn to set
+ *		bp - breakpoint to set
  * 		bsa - what to do with breakpoint (add/remove/change)
  */
 gboolean debug_set_break(breakpoint* bp, break_set_activity bsa)
@@ -1325,7 +1325,7 @@ gboolean debug_set_break(breakpoint* bp, break_set_activity bsa)
 /*
  * removes a break
  * arguments:
- *		bp - breakpoitn to set
+ *		bp - breakpoint to set
  */
 gboolean debug_remove_break(breakpoint* bp)
 {
@@ -1337,12 +1337,12 @@ gboolean debug_remove_break(breakpoint* bp)
 }
 
 /*
- * requests active debug module to interrupt fo further
+ * requests active debug module to interrupt for further
  * breakpoint modifications
  * arguments:
- *		cb - callback to call on interruption happents
+ *		cb - callback to call when the interruption happens
  * 		bp - breakpoint to deal with
- * 		flags - whar to do with breakpoint
+ * 		flags - what to do with breakpoint
  */
 void debug_request_interrupt(bs_callback cb, gpointer data)
 {
@@ -1361,7 +1361,7 @@ gchar* debug_error_message(void)
 }
 
 /*
- * evaluates expression in runtime and returns its value or NULL if unevaluatable
+ * evaluates expression in runtime and returns its value or NULL if non-evaluatable
  */
 gchar* debug_evaluate_expression(gchar *expression)
 {
@@ -1424,7 +1424,7 @@ gchar* debug_get_calltip_for_expression(gchar* expression)
 
 /*
  * check whether source for the current instruction
- * is avaiable
+ * is available
  */
 gboolean debug_current_instruction_have_sources(void)
 {

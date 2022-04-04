@@ -71,7 +71,7 @@ typedef struct _variable {
 	GString *value;
 	/* flag indicating whether a variable has children */
 	gboolean has_children;
-	/* flag indicating whether getting variable value was successfull */
+	/* flag indicating whether getting variable value was successful */
 	gboolean evaluated;
 	/* variable type */
 	variable_type vt;
@@ -142,7 +142,7 @@ typedef struct _dbg_module {
 	
 } dbg_module;
 
-/* helping macroes to declare and define degub module */
+/* helping macros to declare and define debug module */
 #define DBG_MODULE_DECLARE(name) extern dbg_module dbg_module##name
 #define DBG_MODULE_DEFINE(name) dbg_module dbg_module_##name = { \
 	run, \

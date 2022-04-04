@@ -79,7 +79,7 @@ static GHashTable *files;
 move_to_line_cb on_break_clicked = NULL;
 
 /* 
- * gets tree row reference for an unsected row at the same depth
+ * gets tree row reference for an unselected row at the same depth
  */
 static GtkTreeRowReference* get_unselected_sibling(GtkTreePath *path)
 {
@@ -119,7 +119,7 @@ static GtkTreeRowReference* get_unselected_sibling(GtkTreePath *path)
 }
 
 /* 
- * checks file ENABLED column if all childs are enabled and unchecks otherwise
+ * checks file ENABLED column if all children are enabled and unchecks otherwise
  */
 static void update_file_node(GtkTreeIter *file_iter)
 {
@@ -378,7 +378,7 @@ static void on_hitscount_changed(GtkCellRendererText *renderer, gchar *path, gch
 }                                                        
 
 /*
- * enable / disable all breaks for a file when it's checkbox icon has been clicked
+ * enable / disable all breaks for a file when its checkbox icon has been clicked
  */
 static void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path, gpointer user_data)
 {
@@ -418,7 +418,7 @@ static void on_enable_for_file(GtkCellRendererToggle *cell_renderer, gchar *path
 }
 
 /*
- * enable / disable particulary break when it's icon has been clicked
+ * enable / disable particularly break when its icon has been clicked
  */
 static void on_enable_break(CellRendererBreakIcon *cell_renderer, gchar *path, gpointer user_data)
 {
@@ -599,7 +599,7 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEvent *event, gpointer user
  */
 
 /*
- * init breaks tree view and return it if succesfull
+ * init breaks tree view and return it if successful
  * arguments:
  * 		cb - callback to call on treeview double click
  */
@@ -612,7 +612,7 @@ gboolean bptree_init(move_to_line_cb cb)
 	/* save double click callback */
 	on_break_clicked = cb;
 	
-	/* crete hash table for file nodes */
+	/* create hash table for file nodes */
 	files = g_hash_table_new_full(
 		g_str_hash,
 		g_str_equal,

@@ -21,7 +21,7 @@
 
 /*
  * 		cell renderer class that renders frame icon, that in turn depends on whether a
- * 		row is the first vhildren (uppermost frame) and whether a renderer is under the cursor
+ * 		row is the first child (uppermost frame) and whether a renderer is under the cursor
  */
 
 #include <string.h>

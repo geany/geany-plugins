@@ -83,7 +83,7 @@ inline static void add_stub(GtkTreeStore *store, GtkTreeIter *parent)
 
 /*
  * insert all "vars" members to "parent" iterator in the "tree" as new children
- * mark_changed specifies whether to mark new items as beed changed
+ * mark_changed specifies whether to mark new items as being changed
  * expand specifies whether to expand to the added children
  */
 inline static void append_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars,
@@ -166,7 +166,7 @@ inline static void append_variables(GtkTreeView *tree, GtkTreeIter *parent, GLis
 				gtk_tree_path_free(path);
 			}
 			
-			/* add stub if added child also have children */
+			/* add stub if added child also has children */
 			if (v->has_children)
 				add_stub(store, &child);
 		}
@@ -240,7 +240,7 @@ void expand_stub(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 	/* remember stub iterator */
 	gtk_tree_model_iter_children(model, &stub, parent);
 
-	/* check whether arent has been changed */
+	/* check whether parent has been changed */
 	gtk_tree_model_get(model, parent,
 		W_CHANGED, &changed,
 		-1);
@@ -253,7 +253,7 @@ void expand_stub(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 }
 
 /*
- * change watch specified by "iter" as dscribed in "var"
+ * change watch specified by "iter" as described in "var"
  */
 void change_watch(GtkTreeView *tree, GtkTreeIter *iter, gpointer var)
 {
@@ -265,7 +265,7 @@ void change_watch(GtkTreeView *tree, GtkTreeIter *iter, gpointer var)
 	/* update variable */
 	update_variable(store, iter, v, FALSE);
 
-	/* if item have children - remove them */ 		
+	/* if item has children - remove them */
 	if (gtk_tree_model_iter_has_child(model, iter))
 		remove_children(model, iter);
 	
@@ -330,7 +330,7 @@ void update_variables(GtkTreeView *tree, GtkTreeIter *parent, GList *vars)
 			/* 2. find this path is "vars" list */
 			var = lookup_variable(vars, name);
 
-			/* 3. check if we have found currect iterator */
+			/* 3. check if we have found current iterator */
 			if (!var)
 			{
 				/* if we haven't - remove current and try to move to the next one
@@ -419,7 +419,7 @@ void clear_watch_values(GtkTreeView *tree)
 	
 	do
 	{
-		/* if item have children - process them */ 		
+		/* if item has children - process them */
 		if (gtk_tree_model_iter_has_child(model, &child))
 			remove_children(model, &child);
 		

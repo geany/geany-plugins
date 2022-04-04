@@ -94,12 +94,12 @@ static void set_markers_for_file(const gchar* file)
 
 /*
  * 	Following group of callbacks are used for
- * 	checking of existance of the config file
+ * 	checking of existence of the config file
  * 	and changing buttons state in the target page
  */
 
 /*
- * 	Occures before document is going to be saved
+ * 	Occurs before document is going to be saved
  */
 static gboolean _unexisting_file = FALSE;
 void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
@@ -114,7 +114,7 @@ void on_document_before_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 }
 
 /*
- * 	Occures on saving document
+ * 	Occurs on saving document
  */
 void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
@@ -131,7 +131,7 @@ void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
 }
 
 /*
- * 	Occures on document opening.
+ * 	Occurs on document opening.
  * 	Used to set breaks markers 
  */
 void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_data)
@@ -173,7 +173,7 @@ static gboolean on_mouse_leave(GtkWidget *widget, GdkEvent *event, gpointer user
 }
 
 /*
- * 	Occures on notify from editor.
+ * 	Occurs on notify from editor.
  * 	Handles margin click to set/remove breakpoint 
  */
 gboolean on_editor_notify(
@@ -304,7 +304,7 @@ gboolean on_editor_notify(
 }
 
 /*
- * 	Occures when key is pressed.
+ * 	Occurs when key is pressed.
  * 	Handles debug Run/Stop/... and add/remove breakpoint activities  
  */
 gboolean keys_callback(guint key_id)

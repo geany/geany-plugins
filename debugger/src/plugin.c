@@ -98,7 +98,7 @@ static gboolean plugin_debugger_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer
 	/* add target page */
 	tpage_init();
 	
-	/* init brekpoints */
+	/* init breakpoints */
 	breaks_init(editor_open_position);
 	
 	/* init markers */

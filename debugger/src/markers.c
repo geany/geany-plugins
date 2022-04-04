@@ -79,13 +79,13 @@ void markers_set_for_document(ScintillaObject *sci)
 	/* conditional breakpoint */
 	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_BP_CONDITIONAL, (long)breakpoint_condition_xpm);
 
-	/* currect instruction background */
+	/* current instruction background */
 	scintilla_send_message(sci, SCI_MARKERDEFINE, M_CI_BACKGROUND, SC_MARK_BACKGROUND);
 	scintilla_send_message(sci, SCI_MARKERSETBACK, M_CI_BACKGROUND, YELLOW);
 	scintilla_send_message(sci, SCI_MARKERSETFORE, M_CI_BACKGROUND, YELLOW);
 	scintilla_send_message(sci, SCI_MARKERSETALPHA, M_CI_BACKGROUND, 75);
 
-	/* currect instruction arrow */
+	/* current instruction arrow */
 	scintilla_send_message(sci, SCI_MARKERDEFINEPIXMAP, M_CI_ARROW, (long)frame_current_xpm);
 
 	/* frame marker current */
