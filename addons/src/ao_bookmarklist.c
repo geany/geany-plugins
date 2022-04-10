@@ -190,11 +190,27 @@ static void add_line(AoBookmarkList *bm, ScintillaObject *sci, gint line_nr)
 		line = g_strdup(_("(Empty Line)"));
 	tooltip = g_markup_escape_text(line, -1);
 
-	gtk_list_store_insert_with_values(priv->store, NULL, -1,
-		BMLIST_COL_LINE, line_nr + 1,
-		BMLIST_COL_NAME, line,
-		BMLIST_COL_TOOLTIP, tooltip,
-		-1);
+	/* search for existing bookmark on current line */
+	priv->search_line = line_nr + 1;
+	priv->search_iter = NULL;
+	gtk_tree_model_foreach(GTK_TREE_MODEL(priv->store), tree_model_foreach, bm);
+	if (priv->search_iter != NULL)
+	{	/* update existing bookmark with current line content */
+		gtk_list_store_set(priv->store, priv->search_iter,
+			BMLIST_COL_LINE, line_nr + 1,
+			BMLIST_COL_NAME, line,
+			BMLIST_COL_TOOLTIP, tooltip,
+			-1);
+		gtk_tree_iter_free(priv->search_iter);
+	}
+	else
+	{	/* add bookmark */
+		gtk_list_store_insert_with_values(priv->store, NULL, -1,
+			BMLIST_COL_LINE, line_nr + 1,
+			BMLIST_COL_NAME, line,
+			BMLIST_COL_TOOLTIP, tooltip,
+			-1);
+	}
 	g_free(line);
 	g_free(tooltip);
 }
