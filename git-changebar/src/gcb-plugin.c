@@ -32,11 +32,19 @@
 #include <geany.h>
 #include <document.h>
 
-#if ! defined (LIBGIT2_VER_MINOR) || ( (LIBGIT2_VER_MAJOR == 0) && (LIBGIT2_VER_MINOR < 22) )
+#ifdef LIBGIT2_VER_MINOR
+# define CHECK_LIBGIT2_VERSION(MAJOR, MINOR) \
+  ((LIBGIT2_VER_MAJOR == (MAJOR) && LIBGIT2_VER_MINOR >= (MINOR)) || \
+   LIBGIT2_VER_MAJOR > (MAJOR))
+#else /* ! defined(LIBGIT2_VER_MINOR) */
+# define CHECK_LIBGIT2_VERSION(MAJOR, MINOR) 0
+#endif
+
+#if ! CHECK_LIBGIT2_VERSION(0, 22)
 # define git_libgit2_init     git_threads_init
 # define git_libgit2_shutdown git_threads_shutdown
 #endif
-#if ! defined (LIBGIT2_VER_MINOR) || ( (LIBGIT2_VER_MAJOR == 0) && (LIBGIT2_VER_MINOR < 23) )
+#if ! CHECK_LIBGIT2_VERSION(0, 23)
 /* 0.23 added @p binary_cb */
 # define git_diff_buffers(old_buffer, old_len, old_as_path, \
                           new_buffer, new_len, new_as_path, options, \
@@ -45,7 +53,7 @@
                     new_buffer, new_len, new_as_path, options, \
                     file_cb, hunk_cb, line_cb, payload)
 #endif
-#if ! defined (LIBGIT2_VER_MINOR) || ( (LIBGIT2_VER_MAJOR == 0) && (LIBGIT2_VER_MINOR < 28) )
+#if ! CHECK_LIBGIT2_VERSION(0, 28)
 # define git_buf_dispose  git_buf_free
 # define git_error_last   giterr_last
 #endif
