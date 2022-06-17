@@ -57,6 +57,9 @@
 # define git_buf_dispose  git_buf_free
 # define git_error_last   giterr_last
 #endif
+#if ! CHECK_LIBGIT2_VERSION(0, 99)
+# define git_diff_options_init git_diff_init_options
+#endif
 
 
 GeanyPlugin      *geany_plugin;
@@ -280,7 +283,9 @@ get_blob_contents (git_buf     *out,
    * previous git_buf_grow() shenanigans.
    * This code path does the same as the older git_blob_filtered_content()
    * but with non-deprecated API */
-  git_blob_filter_options opts = GIT_BLOB_FILTER_OPTIONS_INIT;
+  git_blob_filter_options opts;
+
+  git_blob_filter_options_init (&opts, GIT_BLOB_FILTER_OPTIONS_VERSION);
 
   if (check_for_binary_data)
     opts.flags |= GIT_BLOB_FILTER_CHECK_FOR_BINARY;
@@ -741,7 +746,7 @@ diff_buf_to_doc (const git_buf   *old_buf,
                  void            *payload)
 {
   ScintillaObject  *sci = doc->editor->sci;
-  git_diff_options  opts = GIT_DIFF_OPTIONS_INIT;
+  git_diff_options  opts;
   gchar            *buf;
   size_t            len;
   gboolean          free_buf = FALSE;
@@ -761,6 +766,7 @@ diff_buf_to_doc (const git_buf   *old_buf,
                                          doc->encoding, "UTF-8", NULL);
   }
   
+  git_diff_options_init (&opts, GIT_DIFF_OPTIONS_VERSION);
   /* no context lines, and no need to bother about binary checks */
   opts.context_lines = 0;
   opts.flags = GIT_DIFF_FORCE_TEXT;
