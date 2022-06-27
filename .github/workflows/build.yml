@@ -99,7 +99,6 @@ jobs:
             gettext
             python-docutils
             # geany-plugins
-            intltool
             check
             cppcheck
             # debugger

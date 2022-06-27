@@ -75,6 +75,7 @@ AC_DEFUN([GP_CHECK_MINGW],
 		*mingw*)
 			AC_DEFINE([WIN32], [1], [we are cross compiling for WIN32])
 			AM_CONDITIONAL([MINGW], true)
+			LIBS="$LIBS -liconv"
 			;;
 		*)
 			AM_CONDITIONAL([MINGW], false)
