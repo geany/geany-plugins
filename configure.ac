@@ -16,9 +16,11 @@ AM_PROG_CC_C_O
 AC_DISABLE_STATIC
 AC_PROG_LIBTOOL
 
-dnl i18n
-IT_PROG_INTLTOOL([0.35.0])
-GP_I18N
+dnl i18n, inline so autoreconf can detect gettext usage
+AM_GNU_GETTEXT_VERSION([0.19.8])
+AM_GNU_GETTEXT([external])
+AC_SUBST([GETTEXT_PACKAGE],[$PACKAGE])
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$PACKAGE"], [Gettext package.])
 
 dnl common checks
 GP_CHECK_GEANY(2.1)
