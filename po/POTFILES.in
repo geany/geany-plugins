@@ -164,7 +164,7 @@ geanyvc/src/utils.c
 geniuspaste/src/geniuspaste.c
 
 # GitChangeBar
-[type: gettext/glade]git-changebar/data/prefs.ui
+git-changebar/data/prefs.ui
 git-changebar/src/gcb-plugin.c
 
 # Keyrecord
@@ -200,14 +200,14 @@ overview/overview/overviewprefs.c
 overview/overview/overviewprefspanel.c
 overview/overview/overviewscintilla.c
 overview/overview/overviewui.c
-[type: gettext/glade]overview/data/prefs.ui
+overview/data/prefs.ui
 
 # Pairtaghighlighter
 pairtaghighlighter/src/pair_tag_highlighter.c
 
 # PoHelper
-[type: gettext/glade]pohelper/data/menus.ui
-[type: gettext/glade]pohelper/data/stats.ui
+pohelper/data/menus.ui
+pohelper/data/stats.ui
 pohelper/src/gph-plugin.c
 
 # Pretty-printer
