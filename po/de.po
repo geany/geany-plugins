@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.35\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-29 19:41+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/geany/geany/issues\n"
+"POT-Creation-Date: 2022-06-28 07:39+0200\n"
 "PO-Revision-Date: 2016-08-08 22:38+0200\n"
 "Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -32,27 +32,27 @@ msgstr ""
 msgid "(Empty Line)"
 msgstr "(Leere Zeile)"
 
-#: ../addons/src/ao_bookmarklist.c:315
+#: ../addons/src/ao_bookmarklist.c:331
 msgid "_Remove Bookmark"
 msgstr "_Lesezeichen entfernen"
 
 #. Translators: Number is meant at this point.
-#: ../addons/src/ao_bookmarklist.c:342
+#: ../addons/src/ao_bookmarklist.c:358
 msgid "No."
 msgstr "Nr."
 
-#: ../addons/src/ao_bookmarklist.c:350 ../devhelp/src/dhp-object.c:494
+#: ../addons/src/ao_bookmarklist.c:366 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "Inhalte"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:666
+#: ../addons/src/ao_bookmarklist.c:399 ../treebrowser/src/treebrowser.c:666
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2679
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2730
 msgid "_Update"
 msgstr "_Aktualisieren"
 
@@ -174,10 +174,10 @@ msgstr "Kopiert den Pfad des aktuellen Dokumentes in die Zwischenablage."
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2079 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2130 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
-#: ../treebrowser/src/treebrowser.c:2102
+#: ../treebrowser/src/treebrowser.c:2106
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr ""
@@ -783,7 +783,7 @@ msgstr "~\"Zieldatei laden.\\n\""
 msgid "Error loading file"
 msgstr "Fehler beim Laden der Datei"
 
-#. setting asyncronous mode
+#. setting asynchronous mode
 #. setting null-stop array printing
 #. enable pretty printing
 #: ../debugger/src/dbm_gdb.c:789 ../debugger/src/dbm_gdb.c:792
@@ -1190,7 +1190,7 @@ msgid "A developers' help browser for GNOME"
 msgstr "Ein Hilfebrowser für Entwickler unter GNOME"
 
 #. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2660
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2711
 msgid "_File"
 msgstr "_Datei"
 
@@ -1224,11 +1224,11 @@ msgstr "Neuer Rei_ter"
 msgid "_Print…"
 msgstr "_Drucken…"
 
-#: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
+#: ../devhelp/devhelp/dh-window.c:782
 msgid "Find Next"
 msgstr "Nächstes suchen"
 
-#: ../devhelp/devhelp/dh-window.c:784 ../devhelp/devhelp/eggfindbar.c:329
+#: ../devhelp/devhelp/dh-window.c:784
 msgid "Find Previous"
 msgstr "Vorheriges suchen"
 
@@ -1420,7 +1420,7 @@ msgstr ""
 "auf. \n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
-#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:442
+#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:448
 msgid "Could not parse the output of command"
 msgstr "Konnte die Ausgabe des Befehls nicht verarbeiten."
 
@@ -3144,7 +3144,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Nicht genügend Argumente für den Befehl »%s«.\n"
 
-#: ../geanylua/glspi_sci.c:637 ../geanylua/glspi_app.c:406
+#: ../geanylua/glspi_sci.c:729 ../geanylua/glspi_app.c:406
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3153,7 +3153,7 @@ msgstr ""
 "Fehler in Modul »%s« in Funktion %s():\n"
 "Unbekannter Befehl »%s« für das Argument #1.\n"
 
-#: ../geanylua/glspi_sci.c:781
+#: ../geanylua/glspi_sci.c:924
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3164,7 +3164,7 @@ msgstr ""
 "Falsche Tabelle in Argument #%d:\n"
 "Unbekannter Parameter »%s« für Element #%d\n"
 
-#: ../geanylua/glspi_sci.c:785
+#: ../geanylua/glspi_sci.c:928
 msgid "<too large to display>"
 msgstr "<zu groß zum Anzeigen>"
 
@@ -3957,7 +3957,7 @@ msgid "New _Below"
 msgstr "Neu d_arunter"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
-#: ../treebrowser/src/treebrowser.c:1338 ../treebrowser/src/treebrowser.c:1340
+#: ../treebrowser/src/treebrowser.c:1342 ../treebrowser/src/treebrowser.c:1344
 msgid "_Delete"
 msgstr "_Löschen"
 
@@ -4378,8 +4378,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "ein Schlüssel mit Fingerabdruck"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:610
-#: ../spellcheck/src/gui.c:621
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:607
+#: ../spellcheck/src/gui.c:618
 msgid "unknown"
 msgstr "Unbekannt"
 
@@ -4692,49 +4692,49 @@ msgstr ""
 "Schnittstelle für verschiedene Softwareversionskontrollsysteme.\n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
-#: ../geanyvc/src/geanyvc.c:501
+#: ../geanyvc/src/geanyvc.c:507
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: s_spawn_sync error: %s"
 
-#: ../geanyvc/src/geanyvc.c:587
+#: ../geanyvc/src/geanyvc.c:593
 #, c-format
 msgid "File %s: action %s executed via %s."
 msgstr "Datei %s: Aktion %s wurde über %s ausgeführt."
 
-#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:657
-#, c-format
-msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
+#: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:643
+#, fuzzy, c-format
+msgid "geanyvc: diff_external: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activated: Kann »%s« nicht in »%s« umbenennen."
 
-#: ../geanyvc/src/geanyvc.c:683 ../geanyvc/src/geanyvc.c:733
+#: ../geanyvc/src/geanyvc.c:698 ../geanyvc/src/geanyvc.c:784
 msgid "No changes were made."
 msgstr "Es wurden keine Änderungen vorgenommen."
 
-#: ../geanyvc/src/geanyvc.c:760
+#: ../geanyvc/src/geanyvc.c:811
 msgid "No history available"
 msgstr "Keine Historie verfügbar"
 
-#: ../geanyvc/src/geanyvc.c:953 ../geanyvc/src/geanyvc.c:961
+#: ../geanyvc/src/geanyvc.c:1004 ../geanyvc/src/geanyvc.c:1012
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Möchten Sie wirklich »%s« zurücksetzen?"
 
-#: ../geanyvc/src/geanyvc.c:969
+#: ../geanyvc/src/geanyvc.c:1020
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Möchten Sie wirklich »%s« hinzufügen?"
 
-#: ../geanyvc/src/geanyvc.c:976
+#: ../geanyvc/src/geanyvc.c:1027
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Möchten Sie wirklich »%s« entfernen?"
 
-#: ../geanyvc/src/geanyvc.c:999
+#: ../geanyvc/src/geanyvc.c:1050
 msgid "Do you really want to update?"
 msgstr "Möchten Sie wirklich »%s« aktualisieren?"
 
-#: ../geanyvc/src/geanyvc.c:1126
+#: ../geanyvc/src/geanyvc.c:1177
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4747,48 +4747,48 @@ msgstr ""
 "Um sich dennoch die Änderungen anzeigen zu lassen, benutzen Sie einfach die "
 "Diff-Funktion aus dem GeanyVC-Unterpunktes innerhalb des Werkzeuge-Menüs."
 
-#: ../geanyvc/src/geanyvc.c:1280
+#: ../geanyvc/src/geanyvc.c:1331
 msgid "Commit Y/N"
 msgstr "Eintragen"
 
-#: ../geanyvc/src/geanyvc.c:1290
+#: ../geanyvc/src/geanyvc.c:1341
 msgid "Status"
 msgstr "Status"
 
-#: ../geanyvc/src/geanyvc.c:1297
+#: ../geanyvc/src/geanyvc.c:1348
 msgid "Path"
 msgstr "Pfad"
 
-#: ../geanyvc/src/geanyvc.c:1414
+#: ../geanyvc/src/geanyvc.c:1465
 msgid "Choose a previous commit message"
 msgstr "Eine vorhergegangene Commit-Beschreibung auswählen"
 
-#: ../geanyvc/src/geanyvc.c:1476
+#: ../geanyvc/src/geanyvc.c:1527
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "Zeile: %d Spalte: %d"
 
-#: ../geanyvc/src/geanyvc.c:1523
+#: ../geanyvc/src/geanyvc.c:1574
 msgid "Commit"
 msgstr "Eintragen (commit)"
 
-#: ../geanyvc/src/geanyvc.c:1564
+#: ../geanyvc/src/geanyvc.c:1615
 msgid "_De-/select all files"
 msgstr "Alle _Dateien aus- bzw. abwählen"
 
-#: ../geanyvc/src/geanyvc.c:1608
+#: ../geanyvc/src/geanyvc.c:1659
 msgid "<b>Commit message:</b>"
 msgstr "<b>Commitnachricht:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1632
+#: ../geanyvc/src/geanyvc.c:1683
 msgid "C_ommit"
 msgstr "Ein_tragen"
 
-#: ../geanyvc/src/geanyvc.c:1740
+#: ../geanyvc/src/geanyvc.c:1791
 msgid "Nothing to commit."
 msgstr "Nichts zum Eintragen."
 
-#: ../geanyvc/src/geanyvc.c:1788
+#: ../geanyvc/src/geanyvc.c:1839
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
@@ -4796,26 +4796,26 @@ msgstr ""
 "Fehler beim Initialisieren der Rechtschreibprüfung: %s. Überprüfen Sie Ihre "
 "Konfiguration!"
 
-#: ../geanyvc/src/geanyvc.c:1823
+#: ../geanyvc/src/geanyvc.c:1874
 #, c-format
 msgid "Commit failed (status: %d, error: %s)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1824
+#: ../geanyvc/src/geanyvc.c:1875
 #, fuzzy
 msgid "Commit failed; see status in the Message window."
 msgstr "Verfügbare Aufgaben im Meldungsfenster anzeigen"
 
-#: ../geanyvc/src/geanyvc.c:1829
+#: ../geanyvc/src/geanyvc.c:1880
 #, fuzzy
 msgid "Changes committed."
 msgstr "Nichts zum Eintragen."
 
-#: ../geanyvc/src/geanyvc.c:2151
+#: ../geanyvc/src/geanyvc.c:2202
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "Vom Plugin erstellte Dokumente als geändert markieren"
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2205
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4826,45 +4826,45 @@ msgstr ""
 "der Speichern-Dialog geöffnet wird. Auch wenn diese Option von Zeit zu Zeit "
 "sehr nützlich sein kann, kann sie ab und an einfach nur stören."
 
-#: ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Confirm adding new files to a VCS"
 msgstr "Hinzufügen von Dateien zur Versionsverwaltung immer bestätigen"
 
-#: ../geanyvc/src/geanyvc.c:2165
+#: ../geanyvc/src/geanyvc.c:2216
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr ""
 "Zeigt einen Bestätigungsdialog beim Hinzufügen von Dateien zu einem "
 "Versionsverwaltungssystem."
 
-#: ../geanyvc/src/geanyvc.c:2171
+#: ../geanyvc/src/geanyvc.c:2222
 msgid "Maximize commit dialog"
 msgstr "Commit-Dialog maximieren"
 
-#: ../geanyvc/src/geanyvc.c:2172
+#: ../geanyvc/src/geanyvc.c:2223
 msgid "Show commit dialog maximize."
 msgstr "Commit-Dialog beim Anzeigen maximieren"
 
-#: ../geanyvc/src/geanyvc.c:2178
+#: ../geanyvc/src/geanyvc.c:2229
 msgid "Use external diff viewer"
 msgstr "Externes Diff-Programm"
 
-#: ../geanyvc/src/geanyvc.c:2180
+#: ../geanyvc/src/geanyvc.c:2231
 msgid "Use external diff viewer for file diff."
 msgstr "Externes Diff-Programm zum Vergleich von zwei Dateien"
 
-#: ../geanyvc/src/geanyvc.c:2186
+#: ../geanyvc/src/geanyvc.c:2237
 msgid "Show VC entries at editor menu"
 msgstr "Funktionen über das Editormenü verfügbar machen"
 
-#: ../geanyvc/src/geanyvc.c:2188
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Einträge für das Plugin im Editormenü anzeigen"
 
-#: ../geanyvc/src/geanyvc.c:2193
+#: ../geanyvc/src/geanyvc.c:2244
 msgid "Attach menu to menubar"
 msgstr "Menü an Menüleiste anhängen"
 
-#: ../geanyvc/src/geanyvc.c:2195
+#: ../geanyvc/src/geanyvc.c:2246
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4874,217 +4874,217 @@ msgstr ""
 "Menüleiste von Geany angezeigt werden. Dies wird erst nach einen Neustart "
 "von GeanyVC funktionieren"
 
-#: ../geanyvc/src/geanyvc.c:2203
+#: ../geanyvc/src/geanyvc.c:2254
 msgid "Enable CVS"
 msgstr "CVS aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:2208
+#: ../geanyvc/src/geanyvc.c:2259
 msgid "Enable GIT"
 msgstr "GIT aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:2213
+#: ../geanyvc/src/geanyvc.c:2264
 msgid "Enable Fossil"
 msgstr "Fossil aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:2218
+#: ../geanyvc/src/geanyvc.c:2269
 msgid "Enable SVN"
 msgstr "SVN aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:2223
+#: ../geanyvc/src/geanyvc.c:2274
 msgid "Enable SVK"
 msgstr "SVK aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:2228
+#: ../geanyvc/src/geanyvc.c:2279
 msgid "Enable Bazaar"
 msgstr "Bazaar aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:2233
+#: ../geanyvc/src/geanyvc.c:2284
 msgid "Enable Mercurial"
 msgstr "Mercurial aktivieren"
 
-#: ../geanyvc/src/geanyvc.c:2239
+#: ../geanyvc/src/geanyvc.c:2290
 msgid "Spellcheck language"
 msgstr "Sprache:"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2368 ../geanyvc/src/geanyvc.c:2463
-#: ../geanyvc/src/geanyvc.c:2503
+#: ../geanyvc/src/geanyvc.c:2419 ../geanyvc/src/geanyvc.c:2514
+#: ../geanyvc/src/geanyvc.c:2554
 msgid "_Diff"
 msgstr "_Unterschiede anzeigen (diff)"
 
-#: ../geanyvc/src/geanyvc.c:2371
+#: ../geanyvc/src/geanyvc.c:2422
 msgid "Make a diff from the current active file"
 msgstr "Erstellt ein Diff für die aktuelle Datei."
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2376 ../geanyvc/src/geanyvc.c:2472
-#: ../geanyvc/src/geanyvc.c:2511
+#: ../geanyvc/src/geanyvc.c:2427 ../geanyvc/src/geanyvc.c:2523
+#: ../geanyvc/src/geanyvc.c:2562
 msgid "_Revert"
 msgstr "_Zurücksetzen (revert)"
 
-#: ../geanyvc/src/geanyvc.c:2379
+#: ../geanyvc/src/geanyvc.c:2430
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr ""
 "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
 "Änderungen)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2388
+#: ../geanyvc/src/geanyvc.c:2439
 msgid "_Blame"
 msgstr "Ä_nderungsverfolgung (blame)"
 
-#: ../geanyvc/src/geanyvc.c:2391
+#: ../geanyvc/src/geanyvc.c:2442
 msgid "Shows the changes made at one file per revision and author."
 msgstr "Zeigt alle Änderungen einer Datei nach Autor und Revision."
 
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2398 ../geanyvc/src/geanyvc.c:2482
-#: ../geanyvc/src/geanyvc.c:2523
+#: ../geanyvc/src/geanyvc.c:2449 ../geanyvc/src/geanyvc.c:2533
+#: ../geanyvc/src/geanyvc.c:2574
 msgid "_History (log)"
 msgstr "_Versionsgeschichte (log)"
 
-#: ../geanyvc/src/geanyvc.c:2401
+#: ../geanyvc/src/geanyvc.c:2452
 msgid "Shows the log of the current file"
 msgstr "Zeigt die Versionsgeschichte der aktuellen Datei an."
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2406
+#: ../geanyvc/src/geanyvc.c:2457
 msgid "_Original"
 msgstr "_Original"
 
-#: ../geanyvc/src/geanyvc.c:2409
+#: ../geanyvc/src/geanyvc.c:2460
 msgid "Shows the original of the current file"
 msgstr "Zeigt die unveränderte Datei an"
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2417
+#: ../geanyvc/src/geanyvc.c:2468
 msgid "_Add to Version Control"
 msgstr "Zur _Versionskontrolle hinzufügen"
 
-#: ../geanyvc/src/geanyvc.c:2419
+#: ../geanyvc/src/geanyvc.c:2470
 msgid "Add file to repository."
 msgstr "Fügt eine Datei zur Versionskontrolle hin_zu."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2425
+#: ../geanyvc/src/geanyvc.c:2476
 msgid "_Remove from Version Control"
 msgstr "Aus Versionskontrolle _entfernen"
 
-#: ../geanyvc/src/geanyvc.c:2427
+#: ../geanyvc/src/geanyvc.c:2478
 msgid "Remove file from repository."
 msgstr "Entfernt eine Datei aus Versionskontrolle und Repository."
 
-#: ../geanyvc/src/geanyvc.c:2460
+#: ../geanyvc/src/geanyvc.c:2511
 msgid "_Directory"
 msgstr "_Verzeichnis"
 
-#: ../geanyvc/src/geanyvc.c:2466
+#: ../geanyvc/src/geanyvc.c:2517
 msgid "Make a diff from the directory of the current active file"
 msgstr "Erstellt ein Diff für das Verzeichnis der aktuellen Datei."
 
-#: ../geanyvc/src/geanyvc.c:2475
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 "Stellt den ursprünglichen Zustand der Datei wieder her (verwirft lokale "
 "Änderungen)."
 
-#: ../geanyvc/src/geanyvc.c:2485
+#: ../geanyvc/src/geanyvc.c:2536
 msgid "Shows the log of the current directory"
 msgstr "Zeigt die Versionsgeschichte für das aktuelle Verzeichnis."
 
-#: ../geanyvc/src/geanyvc.c:2499
+#: ../geanyvc/src/geanyvc.c:2550
 msgid "_Base Directory"
 msgstr "_Basisordner"
 
-#: ../geanyvc/src/geanyvc.c:2505
+#: ../geanyvc/src/geanyvc.c:2556
 msgid "Make a diff from the top VC directory"
 msgstr "Erstellt ein Diff für die gesamte Arbeitskopie"
 
-#: ../geanyvc/src/geanyvc.c:2513
+#: ../geanyvc/src/geanyvc.c:2564
 msgid "Revert any local edits."
 msgstr "Alle lokalen Änderungen zurücksetzen"
 
-#: ../geanyvc/src/geanyvc.c:2526
+#: ../geanyvc/src/geanyvc.c:2577
 msgid "Shows the log of the top VC directory"
 msgstr "Zeigt die Versionsgeschichte für die gesamte Arbeitskopie"
 
-#: ../geanyvc/src/geanyvc.c:2543
+#: ../geanyvc/src/geanyvc.c:2594
 msgid "_VC file Actions"
 msgstr "_VC Dateioperationen"
 
-#: ../geanyvc/src/geanyvc.c:2552
+#: ../geanyvc/src/geanyvc.c:2603
 msgid "VC _Commit..."
 msgstr "VC ein_tragen (commit)..."
 
-#: ../geanyvc/src/geanyvc.c:2596
+#: ../geanyvc/src/geanyvc.c:2647
 msgid "Show diff of file"
 msgstr "Diff von der aktuellen Datei"
 
-#: ../geanyvc/src/geanyvc.c:2598
+#: ../geanyvc/src/geanyvc.c:2649
 msgid "Show diff of directory"
 msgstr "Zeigt Veränderung des Verzeichnisses an (diff)"
 
-#: ../geanyvc/src/geanyvc.c:2600
+#: ../geanyvc/src/geanyvc.c:2651
 msgid "Show diff of basedir"
 msgstr "Diff vom Grundverzeichnis"
 
-#: ../geanyvc/src/geanyvc.c:2603
+#: ../geanyvc/src/geanyvc.c:2654
 msgid "Commit changes"
 msgstr "Änderungen eintragen"
 
-#: ../geanyvc/src/geanyvc.c:2605
+#: ../geanyvc/src/geanyvc.c:2656
 msgid "Show status"
 msgstr "Status der Arbeitskopie anzeigen"
 
-#: ../geanyvc/src/geanyvc.c:2607
+#: ../geanyvc/src/geanyvc.c:2658
 msgid "Revert single file"
 msgstr "Datei zurücksetzen (revert)"
 
-#: ../geanyvc/src/geanyvc.c:2609
+#: ../geanyvc/src/geanyvc.c:2660
 msgid "Revert directory"
 msgstr "Verzeichnis zurücksetzen (revert)"
 
-#: ../geanyvc/src/geanyvc.c:2611
+#: ../geanyvc/src/geanyvc.c:2662
 msgid "Revert base directory"
 msgstr "Alle Änderungen verwerfen"
 
-#: ../geanyvc/src/geanyvc.c:2613
+#: ../geanyvc/src/geanyvc.c:2664
 msgid "Update file"
 msgstr "Datei aktualisieren"
 
-#: ../geanyvc/src/geanyvc.c:2643
+#: ../geanyvc/src/geanyvc.c:2694
 msgid "_VC"
 msgstr "_VC"
 
-#: ../geanyvc/src/geanyvc.c:2650
+#: ../geanyvc/src/geanyvc.c:2701
 msgid "_Version Control"
 msgstr "_Versionskontrolle"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2672
+#: ../geanyvc/src/geanyvc.c:2723
 msgid "_Status"
 msgstr "_Status"
 
-#: ../geanyvc/src/geanyvc.c:2674
+#: ../geanyvc/src/geanyvc.c:2725
 msgid "Show status."
 msgstr "Zeigt den Status der Arbeitskopie."
 
-#: ../geanyvc/src/geanyvc.c:2681
+#: ../geanyvc/src/geanyvc.c:2732
 msgid "Update from remote repository."
 msgstr "Aus dem Repositorium aktualisieren"
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2686
+#: ../geanyvc/src/geanyvc.c:2737
 msgid "_Commit..."
 msgstr "Ein_tragen (commit)..."
 
-#: ../geanyvc/src/geanyvc.c:2688
+#: ../geanyvc/src/geanyvc.c:2739
 msgid "Commit changes."
 msgstr "Änderungen eintragen."
 
@@ -5186,8 +5186,8 @@ msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr ""
-"Der gesendete Inhalt kann jetzt hier betrachtet werden: <a href=\"%s\" title="
-"\"Klicken, um im Browser betrachtet zu werden\">%s</a>"
+"Der gesendete Inhalt kann jetzt hier betrachtet werden: <a href=\"%s\" "
+"title=\"Klicken, um im Browser betrachtet zu werden\">%s</a>"
 
 #: ../geniuspaste/src/geniuspaste.c:881
 msgid "There are no opened documents. Open one and retry.\n"
@@ -5214,37 +5214,6 @@ msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 #: ../geniuspaste/src/geniuspaste.c:959
 msgid "_Paste it!"
 msgstr "Zu _Pastebin senden"
-
-#: ../git-changebar/data/prefs.ui.h:1
-msgid "_Monitor repository for changes"
-msgstr "Repository auf Änderungen _überwachen"
-
-#: ../git-changebar/data/prefs.ui.h:2
-msgid ""
-"Whether to automatically update the diff in order to maintain it up to date "
-"when the underlying Git repository changes.  This should generally be "
-"enabled for optimal user experience."
-msgstr ""
-"Legt fest, ob die Diffs automatische aktualisiert werden und sie so immer "
-"auf dem aktuellen Stand gehalten werden sollen. Insbesondere dann, wenn das "
-"zu Grunde liegende git-Repository geändert wurde. In den meisten Fällen "
-"sollte diese Option aktiviert sein."
-
-#: ../git-changebar/data/prefs.ui.h:3
-msgid "_Added lines:"
-msgstr "_Hinzugefügte Zeilen:"
-
-#: ../git-changebar/data/prefs.ui.h:4
-msgid "_Changed lines:"
-msgstr "_Geänderte Zeilen:"
-
-#: ../git-changebar/data/prefs.ui.h:5
-msgid "_Removed lines:"
-msgstr "_Entfernte Zeilen:"
-
-#: ../git-changebar/data/prefs.ui.h:6
-msgid "Colors"
-msgstr "Farben:"
 
 #: ../git-changebar/src/gcb-plugin.c:62
 msgid "Git Change Bar"
@@ -5437,8 +5406,8 @@ msgstr ""
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
-"Your configuration directory has been successfully moved from \"%s\" to \"%s"
-"\"."
+"Your configuration directory has been successfully moved from \"%s\" to "
+"\"%s\"."
 msgstr ""
 "Das Konfigurationsverzeichnis wurde erfolgreich von »%s« nach »%s« "
 "verschoben."
@@ -5606,7 +5575,7 @@ msgstr "Konnte Standardkonfiguration nicht schreiben: %s"
 msgid "Unable to read value for '%s' key: %s"
 msgstr "Konnte Wert für »%s«, Schlüssel »%s« nicht lesen"
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2132
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2137
 msgid "Terminal"
 msgstr "Terminal"
 
@@ -5644,133 +5613,6 @@ msgstr "Zeile <b>%d</b>, Spalte <b>%d</b>, Position <b>%d</b>"
 msgid "Show Overview"
 msgstr "Überblick anzeigen"
 
-#: ../overview/data/prefs.ui.h:1
-msgid ""
-"The amount to zoom the overview sidebar. This should probably negative if "
-"you want the sidebar zoomed out."
-msgstr ""
-"Legt fest, wie stark die Seitenleiste von »Overview« vergrößert/verkleinert "
-"werden soll. Negative Werte sorgen für eine größere Übersicht."
-
-#: ../overview/data/prefs.ui.h:2
-msgid "Zoom Level:"
-msgstr "Zoom-Stufe:"
-
-#: ../overview/data/prefs.ui.h:3
-msgid "The width of the overview sidebar."
-msgstr "Die Breite der Überblick-Fensters"
-
-#: ../overview/data/prefs.ui.h:4
-msgid "Width:"
-msgstr "Breite:"
-
-#: ../overview/data/prefs.ui.h:5
-msgid ""
-"The number of lines to scroll at a time when scrolling the overview sidebar."
-msgstr ""
-"Legt die Anzahl der Zeilen fest, die beim Scrollen in der Seitenleiste "
-"zurückgelegt werden sollen."
-
-#: ../overview/data/prefs.ui.h:6
-msgid "Scroll Lines:"
-msgstr "Scrollgeschwindigkeit:"
-
-#: ../overview/data/prefs.ui.h:7
-msgid "Position on left"
-msgstr "Links positionieren"
-
-#: ../overview/data/prefs.ui.h:8
-msgid ""
-"Position the overview bar on the left rather than the right (requires Geany "
-"1.25 or greater)."
-msgstr ""
-"Diese Option positioniert die Seitenleiste des Plugins an der linken Seite "
-"von Geany. Dies funktioniert nur in Geany-Versionen >= 1.25."
-
-#: ../overview/data/prefs.ui.h:9
-msgid "Hide tooltip"
-msgstr "Tooltips verstecken."
-
-#: ../overview/data/prefs.ui.h:10
-msgid ""
-"Hide the tooltip that is displayed when mousing over the overview that shows "
-"line, column and position information."
-msgstr ""
-"Versteckt die zusätzlichen Informationen, die beim mit der Maus "
-"überstreichen angezeigt werden (Zeile, Spalte etc.)"
-
-#: ../overview/data/prefs.ui.h:11
-msgid "Hide editor scrollbar"
-msgstr "Normale Bildlaufleiste verstecken"
-
-#: ../overview/data/prefs.ui.h:12
-msgid ""
-"Whether to hide Geany's regular editor scrollbar while the overview bar is "
-"visible."
-msgstr ""
-"Mit dieser Option kann Geanys normale Bildlaufleiste versteckt werden, so "
-"dass, wenn das Plugin aktiv ist, allein über die Vorschau im Dokument "
-"navigiert werden kann."
-
-#: ../overview/data/prefs.ui.h:13
-msgid "Disable overlay"
-msgstr "Bildausschnittsmarkierung deaktivieren"
-
-#: ../overview/data/prefs.ui.h:14
-msgid ""
-"Turn off drawing overlay, which shows the region of the main editor view "
-"that is currently in view, ontop of the overview bar."
-msgstr ""
-"Diese Option legt fest, ob der aktuelle Bildschirmausschnitt aus dem "
-"normalen Editorfenster in der Vorschau angezeigt werden soll."
-
-#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:130
-#: ../scope/data/scope_gtk3.glade.h:130
-msgid "Options"
-msgstr "Optionen"
-
-#: ../overview/data/prefs.ui.h:16
-msgid ""
-"The color and opacity of the overlay drawn ontop of the overlay sidebar."
-msgstr ""
-"Konfiguriert die Farbe und Sättigung der Bildausschnittsmarkierung in der "
-"Seitenleiste des Plugins."
-
-#: ../overview/data/prefs.ui.h:17
-msgid "Color:"
-msgstr "Farbe:"
-
-#: ../overview/data/prefs.ui.h:18
-msgid ""
-"The color and opacity of the border drawn around the revealed area in the "
-"overview sidebar. Set to the same as Overlay Color to disable."
-msgstr ""
-"Konfiguriert die Farbe und Sättigung rund um das aktive Gebiet des "
-"Dokumentes. Zum Deaktivieren einfach auf die gleiche Farbe wie die der "
-"Bildausschnittsmarkierung stellen"
-
-#: ../overview/data/prefs.ui.h:19
-msgid "Outline Color:"
-msgstr "Farbe Außenlinie"
-
-#: ../overview/data/prefs.ui.h:20
-msgid "Draw over visible area"
-msgstr "Über sichtbares Gebiet zeichnen"
-
-#: ../overview/data/prefs.ui.h:21
-msgid ""
-"When checked it will draw the overlay ontop of the area that is visible in "
-"the main editor view, when unchecked, it will do the opposite and draw the "
-"overlay everywhere but the visible area, \"revealing\" the visible part."
-msgstr ""
-"Wenn diese Option aktiv ist, wird die Bildausschnittsmarkierung nur über den "
-"aktiven Bereich gelegt. Ist die Option deaktiviert, wird alles was nicht "
-"sichtbar ist mit einer Markierung versehen. "
-
-#: ../overview/data/prefs.ui.h:22
-msgid "Overlay"
-msgstr "Überlagerung"
-
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:43
 msgid "Pair Tag Highlighter"
 msgstr "PairTagHighlighter"
@@ -5794,148 +5636,6 @@ msgstr "Zum korrospondierenden Tag springen"
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
 msgid "Select To Matching Tag"
 msgstr "Bis zur korrospondierenden _Tag auswählen"
-
-#: ../pohelper/data/menus.ui.h:1
-msgid "_Translation Helper"
-msgstr "_Übersetzungshelfer"
-
-#: ../pohelper/data/menus.ui.h:2
-msgid "_Previous String"
-msgstr "_Vorheriger String"
-
-#: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1590
-msgid "Go to previous string"
-msgstr "Zum vorherigen String gehen"
-
-#: ../pohelper/data/menus.ui.h:4
-msgid "_Next String"
-msgstr "_Nächster String"
-
-#: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1593
-msgid "Go to next string"
-msgstr "Zur nächsten String gehen"
-
-#: ../pohelper/data/menus.ui.h:6
-msgid "Pre_vious Untranslated"
-msgstr "_Vorherige nicht übersetze Zeichenkette"
-
-#: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1596
-msgid "Go to previous untranslated string"
-msgstr "Geht zu der vorherigen, noch nicht übersetzten Zeichenkette."
-
-#: ../pohelper/data/menus.ui.h:8
-msgid "Next _Untranslated"
-msgstr "Nächste nicht _übersetzte Zeichenkette"
-
-#: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1599
-msgid "Go to next untranslated string"
-msgstr "Geht zu der nächsten, noch nicht übersetzten Zeichenkette."
-
-#: ../pohelper/data/menus.ui.h:10
-msgid "Previous Fu_zzy"
-msgstr "_Vorhergehende unklare Übersetzung"
-
-#: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1602
-msgid "Go to previous fuzzily translated string"
-msgstr "Springt zur vorhergehenden, unklaren (fuzzy) Übersetzung"
-
-#: ../pohelper/data/menus.ui.h:12
-msgid "Next _Fuzzy"
-msgstr "Nächste _unklare Übersetzung"
-
-#: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1605
-msgid "Go to next fuzzily translated string"
-msgstr "Gehe zur nächsten unklaren Übersetzung"
-
-#: ../pohelper/data/menus.ui.h:14
-msgid "Previous Untranslated or Fuzz_y"
-msgstr "Vorherige u_nübersetzt oder -klar."
-
-#: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1608
-msgid "Go to previous untranslated or fuzzy string"
-msgstr "Gehe zum vorherigen unklaren oder unübersetzten String"
-
-#: ../pohelper/data/menus.ui.h:16
-msgid "Next Untranslated _or Fuzzy"
-msgstr "Nächste unübersetzte _oder unklare Übersetzung"
-
-#: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1612
-msgid "Go to next untranslated or fuzzy string"
-msgstr "Springt zum nächsten unklaren (fuzzy) oder unübersetzten String"
-
-#: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1623
-msgid "Toggle current translation fuzziness"
-msgstr "Status der Übersetzung umschalten (Fuzzy)"
-
-#: ../pohelper/data/menus.ui.h:19
-msgid "_Toggle Fuzziness"
-msgstr "_Status tauschen"
-
-#: ../pohelper/data/menus.ui.h:20
-msgid "Paste _Message as Translation"
-msgstr "_Originalstring als Übersetzung verwenden"
-
-#: ../pohelper/data/menus.ui.h:21
-msgid "Paste the original untranslated string to the translation"
-msgstr ""
-"Benutzt die unübersetzte Ausgabe, um diese auch in der übersetzten Form "
-"anzuzeigen."
-
-#: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1620
-msgid "Reflow the current translation string"
-msgstr "Aktuelle Übersetzungen neu umbrechen"
-
-#: ../pohelper/data/menus.ui.h:23
-msgid "_Reflow Translation"
-msgstr "_Übersetzungen neu umbrechen"
-
-#: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1626
-msgid "Show statistics of the current document"
-msgstr "Statistik der aktuellen Übersetzung ansehen"
-
-#: ../pohelper/data/menus.ui.h:25
-msgid "_Show stats"
-msgstr "_Statistik anzeigen"
-
-#: ../pohelper/data/menus.ui.h:26
-msgid ""
-"Whether to update the translation headers (author, revision date, ...) upon "
-"file save"
-msgstr ""
-"Legt fest, ob die Metadaten der Übersetzungsdatei (Autor, Datum ... ) beim "
-"Speichern aktualisiert werden sollen."
-
-#: ../pohelper/data/menus.ui.h:27
-msgid "Update _Headers Upon Save"
-msgstr "_Metadaten beim Speichern aktualisieren"
-
-#: ../pohelper/data/stats.ui.h:1
-msgid "Translation statistics"
-msgstr "Übersetzungsstatistiken"
-
-#: ../pohelper/data/stats.ui.h:2
-msgid "Choose a color for translated strings"
-msgstr "Farbe für übersetze Texte auswählen"
-
-#: ../pohelper/data/stats.ui.h:3
-msgid "Choose a color for fuzzily translated strings"
-msgstr "Farbe für unklare Übersetzungen auswählen"
-
-#: ../pohelper/data/stats.ui.h:4
-msgid "Choose a color for untranslated strings"
-msgstr "Farbe für nicht übersetzte Texte auswählen"
-
-#: ../pohelper/data/stats.ui.h:5
-msgid "Translated:"
-msgstr "Übersetzt:"
-
-#: ../pohelper/data/stats.ui.h:6
-msgid "Fuzzy:"
-msgstr "Unklar:"
-
-#: ../pohelper/data/stats.ui.h:7
-msgid "Untranslated:"
-msgstr "Unübersetzt:"
 
 #: ../pohelper/src/gph-plugin.c:40
 msgid "Translation Helper"
@@ -5966,9 +5666,53 @@ msgstr "<b>Unübersetzt:</b> %.3g%%"
 msgid "%u (%.3g%%)"
 msgstr "%u (%.3g%%)"
 
+#: ../pohelper/src/gph-plugin.c:1590
+msgid "Go to previous string"
+msgstr "Zum vorherigen String gehen"
+
+#: ../pohelper/src/gph-plugin.c:1593
+msgid "Go to next string"
+msgstr "Zur nächsten String gehen"
+
+#: ../pohelper/src/gph-plugin.c:1596
+msgid "Go to previous untranslated string"
+msgstr "Geht zu der vorherigen, noch nicht übersetzten Zeichenkette."
+
+#: ../pohelper/src/gph-plugin.c:1599
+msgid "Go to next untranslated string"
+msgstr "Geht zu der nächsten, noch nicht übersetzten Zeichenkette."
+
+#: ../pohelper/src/gph-plugin.c:1602
+msgid "Go to previous fuzzily translated string"
+msgstr "Springt zur vorhergehenden, unklaren (fuzzy) Übersetzung"
+
+#: ../pohelper/src/gph-plugin.c:1605
+msgid "Go to next fuzzily translated string"
+msgstr "Gehe zur nächsten unklaren Übersetzung"
+
+#: ../pohelper/src/gph-plugin.c:1608
+msgid "Go to previous untranslated or fuzzy string"
+msgstr "Gehe zum vorherigen unklaren oder unübersetzten String"
+
+#: ../pohelper/src/gph-plugin.c:1612
+msgid "Go to next untranslated or fuzzy string"
+msgstr "Springt zum nächsten unklaren (fuzzy) oder unübersetzten String"
+
 #: ../pohelper/src/gph-plugin.c:1616
 msgid "Paste original untranslated string to translation"
 msgstr "Originalen String als Übersetzung nutzen"
+
+#: ../pohelper/src/gph-plugin.c:1620
+msgid "Reflow the current translation string"
+msgstr "Aktuelle Übersetzungen neu umbrechen"
+
+#: ../pohelper/src/gph-plugin.c:1623
+msgid "Toggle current translation fuzziness"
+msgstr "Status der Übersetzung umschalten (Fuzzy)"
+
+#: ../pohelper/src/gph-plugin.c:1626
+msgid "Show statistics of the current document"
+msgstr "Statistik der aktuellen Übersetzung ansehen"
 
 #: ../pohelper/src/gph-plugin.c:1833
 #, c-format
@@ -6263,7 +6007,7 @@ msgid "Add"
 msgstr "Hinzufügen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2356
+#: ../treebrowser/src/treebrowser.c:2361
 msgid "New File"
 msgstr "Neue Datei"
 
@@ -6882,6 +6626,10 @@ msgstr "_Tooltips anzeigen."
 msgid "<b>Others</b>"
 msgstr "<b>Andere</b>"
 
+#: ../scope/data/scope.glade.h:130 ../scope/data/scope_gtk3.glade.h:130
+msgid "Options"
+msgstr "Optionen"
+
 #: ../scope/data/scope.glade.h:131 ../scope/data/scope_gtk3.glade.h:131
 msgid "_Import"
 msgstr "_Import"
@@ -7493,12 +7241,14 @@ msgid "Checks the spelling of the current document."
 msgstr "Prüft die Rechtschreibung im aktuellen Dokument."
 
 #: ../spellcheck/src/scplugin.c:225
-msgid "Run Spell Check"
+#, fuzzy
+msgid "Run spell check once"
 msgstr "Rechtschreibprüfung ausführen"
 
-#: ../spellcheck/src/scplugin.c:228
-msgid "Toggle Check While Typing"
-msgstr "Rechtschreibung beim Tippen überprüfen ein-/ausschalten"
+#: ../spellcheck/src/scplugin.c:228 ../spellcheck/src/scplugin.c:333
+#, fuzzy
+msgid "Toggle spell check"
+msgstr "Rechtschreibprüfung"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:239
@@ -7524,10 +7274,6 @@ msgstr "Falsch geschriebene Wörter und Vorschläge im Meldungsfenster anzeigen"
 #: ../spellcheck/src/scplugin.c:325
 msgid "<b>Interface</b>"
 msgstr "<b>Interface</b>"
-
-#: ../spellcheck/src/scplugin.c:333
-msgid "Check spelling while typing"
-msgstr "Beim Tippen Rechtschreibung überprüfen"
 
 #: ../spellcheck/src/scplugin.c:336
 msgid "Check spelling when opening a document"
@@ -7566,33 +7312,33 @@ msgstr ""
 msgid "<b>Behavior</b>"
 msgstr "<b>Verhalten</b>"
 
-#: ../spellcheck/src/gui.c:76
+#: ../spellcheck/src/gui.c:88
 msgid "Spell checking while typing is now enabled"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ist nun eingeschaltet"
 
-#: ../spellcheck/src/gui.c:78
+#: ../spellcheck/src/gui.c:90
 msgid "Spell checking while typing is now disabled"
 msgstr "»Rechtschreibung beim Tippen überprüfen« ist nun ausgeschaltet"
 
-#: ../spellcheck/src/gui.c:326
+#: ../spellcheck/src/gui.c:323
 msgid "More..."
 msgstr "Mehr ..."
 
-#: ../spellcheck/src/gui.c:347
+#: ../spellcheck/src/gui.c:344
 msgid "(No Suggestions)"
 msgstr "(keine Vorschläge)"
 
-#: ../spellcheck/src/gui.c:360
+#: ../spellcheck/src/gui.c:357
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "»%s« zum Wörterbuch hinzufügen"
 
-#: ../spellcheck/src/gui.c:368
+#: ../spellcheck/src/gui.c:365
 msgid "Ignore All"
 msgstr "Alle ignorieren"
 
 # Mit dem Umbruch kann man an dieser Stelle ggf. ja nochmal spielen
-#: ../spellcheck/src/gui.c:441
+#: ../spellcheck/src/gui.c:438
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -7600,23 +7346,23 @@ msgstr ""
 "Der Ausdruck ist zu lang, um Vorschläge\n"
 "im Editormenü anzeigen zu können."
 
-#: ../spellcheck/src/gui.c:447
+#: ../spellcheck/src/gui.c:444
 msgid "Perform Spell Check"
 msgstr "Rechtschreibung prüfen"
 
-#: ../spellcheck/src/gui.c:609
+#: ../spellcheck/src/gui.c:606
 #, c-format
 msgid "Default (%s)"
 msgstr "Vorgabe (%s)"
 
-#: ../spellcheck/src/gui.c:620
-#, c-format
-msgid "Toggle spell check while typing (current language: %s)"
+#: ../spellcheck/src/gui.c:617
+#, fuzzy, c-format
+msgid "Toggle spell check (current language: %s)"
 msgstr ""
 "»Rechtschreibung beim Tippen überprüfen« ein-/ausschalten (Aktuelle Sprache: "
 "%s)"
 
-#: ../spellcheck/src/gui.c:698
+#: ../spellcheck/src/gui.c:695
 msgid "Spelling Suggestions"
 msgstr "Rechtschreibvorschläge"
 
@@ -7712,15 +7458,15 @@ msgstr "(leer)"
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Konnte das eingestellte externe Werkzeug »%s« nicht ausführen (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1089
+#: ../treebrowser/src/treebrowser.c:1093
 msgid "NewDirectory"
 msgstr "Neues Verzeichnis"
 
-#: ../treebrowser/src/treebrowser.c:1091
+#: ../treebrowser/src/treebrowser.c:1095
 msgid "NewFile"
 msgstr "Neue Datei"
 
-#: ../treebrowser/src/treebrowser.c:1096
+#: ../treebrowser/src/treebrowser.c:1100
 #, c-format
 msgid ""
 "Target file '%s' exists.\n"
@@ -7729,134 +7475,134 @@ msgstr ""
 "Zieldatei »%s« existiert bereits.\n"
 "Möchten Sie diese wirklich mit einer leeren Datei ersetzen?"
 
-#: ../treebrowser/src/treebrowser.c:1142
+#: ../treebrowser/src/treebrowser.c:1146
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Soll »%s« wirklich gelöscht werden?"
 
-#: ../treebrowser/src/treebrowser.c:1255 ../treebrowser/src/treebrowser.c:1257
+#: ../treebrowser/src/treebrowser.c:1259 ../treebrowser/src/treebrowser.c:1261
 msgid "Go _Up"
 msgstr "_Aufwährts"
 
-#: ../treebrowser/src/treebrowser.c:1263 ../treebrowser/src/treebrowser.c:1265
+#: ../treebrowser/src/treebrowser.c:1267 ../treebrowser/src/treebrowser.c:1269
 msgid "Set _Path From Document"
 msgstr "_Pfad des Dokumentes übernehmen"
 
-#: ../treebrowser/src/treebrowser.c:1271 ../treebrowser/src/treebrowser.c:1273
+#: ../treebrowser/src/treebrowser.c:1275 ../treebrowser/src/treebrowser.c:1277
 msgid "_Open Externally"
 msgstr "_Extern öffnen"
 
-#: ../treebrowser/src/treebrowser.c:1279
+#: ../treebrowser/src/treebrowser.c:1283
 msgid "Open _Terminal"
 msgstr "In _Terminal öffnen"
 
-#: ../treebrowser/src/treebrowser.c:1284 ../treebrowser/src/treebrowser.c:1286
+#: ../treebrowser/src/treebrowser.c:1288 ../treebrowser/src/treebrowser.c:1290
 msgid "Set as _Root"
 msgstr "Als _Wurzelverzeichnis festlegen"
 
-#: ../treebrowser/src/treebrowser.c:1293 ../treebrowser/src/treebrowser.c:1295
+#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1299
 msgid "Refres_h"
 msgstr "Auffrisc_hen"
 
-#: ../treebrowser/src/treebrowser.c:1301 ../treebrowser/src/treebrowser.c:1303
+#: ../treebrowser/src/treebrowser.c:1305 ../treebrowser/src/treebrowser.c:1307
 msgid "_Find in Files"
 msgstr "In Dateien _finden"
 
-#: ../treebrowser/src/treebrowser.c:1313 ../treebrowser/src/treebrowser.c:1315
+#: ../treebrowser/src/treebrowser.c:1317 ../treebrowser/src/treebrowser.c:1319
 msgid "N_ew Folder"
 msgstr "N_euer Ordner"
 
-#: ../treebrowser/src/treebrowser.c:1321 ../treebrowser/src/treebrowser.c:1323
+#: ../treebrowser/src/treebrowser.c:1325 ../treebrowser/src/treebrowser.c:1327
 msgid "_New File"
 msgstr "Neue Datei"
 
-#: ../treebrowser/src/treebrowser.c:1329 ../treebrowser/src/treebrowser.c:1331
+#: ../treebrowser/src/treebrowser.c:1333 ../treebrowser/src/treebrowser.c:1335
 msgid "Rena_me"
 msgstr "_Umbenennen"
 
-#: ../treebrowser/src/treebrowser.c:1350 ../treebrowser/src/treebrowser.c:1352
+#: ../treebrowser/src/treebrowser.c:1354 ../treebrowser/src/treebrowser.c:1356
 #, c-format
 msgid "Close: %s"
 msgstr "»%s« schließen"
 
-#: ../treebrowser/src/treebrowser.c:1359 ../treebrowser/src/treebrowser.c:1361
+#: ../treebrowser/src/treebrowser.c:1363 ../treebrowser/src/treebrowser.c:1365
 #, c-format
 msgid "Clo_se Child Documents "
 msgstr "Kinderdokumente _schließen"
 
-#: ../treebrowser/src/treebrowser.c:1368 ../treebrowser/src/treebrowser.c:1370
+#: ../treebrowser/src/treebrowser.c:1372 ../treebrowser/src/treebrowser.c:1374
 msgid "_Copy Full Path to Clipboard"
 msgstr "_Vollständigen Pfad in die Zwischenablage kopieren"
 
-#: ../treebrowser/src/treebrowser.c:1381 ../treebrowser/src/treebrowser.c:1383
+#: ../treebrowser/src/treebrowser.c:1385 ../treebrowser/src/treebrowser.c:1387
 msgid "E_xpand All"
 msgstr "Alle _ausklappen"
 
-#: ../treebrowser/src/treebrowser.c:1389 ../treebrowser/src/treebrowser.c:1391
+#: ../treebrowser/src/treebrowser.c:1393 ../treebrowser/src/treebrowser.c:1395
 msgid "Coll_apse All"
 msgstr "Alle e_inklappen"
 
-#: ../treebrowser/src/treebrowser.c:1399
+#: ../treebrowser/src/treebrowser.c:1403
 msgid "Show Boo_kmarks"
 msgstr "L_esezeichen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1404
+#: ../treebrowser/src/treebrowser.c:1408
 msgid "Sho_w Hidden Files"
 msgstr "_Versteckte Dateien anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1409
+#: ../treebrowser/src/treebrowser.c:1413
 msgid "Show Tool_bars"
 msgstr "_Werkzeugleisten anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:1747
+#: ../treebrowser/src/treebrowser.c:1751
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Zieldatei »%s« existiert bereits. Möchten Sie diese wirklich ersetzen?"
 
-#: ../treebrowser/src/treebrowser.c:1883
+#: ../treebrowser/src/treebrowser.c:1887
 msgid "Go up"
 msgstr "Aufwärts"
 
-#: ../treebrowser/src/treebrowser.c:1893 ../treebrowser/src/treebrowser.c:2360
+#: ../treebrowser/src/treebrowser.c:1897 ../treebrowser/src/treebrowser.c:2365
 msgid "Refresh"
 msgstr "Auffrischen"
 
-#: ../treebrowser/src/treebrowser.c:1903
+#: ../treebrowser/src/treebrowser.c:1907
 msgid "Home"
 msgstr "Ausgabe"
 
-#: ../treebrowser/src/treebrowser.c:1913
+#: ../treebrowser/src/treebrowser.c:1917
 msgid "Set path from document"
 msgstr "Pfad des Dokumentes übernehmen"
 
-#: ../treebrowser/src/treebrowser.c:1923
+#: ../treebrowser/src/treebrowser.c:1927
 msgid "Track path"
 msgstr "Pfad aufzeichnen"
 
-#: ../treebrowser/src/treebrowser.c:1933
+#: ../treebrowser/src/treebrowser.c:1937
 msgid "Hide bars"
 msgstr "Leisten verbergen"
 
-#: ../treebrowser/src/treebrowser.c:1943
+#: ../treebrowser/src/treebrowser.c:1947
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr "Filter (*.c;*.h;*.cpp). Die Nutzung von »!« invertiert das Ergebnis."
 
-#: ../treebrowser/src/treebrowser.c:1948
+#: ../treebrowser/src/treebrowser.c:1952
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Adressleiste. Zum Beispiel »/projects/my-project«"
 
-#: ../treebrowser/src/treebrowser.c:1973
+#: ../treebrowser/src/treebrowser.c:1977
 msgid "Tree Browser"
 msgstr "Baumnavigator"
 
-#: ../treebrowser/src/treebrowser.c:2114
+#: ../treebrowser/src/treebrowser.c:2118
 msgid "External open command"
 msgstr "Externer Öffnen-Befehl"
 
-#: ../treebrowser/src/treebrowser.c:2124
-#, c-format
+#: ../treebrowser/src/treebrowser.c:2129
+#, no-c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
 "wildcards.\n"
@@ -7869,63 +7615,63 @@ msgstr ""
 "%f wird mit dem Dateinamen ersetzt, der den kompletten Pfad beinhaltet.\n"
 "%d wird mit dem Pfad des Verzeichnisses der aktuellen Datei ersetzt."
 
-#: ../treebrowser/src/treebrowser.c:2143
+#: ../treebrowser/src/treebrowser.c:2148
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 "Das Terminal, welches für das Kommando »Terminal öffnen« genutzt werden "
 "soll. Z. B. »xterm«."
 
-#: ../treebrowser/src/treebrowser.c:2149
+#: ../treebrowser/src/treebrowser.c:2154
 msgid "Toolbar"
 msgstr "Werkzeugleiste:"
 
-#: ../treebrowser/src/treebrowser.c:2151
+#: ../treebrowser/src/treebrowser.c:2156
 msgid "Hidden"
 msgstr "Versteckt"
 
-#: ../treebrowser/src/treebrowser.c:2152
+#: ../treebrowser/src/treebrowser.c:2157
 msgid "Top"
 msgstr "Oben"
 
-#: ../treebrowser/src/treebrowser.c:2153
+#: ../treebrowser/src/treebrowser.c:2158
 msgid "Bottom"
 msgstr "Unten"
 
-#: ../treebrowser/src/treebrowser.c:2158
+#: ../treebrowser/src/treebrowser.c:2163
 msgid "If position is changed, the option require plugin restart."
 msgstr "Bei einer Veränderung der Position muss das Plugin neu geladen werden."
 
-#: ../treebrowser/src/treebrowser.c:2162
+#: ../treebrowser/src/treebrowser.c:2167
 msgid "Show icons"
 msgstr "Symbole anzeigen:"
 
-#: ../treebrowser/src/treebrowser.c:2164
+#: ../treebrowser/src/treebrowser.c:2169
 msgid "None"
 msgstr "Keines"
 
-#: ../treebrowser/src/treebrowser.c:2165
+#: ../treebrowser/src/treebrowser.c:2170
 msgid "Base"
 msgstr "Basis"
 
-#: ../treebrowser/src/treebrowser.c:2166
+#: ../treebrowser/src/treebrowser.c:2171
 msgid "Content-type"
 msgstr "Inhaltsart"
 
-#: ../treebrowser/src/treebrowser.c:2172
+#: ../treebrowser/src/treebrowser.c:2177
 msgid "Show hidden files"
 msgstr "Versteckte Dateien anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:2181
+#: ../treebrowser/src/treebrowser.c:2186
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 "Unter Windows versteckt dies nur Dateien, die mit einem ».« (Punkt) "
 "beginnen. "
 
-#: ../treebrowser/src/treebrowser.c:2183
+#: ../treebrowser/src/treebrowser.c:2188
 msgid "Hide object files"
 msgstr "Objektdateien verbergen"
 
-#: ../treebrowser/src/treebrowser.c:2192
+#: ../treebrowser/src/treebrowser.c:2197
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7933,59 +7679,59 @@ msgstr ""
 "Keine generierten Objektdateien anzeigen. Dies bezieht *.o, *.obj. *.so, *."
 "dll, *.a, *.lib mit ein."
 
-#: ../treebrowser/src/treebrowser.c:2194
+#: ../treebrowser/src/treebrowser.c:2199
 msgid "Reverse filter"
 msgstr "Filter zurücksetzen"
 
-#: ../treebrowser/src/treebrowser.c:2203
+#: ../treebrowser/src/treebrowser.c:2208
 msgid "Follow current document"
 msgstr "Dem aktuellen Dokument folgen"
 
-#: ../treebrowser/src/treebrowser.c:2212
+#: ../treebrowser/src/treebrowser.c:2217
 msgid "Single click, open document and focus it"
 msgstr "Einzelklick öffnet Dokument und fokussiert es"
 
-#: ../treebrowser/src/treebrowser.c:2221
+#: ../treebrowser/src/treebrowser.c:2226
 msgid "Double click open directory"
 msgstr "Doppelklick öffnet ein Verzeichnis"
 
-#: ../treebrowser/src/treebrowser.c:2230
+#: ../treebrowser/src/treebrowser.c:2235
 msgid "On delete file, close it if is opened"
 msgstr "Datei schließen, wenn sie gelöscht wird"
 
-#: ../treebrowser/src/treebrowser.c:2239
+#: ../treebrowser/src/treebrowser.c:2244
 msgid "Focus editor on file open"
 msgstr "Fokus auf Editor legen beim Öffnen von Dateien"
 
-#: ../treebrowser/src/treebrowser.c:2248
+#: ../treebrowser/src/treebrowser.c:2253
 msgid "Show tree lines"
 msgstr "Leere Zeilen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:2257
+#: ../treebrowser/src/treebrowser.c:2262
 msgid "Show bookmarks"
 msgstr "Lesezeichen anzeigen"
 
-#: ../treebrowser/src/treebrowser.c:2266
+#: ../treebrowser/src/treebrowser.c:2271
 msgid "Open new files"
 msgstr "Neue Dateien öffnen"
 
-#: ../treebrowser/src/treebrowser.c:2350
+#: ../treebrowser/src/treebrowser.c:2355
 msgid "Focus File List"
 msgstr "Dateiliste fokussieren"
 
-#: ../treebrowser/src/treebrowser.c:2352
+#: ../treebrowser/src/treebrowser.c:2357
 msgid "Focus Path Entry"
 msgstr "Pfadeintrag fokussieren"
 
-#: ../treebrowser/src/treebrowser.c:2354
+#: ../treebrowser/src/treebrowser.c:2359
 msgid "Rename Object"
 msgstr "Objekt umbenennen"
 
-#: ../treebrowser/src/treebrowser.c:2358
+#: ../treebrowser/src/treebrowser.c:2363
 msgid "New Folder"
 msgstr "Neues Verzeichnis"
 
-#: ../treebrowser/src/treebrowser.c:2362
+#: ../treebrowser/src/treebrowser.c:2367
 msgid "Track Current"
 msgstr "Pfad aufzeichnen"
 
@@ -8688,13 +8434,6 @@ msgstr "Keine Verzeichnisse"
 msgid "No workbench opened."
 msgstr "Keine Werkbank geöffnet."
 
-#: ../workbench/src/sidebar.c:875
-#, c-format
-msgid "%s: %u Project"
-msgid_plural "%s: %u Projects"
-msgstr[0] "%s: %u Projekt"
-msgstr[1] "%s: %u Projekte"
-
 #: ../workbench/src/sidebar.c:886
 #, fuzzy
 msgid ""
@@ -8810,6 +8549,221 @@ msgstr "XML-Schnipsel"
 #: ../xmlsnippets/src/plugin.c:45
 msgid "Autocompletes XML/HTML tags using snippets."
 msgstr "Autovervollständigt XML/HTML-Tags unter Verwendung von Schnipseln."
+
+#~ msgid "_Monitor repository for changes"
+#~ msgstr "Repository auf Änderungen _überwachen"
+
+#~ msgid ""
+#~ "Whether to automatically update the diff in order to maintain it up to "
+#~ "date when the underlying Git repository changes.  This should generally "
+#~ "be enabled for optimal user experience."
+#~ msgstr ""
+#~ "Legt fest, ob die Diffs automatische aktualisiert werden und sie so immer "
+#~ "auf dem aktuellen Stand gehalten werden sollen. Insbesondere dann, wenn "
+#~ "das zu Grunde liegende git-Repository geändert wurde. In den meisten "
+#~ "Fällen sollte diese Option aktiviert sein."
+
+#~ msgid "_Added lines:"
+#~ msgstr "_Hinzugefügte Zeilen:"
+
+#~ msgid "_Changed lines:"
+#~ msgstr "_Geänderte Zeilen:"
+
+#~ msgid "_Removed lines:"
+#~ msgstr "_Entfernte Zeilen:"
+
+#~ msgid "Colors"
+#~ msgstr "Farben:"
+
+#~ msgid ""
+#~ "The amount to zoom the overview sidebar. This should probably negative if "
+#~ "you want the sidebar zoomed out."
+#~ msgstr ""
+#~ "Legt fest, wie stark die Seitenleiste von »Overview« vergrößert/"
+#~ "verkleinert werden soll. Negative Werte sorgen für eine größere Übersicht."
+
+#~ msgid "Zoom Level:"
+#~ msgstr "Zoom-Stufe:"
+
+#~ msgid "The width of the overview sidebar."
+#~ msgstr "Die Breite der Überblick-Fensters"
+
+#~ msgid "Width:"
+#~ msgstr "Breite:"
+
+#~ msgid ""
+#~ "The number of lines to scroll at a time when scrolling the overview "
+#~ "sidebar."
+#~ msgstr ""
+#~ "Legt die Anzahl der Zeilen fest, die beim Scrollen in der Seitenleiste "
+#~ "zurückgelegt werden sollen."
+
+#~ msgid "Scroll Lines:"
+#~ msgstr "Scrollgeschwindigkeit:"
+
+#~ msgid "Position on left"
+#~ msgstr "Links positionieren"
+
+#~ msgid ""
+#~ "Position the overview bar on the left rather than the right (requires "
+#~ "Geany 1.25 or greater)."
+#~ msgstr ""
+#~ "Diese Option positioniert die Seitenleiste des Plugins an der linken "
+#~ "Seite von Geany. Dies funktioniert nur in Geany-Versionen >= 1.25."
+
+#~ msgid "Hide tooltip"
+#~ msgstr "Tooltips verstecken."
+
+#~ msgid ""
+#~ "Hide the tooltip that is displayed when mousing over the overview that "
+#~ "shows line, column and position information."
+#~ msgstr ""
+#~ "Versteckt die zusätzlichen Informationen, die beim mit der Maus "
+#~ "überstreichen angezeigt werden (Zeile, Spalte etc.)"
+
+#~ msgid "Hide editor scrollbar"
+#~ msgstr "Normale Bildlaufleiste verstecken"
+
+#~ msgid ""
+#~ "Whether to hide Geany's regular editor scrollbar while the overview bar "
+#~ "is visible."
+#~ msgstr ""
+#~ "Mit dieser Option kann Geanys normale Bildlaufleiste versteckt werden, so "
+#~ "dass, wenn das Plugin aktiv ist, allein über die Vorschau im Dokument "
+#~ "navigiert werden kann."
+
+#~ msgid "Disable overlay"
+#~ msgstr "Bildausschnittsmarkierung deaktivieren"
+
+#~ msgid ""
+#~ "Turn off drawing overlay, which shows the region of the main editor view "
+#~ "that is currently in view, ontop of the overview bar."
+#~ msgstr ""
+#~ "Diese Option legt fest, ob der aktuelle Bildschirmausschnitt aus dem "
+#~ "normalen Editorfenster in der Vorschau angezeigt werden soll."
+
+#~ msgid ""
+#~ "The color and opacity of the overlay drawn ontop of the overlay sidebar."
+#~ msgstr ""
+#~ "Konfiguriert die Farbe und Sättigung der Bildausschnittsmarkierung in der "
+#~ "Seitenleiste des Plugins."
+
+#~ msgid "Color:"
+#~ msgstr "Farbe:"
+
+#~ msgid ""
+#~ "The color and opacity of the border drawn around the revealed area in the "
+#~ "overview sidebar. Set to the same as Overlay Color to disable."
+#~ msgstr ""
+#~ "Konfiguriert die Farbe und Sättigung rund um das aktive Gebiet des "
+#~ "Dokumentes. Zum Deaktivieren einfach auf die gleiche Farbe wie die der "
+#~ "Bildausschnittsmarkierung stellen"
+
+#~ msgid "Outline Color:"
+#~ msgstr "Farbe Außenlinie"
+
+#~ msgid "Draw over visible area"
+#~ msgstr "Über sichtbares Gebiet zeichnen"
+
+#~ msgid ""
+#~ "When checked it will draw the overlay ontop of the area that is visible "
+#~ "in the main editor view, when unchecked, it will do the opposite and draw "
+#~ "the overlay everywhere but the visible area, \"revealing\" the visible "
+#~ "part."
+#~ msgstr ""
+#~ "Wenn diese Option aktiv ist, wird die Bildausschnittsmarkierung nur über "
+#~ "den aktiven Bereich gelegt. Ist die Option deaktiviert, wird alles was "
+#~ "nicht sichtbar ist mit einer Markierung versehen. "
+
+#~ msgid "Overlay"
+#~ msgstr "Überlagerung"
+
+#~ msgid "_Translation Helper"
+#~ msgstr "_Übersetzungshelfer"
+
+#~ msgid "_Previous String"
+#~ msgstr "_Vorheriger String"
+
+#~ msgid "_Next String"
+#~ msgstr "_Nächster String"
+
+#~ msgid "Pre_vious Untranslated"
+#~ msgstr "_Vorherige nicht übersetze Zeichenkette"
+
+#~ msgid "Next _Untranslated"
+#~ msgstr "Nächste nicht _übersetzte Zeichenkette"
+
+#~ msgid "Previous Fu_zzy"
+#~ msgstr "_Vorhergehende unklare Übersetzung"
+
+#~ msgid "Next _Fuzzy"
+#~ msgstr "Nächste _unklare Übersetzung"
+
+#~ msgid "Previous Untranslated or Fuzz_y"
+#~ msgstr "Vorherige u_nübersetzt oder -klar."
+
+#~ msgid "Next Untranslated _or Fuzzy"
+#~ msgstr "Nächste unübersetzte _oder unklare Übersetzung"
+
+#~ msgid "_Toggle Fuzziness"
+#~ msgstr "_Status tauschen"
+
+#~ msgid "Paste _Message as Translation"
+#~ msgstr "_Originalstring als Übersetzung verwenden"
+
+#~ msgid "Paste the original untranslated string to the translation"
+#~ msgstr ""
+#~ "Benutzt die unübersetzte Ausgabe, um diese auch in der übersetzten Form "
+#~ "anzuzeigen."
+
+#~ msgid "_Reflow Translation"
+#~ msgstr "_Übersetzungen neu umbrechen"
+
+#~ msgid "_Show stats"
+#~ msgstr "_Statistik anzeigen"
+
+#~ msgid ""
+#~ "Whether to update the translation headers (author, revision date, ...) "
+#~ "upon file save"
+#~ msgstr ""
+#~ "Legt fest, ob die Metadaten der Übersetzungsdatei (Autor, Datum ... ) "
+#~ "beim Speichern aktualisiert werden sollen."
+
+#~ msgid "Update _Headers Upon Save"
+#~ msgstr "_Metadaten beim Speichern aktualisieren"
+
+#~ msgid "Translation statistics"
+#~ msgstr "Übersetzungsstatistiken"
+
+#~ msgid "Choose a color for translated strings"
+#~ msgstr "Farbe für übersetze Texte auswählen"
+
+#~ msgid "Choose a color for fuzzily translated strings"
+#~ msgstr "Farbe für unklare Übersetzungen auswählen"
+
+#~ msgid "Choose a color for untranslated strings"
+#~ msgstr "Farbe für nicht übersetzte Texte auswählen"
+
+#~ msgid "Translated:"
+#~ msgstr "Übersetzt:"
+
+#~ msgid "Fuzzy:"
+#~ msgstr "Unklar:"
+
+#~ msgid "Untranslated:"
+#~ msgstr "Unübersetzt:"
+
+#~ msgid "Toggle Check While Typing"
+#~ msgstr "Rechtschreibung beim Tippen überprüfen ein-/ausschalten"
+
+#~ msgid "Check spelling while typing"
+#~ msgstr "Beim Tippen Rechtschreibung überprüfen"
+
+#, c-format
+#~ msgid "%s: %u Project"
+#~ msgid_plural "%s: %u Projects"
+#~ msgstr[0] "%s: %u Projekt"
+#~ msgstr[1] "%s: %u Projekte"
 
 #~ msgid "_Save"
 #~ msgstr "_Speichern…"
