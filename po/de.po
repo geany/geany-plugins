@@ -7562,7 +7562,7 @@ msgstr "Vim-Modus für Geany"
 #: ../vimode/src/backends/backend-geany.c:140
 #, c-format
 msgid "Insert Mode for Dummies: %s"
-msgstr "Einfügen-Modus (Insert) für Neulinge: $s"
+msgstr "Einfügen-Modus (Insert) für Neulinge: %s"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "ON"
