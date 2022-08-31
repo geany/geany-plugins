@@ -56,16 +56,12 @@ tag_cmp_by_line (gconstpointer a,
   gint          direction = GPOINTER_TO_INT (data);
   gint          rv;
   
-  if (t1->type & tm_tag_file_t || t2->type & tm_tag_file_t) {
-    rv = 0;
+  if (t1->line > t2->line) {
+    rv = +direction;
+  } else if (t1->line < t2->line) {
+    rv = -direction;
   } else {
-    if (t1->line > t2->line) {
-      rv = +direction;
-    } else if (t1->line < t2->line) {
-      rv = -direction;
-    } else {
-      rv = 0;
-    }
+    rv = 0;
   }
   
   return rv;
@@ -158,11 +154,9 @@ ggd_tag_find_from_line (const GPtrArray  *tags,
   g_return_val_if_fail (tags != NULL, NULL);
   
   GGD_PTR_ARRAY_FOR (tags, i, el) {
-    if (! (el->type & tm_tag_file_t)) {
-      if (el->line <= line &&
-          (! tag || el->line > tag->line)) {
-        tag = el;
-      }
+    if (el->line <= line &&
+        (! tag || el->line > tag->line)) {
+      tag = el;
     }
   }
   
@@ -239,8 +233,7 @@ ggd_tag_find_parent (const GPtrArray *tags,
     /*g_debug ("%s: parent_name = %s", G_STRFUNC, parent_name);
     g_debug ("%s: parent_scope = %s", G_STRFUNC, parent_scope);*/
     GGD_PTR_ARRAY_FOR (tags, i, el) {
-      if (! (el->type & tm_tag_file_t) &&
-          (utils_str_equal (el->name, parent_name) &&
+      if ((utils_str_equal (el->name, parent_name) &&
            utils_str_equal (el->scope, parent_scope) &&
            el->line <= child->line)) {
         tag = el;
@@ -273,8 +266,7 @@ static const struct {
   { tm_tag_variable_t,        "variable"  },
   { tm_tag_externvar_t,       "extern"    },
   { tm_tag_macro_t,           "define"    },
-  { tm_tag_macro_with_arg_t,  "macro"     },
-  { tm_tag_file_t,            "file"      }
+  { tm_tag_macro_with_arg_t,  "macro"     }
 };
 
 /**
@@ -361,32 +353,27 @@ ggd_tag_resolve_type_hierarchy (const GPtrArray *tags,
                                 GeanyFiletypeID  geany_ft,
                                 const TMTag     *tag)
 {
+  TMTag *parent_tag;
   gchar *scope = NULL;
   
   g_return_val_if_fail (tags != NULL, NULL);
   g_return_val_if_fail (tag != NULL, NULL);
-  
-  if (tag->type & tm_tag_file_t) {
-    g_critical (_("Invalid tag"));
-  } else {
-    TMTag *parent_tag;
     
-    parent_tag = ggd_tag_find_parent (tags, geany_ft, tag);
-    scope = g_strdup (ggd_tag_get_type_name (tag));
-    if (parent_tag) {
-      gchar *parent_scope;
+  parent_tag = ggd_tag_find_parent (tags, geany_ft, tag);
+  scope = g_strdup (ggd_tag_get_type_name (tag));
+  if (parent_tag) {
+    gchar *parent_scope;
+    
+    parent_scope = ggd_tag_resolve_type_hierarchy (tags, geany_ft, parent_tag);
+    if (! parent_scope) {
+      /*g_debug ("no parent scope");*/
+    } else {
+      gchar *tmp;
       
-      parent_scope = ggd_tag_resolve_type_hierarchy (tags, geany_ft, parent_tag);
-      if (! parent_scope) {
-        /*g_debug ("no parent scope");*/
-      } else {
-        gchar *tmp;
-        
-        tmp = g_strconcat (parent_scope, ".", scope, NULL);
-        g_free (scope);
-        scope = tmp;
-        g_free (parent_scope);
-      }
+      tmp = g_strconcat (parent_scope, ".", scope, NULL);
+      g_free (scope);
+      scope = tmp;
+      g_free (parent_scope);
     }
   }
   
@@ -414,8 +401,7 @@ ggd_tag_find_from_name (const GPtrArray *tags,
   g_return_val_if_fail (name != NULL, NULL);
   
   GGD_PTR_ARRAY_FOR (tags, i, el) {
-    if (! (el->type & tm_tag_file_t) &&
-        utils_str_equal (el->name, name)) {
+    if (utils_str_equal (el->name, name)) {
       tag = el;
       break;
     }

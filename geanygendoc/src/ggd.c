@@ -529,7 +529,7 @@ ggd_insert_comment (GeanyDocument  *doc,
     tag_array = doc->tm_file->tags_array;
     tag = ggd_tag_find_from_line (tag_array, line + 1 /* it is a SCI line */);
   }
-  if (! tag || (tag->type & tm_tag_file_t)) {
+  if (! tag) {
     msgwin_status_add (_("No valid tag at line %d."), line);
   } else {
     if (get_config (doc, doc_type, &filetype, &doctype)) {
