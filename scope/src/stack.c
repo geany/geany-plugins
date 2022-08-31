@@ -165,7 +165,7 @@ void on_stack_follow(GArray *nodes)
 gboolean stack_entry(void)
 {
 	GtkTreeIter iter;
-	gboolean entry = NULL;
+	gboolean entry = FALSE;
 
 	if (gtk_tree_selection_get_selected(selection, NULL, &iter))
 	{
