@@ -761,6 +761,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		{
 			colorize_message((gchar*)iter->data);
 		}
+		g_free(unescaped);
 	}
 	g_list_foreach(lines, (GFunc)g_free, NULL);
 	g_list_free(lines);

@@ -102,6 +102,10 @@ PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
                              PLUGIN_VERSION, "Enrico Trotta <enrico.trt@gmail.com>")
 
 
+static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
+                        const gchar *main_text,
+                        const gchar *secondary_markup, ...) G_GNUC_PRINTF (4, 5);
+
 static void pastebin_free(Pastebin *pastebin)
 {
     g_key_file_free(pastebin->config);
@@ -715,7 +719,6 @@ static void message_dialog_label_set_url_hook(GtkWidget *widget, gpointer data)
     }
 }
 
-G_GNUC_PRINTF (4, 5)
 static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
                         const gchar *main_text,
                         const gchar *secondary_markup, ...)

@@ -1101,6 +1101,8 @@ void debug_init(void)
 	gtk_text_buffer_create_tag(buffer, "yellow", "foreground", "#FFFF00", NULL);
 	gtk_text_buffer_create_tag(buffer, "brown", "foreground", "#BB8915", NULL);
 	gtk_text_buffer_create_tag(buffer, "rose", "foreground", "#BA92B7", NULL);
+
+	g_free(configfile);
 }
 
 /*

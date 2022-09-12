@@ -1,6 +1,8 @@
 ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled -I geanypy/m4 --install
 AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
+EXTRA_DIST = build/cppcheck-geany-plugins.cfg
+
 SUBDIRS = po
 
 if ENABLE_UTILSLIB
