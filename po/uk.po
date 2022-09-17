@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 1.38\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-29 19:41+0200\n"
+"Report-Msgid-Bugs-To: https://github.com/geany/geany/issues\n"
+"POT-Creation-Date: 2022-06-28 07:39+0200\n"
 "PO-Revision-Date: 2020-05-01 16:20+1000\n"
 "Last-Translator: Artur Shepilko <nomadbyte@gmail.com>\n"
 "Language-Team: Ukrainian <geany-i18n@uvena.de>\n"
@@ -15,34 +15,34 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
 msgstr "(Пустий рядок)"
 
-#: ../addons/src/ao_bookmarklist.c:315
+#: ../addons/src/ao_bookmarklist.c:331
 msgid "_Remove Bookmark"
 msgstr "_Скасувати закладку"
 
 #. Translators: Number is meant at this point.
-#: ../addons/src/ao_bookmarklist.c:342
+#: ../addons/src/ao_bookmarklist.c:358
 msgid "No."
 msgstr "Рядок"
 
-#: ../addons/src/ao_bookmarklist.c:350 ../devhelp/src/dhp-object.c:494
+#: ../addons/src/ao_bookmarklist.c:366 ../devhelp/src/dhp-object.c:494
 #: ../devhelp/devhelp/dh-window.c:1142
 msgid "Contents"
 msgstr "Зміст"
 
-#: ../addons/src/ao_bookmarklist.c:383 ../treebrowser/src/treebrowser.c:666
+#: ../addons/src/ao_bookmarklist.c:399 ../treebrowser/src/treebrowser.c:666
 #: ../webhelper/src/gwh-plugin.c:328
 msgid "Bookmarks"
 msgstr "Закладки"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2679
+#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2730
 msgid "_Update"
 msgstr "_Оновити"
 
@@ -162,10 +162,10 @@ msgstr "Копіювати шлях до поточного документа �
 #: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2079 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2130 ../geniuspaste/src/geniuspaste.c:336
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
-#: ../treebrowser/src/treebrowser.c:2102
+#: ../treebrowser/src/treebrowser.c:2106
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr "Не вдалось створити каталог конфігурації плаґіну."
@@ -512,8 +512,8 @@ msgid ""
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
 "last \"}\"."
 msgstr ""
-"Видалення обох символів огородження одним натисканням комбінації Shift"
-"+Backspace.\n"
+"Видалення обох символів огородження одним натисканням комбінації "
+"Shift+Backspace.\n"
 "Зручно для автоматичного видалення дужок та відступів блока."
 
 #: ../autoclose/src/autoclose.c:1147
@@ -733,7 +733,7 @@ msgstr ""
 msgid "Error loading file"
 msgstr "Не вдалось завантажити програму"
 
-#. setting asyncronous mode
+#. setting asynchronous mode
 #. setting null-stop array printing
 #. enable pretty printing
 #: ../debugger/src/dbm_gdb.c:789 ../debugger/src/dbm_gdb.c:792
@@ -1127,7 +1127,7 @@ msgid "A developers' help browser for GNOME"
 msgstr "Браузер документації програмування для GNOME"
 
 #. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2660
+#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2711
 msgid "_File"
 msgstr "_Файл"
 
@@ -1161,11 +1161,11 @@ msgstr "Відкрити нову в_кладку"
 msgid "_Print…"
 msgstr "Д_рукувати..."
 
-#: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
+#: ../devhelp/devhelp/dh-window.c:782
 msgid "Find Next"
 msgstr "Знайти наступне"
 
-#: ../devhelp/devhelp/dh-window.c:784 ../devhelp/devhelp/eggfindbar.c:329
+#: ../devhelp/devhelp/dh-window.c:784
 msgid "Find Previous"
 msgstr "Знайти попереднє"
 
@@ -1354,7 +1354,7 @@ msgstr ""
 "ваших зусиль для розвитку цього плаґіну, будь ласка, зв'яжіться з командою "
 "розробників Geany."
 
-#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:442
+#: ../geanydoc/src/geanydoc.c:159 ../geanyvc/src/geanyvc.c:448
 msgid "Could not parse the output of command"
 msgstr "Не вдалось проаналізувати вихідні дані команди"
 
@@ -3049,14 +3049,14 @@ msgid ""
 "not enough arguments for command \"%s\".\n"
 msgstr ""
 
-#: ../geanylua/glspi_sci.c:637 ../geanylua/glspi_app.c:406
+#: ../geanylua/glspi_sci.c:729 ../geanylua/glspi_app.c:406
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
 "unknown command \"%s\" given for argument #1.\n"
 msgstr ""
 
-#: ../geanylua/glspi_sci.c:781
+#: ../geanylua/glspi_sci.c:924
 #, c-format
 msgid ""
 "Error in module \"%s\" at function %s():\n"
@@ -3064,7 +3064,7 @@ msgid ""
 " unknown flag \"%s\" for element #%d\n"
 msgstr ""
 
-#: ../geanylua/glspi_sci.c:785
+#: ../geanylua/glspi_sci.c:928
 msgid "<too large to display>"
 msgstr "<занадто великий для показу>"
 
@@ -3654,8 +3654,9 @@ msgid ""
 "Manager under the Tools menu, selecting this plugin, and clicking "
 "Preferences. "
 msgstr ""
-"Ви можете змінити настройки за замовчуванням, вибравши \"Диспетчер плаґінів"
-"\" у меню \"Інструменти\", і відкривши \"Параметри\" для цього плаґіна. "
+"Ви можете змінити настройки за замовчуванням, вибравши \"Диспетчер "
+"плаґінів\" у меню \"Інструменти\", і відкривши \"Параметри\" для цього "
+"плаґіна. "
 
 #: ../geanymacro/src/geanymacro.c:883
 msgid "You can change:\n"
@@ -3836,7 +3837,7 @@ msgid "New _Below"
 msgstr "Д_одати нижче"
 
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
-#: ../treebrowser/src/treebrowser.c:1338 ../treebrowser/src/treebrowser.c:1340
+#: ../treebrowser/src/treebrowser.c:1342 ../treebrowser/src/treebrowser.c:1344
 msgid "_Delete"
 msgstr "_Видалити"
 
@@ -4110,12 +4111,12 @@ msgstr ""
 "\n"
 "Дозволяє використовувати до 10 пронумерованих закладок. Щоб встановити "
 "пронумеровану закладку, натисніть комбінацію клавіш Ctrl+Shift+номер [0-9]. "
-"Ви побачите маркер поруч із номером рядка. Повторне натискання Ctrl+Shift"
-"+номер на рядку, який уже має цей номер закладки, видалить її. Інакше, "
-"закладку буде переміщено на цей рядок або створено її наново. Рядок може "
-"мати більше ніж одну закладку, але показано буде лише останню встановлену "
-"закладку. Щоб перейти до встановленої закладки, натисніть відповідно Ctrl"
-"+номер [0-9] закладки."
+"Ви побачите маркер поруч із номером рядка. Повторне натискання "
+"Ctrl+Shift+номер на рядку, який уже має цей номер закладки, видалить її. "
+"Інакше, закладку буде переміщено на цей рядок або створено її наново. Рядок "
+"може мати більше ніж одну закладку, але показано буде лише останню "
+"встановлену закладку. Щоб перейти до встановленої закладки, натисніть "
+"відповідно Ctrl+номер [0-9] закладки."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1408
 msgid "Unable to apply markers as all being used."
@@ -4252,8 +4253,8 @@ msgstr ""
 msgid "a key with fingerprint"
 msgstr "ключ із відбитком"
 
-#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:610
-#: ../spellcheck/src/gui.c:621
+#: ../geanypg/src/verify_aux.c:66 ../spellcheck/src/gui.c:607
+#: ../spellcheck/src/gui.c:618
 msgid "unknown"
 msgstr "невідома"
 
@@ -4570,49 +4571,49 @@ msgstr ""
 "ваших зусиль для розвитку цього плаґіну, будь ласка, зв'яжіться з командою "
 "розробників Geany."
 
-#: ../geanyvc/src/geanyvc.c:501
+#: ../geanyvc/src/geanyvc.c:507
 #, c-format
 msgid "geanyvc: s_spawn_sync error: %s"
 msgstr "geanyvc: помилка s_spawn_sync: %s"
 
-#: ../geanyvc/src/geanyvc.c:587
+#: ../geanyvc/src/geanyvc.c:593
 #, c-format
 msgid "File %s: action %s executed via %s."
 msgstr "Файл %s: команда %s виконана програмою %s."
 
-#: ../geanyvc/src/geanyvc.c:646 ../geanyvc/src/geanyvc.c:657
-#, c-format
-msgid "geanyvc: vcdiff_file_activated: Unable to rename '%s' to '%s'"
+#: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:643
+#, fuzzy, c-format
+msgid "geanyvc: diff_external: Unable to rename '%s' to '%s'"
 msgstr "geanyvc: vcdiff_file_activate: Не вдалось перейменувати ' %s' у ' %s'"
 
-#: ../geanyvc/src/geanyvc.c:683 ../geanyvc/src/geanyvc.c:733
+#: ../geanyvc/src/geanyvc.c:698 ../geanyvc/src/geanyvc.c:784
 msgid "No changes were made."
 msgstr "Без змін."
 
-#: ../geanyvc/src/geanyvc.c:760
+#: ../geanyvc/src/geanyvc.c:811
 msgid "No history available"
 msgstr "Історія не доступна"
 
-#: ../geanyvc/src/geanyvc.c:953 ../geanyvc/src/geanyvc.c:961
+#: ../geanyvc/src/geanyvc.c:1004 ../geanyvc/src/geanyvc.c:1012
 #, c-format
 msgid "Do you really want to revert: %s?"
 msgstr "Ви дійсно хочете скасувати зміни у файлі: %s?"
 
-#: ../geanyvc/src/geanyvc.c:969
+#: ../geanyvc/src/geanyvc.c:1020
 #, c-format
 msgid "Do you really want to add: %s?"
 msgstr "Ви дійсно хочете додати у репозиторій файл: %s?"
 
-#: ../geanyvc/src/geanyvc.c:976
+#: ../geanyvc/src/geanyvc.c:1027
 #, c-format
 msgid "Do you really want to remove: %s?"
 msgstr "Ви дійсно хочете видалити із репозиторію файл: %s?"
 
-#: ../geanyvc/src/geanyvc.c:999
+#: ../geanyvc/src/geanyvc.c:1050
 msgid "Do you really want to update?"
 msgstr "Ви дійсно хочете оновити до найновішої версії?"
 
-#: ../geanyvc/src/geanyvc.c:1126
+#: ../geanyvc/src/geanyvc.c:1177
 msgid ""
 "The resulting differences cannot be displayed because the changes are too "
 "big to display here and would slow down the UI significantly.\n"
@@ -4627,48 +4628,48 @@ msgstr ""
 "список відмінностей безпосередньо з меню Контроль версій (Базовий каталог -> "
 "Порівняти)."
 
-#: ../geanyvc/src/geanyvc.c:1280
+#: ../geanyvc/src/geanyvc.c:1331
 msgid "Commit Y/N"
 msgstr "Фіксувати"
 
-#: ../geanyvc/src/geanyvc.c:1290
+#: ../geanyvc/src/geanyvc.c:1341
 msgid "Status"
 msgstr "Статус"
 
-#: ../geanyvc/src/geanyvc.c:1297
+#: ../geanyvc/src/geanyvc.c:1348
 msgid "Path"
 msgstr "Файл"
 
-#: ../geanyvc/src/geanyvc.c:1414
+#: ../geanyvc/src/geanyvc.c:1465
 msgid "Choose a previous commit message"
 msgstr "Нещодавні коментарі"
 
-#: ../geanyvc/src/geanyvc.c:1476
+#: ../geanyvc/src/geanyvc.c:1527
 #, c-format
 msgid "Line: %d Column: %d"
 msgstr "рядок: %d стовпець: %d"
 
-#: ../geanyvc/src/geanyvc.c:1523
+#: ../geanyvc/src/geanyvc.c:1574
 msgid "Commit"
 msgstr "Фіксувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:1564
+#: ../geanyvc/src/geanyvc.c:1615
 msgid "_De-/select all files"
 msgstr "Усі файли"
 
-#: ../geanyvc/src/geanyvc.c:1608
+#: ../geanyvc/src/geanyvc.c:1659
 msgid "<b>Commit message:</b>"
 msgstr "<b>Коментар:</b>"
 
-#: ../geanyvc/src/geanyvc.c:1632
+#: ../geanyvc/src/geanyvc.c:1683
 msgid "C_ommit"
 msgstr "_Фіксувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:1740
+#: ../geanyvc/src/geanyvc.c:1791
 msgid "Nothing to commit."
 msgstr "Без змін."
 
-#: ../geanyvc/src/geanyvc.c:1788
+#: ../geanyvc/src/geanyvc.c:1839
 #, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
@@ -4676,26 +4677,26 @@ msgstr ""
 "Помилка ініціалізації системи перевірки правопису:%s. Перевірте настройки "
 "системи."
 
-#: ../geanyvc/src/geanyvc.c:1823
+#: ../geanyvc/src/geanyvc.c:1874
 #, c-format
 msgid "Commit failed (status: %d, error: %s)."
 msgstr ""
 
-#: ../geanyvc/src/geanyvc.c:1824
+#: ../geanyvc/src/geanyvc.c:1875
 #, fuzzy
 msgid "Commit failed; see status in the Message window."
 msgstr "Вкладка зі списком завдань у вікні повідомлень"
 
-#: ../geanyvc/src/geanyvc.c:1829
+#: ../geanyvc/src/geanyvc.c:1880
 #, fuzzy
 msgid "Changes committed."
 msgstr "Без змін."
 
-#: ../geanyvc/src/geanyvc.c:2151
+#: ../geanyvc/src/geanyvc.c:2202
 msgid "Set Changed-flag for document tabs created by the plugin"
 msgstr "Позначати документи у вкладках, створених плаґіном, як змінені"
 
-#: ../geanyvc/src/geanyvc.c:2154
+#: ../geanyvc/src/geanyvc.c:2205
 msgid ""
 "If this option is activated, every new by the VC-plugin created document tab "
 "will be marked as changed. Even this option is useful in some cases, it "
@@ -4706,43 +4707,43 @@ msgstr ""
 "корисною, але це може спричинити надмірну кількість запитів на збереження "
 "файлу."
 
-#: ../geanyvc/src/geanyvc.c:2162
+#: ../geanyvc/src/geanyvc.c:2213
 msgid "Confirm adding new files to a VCS"
 msgstr "Підтверджувати додавання файлу у репозиторій"
 
-#: ../geanyvc/src/geanyvc.c:2165
+#: ../geanyvc/src/geanyvc.c:2216
 msgid "Shows a confirmation dialog on adding a new (created) file to VCS."
 msgstr "Показувати діалог підтвердження при додаванні файлу у репозиторій."
 
-#: ../geanyvc/src/geanyvc.c:2171
+#: ../geanyvc/src/geanyvc.c:2222
 msgid "Maximize commit dialog"
 msgstr "Розгортати діалог фіксації змін"
 
-#: ../geanyvc/src/geanyvc.c:2172
+#: ../geanyvc/src/geanyvc.c:2223
 msgid "Show commit dialog maximize."
 msgstr "Максимізувати діалогове вікно фіксації змін."
 
-#: ../geanyvc/src/geanyvc.c:2178
+#: ../geanyvc/src/geanyvc.c:2229
 msgid "Use external diff viewer"
 msgstr "Використовувати зовнішню програму порівняння файлів"
 
-#: ../geanyvc/src/geanyvc.c:2180
+#: ../geanyvc/src/geanyvc.c:2231
 msgid "Use external diff viewer for file diff."
 msgstr "Використовувати зовнішню програму перегляду змін у файлі."
 
-#: ../geanyvc/src/geanyvc.c:2186
+#: ../geanyvc/src/geanyvc.c:2237
 msgid "Show VC entries at editor menu"
 msgstr "Показувати меню \"Зміни\" у контекстному меню редактора"
 
-#: ../geanyvc/src/geanyvc.c:2188
+#: ../geanyvc/src/geanyvc.c:2239
 msgid "Show entries for VC functions inside editor menu"
 msgstr "Показувати команди меню \"Зміни\" у контекстному меню редактора."
 
-#: ../geanyvc/src/geanyvc.c:2193
+#: ../geanyvc/src/geanyvc.c:2244
 msgid "Attach menu to menubar"
 msgstr "Приєднати меню до головної панелі"
 
-#: ../geanyvc/src/geanyvc.c:2195
+#: ../geanyvc/src/geanyvc.c:2246
 msgid ""
 "Whether menu for this plugin are getting placed either inside tools menu or "
 "directly inside Geany's menubar. Will take in account after next start of "
@@ -4752,68 +4753,68 @@ msgstr ""
 "головній панелі меню Geany. Набуває чинності після перезапуску плаґіна "
 "GeanyVC."
 
-#: ../geanyvc/src/geanyvc.c:2203
+#: ../geanyvc/src/geanyvc.c:2254
 msgid "Enable CVS"
 msgstr "CVS"
 
-#: ../geanyvc/src/geanyvc.c:2208
+#: ../geanyvc/src/geanyvc.c:2259
 msgid "Enable GIT"
 msgstr "Git"
 
-#: ../geanyvc/src/geanyvc.c:2213
+#: ../geanyvc/src/geanyvc.c:2264
 msgid "Enable Fossil"
 msgstr "Fossil"
 
-#: ../geanyvc/src/geanyvc.c:2218
+#: ../geanyvc/src/geanyvc.c:2269
 msgid "Enable SVN"
 msgstr "Subversion (SVN)"
 
-#: ../geanyvc/src/geanyvc.c:2223
+#: ../geanyvc/src/geanyvc.c:2274
 msgid "Enable SVK"
 msgstr "SVK"
 
-#: ../geanyvc/src/geanyvc.c:2228
+#: ../geanyvc/src/geanyvc.c:2279
 msgid "Enable Bazaar"
 msgstr "Bazaar"
 
-#: ../geanyvc/src/geanyvc.c:2233
+#: ../geanyvc/src/geanyvc.c:2284
 msgid "Enable Mercurial"
 msgstr "Mercurial"
 
-#: ../geanyvc/src/geanyvc.c:2239
+#: ../geanyvc/src/geanyvc.c:2290
 msgid "Spellcheck language"
 msgstr "Мова для перевірки правопису"
 
 #. Diff of current file
 #. Diff of the current dir
 #. Complete diff of base directory
-#: ../geanyvc/src/geanyvc.c:2368 ../geanyvc/src/geanyvc.c:2463
-#: ../geanyvc/src/geanyvc.c:2503
+#: ../geanyvc/src/geanyvc.c:2419 ../geanyvc/src/geanyvc.c:2514
+#: ../geanyvc/src/geanyvc.c:2554
 msgid "_Diff"
 msgstr "_Порівняти"
 
-#: ../geanyvc/src/geanyvc.c:2371
+#: ../geanyvc/src/geanyvc.c:2422
 msgid "Make a diff from the current active file"
 msgstr "Показати відмінності поточного файлу від оригіналу."
 
 #. Revert current file
 #. Revert current dir
 #. Revert everything
-#: ../geanyvc/src/geanyvc.c:2376 ../geanyvc/src/geanyvc.c:2472
-#: ../geanyvc/src/geanyvc.c:2511
+#: ../geanyvc/src/geanyvc.c:2427 ../geanyvc/src/geanyvc.c:2523
+#: ../geanyvc/src/geanyvc.c:2562
 msgid "_Revert"
 msgstr "_Скасувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:2379
+#: ../geanyvc/src/geanyvc.c:2430
 msgid "Restore pristine working copy file (undo local edits)."
 msgstr "Відновити файл з робочої копії (скасувати локальні зміни)."
 
 #. Blame for current file
-#: ../geanyvc/src/geanyvc.c:2388
+#: ../geanyvc/src/geanyvc.c:2439
 msgid "_Blame"
 msgstr "_Анотація"
 
-#: ../geanyvc/src/geanyvc.c:2391
+#: ../geanyvc/src/geanyvc.c:2442
 msgid "Shows the changes made at one file per revision and author."
 msgstr ""
 "Показати ім'я автора та номер версії останньої зміни для кожного рядка файлу."
@@ -4821,147 +4822,147 @@ msgstr ""
 #. History/log of current file
 #. History/log of the current dir
 #. Complete History/Log of base directory
-#: ../geanyvc/src/geanyvc.c:2398 ../geanyvc/src/geanyvc.c:2482
-#: ../geanyvc/src/geanyvc.c:2523
+#: ../geanyvc/src/geanyvc.c:2449 ../geanyvc/src/geanyvc.c:2533
+#: ../geanyvc/src/geanyvc.c:2574
 msgid "_History (log)"
 msgstr "_Історія"
 
-#: ../geanyvc/src/geanyvc.c:2401
+#: ../geanyvc/src/geanyvc.c:2452
 msgid "Shows the log of the current file"
 msgstr "Показати журнал змін для поточного файлу."
 
 #. base version of the current file
-#: ../geanyvc/src/geanyvc.c:2406
+#: ../geanyvc/src/geanyvc.c:2457
 msgid "_Original"
 msgstr "_Оригінал"
 
-#: ../geanyvc/src/geanyvc.c:2409
+#: ../geanyvc/src/geanyvc.c:2460
 msgid "Shows the original of the current file"
 msgstr "Показати оригінальний файл з робочої копії."
 
 #. add current file
-#: ../geanyvc/src/geanyvc.c:2417
+#: ../geanyvc/src/geanyvc.c:2468
 msgid "_Add to Version Control"
 msgstr "_Додати у репозиторій"
 
-#: ../geanyvc/src/geanyvc.c:2419
+#: ../geanyvc/src/geanyvc.c:2470
 msgid "Add file to repository."
 msgstr "Додати файл у репозиторій."
 
 #. remove current file
-#: ../geanyvc/src/geanyvc.c:2425
+#: ../geanyvc/src/geanyvc.c:2476
 msgid "_Remove from Version Control"
 msgstr "_Видалити із репозиторію"
 
-#: ../geanyvc/src/geanyvc.c:2427
+#: ../geanyvc/src/geanyvc.c:2478
 msgid "Remove file from repository."
 msgstr "Видалити файл із репозиторію."
 
-#: ../geanyvc/src/geanyvc.c:2460
+#: ../geanyvc/src/geanyvc.c:2511
 msgid "_Directory"
 msgstr "_Каталог"
 
-#: ../geanyvc/src/geanyvc.c:2466
+#: ../geanyvc/src/geanyvc.c:2517
 msgid "Make a diff from the directory of the current active file"
 msgstr "Показати відмінності для каталогу поточного файлу."
 
-#: ../geanyvc/src/geanyvc.c:2475
+#: ../geanyvc/src/geanyvc.c:2526
 msgid "Restore original files in the current folder (undo local edits)."
 msgstr ""
 "Відновити оригінали усіх файлів з каталогу поточного файлу робочої копії "
 "(скасувати локальні зміни)."
 
-#: ../geanyvc/src/geanyvc.c:2485
+#: ../geanyvc/src/geanyvc.c:2536
 msgid "Shows the log of the current directory"
 msgstr "Показати журнал змін для базового каталогу репозиторію."
 
-#: ../geanyvc/src/geanyvc.c:2499
+#: ../geanyvc/src/geanyvc.c:2550
 msgid "_Base Directory"
 msgstr "_Базовий каталог"
 
-#: ../geanyvc/src/geanyvc.c:2505
+#: ../geanyvc/src/geanyvc.c:2556
 msgid "Make a diff from the top VC directory"
 msgstr "Показати відмінності для базового каталогу репозиторію."
 
-#: ../geanyvc/src/geanyvc.c:2513
+#: ../geanyvc/src/geanyvc.c:2564
 msgid "Revert any local edits."
 msgstr "Скасувати усі локальні зміни."
 
-#: ../geanyvc/src/geanyvc.c:2526
+#: ../geanyvc/src/geanyvc.c:2577
 msgid "Shows the log of the top VC directory"
 msgstr "Показати журнал змін для каталогу поточного файлу."
 
-#: ../geanyvc/src/geanyvc.c:2543
+#: ../geanyvc/src/geanyvc.c:2594
 msgid "_VC file Actions"
 msgstr "З_міни"
 
-#: ../geanyvc/src/geanyvc.c:2552
+#: ../geanyvc/src/geanyvc.c:2603
 msgid "VC _Commit..."
 msgstr "Фіксувати _зміни..."
 
-#: ../geanyvc/src/geanyvc.c:2596
+#: ../geanyvc/src/geanyvc.c:2647
 msgid "Show diff of file"
 msgstr "Показати зміни для файлу"
 
-#: ../geanyvc/src/geanyvc.c:2598
+#: ../geanyvc/src/geanyvc.c:2649
 msgid "Show diff of directory"
 msgstr "Показати зміни для каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2600
+#: ../geanyvc/src/geanyvc.c:2651
 msgid "Show diff of basedir"
 msgstr "Показати зміни для базового каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2603
+#: ../geanyvc/src/geanyvc.c:2654
 msgid "Commit changes"
 msgstr "Фіксувати зміни"
 
-#: ../geanyvc/src/geanyvc.c:2605
+#: ../geanyvc/src/geanyvc.c:2656
 msgid "Show status"
 msgstr "Показати статус"
 
-#: ../geanyvc/src/geanyvc.c:2607
+#: ../geanyvc/src/geanyvc.c:2658
 msgid "Revert single file"
 msgstr "Скасувати зміни для файлу"
 
-#: ../geanyvc/src/geanyvc.c:2609
+#: ../geanyvc/src/geanyvc.c:2660
 msgid "Revert directory"
 msgstr "Скасувати зміни для каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2611
+#: ../geanyvc/src/geanyvc.c:2662
 msgid "Revert base directory"
 msgstr "Скасувати зміни для базового каталогу"
 
-#: ../geanyvc/src/geanyvc.c:2613
+#: ../geanyvc/src/geanyvc.c:2664
 msgid "Update file"
 msgstr "Оновити"
 
-#: ../geanyvc/src/geanyvc.c:2643
+#: ../geanyvc/src/geanyvc.c:2694
 msgid "_VC"
 msgstr "З_міни"
 
-#: ../geanyvc/src/geanyvc.c:2650
+#: ../geanyvc/src/geanyvc.c:2701
 msgid "_Version Control"
 msgstr "З_міни"
 
 #. Status of basedir
-#: ../geanyvc/src/geanyvc.c:2672
+#: ../geanyvc/src/geanyvc.c:2723
 msgid "_Status"
 msgstr "_Статус"
 
-#: ../geanyvc/src/geanyvc.c:2674
+#: ../geanyvc/src/geanyvc.c:2725
 msgid "Show status."
 msgstr "Показати статус."
 
-#: ../geanyvc/src/geanyvc.c:2681
+#: ../geanyvc/src/geanyvc.c:2732
 msgid "Update from remote repository."
 msgstr "Оновити з віддаленого репозиторію."
 
 #. Commit all changes
-#: ../geanyvc/src/geanyvc.c:2686
+#: ../geanyvc/src/geanyvc.c:2737
 msgid "_Commit..."
 msgstr "Фіксува_ти..."
 
-#: ../geanyvc/src/geanyvc.c:2688
+#: ../geanyvc/src/geanyvc.c:2739
 msgid "Commit changes."
 msgstr "Фіксувати локальні зміни."
 
@@ -5086,35 +5087,6 @@ msgstr "Показувати сторінку публікації у новій
 #: ../geniuspaste/src/geniuspaste.c:959
 msgid "_Paste it!"
 msgstr "_Опублікувати на pastebin"
-
-#: ../git-changebar/data/prefs.ui.h:1
-msgid "_Monitor repository for changes"
-msgstr "_Стежити за змінами у репозиторію"
-
-#: ../git-changebar/data/prefs.ui.h:2
-msgid ""
-"Whether to automatically update the diff in order to maintain it up to date "
-"when the underlying Git repository changes.  This should generally be "
-"enabled for optimal user experience."
-msgstr ""
-"Автоматично оновлювати показані відмінності у разі нових змін у репозиторію "
-"Git. Для оптимальної роботи, залиште цю опцію увімкненою."
-
-#: ../git-changebar/data/prefs.ui.h:3
-msgid "_Added lines:"
-msgstr "_Додані рядки:"
-
-#: ../git-changebar/data/prefs.ui.h:4
-msgid "_Changed lines:"
-msgstr "_Змінені рядки:"
-
-#: ../git-changebar/data/prefs.ui.h:5
-msgid "_Removed lines:"
-msgstr "_Видалені рядки:"
-
-#: ../git-changebar/data/prefs.ui.h:6
-msgid "Colors"
-msgstr "Колір"
 
 #: ../git-changebar/src/gcb-plugin.c:62
 msgid "Git Change Bar"
@@ -5304,8 +5276,8 @@ msgstr ""
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
-"Your configuration directory has been successfully moved from \"%s\" to \"%s"
-"\"."
+"Your configuration directory has been successfully moved from \"%s\" to "
+"\"%s\"."
 msgstr "Каталог конфігурації успішно переміщено з \"%s\" у \"%s\"."
 
 #: ../lipsum/src/lipsum.c:199
@@ -5470,7 +5442,7 @@ msgstr ""
 msgid "Unable to read value for '%s' key: %s"
 msgstr ""
 
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2132
+#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2137
 msgid "Terminal"
 msgstr "Термінал"
 
@@ -5508,127 +5480,6 @@ msgstr "рядок: <b>%d</b>, стовпець: <b>%d</b>, позиція: <b>%
 msgid "Show Overview"
 msgstr "Показати панель огляду документа"
 
-#: ../overview/data/prefs.ui.h:1
-msgid ""
-"The amount to zoom the overview sidebar. This should probably negative if "
-"you want the sidebar zoomed out."
-msgstr ""
-"Масштабування панелі огляду. Для зменшеного виду встановіть від’ємне "
-"значення."
-
-#: ../overview/data/prefs.ui.h:2
-msgid "Zoom Level:"
-msgstr "Масштаб:"
-
-#: ../overview/data/prefs.ui.h:3
-msgid "The width of the overview sidebar."
-msgstr "Ширина панелі огляду (пікселі)."
-
-#: ../overview/data/prefs.ui.h:4
-msgid "Width:"
-msgstr "Ширина:"
-
-#: ../overview/data/prefs.ui.h:5
-msgid ""
-"The number of lines to scroll at a time when scrolling the overview sidebar."
-msgstr "Скільки рядків документа прокручувати під час прокрутки панелі огляду."
-
-#: ../overview/data/prefs.ui.h:6
-msgid "Scroll Lines:"
-msgstr "Прокручувати рядків:"
-
-#: ../overview/data/prefs.ui.h:7
-msgid "Position on left"
-msgstr "Зліва"
-
-#: ../overview/data/prefs.ui.h:8
-msgid ""
-"Position the overview bar on the left rather than the right (requires Geany "
-"1.25 or greater)."
-msgstr ""
-"Розмістити панель огляду ліворуч, а не праворуч (потребує Geany версії 1.25 "
-"або вище)."
-
-#: ../overview/data/prefs.ui.h:9
-msgid "Hide tooltip"
-msgstr "Приховати підказку"
-
-#: ../overview/data/prefs.ui.h:10
-msgid ""
-"Hide the tooltip that is displayed when mousing over the overview that shows "
-"line, column and position information."
-msgstr ""
-"Приховати підказку, яка з'являється при наведенні вказівника миші на огляд. "
-"Підказка містить інформацію про рядок, стовпець та позицію у документі."
-
-#: ../overview/data/prefs.ui.h:11
-msgid "Hide editor scrollbar"
-msgstr "Приховати смугу прокрутки"
-
-#: ../overview/data/prefs.ui.h:12
-msgid ""
-"Whether to hide Geany's regular editor scrollbar while the overview bar is "
-"visible."
-msgstr ""
-"Приховувати звичайну смугу прокрутки редактора Geany, поки видно панель "
-"огляду."
-
-#: ../overview/data/prefs.ui.h:13
-msgid "Disable overlay"
-msgstr "Не показувати рамку перегляду"
-
-#: ../overview/data/prefs.ui.h:14
-msgid ""
-"Turn off drawing overlay, which shows the region of the main editor view "
-"that is currently in view, ontop of the overview bar."
-msgstr ""
-"Вимкнути додання рамки поверх панелі огляду щоби позначити поточну область "
-"перегляду."
-
-#: ../overview/data/prefs.ui.h:15 ../scope/data/scope.glade.h:130
-#: ../scope/data/scope_gtk3.glade.h:130
-msgid "Options"
-msgstr "Параметри"
-
-#: ../overview/data/prefs.ui.h:16
-msgid ""
-"The color and opacity of the overlay drawn ontop of the overlay sidebar."
-msgstr "Колір і прозорість рамки поточної області перегляду."
-
-#: ../overview/data/prefs.ui.h:17
-msgid "Color:"
-msgstr "Колір:"
-
-#: ../overview/data/prefs.ui.h:18
-msgid ""
-"The color and opacity of the border drawn around the revealed area in the "
-"overview sidebar. Set to the same as Overlay Color to disable."
-msgstr ""
-"Колір і прозорість контуру навколо поточної області перегляду на бічній "
-"панелі огляду. Щоби вимкнути, встановіть той самий колір, що й для рамки "
-"перегляду."
-
-#: ../overview/data/prefs.ui.h:19
-msgid "Outline Color:"
-msgstr "Колір контуру:"
-
-#: ../overview/data/prefs.ui.h:20
-msgid "Draw over visible area"
-msgstr "Затіняти видиму область"
-
-#: ../overview/data/prefs.ui.h:21
-msgid ""
-"When checked it will draw the overlay ontop of the area that is visible in "
-"the main editor view, when unchecked, it will do the opposite and draw the "
-"overlay everywhere but the visible area, \"revealing\" the visible part."
-msgstr ""
-"Затіняти поточну область перегляду. Інакше, накладена рамка буде затінювати "
-"панель скрізь, крім видимої області, позначаючи таким чином видиму область."
-
-#: ../overview/data/prefs.ui.h:22
-msgid "Overlay"
-msgstr "Затінення"
-
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:43
 msgid "Pair Tag Highlighter"
 msgstr "Позначення XML-елемента"
@@ -5652,148 +5503,6 @@ msgstr "Перейти до парного тегу"
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
 msgid "Select To Matching Tag"
 msgstr "Виділити елемент"
-
-#: ../pohelper/data/menus.ui.h:1
-msgid "_Translation Helper"
-msgstr "Помічник перекладача"
-
-#: ../pohelper/data/menus.ui.h:2
-msgid "_Previous String"
-msgstr "_Попередній сегмент"
-
-#: ../pohelper/data/menus.ui.h:3 ../pohelper/src/gph-plugin.c:1590
-msgid "Go to previous string"
-msgstr "Перейти до попереднього сегмента"
-
-#: ../pohelper/data/menus.ui.h:4
-msgid "_Next String"
-msgstr "_Наступний сегмент"
-
-#: ../pohelper/data/menus.ui.h:5 ../pohelper/src/gph-plugin.c:1593
-msgid "Go to next string"
-msgstr "Перейти до наступного сегмента"
-
-#: ../pohelper/data/menus.ui.h:6
-msgid "Pre_vious Untranslated"
-msgstr "Попередній неперекладений"
-
-#: ../pohelper/data/menus.ui.h:7 ../pohelper/src/gph-plugin.c:1596
-msgid "Go to previous untranslated string"
-msgstr "Перейти до попереднього неперекладеного сегмента"
-
-#: ../pohelper/data/menus.ui.h:8
-msgid "Next _Untranslated"
-msgstr "Наступний _неперекладений"
-
-#: ../pohelper/data/menus.ui.h:9 ../pohelper/src/gph-plugin.c:1599
-msgid "Go to next untranslated string"
-msgstr "Перейти до наступного неперекладеного сегмента"
-
-#: ../pohelper/data/menus.ui.h:10
-msgid "Previous Fu_zzy"
-msgstr "Попередній fu_zzy"
-
-#: ../pohelper/data/menus.ui.h:11 ../pohelper/src/gph-plugin.c:1602
-msgid "Go to previous fuzzily translated string"
-msgstr "Перейти до попереднього нечітко перекладеного сегмента"
-
-#: ../pohelper/data/menus.ui.h:12
-msgid "Next _Fuzzy"
-msgstr "Наступний _fuzzy"
-
-#: ../pohelper/data/menus.ui.h:13 ../pohelper/src/gph-plugin.c:1605
-msgid "Go to next fuzzily translated string"
-msgstr "Перейти до наступного нечітко перекладеного рядка"
-
-#: ../pohelper/data/menus.ui.h:14
-msgid "Previous Untranslated or Fuzz_y"
-msgstr "Попередній неперекладений або fuzz_y"
-
-#: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1608
-msgid "Go to previous untranslated or fuzzy string"
-msgstr ""
-"Перейти до попереднього неперекладеного або нечітко перекладеного сегмента"
-
-#: ../pohelper/data/menus.ui.h:16
-msgid "Next Untranslated _or Fuzzy"
-msgstr "Наступний неперекладений _або fuzzy"
-
-#: ../pohelper/data/menus.ui.h:17 ../pohelper/src/gph-plugin.c:1612
-msgid "Go to next untranslated or fuzzy string"
-msgstr ""
-"Перейти до наступного неперекладеного або нечіткого перекладеного сегмента"
-
-#: ../pohelper/data/menus.ui.h:18 ../pohelper/src/gph-plugin.c:1623
-msgid "Toggle current translation fuzziness"
-msgstr "Встановити маркер нечіткості для поточного сегмента"
-
-#: ../pohelper/data/menus.ui.h:19
-msgid "_Toggle Fuzziness"
-msgstr "_Позначити / Скасувати як fuzzy"
-
-#: ../pohelper/data/menus.ui.h:20
-msgid "Paste _Message as Translation"
-msgstr "Вставити _оригінал як переклад"
-
-#: ../pohelper/data/menus.ui.h:21
-msgid "Paste the original untranslated string to the translation"
-msgstr "Вставити неперекладений текст в текст перекладу сегмента"
-
-#: ../pohelper/data/menus.ui.h:22 ../pohelper/src/gph-plugin.c:1620
-msgid "Reflow the current translation string"
-msgstr "Форматування поточного перекладу сегмента"
-
-#: ../pohelper/data/menus.ui.h:23
-msgid "_Reflow Translation"
-msgstr "_Форматувати переклад"
-
-#: ../pohelper/data/menus.ui.h:24 ../pohelper/src/gph-plugin.c:1626
-msgid "Show statistics of the current document"
-msgstr "Показати статистику поточного документа"
-
-#: ../pohelper/data/menus.ui.h:25
-msgid "_Show stats"
-msgstr "_Статистика"
-
-#: ../pohelper/data/menus.ui.h:26
-msgid ""
-"Whether to update the translation headers (author, revision date, ...) upon "
-"file save"
-msgstr ""
-"Оновлювати заголовки (автор, дата редакції та інше) при збереженні файлу "
-"переклада."
-
-#: ../pohelper/data/menus.ui.h:27
-msgid "Update _Headers Upon Save"
-msgstr "_Оновлювати заголовки"
-
-#: ../pohelper/data/stats.ui.h:1
-msgid "Translation statistics"
-msgstr "Статистика перекладу"
-
-#: ../pohelper/data/stats.ui.h:2
-msgid "Choose a color for translated strings"
-msgstr "Колір для перекладених рядків"
-
-#: ../pohelper/data/stats.ui.h:3
-msgid "Choose a color for fuzzily translated strings"
-msgstr "Колір для fuzzy рядків"
-
-#: ../pohelper/data/stats.ui.h:4
-msgid "Choose a color for untranslated strings"
-msgstr "Колір для неперекладених рядків"
-
-#: ../pohelper/data/stats.ui.h:5
-msgid "Translated:"
-msgstr "Перекладено:"
-
-#: ../pohelper/data/stats.ui.h:6
-msgid "Fuzzy:"
-msgstr ""
-
-#: ../pohelper/data/stats.ui.h:7
-msgid "Untranslated:"
-msgstr "Не перекладено:"
 
 #: ../pohelper/src/gph-plugin.c:40
 msgid "Translation Helper"
@@ -5823,9 +5532,55 @@ msgstr "<b>Не перекладено:</b> %.3g%%"
 msgid "%u (%.3g%%)"
 msgstr ""
 
+#: ../pohelper/src/gph-plugin.c:1590
+msgid "Go to previous string"
+msgstr "Перейти до попереднього сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1593
+msgid "Go to next string"
+msgstr "Перейти до наступного сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1596
+msgid "Go to previous untranslated string"
+msgstr "Перейти до попереднього неперекладеного сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1599
+msgid "Go to next untranslated string"
+msgstr "Перейти до наступного неперекладеного сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1602
+msgid "Go to previous fuzzily translated string"
+msgstr "Перейти до попереднього нечітко перекладеного сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1605
+msgid "Go to next fuzzily translated string"
+msgstr "Перейти до наступного нечітко перекладеного рядка"
+
+#: ../pohelper/src/gph-plugin.c:1608
+msgid "Go to previous untranslated or fuzzy string"
+msgstr ""
+"Перейти до попереднього неперекладеного або нечітко перекладеного сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1612
+msgid "Go to next untranslated or fuzzy string"
+msgstr ""
+"Перейти до наступного неперекладеного або нечіткого перекладеного сегмента"
+
 #: ../pohelper/src/gph-plugin.c:1616
 msgid "Paste original untranslated string to translation"
 msgstr "Вставити неперекладений текст до перекладу"
+
+#: ../pohelper/src/gph-plugin.c:1620
+msgid "Reflow the current translation string"
+msgstr "Форматування поточного перекладу сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1623
+msgid "Toggle current translation fuzziness"
+msgstr "Встановити маркер нечіткості для поточного сегмента"
+
+#: ../pohelper/src/gph-plugin.c:1626
+msgid "Show statistics of the current document"
+msgstr "Показати статистику поточного документа"
 
 #: ../pohelper/src/gph-plugin.c:1833
 #, c-format
@@ -6113,7 +5868,7 @@ msgid "Add"
 msgstr "Додати"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2356
+#: ../treebrowser/src/treebrowser.c:2361
 msgid "New File"
 msgstr "Створити файл"
 
@@ -6723,6 +6478,10 @@ msgstr "Показувати _підказки"
 msgid "<b>Others</b>"
 msgstr "<b>Інше</b>"
 
+#: ../scope/data/scope.glade.h:130 ../scope/data/scope_gtk3.glade.h:130
+msgid "Options"
+msgstr "Параметри"
+
 #: ../scope/data/scope.glade.h:131 ../scope/data/scope_gtk3.glade.h:131
 msgid "_Import"
 msgstr "_Імпортувати"
@@ -7302,12 +7061,14 @@ msgid "Checks the spelling of the current document."
 msgstr "Перевірка правопису у поточному документі."
 
 #: ../spellcheck/src/scplugin.c:225
-msgid "Run Spell Check"
+#, fuzzy
+msgid "Run spell check once"
 msgstr "Перевірити правопис"
 
-#: ../spellcheck/src/scplugin.c:228
-msgid "Toggle Check While Typing"
-msgstr "Перевіряти під час набору тексту"
+#: ../spellcheck/src/scplugin.c:228 ../spellcheck/src/scplugin.c:333
+#, fuzzy
+msgid "Toggle spell check"
+msgstr "Перевірка правопису"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:239
@@ -7333,10 +7094,6 @@ msgstr "Показувати неправильне слово і варіант
 #: ../spellcheck/src/scplugin.c:325
 msgid "<b>Interface</b>"
 msgstr "<b>Інтерфейс</b>"
-
-#: ../spellcheck/src/scplugin.c:333
-msgid "Check spelling while typing"
-msgstr "Перевіряти правопис наживо (під час набору тексту)"
 
 #: ../spellcheck/src/scplugin.c:336
 msgid "Check spelling when opening a document"
@@ -7373,32 +7130,32 @@ msgstr ""
 msgid "<b>Behavior</b>"
 msgstr "<b>Робота</b>"
 
-#: ../spellcheck/src/gui.c:76
+#: ../spellcheck/src/gui.c:88
 msgid "Spell checking while typing is now enabled"
 msgstr "Перевірка правопису наживо увімкнена."
 
-#: ../spellcheck/src/gui.c:78
+#: ../spellcheck/src/gui.c:90
 msgid "Spell checking while typing is now disabled"
 msgstr "Перевірка правопису наживо вимкнена."
 
-#: ../spellcheck/src/gui.c:326
+#: ../spellcheck/src/gui.c:323
 msgid "More..."
 msgstr "Додатково"
 
-#: ../spellcheck/src/gui.c:347
+#: ../spellcheck/src/gui.c:344
 msgid "(No Suggestions)"
 msgstr "(варіантів немає)"
 
-#: ../spellcheck/src/gui.c:360
+#: ../spellcheck/src/gui.c:357
 #, c-format
 msgid "Add \"%s\" to Dictionary"
 msgstr "Додати \"%s\" до словника"
 
-#: ../spellcheck/src/gui.c:368
+#: ../spellcheck/src/gui.c:365
 msgid "Ignore All"
 msgstr "Ігнорувати все"
 
-#: ../spellcheck/src/gui.c:441
+#: ../spellcheck/src/gui.c:438
 msgid ""
 "Search term is too long to provide\n"
 "spelling suggestions in the editor menu."
@@ -7406,21 +7163,21 @@ msgstr ""
 "Фрагмент занадто довгий для надання варіантів його написання в контекстному "
 "меню."
 
-#: ../spellcheck/src/gui.c:447
+#: ../spellcheck/src/gui.c:444
 msgid "Perform Spell Check"
 msgstr "Перевірити правопис"
 
-#: ../spellcheck/src/gui.c:609
+#: ../spellcheck/src/gui.c:606
 #, c-format
 msgid "Default (%s)"
 msgstr "За замовчуванням (%s)"
 
-#: ../spellcheck/src/gui.c:620
-#, c-format
-msgid "Toggle spell check while typing (current language: %s)"
+#: ../spellcheck/src/gui.c:617
+#, fuzzy, c-format
+msgid "Toggle spell check (current language: %s)"
 msgstr "Перевіряти правопис наживо (мова: %s)"
 
-#: ../spellcheck/src/gui.c:698
+#: ../spellcheck/src/gui.c:695
 msgid "Spelling Suggestions"
 msgstr "Виправити на"
 
@@ -7519,15 +7276,15 @@ msgstr "(Пусто)"
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Не вдалось виконати задану зовнішню команду \"%s\" (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1089
+#: ../treebrowser/src/treebrowser.c:1093
 msgid "NewDirectory"
 msgstr "Новий каталог"
 
-#: ../treebrowser/src/treebrowser.c:1091
+#: ../treebrowser/src/treebrowser.c:1095
 msgid "NewFile"
 msgstr "Новий файл"
 
-#: ../treebrowser/src/treebrowser.c:1096
+#: ../treebrowser/src/treebrowser.c:1100
 #, c-format
 msgid ""
 "Target file '%s' exists.\n"
@@ -7536,115 +7293,115 @@ msgstr ""
 "Файл \"%s\" вже існує.\n"
 "Ви дійсно хочете замінити його пустим файлом?"
 
-#: ../treebrowser/src/treebrowser.c:1142
+#: ../treebrowser/src/treebrowser.c:1146
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Ви дійсно хочете видалити \"%s\"?"
 
-#: ../treebrowser/src/treebrowser.c:1255 ../treebrowser/src/treebrowser.c:1257
+#: ../treebrowser/src/treebrowser.c:1259 ../treebrowser/src/treebrowser.c:1261
 msgid "Go _Up"
 msgstr "Каталог рівнем вище"
 
-#: ../treebrowser/src/treebrowser.c:1263 ../treebrowser/src/treebrowser.c:1265
+#: ../treebrowser/src/treebrowser.c:1267 ../treebrowser/src/treebrowser.c:1269
 msgid "Set _Path From Document"
 msgstr "_Каталог документа"
 
-#: ../treebrowser/src/treebrowser.c:1271 ../treebrowser/src/treebrowser.c:1273
+#: ../treebrowser/src/treebrowser.c:1275 ../treebrowser/src/treebrowser.c:1277
 msgid "_Open Externally"
 msgstr "_Відкрити у зовнішній програмі"
 
-#: ../treebrowser/src/treebrowser.c:1279
+#: ../treebrowser/src/treebrowser.c:1283
 msgid "Open _Terminal"
 msgstr "Відкрити у _терміналі"
 
-#: ../treebrowser/src/treebrowser.c:1284 ../treebrowser/src/treebrowser.c:1286
+#: ../treebrowser/src/treebrowser.c:1288 ../treebrowser/src/treebrowser.c:1290
 msgid "Set as _Root"
 msgstr "Відкрити _каталог"
 
-#: ../treebrowser/src/treebrowser.c:1293 ../treebrowser/src/treebrowser.c:1295
+#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1299
 msgid "Refres_h"
 msgstr "_Оновити"
 
-#: ../treebrowser/src/treebrowser.c:1301 ../treebrowser/src/treebrowser.c:1303
+#: ../treebrowser/src/treebrowser.c:1305 ../treebrowser/src/treebrowser.c:1307
 msgid "_Find in Files"
 msgstr "Знайти у файлах..."
 
-#: ../treebrowser/src/treebrowser.c:1313 ../treebrowser/src/treebrowser.c:1315
+#: ../treebrowser/src/treebrowser.c:1317 ../treebrowser/src/treebrowser.c:1319
 msgid "N_ew Folder"
 msgstr "Створити _каталог..."
 
-#: ../treebrowser/src/treebrowser.c:1321 ../treebrowser/src/treebrowser.c:1323
+#: ../treebrowser/src/treebrowser.c:1325 ../treebrowser/src/treebrowser.c:1327
 msgid "_New File"
 msgstr "Створити _файл..."
 
-#: ../treebrowser/src/treebrowser.c:1329 ../treebrowser/src/treebrowser.c:1331
+#: ../treebrowser/src/treebrowser.c:1333 ../treebrowser/src/treebrowser.c:1335
 msgid "Rena_me"
 msgstr "Пере_йменувати..."
 
-#: ../treebrowser/src/treebrowser.c:1350 ../treebrowser/src/treebrowser.c:1352
+#: ../treebrowser/src/treebrowser.c:1354 ../treebrowser/src/treebrowser.c:1356
 #, c-format
 msgid "Close: %s"
 msgstr "Закрити: %s"
 
-#: ../treebrowser/src/treebrowser.c:1359 ../treebrowser/src/treebrowser.c:1361
+#: ../treebrowser/src/treebrowser.c:1363 ../treebrowser/src/treebrowser.c:1365
 #, c-format
 msgid "Clo_se Child Documents "
 msgstr "Закрити всі документи з каталогу "
 
-#: ../treebrowser/src/treebrowser.c:1368 ../treebrowser/src/treebrowser.c:1370
+#: ../treebrowser/src/treebrowser.c:1372 ../treebrowser/src/treebrowser.c:1374
 msgid "_Copy Full Path to Clipboard"
 msgstr "_Копіювати шлях"
 
-#: ../treebrowser/src/treebrowser.c:1381 ../treebrowser/src/treebrowser.c:1383
+#: ../treebrowser/src/treebrowser.c:1385 ../treebrowser/src/treebrowser.c:1387
 msgid "E_xpand All"
 msgstr "_Розгорнути все"
 
-#: ../treebrowser/src/treebrowser.c:1389 ../treebrowser/src/treebrowser.c:1391
+#: ../treebrowser/src/treebrowser.c:1393 ../treebrowser/src/treebrowser.c:1395
 msgid "Coll_apse All"
 msgstr "_Згорнути все"
 
-#: ../treebrowser/src/treebrowser.c:1399
+#: ../treebrowser/src/treebrowser.c:1403
 msgid "Show Boo_kmarks"
 msgstr "За_кладки"
 
-#: ../treebrowser/src/treebrowser.c:1404
+#: ../treebrowser/src/treebrowser.c:1408
 msgid "Sho_w Hidden Files"
 msgstr "При_ховані файли"
 
-#: ../treebrowser/src/treebrowser.c:1409
+#: ../treebrowser/src/treebrowser.c:1413
 msgid "Show Tool_bars"
 msgstr "Панель _інструментів"
 
-#: ../treebrowser/src/treebrowser.c:1747
+#: ../treebrowser/src/treebrowser.c:1751
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Файл \"%s\" вже існує, ви дійсно хочете його замінити?"
 
-#: ../treebrowser/src/treebrowser.c:1883
+#: ../treebrowser/src/treebrowser.c:1887
 msgid "Go up"
 msgstr "Каталог рівнем вище"
 
-#: ../treebrowser/src/treebrowser.c:1893 ../treebrowser/src/treebrowser.c:2360
+#: ../treebrowser/src/treebrowser.c:1897 ../treebrowser/src/treebrowser.c:2365
 msgid "Refresh"
 msgstr "Оновити"
 
-#: ../treebrowser/src/treebrowser.c:1903
+#: ../treebrowser/src/treebrowser.c:1907
 msgid "Home"
 msgstr "Домашній каталог"
 
-#: ../treebrowser/src/treebrowser.c:1913
+#: ../treebrowser/src/treebrowser.c:1917
 msgid "Set path from document"
 msgstr "Каталог документа"
 
-#: ../treebrowser/src/treebrowser.c:1923
+#: ../treebrowser/src/treebrowser.c:1927
 msgid "Track path"
 msgstr "Показати файл документа"
 
-#: ../treebrowser/src/treebrowser.c:1933
+#: ../treebrowser/src/treebrowser.c:1937
 msgid "Hide bars"
 msgstr "Приховати панель інструментів"
 
-#: ../treebrowser/src/treebrowser.c:1943
+#: ../treebrowser/src/treebrowser.c:1947
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7652,20 +7409,20 @@ msgstr ""
 "Фільтр імен файлів (список, розділений \";\"), або інверсний фільтр (список "
 "починається з \"!;\"). Наприклад, \"*.c;*.h;*.cpp\", або \"!;*.obj;temp*\""
 
-#: ../treebrowser/src/treebrowser.c:1948
+#: ../treebrowser/src/treebrowser.c:1952
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Шлях до каталогу"
 
-#: ../treebrowser/src/treebrowser.c:1973
+#: ../treebrowser/src/treebrowser.c:1977
 msgid "Tree Browser"
 msgstr "Провідник каталогів"
 
-#: ../treebrowser/src/treebrowser.c:2114
+#: ../treebrowser/src/treebrowser.c:2118
 msgid "External open command"
 msgstr "Зовнішня команда:"
 
-#: ../treebrowser/src/treebrowser.c:2124
-#, c-format
+#: ../treebrowser/src/treebrowser.c:2129
+#, no-c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
 "wildcards.\n"
@@ -7677,60 +7434,60 @@ msgstr ""
 "використання маркерів %f (повний шлях до файлу) та %d (повний шлях до "
 "каталогу вибраного файлу)."
 
-#: ../treebrowser/src/treebrowser.c:2143
+#: ../treebrowser/src/treebrowser.c:2148
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr "Програма терміналу"
 
-#: ../treebrowser/src/treebrowser.c:2149
+#: ../treebrowser/src/treebrowser.c:2154
 msgid "Toolbar"
 msgstr "Панель інструментів:"
 
-#: ../treebrowser/src/treebrowser.c:2151
+#: ../treebrowser/src/treebrowser.c:2156
 msgid "Hidden"
 msgstr "Не показувати"
 
-#: ../treebrowser/src/treebrowser.c:2152
+#: ../treebrowser/src/treebrowser.c:2157
 msgid "Top"
 msgstr "Зверху"
 
-#: ../treebrowser/src/treebrowser.c:2153
+#: ../treebrowser/src/treebrowser.c:2158
 msgid "Bottom"
 msgstr "Знизу"
 
-#: ../treebrowser/src/treebrowser.c:2158
+#: ../treebrowser/src/treebrowser.c:2163
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 "Перезапустіть плаґін, щоб зміни позиції панелі інструментів набули чинності."
 
-#: ../treebrowser/src/treebrowser.c:2162
+#: ../treebrowser/src/treebrowser.c:2167
 msgid "Show icons"
 msgstr "Піктограми файлів:"
 
-#: ../treebrowser/src/treebrowser.c:2164
+#: ../treebrowser/src/treebrowser.c:2169
 msgid "None"
 msgstr "Не показувати"
 
-#: ../treebrowser/src/treebrowser.c:2165
+#: ../treebrowser/src/treebrowser.c:2170
 msgid "Base"
 msgstr "Основні"
 
-#: ../treebrowser/src/treebrowser.c:2166
+#: ../treebrowser/src/treebrowser.c:2171
 msgid "Content-type"
 msgstr "Тип файлу"
 
-#: ../treebrowser/src/treebrowser.c:2172
+#: ../treebrowser/src/treebrowser.c:2177
 msgid "Show hidden files"
 msgstr "Показувати приховані файли"
 
-#: ../treebrowser/src/treebrowser.c:2181
+#: ../treebrowser/src/treebrowser.c:2186
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "У Windows це впливає лише на dot-файли (ім'я починається з крапки)."
 
-#: ../treebrowser/src/treebrowser.c:2183
+#: ../treebrowser/src/treebrowser.c:2188
 msgid "Hide object files"
 msgstr "Не показувати об'єктні файли"
 
-#: ../treebrowser/src/treebrowser.c:2192
+#: ../treebrowser/src/treebrowser.c:2197
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7738,59 +7495,59 @@ msgstr ""
 "Не показувати згенеровані об'єктні файли (*.o, *.obj, *.so, *.dll, *.a, *."
 "lib)."
 
-#: ../treebrowser/src/treebrowser.c:2194
+#: ../treebrowser/src/treebrowser.c:2199
 msgid "Reverse filter"
 msgstr "Дозволити інверсний формат фільтру імен файлів"
 
-#: ../treebrowser/src/treebrowser.c:2203
+#: ../treebrowser/src/treebrowser.c:2208
 msgid "Follow current document"
 msgstr "Показувати шлях до поточного документа"
 
-#: ../treebrowser/src/treebrowser.c:2212
+#: ../treebrowser/src/treebrowser.c:2217
 msgid "Single click, open document and focus it"
 msgstr "Відкривати документ одним натисканням кнопки миші"
 
-#: ../treebrowser/src/treebrowser.c:2221
+#: ../treebrowser/src/treebrowser.c:2226
 msgid "Double click open directory"
 msgstr "Подвійне клацання відкриває разом усі файли з каталогу"
 
-#: ../treebrowser/src/treebrowser.c:2230
+#: ../treebrowser/src/treebrowser.c:2235
 msgid "On delete file, close it if is opened"
 msgstr "Закривати файл при видаленні (якщо відкритий)"
 
-#: ../treebrowser/src/treebrowser.c:2239
+#: ../treebrowser/src/treebrowser.c:2244
 msgid "Focus editor on file open"
 msgstr "Переходити на вкладку відкритого файлу"
 
-#: ../treebrowser/src/treebrowser.c:2248
+#: ../treebrowser/src/treebrowser.c:2253
 msgid "Show tree lines"
 msgstr "Показувати лінії рівнів дерева каталогів"
 
-#: ../treebrowser/src/treebrowser.c:2257
+#: ../treebrowser/src/treebrowser.c:2262
 msgid "Show bookmarks"
 msgstr "Показувати закладки"
 
-#: ../treebrowser/src/treebrowser.c:2266
+#: ../treebrowser/src/treebrowser.c:2271
 msgid "Open new files"
 msgstr "Відкривати створені файли"
 
-#: ../treebrowser/src/treebrowser.c:2350
+#: ../treebrowser/src/treebrowser.c:2355
 msgid "Focus File List"
 msgstr "Перейти до списку файлів"
 
-#: ../treebrowser/src/treebrowser.c:2352
+#: ../treebrowser/src/treebrowser.c:2357
 msgid "Focus Path Entry"
 msgstr "Ввести шлях"
 
-#: ../treebrowser/src/treebrowser.c:2354
+#: ../treebrowser/src/treebrowser.c:2359
 msgid "Rename Object"
 msgstr "Перейменувати"
 
-#: ../treebrowser/src/treebrowser.c:2358
+#: ../treebrowser/src/treebrowser.c:2363
 msgid "New Folder"
 msgstr "Створити каталог"
 
-#: ../treebrowser/src/treebrowser.c:2362
+#: ../treebrowser/src/treebrowser.c:2367
 msgid "Track Current"
 msgstr "Перейти на файл документа"
 
@@ -8469,14 +8226,6 @@ msgstr "Немає каталогів"
 msgid "No workbench opened."
 msgstr "Верстак відсутній"
 
-#: ../workbench/src/sidebar.c:875
-#, c-format
-msgid "%s: %u Project"
-msgid_plural "%s: %u Projects"
-msgstr[0] "%s: %u проект"
-msgstr[1] "%s: %u проекти"
-msgstr[2] "%s: %u проектів"
-
 #: ../workbench/src/sidebar.c:886
 msgid ""
 "Add a project using the context menu\n"
@@ -8592,3 +8341,209 @@ msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
 "Автозавершення тегів XML/HTML з можливістю вставки фрагментів коду "
 "(сніпетів)."
+
+#~ msgid "_Monitor repository for changes"
+#~ msgstr "_Стежити за змінами у репозиторію"
+
+#~ msgid ""
+#~ "Whether to automatically update the diff in order to maintain it up to "
+#~ "date when the underlying Git repository changes.  This should generally "
+#~ "be enabled for optimal user experience."
+#~ msgstr ""
+#~ "Автоматично оновлювати показані відмінності у разі нових змін у "
+#~ "репозиторію Git. Для оптимальної роботи, залиште цю опцію увімкненою."
+
+#~ msgid "_Added lines:"
+#~ msgstr "_Додані рядки:"
+
+#~ msgid "_Changed lines:"
+#~ msgstr "_Змінені рядки:"
+
+#~ msgid "_Removed lines:"
+#~ msgstr "_Видалені рядки:"
+
+#~ msgid "Colors"
+#~ msgstr "Колір"
+
+#~ msgid ""
+#~ "The amount to zoom the overview sidebar. This should probably negative if "
+#~ "you want the sidebar zoomed out."
+#~ msgstr ""
+#~ "Масштабування панелі огляду. Для зменшеного виду встановіть від’ємне "
+#~ "значення."
+
+#~ msgid "Zoom Level:"
+#~ msgstr "Масштаб:"
+
+#~ msgid "The width of the overview sidebar."
+#~ msgstr "Ширина панелі огляду (пікселі)."
+
+#~ msgid "Width:"
+#~ msgstr "Ширина:"
+
+#~ msgid ""
+#~ "The number of lines to scroll at a time when scrolling the overview "
+#~ "sidebar."
+#~ msgstr ""
+#~ "Скільки рядків документа прокручувати під час прокрутки панелі огляду."
+
+#~ msgid "Scroll Lines:"
+#~ msgstr "Прокручувати рядків:"
+
+#~ msgid "Position on left"
+#~ msgstr "Зліва"
+
+#~ msgid ""
+#~ "Position the overview bar on the left rather than the right (requires "
+#~ "Geany 1.25 or greater)."
+#~ msgstr ""
+#~ "Розмістити панель огляду ліворуч, а не праворуч (потребує Geany версії "
+#~ "1.25 або вище)."
+
+#~ msgid "Hide tooltip"
+#~ msgstr "Приховати підказку"
+
+#~ msgid ""
+#~ "Hide the tooltip that is displayed when mousing over the overview that "
+#~ "shows line, column and position information."
+#~ msgstr ""
+#~ "Приховати підказку, яка з'являється при наведенні вказівника миші на "
+#~ "огляд. Підказка містить інформацію про рядок, стовпець та позицію у "
+#~ "документі."
+
+#~ msgid "Hide editor scrollbar"
+#~ msgstr "Приховати смугу прокрутки"
+
+#~ msgid ""
+#~ "Whether to hide Geany's regular editor scrollbar while the overview bar "
+#~ "is visible."
+#~ msgstr ""
+#~ "Приховувати звичайну смугу прокрутки редактора Geany, поки видно панель "
+#~ "огляду."
+
+#~ msgid "Disable overlay"
+#~ msgstr "Не показувати рамку перегляду"
+
+#~ msgid ""
+#~ "Turn off drawing overlay, which shows the region of the main editor view "
+#~ "that is currently in view, ontop of the overview bar."
+#~ msgstr ""
+#~ "Вимкнути додання рамки поверх панелі огляду щоби позначити поточну "
+#~ "область перегляду."
+
+#~ msgid ""
+#~ "The color and opacity of the overlay drawn ontop of the overlay sidebar."
+#~ msgstr "Колір і прозорість рамки поточної області перегляду."
+
+#~ msgid "Color:"
+#~ msgstr "Колір:"
+
+#~ msgid ""
+#~ "The color and opacity of the border drawn around the revealed area in the "
+#~ "overview sidebar. Set to the same as Overlay Color to disable."
+#~ msgstr ""
+#~ "Колір і прозорість контуру навколо поточної області перегляду на бічній "
+#~ "панелі огляду. Щоби вимкнути, встановіть той самий колір, що й для рамки "
+#~ "перегляду."
+
+#~ msgid "Outline Color:"
+#~ msgstr "Колір контуру:"
+
+#~ msgid "Draw over visible area"
+#~ msgstr "Затіняти видиму область"
+
+#~ msgid ""
+#~ "When checked it will draw the overlay ontop of the area that is visible "
+#~ "in the main editor view, when unchecked, it will do the opposite and draw "
+#~ "the overlay everywhere but the visible area, \"revealing\" the visible "
+#~ "part."
+#~ msgstr ""
+#~ "Затіняти поточну область перегляду. Інакше, накладена рамка буде "
+#~ "затінювати панель скрізь, крім видимої області, позначаючи таким чином "
+#~ "видиму область."
+
+#~ msgid "Overlay"
+#~ msgstr "Затінення"
+
+#~ msgid "_Translation Helper"
+#~ msgstr "Помічник перекладача"
+
+#~ msgid "_Previous String"
+#~ msgstr "_Попередній сегмент"
+
+#~ msgid "_Next String"
+#~ msgstr "_Наступний сегмент"
+
+#~ msgid "Pre_vious Untranslated"
+#~ msgstr "Попередній неперекладений"
+
+#~ msgid "Next _Untranslated"
+#~ msgstr "Наступний _неперекладений"
+
+#~ msgid "Previous Fu_zzy"
+#~ msgstr "Попередній fu_zzy"
+
+#~ msgid "Next _Fuzzy"
+#~ msgstr "Наступний _fuzzy"
+
+#~ msgid "Previous Untranslated or Fuzz_y"
+#~ msgstr "Попередній неперекладений або fuzz_y"
+
+#~ msgid "Next Untranslated _or Fuzzy"
+#~ msgstr "Наступний неперекладений _або fuzzy"
+
+#~ msgid "_Toggle Fuzziness"
+#~ msgstr "_Позначити / Скасувати як fuzzy"
+
+#~ msgid "Paste _Message as Translation"
+#~ msgstr "Вставити _оригінал як переклад"
+
+#~ msgid "Paste the original untranslated string to the translation"
+#~ msgstr "Вставити неперекладений текст в текст перекладу сегмента"
+
+#~ msgid "_Reflow Translation"
+#~ msgstr "_Форматувати переклад"
+
+#~ msgid "_Show stats"
+#~ msgstr "_Статистика"
+
+#~ msgid ""
+#~ "Whether to update the translation headers (author, revision date, ...) "
+#~ "upon file save"
+#~ msgstr ""
+#~ "Оновлювати заголовки (автор, дата редакції та інше) при збереженні файлу "
+#~ "переклада."
+
+#~ msgid "Update _Headers Upon Save"
+#~ msgstr "_Оновлювати заголовки"
+
+#~ msgid "Translation statistics"
+#~ msgstr "Статистика перекладу"
+
+#~ msgid "Choose a color for translated strings"
+#~ msgstr "Колір для перекладених рядків"
+
+#~ msgid "Choose a color for fuzzily translated strings"
+#~ msgstr "Колір для fuzzy рядків"
+
+#~ msgid "Choose a color for untranslated strings"
+#~ msgstr "Колір для неперекладених рядків"
+
+#~ msgid "Translated:"
+#~ msgstr "Перекладено:"
+
+#~ msgid "Untranslated:"
+#~ msgstr "Не перекладено:"
+
+#~ msgid "Toggle Check While Typing"
+#~ msgstr "Перевіряти під час набору тексту"
+
+#~ msgid "Check spelling while typing"
+#~ msgstr "Перевіряти правопис наживо (під час набору тексту)"
+
+#, c-format
+#~ msgid "%s: %u Project"
+#~ msgid_plural "%s: %u Projects"
+#~ msgstr[0] "%s: %u проект"
+#~ msgstr[1] "%s: %u проекти"
+#~ msgstr[2] "%s: %u проектів"

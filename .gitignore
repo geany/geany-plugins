@@ -20,6 +20,7 @@ cscope.files
 #-----------------------------------------------------------------------
 # / (root)
 #-----------------------------------------------------------------------
+/ABOUT-NLS
 /aclocal.m4
 /autom4te.cache
 /build/*.pyc
@@ -35,6 +36,7 @@ cscope.files
 /config.log
 /config.status
 /config.sub
+/config.rpath
 /configure
 /debian
 /depcomp
@@ -62,10 +64,8 @@ cscope.files
 /po/ChangeLog.save
 /po/*.gmo
 /po/*.header
-/po/.intltool-merge-cache
-/po/LINGUAS
 /po/Makefile.in.in
-/po/Makevars
+/po/Makevars.template
 /po/*.mo
 /po/*.pot
 /po/POTFILES
@@ -76,6 +76,7 @@ cscope.files
 /po/*.sed
 /po/*.sin
 /po/stamp-it
+/po/stamp-po
 
 #-----------------------------------------------------------------------
 # TeX
