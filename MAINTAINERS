@@ -286,11 +286,11 @@ W: http://plugins.geany.org/tableconvert.html
 S: Maintained
 
 treebrowser
-P: Adam Dingle <adam@medovina.org>
-g: @medovina
-M: Adam Dingle <adam@medovina.org>
+P:
+g:
+M:
 W: http://plugins.geany.org/treebrowser.html
-S: Maintained
+S: Orphaned
 
 updatechecker
 P: Frank Lanitz <frank@frank.uvena.de>
