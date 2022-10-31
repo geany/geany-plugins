@@ -63,8 +63,11 @@ static gboolean 			flag_on_expand_refresh 		= FALSE;
 # define CONFIG_OPEN_TERMINAL_DEFAULT "cmd"
 #endif
 
+# define CONFIG_OPEN_EXT_USER_DEF_DEFAULT "glade:.ui;glade:.glade"
+
 static gchar 				*CONFIG_FILE 				= NULL;
 static gchar 				*CONFIG_OPEN_EXTERNAL_CMD 	= NULL;
+static gchar 				*CONFIG_OPEN_EXT_USER_DEF 	= NULL;
 static gchar 				*CONFIG_OPEN_TERMINAL 	= NULL;
 static gboolean 			CONFIG_REVERSE_FILTER 		= FALSE;
 static gboolean 			CONFIG_ONE_CLICK_CHDOC 		= FALSE;
@@ -996,6 +999,28 @@ on_menu_current_path(GtkMenuItem *menuitem, gpointer *user_data)
 }
 
 static void
+on_menu_open_with_custom_exec(GtkMenuItem *menuitem, GString *cmd_str)
+{
+	gchar 				*cmd, *locale_cmd, *c;
+	GError 				*error 		= NULL;
+    
+	cmd = g_string_free(cmd_str, FALSE);
+	locale_cmd = utils_get_locale_from_utf8(cmd);
+	if (! g_spawn_command_line_async(locale_cmd, &error))
+	{
+		c = strchr(cmd, ' ');
+		if (c != NULL)
+			*c = '\0';
+		ui_set_statusbar(TRUE,
+			_("Could not execute configured external command '%s' (%s)."),
+			cmd, error->message);
+		g_error_free(error);
+	}
+	g_free(locale_cmd);
+	g_free(cmd);
+}
+
+static void
 on_menu_open_externally(GtkMenuItem *menuitem, gchar *uri)
 {
 	gchar 				*cmd, *locale_cmd, *dir, *c;
@@ -1246,6 +1271,44 @@ on_menu_show_bars(GtkMenuItem *menuitem, gpointer *user_data)
 	showbars(gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem)));
 }
 
+static void
+parse_user_file_associations(GtkWidget *item, GtkWidget *menu, const gchar *uri)
+{
+	int i;
+	gchar **tokens  	= NULL;
+	gchar **sub_tokens  = NULL;
+	gchar *exec 		= NULL;
+	gchar *ext 			= NULL;
+	GString *cmd_str	= NULL;
+	GString *item_text	= NULL;
+	
+	tokens = g_strsplit( (const gchar *)CONFIG_OPEN_EXT_USER_DEF, ";", -1);
+	
+	for (i = 0; tokens[i] != NULL; i++) {
+		sub_tokens = g_strsplit( (const gchar *)tokens[i], ":", -1);
+		exec = sub_tokens[0];
+		ext  = sub_tokens[1];
+		
+		cmd_str = g_string_new("%x '%f'");
+		utils_string_replace_all(cmd_str, "%x", exec);
+		utils_string_replace_all(cmd_str, "%f", uri);
+		
+		item_text = g_string_new("Open with %x");
+		utils_string_replace_all(item_text, "%x", exec);
+		utils_string_replace_all(item_text, "\n", "");
+		utils_string_replace_all(item_text, "\r", "");
+		
+		if (g_str_has_suffix(uri, ext)){
+			item = ui_image_menu_item_new(GTK_STOCK_GO_UP, item_text->str);
+			gtk_container_add(GTK_CONTAINER(menu), item);
+			g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_open_with_custom_exec), cmd_str, (GClosureNotify)g_free, 0);
+		}
+	}
+	
+	g_strfreev(sub_tokens);
+	g_strfreev(tokens);
+}
+
 static GtkWidget*
 create_popup_menu(const gchar *name, const gchar *uri)
 {
@@ -1270,6 +1333,8 @@ create_popup_menu(const gchar *name, const gchar *uri)
 #endif
 	gtk_container_add(GTK_CONTAINER(menu), item);
 	g_signal_connect(item, "activate", G_CALLBACK(on_menu_current_path), NULL);
+	
+	parse_user_file_associations(item, menu, g_strdup(uri));
 
 #if GTK_CHECK_VERSION(3, 10, 0)
 	item = ui_image_menu_item_new("document-open", _("_Open Externally"));
@@ -1987,6 +2052,7 @@ create_sidebar(void)
 static struct
 {
 	GtkWidget *OPEN_EXTERNAL_CMD;
+	GtkWidget *OPEN_EXT_CMD_USER_SPEC;
 	GtkWidget *OPEN_TERMINAL;
 	GtkWidget *REVERSE_FILTER;
 	GtkWidget *ONE_CLICK_CHDOC;
@@ -2011,6 +2077,7 @@ load_settings(void)
 	g_key_file_load_from_file(config, CONFIG_FILE, G_KEY_FILE_NONE, NULL);
 
 	CONFIG_OPEN_EXTERNAL_CMD 		=  utils_get_setting_string(config, "treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD_DEFAULT);
+	CONFIG_OPEN_EXT_USER_DEF		=  utils_get_setting_string(config, "treebrowser", "open_ext_user_def", 	CONFIG_OPEN_EXT_USER_DEF_DEFAULT);
 	CONFIG_OPEN_TERMINAL 				= utils_get_setting_string(config, "treebrowser", "open_terminal", CONFIG_OPEN_TERMINAL_DEFAULT);
 	CONFIG_REVERSE_FILTER 			= utils_get_setting_boolean(config, "treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
 	CONFIG_ONE_CLICK_CHDOC 			= utils_get_setting_boolean(config, "treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
@@ -2045,6 +2112,7 @@ save_settings(void)
 	}
 
 	g_key_file_set_string(config, 	"treebrowser", "open_external_cmd", 	CONFIG_OPEN_EXTERNAL_CMD);
+	g_key_file_set_string(config, 	"treebrowser", "open_ext_user_def", 	CONFIG_OPEN_EXT_USER_DEF);
 	g_key_file_set_string(config, 	"treebrowser", "open_terminal", 	CONFIG_OPEN_TERMINAL);
 	g_key_file_set_boolean(config, 	"treebrowser", "reverse_filter", 		CONFIG_REVERSE_FILTER);
 	g_key_file_set_boolean(config, 	"treebrowser", "one_click_chdoc", 		CONFIG_ONE_CLICK_CHDOC);
@@ -2078,6 +2146,7 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 		return;
 
 	CONFIG_OPEN_EXTERNAL_CMD 	= gtk_editable_get_chars(GTK_EDITABLE(configure_widgets.OPEN_EXTERNAL_CMD), 0, -1);
+	CONFIG_OPEN_EXT_USER_DEF	= gtk_editable_get_chars(GTK_EDITABLE(configure_widgets.OPEN_EXT_CMD_USER_SPEC), 0, -1);
 	CONFIG_OPEN_TERMINAL     	= gtk_editable_get_chars(GTK_EDITABLE(configure_widgets.OPEN_TERMINAL), 0, -1);
 	CONFIG_REVERSE_FILTER 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.REVERSE_FILTER));
 	CONFIG_ONE_CLICK_CHDOC 		= gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(configure_widgets.ONE_CLICK_CHDOC));
@@ -2109,28 +2178,45 @@ on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 GtkWidget*
 plugin_configure(GtkDialog *dialog)
 {
-	GtkWidget 		*label;
-	GtkWidget 		*vbox, *hbox;
+	GtkWidget 		*label, *label_s;
+	GtkWidget 		*vbox, *hbox, *hbox_s;
 
 	vbox 	= gtk_vbox_new(FALSE, 0);
 	hbox 	= gtk_hbox_new(FALSE, 0);
+	hbox_s 	= gtk_hbox_new(FALSE, 0);
 
 	label 	= gtk_label_new(_("External open command"));
+	label_s 	= gtk_label_new(_("Custom file associations"));
 	configure_widgets.OPEN_EXTERNAL_CMD = gtk_entry_new();
+	configure_widgets.OPEN_EXT_CMD_USER_SPEC = gtk_entry_new();
 	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_EXTERNAL_CMD), CONFIG_OPEN_EXTERNAL_CMD);
+	gtk_entry_set_text(GTK_ENTRY(configure_widgets.OPEN_EXT_CMD_USER_SPEC), CONFIG_OPEN_EXT_USER_DEF);
 #if GTK_CHECK_VERSION(3, 14, 0)
 	gtk_widget_set_halign(label, 0);
 	gtk_widget_set_valign(label, 0.5);
+	gtk_widget_set_halign(label_s, 0);
+	gtk_widget_set_valign(label_s, 0.5);
 #else
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_misc_set_alignment(GTK_MISC(label_s), 0, 0.5);
 #endif
 	gtk_widget_set_tooltip_text(configure_widgets.OPEN_EXTERNAL_CMD,
 		_("The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
 		  "%f will be replaced with the filename including full path\n"
 		  "%d will be replaced with the path name of the selected file without the filename"));
+	gtk_widget_set_tooltip_text(configure_widgets.OPEN_EXT_CMD_USER_SPEC,
+		_("You can define custom file associations for specific file extensions.\n"
+		  "An \"Open with x\" entry will be created on the right click context menu for each definition.\n"
+		  "An example definition is like: glade:.glade\n"
+		  "Multiple definitions can be separated by semicolons, such that:\n"
+		  "glade:.glade;glade:.ui;notepad++:.txt\n"
+		  "To cancel all file associations, simply clear this entry box."));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 6);
 	gtk_box_pack_start(GTK_BOX(hbox), configure_widgets.OPEN_EXTERNAL_CMD, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox_s), label_s, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(hbox_s), configure_widgets.OPEN_EXT_CMD_USER_SPEC, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox_s, FALSE, FALSE, 6);
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	label = gtk_label_new(_("Terminal"));
@@ -2375,6 +2461,7 @@ plugin_cleanup(void)
 	g_free(addressbar_last_address);
 	g_free(CONFIG_FILE);
 	g_free(CONFIG_OPEN_EXTERNAL_CMD);
+	g_free(CONFIG_OPEN_EXT_USER_DEF);
 	g_free(CONFIG_OPEN_TERMINAL);
 	gtk_widget_destroy(sidebar_vbox);
 }
