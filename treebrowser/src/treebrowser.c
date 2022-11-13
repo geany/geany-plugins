@@ -1148,15 +1148,34 @@ static void
 on_menu_refresh(GtkMenuItem *menuitem, gpointer *user_data)
 {
 	GtkTreeSelection 	*selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
-	GtkTreeIter 		iter;
+	GtkTreeIter 		iter, parent_iter;
+	GtkTreeIter 		*target_iter = NULL;
 	GtkTreeModel 		*model;
 	gchar 				*uri;
 
 	if (gtk_tree_selection_get_selected(selection, &model, &iter))
 	{
 		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+		/* if a directory is selected, use it directly for treebrowser_browse()
+		 * if a file within a directory is selected, use its parent for treebrowser_browse()
+		 * if a file on the top level is selected, use *no* parent for treebrowser_browse() */
 		if (g_file_test(uri, G_FILE_TEST_IS_DIR))
-			treebrowser_browse(uri, &iter);
+			target_iter = &iter;
+		else
+		{
+			if (gtk_tree_model_iter_parent(model, &parent_iter, &iter))
+			{
+				g_free(uri);
+				gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+				target_iter = &parent_iter;
+			}
+			else
+			{
+				SETPTR(uri, g_path_get_dirname(uri));
+				target_iter = NULL;
+			}
+		}
+		treebrowser_browse(uri, target_iter);
 		g_free(uri);
 	}
 	else
