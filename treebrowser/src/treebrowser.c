@@ -362,23 +362,39 @@ check_hidden(const gchar *filename)
 	base_name = g_path_get_basename(filename);
 
 	if (EMPTY(base_name))
+	{
+		g_free(base_name);
 		return FALSE;
+	}
 
 	if (CONFIG_SHOW_HIDDEN_FILES)
+	{
+		g_free(base_name);
 		return FALSE;
+	}
 
 #ifdef G_OS_WIN32
 	if (win32_check_hidden(filename))
+	{
+		g_free(base_name);
 		return TRUE;
+	}
 #else
 	if (base_name[0] == '.')
+	{
+		g_free(base_name);
 		return TRUE;
+	}
 #endif
 
 	len = strlen(base_name);
 	if (base_name[len - 1] == '~')
+	{
+		g_free(base_name);
 		return TRUE;
+	}
 
+	g_free(base_name);
 	return FALSE;
 }
 

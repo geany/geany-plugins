@@ -447,6 +447,7 @@ static void sidebar_add_file (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar
 	{
 		g_object_unref(icon);
 	}
+	g_free(name);
 }
 
 
@@ -550,11 +551,14 @@ static gboolean sidebar_get_filepath_iter (WB_PROJECT *prj, WB_PROJECT_DIR *root
 	part = g_strdup(&(filepath[len]));
 	if (strlen(part) == 0)
 	{
+		g_free(part);
 		return FALSE;
 	}
 	parts = g_strsplit(part, G_DIR_SEPARATOR_S, -1);
 	if (parts[0] == NULL)
 	{
+		g_free(part);
+		g_strfreev(parts);
 		return FALSE;
 	}
 

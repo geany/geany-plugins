@@ -151,7 +151,7 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
     static GtkTreeModel *old_model = NULL;
    	GtkTreeModel* completion_list;
     static gchar *curr_dir = NULL;
-    gchar *new_dir, *new_dir_path; 
+    gchar *new_dir, *new_dir_path = NULL; 
     const gchar *text;
     
     text = gtk_entry_get_text(entry);
@@ -174,8 +174,10 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
     new_dir = g_strndup (text, dir_sep+1);
     /* I've already inserted new model completion for sub-dir elements? */
     if ( g_strcmp0 (new_dir, curr_dir) == 0 )
+    {
+        g_free(new_dir);
         return;
-
+    }
     if ( curr_dir != NULL )
         g_free(curr_dir);
 
@@ -188,7 +190,7 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
     log_debug("New completion list!");
 
     if ( g_path_is_absolute(new_dir) )
-        new_dir_path = new_dir;
+        new_dir_path = g_strdup(new_dir);
     else
         new_dir_path = g_build_filename(directory_ref, new_dir, NULL);
 
@@ -196,6 +198,8 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
     completion_list = build_file_list(new_dir_path, new_dir);
   	gtk_entry_completion_set_model (completion, completion_list);
     g_object_unref(completion_list);
+
+    g_free(new_dir_path);
 }
 
 

@@ -599,7 +599,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 					{
 						gchar *buf, *construct;
 						/* TODO: Make possible to have longer than a 50 chars environment */
-						gchar env[50];
+						gchar env[50] = { 0 };
 						gint line = sci_get_line_from_position(sci, pos - (editor_get_eol_char_len (editor) + 1));
 						gint line_len = sci_get_line_length(sci, line);
 						gint i, start;

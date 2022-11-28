@@ -1246,12 +1246,13 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
  **/
 gchar *wb_project_get_info (WB_PROJECT *prj)
 {
-	GString *temp = g_string_new(NULL);
+	GString *temp = NULL;
 	gchar *text;
 
 	if (prj == NULL)
 		return g_strdup("");
 
+	temp = g_string_new(NULL);
 	g_string_append_printf(temp, _("Project: %s\n"), wb_project_get_name(prj));
 	g_string_append_printf(temp, _("File: %s\n"), wb_project_get_filename(prj));
 	g_string_append_printf(temp, _("Number of Directories: %u\n"), g_slist_length(prj->directories));
