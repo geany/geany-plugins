@@ -39,7 +39,7 @@ gboolean on_key_press (GtkWidget *, GdkEventKey *, gpointer);
 void configure_response (GtkDialog *, gint, gpointer);
 void enclose_chars_changed (GtkCellRendererText *, gchar *, gchar *, gpointer);
 
-gchar *enclose_chars [8];
+gchar *enclose_chars [AO_WORDWRAP_KB_COUNT];
 gboolean auto_enabled = FALSE;
 gboolean enclose_enabled = FALSE;
 gchar *config_file;
@@ -194,7 +194,7 @@ void configure_response (GtkDialog *dialog, gint response, gpointer char_tree_vi
 	config = g_key_file_new();
 	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < AO_WORDWRAP_KB_COUNT; i++)
 	{
 		gchar *prior_char_str, *end_char_str;
 
@@ -258,7 +258,7 @@ void ao_enclose_words_config (GtkButton *button, GtkWidget *config_window)
 	renderer = gtk_cell_renderer_text_new ();
 	chars_tree_view = (GtkTreeView *) gtk_tree_view_new ();
 
-	for (i = 0; i < 8; i++)
+	for (i = 0; i < AO_WORDWRAP_KB_COUNT; i++)
 	{
 		gchar *title = g_strdup_printf (_("Enclose combo %d"), i + 1);
 
