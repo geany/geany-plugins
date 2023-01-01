@@ -64,7 +64,7 @@ void enclose_text_action (guint key_id)
 	if (sci_get_selected_text_length (sci_obj) < 2)
 		return;
 
-	key_id -= 4;
+	key_id -= KB_COUNT;
 	selection_end = sci_get_selection_end (sci_obj);
 
 	sci_start_undo_action (sci_obj);

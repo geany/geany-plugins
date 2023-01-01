@@ -25,6 +25,17 @@
 #ifndef ADDONS_H
 #define ADDONS_H 1
 
+/* Keybinding(s) */
+enum
+{
+	KB_FOCUS_BOOKMARK_LIST,
+	KB_FOCUS_TASKS,
+	KB_UPDATE_TASKS,
+	KB_XMLTAGGING,
+	KB_COPYFILEPATH,
+	KB_COUNT
+};
+
 
 extern GeanyPlugin		*geany_plugin;
 extern GeanyData		*geany_data;

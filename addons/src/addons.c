@@ -46,18 +46,6 @@ GeanyPlugin		*geany_plugin = NULL;
 GeanyData		*geany_data = NULL;
 
 
-/* Keybinding(s) */
-enum
-{
-	KB_FOCUS_BOOKMARK_LIST,
-	KB_FOCUS_TASKS,
-	KB_UPDATE_TASKS,
-	KB_XMLTAGGING,
-	KB_COPYFILEPATH,
-	KB_COUNT
-};
-
-
 typedef struct
 {
 	/* general settings */
@@ -137,7 +125,7 @@ static gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 							 SCNotification *nt, gpointer data)
 {
 	ao_bookmark_list_update_marker(ao_info->bookmarklist, editor, nt);
-	
+
 	ao_mark_editor_notify(ao_info->markword, editor, nt);
 
 	ao_color_tip_editor_notify(ao_info->colortip, editor, nt);
