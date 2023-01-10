@@ -315,7 +315,7 @@ SectionEnd
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Required plugin files. You cannot skip these files."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} "Various translations for the included plugins."
 !insertmacro MUI_DESCRIPTION_TEXT ${SEC03} "Various documentation files for the included plugins."
-!insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "Dependency files for various plugins (GeanyCTags, GeanyGenDoc, SpellCheck, WebHelper, Markdown, GeanyLua, GeanyPG, UpdateChecker, GitChangeBar, PrettyPrinter, GeanyVC)."
+!insertmacro MUI_DESCRIPTION_TEXT ${SEC04} "Dependency files for various plugins (GeanyCTags, GeanyGenDoc, SpellCheck, GeanyLua, GeanyPG, UpdateChecker, GitChangeBar, PrettyPrinter, GeanyVC)."
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;;;;;;;;;;;;;;;;;;;;;

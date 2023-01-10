@@ -104,19 +104,12 @@ jobs:
             cppcheck
             # debugger
             libvte-2.91-dev
-            # devhelp
-            libwebkitgtk-dev
-            libwnck-dev
-            libgconf2-dev
-            zlib1g-dev
             # geanygendoc
             libctpl-dev
             # geanylua
             liblua5.1-0-dev
             # geanypg
             libgpgme-dev
-            # geanypy
-            python-dev
             # geanyvc
             libgtkspell-dev
             libgtkspell3-3-dev
@@ -128,8 +121,6 @@ jobs:
             libmarkdown2-dev
             # markdown/webhelper
             libwebkitgtk-3.0-dev
-            # multiterm
-            valac
             # pretty-printer
             libxml2-dev
             # spellcheck

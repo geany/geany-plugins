@@ -53,7 +53,6 @@ Available plugins are:
 * ``commander`` -- the Commander plugin
 * ``debugger`` -- the Debugger plugin
 * ``defineformat`` -- the Defineformat plugin
-* ``devhelp`` -- the devhelp plugin
 * ``geanyctags`` -- the GeanyCtags plugin
 * ``geanydoc`` -- the GeanyDoc plugin
 * ``geanyextrasel`` -- the GeanyExtraSel plugin
@@ -65,7 +64,6 @@ Available plugins are:
 * ``geanynumberedbookmarks`` -- the GeanyNumberedBookmarks plugin
 * ``geanypg`` -- the geanypg plugin
 * ``geanyprj`` -- the GeanyPrj plugin
-* ``geanypy`` -- the Geanypy plugin
 * ``geanyvc`` -- the GeanyVC plugin
 * ``geniuspaste`` -- the paste to a pastebin plugin
 * ``gitchangebar`` -- the GitChangeBar plugin
@@ -74,7 +72,6 @@ Available plugins are:
 * ``lineoperations`` -- simple line functions that can be applied to an open file
 * ``lipsum`` -- the Lipsum plugin
 * ``markdown`` -- the Markdown plugin
-* ``multiterm`` -- the multiterm plugin
 * ``overview``-- the overview plugin
 * ``pairtaghighlighter`` -- the PairTagHighlighter plugin
 * ``peg-markdown`` -- use the Peg-Markdown library in the Markdown plugin
@@ -90,6 +87,7 @@ Available plugins are:
 * ``updatechecker`` -- the Updatechecker plugin
 * ``vimode`` -- the Vim-mode plugin
 * ``webhelper`` -- the WebHelper plugin
+* ``workbench`` -- manage and customize multiple projects
 * ``xmlsnippets`` -- the XMLSnippets plugin
 
 Example::
