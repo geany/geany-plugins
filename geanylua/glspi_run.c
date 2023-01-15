@@ -393,7 +393,7 @@ static void show_error(lua_State *L, const gchar *script_file)
 
 static gint glspi_init_module(lua_State *L, const gchar *script_file, gint caller, GKeyFile*proj, const gchar*script_dir)
 {
-	luaL_openlib(L, LUA_MODULE_NAME, glspi_timer_funcs, 0);
+	luaL_register(L, LUA_MODULE_NAME, glspi_timer_funcs);
 	glspi_init_sci_funcs(L);
 	glspi_init_doc_funcs(L);
 	glspi_init_mnu_funcs(L);
