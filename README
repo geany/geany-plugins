@@ -49,6 +49,7 @@ Available plugins are:
 * ``addons`` -- the Addons plugin
 * ``autoclose`` -- the Autoclose plugin
 * ``automark`` -- the Automark plugin
+* ``bracketcolors`` -- the BracketColors plugin
 * ``codenav`` -- the CodeNav plugin
 * ``commander`` -- the Commander plugin
 * ``debugger`` -- the Debugger plugin

@@ -1,0 +1,32 @@
+Color brackets, parenthesis, and braces
+=======================================
+
+.. contents::
+
+About
+-----
+
+This plugin enables bracket coloring features. Brackets are colored based on
+nesting level, often referred as "rainbow brackets".
+
+Features
+--------
+
+* Color brackets for: { }, [ ], ( )
+
+Usage
+-----
+
+Install the plugin (https://plugins.geany.org/install.html) then
+load it in Geany's plugin manager.
+
+Requirements
+------------
+
+* Geany >= 1.38
+* C++17
+
+Contact developers
+------------------
+
+Asif Amin <asifamin@utexas.edu>
