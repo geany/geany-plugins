@@ -417,6 +417,7 @@ on_web_view_context_menu (WebKitWebView       *view,
   item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
                                                     _("Zoom _In"), NULL);
   webkit_context_menu_append (submenu, item);
+  g_object_unref (action);
 
   /* zoom out */
   action = g_simple_action_new ("zoom-out", NULL);
@@ -425,6 +426,7 @@ on_web_view_context_menu (WebKitWebView       *view,
   item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
                                                     _("Zoom _Out"), NULL);
   webkit_context_menu_append (submenu, item);
+  g_object_unref (action);
 
   /* zoom 1:1 */
   webkit_context_menu_append (submenu,
@@ -435,6 +437,7 @@ on_web_view_context_menu (WebKitWebView       *view,
   item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
                                                     _("_Reset Zoom"), NULL);
   webkit_context_menu_append (submenu, item);
+  g_object_unref (action);
 
   /* full content zoom */
   webkit_context_menu_append (submenu,
@@ -454,6 +457,7 @@ on_web_view_context_menu (WebKitWebView       *view,
   webkit_context_menu_append (submenu, item);
   g_signal_connect (action, "activate",
                     G_CALLBACK (on_item_full_content_zoom_activate), self);
+  g_object_unref (action);
 
   g_signal_emit (self, signals[POPULATE_POPUP], 0, context_menu);
 

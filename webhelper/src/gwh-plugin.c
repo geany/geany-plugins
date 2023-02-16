@@ -273,6 +273,7 @@ on_browser_populate_popup (GwhBrowser        *browser,
   webkit_context_menu_append (menu, item);
   g_signal_connect (action, "activate",
                     G_CALLBACK (on_item_auto_reload_toggled), NULL);
+  g_object_unref (action);
 }
 
 static void
