@@ -246,7 +246,7 @@ on_item_auto_reload_toggled (GAction  *action,
   g_object_set (G_OBJECT (G_settings), "browser-auto-reload",
                 !browser_auto_reload, NULL);
   g_simple_action_set_state (G_SIMPLE_ACTION (action),
-                             g_variant_new_boolean (browser_auto_reload));
+                             g_variant_new_boolean (!browser_auto_reload));
 }
 
 static void
