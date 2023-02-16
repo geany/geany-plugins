@@ -440,7 +440,7 @@ on_web_view_context_menu (WebKitWebView       *view,
   webkit_context_menu_append (submenu,
                               webkit_context_menu_item_new_separator ());
   action_state = g_variant_new_boolean (
-    webkit_settings_get_zoom_text_only (webkit_web_view_get_settings (view)));
+    !webkit_settings_get_zoom_text_only (webkit_web_view_get_settings (view)));
 
   action = g_simple_action_new_stateful (
     "full-content-zoom",
