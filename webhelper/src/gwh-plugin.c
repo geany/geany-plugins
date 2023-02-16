@@ -256,7 +256,6 @@ on_browser_populate_popup (GwhBrowser        *browser,
 {
   GSimpleAction         *action;
   gboolean               auto_reload = FALSE;
-  GVariant              *action_state;
   WebKitContextMenuItem *item;
 
   webkit_context_menu_append (menu,
@@ -264,15 +263,14 @@ on_browser_populate_popup (GwhBrowser        *browser,
 
   g_object_get (G_OBJECT (G_settings), "browser-auto-reload", &auto_reload,
                 NULL);
-  action_state = g_variant_new_boolean (auto_reload);
-  action = g_simple_action_new_stateful ("browser-auto-reload",
-                                         NULL, action_state);
+  action = g_simple_action_new_stateful ("browser-auto-reload", NULL,
+                                         g_variant_new_boolean (auto_reload));
+  g_signal_connect (action, "activate",
+                    G_CALLBACK (on_item_auto_reload_toggled), NULL);
   item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
                                                     _("Reload upon document saving"),
                                                     NULL);
   webkit_context_menu_append (menu, item);
-  g_signal_connect (action, "activate",
-                    G_CALLBACK (on_item_auto_reload_toggled), NULL);
   g_object_unref (action);
 }
 

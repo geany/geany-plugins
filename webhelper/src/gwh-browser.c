@@ -400,7 +400,7 @@ on_web_view_context_menu (WebKitWebView       *view,
   WebKitContextMenuItem    *item;
   WebKitContextMenu        *submenu;
   GSimpleAction            *action;
-  GVariant                 *action_state;
+  gboolean                  zoom_text_only;
 
   webkit_context_menu_append (context_menu,
                               webkit_context_menu_item_new_separator ());
@@ -442,21 +442,15 @@ on_web_view_context_menu (WebKitWebView       *view,
   /* full content zoom */
   webkit_context_menu_append (submenu,
                               webkit_context_menu_item_new_separator ());
-  action_state = g_variant_new_boolean (
-    !webkit_settings_get_zoom_text_only (webkit_web_view_get_settings (view)));
-
-  action = g_simple_action_new_stateful (
-    "full-content-zoom",
-    NULL,
-    action_state
-  );
+  zoom_text_only = webkit_settings_get_zoom_text_only (webkit_web_view_get_settings (view));
+  action = g_simple_action_new_stateful ("full-content-zoom", NULL,
+                                         g_variant_new_boolean (!zoom_text_only));
+  g_signal_connect (action, "activate",
+                    G_CALLBACK (on_item_full_content_zoom_activate), self);
   item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
                                                     _("Full-_content zoom"),
                                                     NULL);
-  g_simple_action_set_enabled (action, TRUE);
   webkit_context_menu_append (submenu, item);
-  g_signal_connect (action, "activate",
-                    G_CALLBACK (on_item_full_content_zoom_activate), self);
   g_object_unref (action);
 
   g_signal_emit (self, signals[POPULATE_POPUP], 0, context_menu);
