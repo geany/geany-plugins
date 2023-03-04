@@ -8,7 +8,7 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
         [LUA_PKG_NAME=${withval%.pc}],
         [LUA_PKG_NAME=luajit
 
-        for L in luajit lua5.1 lua51 lua-5.1 lua; do
+        for L in "$LUA_PKG_NAME" luajit lua5.1 lua51 lua-5.1 lua; do
             PKG_CHECK_EXISTS([$L],
                 [LUA_PKG_NAME=$L]; break,[])
         done])
