@@ -71,15 +71,6 @@ static gint filename_to_doc_idx(const gchar*fn)
 }
 
 
-/* Converts a geany->documents_array index to a notebook tab index */
-static gint doc_idx_to_tab_idx(gint idx)
-{
-	return (
-		(idx>=0) && ((guint)idx<geany->documents_array->len) && documents[idx]->is_valid
-	) ? gtk_notebook_page_num(NOTEBOOK, GTK_WIDGET(documents[idx]->editor->sci)):-1;
-}
-
-
 
 /* Returns the filename of the specified document, or NULL on bad index */
 static const gchar* doc_idx_to_filename(gint idx) {
@@ -92,34 +83,48 @@ static const gchar* doc_idx_to_filename(gint idx) {
 
 
 
-/* Actvate and focus the specified document */
+/* Switch to the specified document tab */
 static gint glspi_activate(lua_State* L)
 {
-	gint idx=-1;
-	if (lua_gettop(L)>0) {
-		if (lua_isnumber(L,1)) {
-			idx=(lua_tonumber(L,1));
-			if (idx<0) { /* Negative number refers to (absolute) GtkNotebook index */
-				idx=(0-idx)-1;
-				if (idx>=gtk_notebook_get_n_pages(NOTEBOOK)) { idx=-1;}
-			} else { /* A positive number refers to the geany->documents_array index */
-				idx=doc_idx_to_tab_idx(idx-1);
-			}
+	gint tab_idx = -1;
 
-		} else {
-			if (lua_isstring(L,1)) {
-				idx=doc_idx_to_tab_idx(filename_to_doc_idx(lua_tostring(L, 1)));
-			} else {
-				if (!lua_isnil(L,1)) { return FAIL_STR_OR_NUM_ARG(1); }
+	if (lua_gettop(L) > 0) {
+		if (lua_isnumber(L, 1)) {
+			gint lua_idx = (lua_tointeger(L, 1));
+
+			/* Note: lua_idx == 0 is undefined */
+			if (lua_idx < 0) {
+				/* Negative number refers to (absolute) GtkNotebook index */
+				tab_idx = (0 - lua_idx) - 1;
+
+				if (tab_idx >= gtk_notebook_get_n_pages(NOTEBOOK)) {
+					tab_idx = -1;
+				}
+			} else if (lua_idx > 0) {
+				/* Positive number refers to the geany->documents_array index */
+				gint doc_idx = lua_idx - 1;
+				if ((doc_idx < geany->documents_array->len) && documents[doc_idx]->is_valid) {
+					tab_idx = document_get_notebook_page(documents[doc_idx]);
+				}
 			}
+		} else if (lua_isstring(L, 1)) {
+			/* String is full document path */
+			gint doc_idx = filename_to_doc_idx(lua_tostring(L, 1));
+			if (doc_idx >= 0) {
+				tab_idx = document_get_notebook_page(documents[doc_idx]);
+			}
+		} else if (!lua_isnil(L, 1)) {
+			return FAIL_STR_OR_NUM_ARG(1);
 		}
 	}
-	if (idx>=0) {
-		if (idx!=gtk_notebook_get_current_page(NOTEBOOK)) {
-			gtk_notebook_set_current_page(NOTEBOOK, idx);
-		}
+
+	/* Switch to document tab if found */
+	if (tab_idx >= 0) {
+		gtk_notebook_set_current_page(NOTEBOOK, tab_idx);
 	}
-	lua_pushboolean(L, (idx>0));
+
+	/* Return True if tab found.  False if not found. */
+	lua_pushboolean(L, (tab_idx >= 0));
 	return 1;
 }
 
