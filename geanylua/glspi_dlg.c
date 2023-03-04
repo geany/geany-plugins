@@ -540,7 +540,7 @@ static gint glspi_pickfile(lua_State* L)
 
 
 
-static const struct luaL_reg glspi_dlg_funcs[] = {
+static const struct luaL_Reg glspi_dlg_funcs[] = {
 	{"choose",   glspi_choose},
 	{"confirm",  glspi_confirm},
 	{"input",    glspi_input},

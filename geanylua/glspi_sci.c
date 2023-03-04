@@ -972,7 +972,7 @@ struct Sci_TextToFind {
 
 
 
-static const struct luaL_reg glspi_sci_funcs[] = {
+static const struct luaL_Reg glspi_sci_funcs[] = {
 	{"text",      glspi_text},
 	{"selection", glspi_selection},
 	{"select",    glspi_select},
