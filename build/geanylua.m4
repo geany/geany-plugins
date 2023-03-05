@@ -4,11 +4,11 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
 
     AC_ARG_WITH([lua-pkg],
         AC_HELP_STRING([--with-lua-pkg=ARG],
-            [name of Lua pkg-config script [[default=luajit]]]),
+            [name of Lua pkg-config script [[default=lua51]]]),
         [LUA_PKG_NAME=${withval%.pc}],
-        [LUA_PKG_NAME=luajit
+        [LUA_PKG_NAME=lua51
 
-        for L in "$LUA_PKG_NAME" luajit lua5.1 lua51 lua-5.1 lua; do
+        for L in "$LUA_PKG_NAME" lua5.1 lua51 lua-5.1 lua luajit; do
             PKG_CHECK_EXISTS([$L],
                 [LUA_PKG_NAME=$L]; break,[])
         done])
