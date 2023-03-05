@@ -554,5 +554,5 @@ static const struct luaL_Reg glspi_dlg_funcs[] = {
 
 void glspi_init_dlg_funcs(lua_State *L, GsDlgRunHook hook) {
 	glspi_pause_timer = hook;
-	luaL_register(L, NULL,glspi_dlg_funcs);
+	luaL_setfuncs(L, glspi_dlg_funcs, 0);
 }

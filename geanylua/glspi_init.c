@@ -546,5 +546,5 @@ static const struct luaL_Reg glspi_mnu_funcs[] = {
 
 
 void glspi_init_mnu_funcs(lua_State *L) {
-	luaL_register(L, NULL,glspi_mnu_funcs);
+	luaL_setfuncs(L, glspi_mnu_funcs, 0);
 }
