@@ -426,7 +426,9 @@ gint luaopen_dialog(lua_State *L)
 	lua_rawset(L,-3);
 
 	luaL_setfuncs(L, &gsdl_funcs[1], 0);
-	luaL_register(L, LUA_MODULE_NAME, gsdl_funcs);
+	lua_newtable(L);
+	luaL_setfuncs(L, gsdl_funcs, 0);
+	lua_setglobal(L, LUA_MODULE_NAME);
 	return 0;
 }
 

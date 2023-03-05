@@ -396,7 +396,9 @@ static gint luaopen_keyfile(lua_State *L)
 	lua_pushcfunction(L,kfile_done);
 	lua_rawset(L,-3);
 	luaL_setfuncs(L, &kfile_funcs[1], 0);
-	luaL_register(L, LUA_MODULE_NAME, kfile_funcs);
+	lua_newtable(L);
+	luaL_setfuncs(L, kfile_funcs, 0);
+	lua_setglobal(L, LUA_MODULE_NAME);
 	return 0;
 }
 

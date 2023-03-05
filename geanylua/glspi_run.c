@@ -393,12 +393,14 @@ static void show_error(lua_State *L, const gchar *script_file)
 
 static gint glspi_init_module(lua_State *L, const gchar *script_file, gint caller, GKeyFile*proj, const gchar*script_dir)
 {
-	luaL_register(L, LUA_MODULE_NAME, glspi_timer_funcs);
+	lua_newtable(L);
+	luaL_setfuncs(L, glspi_timer_funcs, 0);
 	glspi_init_sci_funcs(L);
 	glspi_init_doc_funcs(L);
 	glspi_init_mnu_funcs(L);
 	glspi_init_dlg_funcs(L, glspi_pause_timer);
 	glspi_init_app_funcs(L,script_dir);
+	lua_setglobal(L, LUA_MODULE_NAME);
 	set_string_token(L,tokenWordChars,GEANY_WORDCHARS);
 	set_string_token(L,tokenBanner,DEFAULT_BANNER);
 	set_string_token(L,tokenDirSep, G_DIR_SEPARATOR_S);
