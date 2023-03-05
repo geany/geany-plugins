@@ -359,7 +359,7 @@ static gint glspi_setfiletype(lua_State* L)
 
 
 
-static const struct luaL_reg glspi_doc_funcs[] = {
+static const struct luaL_Reg glspi_doc_funcs[] = {
 	{"filename",  glspi_filename},
 	{"fileinfo",  glspi_fileinfo},
 	{"settype",   glspi_setfiletype},
