@@ -2,6 +2,21 @@ Geany Plugins 1.39 (not release date yet)
 
     t.b.p.s.
 
+    GeanyLua
+    * 
+    * 
+    * Add LuaJIT build support (PR #1231, #1233)
+
+      The build default will continue to be Lua 5.1 until the next release,
+      after which the default will switch to LuaJIT.  To force a specific
+      Lua package, configure with the `with-lua-pkg` flag:
+
+          ./configure --with-lua-pkg=luajit
+          ./configure --with-lua-pkg=lua51
+
+    * 
+    * 
+    * 
 
 Geany Plugins 1.38 (2021-10-09)
 
