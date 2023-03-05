@@ -905,7 +905,7 @@ static gint glspi_find(lua_State* L)
 	ttf.chrg.cpMin=lua_tonumber(L,2);
 	ttf.chrg.cpMax=lua_tonumber(L,3);
 
-	n=lua_objlen(L,4);
+	n=lua_rawlen(L,4);
 	for (i=1;i<=n; i++) {
 		lua_rawgeti(L,4,i);
 		if (lua_isstring(L, -1)) {

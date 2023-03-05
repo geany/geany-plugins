@@ -323,7 +323,7 @@ static gint gsdl_new(lua_State *L) {
 	if (argc>=2) {
 		if (!lua_istable(L,2)) { return FAIL_TABLE_ARG(2); }
 	}
-	n=lua_objlen(L,2);
+	n=lua_rawlen(L,2);
 	for (i=1;i<=n; i++) {
 		lua_rawgeti(L,2,i);
 		if (!lua_isstring(L, -1)) {
