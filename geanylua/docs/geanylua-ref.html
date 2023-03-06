@@ -638,39 +638,38 @@ This function raises an error if the command argument is invalid.
 
 
 
-<a name="keygrab"></a><hr><h3><tt>geany.keygrab ( [prompt] )</tt></h3><p>
+<a name="keygrab"></a><hr><h3><tt>geany.keygrab ( [prompt] )</tt></h3>
 
-Intercepts the next keyboard key pressed, preventing the editor from receiving
-that keyboard event.</p>
-<p>
-The function returns the value of the pressed key as a string,
-alphanumeric keys will return their keyboard value, such as
-&nbsp;<tt>"a"</tt>&nbsp; or &nbsp;<tt>"1"</tt>&nbsp; while other keys may
-return a string describing the key, such
-as <tt>"Return"</tt> or <tt>"Escape"</tt>. &nbsp;
-( Consult the file &nbsp;<tt>gdk/gdkkeysyms.h</tt>&nbsp; in the GTK sources for some idea of the key names. )
-</p><p>
-It should be possible to use this function on keyboards other than US,
-although this hasn't been tested, and scripts written for one keyboard
-might not be portable to another system. </p>
-<p>Key combinations with the modifier keys &nbsp;<b>[Ctrl]</b> &nbsp;or&nbsp; <b>[Alt]</b>&nbsp;
-are not supported. &nbsp; Detection of the &nbsp;<b>[Shift]</b>&nbsp; key state is somewhat supported,
-although currently it may not be completely reliable.
-&nbsp; Repeatedly calling this function in rapid succession (as in a loop) may also result in some "dropped" keys,
-so for best results its use should be confined to detecting a single "lowercase" key press.</p><p>
+<p>Intercepts the next keyboard key pressed, preventing the editor from
+receiving that keyboard event.</p>
 
-If the optional <tt>prompt</tt> string argument is present, its text will be shown
-as a "calltip" near the upper left-hand area of the current document.
-(but only if there is a document open.)</p>
-<p>
-This function was primarily intended for assigning "chained" sets of hot key
-options, in conjunction with user-defined <a href="geanylua-keys.html">keybindings</a>.
+<p>This function returns the value of the pressed key as a string.
+Alphanumeric keys will return their keyboard value,
+such as <tt>"a"</tt> or <tt>"1"</tt>,
+while other keys may return a string describing the key,
+such as <tt>"Return"</tt> or <tt>"Escape"</tt>.</p>
 
+<p>Only one instance of this function may be active at a time.
+This function will return <tt><b>nil</b></tt> if another instance is already waiting for a keypress.</p>
 
+<p>If the optional <tt>prompt</tt> string argument is present, its text will be shown
+in a "calltip" near the upper left-hand area of the current document.
+The prompt will not be shown if no document is open.</p>
+
+<p>Notes:
+<ul>
+<li>This function should work on non-US keyboards, although this has not been tested.
+Scripts written for one keyboard may not be portable to other systems.</li>
+<li>Key combinations with the modifier keys <b>[Ctrl]</b> or <b>[Alt]</b>
+are not supported.</li>
+<li>Detection of the <b>[Shift]</b> key state is unreliable.</li>
+<li>Keys may be dropped when this function is called in rapid succession (as in a loop).  For best results, use of this function should be confined to detecting single "lowercase" key presses.</li>
+<li>Consult <tt>gdk/gdkkeysyms.h</tt> in the GTK sources for an idea of key names.</li>
+<li>This function was primarily intended for assigning "chained" sets of hot key
+options, in conjunction with user-defined <a href="geanylua-keys.html">keybindings</a>.</li>
+</ul>
 </p>
-<p>
-
-</p><br><br>
+<br><br>
 
 
 
