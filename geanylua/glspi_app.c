@@ -506,8 +506,9 @@ static gint glspi_keygrab(lua_State* L)
 		}
 	}
 
-	/* clear callback */
-	g_clear_signal_handler(&keygrab_cb_handle, main_widgets->window);
+	/* remove callback and clear handle */
+	g_signal_handler_disconnect(main_widgets->window, keygrab_cb_handle);
+	keygrab_cb_handle = 0;
 
 	/* clear tooltip */
 	if (prompt && doc && doc->is_valid) {
