@@ -43,6 +43,8 @@ enum
 	KB_FIND_FILE,
 	KB_FIND_TAG,
 	KB_FOCUS_SIDEBAR,
+	KB_OPEN_FILE_MANAGER,
+	KB_OPEN_TERMINAL,
 	KB_COUNT
 };
 
@@ -282,6 +284,12 @@ void prjorg_menu_init(void)
 
     keybindings_set_item(key_group, KB_FOCUS_SIDEBAR, (GeanyKeyCallback)prjorg_sidebar_focus_project_tab,
 		0, 0, "focus_project_sidebar", _("Focus Project Sidebar"), NULL);
+
+    keybindings_set_item(key_group, KB_OPEN_FILE_MANAGER, (GeanyKeyCallback)on_open_file_manager,
+		0, 0, "open_file_manager", _("Open File Manager at file location"), NULL);
+
+    keybindings_set_item(key_group, KB_OPEN_TERMINAL, (GeanyKeyCallback)on_open_terminal,
+		0, 0, "open_terminal", _("Open Terminal at file location"), NULL);
 
 	s_context_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_context_sep_item);

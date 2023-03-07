@@ -31,5 +31,7 @@ void prjorg_sidebar_update(gboolean reload);
 
 void prjorg_sidebar_focus_project_tab(void);
 
+void on_open_file_manager(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data);
+void on_open_terminal(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data);
 
 #endif
