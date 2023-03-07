@@ -43,10 +43,10 @@ jobs:
 
     steps:
       - name: Checkout Geany-Plugins
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout Geany
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: geany/geany
           path: ${{ env.GEANY_SOURCE_PATH }}
@@ -61,7 +61,7 @@ jobs:
         run: echo "::set-output name=timestamp::$(date +%Y-%m-%d-%H-%M)"
 
       - name: Configure ccache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ${{ runner.os }}-${{ github.job }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
@@ -74,7 +74,7 @@ jobs:
 
       - name: Configure Geany Cache
         id: geany_cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.GEANY_CACHE_PATH }}
           key: ${{ runner.os }}-${{ github.job }}-geany-cache-${{ steps.prepare_geany_cache_key.outputs.commit_hash }}
