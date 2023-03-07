@@ -74,7 +74,6 @@ Available plugins are:
 * ``lineoperations`` -- simple line functions that can be applied to an open file
 * ``lipsum`` -- the Lipsum plugin
 * ``markdown`` -- the Markdown plugin
-* ``multiterm`` -- the multiterm plugin
 * ``overview``-- the overview plugin
 * ``pairtaghighlighter`` -- the PairTagHighlighter plugin
 * ``peg-markdown`` -- use the Peg-Markdown library in the Markdown plugin

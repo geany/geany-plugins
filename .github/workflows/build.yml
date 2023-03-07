@@ -128,8 +128,6 @@ jobs:
             libmarkdown2-dev
             # markdown/webhelper
             libwebkit2gtk-4.0-dev
-            # multiterm
-            #valac
             # pretty-printer
             libxml2-dev
             # spellcheck

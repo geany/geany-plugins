@@ -216,13 +216,6 @@ M: Matthew Brush <matt@geany.org>
 W:
 S: Maintained
 
-multiterm
-P: Matthew Brush <matt@geany.org>
-g: @codebrainz
-M: Matthew Brush <matt@geany.org>
-W: http://plugins.geany.org/multiterm.html
-S: Maintained
-
 overview
 P: Matthew Brush <matt@geany.org>
 g: @codebrainz
