@@ -58,7 +58,7 @@ jobs:
       # the creation of the cache item at the end) in combination with "restore-keys" as fallback
       - name: Prepare ccache timestamp
         id: ccache_cache_timestamp
-        run: echo "::set-output name=timestamp::$(date +%Y-%m-%d-%H-%M)"
+        run: echo "name=timestamp::$(date +%Y-%m-%d-%H-%M)" >> $GITHUB_OUTPUT
 
       - name: Configure ccache
         uses: actions/cache@v3
@@ -70,7 +70,7 @@ jobs:
       - name: Prepare Geany Cache Key
         id: prepare_geany_cache_key
         working-directory: ${{ env.GEANY_SOURCE_PATH }}
-        run: echo "::set-output name=commit_hash::$(git rev-parse HEAD)"
+        run: echo "name=commit_hash::$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Configure Geany Cache
         id: geany_cache
