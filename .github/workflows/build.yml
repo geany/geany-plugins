@@ -106,8 +106,8 @@ jobs:
             libvte-2.91-dev
             # devhelp
             #libwebkitgtk-dev
-            libwnck-dev
-            libgconf2-dev
+            #libwnck-dev
+            #libgconf2-dev
             zlib1g-dev
             # geanygendoc
             libctpl-dev
@@ -129,7 +129,7 @@ jobs:
             # markdown/webhelper
             libwebkit2gtk-4.0-dev
             # multiterm
-            valac
+            #valac
             # pretty-printer
             libxml2-dev
             # spellcheck
