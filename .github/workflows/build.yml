@@ -30,7 +30,7 @@ env:
 jobs:
   linux:
     name: Linux Build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     env:
       CC:                       ccache gcc
@@ -105,10 +105,10 @@ jobs:
             # debugger
             libvte-2.91-dev
             # devhelp
-            libwebkitgtk-dev
-            libwnck-dev
-            libgconf2-dev
-            zlib1g-dev
+            #libwebkitgtk-dev
+            #libwnck-dev
+            #libgconf2-dev
+            #zlib1g-dev
             # geanygendoc
             libctpl-dev
             # geanylua
@@ -127,7 +127,7 @@ jobs:
             # markdown
             libmarkdown2-dev
             # markdown/webhelper
-            libwebkitgtk-3.0-dev
+            libwebkit2gtk-4.0-dev
             # multiterm
             valac
             # pretty-printer
