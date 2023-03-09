@@ -29,13 +29,6 @@
 #include <gtk/gtk.h>
 
 
-#if ! GTK_CHECK_VERSION (3, 0, 0)
-/* make gtk_adjustment_new() return a real GtkAdjustment, not a GtkObject */
-# define gtk_adjustment_new(v, l, u, si, pi, ps) \
-  (GtkAdjustment *) (gtk_adjustment_new ((v), (l), (u), (si), (pi), (ps)))
-#endif
-
-
 struct _GwhSettingsPrivate
 {
   GPtrArray *prop_array;
@@ -800,7 +793,7 @@ gwh_settings_widget_new_full (GwhSettings            *self,
       GtkWidget *box;
       gchar     *label;
       
-      box = gtk_hbox_new (FALSE, 6);
+      box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
       label = g_strdup_printf (_("%s:"), g_param_spec_get_nick (pspec));
       gtk_box_pack_start (GTK_BOX (box), gtk_label_new (label), FALSE, TRUE, 0);
       g_free (label);
