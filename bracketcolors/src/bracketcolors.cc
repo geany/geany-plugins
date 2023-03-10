@@ -296,17 +296,6 @@
 
 
 // -----------------------------------------------------------------------------
-    static gchar char_at(ScintillaObject *sci, gint pos)
-/*
-
------------------------------------------------------------------------------ */
-{
-    return sci_get_char_at(sci, pos);
-}
-
-
-
-// -----------------------------------------------------------------------------
     static void assign_indicator_colors(
         BracketColorsData *data
     )
@@ -328,7 +317,7 @@
 
 
 // -----------------------------------------------------------------------------
-    static gboolean hasDocument(void)
+    static gboolean has_document(void)
 /*
     sanity check
 ----------------------------------------------------------------------------- */
@@ -341,7 +330,7 @@
 
 
 // -----------------------------------------------------------------------------
-    static gboolean isCurrDocument(
+    static gboolean is_curr_document(
         BracketColorsData *data
     )
 /*
@@ -530,7 +519,7 @@
     else {
         // invalid mapping
 
-        if (is_open_bracket(char_at(sci, position), BracketType::COUNT)) {
+        if (is_open_bracket(sci_get_char_at(sci, position), BracketType::COUNT)) {
             if (updateInvalidMapping) {
                 bracketMap.Update(position, BracketMap::UNDEFINED);
             }
@@ -547,7 +536,7 @@
 
 
 // -----------------------------------------------------------------------------
-    static gboolean isIgnoreStyle(
+    static gboolean is_ignore_style(
         BracketColorsData *data,
         gint position
     )
@@ -577,7 +566,7 @@
 
     gint length = sci_get_length(sci);
     for (gint i = 0; i < length; i++) {
-        gchar ch = char_at(sci, i);
+        gchar ch = sci_get_char_at(sci, i);
         if (is_bracket_type(ch, BracketType::COUNT)) {
             for (gint bracketType = 0; bracketType < BracketType::COUNT; bracketType++) {
                 if (data.bracketColorsEnable[bracketType] == TRUE) {
@@ -758,7 +747,7 @@
 
     // Check if the new characters that are added were brackets
     for (gint i = position; i < position + length; i++) {
-        gchar newChar = char_at(sci, i);
+        gchar newChar = sci_get_char_at(sci, i);
         if (is_bracket_type(newChar, type)) {
             madeChange = TRUE;
             bracketColorsData.recomputeIndicies.insert(i);
@@ -906,7 +895,7 @@
 
             if (nt->updated & SC_UPDATE_CONTENT) {
 
-                if (isCurrDocument(data)) {
+                if (is_curr_document(data)) {
                     render_document(sci, data);
                 }
             }
@@ -963,7 +952,7 @@
                             continue;
                         }
                         for (gint i = nt->position; i < nt->position + nt->length; i++) {
-                            gchar currChar = char_at(sci, i);
+                            gchar currChar = sci_get_char_at(sci, i);
                             if (is_bracket_type(currChar, static_cast<BracketType>(bracketType))) {
                                 //g_debug("%s: Handling style change for bracket at %d", __FUNCTION__, i);
                                 data->recomputeIndicies.insert(i);
@@ -988,13 +977,13 @@
 
 ----------------------------------------------------------------------------- */
 {
-    if (not hasDocument()) {
+    if (not has_document()) {
         return FALSE;
     }
 
     BracketColorsData *data = reinterpret_cast<BracketColorsData *>(user_data);
 
-    if (not isCurrDocument(data)) {
+    if (not is_curr_document(data)) {
         data->StopTimers();
         return FALSE;
     }
@@ -1039,12 +1028,12 @@
 {
     static const unsigned sIterationLimit = 50;
 
-    if (not hasDocument()) {
+    if (not has_document()) {
         return FALSE;
     }
 
     BracketColorsData *data = reinterpret_cast<BracketColorsData *>(user_data);
-    if (not isCurrDocument(data)) {
+    if (not is_curr_document(data)) {
         data->StopTimers();
         return FALSE;
     }
@@ -1071,12 +1060,12 @@
 
                 if (
                     is_bracket_type(
-                        char_at(sci, *position),
+                        sci_get_char_at(sci, *position),
                         static_cast<BracketType>(bracketType)
                     )
                 ) {
                     // check if in a comment
-                    if (isIgnoreStyle(data, *position)) {
+                    if (is_ignore_style(data, *position)) {
                         bracketMap.mBracketMap.erase(*position);
                         clear_bc_indicators(sci, *position, 1);
                     }
