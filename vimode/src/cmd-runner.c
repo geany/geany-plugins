@@ -222,6 +222,8 @@ CmdDef operator_cmds[] = {
 	{cmd_select_less, GDK_KEY_a, GDK_KEY_greater, 0, 0, FALSE, FALSE}, \
 	{cmd_select_bracket, GDK_KEY_a, GDK_KEY_bracketleft, 0, 0, FALSE, FALSE}, \
 	{cmd_select_bracket, GDK_KEY_a, GDK_KEY_bracketright, 0, 0, FALSE, FALSE}, \
+	{cmd_select_word, GDK_KEY_a, GDK_KEY_w, 0, 0, FALSE, FALSE}, \
+	{cmd_select_word_space, GDK_KEY_a, GDK_KEY_W, 0, 0, FALSE, FALSE}, \
 	/* inner */ \
 	{cmd_select_quotedbl_inner, GDK_KEY_i, GDK_KEY_quotedbl, 0, 0, FALSE, FALSE}, \
 	{cmd_select_quoteleft_inner, GDK_KEY_i, GDK_KEY_quoteleft, 0, 0, FALSE, FALSE}, \
@@ -236,6 +238,8 @@ CmdDef operator_cmds[] = {
 	{cmd_select_less_inner, GDK_KEY_i, GDK_KEY_greater, 0, 0, FALSE, FALSE}, \
 	{cmd_select_bracket_inner, GDK_KEY_i, GDK_KEY_bracketleft, 0, 0, FALSE, FALSE}, \
 	{cmd_select_bracket_inner, GDK_KEY_i, GDK_KEY_bracketright, 0, 0, FALSE, FALSE}, \
+	{cmd_select_word_inner, GDK_KEY_i, GDK_KEY_w, 0, 0, FALSE, FALSE}, \
+	{cmd_select_word_space_inner, GDK_KEY_i, GDK_KEY_W, 0, 0, FALSE, FALSE}, \
 	/* END */
 
 
