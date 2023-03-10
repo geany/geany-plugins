@@ -295,5 +295,95 @@ void cmd_goto_previous_word_end_space(CmdContext *c, CmdParams *p)
 	pos = find_previous_word_end_space(p->sci, pos, p->num);
 	SET_POS(p->sci, pos, TRUE);
 }
+
+
+void get_word_range(ScintillaObject *sci, gboolean word_space, gboolean inner,
+	gint pos, gint num, gint *sel_start, gint *sel_len)
+{
+	guint i;
+	gint start_pos = pos;
+	gint end_pos;
+	gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
+	gchar prev_ch = SSM(sci, SCI_GETCHARAT, PREV(sci, pos), 0);
+	gchar next_ch = SSM(sci, SCI_GETCHARAT, NEXT(sci, pos), 0);
+
+	if (word_space)
+	{
+		if (is_space(prev_ch) && !is_space(ch))
+			;  // already there
+		else if (is_space(ch) && !is_space(prev_ch))
+			;  // already there
+		else if (is_space(ch))
+			start_pos = NEXT(sci, find_previous_word_end_space(sci, pos, 1));
+		else if (!is_space(ch))
+			start_pos = find_previous_word_space(sci, pos, 1);
+
+		if (inner && !is_space(ch) && is_space(next_ch))
+		{
+			num--;  // already there once
+			pos = NEXT(sci, pos);
+		}
+
+		for (i = 0; i < num; i++)
+		{
+			if (is_space(ch))
+			{
+				if (inner)
+					pos = find_next_word_space(sci, pos, 1);
+				else
+					pos = find_next_word_end_space(sci, pos, 1, TRUE);
+			}
+			else if (!is_space(ch))
+			{
+				if (inner)
+					pos = find_next_word_end_space(sci, pos, 1, TRUE);
+				else
+					pos = find_next_word_space(sci, pos, 1);
+			}
+		}
+
+		end_pos = pos;
 	}
+	else
+	{
+		if ((is_space(prev_ch) || is_nonwordchar(prev_ch)) && is_wordchar(ch))
+			;  // already there
+		else if ((is_wordchar(prev_ch) || is_nonwordchar(prev_ch)) && is_space(ch))
+			;  // already there
+		else if ((is_space(prev_ch) || is_wordchar(prev_ch)) && is_nonwordchar(ch))
+			;  // already there
+		else if (is_space(ch) || is_nonwordchar(ch))
+			start_pos = NEXT(sci, find_previous_word_end(sci, pos, 1));
+		else if (is_wordchar(ch))
+			start_pos = find_previous_word(sci, pos, 1);
+
+		if (inner && (is_space(next_ch) || is_nonwordchar(next_ch)) && is_wordchar(ch))
+		{
+			num--;  // already there once
+			pos = NEXT(sci, pos);
+		}
+
+		for (i = 0; i < num; i++)
+		{
+			if (is_space(ch) || is_nonwordchar(ch))
+			{
+				if (inner)
+					pos = find_next_word(sci, pos, 1);
+				else
+					pos = find_next_word_end(sci, pos, 1, TRUE);
+			}
+			else if (is_wordchar(ch))
+			{
+				if (inner)
+					pos = find_next_word_end(sci, pos, 1, TRUE);
+				else
+					pos = find_next_word(sci, pos, 1);
+			}
+		}
+
+		end_pos = pos;
+	}
+
+	*sel_start = start_pos;
+	*sel_len = end_pos - start_pos;
 }

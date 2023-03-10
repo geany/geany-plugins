@@ -448,10 +448,12 @@ a new command, please do not forget to update the table below.::
     v_a<          a<                 "a <>" from '<' to the matching '>'
     v_a>          a>                 same as a<
     v_aB          aB                 "a Block" from "[{" to "]}" (with brackets)
+    v_aW          aW                 "a WORD" (with white space)
     v_a[          a[                 "a []" from '[' to the matching ']'
     v_a]          a]                 same as a[
     v_a`          a`                 string in backticks
     v_ab          ab                 "a block" from "[(" to "])" (with braces)
+    v_aw          aw                 "a word" (with white space)
     v_a{          a{                 same as aB
     v_a}          a}                 same as aB
     v_iquote      i"                 double quoted string without the quotes
@@ -461,10 +463,12 @@ a new command, please do not forget to update the table below.::
     v_i<          i<                 "inner <>" from '<' to the matching '>'
     v_i>          i>                 same as i<
     v_iB          iB                 "inner Block" from "[{" and "]}"
+    v_iW          iW                 "inner WORD"
     v_i[          i[                 "inner []" from '[' to the matching ']'
     v_i]          i]                 same as i[
     v_i`          i`                 string in backticks without the backticks
     v_ib          ib                 "inner block" from "[(" to "])"
+    v_iw          iw                 "inner word"
     v_i{          i{                 same as iB
     v_i}          i}                 same as iB
 
