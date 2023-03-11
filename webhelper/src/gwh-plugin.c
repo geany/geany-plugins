@@ -105,7 +105,6 @@ static void
 on_separate_window_destroy (GtkWidget  *widget,
                             gpointer    data)
 {
-  gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser), NULL);
   gtk_container_remove (GTK_CONTAINER (G_container.widget), G_browser);
 }
 
@@ -156,8 +155,6 @@ create_separate_window (void)
     gtk_window_set_icon_list (GTK_WINDOW (window), icons);
     g_list_free (icons);
   }
-  gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
-                                           GTK_WINDOW (window));
   
   return window;
 }
@@ -183,8 +180,6 @@ attach_browser (void)
     }
     gtk_notebook_append_page (GTK_NOTEBOOK (G_container.widget),
                               G_browser, gtk_label_new (_("Web preview")));
-    gwh_browser_set_inspector_transient_for (GWH_BROWSER (G_browser),
-                                             GTK_WINDOW (geany_data->main_widgets->window));
   }
 }
 
@@ -240,33 +235,43 @@ on_document_save (GObject        *obj,
 }
 
 static void
-on_item_auto_reload_toggled (GtkCheckMenuItem *item,
-                             gpointer          dummy)
+on_item_auto_reload_toggled (GAction  *action,
+                             GVariant *parameter,
+                             gpointer  dummy)
 {
+  gboolean browser_auto_reload;
+
+  g_object_get (G_OBJECT (G_settings),
+                "browser-auto-reload", &browser_auto_reload, NULL);
   g_object_set (G_OBJECT (G_settings), "browser-auto-reload",
-                gtk_check_menu_item_get_active (item), NULL);
+                !browser_auto_reload, NULL);
+  g_simple_action_set_state (G_SIMPLE_ACTION (action),
+                             g_variant_new_boolean (!browser_auto_reload));
 }
 
 static void
-on_browser_populate_popup (GwhBrowser *browser,
-                           GtkMenu    *menu,
-                           gpointer    dummy)
+on_browser_populate_popup (GwhBrowser        *browser,
+                           WebKitContextMenu *menu,
+                           gpointer           dummy)
 {
-  GtkWidget  *item;
-  gboolean    auto_reload = FALSE;
-  
-  item = gtk_separator_menu_item_new ();
-  gtk_widget_show (item);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  
+  GSimpleAction         *action;
+  gboolean               auto_reload = FALSE;
+  WebKitContextMenuItem *item;
+
+  webkit_context_menu_append (menu,
+                              webkit_context_menu_item_new_separator ());
+
   g_object_get (G_OBJECT (G_settings), "browser-auto-reload", &auto_reload,
                 NULL);
-  item = gtk_check_menu_item_new_with_mnemonic (_("Reload upon document saving"));
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), auto_reload);
-  gtk_widget_show (item);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect (item, "toggled", G_CALLBACK (on_item_auto_reload_toggled),
-                    NULL);
+  action = g_simple_action_new_stateful ("browser-auto-reload", NULL,
+                                         g_variant_new_boolean (auto_reload));
+  g_signal_connect (action, "activate",
+                    G_CALLBACK (on_item_auto_reload_toggled), NULL);
+  item = webkit_context_menu_item_new_from_gaction (G_ACTION (action),
+                                                    _("Reload upon document saving"),
+                                                    NULL);
+  webkit_context_menu_append (menu, item);
+  g_object_unref (action);
 }
 
 static void
@@ -347,12 +352,6 @@ load_config (void)
     "browser-separate-window-geometry",
     _("Browser separate window geometry"),
     _("Last geometry of the separated browser's window"),
-    "400x300",
-    G_PARAM_READWRITE));
-  gwh_settings_install_property (G_settings, g_param_spec_string (
-    "inspector-window-geometry",
-    _("Inspector window geometry"),
-    _("Last geometry of the inspector window"),
     "400x300",
     G_PARAM_READWRITE));
   gwh_settings_install_property (G_settings, g_param_spec_boolean (
