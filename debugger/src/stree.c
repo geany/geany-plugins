@@ -57,6 +57,9 @@ static select_frame_cb select_frame = NULL;
 static select_thread_cb select_thread = NULL;
 static move_to_line_cb move_to_line = NULL;
 
+/* signal handler ids */
+static guint cursor_changed_hid = 0;
+
 /* tree view, model and store handles */
 static GtkWidget *tree = NULL;
 static GtkTreeModel *model = NULL;
@@ -353,6 +356,7 @@ static void on_render_address (GtkTreeViewColumn *tree_column, GtkCellRenderer *
 	}
 }
 
+
 /*
  *	inits stack trace tree
  */
@@ -382,7 +386,7 @@ GtkWidget* stree_init(move_to_line_cb ml, select_thread_cb st, select_frame_cb s
 	gtk_tree_view_set_show_expanders(GTK_TREE_VIEW(tree), FALSE);
 	
 	/* connect signals */
-	g_signal_connect(G_OBJECT(tree), "cursor-changed", G_CALLBACK (on_cursor_changed), NULL);
+	cursor_changed_hid = g_signal_connect(G_OBJECT(tree), "cursor-changed", G_CALLBACK (on_cursor_changed), NULL);
 
 	/* for clicking on already selected frame */
 	g_signal_connect(G_OBJECT(tree), "button-press-event", G_CALLBACK(on_msgwin_button_press), NULL);
@@ -464,7 +468,14 @@ void stree_add(GList *frames)
  */
 void stree_clear(void)
 {
+	/* removing nodes from tree triggers the "cursor-changed" event;
+	 * in this context we don't need to process it,
+	 * so the signal handler should be disconnected before the clear
+	 * and reconnected properly afterwards
+	 */
+	g_signal_handler_block(G_OBJECT(tree), cursor_changed_hid);
 	gtk_tree_store_clear(store);
+	g_signal_handler_unblock(G_OBJECT(tree), cursor_changed_hid);
 }
 
 /*
@@ -566,8 +577,17 @@ void stree_remove_frames(void)
 	if (find_thread_iter (active_thread_id, &thread_iter) &&
 	    gtk_tree_model_iter_children(model, &child, &thread_iter))
 	{
+		/* removing nodes from tree triggers the "cursor-changed" event;
+		 * in this context we don't need to process it,
+		 * so the signal handler should be disconnected before the removes
+		 * and reconnected properly afterwards
+		 */
+		g_signal_handler_block(G_OBJECT(tree), cursor_changed_hid);
+
 		while(gtk_tree_store_remove(GTK_TREE_STORE(model), &child))
 			;
+
+		g_signal_handler_unblock(G_OBJECT(tree), cursor_changed_hid);
 	}
 }
 
