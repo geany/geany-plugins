@@ -45,12 +45,6 @@ AC_DEFUN([GP_CHECK_PLUGIN_GTKN_ONLY],
                         [m4_tolower(AS_TR_SH(enable_$1))=no])])])
 ])
 
-dnl GP_CHECK_PLUGIN_GTK2_ONLY pluginname
-AC_DEFUN([GP_CHECK_PLUGIN_GTK2_ONLY],
-[
-    GP_CHECK_PLUGIN_GTKN_ONLY([$1], [2])
-])
-
 dnl GP_CHECK_PLUGIN_GTK3_ONLY pluginname
 AC_DEFUN([GP_CHECK_PLUGIN_GTK3_ONLY],
 [

@@ -61,13 +61,6 @@ M: Pavel Roschin <rpg89(at)post(dot)ru>
 W: http://plugins.geany.org/defineformat.html
 S: Maintained
 
-devhelp
-P: Matthew Brush <matt@geany.org>
-g: @codebrainz
-M: Matthew Brush <matt@geany.org>
-W: http://plugins.geany.org/devhelp.html
-S: Maintained
-
 geanyctags
 P: Jiří Techet <techet@gmail.com>
 g: @techee
@@ -153,13 +146,6 @@ M: Donjan Rodic <bryonak@freenet.de>
 W: http://plugins.geany.org/geanyprj.html
 S: Odd Fixes
 
-geanypy
-P: Thomas Martitz <kugel@rockbox.org>
-g: @kugel-
-M: Thomas Martitz <kugel@rockbox.org>
-W: http://plugins.geany.org/geanypy.html
-S: Currently diverged from upstream
-
 geanysendmail
 P: Frank Lanitz <frank@frank.uvena.de>
 g: @frlan
@@ -214,13 +200,6 @@ P: Matthew Brush <matt@geany.org>
 g: @codebrainz
 M: Matthew Brush <matt@geany.org>
 W:
-S: Maintained
-
-multiterm
-P: Matthew Brush <matt@geany.org>
-g: @codebrainz
-M: Matthew Brush <matt@geany.org>
-W: http://plugins.geany.org/multiterm.html
 S: Maintained
 
 overview
@@ -319,7 +298,6 @@ g: @LarsGit223
 M:
 W: http://plugins.geany.org/workbench.html
 S: Maintained
-
 
 xmlsnippets
 P: Eugene Arshinov <earshinov@gmail.com>
