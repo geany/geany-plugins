@@ -61,6 +61,13 @@ M: Pavel Roschin <rpg89(at)post(dot)ru>
 W: http://plugins.geany.org/defineformat.html
 S: Maintained
 
+devhelp
+P: Matthew Brush <matt@geany.org>
+g: @codebrainz
+M: Matthew Brush <matt@geany.org>
+W: http://plugins.geany.org/devhelp.html
+S: Maintained
+
 geanyctags
 P: Jiří Techet <techet@gmail.com>
 g: @techee
