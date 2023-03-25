@@ -35,6 +35,7 @@
 #include <devhelp/dh-web-view.h>
 #include <devhelp/dh-search-bar.h>
 
+
 #ifdef HAVE_BOOK_MANAGER /* for newer api */
 #include <devhelp/dh-book-manager.h>
 #endif
@@ -352,6 +353,7 @@ static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 	DhProfile *dh_profile;
 	DhNotebook *dh_notebook;
 	DhSearchBar *dh_search;
+	
 #else
 	GNode *books;
 	GList *keywords;
@@ -365,29 +367,61 @@ static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 
 #ifdef HAVE_BOOK_MANAGER /* for newer api */
 	//book_manager = dh_base_get_book_manager(self->priv->dhbase);
+	
 	dh_profile = dh_profile_get_default();
-	self->priv->book_tree = GTK_WIDGET(dh_book_tree_new(dh_profile));
 	
 	dh_notebook = dh_notebook_new(dh_profile);
+	gtk_widget_show (GTK_WIDGET (dh_notebook));
+	
 	dh_search = dh_search_bar_new(dh_notebook);
+	gtk_widget_show(GTK_WIDGET(dh_search));
+	
+	//GtkWidget *searchBar = gtk_search_bar_new();
+	GtkWidget *searchBar = GTK_SEARCH_BAR(dh_search);
+	
+	GtkWidget *v_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	//gtk_box_pack_start(GTK_BOX(v_box), GTK_WIDGET(dh_search), TRUE, TRUE, 0);
+	//gtk_box_pack_start(GTK_BOX(v_box), GTK_WIDGET(dh_notebook), TRUE, TRUE, 0);
+	
+	gtk_box_pack_start(GTK_BOX(v_box), searchBar, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(v_box), dh_book_tree_new(dh_profile), TRUE, TRUE, 0);
+	gtk_widget_show_all(v_box);
+	
+	//gtk_container_add(GTK_CONTAINER(self->priv->search), GTK_WIDGET(v_box));
+	
+	/*gtk_container_add(GTK_CONTAINER(self->priv->search), 
+							GTK_WIDGET(dh_search));
+	gtk_container_add(GTK_CONTAINER(self->priv->search), 
+							GTK_WIDGET(dh_notebook));*/
+							
+	//dh_notebook_open_new_tab(dh_notebook, NULL, TRUE);
+	self->priv->book_tree = GTK_WIDGET(dh_book_tree_new(dh_profile));
+	self->priv->search = GTK_WIDGET(v_box);
+	
+	
+	//dh_notebook = dh_notebook_new(dh_profile);
+	
+	
 	
 	//self->priv->search = GTK_WIDGET(dh_search_bar_new(dh_notebook));
-	dh_search_bar_grab_focus_to_search_entry(dh_search);
-	self->priv->search = GTK_WIDGET(dh_search);
+	//dh_search_bar_grab_focus_to_search_entry(dh_search);
+	//self->priv->search = GTK_WIDGET(dh_search);
 	
-	//self->priv->search = GTK_WIDGET(dh_search_bar_new(dh_notebook));
-	//self->priv->search = dh_search_new(book_manager);
+	
+	//self->priv->search = dh_search_new(dh_profile);
+	//self->priv->search = GTK_WIDGET(dh_book_tree_new(dh_profile));
 #else
-	books = dh_base_get_book_tree(self->priv->dhbase);
-	keywords = dh_base_get_keywords(self->priv->dhbase);
-	self->priv->book_tree = dh_book_tree_new(books);
-	self->priv->search = dh_search_new(keywords);
+	//books = dh_base_get_book_tree(self->priv->dhbase);
+	//keywords = dh_base_get_keywords(self->priv->dhbase);
+	//self->priv->book_tree = dh_book_tree_new(books);
+	//self->priv->search = dh_search_new(keywords);
 #endif
 
 	gtk_widget_show(self->priv->search);
 
 	g_signal_connect(self->priv->book_tree, "link-selected", G_CALLBACK(on_link_clicked), self);
 	g_signal_connect(self->priv->search, "link-selected", G_CALLBACK(on_link_clicked), self);
+
 }
 
 
@@ -514,6 +548,7 @@ static void devhelp_plugin_init_sidebar(DevhelpPlugin *self)
 	gtk_container_add(GTK_CONTAINER(book_tree_sw), p->book_tree);
 	gtk_widget_show(p->book_tree);
 
+
 	label = gtk_label_new(_("Contents"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(p->sb_notebook), book_tree_sw, label);
 
@@ -525,6 +560,7 @@ static void devhelp_plugin_init_sidebar(DevhelpPlugin *self)
 
 	label = gtk_label_new(_("Devhelp"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), p->sb_notebook, label);
+	
 }
 
 
