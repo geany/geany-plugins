@@ -51,7 +51,8 @@ typedef enum
 typedef struct
 {
 	GeanyProject *project;
-	GPtrArray *expanded_paths;
+	gchar **expanded_paths;
+	gchar *selected_path;
 } ExpandData;
 
 
@@ -1487,6 +1488,7 @@ static gboolean expand_path(gchar *utf8_expanded_path, gboolean select)
 static gboolean expand_on_idle(ExpandData *expand_data)
 {
 	GeanyDocument *doc = document_get_current();
+	gboolean selected = FALSE;
 
 	if (!prj_org)
 		return FALSE;
@@ -1494,17 +1496,22 @@ static gboolean expand_on_idle(ExpandData *expand_data)
 	if (geany_data->app->project == expand_data->project &&
 		expand_data->expanded_paths)
 	{
-		gchar *item;
-		guint i;
+		gchar **item;
+		foreach_strv(item, expand_data->expanded_paths)
+			expand_path(*item, FALSE);
+		g_strfreev(expand_data->expanded_paths);
+	}
 
-		foreach_ptr_array(item, i, expand_data->expanded_paths)
-			expand_path(item, FALSE);
-		g_ptr_array_free(expand_data->expanded_paths, TRUE);
+	if (expand_data->selected_path)
+	{
+		expand_path(expand_data->selected_path, TRUE);
+		g_free(expand_data->selected_path);
+		selected = TRUE;
 	}
 
 	g_free(expand_data);
 
-	if (!s_follow_editor || !doc || !doc->file_name)
+	if (selected || !s_follow_editor || !doc || !doc->file_name)
 		return FALSE;
 
 	expand_path(doc->file_name, TRUE);
@@ -1547,18 +1554,32 @@ static void on_map_expanded(GtkTreeView *tree_view, GtkTreePath *tree_path, GPtr
 }
 
 
-static GPtrArray *get_expanded_paths(void)
+gchar **prjorg_sidebar_get_expanded_paths(void)
 {
-	GPtrArray *expanded_paths = g_ptr_array_new_with_free_func(g_free);
+	GPtrArray *expanded_paths = g_ptr_array_new();
 
 	gtk_tree_view_map_expanded_rows(GTK_TREE_VIEW(s_file_view),
 		(GtkTreeViewMappingFunc)on_map_expanded, expanded_paths);
+	g_ptr_array_add(expanded_paths, NULL);
 
-	return expanded_paths;
+	return g_ptr_array_free(expanded_paths, FALSE);
 }
 
 
-void prjorg_sidebar_update(gboolean reload)
+static gchar *get_selected_path(void)
+{
+	GtkTreeSelection *treesel;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
+	if (gtk_tree_selection_get_selected(treesel, &model, &iter))
+		return build_path(&iter);
+	return NULL;
+}
+
+
+void prjorg_sidebar_update_full(gboolean reload, gchar **expanded_paths)
 {
 	ExpandData *expand_data = g_new0(ExpandData, 1);
 
@@ -1566,7 +1587,12 @@ void prjorg_sidebar_update(gboolean reload)
 
 	if (reload)
 	{
-		expand_data->expanded_paths = get_expanded_paths();
+		GtkTreeSelection *treesel;
+		GtkTreeIter iter;
+		GtkTreeModel *model;
+
+		expand_data->expanded_paths = expanded_paths != NULL ? expanded_paths : prjorg_sidebar_get_expanded_paths();
+		expand_data->selected_path = get_selected_path();
 
 		load_project();
 		/* we get color information only after the sidebar is realized -
@@ -1577,6 +1603,12 @@ void prjorg_sidebar_update(gboolean reload)
 
 	/* perform on idle - avoids unnecessary jumps on project load */
 	plugin_idle_add(geany_plugin, (GSourceFunc)expand_on_idle, expand_data);
+}
+
+
+void prjorg_sidebar_update(gboolean reload)
+{
+	prjorg_sidebar_update_full(reload, NULL);
 }
 
 

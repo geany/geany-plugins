@@ -27,6 +27,7 @@
 
 #include "prjorg-utils.h"
 #include "prjorg-project.h"
+#include "prjorg-sidebar.h"
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
@@ -377,6 +378,16 @@ static void update_project(
 }
 
 
+static void save_expanded_paths(GKeyFile * key_file)
+{
+	gchar **expanded_paths = prjorg_sidebar_get_expanded_paths();
+
+	g_key_file_set_string_list(key_file, "prjorg", "expanded_paths",
+		(const gchar**) expanded_paths, g_strv_length(expanded_paths));
+	g_strfreev(expanded_paths);
+}
+
+
 void prjorg_project_save(GKeyFile * key_file)
 {
 	GPtrArray *array;
@@ -384,6 +395,8 @@ void prjorg_project_save(GKeyFile * key_file)
 
 	if (!prj_org)
 		return;
+
+	save_expanded_paths(key_file);
 
 	g_key_file_set_string_list(key_file, "prjorg", "source_patterns",
 		(const gchar**) prj_org->source_patterns, g_strv_length(prj_org->source_patterns));
@@ -475,6 +488,12 @@ void prjorg_project_remove_external_dir(const gchar *utf8_dirname)
 		prjorg_project_rescan();
 	}
 	close_root(test_root, NULL);
+}
+
+
+gchar **prjorg_project_load_expanded_paths(GKeyFile * key_file)
+{
+	return g_key_file_get_string_list(key_file, "prjorg", "expanded_paths", NULL, NULL);
 }
 
 
