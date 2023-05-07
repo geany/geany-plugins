@@ -28,6 +28,7 @@
 #include "prjorg-project.h"
 #include "prjorg-sidebar.h"
 #include "prjorg-menu.h"
+#include "prjorg-utils.h"
 
 
 GeanyPlugin *geany_plugin;
@@ -54,6 +55,7 @@ static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument
 		prjorg_project_remove_single_tm_file(doc->file_name);
 
 	prjorg_sidebar_update(FALSE);
+	set_header_filetype(doc);
 }
 
 
