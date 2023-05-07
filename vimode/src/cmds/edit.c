@@ -83,15 +83,21 @@ void cmd_clear_right(CmdContext *c, CmdParams *p)
 
 static gboolean insert_eof_nl_if_missing(CmdParams *p)
 {
-	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
-	gint last_line = SSM(p->sci, SCI_GETLINECOUNT, 0, 0);
-	gint line_start_pos = SSM(p->sci, SCI_POSITIONFROMLINE, last_line, 0);
-	gint line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, last_line, 0);
+	gint eof_pos = SSM(p->sci, SCI_GETLENGTH, 0, 0);
+	gint eof_line_num = SSM(p->sci, SCI_LINEFROMPOSITION, eof_pos, 0);
+	gint before_eof = PREV(p->sci, eof_pos);
+	gint before_eof_line_num = SSM(p->sci, SCI_LINEFROMPOSITION, before_eof, 0);
 
-	if (line_start_pos == line_end_pos) {
-		SET_POS(p->sci, line_end_pos, FALSE);
-		SSM(p->sci, SCI_NEWLINE, 0, 0);
-		SET_POS(p->sci, pos, FALSE);
+	if (eof_line_num == before_eof_line_num) {
+		const gchar *nl = "\n";
+		gint eol_mode = SSM(p->sci, SCI_GETEOLMODE, 0, 0);
+		if (eol_mode == SC_EOL_CRLF) {
+			nl = "\r\n";
+		}
+		else if (eol_mode == SC_EOL_CR) {
+			nl = "\r";
+		}
+		SSM(p->sci, SCI_INSERTTEXT, eof_pos, (sptr_t)nl);
 		return TRUE;
 	}
 	return FALSE;
@@ -100,13 +106,10 @@ static gboolean insert_eof_nl_if_missing(CmdParams *p)
 
 static void remove_char_from_eof(CmdParams *p)
 {
-	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
-	gint last_line = SSM(p->sci, SCI_GETLINECOUNT, 0, 0);
-	gint line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, last_line, 0);
+	gint eof_pos = SSM(p->sci, SCI_GETLENGTH, 0, 0);
+	gint before_eof_pos = PREV(p->sci, eof_pos);
 
-	SET_POS(p->sci, line_end_pos, FALSE);
-	SSM(p->sci, SCI_DELETEBACK, 0, 0);
-	SET_POS(p->sci, pos, FALSE);
+	SSM(p->sci, SCI_DELETERANGE, before_eof_pos, eof_pos - before_eof_pos);
 }
 
 
