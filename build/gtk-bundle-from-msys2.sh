@@ -292,7 +292,6 @@ Following is a list of all included binary packages with their
 full download URL as used to create this installation.
 EOF
 	echo -e "${package_urls}" >> "${filename}"
-	unix2dos "${filename}"
 }
 
 create_zip_archive() {
