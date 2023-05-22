@@ -294,7 +294,7 @@ gchar *find_header_source(GeanyDocument *doc)
 {
 	GSList *header_patterns, *source_patterns;
 	gboolean known_type = TRUE;
-	gboolean is_header;
+	gboolean is_header = FALSE;
 	gchar *found_name = NULL;
 
 	if (!doc || !doc->file_name)
