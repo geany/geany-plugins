@@ -34,6 +34,7 @@
 #include <devhelp/dh-link.h>
 #include <devhelp/dh-web-view.h>
 #include <devhelp/dh-search-bar.h>
+#include <devhelp/dh-sidebar.h>
 
 
 #ifdef HAVE_BOOK_MANAGER /* for newer api */
@@ -49,31 +50,32 @@
 struct _DevhelpPluginPrivate
 {
 	/* Devhelp stuff */
-	// DhBase*			dhbase;
-    GtkWidget*		book_tree;			/* "Contents" in the sidebar */
+	GtkWidget*		book_tree;			/* "Contents" in the sidebar */
+    GtkWidget*		grid;				/* "grid" in the sidebar */
+    GtkWidget*		sidebar;			/* "DH_Sidebar" in the sidebar */
     GtkWidget*		search;				/* "Search" in the sidebar */
-    GtkWidget*		sb_notebook;		/* Notebook that holds contents/search */
+    GtkWidget*		sb_notebook;		/* "Notebook" that holds contents/search */
 
     /* Webview stuff */
-    GtkWidget*		webview;				/* Webkit that shows documentation */
-    GtkWidget*		webview_tab;		/* The widget that has webview related stuff */
-    GtkToolItem*	btn_back;			/* the webkit browser back button in the toolbar */
-    GtkToolItem*	btn_forward;		/* the webkit browser forward button in the toolbar */
-    DevhelpPluginWebViewLocation location; /* where to pack the webview */
+    GtkWidget*		webview;			/*	Webkit that shows documentation */
+    GtkWidget*		webview_tab;		/* 	The widget that has webview related stuff */
+    GtkToolItem*	btn_back;			/*	the webkit browser back button in the toolbar */
+    GtkToolItem*	btn_forward;		/*	the webkit browser forward button in the toolbar */
+    DevhelpPluginWebViewLocation location; /*	where to pack the webview */
 
 	/* Other widgets */
-    GtkWidget*		main_notebook;		/* Notebook that holds Geany doc notebook and and webkit view */
-    GtkWidget*		editor_menu_item;	/* Item in the editor's context menu */
-    GtkWidget*		editor_menu_sep;	/* Separator item above menu item */
+    GtkWidget*		main_notebook;		/*	Notebook that holds Geany doc notebook and and webkit view */
+    GtkWidget*		editor_menu_item;	/*	Item in the editor's context menu */
+    GtkWidget*		editor_menu_sep;	/*	Separator item above menu item */
 
 	/* Position/tab number tracking */
-    gboolean		last_main_tab_id;	/* These track the last id of the tabs */
-    gboolean		last_sb_tab_id;		/*   before toggling */
-    gboolean		tabs_toggled;		/* Tracks state of whether to toggle to Devhelp or back to code */
-    GtkPositionType	orig_sb_tab_pos;	/* The tab idx of the initial sidebar tab */
-    gboolean		in_message_window;	/* whether the webkit stuff is in the msgwin */
+    gboolean		last_main_tab_id;	/*	These track the last id of the tabs */
+    gboolean		last_sb_tab_id;		/*	before toggling */
+    gboolean		tabs_toggled;		/*	Tracks state of whether to toggle to Devhelp or back to code */
+    GtkPositionType	orig_sb_tab_pos;	/*	The tab idx of the initial sidebar tab */
+    gboolean		in_message_window;	/*	whether the webkit stuff is in the msgwin */
 
-    GList*			temp_files;			/* Tracks temp files made by the plugin to delete later. */
+    GList*			temp_files;			/*	Tracks temp files made by the plugin to delete later. */
 
 	GKeyFile*	kf;
 	gboolean	focus_webview_on_search;
@@ -346,81 +348,32 @@ static void devhelp_plugin_class_init(DevhelpPluginClass * klass)
  * The Devhelp API isn't exactly stable, so handle quirks in here.
  */
 static void devhelp_plugin_init_dh(DevhelpPlugin *self)
-{
-	
-#ifdef HAVE_BOOK_MANAGER /* for newer api */
-	//DhBookManager *book_manager;
+{	
 	DhProfile *dh_profile;
-	DhNotebook *dh_notebook;
-	DhSearchBar *dh_search;
-	
-#else
-	GNode *books;
-	GList *keywords;
-#endif
-
-	/*
-	 * if (dhbase == NULL)
-		dhbase = dh_base_new();
-	self->priv->dhbase = dhbase;
-	*/
-
-#ifdef HAVE_BOOK_MANAGER /* for newer api */
-	//book_manager = dh_base_get_book_manager(self->priv->dhbase);
 	
 	dh_profile = dh_profile_get_default();
 	
-	dh_notebook = dh_notebook_new(dh_profile);
-	gtk_widget_show (GTK_WIDGET (dh_notebook));
-	
-	dh_search = dh_search_bar_new(dh_notebook);
-	gtk_widget_show(GTK_WIDGET(dh_search));
-	
-	//GtkWidget *searchBar = gtk_search_bar_new();
-	GtkWidget *searchBar = GTK_SEARCH_BAR(dh_search);
-	
-	GtkWidget *v_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	//gtk_box_pack_start(GTK_BOX(v_box), GTK_WIDGET(dh_search), TRUE, TRUE, 0);
-	//gtk_box_pack_start(GTK_BOX(v_box), GTK_WIDGET(dh_notebook), TRUE, TRUE, 0);
-	
-	gtk_box_pack_start(GTK_BOX(v_box), searchBar, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(v_box), dh_book_tree_new(dh_profile), TRUE, TRUE, 0);
-	gtk_widget_show_all(v_box);
-	
-	//gtk_container_add(GTK_CONTAINER(self->priv->search), GTK_WIDGET(v_box));
-	
-	/*gtk_container_add(GTK_CONTAINER(self->priv->search), 
-							GTK_WIDGET(dh_search));
-	gtk_container_add(GTK_CONTAINER(self->priv->search), 
-							GTK_WIDGET(dh_notebook));*/
-							
-	//dh_notebook_open_new_tab(dh_notebook, NULL, TRUE);
+		
+	/* Sidebar */
+    self->priv->sidebar = dh_sidebar_new2 (dh_profile);
+    gtk_widget_show (GTK_WIDGET (self->priv->sidebar));
+    
+	//Grid for sidebar
+	self->priv->grid = gtk_grid_new();
+	gtk_grid_attach (GTK_GRID (self->priv->grid), self->priv->sidebar, 0, 0, 1, 1);
+
+		
 	self->priv->book_tree = GTK_WIDGET(dh_book_tree_new(dh_profile));
-	self->priv->search = GTK_WIDGET(v_box);
+	self->priv->search = GTK_WIDGET(self->priv->grid);
 	
-	
-	//dh_notebook = dh_notebook_new(dh_profile);
-	
-	
-	
-	//self->priv->search = GTK_WIDGET(dh_search_bar_new(dh_notebook));
-	//dh_search_bar_grab_focus_to_search_entry(dh_search);
-	//self->priv->search = GTK_WIDGET(dh_search);
-	
-	
-	//self->priv->search = dh_search_new(dh_profile);
-	//self->priv->search = GTK_WIDGET(dh_book_tree_new(dh_profile));
-#else
-	//books = dh_base_get_book_tree(self->priv->dhbase);
-	//keywords = dh_base_get_keywords(self->priv->dhbase);
-	//self->priv->book_tree = dh_book_tree_new(books);
-	//self->priv->search = dh_search_new(keywords);
-#endif
+	/* Focus search in sidebar by default. */
+    //dh_sidebar_set_search_focus (self->priv->sidebar);
 
+	
 	gtk_widget_show(self->priv->search);
-
+		
 	g_signal_connect(self->priv->book_tree, "link-selected", G_CALLBACK(on_link_clicked), self);
-	g_signal_connect(self->priv->search, "link-selected", G_CALLBACK(on_link_clicked), self);
+	g_signal_connect(self->priv->sidebar, "link-selected", G_CALLBACK(on_link_clicked), self);
 
 }
 
@@ -532,7 +485,7 @@ static void devhelp_plugin_init_webkit(DevhelpPlugin *self)
 static void devhelp_plugin_init_sidebar(DevhelpPlugin *self)
 {
 	GtkWidget *label;
-	GtkWidget *book_tree_sw;
+	GtkWidget *book_tree_sw, *search_sw;
 	DevhelpPluginPrivate *p;
 
 	g_return_if_fail(self != NULL);
@@ -543,17 +496,24 @@ static void devhelp_plugin_init_sidebar(DevhelpPlugin *self)
 	p->orig_sb_tab_pos = gtk_notebook_get_tab_pos(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook));
 
 	book_tree_sw = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(book_tree_sw), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(book_tree_sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_set_border_width(GTK_CONTAINER(book_tree_sw), 6);
-	gtk_container_add(GTK_CONTAINER(book_tree_sw), p->book_tree);
+	gtk_container_add(GTK_CONTAINER(book_tree_sw), GTK_WIDGET(p->book_tree));
 	gtk_widget_show(p->book_tree);
+	
+	search_sw = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(search_sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_container_set_border_width(GTK_CONTAINER(search_sw), 6);
+	gtk_container_add(GTK_CONTAINER(search_sw), GTK_WIDGET(p->search));
+	gtk_container_add(GTK_CONTAINER(search_sw), GTK_WIDGET(p->s_notebook));
+	gtk_widget_show(p->search);
 
 
 	label = gtk_label_new(_("Contents"));
 	gtk_notebook_append_page(GTK_NOTEBOOK(p->sb_notebook), book_tree_sw, label);
 
 	label = gtk_label_new(_("Search"));
-	gtk_notebook_append_page(GTK_NOTEBOOK(p->sb_notebook), p->search, label);
+	gtk_notebook_append_page(GTK_NOTEBOOK(p->sb_notebook), search_sw, label);
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(p->sb_notebook), 0);
 	gtk_widget_show_all(p->sb_notebook);
@@ -695,7 +655,7 @@ void devhelp_plugin_search_books(DevhelpPlugin *self, const gchar *term)
 	g_return_if_fail(self != NULL);
 	g_return_if_fail(term != NULL);
 
-	//dh_search_set_search_string(DH_SEARCH(self->priv->search), term, NULL);
+	dh_sidebar_set_search_string(self->priv->sidebar, term);
 
 	devhelp_plugin_activate_all_tabs(self);
 }
