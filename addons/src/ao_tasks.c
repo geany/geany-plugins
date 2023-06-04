@@ -73,6 +73,15 @@ struct _AoTasksPrivate
 	gboolean ignore_selection_changed;
 };
 
+
+typedef struct
+{
+    AoTasks *t;
+    GeanyDocument *doc;
+    gboolean clear;
+} AoTasksUpdateTasksForDocArguments;
+
+
 enum
 {
 	PROP_0,
@@ -556,8 +565,12 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 }
 
 
-static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
+static gboolean update_tasks_for_doc_idle_cb(gpointer data)
 {
+	AoTasksUpdateTasksForDocArguments *arguments = data;
+	AoTasks *t = arguments->t;
+	GeanyDocument *doc = arguments->doc;
+	gboolean clear = arguments->clear;
 	gint lexer, lines, line, last_pos = 0, style;
 	gchar *line_buf, *display_name, *task_start, *closing_comment = NULL;
 	gchar **token;
@@ -565,6 +578,9 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 
 	if (doc->is_valid)
 	{
+		if (clear)
+			ao_tasks_remove(t, doc);
+
 		display_name = document_get_basename_for_display(doc, -1);
 		lexer = sci_get_lexer(doc->editor->sci);
 		lines = sci_get_line_count(doc->editor->sci);
@@ -603,6 +619,28 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 		}
 		g_free(display_name);
 	}
+	return FALSE;
+}
+
+
+static void	free_update_tasks_for_doc_arguments(gpointer data)
+{
+	AoTasksUpdateTasksForDocArguments *arguments = data;
+	g_slice_free1(sizeof *arguments, arguments);
+}
+
+
+static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc, gboolean clear)
+{
+	AoTasksUpdateTasksForDocArguments *arguments = g_slice_alloc(sizeof *arguments);
+	arguments->t = t;
+	arguments->doc = doc;
+	arguments->clear = clear;
+
+	/* Check for task tokens in an idle callback to wait until Geany applied Scintilla highlighting
+	 * styles as we need them to be set before checking for tasks. */
+	g_idle_add_full(G_PRIORITY_LOW, update_tasks_for_doc_idle_cb, arguments,
+					free_update_tasks_for_doc_arguments);
 }
 
 
@@ -688,8 +726,7 @@ void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 	if (cur_doc != NULL)
 	{
 		/* TODO handle renaming of files, probably we need a new signal for this */
-		ao_tasks_remove(t, cur_doc);
-		update_tasks_for_doc(t, cur_doc);
+		update_tasks_for_doc(t, cur_doc, TRUE);
 	}
 	else
 	{
@@ -699,7 +736,7 @@ void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 		/* iterate over all docs */
 		foreach_document(i)
 		{
-			update_tasks_for_doc(t, documents[i]);
+			update_tasks_for_doc(t, documents[i], FALSE);
 		}
 	}
 	/* restore selection */
