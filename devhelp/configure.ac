@@ -30,6 +30,5 @@ AC_CHECK_FUNCS([memset strrchr strstr strtol])
 
 AC_CONFIG_FILES([Makefile
                  data/Makefile
-                 devhelp/Makefile
                  src/Makefile])
 AC_OUTPUT

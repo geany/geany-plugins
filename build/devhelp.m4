@@ -22,7 +22,6 @@ AC_DEFUN([GP_CHECK_DEVHELP],
     GP_COMMIT_PLUGIN_STATUS([DevHelp])
     AC_CONFIG_FILES([
         devhelp/Makefile
-        devhelp/devhelp/Makefile
         devhelp/src/Makefile
         devhelp/data/Makefile
     ])
