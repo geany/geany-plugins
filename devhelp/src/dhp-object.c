@@ -505,7 +505,6 @@ static void devhelp_plugin_init_sidebar(DevhelpPlugin *self)
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(search_sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_container_set_border_width(GTK_CONTAINER(search_sw), 6);
 	gtk_container_add(GTK_CONTAINER(search_sw), GTK_WIDGET(p->search));
-	gtk_container_add(GTK_CONTAINER(search_sw), GTK_WIDGET(p->s_notebook));
 	gtk_widget_show(p->search);
 
 
