@@ -28,9 +28,7 @@
 #endif
 #include <geanyplugin.h>
 
-//#include <devhelp/dh-base.h>
 #include <devhelp/dh-book-tree.h>
-//#include <devhelp/dh-search.h>
 #include <devhelp/dh-link.h>
 #include <devhelp/dh-web-view.h>
 #include <devhelp/dh-search-bar.h>
@@ -41,7 +39,6 @@
 #include <devhelp/dh-book-manager.h>
 #endif
 
-//#include <webkit2/webkitwebview.h>
 
 #include "dhp.h"
 #include "dhp-plugin.h"
