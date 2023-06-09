@@ -433,18 +433,13 @@ static void devhelp_plugin_init_webkit(DevhelpPlugin *self)
 
 	gtk_widget_show_all(GTK_WIDGET(webview_sw));
 
-	//vbox = gtk_vbox_new(FALSE, 0);
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	toolbar = gtk_toolbar_new();
 
-	p->btn_back = gtk_tool_button_new_from_stock(GTK_STOCK_GO_BACK);
-	//p->btn_back = gtk_tool_button_new(NULL,"go-previous");
-	p->btn_forward = gtk_tool_button_new_from_stock(GTK_STOCK_GO_FORWARD);
-	//p->btn_forward = gtk_tool_button_new(NULL,"go-next");
-	btn_zoom_in = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_IN);
-	//btn_zoom_in = gtk_tool_button_new(NULL, "zoom-in");
-	btn_zoom_out = gtk_tool_button_new_from_stock(GTK_STOCK_ZOOM_OUT);
-	//btn_zoom_out = gtk_tool_button_new(NULL, "zoom-out");
+	p->btn_back = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-go-back", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	p->btn_forward = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-go-forward", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	btn_zoom_in = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-zoom-in", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	btn_zoom_out = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-zoom-out", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
 	tb_sep = gtk_separator_tool_item_new();
 
 	gtk_widget_set_tooltip_text(GTK_WIDGET(p->btn_back), _("Go back one page"));
