@@ -568,18 +568,22 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 static gboolean update_tasks_for_doc_idle_cb(gpointer data)
 {
 	AoTasksUpdateTasksForDocArguments *arguments = data;
-	AoTasks *t = arguments->t;
-	GeanyDocument *doc = arguments->doc;
-	gboolean clear = arguments->clear;
+	AoTasksPrivate *priv;
+	GeanyDocument *doc;
 	gint lexer, lines, line, last_pos = 0, style;
 	gchar *line_buf, *display_name, *task_start, *closing_comment = NULL;
 	gchar **token;
-	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
+
+	if (! arguments)
+		return FALSE;
+
+	priv = AO_TASKS_GET_PRIVATE(arguments->t);
+	doc = arguments->doc;
 
 	if (doc->is_valid && priv->active && priv->enable_tasks)
 	{
-		if (clear)
-			ao_tasks_remove(t, doc);
+		if (arguments->clear)
+			ao_tasks_remove(arguments->t, doc);
 
 		display_name = document_get_basename_for_display(doc, -1);
 		lexer = sci_get_lexer(doc->editor->sci);
@@ -610,7 +614,7 @@ static gboolean update_tasks_for_doc_idle_cb(gpointer data)
 					(closing_comment = strstr(task_start, doc->file_type->comment_close)) != NULL)
 					*closing_comment = '\0';
 				/* create the task */
-				create_task(t, doc, line, *token, line_buf, task_start, display_name);
+				create_task(arguments->t, doc, line, *token, line_buf, task_start, display_name);
 				/* if we found a token, continue on next line */
 				break;
 			}
