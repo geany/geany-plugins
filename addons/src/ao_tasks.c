@@ -576,7 +576,7 @@ static gboolean update_tasks_for_doc_idle_cb(gpointer data)
 	gchar **token;
 	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
-	if (doc->is_valid)
+	if (doc->is_valid && priv->active && priv->enable_tasks)
 	{
 		if (clear)
 			ao_tasks_remove(t, doc);
@@ -636,6 +636,9 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc, gboolean clear)
 	arguments->t = t;
 	arguments->doc = doc;
 	arguments->clear = clear;
+
+	if (!doc->is_valid)
+		return;
 
 	/* Check for task tokens in an idle callback to wait until Geany applied Scintilla highlighting
 	 * styles as we need them to be set before checking for tasks. */
