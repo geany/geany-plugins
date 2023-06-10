@@ -352,7 +352,7 @@ static void devhelp_plugin_init_dh(DevhelpPlugin *self)
 	
 		
 	/* Sidebar */
-    self->priv->sidebar = dh_sidebar_new2 (dh_profile);
+    self->priv->sidebar = GTK_WIDGET(dh_sidebar_new2 (dh_profile));
     gtk_widget_show (GTK_WIDGET (self->priv->sidebar));
     
 	//Grid for sidebar
@@ -646,7 +646,7 @@ void devhelp_plugin_search_books(DevhelpPlugin *self, const gchar *term)
 	g_return_if_fail(self != NULL);
 	g_return_if_fail(term != NULL);
 
-	dh_sidebar_set_search_string(self->priv->sidebar, term);
+	dh_sidebar_set_search_string(DH_SIDEBAR(self->priv->sidebar), term);
 
 	devhelp_plugin_activate_all_tabs(self);
 }
