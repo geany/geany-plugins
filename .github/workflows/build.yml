@@ -105,7 +105,7 @@ jobs:
             # debugger
             libvte-2.91-dev
             # devhelp
-            libwebkit2gtk-dev
+            webkit2gtk-4.0-dev
             libwnck-dev
             libgconf2-dev
             zlib1g-dev
