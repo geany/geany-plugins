@@ -105,7 +105,7 @@ Requirements
 ------------
 
 * GTK >= 3.95
-* libwebkitgtk >= 2.40.1-2
+* libwebkit2gtk >= 2.40.1-2
 * libdevhelp 3.0
  
 Contact developers
