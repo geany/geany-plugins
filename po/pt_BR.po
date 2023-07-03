@@ -1009,10 +1009,10 @@ msgid ""
 "Google Code Search in the integrated viewer."
 msgstr ""
 
-#. i18n: Please don't translate "Devhelp".
-#: ../devhelp/devhelp/dh-assistant.c:74
-msgid "Devhelp — Assistant"
-msgstr ""
+"#. i18n: Please don't translate "Devhelp"."
+"#: ../devhelp/devhelp/dh-assistant.c:74"
+"msgid "Devhelp — Assistant""
+"msgstr """
 
 #: ../devhelp/devhelp/dh-assistant-view.c:336
 #, fuzzy
