@@ -29,6 +29,8 @@ void cmd_select_brace(CmdContext *c, CmdParams *p);
 void cmd_select_paren(CmdContext *c, CmdParams *p);
 void cmd_select_less(CmdContext *c, CmdParams *p);
 void cmd_select_bracket(CmdContext *c, CmdParams *p);
+void cmd_select_word(CmdContext *c, CmdParams *p);
+void cmd_select_word_space(CmdContext *c, CmdParams *p);
 
 void cmd_select_quotedbl_inner(CmdContext *c, CmdParams *p);
 void cmd_select_quoteleft_inner(CmdContext *c, CmdParams *p);
@@ -37,5 +39,7 @@ void cmd_select_brace_inner(CmdContext *c, CmdParams *p);
 void cmd_select_paren_inner(CmdContext *c, CmdParams *p);
 void cmd_select_less_inner(CmdContext *c, CmdParams *p);
 void cmd_select_bracket_inner(CmdContext *c, CmdParams *p);
+void cmd_select_word_inner(CmdContext *c, CmdParams *p);
+void cmd_select_word_space_inner(CmdContext *c, CmdParams *p);
 
 #endif

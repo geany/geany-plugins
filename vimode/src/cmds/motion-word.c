@@ -21,13 +21,6 @@
 typedef gboolean (*CharacterPredicate)(gchar c);
 
 
-static void get_current(ScintillaObject *sci, gchar *ch, gint *pos)
-{
-	*pos = SSM(sci, SCI_GETCURRENTPOS, 0, 0);
-	*ch = SSM(sci, SCI_GETCHARAT, *pos, 0);
-}
-
-
 static void move_left(ScintillaObject *sci, gchar *ch, gint *pos)
 {
 	*pos = PREV(sci, *pos);
@@ -90,177 +83,307 @@ static gboolean skip_to_right(CharacterPredicate is_in_group, ScintillaObject *s
 }
 
 
-void cmd_goto_next_word(CmdContext *c, CmdParams *p)
+static gint find_next_word(ScintillaObject *sci, gint pos, gint num)
 {
 	gint i;
-	gint len = SSM(p->sci, SCI_GETLENGTH, 0, 0);
+	gint len = SSM(sci, SCI_GETLENGTH, 0, 0);
 
-	for (i = 0; i < p->num; i++)
+	for (i = 0; i < num; i++)
 	{
-		gint pos;
-		gchar ch;
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
 
-		get_current(p->sci, &ch, &pos);
-
-		if (!skip_to_right(is_wordchar, p->sci, &ch, &pos, len))
-			skip_to_right(is_nonwordchar, p->sci, &ch, &pos, len);
-		skip_to_right(is_space, p->sci, &ch, &pos, len);
-
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		if (!skip_to_right(is_wordchar, sci, &ch, &pos, len))
+			skip_to_right(is_nonwordchar, sci, &ch, &pos, len);
+		skip_to_right(is_space, sci, &ch, &pos, len);
 	}
+	return pos;
+}
+
+
+void cmd_goto_next_word(CmdContext *c, CmdParams *p)
+{
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_next_word(p->sci, pos, p->num);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+static gint find_previous_word(ScintillaObject *sci, gint pos, gint num)
+{
+	gint i;
+	for (i = 0; i < num; i++)
+	{
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
+
+		move_left(sci, &ch, &pos);
+
+		skip_to_left(is_space, sci, &ch, &pos);
+		if (!skip_to_left(is_wordchar, sci, &ch, &pos))
+			skip_to_left(is_nonwordchar, sci, &ch, &pos);
+
+		if (pos != 0 || is_space(ch))
+			move_right(sci, &ch, &pos);
+	}
+	return pos;
 }
 
 
 void cmd_goto_previous_word(CmdContext *c, CmdParams *p)
 {
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_previous_word(p->sci, pos, p->num);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+static gint find_next_word_end(ScintillaObject *sci, gint pos, gint num, gboolean include_last)
+{
 	gint i;
-	for (i = 0; i < p->num; i++)
+	gint len = SSM(sci, SCI_GETLENGTH, 0, 0);
+
+	for (i = 0; i < num; i++)
 	{
-		gint pos;
-		gchar ch;
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
 
-		get_current(p->sci, &ch, &pos);
-		move_left(p->sci, &ch, &pos);
+		move_right(sci, &ch, &pos);
 
-		skip_to_left(is_space, p->sci, &ch, &pos);
-		if (!skip_to_left(is_wordchar, p->sci, &ch, &pos))
-			skip_to_left(is_nonwordchar, p->sci, &ch, &pos);
+		skip_to_right(is_space, sci, &ch, &pos, len);
+		if (!skip_to_right(is_wordchar, sci, &ch, &pos, len))
+			skip_to_right(is_nonwordchar, sci, &ch, &pos, len);
 
-		if (pos != 0 || is_space(ch))
-			move_right(p->sci, &ch, &pos);
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		if (!include_last)
+		{
+			if (pos < len - 1 || is_space(ch))
+				move_left(sci, &ch, &pos);
+		}
 	}
+	return pos;
 }
 
 
 void cmd_goto_next_word_end(CmdContext *c, CmdParams *p)
 {
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_next_word_end(p->sci, pos, p->num, FALSE);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+static gint find_previous_word_end(ScintillaObject *sci, gint pos, gint num)
+{
 	gint i;
-	gint len = SSM(p->sci, SCI_GETLENGTH, 0, 0);
-
-	for (i = 0; i < p->num; i++)
+	for (i = 0; i < num; i++)
 	{
-		gint pos;
-		gchar ch;
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
 
-		get_current(p->sci, &ch, &pos);
-		move_right(p->sci, &ch, &pos);
-
-		skip_to_right(is_space, p->sci, &ch, &pos, len);
-		if (!skip_to_right(is_wordchar, p->sci, &ch, &pos, len))
-			skip_to_right(is_nonwordchar, p->sci, &ch, &pos, len);
-
-		if (pos < len - 1 || is_space(ch))
-			move_left(p->sci, &ch, &pos);
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		if (!skip_to_left(is_wordchar, sci, &ch, &pos))
+			skip_to_left(is_nonwordchar, sci, &ch, &pos);
+		skip_to_left(is_space, sci, &ch, &pos);
 	}
+	return pos;
 }
 
 
 void cmd_goto_previous_word_end(CmdContext *c, CmdParams *p)
 {
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_previous_word_end(p->sci, pos, p->num);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+static gint find_next_word_space(ScintillaObject *sci, gint pos, gint num)
+{
 	gint i;
-	for (i = 0; i < p->num; i++)
+	gint len = SSM(sci, SCI_GETLENGTH, 0, 0);
+
+	for (i = 0; i < num; i++)
 	{
-		gint pos;
-		gchar ch;
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
 
-		get_current(p->sci, &ch, &pos);
-
-		if (!skip_to_left(is_wordchar, p->sci, &ch, &pos))
-			skip_to_left(is_nonwordchar, p->sci, &ch, &pos);
-		skip_to_left(is_space, p->sci, &ch, &pos);
-
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		skip_to_right(is_nonspace, sci, &ch, &pos, len);
+		skip_to_right(is_space, sci, &ch, &pos, len);
 	}
+	return pos;
 }
 
 
 void cmd_goto_next_word_space(CmdContext *c, CmdParams *p)
 {
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_next_word_space(p->sci, pos, p->num);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+static gint find_previous_word_space(ScintillaObject *sci, gint pos, gint num)
+{
 	gint i;
-	gint len = SSM(p->sci, SCI_GETLENGTH, 0, 0);
-
-	for (i = 0; i < p->num; i++)
+	for (i = 0; i < num; i++)
 	{
-		gint pos;
-		gchar ch;
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
 
-		get_current(p->sci, &ch, &pos);
+		move_left(sci, &ch, &pos);
 
-		skip_to_right(is_nonspace, p->sci, &ch, &pos, len);
-		skip_to_right(is_space, p->sci, &ch, &pos, len);
+		skip_to_left(is_space, sci, &ch, &pos);
+		skip_to_left(is_nonspace, sci, &ch, &pos);
 
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		if (pos != 0 || is_space(ch))
+			move_right(sci, &ch, &pos);
 	}
+	return pos;
 }
 
 
 void cmd_goto_previous_word_space(CmdContext *c, CmdParams *p)
 {
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_previous_word_space(p->sci, pos, p->num);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+static gint find_next_word_end_space(ScintillaObject *sci, gint pos, gint num, gboolean include_last)
+{
 	gint i;
-	for (i = 0; i < p->num; i++)
+	gint len = SSM(sci, SCI_GETLENGTH, 0, 0);
+
+	for (i = 0; i < num; i++)
 	{
-		gint pos;
-		gchar ch;
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
 
-		get_current(p->sci, &ch, &pos);
-		move_left(p->sci, &ch, &pos);
+		move_right(sci, &ch, &pos);
 
-		skip_to_left(is_space, p->sci, &ch, &pos);
-		skip_to_left(is_nonspace, p->sci, &ch, &pos);
+		skip_to_right(is_space, sci, &ch, &pos, len);
+		skip_to_right(is_nonspace, sci, &ch, &pos, len);
 
-		if (pos != 0 || is_space(ch))
-			move_right(p->sci, &ch, &pos);
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		if (!include_last)
+		{
+			if (pos < len - 1 || is_space(ch))
+				move_left(sci, &ch, &pos);
+		}
 	}
+	return pos;
 }
 
 
 void cmd_goto_next_word_end_space(CmdContext *c, CmdParams *p)
 {
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_next_word_end_space(p->sci, pos, p->num, FALSE);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+static gint find_previous_word_end_space(ScintillaObject *sci, gint pos, gint num)
+{
 	gint i;
-	gint len = SSM(p->sci, SCI_GETLENGTH, 0, 0);
-
-	for (i = 0; i < p->num; i++)
+	for (i = 0; i < num; i++)
 	{
-		gint pos;
-		gchar ch;
+		gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
 
-		get_current(p->sci, &ch, &pos);
-		move_right(p->sci, &ch, &pos);
-
-		skip_to_right(is_space, p->sci, &ch, &pos, len);
-		skip_to_right(is_nonspace, p->sci, &ch, &pos, len);
-
-		if (pos < len - 1 || is_space(ch))
-			move_left(p->sci, &ch, &pos);
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		skip_to_left(is_nonspace, sci, &ch, &pos);
+		skip_to_left(is_space, sci, &ch, &pos);
 	}
+	return pos;
 }
 
 
 void cmd_goto_previous_word_end_space(CmdContext *c, CmdParams *p)
 {
-	gint i;
-	for (i = 0; i < p->num; i++)
+	gint pos = SSM(p->sci, SCI_GETCURRENTPOS, 0, 0);
+	pos = find_previous_word_end_space(p->sci, pos, p->num);
+	SET_POS(p->sci, pos, TRUE);
+}
+
+
+void get_word_range(ScintillaObject *sci, gboolean word_space, gboolean inner,
+	gint pos, gint num, gint *sel_start, gint *sel_len)
+{
+	guint i;
+	gint start_pos = pos;
+	gint end_pos;
+	gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
+	gchar prev_ch = SSM(sci, SCI_GETCHARAT, PREV(sci, pos), 0);
+	gchar next_ch = SSM(sci, SCI_GETCHARAT, NEXT(sci, pos), 0);
+
+	if (word_space)
 	{
-		gint pos;
-		gchar ch;
+		if (is_space(prev_ch) && !is_space(ch))
+			;  // already there
+		else if (is_space(ch) && !is_space(prev_ch))
+			;  // already there
+		else if (is_space(ch))
+			start_pos = NEXT(sci, find_previous_word_end_space(sci, pos, 1));
+		else if (!is_space(ch))
+			start_pos = find_previous_word_space(sci, pos, 1);
 
-		get_current(p->sci, &ch, &pos);
+		if (inner && !is_space(ch) && is_space(next_ch))
+		{
+			num--;  // already there once
+			pos = NEXT(sci, pos);
+		}
 
-		skip_to_left(is_nonspace, p->sci, &ch, &pos);
-		skip_to_left(is_space, p->sci, &ch, &pos);
+		for (i = 0; i < num; i++)
+		{
+			if (is_space(ch))
+			{
+				if (inner)
+					pos = find_next_word_space(sci, pos, 1);
+				else
+					pos = find_next_word_end_space(sci, pos, 1, TRUE);
+			}
+			else if (!is_space(ch))
+			{
+				if (inner)
+					pos = find_next_word_end_space(sci, pos, 1, TRUE);
+				else
+					pos = find_next_word_space(sci, pos, 1);
+			}
+		}
 
-		if (!is_space(ch))
-			SET_POS(p->sci, pos, TRUE);
+		end_pos = pos;
 	}
+	else
+	{
+		if ((is_space(prev_ch) || is_nonwordchar(prev_ch)) && is_wordchar(ch))
+			;  // already there
+		else if ((is_wordchar(prev_ch) || is_nonwordchar(prev_ch)) && is_space(ch))
+			;  // already there
+		else if ((is_space(prev_ch) || is_wordchar(prev_ch)) && is_nonwordchar(ch))
+			;  // already there
+		else if (is_space(ch) || is_nonwordchar(ch))
+			start_pos = NEXT(sci, find_previous_word_end(sci, pos, 1));
+		else if (is_wordchar(ch))
+			start_pos = find_previous_word(sci, pos, 1);
+
+		if (inner && (is_space(next_ch) || is_nonwordchar(next_ch)) && is_wordchar(ch))
+		{
+			num--;  // already there once
+			pos = NEXT(sci, pos);
+		}
+
+		for (i = 0; i < num; i++)
+		{
+			if (is_space(ch) || is_nonwordchar(ch))
+			{
+				if (inner)
+					pos = find_next_word(sci, pos, 1);
+				else
+					pos = find_next_word_end(sci, pos, 1, TRUE);
+			}
+			else if (is_wordchar(ch))
+			{
+				if (inner)
+					pos = find_next_word_end(sci, pos, 1, TRUE);
+				else
+					pos = find_next_word(sci, pos, 1);
+			}
+		}
+
+		end_pos = pos;
+	}
+
+	*sel_start = start_pos;
+	*sel_len = end_pos - start_pos;
 }

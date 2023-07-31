@@ -43,6 +43,8 @@ enum
 	KB_FIND_FILE,
 	KB_FIND_TAG,
 	KB_FOCUS_SIDEBAR,
+	KB_OPEN_FILE_MANAGER,
+	KB_OPEN_TERMINAL,
 	KB_COUNT
 };
 
@@ -50,137 +52,12 @@ enum
 static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
 
 
-static gboolean try_swap_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
-{
-	gchar *name_pattern;
-	GSList *elem = NULL;
-	GPatternSpec *pattern;
-	gboolean found = FALSE;
-
-	name_pattern = g_path_get_basename(utf8_file_name);
-	SETPTR(name_pattern, utils_remove_ext_from_filename(name_pattern));
-	SETPTR(name_pattern, g_strconcat(name_pattern, ".*", NULL));
-	pattern = g_pattern_spec_new(name_pattern);
-	g_free(name_pattern);
-
-	foreach_slist (elem, file_list)
-	{
-		gchar *full_name = elem->data;
-		gchar *base_name = g_path_get_basename(full_name);
-
-		if (g_pattern_match_string(pattern, base_name) &&
-		    prjorg_project_is_in_project(full_name))
-		{
-			if ((is_header && patterns_match(source_patterns, base_name)) ||
-				(!is_header && patterns_match(header_patterns, base_name)))
-			{
-				open_file(full_name);
-				found = TRUE;
-				g_free(base_name);
-				break;
-			}
-		}
-		g_free(base_name);
-	}
-
-	g_pattern_spec_free(pattern);
-	return found;
-}
-
-
 static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
-	GSList *header_patterns, *source_patterns;
-	GeanyDocument *doc;
-	gboolean known_type = TRUE;
-	gboolean is_header;
-	gchar *doc_basename;
-	doc = document_get_current();
-
-	if (!prj_org || !geany_data->app->project || !doc || !doc->file_name)
-		return;
-
-	header_patterns = get_precompiled_patterns(prj_org->header_patterns);
-	source_patterns = get_precompiled_patterns(prj_org->source_patterns);
-
-	doc_basename = g_path_get_basename(doc->file_name);
-
-	if (patterns_match(header_patterns, doc_basename))
-		is_header = TRUE;
-	else if (patterns_match(source_patterns, doc_basename))
-		is_header = FALSE;
-	else
-		known_type = FALSE;
-
-	if (known_type)
-	{
-		gboolean swapped;
-		GSList *elem = NULL, *list = NULL;
-		guint i = 0;
-
-		foreach_document(i)
-		{
-			gchar *filename;
-
-			filename = document_index(i)->file_name;
-			if (prjorg_project_is_in_project(filename))
-				list = g_slist_prepend(list, filename);
-		}
-		swapped = try_swap_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
-		g_slist_free(list);
-		list = NULL;
-
-		if (!swapped)
-		{
-			gchar *utf8_doc_dir;
-			gchar *locale_doc_dir;
-
-			utf8_doc_dir = g_path_get_dirname(doc->file_name);
-			locale_doc_dir = utils_get_locale_from_utf8(utf8_doc_dir);
-
-			list = utils_get_file_list(locale_doc_dir, NULL, NULL);
-			foreach_list (elem, list)
-			{
-				gchar *full_name;
-
-				full_name = g_build_filename(locale_doc_dir, elem->data, NULL);
-				SETPTR(full_name, utils_get_utf8_from_locale(full_name));
-				SETPTR(elem->data, full_name);
-			}
-			swapped = try_swap_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
-			g_slist_foreach(list, (GFunc) g_free, NULL);
-			g_slist_free(list);
-			g_free(utf8_doc_dir);
-			g_free(locale_doc_dir);
-			list = NULL;
-		}
-
-		if (!swapped)
-		{
-			foreach_slist(elem, prj_org->roots)
-			{
-				GHashTableIter iter;
-				gpointer key, value;
-				PrjOrgRoot *root = elem->data;
-
-				list = NULL;
-				g_hash_table_iter_init(&iter, root->file_table);
-				while (g_hash_table_iter_next(&iter, &key, &value))
-					list = g_slist_prepend(list, key);
-				swapped = try_swap_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
-				g_slist_free(list);
-				if (swapped)
-					break;
-			}
-		}
-	}
-
-	g_free(doc_basename);
-
-	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(header_patterns);
-	g_slist_foreach(source_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(source_patterns);
+	GeanyDocument *doc = document_get_current();
+	gchar *full_name = find_header_source(doc);
+	open_file(full_name);
+	g_free(full_name);
 }
 
 
@@ -408,6 +285,12 @@ void prjorg_menu_init(void)
     keybindings_set_item(key_group, KB_FOCUS_SIDEBAR, (GeanyKeyCallback)prjorg_sidebar_focus_project_tab,
 		0, 0, "focus_project_sidebar", _("Focus Project Sidebar"), NULL);
 
+    keybindings_set_item(key_group, KB_OPEN_FILE_MANAGER, (GeanyKeyCallback)on_open_file_manager,
+		0, 0, "open_file_manager", _("Open File Manager at file location"), NULL);
+
+    keybindings_set_item(key_group, KB_OPEN_TERMINAL, (GeanyKeyCallback)on_open_terminal,
+		0, 0, "open_terminal", _("Open Terminal at file location"), NULL);
+
 	s_context_sep_item = gtk_separator_menu_item_new();
 	gtk_widget_show(s_context_sep_item);
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), s_context_sep_item);
@@ -424,7 +307,6 @@ void prjorg_menu_init(void)
 void prjorg_menu_activate_menu_items(gboolean activate)
 {
 	gtk_widget_set_sensitive(s_context_osf_item, activate);
-	gtk_widget_set_sensitive(s_shs_item, activate);
 	gtk_widget_set_sensitive(s_ff_item, activate);
 	gtk_widget_set_sensitive(s_ft_item, activate);
 	gtk_widget_set_sensitive(s_fif_item, activate);

@@ -27,6 +27,7 @@
 
 #include "prjorg-utils.h"
 #include "prjorg-project.h"
+#include "prjorg-sidebar.h"
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
@@ -377,6 +378,16 @@ static void update_project(
 }
 
 
+static void save_expanded_paths(GKeyFile * key_file)
+{
+	gchar **expanded_paths = prjorg_sidebar_get_expanded_paths();
+
+	g_key_file_set_string_list(key_file, "prjorg", "expanded_paths",
+		(const gchar**) expanded_paths, g_strv_length(expanded_paths));
+	g_strfreev(expanded_paths);
+}
+
+
 void prjorg_project_save(GKeyFile * key_file)
 {
 	GPtrArray *array;
@@ -384,6 +395,8 @@ void prjorg_project_save(GKeyFile * key_file)
 
 	if (!prj_org)
 		return;
+
+	save_expanded_paths(key_file);
 
 	g_key_file_set_string_list(key_file, "prjorg", "source_patterns",
 		(const gchar**) prj_org->source_patterns, g_strv_length(prj_org->source_patterns));
@@ -478,6 +491,12 @@ void prjorg_project_remove_external_dir(const gchar *utf8_dirname)
 }
 
 
+gchar **prjorg_project_load_expanded_paths(GKeyFile * key_file)
+{
+	return g_key_file_get_string_list(key_file, "prjorg", "expanded_paths", NULL, NULL);
+}
+
+
 void prjorg_project_open(GKeyFile * key_file)
 {
 	gchar **source_patterns, **header_patterns, **ignored_dirs_patterns, **ignored_file_patterns, **external_dirs, **dir_ptr, *last_name;
@@ -500,16 +519,16 @@ void prjorg_project_open(GKeyFile * key_file)
 
 	source_patterns = g_key_file_get_string_list(key_file, "prjorg", "source_patterns", NULL, NULL);
 	if (!source_patterns)
-		source_patterns = g_strsplit("*.c *.C *.cpp *.cxx *.c++ *.cc *.m", " ", -1);
+		source_patterns = g_strsplit(PRJORG_PATTERNS_SOURCE, " ", -1);
 	header_patterns = g_key_file_get_string_list(key_file, "prjorg", "header_patterns", NULL, NULL);
 	if (!header_patterns)
-		header_patterns = g_strsplit("*.h *.H *.hpp *.hxx *.h++ *.hh", " ", -1);
+		header_patterns = g_strsplit(PRJORG_PATTERNS_HEADER, " ", -1);
 	ignored_dirs_patterns = g_key_file_get_string_list(key_file, "prjorg", "ignored_dirs_patterns", NULL, NULL);
 	if (!ignored_dirs_patterns)
-		ignored_dirs_patterns = g_strsplit(".* CVS", " ", -1);
+		ignored_dirs_patterns = g_strsplit(PRJORG_PATTERNS_IGNORED_DIRS, " ", -1);
 	ignored_file_patterns = g_key_file_get_string_list(key_file, "prjorg", "ignored_file_patterns", NULL, NULL);
 	if (!ignored_file_patterns)
-		ignored_file_patterns = g_strsplit("*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo", " ", -1);
+		ignored_file_patterns = g_strsplit(PRJORG_PATTERNS_IGNORED_FILE, " ", -1);
 	generate_tag_prefs = utils_get_setting_integer(key_file, "prjorg", "generate_tag_prefs", PrjOrgTagAuto);
 	show_empty_dirs = utils_get_setting_boolean(key_file, "prjorg", "show_empty_dirs", TRUE);
 

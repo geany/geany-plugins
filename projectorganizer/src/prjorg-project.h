@@ -19,6 +19,11 @@
 #ifndef __PRJORG_PROJECT_H__
 #define __PRJORG_PROJECT_H__
 
+#define PRJORG_PATTERNS_SOURCE "*.c *.C *.cpp *.cxx *.c++ *.cc *.m"
+#define PRJORG_PATTERNS_HEADER "*.h *.H *.hpp *.hxx *.h++ *.hh"
+#define PRJORG_PATTERNS_IGNORED_DIRS ".* CVS"
+#define PRJORG_PATTERNS_IGNORED_FILE "*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo"
+
 typedef struct
 {
 	gchar *base_dir;
@@ -47,6 +52,7 @@ typedef struct
 extern PrjOrg *prj_org;
 
 void prjorg_project_open(GKeyFile * key_file);
+gchar **prjorg_project_load_expanded_paths(GKeyFile * key_file);
 
 GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook);
 
@@ -63,6 +69,22 @@ void prjorg_project_add_single_tm_file(gchar *utf8_filename);
 void prjorg_project_remove_single_tm_file(gchar *utf8_filename);
 
 gboolean prjorg_project_is_in_project(const gchar *utf8_filename);
+
+
+/* set open command based on OS */
+#if defined(_WIN32) || defined(G_OS_WIN32)
+#define PRJORG_COMMAND_OPEN "start"
+#define PRJORG_COMMAND_TERMINAL "PowerShell"
+#define PRJORG_COMMAND_TERMINAL_ALT ""
+#elif defined(__APPLE__)
+#define PRJORG_COMMAND_OPEN "open"
+#define PRJORG_COMMAND_TERMINAL "open -b com.apple.terminal"
+#define PRJORG_COMMAND_TERMINAL_ALT ""
+#else
+#define PRJORG_COMMAND_OPEN "xdg-open"
+#define PRJORG_COMMAND_TERMINAL "xterm"
+#define PRJORG_COMMAND_TERMINAL_ALT "/usr/bin/x-terminal-emulator"
+#endif
 
 /* In the code we create a list of all files but we want to keep empty directories
  * in the list for which we create a fake file name with the PROJORG_DIR_ENTRY
