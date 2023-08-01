@@ -580,7 +580,7 @@ static gboolean update_tasks_for_doc_idle_cb(gpointer data)
 	priv = AO_TASKS_GET_PRIVATE(arguments->t);
 	doc = arguments->doc;
 
-	if (doc->is_valid && priv->active && priv->enable_tasks)
+	if (DOC_VALID(doc) && priv->active && priv->enable_tasks)
 	{
 		if (arguments->clear)
 			ao_tasks_remove(arguments->t, doc);
@@ -641,7 +641,7 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc, gboolean clear)
 	arguments->doc = doc;
 	arguments->clear = clear;
 
-	if (!doc->is_valid)
+	if (!DOC_VALID(doc))
 		return;
 
 	/* Check for task tokens in an idle callback to wait until Geany applied Scintilla highlighting
