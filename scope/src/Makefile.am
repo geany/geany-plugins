@@ -60,6 +60,8 @@ scope_la_CFLAGS = $(AM_CFLAGS) $(VTE_CFLAGS) \
 	-Wno-shadow \
 	-I$(top_srcdir)/utils/src
 
+AM_CPPCHECKFLAGS = -DGETTEXT_PACKAGE="geany-plugins"
+
 include $(top_srcdir)/build/cppcheck.mk
 
 if UNITTESTS
