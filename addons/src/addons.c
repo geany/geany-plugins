@@ -137,7 +137,7 @@ static gboolean ao_editor_notify_cb(GObject *object, GeanyEditor *editor,
 static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 									 GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_open_uri_update_menu(ao_info->openuri, doc, pos);
 }
@@ -145,7 +145,7 @@ static void ao_update_editor_menu_cb(GObject *obj, const gchar *word, gint pos,
 
 static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_bookmark_list_update(ao_info->bookmarklist, doc);
 	ao_tasks_update_single(ao_info->tasks, doc);
@@ -154,7 +154,7 @@ static void ao_document_activate_cb(GObject *obj, GeanyDocument *doc, gpointer d
 
 static void ao_document_new_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_mark_document_new(ao_info->markword, doc);
 	ao_color_tip_document_new(ao_info->colortip, doc);
@@ -163,7 +163,7 @@ static void ao_document_new_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 
 static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_tasks_update(ao_info->tasks, doc);
 	ao_mark_document_open(ao_info->markword, doc);
@@ -173,7 +173,7 @@ static void ao_document_open_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 
 static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_tasks_remove(ao_info->tasks, doc);
 	ao_mark_document_close(ao_info->markword, doc);
@@ -183,7 +183,7 @@ static void ao_document_close_cb(GObject *obj, GeanyDocument *doc, gpointer data
 
 static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_tasks_update(ao_info->tasks, doc);
 }
@@ -191,7 +191,7 @@ static void ao_document_save_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 
 static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_blanklines_on_document_before_save(obj, doc, data);
 }
@@ -199,7 +199,7 @@ static void ao_document_before_save_cb(GObject *obj, GeanyDocument *doc, gpointe
 
 static void ao_document_reload_cb(GObject *obj, GeanyDocument *doc, gpointer data)
 {
-	g_return_if_fail(doc != NULL && doc->is_valid);
+	g_return_if_fail(DOC_VALID(doc));
 
 	ao_tasks_update(ao_info->tasks, doc);
 }
