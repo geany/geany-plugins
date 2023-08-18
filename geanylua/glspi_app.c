@@ -439,170 +439,83 @@ static gint glspi_launch(lua_State* L)
 }
 
 
-static guint My_Shift_L=0;
-static guint My_Shift_R=0;
-static guint My_Control_L=0;
-static guint My_Control_R=0;
-static guint My_Alt_L=0;
-static guint My_Alt_R=0;
-
-
-#ifndef G_OS_WIN32
-
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-
-
-#define IsShift ( (My_Shift_L == ev->xkey.keycode) || (My_Shift_R == ev->xkey.keycode) )
-
-#define IsCtrl ( (My_Control_L == ev->xkey.keycode) || (My_Control_R == ev->xkey.keycode) )
-#define IsAlt ( (My_Alt_L == ev->xkey.keycode) || (My_Alt_R == ev->xkey.keycode) )
-
-#define IsCtrlAlt ( IsCtrl || IsAlt )
-
 typedef struct _KeyGrabData {
-gchar *prompt;
-GdkKeymapKey km;
+	gboolean keypress;
+	guint keyval;
 } _KeyGrabData;
 
 
-static GdkFilterReturn keygrab_cb(GdkXEvent *xevent, GdkEvent *event, gpointer data)
+static gboolean keygrab_cb(GtkWidget *widget, GdkEventKey *ev, gpointer data)
 {
-	XEvent*ev = (XEvent*) xevent;
-	GdkKeymapKey *km = (GdkKeymapKey*) data;
-	switch (ev->type) {
-		case KeyPress:{
-			if (IsShift) {
-				km->level=1;
-			} else {
-				if (!IsCtrlAlt) km->group=1; /* Flag to know we have keydown before keyup */
-			}
-			return GDK_FILTER_REMOVE;
-		}
-		case KeyRelease:{
-			if (IsShift) {
-				km->level=0;
-			} else {
-				if ((km->group==1)&&(!IsCtrlAlt)) { /* OK, we already got our keydown  */
-					km->group=2;
-					km->level=(ev->xkey.state & ShiftMask)?1:0;
-					km->keycode=ev->xkey.keycode;
-				}
-			}
-			return GDK_FILTER_REMOVE;
-		}
-		default:{}
+	_KeyGrabData *km = (_KeyGrabData*) data;
+
+	if (ev->keyval == 0) {
+		return FALSE;
 	}
-	return GDK_FILTER_CONTINUE;
+
+	km->keyval = ev->keyval;
+	km->keypress = TRUE;
+	return TRUE;
 }
 
-#define dosleep() g_usleep(1)
-
-#else
-#include <windows.h>
-#define dosleep() Sleep(1)
-
-#define IsShift ( (My_Shift_L == msg->wParam) || (My_Shift_R == msg->wParam) )
-
-#define IsCtrl ( (My_Control_L == msg->wParam) || (My_Control_R == msg->wParam) )
-#define IsAlt ( (My_Alt_L == msg->wParam) || (My_Alt_R == msg->wParam) )
-
-#define IsCtrlAlt ( IsCtrl || IsAlt )
-
-
-static GdkFilterReturn keygrab_cb(GdkXEvent *xevent, GdkEvent *event, gpointer data)
-{
-	MSG*msg = (MSG*) xevent;
-	GdkKeymapKey *km = (GdkKeymapKey*) data;
-	switch (msg->message) {
-		case WM_KEYDOWN:{
-			if (IsShift) {
-				km->level=1;
-			} else {
-				if (!IsCtrlAlt) km->group=1; /* Flag to know we have keydown before keyup */
-			}
-			return GDK_FILTER_REMOVE;
-		}
-		case WM_KEYUP:{
-			if (IsShift) {
-				km->level=0;
-			} else {
-				if ((km->group==1)&&(!IsCtrlAlt)) { /* OK, we already got our keydown  */
-					km->group=2;
-					km->level=HIBYTE(GetKeyState(VK_SHIFT))?1:0;
-					km->keycode=msg->wParam;
-				}
-			}
-			return GDK_FILTER_REMOVE;
-		}
-		default:{}
-	}
-	return GDK_FILTER_CONTINUE;
-}
-
-
-#endif
-
-
-#include <gdk/gdkkeysyms.h>
-static gint init_key(guint keyval){
-	GdkKeymapKey *kmk=NULL;
-	GdkKeymap *gdk_key_map=gdk_keymap_get_default();
-	gint n_keys=0;
-	gint rv=0;
-	if (gdk_keymap_get_entries_for_keyval(gdk_key_map,keyval,&kmk,&n_keys)) {
-		rv=kmk[0].keycode;
-		g_free(kmk);
-	}
-	return rv;
-}
-
-#define InitKey(code,value) if (!code) { code=init_key(value); }
 
 static gint glspi_keygrab(lua_State* L)
 {
-	GeanyDocument*doc=NULL;
-	const gchar*prompt=NULL;
-	GdkKeymapKey km={0,0,0};
-	GdkKeymap *gdk_key_map;
-	km.keycode=0;
-	km.group=0; /* Note: we hijack this field to use as a flag for first keydown. */
-	km.level=0;
-	InitKey(My_Shift_L, GDK_Shift_L);
-	InitKey(My_Shift_R, GDK_Shift_R);
-	InitKey(My_Control_L, GDK_Control_L);
-	InitKey(My_Control_R, GDK_Control_R);
-	InitKey(My_Alt_L, GDK_Alt_L);
-	InitKey(My_Alt_R, GDK_Alt_R);
-	if (lua_gettop(L)>0) {
-		if (!lua_isstring(L,1)) {return FAIL_STRING_ARG(1); }
-		prompt=lua_tostring(L,1);
-		doc=document_get_current();
+	GeanyDocument *doc = NULL;
+	const gchar *prompt = NULL;
+	static gulong keygrab_cb_handle = 0;
+
+
+	_KeyGrabData km;
+	km.keypress = FALSE;
+	km.keyval = 0;
+
+	/* get prompt, if exists */
+	if (lua_gettop(L) > 0) {
+		if (!lua_isstring(L, 1)) {
+			return FAIL_STRING_ARG(1);
+		}
+		prompt = lua_tostring(L,1);
+		doc = document_get_current();
 	}
 
+	/* show prompt in tooltip */
 	if (prompt && doc && doc->is_valid ) {
-		gint fvl=scintilla_send_message(doc->editor->sci,SCI_GETFIRSTVISIBLELINE, 0,0);
-		gint pos=sci_get_position_from_line(doc->editor->sci, fvl+1);
-		scintilla_send_message(doc->editor->sci,SCI_CALLTIPSHOW,pos+3, (sptr_t)prompt);
+		gint fvl = scintilla_send_message(doc->editor->sci, SCI_GETFIRSTVISIBLELINE, 0, 0);
+		gint pos = sci_get_position_from_line(doc->editor->sci, fvl+1);
+		scintilla_send_message(doc->editor->sci, SCI_CALLTIPSHOW, pos+3, (sptr_t) prompt);
 	}
-	gdk_window_add_filter(gtk_widget_get_window(main_widgets->window), keygrab_cb, &km);
-	do {
+
+	/* callback to handle keypress
+		only one keygrab callback can be running at a time, otherwise geanylua will hang
+	*/
+	if (!keygrab_cb_handle) {
+		keygrab_cb_handle = g_signal_connect(main_widgets->window, "key-press-event", G_CALLBACK(keygrab_cb), &km);
+	} else {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	/* wait for keypress */
+	while (!km.keypress) {
 		while (gtk_events_pending()) {
-			if (km.group==2) { break; }
+			if (km.keypress) {
+				break;
+			}
 			gtk_main_iteration();
 		}
-		if (km.group==2) { break; }
-		dosleep();
-	} while (km.group!=2);
-
-	gdk_window_remove_filter(gtk_widget_get_window(main_widgets->window), keygrab_cb, &km);
-	if (prompt && doc && doc->is_valid) {
-	sci_send_command(doc->editor->sci, SCI_CALLTIPCANCEL);
 	}
-	km.group=0; /* reset the hijacked flag before passing to GDK */
-	gdk_key_map = gdk_keymap_get_default();
-	lua_pushstring(L, gdk_keyval_name(gdk_keymap_lookup_key(gdk_key_map, &km)));
 
+	/* remove callback and clear handle */
+	g_signal_handler_disconnect(main_widgets->window, keygrab_cb_handle);
+	keygrab_cb_handle = 0;
+
+	/* clear tooltip */
+	if (prompt && doc && doc->is_valid) {
+		sci_send_command(doc->editor->sci, SCI_CALLTIPCANCEL);
+	}
+
+	lua_pushstring(L, gdk_keyval_name(km.keyval));
 	return 1;
 }
 
