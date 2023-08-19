@@ -95,7 +95,7 @@ files and VCS or hidden directories.
 
 Finally, you can specify whether all the project files should be indexed or not.
 The default settings is Auto which means that if the total number
-of project (and external directory) files is less than 300, indexing is performed.
+of project (and external directory) files is less than 1000, indexing is performed.
 This is a rather conservative number, at least for an SSD disk - Project Organizer 
 was tested with tens of thousands project files and even though the initial scanning 
 may take some time (for the linux kernel with 35000 files and 2300000 symbols it takes
