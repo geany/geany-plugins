@@ -33,15 +33,15 @@ Unicode true
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "1.39"
-!define PRODUCT_VERSION_ID "1.39.0.0"
+!define PRODUCT_VERSION "2.0"
+!define PRODUCT_VERSION_ID "2.0.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
 ; Geany version should be major.minor only (patch level is ignored for version checking)
-!define REQUIRED_GEANY_VERSION "1.39"
+!define REQUIRED_GEANY_VERSION "2.0"
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; Version resource  ;
