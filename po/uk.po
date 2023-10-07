@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Geany-Plugins 1.38\n"
+"Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-16 16:48-0500\n"
+"POT-Creation-Date: 2023-10-07 16:26+0200\n"
 "PO-Revision-Date: 2020-05-01 16:20+1000\n"
 "Last-Translator: Artur Shepilko <nomadbyte@gmail.com>\n"
 "Language-Team: Ukrainian <geany-i18n@uvena.de>\n"
@@ -31,54 +31,50 @@ msgstr "_Скасувати закладку"
 msgid "No."
 msgstr "Рядок"
 
-#: ../addons/src/ao_bookmarklist.c:366 ../devhelp/src/dhp-object.c:494
-#: ../devhelp/devhelp/dh-window.c:1142
+#: ../addons/src/ao_bookmarklist.c:366
 msgid "Contents"
 msgstr "Зміст"
 
-#: ../addons/src/ao_bookmarklist.c:399 ../treebrowser/src/treebrowser.c:666
-#: ../webhelper/src/gwh-plugin.c:328
+#: ../addons/src/ao_bookmarklist.c:399 ../treebrowser/src/treebrowser.c:670
+#: ../webhelper/src/gwh-plugin.c:333
 msgid "Bookmarks"
 msgstr "Закладки"
 
 #. complete update
-#: ../addons/src/ao_tasks.c:373 ../geanyvc/src/geanyvc.c:2730
+#: ../addons/src/ao_tasks.c:382 ../geanyvc/src/geanyvc.c:2730
 msgid "_Update"
 msgstr "_Оновити"
 
-#: ../addons/src/ao_tasks.c:382
+#: ../addons/src/ao_tasks.c:391
 msgid "_Hide Message Window"
 msgstr "_Приховати вікно повідомлень"
 
-#: ../addons/src/ao_tasks.c:412 ../debugger/src/stree.c:420
+#: ../addons/src/ao_tasks.c:421 ../debugger/src/stree.c:424
 #: ../scope/data/scope.glade.h:72 ../scope/data/scope_gtk3.glade.h:72
 msgid "File"
 msgstr "Файл"
 
-#: ../addons/src/ao_tasks.c:423 ../debugger/src/bptree.c:702
-#: ../debugger/src/stree.c:427 ../scope/data/scope.glade.h:73
+#: ../addons/src/ao_tasks.c:432 ../debugger/src/bptree.c:702
+#: ../debugger/src/stree.c:431 ../scope/data/scope.glade.h:73
 #: ../scope/data/scope_gtk3.glade.h:73
 msgid "Line"
 msgstr "Рядок"
 
-#. i18n: in the programming language context, if you don't
-#. * have an ESTABLISHED term for it, leave it
-#. * untranslated.
-#: ../addons/src/ao_tasks.c:434 ../debugger/src/vtree.c:201
-#: ../devhelp/devhelp/dh-link.c:287 ../latex/src/bibtexlabels.c:68
-#: ../scope/data/scope.glade.h:79 ../scope/data/scope_gtk3.glade.h:79
+#: ../addons/src/ao_tasks.c:443 ../debugger/src/vtree.c:201
+#: ../latex/src/bibtexlabels.c:68 ../scope/data/scope.glade.h:79
+#: ../scope/data/scope_gtk3.glade.h:79
 msgid "Type"
 msgstr "Тип"
 
-#: ../addons/src/ao_tasks.c:445
+#: ../addons/src/ao_tasks.c:454
 msgid "Task"
 msgstr "Завдання"
 
-#: ../addons/src/ao_tasks.c:478
+#: ../addons/src/ao_tasks.c:487
 msgid "Tasks"
 msgstr "Завдання"
 
-#: ../addons/src/ao_tasks.c:542
+#: ../addons/src/ao_tasks.c:551
 msgid "Context:"
 msgstr "Контекст:"
 
@@ -151,7 +147,7 @@ msgstr "Показати список документів"
 msgid "File path \"%s\" copied to clipboard."
 msgstr "Шлях \"%s\" скопійовано у буфер обміну."
 
-#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:456
+#: ../addons/src/ao_copyfilepath.c:119 ../addons/src/addons.c:444
 msgid "Copy File Path"
 msgstr "Копіювати шлях до файлу"
 
@@ -159,74 +155,74 @@ msgstr "Копіювати шлях до файлу"
 msgid "Copy the file path of the current document to the clipboard"
 msgstr "Копіювати шлях до поточного документа у буфер обміну"
 
-#: ../addons/src/addons.c:364 ../autoclose/src/autoclose.c:920
+#: ../addons/src/addons.c:352 ../autoclose/src/autoclose.c:920
 #: ../codenav/src/codenavigation.c:281 ../latex/src/latex.c:208
 #: ../latex/src/latex.c:293 ../geanyprj/src/geanyprj.c:176
-#: ../geanyvc/src/geanyvc.c:2130 ../geniuspaste/src/geniuspaste.c:336
+#: ../geanyvc/src/geanyvc.c:2130 ../geniuspaste/src/geniuspaste.c:340
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
-#: ../treebrowser/src/treebrowser.c:2106
+#: ../treebrowser/src/treebrowser.c:2126
 #: ../updatechecker/src/updatechecker.c:262
 msgid "Plugin configuration directory could not be created."
 msgstr "Не вдалось створити каталог конфігурації плаґіну."
 
-#: ../addons/src/addons.c:447
+#: ../addons/src/addons.c:435
 msgid "Focus Bookmark List"
 msgstr "Перейти до списку закладок"
 
-#: ../addons/src/addons.c:449
+#: ../addons/src/addons.c:437
 msgid "Focus Tasks List"
 msgstr "Перейти до списку завдань"
 
-#: ../addons/src/addons.c:451
+#: ../addons/src/addons.c:439
 msgid "Update Tasks List"
 msgstr "Оновити список завдань"
 
-#: ../addons/src/addons.c:453
+#: ../addons/src/addons.c:441
 msgid "Run XML tagging"
 msgstr "Вкласти виділення в XML елемент"
 
-#: ../addons/src/addons.c:483
+#: ../addons/src/addons.c:471
 msgid "Show toolbar item to show a list of currently open documents"
 msgstr "Список відкритих документів на панелі інструментів"
 
-#: ../addons/src/addons.c:487
+#: ../addons/src/addons.c:475
 msgid "Sort documents by _name"
 msgstr "Сортувати за _ім'ям"
 
-#: ../addons/src/addons.c:489
+#: ../addons/src/addons.c:477
 msgid "Sort the documents in the list by their filename"
 msgstr "Сортувати список за ім'ям файлу"
 
-#: ../addons/src/addons.c:492
+#: ../addons/src/addons.c:480
 msgid "Sort documents by _occurrence"
 msgstr "Сортувати за порядком _вкладки"
 
-#: ../addons/src/addons.c:494
+#: ../addons/src/addons.c:482
 msgid "Sort the documents in the order of the document tabs"
 msgstr "Сортувати список за порядком вкладки"
 
-#: ../addons/src/addons.c:497
+#: ../addons/src/addons.c:485
 msgid "Sort documents by _occurrence (reversed)"
 msgstr "Сортувати за _зворотним порядком вкладки"
 
-#: ../addons/src/addons.c:499
+#: ../addons/src/addons.c:487
 msgid "Sort the documents in the order of the document tabs (reversed)"
 msgstr "Сортувати список за зворотним порядком вкладки"
 
-#: ../addons/src/addons.c:526
+#: ../addons/src/addons.c:514
 msgid "Show an 'Open URI' item in the editor menu"
 msgstr "Команда \"Відкрити URI\" у контекстному меню редактора"
 
-#: ../addons/src/addons.c:532
+#: ../addons/src/addons.c:520
 msgid "Show available Tasks in the Messages Window"
 msgstr "Вкладка зі списком завдань у вікні повідомлень"
 
-#: ../addons/src/addons.c:538
+#: ../addons/src/addons.c:526
 msgid "Show tasks of all documents"
 msgstr "Показувати завдання з усіх документів"
 
-#: ../addons/src/addons.c:542
+#: ../addons/src/addons.c:530
 msgid ""
 "Whether to show the tasks of all open documents in the list or only those of "
 "the current document."
@@ -234,64 +230,64 @@ msgstr ""
 "Показувати завдання зі всіх відкритих документів у списку або лише з "
 "поточного документа."
 
-#: ../addons/src/addons.c:549
+#: ../addons/src/addons.c:537
 msgid "Specify a semicolon separated list of search tokens."
 msgstr "Вкажіть список пошукових маркерів, розділених \";\" (крапка з комою)."
 
-#: ../addons/src/addons.c:551
+#: ../addons/src/addons.c:539
 msgid "Search tokens:"
 msgstr "Маркери:"
 
-#: ../addons/src/addons.c:568
+#: ../addons/src/addons.c:556
 msgid "Show status icon in the Notification Area"
 msgstr "Піктограма статусу Geany в області сповіщень"
 
-#: ../addons/src/addons.c:574
+#: ../addons/src/addons.c:562
 msgid "Show defined bookmarks (marked lines) in the sidebar"
 msgstr "Список закладок на бічній панелі"
 
-#: ../addons/src/addons.c:580
+#: ../addons/src/addons.c:568
 msgid "Mark all occurrences of a word when double-clicking it"
 msgstr "Позначати всі зустрічі слова при подвійному клацанні на ньому"
 
-#: ../addons/src/addons.c:586
+#: ../addons/src/addons.c:574
 msgid "Deselect a previous highlight by single click"
 msgstr "Скасовувати попереднє виділення одним натисканням кнопки миші"
 
-#: ../addons/src/addons.c:596
+#: ../addons/src/addons.c:584
 msgid "Strip trailing blank lines"
 msgstr "Видаляти порожні рядки в кінці файлу при збереженні"
 
-#: ../addons/src/addons.c:602
+#: ../addons/src/addons.c:590
 msgid "XML tagging for selection"
 msgstr "Вкладати виділення в XML елемент по гарячій клавіші"
 
-#: ../addons/src/addons.c:608
+#: ../addons/src/addons.c:596
 msgid "Enclose selection on configurable keybindings"
 msgstr "Огороджувати виділення по гарячій клавіші"
 
-#: ../addons/src/addons.c:612
+#: ../addons/src/addons.c:600
 msgid "Configure enclose pairs"
 msgstr "Огородження"
 
-#: ../addons/src/addons.c:620
+#: ../addons/src/addons.c:608
 msgid "Enclose selection automatically (without having to press a keybinding)"
 msgstr "Огороджувати виділення автоматично (лапки, дужки)"
 
-#: ../addons/src/addons.c:626
+#: ../addons/src/addons.c:614
 msgid "Show a calltip when hovering over a color value"
 msgstr "Показувати підказку при наведення курсору на #-значення кольору "
 
-#: ../addons/src/addons.c:632
+#: ../addons/src/addons.c:620
 msgid "Open Color Chooser when double-clicking a color value"
 msgstr "Відкривати палітру при подвійному клацанні на #-значенні кольору"
 
 #. Set metadata
-#: ../addons/src/addons.c:729
+#: ../addons/src/addons.c:717
 msgid "Addons"
 msgstr "Доповнення"
 
-#: ../addons/src/addons.c:730
+#: ../addons/src/addons.c:718
 msgid "Various small addons for Geany."
 msgstr "Різні невеликі, але зручні доповнення для Geany"
 
@@ -597,7 +593,7 @@ msgid ""
 msgstr "Навігація між файлами заголовка / коду."
 
 #. Add the menu item, sensitive only when a document is opened
-#: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:218
+#: ../codenav/src/goto_file.c:68 ../codenav/src/goto_file.c:222
 msgid "Go to File..."
 msgstr "Перейти до файлу..."
 
@@ -605,11 +601,11 @@ msgstr "Перейти до файлу..."
 msgid "Go to File"
 msgstr "Перейти до файлу"
 
-#: ../codenav/src/goto_file.c:227
+#: ../codenav/src/goto_file.c:231
 msgid "Enter the file you want to open:"
 msgstr "Шлях до файлу:"
 
-#: ../codenav/src/goto_file.c:303 ../codenav/src/switch_head_impl.c:409
+#: ../codenav/src/goto_file.c:307 ../codenav/src/switch_head_impl.c:409
 #, c-format
 msgid "%s not found, create it?"
 msgstr "%s не знайдено. Створити?"
@@ -725,23 +721,23 @@ msgstr "Програму завершено з кодом \"%i\""
 msgid "Failed to spawn gdb process"
 msgstr "Не вдалось запустити процес GDB"
 
-#: ../debugger/src/dbm_gdb.c:784
+#: ../debugger/src/dbm_gdb.c:785
 msgid "~\"Loading target file.\\n\""
 msgstr ""
 
-#: ../debugger/src/dbm_gdb.c:784
+#: ../debugger/src/dbm_gdb.c:785
 msgid "Error loading file"
 msgstr "Не вдалось завантажити програму"
 
 #. setting asynchronous mode
 #. setting null-stop array printing
 #. enable pretty printing
-#: ../debugger/src/dbm_gdb.c:789 ../debugger/src/dbm_gdb.c:792
-#: ../debugger/src/dbm_gdb.c:795
+#: ../debugger/src/dbm_gdb.c:790 ../debugger/src/dbm_gdb.c:793
+#: ../debugger/src/dbm_gdb.c:796
 msgid "Error configuring GDB"
 msgstr "Помилка конфігурації GDB"
 
-#: ../debugger/src/dbm_gdb.c:835
+#: ../debugger/src/dbm_gdb.c:836
 #, c-format
 msgid ""
 "Breakpoint at %s:%i cannot be set\n"
@@ -753,29 +749,26 @@ msgstr ""
 msgid "Can't find a source file \"%s\""
 msgstr "Не вдалось знайти вихідний файл \"%s\""
 
-#: ../debugger/src/stree.c:164
+#: ../debugger/src/stree.c:167
 msgid "Active frame"
 msgstr "Активний фрейм"
 
-#: ../debugger/src/stree.c:164
+#: ../debugger/src/stree.c:167
 msgid "Click an arrow to switch to a frame"
 msgstr "Натисніть стрілку для переходу на фрейм"
 
-#: ../debugger/src/stree.c:350
+#: ../debugger/src/stree.c:353
 #, c-format
 msgid "Thread %i"
 msgstr "Потік %i"
 
-#: ../debugger/src/stree.c:395 ../latex/src/bibtexlabels.c:46
+#: ../debugger/src/stree.c:399 ../latex/src/bibtexlabels.c:46
 #: ../scope/data/scope.glade.h:75 ../scope/data/scope_gtk3.glade.h:75
 msgid "Address"
 msgstr "Адреса"
 
-#. i18n: in the programming language context, if you don't
-#. * have an ESTABLISHED term for it, leave it
-#. * untranslated.
-#: ../debugger/src/stree.c:413 ../devhelp/devhelp/dh-link.c:267
-#: ../scope/data/scope.glade.h:74 ../scope/data/scope_gtk3.glade.h:74
+#: ../debugger/src/stree.c:417 ../scope/data/scope.glade.h:74
+#: ../scope/data/scope_gtk3.glade.h:74
 msgid "Function"
 msgstr "Функція"
 
@@ -886,387 +879,6 @@ msgstr ""
 "Автоматично вирівнювати по правому краю рядки у багаторядкових #define-"
 "макросах"
 
-#. never search for more than this many chars
-#: ../devhelp/src/dhp.h:38
-msgid "Documentation"
-msgstr "Документація"
-
-#: ../devhelp/src/dhp.h:39
-msgid "Code"
-msgstr "Код"
-
-#: ../devhelp/src/dhp-object.c:387
-msgid "Search for 'Tag' Documentation in"
-msgstr "Знайти документацію символу в"
-
-#. i18n: Please don't translate "Devhelp" (it's marked as translatable
-#. * for transliteration only)
-#: ../devhelp/src/dhp-object.c:390 ../devhelp/src/dhp-object.c:503
-#: ../devhelp/devhelp/dh-window.c:727 ../devhelp/devhelp/dh-window.c:1034
-#: ../devhelp/devhelp/dh-window.c:1863
-msgid "Devhelp"
-msgstr ""
-
-#: ../devhelp/src/dhp-object.c:397
-msgid "Manual Pages"
-msgstr "Посібнику (man)"
-
-#: ../devhelp/src/dhp-object.c:443
-msgid "Go back one page"
-msgstr "Попередня сторінка"
-
-#: ../devhelp/src/dhp-object.c:444
-msgid "Go forward one page"
-msgstr "Наступна сторінка"
-
-#: ../devhelp/src/dhp-object.c:445
-msgid "Zoom in"
-msgstr "Збільшити масштаб"
-
-#: ../devhelp/src/dhp-object.c:446
-msgid "Zoom out"
-msgstr "Зменшити масштаб"
-
-#: ../devhelp/src/dhp-object.c:497 ../devhelp/devhelp/dh-window.c:1152
-msgid "Search"
-msgstr "Пошук"
-
-#: ../devhelp/src/dhp-object.c:1305
-#, c-format
-msgid "Search for '%s' Documentation in"
-msgstr "Знайти документацію \"%s\" у"
-
-#: ../devhelp/src/dhp-plugin.c:119
-#, c-format
-msgid "Unable to create config dir at '%s'"
-msgstr ""
-
-#: ../devhelp/src/dhp-plugin.c:134
-#, c-format
-msgid "Unable to get default configuration: %s"
-msgstr ""
-
-#: ../devhelp/src/dhp-plugin.c:142
-#, c-format
-msgid "Unable to write default configuration: %s"
-msgstr ""
-
-#: ../devhelp/src/dhp-plugin.c:175
-msgid "Toggle sidebar contents tab"
-msgstr "Зміст"
-
-#: ../devhelp/src/dhp-plugin.c:177
-msgid "Toggle sidebar search tab"
-msgstr "Пошук"
-
-#: ../devhelp/src/dhp-plugin.c:179
-msgid "Toggle documentation tab"
-msgstr "Документація"
-
-#: ../devhelp/src/dhp-plugin.c:181
-msgid "Activate all tabs"
-msgstr "Всі вкладки"
-
-#: ../devhelp/src/dhp-plugin.c:183
-msgid "Search for current tag in Devhelp"
-msgstr "Знайти документацію символу в Devhelp"
-
-#: ../devhelp/src/dhp-plugin.c:187
-msgid "Search for current tag in Manual Pages"
-msgstr "Знайти документацію символу в Посібнику (man)"
-
-#. Set metadata
-#: ../devhelp/src/dhp-plugin.c:217
-msgid "Devhelp Plugin"
-msgstr "Devhelp"
-
-#: ../devhelp/src/dhp-plugin.c:218
-msgid ""
-"Adds support for looking up documentation in Devhelp, manual pages, and "
-"Google Code Search in the integrated viewer."
-msgstr ""
-"Пошук і перегляд документації у Devhelp, сторінках Посібника (man) та Google "
-"Code Search."
-
-#. i18n: Please don't translate "Devhelp".
-#: ../devhelp/devhelp/dh-assistant.c:74
-msgid "Devhelp — Assistant"
-msgstr "Devhelp Помічник"
-
-#: ../devhelp/devhelp/dh-assistant-view.c:336
-msgid "Book:"
-msgstr "Книга:"
-
-#. i18n: a documentation book
-#: ../devhelp/devhelp/dh-link.c:255 ../latex/src/latex.c:1846
-msgid "Book"
-msgstr "Книга"
-
-#. i18n: a "page" in a documentation book
-#: ../devhelp/devhelp/dh-link.c:258
-msgid "Page"
-msgstr "Сторінка"
-
-#. i18n: a search hit in the documentation, could be a
-#. * function, macro, struct, etc
-#: ../devhelp/devhelp/dh-link.c:262
-msgid "Keyword"
-msgstr "Ключове слово"
-
-#. i18n: in the programming language context, if you don't
-#. * have an ESTABLISHED term for it, leave it
-#. * untranslated.
-#: ../devhelp/devhelp/dh-link.c:272
-msgid "Struct"
-msgstr ""
-
-#. i18n: in the programming language context, if you don't
-#. * have an ESTABLISHED term for it, leave it
-#. * untranslated.
-#: ../devhelp/devhelp/dh-link.c:277
-msgid "Macro"
-msgstr ""
-
-#. i18n: in the programming language context, if you don't
-#. * have an ESTABLISHED term for it, leave it
-#. * untranslated.
-#: ../devhelp/devhelp/dh-link.c:282
-msgid "Enum"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-parser.c:91 ../devhelp/devhelp/dh-parser.c:185
-#: ../devhelp/devhelp/dh-parser.c:249 ../devhelp/devhelp/dh-parser.c:259
-#, c-format
-msgid "Expected '%s', got '%s' at line %d, column %d"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-parser.c:108
-#, c-format
-msgid "Invalid namespace '%s' at line %d, column %d"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-parser.c:136
-#, c-format
-msgid ""
-"\"title\", \"name\" and \"link\" elements are required at line %d, column %d"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-parser.c:204
-#, c-format
-msgid ""
-"\"name\" and \"link\" elements are required inside <sub> on line %d, column "
-"%d"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-parser.c:284
-#, c-format
-msgid ""
-"\"name\" and \"link\" elements are required inside '%s' on line %d, column %d"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-parser.c:297
-#, c-format
-msgid "\"type\" element is required inside <keyword> on line %d, column %d"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-parser.c:500
-#, c-format
-msgid "Cannot uncompress book '%s': %s"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-search.c:498
-msgid "All books"
-msgstr "Усіх книгах"
-
-#: ../devhelp/devhelp/dh-search.c:620
-msgid "Search in:"
-msgstr "Шукати в:"
-
-#: ../devhelp/devhelp/dh-window.c:98
-msgid "50%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:99
-msgid "75%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:100
-msgid "100%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:101
-msgid "125%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:102
-msgid "150%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:103
-msgid "175%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:104
-msgid "200%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:105
-msgid "300%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:106
-msgid "400%"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:722
-msgid "translator_credits"
-msgstr ""
-
-#: ../devhelp/devhelp/dh-window.c:729
-msgid "A developers' help browser for GNOME"
-msgstr "Браузер документації програмування для GNOME"
-
-#. Create the current file Submenu
-#: ../devhelp/devhelp/dh-window.c:759 ../geanyvc/src/geanyvc.c:2711
-msgid "_File"
-msgstr "_Файл"
-
-#: ../devhelp/devhelp/dh-window.c:760 ../geanymacro/src/geanymacro.c:1822
-#: ../geanymacro/src/geanymacro.c:2118
-msgid "_Edit"
-msgstr "_Редагування"
-
-#: ../devhelp/devhelp/dh-window.c:761
-msgid "_View"
-msgstr "Ви_гляд"
-
-#: ../devhelp/devhelp/dh-window.c:762
-msgid "_Go"
-msgstr "_Йти"
-
-#: ../devhelp/devhelp/dh-window.c:763
-msgid "_Help"
-msgstr "_Довідка"
-
-#. File menu
-#: ../devhelp/devhelp/dh-window.c:766
-msgid "_New Window"
-msgstr "_Відкрити нове вікно"
-
-#: ../devhelp/devhelp/dh-window.c:768
-msgid "New _Tab"
-msgstr "Відкрити нову в_кладку"
-
-#: ../devhelp/devhelp/dh-window.c:770
-msgid "_Print…"
-msgstr "Д_рукувати..."
-
-#: ../devhelp/devhelp/dh-window.c:782 ../devhelp/devhelp/eggfindbar.c:342
-msgid "Find Next"
-msgstr "Знайти наступне"
-
-#: ../devhelp/devhelp/dh-window.c:784 ../devhelp/devhelp/eggfindbar.c:329
-msgid "Find Previous"
-msgstr "Знайти попереднє"
-
-#: ../devhelp/devhelp/dh-window.c:791
-msgid "Go to the previous page"
-msgstr "Попередня сторінка"
-
-#: ../devhelp/devhelp/dh-window.c:794
-msgid "Go to the next page"
-msgstr "Наступна сторінка"
-
-#: ../devhelp/devhelp/dh-window.c:797
-msgid "_Contents Tab"
-msgstr "_Зміст"
-
-#: ../devhelp/devhelp/dh-window.c:800
-msgid "_Search Tab"
-msgstr "По_шук"
-
-#. View menu
-#: ../devhelp/devhelp/dh-window.c:804
-msgid "_Larger Text"
-msgstr "З_більшити масштаб"
-
-#: ../devhelp/devhelp/dh-window.c:805
-msgid "Increase the text size"
-msgstr "Збільшити розмір шрифту"
-
-#: ../devhelp/devhelp/dh-window.c:807
-msgid "S_maller Text"
-msgstr "З_меншити масштаб"
-
-#: ../devhelp/devhelp/dh-window.c:808
-msgid "Decrease the text size"
-msgstr "Зменшити розмір шрифту"
-
-#: ../devhelp/devhelp/dh-window.c:810
-msgid "_Normal Size"
-msgstr "_Нормальний розмір"
-
-#: ../devhelp/devhelp/dh-window.c:811
-msgid "Use the normal text size"
-msgstr "Нормальний розмір шрифту"
-
-#: ../devhelp/devhelp/dh-window.c:820
-msgid "Leave fullscreen mode"
-msgstr "Вийти з повноекранного режиму"
-
-#: ../devhelp/devhelp/dh-window.c:827
-msgid "Display in full screen"
-msgstr "На весь екран"
-
-#. Translators: This refers to text size
-#: ../devhelp/devhelp/dh-window.c:947
-msgid "Larger"
-msgstr "Збільшити"
-
-#. Translators: This refers to text size
-#: ../devhelp/devhelp/dh-window.c:950
-msgid "Smaller"
-msgstr "Зменшити"
-
-#. i18n: please don't translate
-#. * "Devhelp", it's a name, not a
-#. * generic word.
-#: ../devhelp/devhelp/dh-window.c:1095
-msgid "About Devhelp"
-msgstr "Про Devhelp"
-
-#: ../devhelp/devhelp/dh-window.c:1100
-msgid "Preferences…"
-msgstr "Настройки..."
-
-#: ../devhelp/devhelp/dh-window.c:1330
-msgid "Error opening the requested link."
-msgstr "Не вдалось відкрити вказану сторінку."
-
-#: ../devhelp/devhelp/dh-window.c:1649 ../devhelp/devhelp/dh-window.c:1891
-msgid "Empty Page"
-msgstr "Пуста сторінка"
-
-#: ../devhelp/devhelp/eggfindbar.c:320
-msgid "Find:"
-msgstr "Шукати:"
-
-#: ../devhelp/devhelp/eggfindbar.c:333 ../devhelp/devhelp/eggfindbar.c:336
-msgid "Find previous occurrence of the search string"
-msgstr "Знайти попередню зустріч рядка пошуку"
-
-#: ../devhelp/devhelp/eggfindbar.c:346 ../devhelp/devhelp/eggfindbar.c:349
-msgid "Find next occurrence of the search string"
-msgstr "Знайти наступну зустріч рядка пошуку"
-
-#: ../devhelp/devhelp/eggfindbar.c:358
-msgid "C_ase Sensitive"
-msgstr "Враховувати _регістр"
-
-#: ../devhelp/devhelp/eggfindbar.c:362 ../devhelp/devhelp/eggfindbar.c:365
-msgid "Toggle case sensitive search"
-msgstr "Увімкнути пошук з урахуванням регістра"
-
 #: ../geanyctags/src/geanyctags.c:138
 #, c-format
 msgid "%s (in directory: %s)"
@@ -1290,28 +902,28 @@ msgid "_Match type:"
 msgstr "_Тип збігу:"
 
 #: ../geanyctags/src/geanyctags.c:570
-#: ../projectorganizer/src/prjorg-sidebar.c:651
+#: ../projectorganizer/src/prjorg-sidebar.c:751
 msgid "exact"
 msgstr "точний"
 
 #: ../geanyctags/src/geanyctags.c:571
-#: ../projectorganizer/src/prjorg-sidebar.c:652
+#: ../projectorganizer/src/prjorg-sidebar.c:752
 msgid "prefix"
 msgstr "префікс"
 
 #: ../geanyctags/src/geanyctags.c:572
-#: ../projectorganizer/src/prjorg-sidebar.c:653
+#: ../projectorganizer/src/prjorg-sidebar.c:753
 msgid "pattern"
 msgstr "за шаблоном"
 
 #: ../geanyctags/src/geanyctags.c:581
-#: ../projectorganizer/src/prjorg-sidebar.c:167
-#: ../projectorganizer/src/prjorg-sidebar.c:674
+#: ../projectorganizer/src/prjorg-sidebar.c:168
+#: ../projectorganizer/src/prjorg-sidebar.c:774
 msgid "C_ase sensitive"
 msgstr "Враховувати _регістр"
 
 #: ../geanyctags/src/geanyctags.c:584
-#: ../projectorganizer/src/prjorg-sidebar.c:677
+#: ../projectorganizer/src/prjorg-sidebar.c:777
 msgid "_Declaration"
 msgstr "Лише _оголошення"
 
@@ -2407,6 +2019,10 @@ msgstr "Клас документа:"
 #: ../latex/src/latex.c:1844
 msgid "Choose the kind of document you want to write"
 msgstr "Тип нового документа: стаття, книга тощо"
+
+#: ../latex/src/latex.c:1846
+msgid "Book"
+msgstr "Книга"
 
 #: ../latex/src/latex.c:1848
 msgid "Article"
@@ -3740,7 +3356,8 @@ msgstr "_ОК"
 
 #: ../geanymacro/src/geanymacro.c:1394 ../geanymacro/src/geanymacro.c:1537
 #: ../geanymacro/src/geanymacro.c:1827
-#: ../projectorganizer/src/prjorg-sidebar.c:311 ../workbench/src/dialogs.c:48
+#: ../projectorganizer/src/prjorg-sidebar.c:435
+#: ../webhelper/src/gwh-browser.c:694 ../workbench/src/dialogs.c:48
 #: ../workbench/src/dialogs.c:83 ../workbench/src/dialogs.c:117
 #: ../workbench/src/dialogs.c:148 ../workbench/src/dialogs.c:187
 #: ../workbench/src/dialogs.c:224 ../workbench/src/dialogs.c:348
@@ -3763,8 +3380,8 @@ msgid "Search for contents of clipboard"
 msgstr "Знайти вміст буфера обміну"
 
 #: ../geanymacro/src/geanymacro.c:1424
-#: ../projectorganizer/src/prjorg-sidebar.c:139
-#: ../projectorganizer/src/prjorg-sidebar.c:628
+#: ../projectorganizer/src/prjorg-sidebar.c:140
+#: ../projectorganizer/src/prjorg-sidebar.c:728
 msgid "Search for:"
 msgstr "Шукати:"
 
@@ -3831,8 +3448,12 @@ msgstr "_Додати вище"
 msgid "New _Below"
 msgstr "Д_одати нижче"
 
+#: ../geanymacro/src/geanymacro.c:1822 ../geanymacro/src/geanymacro.c:2118
+msgid "_Edit"
+msgstr "_Редагування"
+
 #: ../geanymacro/src/geanymacro.c:1824 ../geanymacro/src/geanymacro.c:2120
-#: ../treebrowser/src/treebrowser.c:1342 ../treebrowser/src/treebrowser.c:1344
+#: ../treebrowser/src/treebrowser.c:1362 ../treebrowser/src/treebrowser.c:1364
 msgid "_Delete"
 msgstr "_Видалити"
 
@@ -4525,11 +4146,11 @@ msgstr "З_найти у файлах..."
 msgid "Remove File"
 msgstr "Ви_лучити файл"
 
-#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1689
+#: ../geanyprj/src/sidebar.c:240 ../projectorganizer/src/prjorg-sidebar.c:1835
 msgid "H_ide Sidebar"
 msgstr "Приховати _бічну панель"
 
-#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1708
+#: ../geanyprj/src/sidebar.c:456 ../projectorganizer/src/prjorg-sidebar.c:1854
 msgid "Project"
 msgstr "Проект"
 
@@ -4537,19 +4158,6 @@ msgstr "Проект"
 #, c-format
 msgid "Project \"%s\" opened."
 msgstr "Проект \"%s\" відкрито."
-
-#: ../geanypy/src/geanypy-plugin.c:69
-#, c-format
-msgid "Unable to pre-load Python library: %s."
-msgstr ""
-
-#: ../geanypy/src/geanypy-plugin.c:415
-msgid "GeanyPy"
-msgstr ""
-
-#: ../geanypy/src/geanypy-plugin.c:416
-msgid "Python plugins support"
-msgstr "Підтримка плаґінів на Python"
 
 #: ../geanyvc/src/geanyvc.c:73
 msgid "GeanyVC"
@@ -4937,6 +4545,11 @@ msgstr "З_міни"
 msgid "_Version Control"
 msgstr "З_міни"
 
+#. Create the current file Submenu
+#: ../geanyvc/src/geanyvc.c:2711
+msgid "_File"
+msgstr "_Файл"
+
 #. Status of basedir
 #: ../geanyvc/src/geanyvc.c:2723
 msgid "_Status"
@@ -4964,21 +4577,21 @@ msgid "Paste your code on your favorite pastebin"
 msgstr ""
 "Публікація документа або виділеного тексту на Pastebin-подібних сервісах."
 
-#: ../geniuspaste/src/geniuspaste.c:122
+#: ../geniuspaste/src/geniuspaste.c:126
 #, c-format
 msgid "Group \"%s\" not found."
 msgstr "Група \"%s\" не знайдена."
 
-#: ../geniuspaste/src/geniuspaste.c:141
+#: ../geniuspaste/src/geniuspaste.c:145
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
 msgstr "У групи \"%s\" відсутній ключ \"%s\"."
 
-#: ../geniuspaste/src/geniuspaste.c:791
+#: ../geniuspaste/src/geniuspaste.c:794
 msgid "Invalid pastebin service."
 msgstr "Недійсний pastebin-сервіс."
 
-#: ../geniuspaste/src/geniuspaste.c:792
+#: ../geniuspaste/src/geniuspaste.c:795
 #, c-format
 msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
@@ -4987,15 +4600,15 @@ msgstr ""
 "Невідомий pastebin-сервіс \"%s\". Виберіть у настройках активний pastebin-"
 "сервіс або створіть нову pastebin-конфігурацію та повторіть спробу."
 
-#: ../geniuspaste/src/geniuspaste.c:804
+#: ../geniuspaste/src/geniuspaste.c:807
 msgid "Refusing to create blank paste"
 msgstr "Текст відсутній - публікація неможлива."
 
-#: ../geniuspaste/src/geniuspaste.c:824
+#: ../geniuspaste/src/geniuspaste.c:827
 msgid "Failed to paste the code"
 msgstr "Помилка публікації"
 
-#: ../geniuspaste/src/geniuspaste.c:825
+#: ../geniuspaste/src/geniuspaste.c:828
 #, c-format
 msgid ""
 "Error pasting the code to the pastebin service %s.\n"
@@ -5008,11 +4621,11 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../geniuspaste/src/geniuspaste.c:829
+#: ../geniuspaste/src/geniuspaste.c:832
 msgid "Check your connection or the pastebin configuration and retry."
 msgstr "Перевірте з'єднання або pastebin-конфігурацію та повторіть спробу."
 
-#: ../geniuspaste/src/geniuspaste.c:831
+#: ../geniuspaste/src/geniuspaste.c:834
 msgid ""
 "Wait for the service to come back and retry, or retry with another pastebin "
 "service."
@@ -5020,15 +4633,15 @@ msgstr ""
 "Зачекайте, поки сервіс відновиться та повторіть публікацію, або виберіть "
 "інший pastebin-сервіс."
 
-#: ../geniuspaste/src/geniuspaste.c:833 ../geniuspaste/src/geniuspaste.c:850
+#: ../geniuspaste/src/geniuspaste.c:836 ../geniuspaste/src/geniuspaste.c:853
 msgid "Check the pastebin configuration and retry."
 msgstr "Перевірте pastebin-конфігурацію та повторіть публікацію."
 
-#: ../geniuspaste/src/geniuspaste.c:844
+#: ../geniuspaste/src/geniuspaste.c:847
 msgid "Failed to obtain paste URL."
 msgstr "Не вдалось отримати URL-адресу публікації."
 
-#: ../geniuspaste/src/geniuspaste.c:845
+#: ../geniuspaste/src/geniuspaste.c:848
 #, c-format
 msgid ""
 "The code was successfully pasted on %s, but an error occurred trying to "
@@ -5041,43 +4654,43 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../geniuspaste/src/geniuspaste.c:849
+#: ../geniuspaste/src/geniuspaste.c:852
 msgid "Unexpected response from the pastebin service."
 msgstr "Невідомий результат отримано від pastebin-сервісу."
 
-#: ../geniuspaste/src/geniuspaste.c:862
+#: ../geniuspaste/src/geniuspaste.c:865
 msgid "Paste Successful"
 msgstr "Текст опубліковано"
 
-#: ../geniuspaste/src/geniuspaste.c:863
+#: ../geniuspaste/src/geniuspaste.c:866
 #, c-format
 msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr "<a href=\"%s\" title=\"Натисніть, щоби відкрити у браузері\">%s </a>"
 
-#: ../geniuspaste/src/geniuspaste.c:881
+#: ../geniuspaste/src/geniuspaste.c:884
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr ""
 "Відкритих документів немає. Відкрийте документ і повторіть публікацію.\n"
 
-#: ../geniuspaste/src/geniuspaste.c:894
+#: ../geniuspaste/src/geniuspaste.c:897
 msgid "The author name field is empty!"
 msgstr "Для публікації потрібно вказати ім'я автора."
 
-#: ../geniuspaste/src/geniuspaste.c:914
+#: ../geniuspaste/src/geniuspaste.c:917
 msgid "Select a pastebin:"
 msgstr "Сервіс:"
 
-#: ../geniuspaste/src/geniuspaste.c:917
+#: ../geniuspaste/src/geniuspaste.c:920
 msgid "Enter the author name:"
 msgstr "Автор:"
 
-#: ../geniuspaste/src/geniuspaste.c:938
+#: ../geniuspaste/src/geniuspaste.c:941
 msgid "Show your paste in a new browser tab"
 msgstr "Показувати сторінку публікації у новій вкладці браузера"
 
-#: ../geniuspaste/src/geniuspaste.c:959
+#: ../geniuspaste/src/geniuspaste.c:962
 msgid "_Paste it!"
 msgstr "_Опублікувати на pastebin"
 
@@ -5389,93 +5002,6 @@ msgstr "Усі формати"
 #, c-format
 msgid "Failed to export Markdown HTML to file '%s': %s"
 msgstr "Не вдалось експортувати Markdown до HTML файлу \"%s\": %s"
-
-#: ../multiterm/src/config.vala:47
-#, c-format
-msgid "Unable to save config file %s: %s"
-msgstr ""
-
-#: ../multiterm/src/config.vala:85 ../multiterm/src/config.vala:89
-#, c-format
-msgid "Unable to load config file %s: %s"
-msgstr ""
-
-#: ../multiterm/src/context-menu.vala:52 ../multiterm/src/context-menu.vala:140
-msgid "Move to message window"
-msgstr "Перемістити до вікна повідомлень"
-
-#: ../multiterm/src/context-menu.vala:58 ../multiterm/src/context-menu.vala:135
-msgid "Move to sidebar"
-msgstr "Перемістити до бічної панелі"
-
-#: ../multiterm/src/context-menu.vala:81
-msgid "Open Tab"
-msgstr "Відкрити нову вкладку"
-
-#: ../multiterm/src/context-menu.vala:96
-msgid "Open Window"
-msgstr "Відкрити нове вікно"
-
-#: ../multiterm/src/context-menu.vala:103
-msgid "Next tab"
-msgstr "Наступна вкладка"
-
-#. this.append(item);
-#. item.show();
-#: ../multiterm/src/context-menu.vala:108
-msgid "Previous tab"
-msgstr "Попередня вкладка"
-
-#. this.append(image_item);
-#. image_item.show();
-#. add_separator();
-#: ../multiterm/src/context-menu.vala:127
-msgid "Show Tabs"
-msgstr "Вкладки"
-
-#: ../multiterm/src/notebook.vala:91
-#, c-format
-msgid "Unable to launch external terminal: %s"
-msgstr ""
-
-#: ../multiterm/src/notebook.vala:137
-msgid "Unable to locate default shell in configuration file"
-msgstr ""
-
-#: ../multiterm/src/notebook.vala:202
-msgid "New terminal"
-msgstr "Відкрити нову вкладку терміналу"
-
-#: ../multiterm/src/plugin.vala:46 ../multiterm/src/plugin.vala:88
-msgid "MultiTerm"
-msgstr ""
-
-#: ../multiterm/src/plugin.vala:47
-msgid "Multi-tabbed virtual terminal emulator."
-msgstr "Віртуальний термінал з підтримкою вкладок."
-
-#: ../multiterm/src/plugin.vala:78
-#, c-format
-msgid "Unable to write default config file: %s"
-msgstr ""
-
-#: ../multiterm/src/shell-config.vala:30
-#, c-format
-msgid "Unable to read value for '%s' key: %s"
-msgstr ""
-
-#: ../multiterm/src/tab-label.vala:62 ../treebrowser/src/treebrowser.c:2136
-msgid "Terminal"
-msgstr "Термінал"
-
-#: ../multiterm/src/tab-label.vala:84
-msgid "Close terminal"
-msgstr "Закрити вкладку"
-
-#: ../multiterm/src/terminal.vala:88
-#, c-format
-msgid "Unable to run command: %s"
-msgstr ""
 
 #: ../overview/overview/overviewplugin.c:43
 msgid "Provides an overview of the active document"
@@ -5923,11 +5449,11 @@ msgstr "Пробіл"
 msgid "Line break"
 msgstr "Символ нового рядка:"
 
-#: ../projectorganizer/src/prjorg-main.c:40
+#: ../projectorganizer/src/prjorg-main.c:41
 msgid "Project Organizer"
 msgstr "Органайзер проекту"
 
-#: ../projectorganizer/src/prjorg-main.c:41
+#: ../projectorganizer/src/prjorg-main.c:42
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation "
 "options (was GProject)"
@@ -5935,51 +5461,59 @@ msgstr ""
 "Організація файлів у проекті, індексація та пошук у файлах, додаткові "
 "можливості для навігації"
 
-#: ../projectorganizer/src/prjorg-menu.c:383
+#: ../projectorganizer/src/prjorg-menu.c:260
 msgid "Find in Project Files..."
 msgstr "Знайти у файлах..."
 
-#: ../projectorganizer/src/prjorg-menu.c:387
+#: ../projectorganizer/src/prjorg-menu.c:264
 msgid "Find in project files"
 msgstr "Знайти у файлах проекту"
 
-#: ../projectorganizer/src/prjorg-menu.c:389
+#: ../projectorganizer/src/prjorg-menu.c:266
 msgid "Find Project File..."
 msgstr "Знайти файл..."
 
-#: ../projectorganizer/src/prjorg-menu.c:393
+#: ../projectorganizer/src/prjorg-menu.c:270
 msgid "Find project file"
 msgstr "Знайти файл у проекті"
 
-#: ../projectorganizer/src/prjorg-menu.c:395
+#: ../projectorganizer/src/prjorg-menu.c:272
 msgid "Find Project Symbol..."
 msgstr "Знайти символ..."
 
-#: ../projectorganizer/src/prjorg-menu.c:399
+#: ../projectorganizer/src/prjorg-menu.c:276
 msgid "Find project symbol"
 msgstr "Знайти символ у проекті"
 
-#: ../projectorganizer/src/prjorg-menu.c:401
+#: ../projectorganizer/src/prjorg-menu.c:278
 msgid "Swap Header/Source"
 msgstr "Файл заголовка / коду"
 
-#: ../projectorganizer/src/prjorg-menu.c:406
+#: ../projectorganizer/src/prjorg-menu.c:283
 msgid "Swap header/source"
 msgstr "Відкрити файл заголовка / коду"
 
-#: ../projectorganizer/src/prjorg-menu.c:409
+#: ../projectorganizer/src/prjorg-menu.c:286
 msgid "Focus Project Sidebar"
 msgstr "Перейти до панелі проекту"
 
-#: ../projectorganizer/src/prjorg-menu.c:415
+#: ../projectorganizer/src/prjorg-menu.c:289
+msgid "Open File Manager at file location"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-menu.c:292
+msgid "Open Terminal at file location"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-menu.c:298
 msgid "Open Selected File (Project Organizer)"
 msgstr "Відкрити виділений файл (Органайзер проекту)"
 
-#: ../projectorganizer/src/prjorg-project.c:604
+#: ../projectorganizer/src/prjorg-project.c:623
 msgid "Source patterns:"
 msgstr "Файли коду:"
 
-#: ../projectorganizer/src/prjorg-project.c:610
+#: ../projectorganizer/src/prjorg-project.c:629
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
@@ -5987,11 +5521,11 @@ msgstr ""
 "Список шаблонів (розділений пробілом) для ідентифікації вихідних файлів "
 "коду. Потрібний для переходу до файлу заголовка / коду."
 
-#: ../projectorganizer/src/prjorg-project.c:616
+#: ../projectorganizer/src/prjorg-project.c:635
 msgid "Header patterns:"
 msgstr "Файли заголовка:"
 
-#: ../projectorganizer/src/prjorg-project.c:622
+#: ../projectorganizer/src/prjorg-project.c:641
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
@@ -5999,11 +5533,11 @@ msgstr ""
 "Список шаблонів (розділений пробілом) для ідентифікації файлів заголовка. "
 "Потрібний для переходу до файлу заголовка / коду."
 
-#: ../projectorganizer/src/prjorg-project.c:628 ../workbench/src/dialogs.c:396
+#: ../projectorganizer/src/prjorg-project.c:647 ../workbench/src/dialogs.c:396
 msgid "Ignored file patterns:"
 msgstr "Ігнорувати файли:"
 
-#: ../projectorganizer/src/prjorg-project.c:634
+#: ../projectorganizer/src/prjorg-project.c:653
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
@@ -6011,11 +5545,11 @@ msgstr ""
 "Список шаблонів (розділений пробілом) для ідентифікації файлів які будуть "
 "виключені зі списку файлів проекту."
 
-#: ../projectorganizer/src/prjorg-project.c:640 ../workbench/src/dialogs.c:422
+#: ../projectorganizer/src/prjorg-project.c:659 ../workbench/src/dialogs.c:422
 msgid "Ignored directory patterns:"
 msgstr "Ігнорувати каталоги:"
 
-#: ../projectorganizer/src/prjorg-project.c:646
+#: ../projectorganizer/src/prjorg-project.c:665
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "are not scanned for source files."
@@ -6023,7 +5557,7 @@ msgstr ""
 "Список шаблонів (розділений пробілом) для ідентифікації каталогів, файли з "
 "яких будуть виключені зі списку файлів проекту."
 
-#: ../projectorganizer/src/prjorg-project.c:655
+#: ../projectorganizer/src/prjorg-project.c:674
 msgid ""
 "The patterns above affect only sidebar and indexing and are not used in the "
 "Find in Files\n"
@@ -6038,15 +5572,15 @@ msgstr ""
 "\"Шаблони файлів\" на вкладці \"Проект\" (ці шаблони буде враховано у "
 "діалозі \"Знайти у файлах\")."
 
-#: ../projectorganizer/src/prjorg-project.c:663
+#: ../projectorganizer/src/prjorg-project.c:682
 msgid "<b>Various</b>"
 msgstr "<b>Різне</b>"
 
-#: ../projectorganizer/src/prjorg-project.c:668
+#: ../projectorganizer/src/prjorg-project.c:687
 msgid "Show empty directories in sidebar"
 msgstr "Показувати пусті каталоги у списку файлів"
 
-#: ../projectorganizer/src/prjorg-project.c:671
+#: ../projectorganizer/src/prjorg-project.c:690
 msgid ""
 "Whether to show empty directories in the sidebar or not. Showing empty "
 "directories is useful when using file operations from the context menu, e.g. "
@@ -6056,23 +5590,24 @@ msgstr ""
 "пустих каталогів у списку зручна для файлових операцій із контекстного меню, "
 "наприклад, щоби створити новий файл у каталозі."
 
-#: ../projectorganizer/src/prjorg-project.c:681
+#: ../projectorganizer/src/prjorg-project.c:700
 msgid "Index all project files:"
 msgstr "Індексувати всі файли проекту:"
 
-#: ../projectorganizer/src/prjorg-project.c:684
-msgid "Auto (index if less than 300 files)"
+#: ../projectorganizer/src/prjorg-project.c:703
+#, fuzzy
+msgid "Auto (index if less than 1000 files)"
 msgstr "Автоматично (якщо менше ніж 300 файлів)"
 
-#: ../projectorganizer/src/prjorg-project.c:685
+#: ../projectorganizer/src/prjorg-project.c:704
 msgid "Yes"
 msgstr "Так"
 
-#: ../projectorganizer/src/prjorg-project.c:686
+#: ../projectorganizer/src/prjorg-project.c:705
 msgid "No"
 msgstr "Ні"
 
-#: ../projectorganizer/src/prjorg-project.c:689
+#: ../projectorganizer/src/prjorg-project.c:708
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
@@ -6080,159 +5615,183 @@ msgstr ""
 "Створити список символів для всіх файлів проекту, а не тільки для відкритих "
 "файлів. Для великих проектів може знадобитися багато часу."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:128
+#: ../projectorganizer/src/prjorg-sidebar.c:129
 msgid "Find File"
 msgstr "Знайти файл"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:155
-#: ../projectorganizer/src/prjorg-sidebar.c:662
+#: ../projectorganizer/src/prjorg-sidebar.c:156
+#: ../projectorganizer/src/prjorg-sidebar.c:762
 msgid "Search inside:"
 msgstr "Каталог:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:170
+#: ../projectorganizer/src/prjorg-sidebar.c:171
 msgid "Search in full path"
 msgstr "Шукати шлях до файлу"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:181
-#: ../projectorganizer/src/prjorg-sidebar.c:825
+#: ../projectorganizer/src/prjorg-sidebar.c:182
+#: ../projectorganizer/src/prjorg-sidebar.c:925
 msgid "project or external directory"
 msgstr "каталог проекту чи зовнішній каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:309
+#: ../projectorganizer/src/prjorg-sidebar.c:390
+#, c-format
+msgid "Unable to open folder.  Command unavailable: %s"
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:397
+msgid "Unable to find folder."
+msgstr ""
+
+#: ../projectorganizer/src/prjorg-sidebar.c:420
+#, fuzzy, c-format
+msgid "Unable to open terminal: %s"
+msgstr "Не вдалось відкрити репозиторій Git у %s."
+
+#: ../projectorganizer/src/prjorg-sidebar.c:433
 msgid "Add External Directory"
 msgstr "Додати зовнішній каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:312
+#: ../projectorganizer/src/prjorg-sidebar.c:436
 msgid "Add"
 msgstr "Додати"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:390
-#: ../treebrowser/src/treebrowser.c:2360
+#: ../projectorganizer/src/prjorg-sidebar.c:490
+#: ../treebrowser/src/treebrowser.c:2380
 msgid "New File"
 msgstr "Створити файл"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:391
+#: ../projectorganizer/src/prjorg-sidebar.c:491
 msgid "File name:"
 msgstr "Ім'я файлу:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:391
+#: ../projectorganizer/src/prjorg-sidebar.c:491
 msgid "newfile.txt"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:405
+#: ../projectorganizer/src/prjorg-sidebar.c:505
 #, c-format
 msgid "Cannot create file '%s'."
 msgstr "Не вдалось створити файл \"%s\"."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:421
+#: ../projectorganizer/src/prjorg-sidebar.c:521
 msgid "New Directory"
 msgstr "Створити каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:422
+#: ../projectorganizer/src/prjorg-sidebar.c:522
 msgid "Directory name:"
 msgstr "Ім'я каталогу:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:422
+#: ../projectorganizer/src/prjorg-sidebar.c:522
 msgid "newdir"
 msgstr ""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:435
+#: ../projectorganizer/src/prjorg-sidebar.c:535
 #, c-format
 msgid "Cannot create directory '%s'."
 msgstr "Не вдалось створити каталог \"%s\"."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:462
+#: ../projectorganizer/src/prjorg-sidebar.c:562
 msgid "Rename"
 msgstr "Перейменувати"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:463
+#: ../projectorganizer/src/prjorg-sidebar.c:563
 msgid "New name:"
 msgstr "Нове ім'я:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:476
+#: ../projectorganizer/src/prjorg-sidebar.c:576
 #, c-format
 msgid "Cannot rename '%s' to '%s'."
 msgstr "Не вдалось перейменувати \"%s\" на \"%s\"."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:501
+#: ../projectorganizer/src/prjorg-sidebar.c:601
 #, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr "Ви дійсно хочете видалити \"%s\"?"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:508
+#: ../projectorganizer/src/prjorg-sidebar.c:608
 #, c-format
 msgid "Cannot delete file '%s'."
 msgstr "Не вдалось видалити файл \"%s\"."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:617
+#: ../projectorganizer/src/prjorg-sidebar.c:717
 msgid "Find Symbol"
 msgstr "Знайти символ у проекті"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:646
+#: ../projectorganizer/src/prjorg-sidebar.c:746
 msgid "Match type:"
 msgstr "Тип збігу:"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1236
+#: ../projectorganizer/src/prjorg-sidebar.c:1336
 msgid "Set file patterns under Project->Properties"
 msgstr "Встановлення шаблонів файлів - у розділі \"Проект > Параметри\""
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1542
+#: ../projectorganizer/src/prjorg-sidebar.c:1673
 msgid "Reload all"
 msgstr "Оновити"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1551
+#: ../projectorganizer/src/prjorg-sidebar.c:1679
 msgid "Add external directory"
 msgstr "Додати зовнішній каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1561
+#: ../projectorganizer/src/prjorg-sidebar.c:1689
 msgid "Expand all"
 msgstr "Розгорнути усе"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1568
+#: ../projectorganizer/src/prjorg-sidebar.c:1696
 msgid "Collapse to project root"
 msgstr "Згорнути усе до базового каталогу"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1579
+#: ../projectorganizer/src/prjorg-sidebar.c:1707
 msgid "Follow active editor"
 msgstr "Виділяти поточний документ"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1625
+#: ../projectorganizer/src/prjorg-sidebar.c:1753
 msgid "Open a project to start using the plugin"
 msgstr "Відкрийте або створіть проект"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1632
+#: ../projectorganizer/src/prjorg-sidebar.c:1760
 msgid "Expand All"
 msgstr "Розгорнути усе"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1637
+#: ../projectorganizer/src/prjorg-sidebar.c:1769
 msgid "Find in Files..."
 msgstr "Знайти у файлах..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1642
+#: ../projectorganizer/src/prjorg-sidebar.c:1774
 msgid "Find File..."
 msgstr "Знайти файл..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1647
+#: ../projectorganizer/src/prjorg-sidebar.c:1779
 msgid "Find Symbol..."
 msgstr "Знайти символ..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1656
+#: ../projectorganizer/src/prjorg-sidebar.c:1788
+#, fuzzy
+msgid "Open File Manager"
+msgstr "_Посібник користувача"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1793
+#, fuzzy
+msgid "Open Terminal"
+msgstr "Відкрити у _терміналі"
+
+#: ../projectorganizer/src/prjorg-sidebar.c:1802
 msgid "Remove External Directory"
 msgstr "Видалити зовнішній каталог"
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1665
+#: ../projectorganizer/src/prjorg-sidebar.c:1811
 msgid "New File..."
 msgstr "Створити файл..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1670
+#: ../projectorganizer/src/prjorg-sidebar.c:1816
 msgid "New Directory..."
 msgstr "Створити каталог..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1675
+#: ../projectorganizer/src/prjorg-sidebar.c:1821
 msgid "Rename..."
 msgstr "Перейменувати..."
 
-#: ../projectorganizer/src/prjorg-sidebar.c:1680
+#: ../projectorganizer/src/prjorg-sidebar.c:1826
 msgid "Delete"
 msgstr "Видалити"
 
@@ -7495,30 +7054,30 @@ msgid ""
 msgstr ""
 "Панель провідника каталогів для перегляду та створення каталогів та файлів."
 
-#: ../treebrowser/src/treebrowser.c:462
+#: ../treebrowser/src/treebrowser.c:466
 #, c-format
 msgid "%s: no such directory."
 msgstr "%s: такого каталогу немає."
 
-#: ../treebrowser/src/treebrowser.c:570 ../treebrowser/src/treebrowser.c:609
-#: ../treebrowser/src/treebrowser.c:715
+#: ../treebrowser/src/treebrowser.c:574 ../treebrowser/src/treebrowser.c:613
+#: ../treebrowser/src/treebrowser.c:719
 msgid "(Empty)"
 msgstr "(Пусто)"
 
-#: ../treebrowser/src/treebrowser.c:1018
+#: ../treebrowser/src/treebrowser.c:1022
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Не вдалось виконати задану зовнішню команду \"%s\" (%s)."
 
-#: ../treebrowser/src/treebrowser.c:1093
+#: ../treebrowser/src/treebrowser.c:1094
 msgid "NewDirectory"
 msgstr "Новий каталог"
 
-#: ../treebrowser/src/treebrowser.c:1095
+#: ../treebrowser/src/treebrowser.c:1096
 msgid "NewFile"
 msgstr "Новий файл"
 
-#: ../treebrowser/src/treebrowser.c:1100
+#: ../treebrowser/src/treebrowser.c:1101
 #, c-format
 msgid ""
 "Target file '%s' exists.\n"
@@ -7527,115 +7086,115 @@ msgstr ""
 "Файл \"%s\" вже існує.\n"
 "Ви дійсно хочете замінити його пустим файлом?"
 
-#: ../treebrowser/src/treebrowser.c:1146
+#: ../treebrowser/src/treebrowser.c:1147
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Ви дійсно хочете видалити \"%s\"?"
 
-#: ../treebrowser/src/treebrowser.c:1259 ../treebrowser/src/treebrowser.c:1261
+#: ../treebrowser/src/treebrowser.c:1279 ../treebrowser/src/treebrowser.c:1281
 msgid "Go _Up"
 msgstr "Каталог рівнем вище"
 
-#: ../treebrowser/src/treebrowser.c:1267 ../treebrowser/src/treebrowser.c:1269
+#: ../treebrowser/src/treebrowser.c:1287 ../treebrowser/src/treebrowser.c:1289
 msgid "Set _Path From Document"
 msgstr "_Каталог документа"
 
-#: ../treebrowser/src/treebrowser.c:1275 ../treebrowser/src/treebrowser.c:1277
+#: ../treebrowser/src/treebrowser.c:1295 ../treebrowser/src/treebrowser.c:1297
 msgid "_Open Externally"
 msgstr "_Відкрити у зовнішній програмі"
 
-#: ../treebrowser/src/treebrowser.c:1283
+#: ../treebrowser/src/treebrowser.c:1303
 msgid "Open _Terminal"
 msgstr "Відкрити у _терміналі"
 
-#: ../treebrowser/src/treebrowser.c:1288 ../treebrowser/src/treebrowser.c:1290
+#: ../treebrowser/src/treebrowser.c:1308 ../treebrowser/src/treebrowser.c:1310
 msgid "Set as _Root"
 msgstr "Відкрити _каталог"
 
-#: ../treebrowser/src/treebrowser.c:1297 ../treebrowser/src/treebrowser.c:1299
+#: ../treebrowser/src/treebrowser.c:1317 ../treebrowser/src/treebrowser.c:1319
 msgid "Refres_h"
 msgstr "_Оновити"
 
-#: ../treebrowser/src/treebrowser.c:1305 ../treebrowser/src/treebrowser.c:1307
+#: ../treebrowser/src/treebrowser.c:1325 ../treebrowser/src/treebrowser.c:1327
 msgid "_Find in Files"
 msgstr "Знайти у файлах..."
 
-#: ../treebrowser/src/treebrowser.c:1317 ../treebrowser/src/treebrowser.c:1319
+#: ../treebrowser/src/treebrowser.c:1337 ../treebrowser/src/treebrowser.c:1339
 msgid "N_ew Folder"
 msgstr "Створити _каталог..."
 
-#: ../treebrowser/src/treebrowser.c:1325 ../treebrowser/src/treebrowser.c:1327
+#: ../treebrowser/src/treebrowser.c:1345 ../treebrowser/src/treebrowser.c:1347
 msgid "_New File"
 msgstr "Створити _файл..."
 
-#: ../treebrowser/src/treebrowser.c:1333 ../treebrowser/src/treebrowser.c:1335
+#: ../treebrowser/src/treebrowser.c:1353 ../treebrowser/src/treebrowser.c:1355
 msgid "Rena_me"
 msgstr "Пере_йменувати..."
 
-#: ../treebrowser/src/treebrowser.c:1354 ../treebrowser/src/treebrowser.c:1356
+#: ../treebrowser/src/treebrowser.c:1374 ../treebrowser/src/treebrowser.c:1376
 #, c-format
 msgid "Close: %s"
 msgstr "Закрити: %s"
 
-#: ../treebrowser/src/treebrowser.c:1363 ../treebrowser/src/treebrowser.c:1365
+#: ../treebrowser/src/treebrowser.c:1383 ../treebrowser/src/treebrowser.c:1385
 #, c-format
 msgid "Clo_se Child Documents "
 msgstr "Закрити всі документи з каталогу "
 
-#: ../treebrowser/src/treebrowser.c:1372 ../treebrowser/src/treebrowser.c:1374
+#: ../treebrowser/src/treebrowser.c:1392 ../treebrowser/src/treebrowser.c:1394
 msgid "_Copy Full Path to Clipboard"
 msgstr "_Копіювати шлях"
 
-#: ../treebrowser/src/treebrowser.c:1385 ../treebrowser/src/treebrowser.c:1387
+#: ../treebrowser/src/treebrowser.c:1405 ../treebrowser/src/treebrowser.c:1407
 msgid "E_xpand All"
 msgstr "_Розгорнути все"
 
-#: ../treebrowser/src/treebrowser.c:1393 ../treebrowser/src/treebrowser.c:1395
+#: ../treebrowser/src/treebrowser.c:1413 ../treebrowser/src/treebrowser.c:1415
 msgid "Coll_apse All"
 msgstr "_Згорнути все"
 
-#: ../treebrowser/src/treebrowser.c:1403
+#: ../treebrowser/src/treebrowser.c:1423
 msgid "Show Boo_kmarks"
 msgstr "За_кладки"
 
-#: ../treebrowser/src/treebrowser.c:1408
+#: ../treebrowser/src/treebrowser.c:1428
 msgid "Sho_w Hidden Files"
 msgstr "При_ховані файли"
 
-#: ../treebrowser/src/treebrowser.c:1413
+#: ../treebrowser/src/treebrowser.c:1433
 msgid "Show Tool_bars"
 msgstr "Панель _інструментів"
 
-#: ../treebrowser/src/treebrowser.c:1751
+#: ../treebrowser/src/treebrowser.c:1771
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Файл \"%s\" вже існує, ви дійсно хочете його замінити?"
 
-#: ../treebrowser/src/treebrowser.c:1887
+#: ../treebrowser/src/treebrowser.c:1907
 msgid "Go up"
 msgstr "Каталог рівнем вище"
 
-#: ../treebrowser/src/treebrowser.c:1897 ../treebrowser/src/treebrowser.c:2364
+#: ../treebrowser/src/treebrowser.c:1917 ../treebrowser/src/treebrowser.c:2384
 msgid "Refresh"
 msgstr "Оновити"
 
-#: ../treebrowser/src/treebrowser.c:1907
+#: ../treebrowser/src/treebrowser.c:1927
 msgid "Home"
 msgstr "Домашній каталог"
 
-#: ../treebrowser/src/treebrowser.c:1917
+#: ../treebrowser/src/treebrowser.c:1937
 msgid "Set path from document"
 msgstr "Каталог документа"
 
-#: ../treebrowser/src/treebrowser.c:1927
+#: ../treebrowser/src/treebrowser.c:1947
 msgid "Track path"
 msgstr "Показати файл документа"
 
-#: ../treebrowser/src/treebrowser.c:1937
+#: ../treebrowser/src/treebrowser.c:1957
 msgid "Hide bars"
 msgstr "Приховати панель інструментів"
 
-#: ../treebrowser/src/treebrowser.c:1947
+#: ../treebrowser/src/treebrowser.c:1967
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
@@ -7643,19 +7202,19 @@ msgstr ""
 "Фільтр імен файлів (список, розділений \";\"), або інверсний фільтр (список "
 "починається з \"!;\"). Наприклад, \"*.c;*.h;*.cpp\", або \"!;*.obj;temp*\""
 
-#: ../treebrowser/src/treebrowser.c:1952
+#: ../treebrowser/src/treebrowser.c:1972
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Шлях до каталогу"
 
-#: ../treebrowser/src/treebrowser.c:1977
+#: ../treebrowser/src/treebrowser.c:1997
 msgid "Tree Browser"
 msgstr "Провідник каталогів"
 
-#: ../treebrowser/src/treebrowser.c:2118
+#: ../treebrowser/src/treebrowser.c:2138
 msgid "External open command"
 msgstr "Зовнішня команда:"
 
-#: ../treebrowser/src/treebrowser.c:2128
+#: ../treebrowser/src/treebrowser.c:2148
 #, c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7668,60 +7227,64 @@ msgstr ""
 "використання маркерів %f (повний шлях до файлу) та %d (повний шлях до "
 "каталогу вибраного файлу)."
 
-#: ../treebrowser/src/treebrowser.c:2147
+#: ../treebrowser/src/treebrowser.c:2156
+msgid "Terminal"
+msgstr "Термінал"
+
+#: ../treebrowser/src/treebrowser.c:2167
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr "Програма терміналу"
 
-#: ../treebrowser/src/treebrowser.c:2153
+#: ../treebrowser/src/treebrowser.c:2173
 msgid "Toolbar"
 msgstr "Панель інструментів:"
 
-#: ../treebrowser/src/treebrowser.c:2155
+#: ../treebrowser/src/treebrowser.c:2175
 msgid "Hidden"
 msgstr "Не показувати"
 
-#: ../treebrowser/src/treebrowser.c:2156
+#: ../treebrowser/src/treebrowser.c:2176
 msgid "Top"
 msgstr "Зверху"
 
-#: ../treebrowser/src/treebrowser.c:2157
+#: ../treebrowser/src/treebrowser.c:2177
 msgid "Bottom"
 msgstr "Знизу"
 
-#: ../treebrowser/src/treebrowser.c:2162
+#: ../treebrowser/src/treebrowser.c:2182
 msgid "If position is changed, the option require plugin restart."
 msgstr ""
 "Перезапустіть плаґін, щоб зміни позиції панелі інструментів набули чинності."
 
-#: ../treebrowser/src/treebrowser.c:2166
+#: ../treebrowser/src/treebrowser.c:2186
 msgid "Show icons"
 msgstr "Піктограми файлів:"
 
-#: ../treebrowser/src/treebrowser.c:2168
+#: ../treebrowser/src/treebrowser.c:2188
 msgid "None"
 msgstr "Не показувати"
 
-#: ../treebrowser/src/treebrowser.c:2169
+#: ../treebrowser/src/treebrowser.c:2189
 msgid "Base"
 msgstr "Основні"
 
-#: ../treebrowser/src/treebrowser.c:2170
+#: ../treebrowser/src/treebrowser.c:2190
 msgid "Content-type"
 msgstr "Тип файлу"
 
-#: ../treebrowser/src/treebrowser.c:2176
+#: ../treebrowser/src/treebrowser.c:2196
 msgid "Show hidden files"
 msgstr "Показувати приховані файли"
 
-#: ../treebrowser/src/treebrowser.c:2185
+#: ../treebrowser/src/treebrowser.c:2205
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr "У Windows це впливає лише на dot-файли (ім'я починається з крапки)."
 
-#: ../treebrowser/src/treebrowser.c:2187
+#: ../treebrowser/src/treebrowser.c:2207
 msgid "Hide object files"
 msgstr "Не показувати об'єктні файли"
 
-#: ../treebrowser/src/treebrowser.c:2196
+#: ../treebrowser/src/treebrowser.c:2216
 msgid ""
 "Don't show generated object files in the file browser, this includes *.o, *."
 "obj. *.so, *.dll, *.a, *.lib"
@@ -7729,59 +7292,59 @@ msgstr ""
 "Не показувати згенеровані об'єктні файли (*.o, *.obj, *.so, *.dll, *.a, *."
 "lib)."
 
-#: ../treebrowser/src/treebrowser.c:2198
+#: ../treebrowser/src/treebrowser.c:2218
 msgid "Reverse filter"
 msgstr "Дозволити інверсний формат фільтру імен файлів"
 
-#: ../treebrowser/src/treebrowser.c:2207
+#: ../treebrowser/src/treebrowser.c:2227
 msgid "Follow current document"
 msgstr "Показувати шлях до поточного документа"
 
-#: ../treebrowser/src/treebrowser.c:2216
+#: ../treebrowser/src/treebrowser.c:2236
 msgid "Single click, open document and focus it"
 msgstr "Відкривати документ одним натисканням кнопки миші"
 
-#: ../treebrowser/src/treebrowser.c:2225
+#: ../treebrowser/src/treebrowser.c:2245
 msgid "Double click open directory"
 msgstr "Подвійне клацання відкриває разом усі файли з каталогу"
 
-#: ../treebrowser/src/treebrowser.c:2234
+#: ../treebrowser/src/treebrowser.c:2254
 msgid "On delete file, close it if is opened"
 msgstr "Закривати файл при видаленні (якщо відкритий)"
 
-#: ../treebrowser/src/treebrowser.c:2243
+#: ../treebrowser/src/treebrowser.c:2263
 msgid "Focus editor on file open"
 msgstr "Переходити на вкладку відкритого файлу"
 
-#: ../treebrowser/src/treebrowser.c:2252
+#: ../treebrowser/src/treebrowser.c:2272
 msgid "Show tree lines"
 msgstr "Показувати лінії рівнів дерева каталогів"
 
-#: ../treebrowser/src/treebrowser.c:2261
+#: ../treebrowser/src/treebrowser.c:2281
 msgid "Show bookmarks"
 msgstr "Показувати закладки"
 
-#: ../treebrowser/src/treebrowser.c:2270
+#: ../treebrowser/src/treebrowser.c:2290
 msgid "Open new files"
 msgstr "Відкривати створені файли"
 
-#: ../treebrowser/src/treebrowser.c:2354
+#: ../treebrowser/src/treebrowser.c:2374
 msgid "Focus File List"
 msgstr "Перейти до списку файлів"
 
-#: ../treebrowser/src/treebrowser.c:2356
+#: ../treebrowser/src/treebrowser.c:2376
 msgid "Focus Path Entry"
 msgstr "Ввести шлях"
 
-#: ../treebrowser/src/treebrowser.c:2358
+#: ../treebrowser/src/treebrowser.c:2378
 msgid "Rename Object"
 msgstr "Перейменувати"
 
-#: ../treebrowser/src/treebrowser.c:2362
+#: ../treebrowser/src/treebrowser.c:2382
 msgid "New Folder"
 msgstr "Створити каталог"
 
-#: ../treebrowser/src/treebrowser.c:2366
+#: ../treebrowser/src/treebrowser.c:2386
 msgid "Track Current"
 msgstr "Перейти на файл документа"
 
@@ -7894,52 +7457,82 @@ msgstr "стандартні"
 msgid "utility"
 msgstr "службові"
 
-#: ../webhelper/src/gwh-settings.c:804
+#: ../webhelper/src/gwh-settings.c:797
 #, c-format
 msgid "%s:"
 msgstr ""
 
-#: ../webhelper/src/gwh-browser.c:474
+#: ../webhelper/src/gwh-browser.c:239
 msgid "Bookmark this website"
 msgstr "Встановити закладку"
 
-#: ../webhelper/src/gwh-browser.c:645
+#: ../webhelper/src/gwh-browser.c:410
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../webhelper/src/gwh-browser.c:667
+#: ../webhelper/src/gwh-browser.c:418
+#, fuzzy
+msgid "Zoom _In"
+msgstr "Збільшити масштаб"
+
+#: ../webhelper/src/gwh-browser.c:427
+#, fuzzy
+msgid "Zoom _Out"
+msgstr "Зменшити масштаб"
+
+#: ../webhelper/src/gwh-browser.c:438
+#, fuzzy
+msgid "_Reset Zoom"
+msgstr "_Масштаб"
+
+#: ../webhelper/src/gwh-browser.c:451
 msgid "Full-_content zoom"
 msgstr "Повна _ширина"
 
-#: ../webhelper/src/gwh-browser.c:678
-msgid "Flip panes orientation"
-msgstr "Змінити орієнтацію панелей"
-
-#: ../webhelper/src/gwh-browser.c:950
-msgid "Back"
+#: ../webhelper/src/gwh-browser.c:686
+#, fuzzy
+msgid "_Back"
 msgstr "Попередня сторінка"
 
-#: ../webhelper/src/gwh-browser.c:954
-msgid "Forward"
+#: ../webhelper/src/gwh-browser.c:687
+#, fuzzy
+msgid "Go back"
+msgstr "Попередня сторінка"
+
+#: ../webhelper/src/gwh-browser.c:690
+#, fuzzy
+msgid "_Forward"
 msgstr "Наступна сторінка"
 
-#: ../webhelper/src/gwh-browser.c:958
+#: ../webhelper/src/gwh-browser.c:691
+#, fuzzy
+msgid "Go forward"
+msgstr "Наступна сторінка"
+
+#: ../webhelper/src/gwh-browser.c:695
 msgid "Cancel loading"
 msgstr "Скасувати завантаження"
 
-#: ../webhelper/src/gwh-browser.c:962
+#. don't show cancel
+#: ../webhelper/src/gwh-browser.c:698
+#, fuzzy
+msgid "_Refresh"
+msgstr "Оновити"
+
+#: ../webhelper/src/gwh-browser.c:699
 msgid "Reload current page"
 msgstr "Оновити поточну сторінку"
 
-#: ../webhelper/src/gwh-browser.c:978
+#: ../webhelper/src/gwh-browser.c:715
 msgid "Website information and settings"
 msgstr "Інформація про сторінку та настройки"
 
-#: ../webhelper/src/gwh-browser.c:987 ../webhelper/src/gwh-browser.c:1037
-msgid "Web inspector"
+#: ../webhelper/src/gwh-browser.c:725
+#, fuzzy
+msgid "Web _Inspector"
 msgstr "Web Inspector"
 
-#: ../webhelper/src/gwh-browser.c:988
+#: ../webhelper/src/gwh-browser.c:726
 msgid "Toggle web inspector"
 msgstr "Web Inspector"
 
@@ -7957,124 +7550,116 @@ msgstr ""
 "документів. Додаткові інструменти веб-аналізу та налагодження (Web "
 "Inspector). На основі WebKit."
 
-#: ../webhelper/src/gwh-plugin.c:140
+#: ../webhelper/src/gwh-plugin.c:139
 msgid "Web view"
 msgstr "Веб-перегляд"
 
-#: ../webhelper/src/gwh-plugin.c:185
+#: ../webhelper/src/gwh-plugin.c:182
 msgid "Web preview"
 msgstr "Веб-перегляд"
 
-#: ../webhelper/src/gwh-plugin.c:264
+#: ../webhelper/src/gwh-plugin.c:271
 msgid "Reload upon document saving"
 msgstr "Оновлювати при з_береженні документа"
 
-#: ../webhelper/src/gwh-plugin.c:316
+#: ../webhelper/src/gwh-plugin.c:321
 msgid "Browser auto reload"
 msgstr "Оновлювати автоматично"
 
-#: ../webhelper/src/gwh-plugin.c:317
+#: ../webhelper/src/gwh-plugin.c:322
 msgid "Whether the browser reloads itself upon document saving"
 msgstr "Автоматично оновлювати веб-перегляд при збереженні документа."
 
-#: ../webhelper/src/gwh-plugin.c:322
+#: ../webhelper/src/gwh-plugin.c:327
 msgid "Browser last URI"
 msgstr "Останній URI"
 
-#: ../webhelper/src/gwh-plugin.c:323
+#: ../webhelper/src/gwh-plugin.c:328
 msgid "Last URI visited by the browser"
 msgstr "Останній URI, відвіданий у веб-перегляді."
 
-#: ../webhelper/src/gwh-plugin.c:329
+#: ../webhelper/src/gwh-plugin.c:334
 msgid "List of bookmarks"
 msgstr "Закладки"
 
-#: ../webhelper/src/gwh-plugin.c:334
+#: ../webhelper/src/gwh-plugin.c:339
 msgid "Browser orientation"
 msgstr "Орієнтація веб-перегляду"
 
-#: ../webhelper/src/gwh-plugin.c:335
+#: ../webhelper/src/gwh-plugin.c:340
 msgid "Orientation of the browser widget"
 msgstr "Орієнтація вікна веб-перегляду"
 
-#: ../webhelper/src/gwh-plugin.c:341
+#: ../webhelper/src/gwh-plugin.c:346
 msgid "Browser position"
 msgstr "Панель"
 
-#: ../webhelper/src/gwh-plugin.c:342
+#: ../webhelper/src/gwh-plugin.c:347
 msgid "Position of the browser widget in Geany's UI"
 msgstr "Розміщення панелі веб-перегляду."
 
-#: ../webhelper/src/gwh-plugin.c:348
+#: ../webhelper/src/gwh-plugin.c:353
 msgid "Browser separate window geometry"
 msgstr "Розмір вікна веб-перегляду"
 
-#: ../webhelper/src/gwh-plugin.c:349
+#: ../webhelper/src/gwh-plugin.c:354
 msgid "Last geometry of the separated browser's window"
 msgstr "Останній збережений розмір вікна веб-перегляду"
 
-#: ../webhelper/src/gwh-plugin.c:354
-msgid "Inspector window geometry"
-msgstr "Розмір панелі Web Inspector"
-
-#: ../webhelper/src/gwh-plugin.c:355
-msgid "Last geometry of the inspector window"
-msgstr "Останній збережений розмір вікна Web Inspector"
-
-#: ../webhelper/src/gwh-plugin.c:360
+#: ../webhelper/src/gwh-plugin.c:359
 msgid "Inspector detached"
 msgstr "Web Inspector в окремому вікні"
 
-#: ../webhelper/src/gwh-plugin.c:361
+#: ../webhelper/src/gwh-plugin.c:360
 msgid "Whether the inspector is in a separate window or docked in the browser"
 msgstr ""
 "Показувати Web Inspector в окремому вікні або у панелі вікна веб-перегляду."
 
-#: ../webhelper/src/gwh-plugin.c:366
+#: ../webhelper/src/gwh-plugin.c:365
 msgid "Secondary windows skip task bar"
 msgstr "Не показувати в панелі завдань"
 
-#: ../webhelper/src/gwh-plugin.c:367
+#: ../webhelper/src/gwh-plugin.c:366
 msgid ""
 "Whether to tell the window manager not to show the secondary windows in the "
 "task bar"
 msgstr "Не показувати вікна плаґіна в панелі завдань."
 
-#: ../webhelper/src/gwh-plugin.c:372
+#: ../webhelper/src/gwh-plugin.c:371
 msgid "Secondary windows are transient"
 msgstr "Показувати діалоги поверх головного вікна"
 
-#: ../webhelper/src/gwh-plugin.c:373
+#: ../webhelper/src/gwh-plugin.c:372
 msgid "Whether secondary windows are transient children of their parent"
 msgstr "Показувати діалоги поверх відповідних батьківських вікон."
 
-#: ../webhelper/src/gwh-plugin.c:378
+#: ../webhelper/src/gwh-plugin.c:377
 msgid "Secondary windows type"
 msgstr "Тип вікон"
 
-#: ../webhelper/src/gwh-plugin.c:379
+#: ../webhelper/src/gwh-plugin.c:378
 msgid "The type of the secondary windows"
 msgstr "Тип вікон плаґіна."
 
-#: ../webhelper/src/gwh-plugin.c:455
+#: ../webhelper/src/gwh-plugin.c:454
 msgid "Toggle Web Inspector"
 msgstr "Web Inspector"
 
-#: ../webhelper/src/gwh-plugin.c:460
+#: ../webhelper/src/gwh-plugin.c:459
 msgid "Show/Hide Web View's Window"
 msgstr "Приховати вікно веб-перегляду"
 
-#: ../webhelper/src/gwh-plugin.c:463
+#: ../webhelper/src/gwh-plugin.c:462
 msgid "Toggle bookmark for the current website"
 msgstr "Встановити закладку для поточної сторінки"
 
 #. Browser
-#: ../webhelper/src/gwh-plugin.c:529
+#: ../webhelper/src/gwh-plugin.c:528
 msgid "Browser"
 msgstr "Веб-перегляд"
 
 #. Windows
-#: ../webhelper/src/gwh-plugin.c:541
+#: ../webhelper/src/gwh-plugin.c:540
 msgid "Windows"
 msgstr "Вікна"
 
@@ -8240,7 +7825,7 @@ msgstr "Не вдалось зберегти файл верстака: %s"
 
 #. Set metadata
 #: ../workbench/src/menu.c:207 ../workbench/src/plugin_main.c:132
-#: ../workbench/src/sidebar.c:1433
+#: ../workbench/src/sidebar.c:1437
 msgid "Workbench"
 msgstr "Верстак"
 
@@ -8269,7 +7854,7 @@ msgstr "_Пошук проектів"
 msgid "_Close"
 msgstr "_Закрити"
 
-#: ../workbench/src/plugin_main.c:89 ../workbench/src/sidebar.c:859
+#: ../workbench/src/plugin_main.c:89 ../workbench/src/sidebar.c:863
 msgid ""
 "Create or open a workbench\n"
 "using the workbench menu."
@@ -8456,11 +8041,11 @@ msgid "No directories"
 msgstr "Немає каталогів"
 
 #. *** label ***
-#: ../workbench/src/sidebar.c:857 ../workbench/src/sidebar.c:1384
+#: ../workbench/src/sidebar.c:861 ../workbench/src/sidebar.c:1388
 msgid "No workbench opened."
 msgstr "Верстак відсутній"
 
-#: ../workbench/src/sidebar.c:875
+#: ../workbench/src/sidebar.c:879
 #, c-format
 msgid "%s: %u Project"
 msgid_plural "%s: %u Projects"
@@ -8468,7 +8053,7 @@ msgstr[0] "%s: %u проект"
 msgstr[1] "%s: %u проекти"
 msgstr[2] "%s: %u проектів"
 
-#: ../workbench/src/sidebar.c:886
+#: ../workbench/src/sidebar.c:890
 msgid ""
 "Add a project using the context menu\n"
 "or select \"Search projects\" from the menu."
@@ -8476,7 +8061,7 @@ msgstr ""
 "Додайте проект з контекстного меню\n"
 "або з меню \"Пошук проектів\"."
 
-#: ../workbench/src/sidebar.c:1011
+#: ../workbench/src/sidebar.c:1015
 #, c-format
 msgid ""
 "%s\n"
@@ -8485,7 +8070,7 @@ msgstr ""
 "%s\n"
 "Файл проекта не знайдено!"
 
-#: ../workbench/src/sidebar.c:1025
+#: ../workbench/src/sidebar.c:1029
 msgid ""
 "This project has no directories. Directories can be added to a project using "
 "the context menu."
@@ -8546,22 +8131,22 @@ msgstr "підкаталогів: %u\n"
 msgid "Number of Files: %u\n"
 msgstr "файлів: %u\n"
 
-#: ../workbench/src/wb_project.c:1255
+#: ../workbench/src/wb_project.c:1256
 #, c-format
 msgid "Project: %s\n"
 msgstr "Проект: %s\n"
 
-#: ../workbench/src/wb_project.c:1256
+#: ../workbench/src/wb_project.c:1257
 #, c-format
 msgid "File: %s\n"
 msgstr "Файл: %s\n"
 
-#: ../workbench/src/wb_project.c:1257
+#: ../workbench/src/wb_project.c:1258
 #, c-format
 msgid "Number of Directories: %u\n"
 msgstr "каталогів: %u\n"
 
-#: ../workbench/src/wb_project.c:1260
+#: ../workbench/src/wb_project.c:1261
 msgid ""
 "\n"
 "The project contains unsaved changes!\n"
@@ -8583,3 +8168,209 @@ msgid "Autocompletes XML/HTML tags using snippets."
 msgstr ""
 "Автозавершення тегів XML/HTML з можливістю вставки фрагментів коду "
 "(сніпетів)."
+
+#~ msgid "Documentation"
+#~ msgstr "Документація"
+
+#~ msgid "Code"
+#~ msgstr "Код"
+
+#~ msgid "Search for 'Tag' Documentation in"
+#~ msgstr "Знайти документацію символу в"
+
+#~ msgid "Manual Pages"
+#~ msgstr "Посібнику (man)"
+
+#~ msgid "Go forward one page"
+#~ msgstr "Наступна сторінка"
+
+#~ msgid "Search"
+#~ msgstr "Пошук"
+
+#, c-format
+#~ msgid "Search for '%s' Documentation in"
+#~ msgstr "Знайти документацію \"%s\" у"
+
+#~ msgid "Toggle sidebar contents tab"
+#~ msgstr "Зміст"
+
+#~ msgid "Toggle sidebar search tab"
+#~ msgstr "Пошук"
+
+#~ msgid "Toggle documentation tab"
+#~ msgstr "Документація"
+
+#~ msgid "Activate all tabs"
+#~ msgstr "Всі вкладки"
+
+#~ msgid "Search for current tag in Devhelp"
+#~ msgstr "Знайти документацію символу в Devhelp"
+
+#~ msgid "Search for current tag in Manual Pages"
+#~ msgstr "Знайти документацію символу в Посібнику (man)"
+
+#~ msgid "Devhelp Plugin"
+#~ msgstr "Devhelp"
+
+#~ msgid ""
+#~ "Adds support for looking up documentation in Devhelp, manual pages, and "
+#~ "Google Code Search in the integrated viewer."
+#~ msgstr ""
+#~ "Пошук і перегляд документації у Devhelp, сторінках Посібника (man) та "
+#~ "Google Code Search."
+
+#~ msgid "Devhelp — Assistant"
+#~ msgstr "Devhelp Помічник"
+
+#~ msgid "Book:"
+#~ msgstr "Книга:"
+
+#~ msgid "Page"
+#~ msgstr "Сторінка"
+
+#~ msgid "Keyword"
+#~ msgstr "Ключове слово"
+
+#~ msgid "All books"
+#~ msgstr "Усіх книгах"
+
+#~ msgid "Search in:"
+#~ msgstr "Шукати в:"
+
+#~ msgid "A developers' help browser for GNOME"
+#~ msgstr "Браузер документації програмування для GNOME"
+
+#~ msgid "_View"
+#~ msgstr "Ви_гляд"
+
+#~ msgid "_Go"
+#~ msgstr "_Йти"
+
+#~ msgid "_Help"
+#~ msgstr "_Довідка"
+
+#~ msgid "_New Window"
+#~ msgstr "_Відкрити нове вікно"
+
+#~ msgid "New _Tab"
+#~ msgstr "Відкрити нову в_кладку"
+
+#~ msgid "_Print…"
+#~ msgstr "Д_рукувати..."
+
+#~ msgid "Find Next"
+#~ msgstr "Знайти наступне"
+
+#~ msgid "Find Previous"
+#~ msgstr "Знайти попереднє"
+
+#~ msgid "Go to the previous page"
+#~ msgstr "Попередня сторінка"
+
+#~ msgid "Go to the next page"
+#~ msgstr "Наступна сторінка"
+
+#~ msgid "_Contents Tab"
+#~ msgstr "_Зміст"
+
+#~ msgid "_Search Tab"
+#~ msgstr "По_шук"
+
+#~ msgid "_Larger Text"
+#~ msgstr "З_більшити масштаб"
+
+#~ msgid "Increase the text size"
+#~ msgstr "Збільшити розмір шрифту"
+
+#~ msgid "S_maller Text"
+#~ msgstr "З_меншити масштаб"
+
+#~ msgid "Decrease the text size"
+#~ msgstr "Зменшити розмір шрифту"
+
+#~ msgid "_Normal Size"
+#~ msgstr "_Нормальний розмір"
+
+#~ msgid "Use the normal text size"
+#~ msgstr "Нормальний розмір шрифту"
+
+#~ msgid "Leave fullscreen mode"
+#~ msgstr "Вийти з повноекранного режиму"
+
+#~ msgid "Display in full screen"
+#~ msgstr "На весь екран"
+
+#~ msgid "Larger"
+#~ msgstr "Збільшити"
+
+#~ msgid "Smaller"
+#~ msgstr "Зменшити"
+
+#~ msgid "About Devhelp"
+#~ msgstr "Про Devhelp"
+
+#~ msgid "Preferences…"
+#~ msgstr "Настройки..."
+
+#~ msgid "Error opening the requested link."
+#~ msgstr "Не вдалось відкрити вказану сторінку."
+
+#~ msgid "Empty Page"
+#~ msgstr "Пуста сторінка"
+
+#~ msgid "Find:"
+#~ msgstr "Шукати:"
+
+#~ msgid "Find previous occurrence of the search string"
+#~ msgstr "Знайти попередню зустріч рядка пошуку"
+
+#~ msgid "Find next occurrence of the search string"
+#~ msgstr "Знайти наступну зустріч рядка пошуку"
+
+#~ msgid "C_ase Sensitive"
+#~ msgstr "Враховувати _регістр"
+
+#~ msgid "Toggle case sensitive search"
+#~ msgstr "Увімкнути пошук з урахуванням регістра"
+
+#~ msgid "Python plugins support"
+#~ msgstr "Підтримка плаґінів на Python"
+
+#~ msgid "Move to message window"
+#~ msgstr "Перемістити до вікна повідомлень"
+
+#~ msgid "Move to sidebar"
+#~ msgstr "Перемістити до бічної панелі"
+
+#~ msgid "Open Tab"
+#~ msgstr "Відкрити нову вкладку"
+
+#~ msgid "Open Window"
+#~ msgstr "Відкрити нове вікно"
+
+#~ msgid "Next tab"
+#~ msgstr "Наступна вкладка"
+
+#~ msgid "Previous tab"
+#~ msgstr "Попередня вкладка"
+
+#~ msgid "Show Tabs"
+#~ msgstr "Вкладки"
+
+#~ msgid "New terminal"
+#~ msgstr "Відкрити нову вкладку терміналу"
+
+#~ msgid "Multi-tabbed virtual terminal emulator."
+#~ msgstr "Віртуальний термінал з підтримкою вкладок."
+
+#~ msgid "Close terminal"
+#~ msgstr "Закрити вкладку"
+
+#~ msgid "Flip panes orientation"
+#~ msgstr "Змінити орієнтацію панелей"
+
+#~ msgid "Inspector window geometry"
+#~ msgstr "Розмір панелі Web Inspector"
+
+#~ msgid "Last geometry of the inspector window"
+#~ msgstr "Останній збережений розмір вікна Web Inspector"
