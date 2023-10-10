@@ -1,24 +1,25 @@
 # translation of es.po to Spanish
 # Spanish translation for geany-plugins
-# Copyright (C) 2009 - 2021 Lucas Vieites & Geany contributors
+# Copyright (C) 2009 - 2023 Lucas Vieites & Geany contributors
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
-# Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2021.
+# Lucas Vieites <lucasvieites@gmail.com>, 2009 - 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-07 16:26+0200\n"
-"PO-Revision-Date: 2021-09-30 12:17+0200\n"
-"Last-Translator: Lucas Vieites Fariña <lucas.vieites@gmail.com>\n"
+"POT-Creation-Date: 2023-10-10 03:19+0000\n"
+"PO-Revision-Date: 2023-10-10 16:05+0200\n"
+"Last-Translator: Lucas Vieites <lucasvieites@gmail.com>\n"
 "Language-Team: Español <geany-i18n@uvena.de>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Geany / PoHelper 1.37\n"
+"X-Generator: Poedit 3.3.2\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -4260,9 +4261,9 @@ msgid "File %s: action %s executed via %s."
 msgstr "Archivo %s: acción %s ejecutado vía %s."
 
 #: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "geanyvc: diff_external: Unable to rename '%s' to '%s'"
-msgstr "geanyvc: vcdiff_file_activated: No se puede renombrar «%s» a «%s»"
+msgstr "geanyvc: diff_external: No se puede renombrar «%s» a «%s»"
 
 #: ../geanyvc/src/geanyvc.c:698 ../geanyvc/src/geanyvc.c:784
 msgid "No changes were made."
@@ -4987,8 +4988,8 @@ msgstr ""
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
-"Your configuration directory has been successfully moved from \"%s\" to \"%s"
-"\"."
+"Your configuration directory has been successfully moved from \"%s\" to "
+"\"%s\"."
 msgstr ""
 "Su directorio de configuración ha sido movido con éxito de «%s» a «%s»."
 
@@ -5581,11 +5582,11 @@ msgstr "Enfocar barra lateral de proyectos"
 
 #: ../projectorganizer/src/prjorg-menu.c:289
 msgid "Open File Manager at file location"
-msgstr ""
+msgstr "Abrir el Gestor de Archivos en la ubicación del archivo"
 
 #: ../projectorganizer/src/prjorg-menu.c:292
 msgid "Open Terminal at file location"
-msgstr ""
+msgstr "Abrir Terminal en la ubicación del archivo"
 
 #: ../projectorganizer/src/prjorg-menu.c:298
 msgid "Open Selected File (Project Organizer)"
@@ -5679,9 +5680,8 @@ msgid "Index all project files:"
 msgstr "Indexar todos los archivos del proyecto:"
 
 #: ../projectorganizer/src/prjorg-project.c:703
-#, fuzzy
 msgid "Auto (index if less than 1000 files)"
-msgstr "Auto (indexar si hay menos de 300 archivos)"
+msgstr "Auto (indexar si hay menos de 1000 archivos)"
 
 #: ../projectorganizer/src/prjorg-project.c:704
 msgid "Yes"
@@ -5719,18 +5719,18 @@ msgid "project or external directory"
 msgstr "proyecto o directorio externo"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open folder.  Command unavailable: %s"
-msgstr "No se ha podido ejecutar el comando: %s"
+msgstr "No se puede abrir la carpeta.  Comando no disponible: %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:397
 msgid "Unable to find folder."
-msgstr ""
+msgstr "No se puede encontrar la carpeta."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open terminal: %s"
-msgstr "No se pudo lanzar la terminal externa: %s"
+msgstr "No se puede abrir el terminal: %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:433
 msgid "Add External Directory"
@@ -5851,14 +5851,12 @@ msgid "Find Symbol..."
 msgstr "Buscar símbolo..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1788
-#, fuzzy
 msgid "Open File Manager"
-msgstr "Abrir _manual"
+msgstr "Abrir el Gestor de Archivos"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1793
-#, fuzzy
 msgid "Open Terminal"
-msgstr "Abrir _Terminal"
+msgstr "Abrir Terminal"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1802
 msgid "Remove External Directory"
@@ -6953,14 +6951,12 @@ msgid "Checks the spelling of the current document."
 msgstr "Comprueba la ortografía del documento actual."
 
 #: ../spellcheck/src/scplugin.c:225
-#, fuzzy
 msgid "Run spell check once"
-msgstr "Ejecutar comprobación ortográfica"
+msgstr "Ejecutar comprobación ortográfica una vez"
 
 #: ../spellcheck/src/scplugin.c:228 ../spellcheck/src/scplugin.c:333
-#, fuzzy
 msgid "Toggle spell check"
-msgstr "Corrección ortográfica"
+msgstr "Conmutar corrección ortográfica"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:239
@@ -7068,9 +7064,9 @@ msgid "Default (%s)"
 msgstr "Predeterminado (%s)"
 
 #: ../spellcheck/src/gui.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "Toggle spell check (current language: %s)"
-msgstr "Conmutar comprobación ortográfica al escribir (idioma actual: %s)"
+msgstr "Conmutar comprobación ortográfica (idioma actual: %s)"
 
 #: ../spellcheck/src/gui.c:695
 msgid "Spelling Suggestions"
@@ -7575,43 +7571,36 @@ msgid "_Zoom"
 msgstr "_Zoom"
 
 #: ../webhelper/src/gwh-browser.c:418
-#, fuzzy
 msgid "Zoom _In"
-msgstr "Acercar"
+msgstr "A_cercar"
 
 #: ../webhelper/src/gwh-browser.c:427
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "Alejar"
+msgstr "A_lejar"
 
 #: ../webhelper/src/gwh-browser.c:438
-#, fuzzy
 msgid "_Reset Zoom"
-msgstr "_Zoom"
+msgstr "_Reiniciar zoom"
 
 #: ../webhelper/src/gwh-browser.c:451
 msgid "Full-_content zoom"
 msgstr "Zoom a todo el _contenido"
 
 #: ../webhelper/src/gwh-browser.c:686
-#, fuzzy
 msgid "_Back"
-msgstr "Atrás"
+msgstr "_Atrás"
 
 #: ../webhelper/src/gwh-browser.c:687
-#, fuzzy
 msgid "Go back"
-msgstr "Retroceder una página"
+msgstr "Retroceder"
 
 #: ../webhelper/src/gwh-browser.c:690
-#, fuzzy
 msgid "_Forward"
-msgstr "Adelante"
+msgstr "A_delante"
 
 #: ../webhelper/src/gwh-browser.c:691
-#, fuzzy
 msgid "Go forward"
-msgstr "Adelante"
+msgstr "Adelantar"
 
 #: ../webhelper/src/gwh-browser.c:695
 msgid "Cancel loading"
@@ -7619,9 +7608,8 @@ msgstr "Cancelar carga"
 
 #. don't show cancel
 #: ../webhelper/src/gwh-browser.c:698
-#, fuzzy
 msgid "_Refresh"
-msgstr "Refrescar"
+msgstr "_Refrescar"
 
 #: ../webhelper/src/gwh-browser.c:699
 msgid "Reload current page"
@@ -7632,9 +7620,8 @@ msgid "Website information and settings"
 msgstr "Información y ajustes del sitio web"
 
 #: ../webhelper/src/gwh-browser.c:725
-#, fuzzy
 msgid "Web _Inspector"
-msgstr "Inspector web"
+msgstr "_Inspector web"
 
 #: ../webhelper/src/gwh-browser.c:726
 msgid "Toggle web inspector"
@@ -8443,7 +8430,7 @@ msgstr "Autocompleta etiquetas XML/HTML mediante recortes"
 #~ msgid "translator_credits"
 #~ msgstr ""
 #~ "Andrew Janke <a.janke@gmail.com>, 2009\n"
-#~ "Lucas Vieites <lucas.vieites@gmail.com>, 2009 - 2021"
+#~ "Lucas Vieites <lucasvieites@gmail.com>, 2009 - 2023"
 
 #~ msgid "A developers' help browser for GNOME"
 #~ msgstr "Un visor de ayuda para el desarrollador de Gnome"
