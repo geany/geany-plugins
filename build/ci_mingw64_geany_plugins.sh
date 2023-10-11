@@ -123,7 +123,11 @@ log_environment() {
 	echo "Geany installer              : ${GEANY_INSTALLER_EXECUTABLE}"
 	echo "PATH                         : ${PATH}"
 	echo "HOST                         : ${HOST}"
-	echo "CC                           : ${CC}"
+	echo "GCC                          : $(${HOST}-gcc -dumpfullversion) ($(${HOST}-gcc -dumpversion))"
+	echo "G++                          : $(${HOST}-g++ -dumpfullversion) ($(${HOST}-g++ -dumpversion))"
+	echo "Libstdc++                    : $(dpkg-query --showformat='${Version}' --show libstdc++6:i386)"
+	echo "GLib                         : $(pkg-config --modversion glib-2.0)"
+	echo "GTK                          : $(pkg-config --modversion gtk+-3.0)"
 	echo "CFLAGS                       : ${CFLAGS}"
 	echo "Configure                    : ${CONFIGURE_OPTIONS}"
 }
