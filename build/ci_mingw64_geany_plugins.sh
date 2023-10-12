@@ -123,7 +123,11 @@ log_environment() {
 	echo "Geany installer              : ${GEANY_INSTALLER_EXECUTABLE}"
 	echo "PATH                         : ${PATH}"
 	echo "HOST                         : ${HOST}"
-	echo "CC                           : ${CC}"
+	echo "GCC                          : $(${HOST}-gcc -dumpfullversion) ($(${HOST}-gcc -dumpversion))"
+	echo "G++                          : $(${HOST}-g++ -dumpfullversion) ($(${HOST}-g++ -dumpversion))"
+	echo "Libstdc++                    : $(dpkg-query --showformat='${Version}' --show libstdc++6:i386)"
+	echo "GLib                         : $(pkg-config --modversion glib-2.0)"
+	echo "GTK                          : $(pkg-config --modversion gtk+-3.0)"
 	echo "CFLAGS                       : ${CFLAGS}"
 	echo "Configure                    : ${CONFIGURE_OPTIONS}"
 }
@@ -144,8 +148,13 @@ patch_version_information() {
 		MINOR="${BASH_REMATCH[2]}"
 		PATCH="${BASH_REMATCH[4]}"
 		if [ -z "${PATCH}" ] || [ "${PATCH}" = "0" ]; then
-			MINOR="$((MINOR-1))"
-			PATCH="90"
+			if [ "${MINOR}" = "0" ]; then
+				MAJOR="$((MAJOR-1))"
+				MINOR="99"
+			else
+				MINOR="$((MINOR-1))"
+			fi
+			PATCH="99"
 		else
 			PATCH="$((PATCH-1))"
 		fi
