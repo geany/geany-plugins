@@ -837,6 +837,7 @@ get_widget_for_buf_range (GeanyDocument *doc,
   /* hide stuff we don't wanna see */
   scintilla_send_message (sci, SCI_SETHSCROLLBAR, 0, 0);
   scintilla_send_message (sci, SCI_SETVSCROLLBAR, 0, 0);
+  scintilla_send_message (sci, SCI_SETCHANGEHISTORY, SC_CHANGE_HISTORY_DISABLED, 0);
   for (i = 0; i < SC_MAX_MARGIN; i++) {
     scintilla_send_message (sci, SCI_SETMARGINWIDTHN, i, 0);
   }
