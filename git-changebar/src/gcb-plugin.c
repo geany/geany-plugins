@@ -879,6 +879,9 @@ get_widget_for_buf_range (GeanyDocument *doc,
                                MIN (width + 2, alloc.width),
                                MIN (height + 1, alloc.height));
   
+  /* Size request seems to scroll Scintilla view so we have to re-set visible lines again */
+  scintilla_send_message (sci, SCI_SETFIRSTVISIBLELINE, line_start, 0);
+  
   return GTK_WIDGET (sci);
 }
 
