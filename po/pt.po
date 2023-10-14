@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-07 16:26+0200\n"
-"PO-Revision-Date: 2021-11-01 20:50+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
+"POT-Creation-Date: 2023-10-10 03:19+0000\n"
+"PO-Revision-Date: 2023-10-10 05:08+0100\n"
+"Last-Translator: Pedro Albuquerque <pmra@protonmail.com>\n"
 "Language-Team: Português <translation-team-pt@lists.sourceforge.net>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: ../addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
@@ -1259,8 +1259,8 @@ msgstr "Impossível gravar a configuração: %s"
 #, c-format
 msgid "Failed to find configuration file for file type \"%s\": %s"
 msgstr ""
-"Falha ao encontrar o ficheiro de configuração para o tipo de ficheiro \"%s"
-"\": %s"
+"Falha ao encontrar o ficheiro de configuração para o tipo de ficheiro "
+"\"%s\": %s"
 
 #: ../geanygendoc/src/ggd-plugin.c:329
 msgid ""
@@ -3800,8 +3800,8 @@ msgstr ""
 "número de marcador ele é removido, senão move o marcador para aí se estiver "
 "definido noutra linha ou cria um novo se ainda não existir. Só será mostrado "
 "o marcador numerado mais recentemente definido, mas pode ter mais de um "
-"marcador por linha. Para mover um marcador anteriormente definido, prima Ctrl"
-"+nº de 0 a 9."
+"marcador por linha. Para mover um marcador anteriormente definido, prima "
+"Ctrl+nº de 0 a 9."
 
 #: ../geanynumberedbookmarks/src/geanynumberedbookmarks.c:1408
 msgid "Unable to apply markers as all being used."
@@ -4248,9 +4248,9 @@ msgid "File %s: action %s executed via %s."
 msgstr "Ficheiro %s: acção %s executada via %s."
 
 #: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "geanyvc: diff_external: Unable to rename '%s' to '%s'"
-msgstr "geanyvc: vcdiff_file_activated: impossível renomear \"%s\" para \"%s\""
+msgstr "geanyvc: diff_external: impossível renomear \"%s\" para \"%s\""
 
 #: ../geanyvc/src/geanyvc.c:698 ../geanyvc/src/geanyvc.c:784
 msgid "No changes were made."
@@ -4978,8 +4978,8 @@ msgstr ""
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
-"Your configuration directory has been successfully moved from \"%s\" to \"%s"
-"\"."
+"Your configuration directory has been successfully moved from \"%s\" to "
+"\"%s\"."
 msgstr ""
 "A sua pasta de configuração foi movida com sucesso de \"%s\" para \"%s\"."
 
@@ -4989,8 +4989,8 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please manually move the directory to the new location."
 msgstr ""
-"A sua pasta de configuração antiga \"%s\" não pôde ser movida para \"%s"
-"\" (%s). Por favor, mova-a manualmente para a nova localização."
+"A sua pasta de configuração antiga \"%s\" não pôde ser movida para "
+"\"%s\" (%s). Por favor, mova-a manualmente para a nova localização."
 
 #: ../lipsum/src/lipsum.c:223 ../lipsum/src/lipsum.c:225
 msgid "_Lipsum..."
@@ -5569,11 +5569,11 @@ msgstr "Foco na barra alteral de projecto"
 
 #: ../projectorganizer/src/prjorg-menu.c:289
 msgid "Open File Manager at file location"
-msgstr ""
+msgstr "Abrir o gestor de ficheiros na localização"
 
 #: ../projectorganizer/src/prjorg-menu.c:292
 msgid "Open Terminal at file location"
-msgstr ""
+msgstr "Abrir terminal na localização"
 
 #: ../projectorganizer/src/prjorg-menu.c:298
 msgid "Open Selected File (Project Organizer)"
@@ -5666,9 +5666,8 @@ msgid "Index all project files:"
 msgstr "Indexar todos os ficheiros de projecto:"
 
 #: ../projectorganizer/src/prjorg-project.c:703
-#, fuzzy
 msgid "Auto (index if less than 1000 files)"
-msgstr "Automático (indexar se menos de 300 ficheiros)"
+msgstr "Automático (indexar se menos de 1000 ficheiros)"
 
 #: ../projectorganizer/src/prjorg-project.c:704
 msgid "Yes"
@@ -5705,18 +5704,18 @@ msgid "project or external directory"
 msgstr "projecto ou pasta externa"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open folder.  Command unavailable: %s"
-msgstr "Impossível executar o comando: %s"
+msgstr "Impossível abrir a pasta. Comando indisponível: %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:397
 msgid "Unable to find folder."
-msgstr ""
+msgstr "Impossível encontrar a pasta."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open terminal: %s"
-msgstr "Impossível iniciar terminal externo: %s"
+msgstr "Impossível abrir terminal: %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:433
 msgid "Add External Directory"
@@ -5837,14 +5836,12 @@ msgid "Find Symbol..."
 msgstr "Procurar símbolo..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1788
-#, fuzzy
 msgid "Open File Manager"
-msgstr "Abrir _manual"
+msgstr "Abrir gestor de ficheiros"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1793
-#, fuzzy
 msgid "Open Terminal"
-msgstr "Abrir _terminal"
+msgstr "Abrir terminal"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1802
 msgid "Remove External Directory"
@@ -6882,8 +6879,8 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
 msgstr ""
-"A sua pasta de configuração antiga \"%s\" não pôde ser movida para \"%s"
-"\" (%s). Por favor, mova-a manualmente para a nova localização."
+"A sua pasta de configuração antiga \"%s\" não pôde ser movida para "
+"\"%s\" (%s). Por favor, mova-a manualmente para a nova localização."
 
 #. Build up menu entry
 #: ../sendmail/src/sendmail.c:442
@@ -6938,14 +6935,12 @@ msgid "Checks the spelling of the current document."
 msgstr "Verifica a ortografia do actual documento."
 
 #: ../spellcheck/src/scplugin.c:225
-#, fuzzy
 msgid "Run spell check once"
-msgstr "Executar o corrector ortográfico"
+msgstr "Executar o corrector ortográfico uma vez"
 
 #: ../spellcheck/src/scplugin.c:228 ../spellcheck/src/scplugin.c:333
-#, fuzzy
 msgid "Toggle spell check"
-msgstr "Correcção ortográfica"
+msgstr "Alternar correcção ortográfica"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:239
@@ -7053,9 +7048,9 @@ msgid "Default (%s)"
 msgstr "Predefinição (%s)"
 
 #: ../spellcheck/src/gui.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "Toggle spell check (current language: %s)"
-msgstr "Alternar correcção ortográfica enquanto digita (idioma actual: %s)"
+msgstr "Alternar correcção ortográfica (idioma actual: %s)"
 
 #: ../spellcheck/src/gui.c:695
 msgid "Spelling Suggestions"
@@ -7557,41 +7552,34 @@ msgid "_Zoom"
 msgstr "_Ampliação"
 
 #: ../webhelper/src/gwh-browser.c:418
-#, fuzzy
 msgid "Zoom _In"
-msgstr "Ampliar"
+msgstr "Ampl_iar"
 
 #: ../webhelper/src/gwh-browser.c:427
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "Reduzir"
+msgstr "Red_uzir"
 
 #: ../webhelper/src/gwh-browser.c:438
-#, fuzzy
 msgid "_Reset Zoom"
-msgstr "_Ampliação"
+msgstr "_Repor ampliação"
 
 #: ../webhelper/src/gwh-browser.c:451
 msgid "Full-_content zoom"
 msgstr "Ampliar o texto _completo"
 
 #: ../webhelper/src/gwh-browser.c:686
-#, fuzzy
 msgid "_Back"
-msgstr "Recuar"
+msgstr "_Recuar"
 
 #: ../webhelper/src/gwh-browser.c:687
-#, fuzzy
 msgid "Go back"
-msgstr "Recuar uma página"
+msgstr "Recuar"
 
 #: ../webhelper/src/gwh-browser.c:690
-#, fuzzy
 msgid "_Forward"
-msgstr "Avançar"
+msgstr "_Avançar"
 
 #: ../webhelper/src/gwh-browser.c:691
-#, fuzzy
 msgid "Go forward"
 msgstr "Avançar"
 
@@ -7601,9 +7589,8 @@ msgstr "Cancelar carregamento"
 
 #. don't show cancel
 #: ../webhelper/src/gwh-browser.c:698
-#, fuzzy
 msgid "_Refresh"
-msgstr "Actualizar"
+msgstr "Actualiza_r"
 
 #: ../webhelper/src/gwh-browser.c:699
 msgid "Reload current page"
@@ -7614,9 +7601,8 @@ msgid "Website information and settings"
 msgstr "Informações e definições do website"
 
 #: ../webhelper/src/gwh-browser.c:725
-#, fuzzy
 msgid "Web _Inspector"
-msgstr "Inspector web"
+msgstr "_Inspector web"
 
 #: ../webhelper/src/gwh-browser.c:726
 msgid "Toggle web inspector"
@@ -9193,8 +9179,8 @@ msgstr "Conclusão automática de etiquetas  XML/HTML usando excertos de código
 #~ "Permite usar 10 favoritos numerados. Normalmente se tiver mais do que um "
 #~ "favorito, terá de percorrê-los a todos até chegar ao que pretende. Com "
 #~ "este plugin pode ir diretamente ao favorito que pretende com uma única "
-#~ "combinação de teclas. Para definir um favorito numerado carregue em Ctrl"
-#~ "+Shift+um número de 0 a 9. Verá uma marca aparecer junto do número da "
+#~ "combinação de teclas. Para definir um favorito numerado carregue em "
+#~ "Ctrl+Shift+um número de 0 a 9. Verá uma marca aparecer junto do número da "
 #~ "linha. Se carregar em Ctrl+Shift+um número quando está numa linha com "
 #~ "favorito numerado previamente atribuído, irá remover esse favorito. Caso "
 #~ "contrário, irá mover o favorito para a linha em questão se este estava já "
