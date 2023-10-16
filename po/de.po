@@ -5362,7 +5362,7 @@ msgstr "Gehe zur nächsten unklaren Übersetzung"
 
 #: ../pohelper/data/menus.ui.h:14
 msgid "Previous Untranslated or Fuzz_y"
-msgstr "Vorherige u_nübersetzt oder -klar."
+msgstr "Vorherige u_nübersetzt oder unklar"
 
 #: ../pohelper/data/menus.ui.h:15 ../pohelper/src/gph-plugin.c:1608
 msgid "Go to previous untranslated or fuzzy string"
