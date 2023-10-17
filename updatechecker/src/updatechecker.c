@@ -166,16 +166,22 @@ version_compare(const gchar *current_version)
     parse_version_string(current_version, &geany_current.major,
         &geany_current.minor, &geany_current.mini, &geany_current.extra);
 
-    if ((geany_running.major < geany_current.major) ||
-        (geany_running.minor < geany_current.minor) ||
-        (geany_running.minor < geany_current.minor))
-    {
+    if (geany_running.major < geany_current.major)
         return TRUE;
-    }
-    else
-    {
+    if (geany_running.major > geany_current.major)
         return FALSE;
-    }
+
+    if (geany_running.minor < geany_current.minor)
+        return TRUE;
+    if (geany_running.minor > geany_current.minor)
+        return FALSE;
+
+    if (geany_running.mini < geany_current.mini)
+        return TRUE;
+    if (geany_running.mini > geany_current.mini)
+        return FALSE;
+
+    return FALSE;
 }
 
 
