@@ -1003,8 +1003,9 @@ msgid "%w will be replaced with current word\n"
 msgstr "%w sera remplacé par le mot courant\n"
 
 #: ../geanydoc/src/geanydoc.c:434
+#, fuzzy
 msgid "Document current word"
-msgstr ""
+msgstr "Documenter le mot courant"
 
 #: ../geanydoc/src/geanydoc.c:435
 msgid "Document interactive"
@@ -1020,6 +1021,9 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Mode en colonne, sélectionner jusqu'à la ligne / l'accolade / l'ancre.\n"
+"Ce plugin n'a pas de mainteneur en ce moment. Voudriez-vous aider en "
+"contrubant à ce plugin ?"
 
 #: ../geanyextrasel/src/extrasel.c:500
 msgid "E_xtra Selection"
@@ -1027,60 +1031,59 @@ msgstr ""
 
 #: ../geanyextrasel/src/extrasel.c:507
 msgid "_Column Mode"
-msgstr ""
+msgstr "Mode en _colonne"
 
 #: ../geanyextrasel/src/extrasel.c:512
 msgid "Column mode"
-msgstr ""
+msgstr "Mode en colonne"
 
 #: ../geanyextrasel/src/extrasel.c:514
 msgid "Select to _Line"
-msgstr ""
+msgstr "Sélectionner jusqu'à la _ligne…"
 
 #: ../geanyextrasel/src/extrasel.c:518
 msgid "Select to line"
-msgstr ""
+msgstr "Sélectionner jusqu'à la ligne"
 
 #: ../geanyextrasel/src/extrasel.c:520
 msgid "Select to Matching _Brace"
-msgstr ""
+msgstr "Sélectionner jusqu'à l'_accolade correspondante"
 
 #: ../geanyextrasel/src/extrasel.c:524
 msgid "Select to matching brace"
-msgstr ""
+msgstr "Sélectionner jusqu'à l'accolade correspondante"
 
 #: ../geanyextrasel/src/extrasel.c:526
 msgid "_Toggle Stream/Rectangular"
-msgstr ""
+msgstr "_Basculer en ligne/rectangulaire"
 
 #: ../geanyextrasel/src/extrasel.c:530
-#, fuzzy
 msgid "Convert selection"
 msgstr "Convertir la sélection"
 
 #: ../geanyextrasel/src/extrasel.c:535
 msgid "_Set Anchor"
-msgstr ""
+msgstr "_Définir l'ancre"
 
 #: ../geanyextrasel/src/extrasel.c:539
 msgid "Set anchor"
-msgstr ""
+msgstr "Définir l'ancre"
 
 #: ../geanyextrasel/src/extrasel.c:541
 msgid "Select to _Anchor"
-msgstr ""
+msgstr "Sélectionner jusqu'à l'a_ncre"
 
 #: ../geanyextrasel/src/extrasel.c:545
 msgid "Select to anchor"
-msgstr ""
+msgstr "Sélectionner jusqu'à l'ancre"
 
 #: ../geanyextrasel/src/extrasel.c:547
 msgid "_Rectangle Select to Anchor"
-msgstr ""
+msgstr "Sélection _rectangulaire jusqu'à l'ancre"
 
 #: ../geanyextrasel/src/extrasel.c:552
 msgid "Rectangle select to anchor"
-msgstr ""
+msgstr "Sélection rectangulaire jusqu'à l'ancre"
 
 #: ../geanygendoc/src/ggd-file-type-loader.c:117
 msgid "boolean value"
@@ -1565,14 +1568,12 @@ msgid "_Zero"
 msgstr "_Zéros"
 
 #: ../geanyinsertnum/src/insertnum.c:479
-#, fuzzy
 msgid "Insert _Numbers..."
-msgstr "Insérer des _nombres"
+msgstr "Insérer des _nombres…"
 
 #: ../geanyinsertnum/src/insertnum.c:486
-#, fuzzy
 msgid "Insert Numbers..."
-msgstr "Insérer des nombres"
+msgstr "Insérer des nombres…"
 
 #: ../latex/src/latexenvironments.c:25
 msgid "Environments"
@@ -1835,8 +1836,9 @@ msgid "Number of journal, magazine, or tech-report"
 msgstr "Numéro du journal, magasine ou rapport technique"
 
 #: ../latex/src/bibtexlabels.c:119
+#, fuzzy
 msgid "Sponsor of the conference"
-msgstr ""
+msgstr "Parrain de la conférence"
 
 #: ../latex/src/bibtexlabels.c:120
 msgid "Page numbers separated by commas or double-hyphens"
@@ -2011,8 +2013,9 @@ msgid "Dear Sir or Madame"
 msgstr ""
 
 #: ../latex/src/latex.c:1767
+#, fuzzy
 msgid "With kind regards"
-msgstr ""
+msgstr "Sincères salutations"
 
 #: ../latex/src/latex.c:1775
 msgid "No template assigned. Aborting"
@@ -2770,27 +2773,27 @@ msgstr ""
 #: ../geanylua/geanylua.c:153
 #, fuzzy, c-format
 msgid "%s: Can't load support library %s!\n"
-msgstr "%s : Impossible de charger la librairie de support %s!\n"
+msgstr "%s : Impossible de charger la bibliothèque de support %s!\n"
 
 #: ../geanylua/geanylua.c:165
 #, fuzzy, c-format
 msgid "%s: Failed to initialize support library %s!\n"
-msgstr "%s : Impossible d'initialiser la librairie de support %s!\n"
+msgstr "%s : Impossible d'initialiser la bibliothèque de support %s!\n"
 
 #: ../geanylua/geanylua.c:170
 #, fuzzy, c-format
 msgid "%s: Support library version mismatch: %s for %s (should be %s)!\n"
-msgstr "%s : Erreur dans la version de la librairie de support : %s <=> %s\n"
+msgstr "%s : Erreur dans la version de la bibliothèque de support : %s <=> %s\n"
 
 #: ../geanylua/geanylua.c:176
 #, fuzzy, c-format
 msgid "%s: Support library ABI mismatch: %d for %s (should be %d)!\n"
-msgstr "%s : Erreur dans la version de la librairie de support : %s <=> %s\n"
+msgstr "%s : Erreur dans la version de la bibliothèque de support : %s <=> %s\n"
 
 #: ../geanylua/geanylua.c:205
 #, fuzzy, c-format
 msgid "%s: Can't find support library %s!\n"
-msgstr "%s : Impossible de trouver la librairie de support !\n"
+msgstr "%s : Impossible de trouver la bibliothèque de support !\n"
 
 #: ../geanylua/geanylua.c:224
 #, c-format
@@ -2884,7 +2887,7 @@ msgstr "Supprimer la ligne courante"
 
 #: ../geanymacro/src/geanymacro.c:70
 msgid "Backwards Tab (deletes tab if nothing after it)"
-msgstr ""
+msgstr "Tabulation arrière (supprime une tabulation s'il n'y a rien après)"
 
 #: ../geanymacro/src/geanymacro.c:72
 msgid "Scroll Display down a line"
@@ -4260,13 +4263,13 @@ msgstr "geanyvc : erreur de s_spawn_sync : %s"
 #: ../geanyvc/src/geanyvc.c:593
 #, c-format
 msgid "File %s: action %s executed via %s."
-msgstr ""
+msgstr "Fichier %s : action %s exécuté vie %s."
 
 #: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "geanyvc: diff_external: Unable to rename '%s' to '%s'"
 msgstr ""
-"geanyvc : vcdiff_file_activated : Impossible de renommer « %s » en « %s »"
+"geanyvc : diff_external : Impossible de renommer « %s » en « %s »"
 
 #: ../geanyvc/src/geanyvc.c:698 ../geanyvc/src/geanyvc.c:784
 msgid "No changes were made."
@@ -4861,11 +4864,11 @@ msgstr ""
 
 #: ../keyrecord/src/keyrecord.c:154
 msgid "Start/Stop record"
-msgstr ""
+msgstr "Démarrer/arrêter l'enregistrement"
 
 #: ../keyrecord/src/keyrecord.c:156
 msgid "Play"
-msgstr ""
+msgstr "Rejouer"
 
 #: ../keyrecord/src/keyrecord.c:207
 msgid "Keystrokes recorder"
@@ -4873,7 +4876,7 @@ msgstr ""
 
 #: ../keyrecord/src/keyrecord.c:208
 msgid "Allows to record some sequence of keystrokes and replay it"
-msgstr ""
+msgstr "Permet d'enregistrer une séquence d'appui de touches et de la rejouer"
 
 #: ../keyrecord/src/keyrecord.c:210
 msgid "tunyash"
@@ -4907,7 +4910,7 @@ msgstr "Supprimer les lignes _uniques"
 
 #: ../lineoperations/src/lineoperations.c:271
 msgid "Keep _Unique Lines"
-msgstr "Garder les lignes _uniques"
+msgstr "_Garder les lignes uniques"
 
 #: ../lineoperations/src/lineoperations.c:274
 msgid "Remove _Empty Lines"
@@ -4918,9 +4921,8 @@ msgid "Remove _Whitespace Lines"
 msgstr "Supprimer les lignes _blanches"
 
 #: ../lineoperations/src/lineoperations.c:279
-#, fuzzy
 msgid "Remove Every _Nth Line"
-msgstr "Supprimer les lignes _vides"
+msgstr "Supprimer chaque é_nième ligne"
 
 #: ../lineoperations/src/lineoperations.c:282
 msgid "Sort Lines _Ascending"
@@ -4950,18 +4952,19 @@ msgstr ""
 
 #. number of lines removed
 #: ../lineoperations/src/lo_fns.c:336
-#, fuzzy
 msgid "Remove every Nth line"
-msgstr "Lignes supp_rimées :"
+msgstr "Supprimer chaque énième ligne"
 
 #: ../lineoperations/src/lo_fns.c:337
-#, fuzzy
 msgid "Value of N"
-msgstr "Valeur"
+msgstr "Valeur de N"
 
 #: ../lineoperations/src/lo_prefs.c:83
+# Qu'est-ce que ça veut dire ?  Unicode traduit "collation" par "classement",
+# c.f. https://www.unicode.org/terminology/term_en_fr.html
+#, fuzzy
 msgid "Use collation based string compare"
-msgstr ""
+msgstr "Utiliser une comparaison de chaîne basée sur le classement"
 
 #: ../lipsum/src/lipsum.c:43
 msgid "Lipsum"
@@ -5263,7 +5266,7 @@ msgstr "Aller au tag correspondant"
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:491
 #, fuzzy
 msgid "Select Matching XML Tag"
-msgstr "Aller au tag correspondant"
+msgstr "Sélectionner le tag correspondant"
 
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:502
 #, fuzzy
@@ -5273,7 +5276,7 @@ msgstr "Aller au tag correspondant"
 #: ../pairtaghighlighter/src/pair_tag_highlighter.c:504
 #, fuzzy
 msgid "Select To Matching Tag"
-msgstr "Aller au tag correspondant"
+msgstr "Sélectionner jusqu'au tag correspondant"
 
 #: ../pohelper/data/menus.ui.h:1
 msgid "_Translation Helper"
@@ -5596,11 +5599,11 @@ msgstr ""
 
 #: ../projectorganizer/src/prjorg-menu.c:289
 msgid "Open File Manager at file location"
-msgstr ""
+msgstr "Ouvrir le gestionnaire de fichiers à l'emplacement du fichier"
 
 #: ../projectorganizer/src/prjorg-menu.c:292
 msgid "Open Terminal at file location"
-msgstr ""
+msgstr "Ouvrir le terminal à l'emplacement du fichier"
 
 #: ../projectorganizer/src/prjorg-menu.c:298
 msgid "Open Selected File (Project Organizer)"
@@ -5655,7 +5658,6 @@ msgstr ""
 "dossiers à ignorer."
 
 #: ../projectorganizer/src/prjorg-project.c:674
-#, fuzzy
 msgid ""
 "The patterns above affect only sidebar and indexing and are not used in the "
 "Find in Files\n"
@@ -5664,8 +5666,8 @@ msgid ""
 "File Patterns under the Project tab (these are also used for the Find in "
 "Files dialog)."
 msgstr ""
-"Note : les motifs ci-dessus n'ont d'impact que sur la barre latérale et ne "
-"sont pas utilisés dans le dialogue\n"
+"Les motifs ci-dessus n'ont d'impact que sur la barre latérale et "
+"l'indexation et ne sont pas utilisés dans le dialogue\n"
 "« Rechercher dans les fichiers ». Vous pouvez restreindre la liste des "
 "fichiers appartenant au projet en définissant\n"
 "les « Motifs de fichier » dans l'onglet « Projet » (ceux-ci sont aussi "
@@ -5673,13 +5675,12 @@ msgstr ""
 "les fichiers »)."
 
 #: ../projectorganizer/src/prjorg-project.c:682
-#, fuzzy
 msgid "<b>Various</b>"
-msgstr "<b>Valeurs</b>"
+msgstr "<b>Divers</b>"
 
 #: ../projectorganizer/src/prjorg-project.c:687
 msgid "Show empty directories in sidebar"
-msgstr ""
+msgstr "Afficher les dossiers vides dans la barre latérale"
 
 #: ../projectorganizer/src/prjorg-project.c:690
 msgid ""
@@ -5687,6 +5688,10 @@ msgid ""
 "directories is useful when using file operations from the context menu, e.g. "
 "to create a new file in the directory."
 msgstr ""
+"Choisit s'il faut afficher les dossier vides dans la barre latérale. "
+"Afficher les dossier vides est utile pour utiliser les opérations sur les "
+"fichiers depuis le menu contextuel, comme par exemple créer un nouveau "
+"fichier dans le dossier."
 
 #: ../projectorganizer/src/prjorg-project.c:700
 msgid "Index all project files:"
@@ -5732,18 +5737,18 @@ msgid "project or external directory"
 msgstr "projet ou dossier externe"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open folder.  Command unavailable: %s"
-msgstr "Impossible d'exécuter la commande : %s"
+msgstr "Impossible d'ouvrir le dossier.  Commande non disponible : %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:397
 msgid "Unable to find folder."
-msgstr ""
+msgstr "Impossible de trouver le dossier."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open terminal: %s"
-msgstr "Impossible de lancer le terminal externe : %s"
+msgstr "Impossible d'ouvrir le terminal : %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:433
 msgid "Add External Directory"
@@ -5759,68 +5764,57 @@ msgid "New File"
 msgstr "Nouveau fichier"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:491
-#, fuzzy
 msgid "File name:"
-msgstr "Nom du label :"
+msgstr "Nom du fichier :"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:491
 msgid "newfile.txt"
-msgstr ""
+msgstr "nouveau.txt"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create file '%s'."
-msgstr ""
-"Impossible de créer le nouveau fichier « %s » :\n"
-"\n"
-"%s"
+msgstr "Impossible de créer le fichier « %s »."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:521
-#, fuzzy
 msgid "New Directory"
-msgstr "NouveauDossier"
+msgstr "Nouveau dossier"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:522
-#, fuzzy
 msgid "Directory name:"
-msgstr "Nom de répertoire : %s\n"
+msgstr "Nom du répertoire :"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:522
 msgid "newdir"
-msgstr ""
+msgstr "dossier"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:535
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create directory '%s'."
-msgstr "Impossible d'utiliser Pinentry."
+msgstr "Impossible de créer le dossier « %s »."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:562
-#, fuzzy
 msgid "Rename"
-msgstr "Reno_mmer"
+msgstr "Renommer"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:563
-#, fuzzy
 msgid "New name:"
-msgstr "Nom :"
+msgstr "Nouveau nom :"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename '%s' to '%s'."
-msgstr "Impossible de décompresser le livre « %s » : %s"
+msgstr "Impossible de renommer « %s » en « %s »."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete '%s'?"
 msgstr "Voulez-vous vraiment supprimer « %s » ?"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:608
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete file '%s'."
-msgstr ""
-"Impossible de créer le nouveau fichier « %s » :\n"
-"\n"
-"%s"
+msgstr "Impossible de supprimer le fichier « %s »"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:717
 msgid "Find Symbol"
@@ -5875,33 +5869,28 @@ msgid "Find Symbol..."
 msgstr "Rechercher un symbole…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1788
-#, fuzzy
 msgid "Open File Manager"
-msgstr "Ouvrir le _manuel"
+msgstr "Ouvrir le gestionnaire de fichiers"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1793
-#, fuzzy
 msgid "Open Terminal"
-msgstr "Ouvrir dans un _terminal"
+msgstr "Ouvrir le terminal"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1802
 msgid "Remove External Directory"
 msgstr "Supprimer le dossier externe"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1811
-#, fuzzy
 msgid "New File..."
-msgstr "Nouveau fichier"
+msgstr "Nouveau fichier…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1816
-#, fuzzy
 msgid "New Directory..."
-msgstr "NouveauDossier"
+msgstr "Nouveau dossier…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1821
-#, fuzzy
 msgid "Rename..."
-msgstr "Reno_mmer"
+msgstr "Renommer…"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1826
 msgid "Delete"
@@ -7006,14 +6995,12 @@ msgid "Checks the spelling of the current document."
 msgstr "Vérifie l'orthographe du document courant."
 
 #: ../spellcheck/src/scplugin.c:225
-#, fuzzy
 msgid "Run spell check once"
 msgstr "Lancer la vérification orthographique"
 
 #: ../spellcheck/src/scplugin.c:228 ../spellcheck/src/scplugin.c:333
-#, fuzzy
 msgid "Toggle spell check"
-msgstr "Vérification orthographique"
+msgstr "Basculer la vérification lors de la frappe"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:239
@@ -7121,7 +7108,7 @@ msgid "Default (%s)"
 msgstr "Par défaut (%s)"
 
 #: ../spellcheck/src/gui.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "Toggle spell check (current language: %s)"
 msgstr ""
 "Basculer la vérification orthographique lors de la frappe (langue courante : "
@@ -7554,14 +7541,13 @@ msgid "Vimode"
 msgstr ""
 
 #: ../vimode/src/backends/backend-geany.c:42
-#, fuzzy
 msgid "Vim mode for Geany"
-msgstr "Macros pour Geany"
+msgstr "Mode Vim pour Geany"
 
 #: ../vimode/src/backends/backend-geany.c:140
 #, c-format
 msgid "Insert Mode for Dummies: %s"
-msgstr ""
+msgstr "Mode d'insertion pour les nuls : %s"
 
 #: ../vimode/src/backends/backend-geany.c:140
 msgid "ON"
@@ -7573,30 +7559,27 @@ msgstr ""
 
 #: ../vimode/src/backends/backend-geany.c:290
 msgid "_Vim Mode"
-msgstr ""
+msgstr "Mode _Vim"
 
 #: ../vimode/src/backends/backend-geany.c:296
-#, fuzzy
 msgid "Enable _Vim Mode"
-msgstr "Activer CVS"
+msgstr "Activer le mode _Vim"
 
 #: ../vimode/src/backends/backend-geany.c:301
-#, fuzzy
 msgid "Enable Vim Mode"
-msgstr "Activer CVS"
+msgstr "Activer le mode Vim"
 
 #: ../vimode/src/backends/backend-geany.c:303
-#, fuzzy
 msgid "Insert Mode for _Dummies"
-msgstr "Insérer des _nombres"
+msgstr "Mode d'insertion pour les _nuls"
 
 #: ../vimode/src/backends/backend-geany.c:309
 msgid "Insert Mode for Dummies"
-msgstr ""
+msgstr "Mode d'insertion pour les nuls"
 
 #: ../vimode/src/backends/backend-geany.c:311
 msgid "Start in _Insert Mode"
-msgstr ""
+msgstr "Démarrer en mode d'_insertion"
 
 #: ../webhelper/src/gwh-enum-types.c:15
 msgid "message-window"
@@ -7640,43 +7623,36 @@ msgid "_Zoom"
 msgstr "_Zoom"
 
 #: ../webhelper/src/gwh-browser.c:418
-#, fuzzy
 msgid "Zoom _In"
-msgstr "Zoomer"
+msgstr "_Zoomer"
 
 #: ../webhelper/src/gwh-browser.c:427
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "Dézoomer"
+msgstr "_Dézoomer"
 
 #: ../webhelper/src/gwh-browser.c:438
-#, fuzzy
 msgid "_Reset Zoom"
-msgstr "_Zoom"
+msgstr "Zoom _normal"
 
 #: ../webhelper/src/gwh-browser.c:451
 msgid "Full-_content zoom"
 msgstr "Zoom du _contenu"
 
 #: ../webhelper/src/gwh-browser.c:686
-#, fuzzy
 msgid "_Back"
-msgstr "Retour"
+msgstr "_Retour"
 
 #: ../webhelper/src/gwh-browser.c:687
-#, fuzzy
 msgid "Go back"
-msgstr "Revenir une page en arrière"
+msgstr "Reculer d'une page"
 
 #: ../webhelper/src/gwh-browser.c:690
-#, fuzzy
 msgid "_Forward"
-msgstr "Suivant"
+msgstr "_Suivant"
 
 #: ../webhelper/src/gwh-browser.c:691
-#, fuzzy
 msgid "Go forward"
-msgstr "Suivant"
+msgstr "Avancer d'une page"
 
 #: ../webhelper/src/gwh-browser.c:695
 msgid "Cancel loading"
@@ -7684,9 +7660,8 @@ msgstr "Arrêter le chargement"
 
 #. don't show cancel
 #: ../webhelper/src/gwh-browser.c:698
-#, fuzzy
 msgid "_Refresh"
-msgstr "Rafraîchir"
+msgstr "_Rafraîchir"
 
 #: ../webhelper/src/gwh-browser.c:699
 msgid "Reload current page"
@@ -7697,9 +7672,8 @@ msgid "Website information and settings"
 msgstr "Informations et options du site"
 
 #: ../webhelper/src/gwh-browser.c:725
-#, fuzzy
 msgid "Web _Inspector"
-msgstr "Inspecteur web"
+msgstr "Inspecteur _web"
 
 #: ../webhelper/src/gwh-browser.c:726
 msgid "Toggle web inspector"
@@ -7922,7 +7896,7 @@ msgstr ""
 
 #: ../workbench/src/dialogs.c:459
 msgid "filter files using git (.gitignore)"
-msgstr ""
+msgstr "filter les fichiers en utilisant Git (.gitignore)"
 
 #: ../workbench/src/dialogs.c:465
 msgid ""
@@ -7963,7 +7937,7 @@ msgstr ""
 #: ../workbench/src/dialogs.c:641
 #, fuzzy
 msgid "_Expand on hover"
-msgstr "Éten_dre lors de l'application"
+msgstr "Éten_dre lors du survol"
 
 #: ../workbench/src/dialogs.c:652
 #, fuzzy
