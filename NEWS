@@ -20,7 +20,7 @@ Geany Plugins 2.0 (not release date yet)
 
     GeanyVC:
     * Support the use of external diff-tool in directory context
-     (nomadbyte, PR #1025)
+      (nomadbyte, PR #1025)
     * Fallback to `git rev-parse` for getting the repo/worktree's top directory
       (nomadbyte, PR #1028)
 
