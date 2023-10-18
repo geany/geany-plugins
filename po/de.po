@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-18 08:39+0200\n"
+"POT-Creation-Date: 2023-10-18 20:59+0200\n"
 "PO-Revision-Date: 2023-10-18 09:27+0200\n"
 "Last-Translator: Frank Lanitz <fl@flyingcircus.io>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -1060,7 +1060,8 @@ msgid ""
 "Column mode, select to line / brace / anchor.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr "Column mode – Auswahl in Zeile / Klammer / mit anker\n"
+msgstr ""
+"Column mode – Auswahl in Zeile / Klammer / mit anker\n"
 "Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanyextrasel/src/extrasel.c:500
@@ -4398,7 +4399,6 @@ msgid "Commit failed (status: %d, error: %s)."
 msgstr "Commit fehlgeschlagen (status: %d, error: %s)."
 
 #: ../geanyvc/src/geanyvc.c:1875
-
 msgid "Commit failed; see status in the Message window."
 msgstr "Commit fehlgeschlagen. Für Details prüfen Sie das Mittelungs-Fenster."
 
@@ -4786,8 +4786,8 @@ msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr ""
-"Der gesendete Inhalt kann jetzt hier betrachtet werden: <a href=\"%s\" title="
-"\"Klicken, um im Browser betrachtet zu werden\">%s</a>"
+"Der gesendete Inhalt kann jetzt hier betrachtet werden: <a href=\"%s\" "
+"title=\"Klicken, um im Browser betrachtet zu werden\">%s</a>"
 
 #: ../geniuspaste/src/geniuspaste.c:884
 msgid "There are no opened documents. Open one and retry.\n"
@@ -5037,8 +5037,8 @@ msgstr ""
 #: ../lipsum/src/lipsum.c:184 ../sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
-"Your configuration directory has been successfully moved from \"%s\" to \"%s"
-"\"."
+"Your configuration directory has been successfully moved from \"%s\" to "
+"\"%s\"."
 msgstr ""
 "Das Konfigurationsverzeichnis wurde erfolgreich von »%s« nach »%s« "
 "verschoben."
@@ -6221,7 +6221,6 @@ msgid "State"
 msgstr "Status"
 
 #: ../scope/data/scope.glade.h:76 ../scope/data/scope_gtk3.glade.h:76
-
 msgid "Target Id"
 msgstr "Ziel Id"
 
@@ -6616,6 +6615,7 @@ msgstr "keine Kinder im Bereich"
 msgid "out of scope"
 msgstr "außerhalb des Beobachtungsbereiches"
 
+# I have no idea what it tells me.
 #: ../scope/src/inspect.c:631
 msgid "Duplicate inspect variable name."
 msgstr ""
@@ -6658,7 +6658,7 @@ msgid "Select File"
 msgstr "Datei auswählen"
 
 #: ../scope/src/prefs.c:320 ../scope/src/utils.c:470
-#,  c-format
+#, c-format
 msgid "Scope: %s: %s."
 msgstr "Scope: %s: %s."
 
@@ -6773,7 +6773,7 @@ msgid "Debug Console"
 msgstr "Debug-Konsole:"
 
 #: ../scope/src/thread.c:53
-#, fc-format
+#, c-format
 msgid "Thread group %s started."
 msgstr "Thread-Gruppe %s gestartet."
 
@@ -7136,9 +7136,7 @@ msgstr "Vorgabe (%s)"
 #: ../spellcheck/src/gui.c:617
 #, c-format
 msgid "Toggle spell check (current language: %s)"
-msgstr ""
-"Rechtschreibung ein-/ausschalten (Aktuelle Sprache: "
-"%s)"
+msgstr "Rechtschreibung ein-/ausschalten (Aktuelle Sprache: %s)"
 
 #: ../spellcheck/src/gui.c:695
 msgid "Spelling Suggestions"
@@ -7598,31 +7596,31 @@ msgstr "Einfügen-Modus (Insert) für Neulinge"
 msgid "Start in _Insert Mode"
 msgstr "Im Einfügen-Modus (_Insert) starten"
 
-#: ../webhelper/src/gwh-enum-types.c:15
+#: ../webhelper/src/gwh-enum-types.c:14
 msgid "message-window"
 msgstr "Meldungsfenster"
 
-#: ../webhelper/src/gwh-enum-types.c:16
+#: ../webhelper/src/gwh-enum-types.c:15
 msgid "sidebar"
 msgstr "Seitenleiste"
 
-#: ../webhelper/src/gwh-enum-types.c:17
+#: ../webhelper/src/gwh-enum-types.c:16
 msgid "separate-window"
 msgstr "eigenes Fenster"
 
-#: ../webhelper/src/gwh-enum-types.c:32
+#: ../webhelper/src/gwh-enum-types.c:30
 msgid "none"
 msgstr "keine"
 
-#: ../webhelper/src/gwh-enum-types.c:33
+#: ../webhelper/src/gwh-enum-types.c:31
 msgid "on-connexion"
 msgstr "bei Verbindung"
 
-#: ../webhelper/src/gwh-enum-types.c:48
+#: ../webhelper/src/gwh-enum-types.c:45
 msgid "normal"
 msgstr "normal"
 
-#: ../webhelper/src/gwh-enum-types.c:49
+#: ../webhelper/src/gwh-enum-types.c:46
 msgid "utility"
 msgstr "Werkzeug"
 
@@ -7886,7 +7884,6 @@ msgid "File patterns:"
 msgstr "Dateimuster:"
 
 #: ../workbench/src/dialogs.c:391
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "be displayed in the directory tree."
@@ -7948,48 +7945,43 @@ msgid ""
 "If the option is activated (default), then the list of files and the sidebar "
 "will be updated automatically if a file or directory is created, removed or "
 "renamed. A manual re-scan is not required if the option is enabled."
-msgstr ""
+msgstr "Wenn diese Option aktiviert ist, wird die Liste mit Dateien und Verzeichnissen in der Seitenleiste automatisch aktualisiert, wann immer eine Datei oder ein Verzeichnis neu erstellt, geändert oder gelöscht wird. Ein manuelles neueinlesen des Ordners entfällt damit."
 
 #: ../workbench/src/dialogs.c:641
 msgid "_Expand on hover"
 msgstr "_Ausklappen beim Überfahren"
 
 #: ../workbench/src/dialogs.c:652
-#, fuzzy
 msgid ""
 "If the option is activated, then a tree node in the sidebar will be expanded "
 "or collapsed by hovering over it with the mouse cursor."
 msgstr ""
-"Wenn die Option aktiviert ist (Standard), dann werden beim Öffnen einer "
-"Werkbank alle Projekte durchsucht."
+"Wenn die Option aktiviert ist, werden Baumeinträge automatisch erweitert oder geschlossen, wenn mit der MAus darüber gegangen wird."
 
 #: ../workbench/src/dialogs.c:657
-#, fuzzy
 msgid "_Enable tree lines"
-msgstr "Leere Zeilen anzeigen"
+msgstr "_Baumzeilen aktivieren"
 
 #: ../workbench/src/dialogs.c:668
-#, fuzzy
 msgid ""
 "If the option is activated, lines will be drawn between the nodes in the "
 "sidebar tree."
 msgstr ""
-"Wenn die Option aktiviert ist (Standard), dann werden beim Öffnen einer "
-"Werkbank alle Projekte durchsucht."
+"Wenn die Option aktiviert ist, werden Linien zwischen den einzelnen Einträgen in der Baumansicht in der Seitenleiste gezeichnet."
 
 #: ../workbench/src/menu.c:103
-#, fuzzy, c-format
+#,  c-format
 msgid "Could not create new workbench file: %s"
-msgstr "Konnte die Werkbank Datei nicht anlegen: %s"
+msgstr "Konnte keine neue Werkbank Datei anlegen: %s"
 
 #: ../workbench/src/menu.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open workbench file: %s"
 msgstr "Konnte die Werkbank Datei nicht öffnen: %s"
 
 #: ../workbench/src/menu.c:155 ../workbench/src/popup_menu.c:265
 #: ../workbench/src/search_projects.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save workbench file: %s"
 msgstr "Konnte die Werkbank Datei nicht speichern: %s"
 
@@ -8016,9 +8008,8 @@ msgstr "_Einstellungen"
 
 #. Create new menu item "Search Projects"
 #: ../workbench/src/menu.c:232
-#, fuzzy
 msgid "Search _projects"
-msgstr "P_rojekt speichern"
+msgstr "Projekt _suchen"
 
 #. Create new menu item "Close Workbench"
 #: ../workbench/src/menu.c:239
@@ -8136,14 +8127,12 @@ msgid "_Close all files in directory"
 msgstr "Alle offenen Dateien im Verzeichnis schließen"
 
 #: ../workbench/src/popup_menu.c:890
-#, fuzzy
 msgid "_Open all files in sub-directory"
-msgstr "Die Datei oder das Verzeichnis »%s« gibt es nicht."
+msgstr "Alle Dateien in den Unter-_Ordnern öffnen"
 
 #: ../workbench/src/popup_menu.c:896
-#, fuzzy
 msgid "_Close all files in sub-directory"
-msgstr "N_eues Verzeichnis anlegen"
+msgstr "Alle Dateien der Unter-Ordner s_chließen"
 
 #: ../workbench/src/popup_menu.c:906
 msgid "_Expand all"
@@ -8158,19 +8147,16 @@ msgid "_Add to Workbench Bookmarks"
 msgstr "Zu Werkbank _Lesezeichen hinzufügen"
 
 #: ../workbench/src/popup_menu.c:928
-#, fuzzy
 msgid "_Add to Project Bookmarks"
-msgstr "Zu Projekt Lesezeichen hinzufügen"
+msgstr "Zu Projekt Lesezeichen _hinzufügen"
 
 #: ../workbench/src/popup_menu.c:934
-#, fuzzy
 msgid "_Remove from Bookmarks"
 msgstr "Von _Lesezeichen entfernen"
 
 #: ../workbench/src/popup_menu.c:944
-#, fuzzy
 msgid "_Create file here..."
-msgstr "_Neue Datei erstellen"
+msgstr "_Neue Datei hier erstellen…"
 
 #: ../workbench/src/popup_menu.c:950
 msgid "_Create directory here..."
@@ -8181,41 +8167,37 @@ msgid "_Remove..."
 msgstr "_Entfernen…"
 
 #: ../workbench/src/search_projects.c:93
-#, fuzzy
 msgid "Select search directory"
-msgstr "Verzeichnis auswählen"
+msgstr "Such-Verzeichnis auswählen"
 
 #: ../workbench/src/search_projects.c:249
 #, c-format
 msgid ""
 "Found %lu project files in directory \"%s\".\n"
 "Please select the projects to add to the workbench."
-msgstr ""
+msgstr "%lu Projekt-Dateien im Verzeichnis »%s« gefunden.\n"
+"Bitte wählen sie die Projekte, die zur Workbench hinzugefügt werden sollen."
 
 #: ../workbench/src/search_projects.c:457
-#, fuzzy
 msgid "Search projects"
-msgstr "P_rojekt speichern"
+msgstr "Projekt suchen"
 
 #: ../workbench/src/search_projects.c:482
-#, fuzzy
 msgid "Add to workbench?"
-msgstr "Zu Werkbank _Lesezeichen hinzufügen"
+msgstr "Zu Werkbank hinzufügen?"
 
 #: ../workbench/src/search_projects.c:491
-#, fuzzy
 msgid "Project path"
-msgstr "Projekt"
+msgstr "Projekt-Pfad"
 
 #. Add label to vbox
 #: ../workbench/src/search_projects.c:507
-#, fuzzy
 msgid "Scanning directory:"
-msgstr "Verzeichnis neu _durchsuchen"
+msgstr "Verzeichnis durchsuchen:"
 
 #: ../workbench/src/sidebar.c:329
 msgid "Base dir"
-msgstr "Basis"
+msgstr "Basis-Verzeichnis"
 
 #: ../workbench/src/sidebar.c:362
 msgid "No directories"
@@ -8234,13 +8216,11 @@ msgstr[0] "%s: %u Projekt"
 msgstr[1] "%s: %u Projekte"
 
 #: ../workbench/src/sidebar.c:890
-#, fuzzy
 msgid ""
 "Add a project using the context menu\n"
 "or select \"Search projects\" from the menu."
 msgstr ""
-"Fügen Sie ein Projekt\n"
-"über das Kontextmenü hinzu."
+"Ein Projekt durch das Kontextmenü oder über eine Auswahl über »Projekt suchen« hinzufügen."
 
 #: ../workbench/src/sidebar.c:1015
 #, c-format
@@ -8260,44 +8240,42 @@ msgstr ""
 "dasKontextmenü zum Projekt hinzugefügt werden."
 
 #: ../workbench/src/wb_monitor.c:191
-#, fuzzy, c-format
+#,  c-format
 msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
-msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anlegen: %s"
+msgstr "Konnte das Monitoring auf »%s« nicht aktivieren. Fehler: %s"
 
 #: ../workbench/src/wb_project.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to open git repository in folder %s."
-msgstr "Fehler beim Öffnen des Skriptes."
+msgstr "Konnte das git-Repository im Verzeichnis »%s« nicht öffnen."
 
 #: ../workbench/src/wb_project.c:471
-#, fuzzy, c-format
+#,  c-format
 msgid "Opened git repository in folder %s."
-msgstr "Repository auf Änderungen _überwachen"
+msgstr "git-Repository in Verzeichnis »%s« geöffnet."
 
 #: ../workbench/src/wb_project.c:482
-#, fuzzy, c-format
+#,  c-format
 msgid "Closed git repository in folder %s."
-msgstr "Repository auf Änderungen _überwachen"
+msgstr "git-Repository in Verzeichnis »%s« geschlossen."
 
 #: ../workbench/src/wb_project.c:1191
-#, fuzzy, c-format
+#, c-format
 msgid "Directory-Name: %s\n"
 msgstr "Verzeichnis-Name: %s\n"
 
 #: ../workbench/src/wb_project.c:1192
-#, fuzzy, c-format
+#, c-format
 msgid "Base-Directory: %s\n"
 msgstr "Basis-Verzeichnis: %s\n"
 
 #: ../workbench/src/wb_project.c:1194
-#, fuzzy
 msgid "File Patterns:"
-msgstr "Datei Muster:"
+msgstr "Datei-Muster:"
 
 #: ../workbench/src/wb_project.c:1206
-#, fuzzy
 msgid "Ignored Dir. Patterns:"
-msgstr "Muster für zu ignorierende Dateien:"
+msgstr "Muster für zu ignorierende Verzeichnisse:"
 
 #: ../workbench/src/wb_project.c:1218
 msgid "Ignored File Patterns:"
