@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the geany-plugins package.
 # Andrew Janke <a.janke@gmail.com>, 2009
 # Fabian Nowak <timystery@arcor.de>, 2012
-# Frank Lanitz <frank@frank.uvena.de>, 2009-2019
+# Frank Lanitz <frank@frank.uvena.de>, 2009-2023
 # Dominic Hopf <dmaphy@gmail.com>, 2009
 # Michael Spahn <anyone90@googlemail.com>, 2009
 #
@@ -16,16 +16,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-07 16:26+0200\n"
-"PO-Revision-Date: 2016-08-08 22:38+0200\n"
-"Last-Translator: Dominic Hopf <dmaphy@googlemail.com>\n"
+"POT-Creation-Date: 2023-10-18 08:39+0200\n"
+"PO-Revision-Date: 2023-10-18 09:27+0200\n"
+"Last-Translator: Frank Lanitz <fl@flyingcircus.io>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Geany / PoHelper 1.38\n"
 
 # what the heck? :D
 #: ../addons/src/ao_bookmarklist.c:190
@@ -174,7 +174,7 @@ msgstr "Kopiert den Pfad des aktuellen Dokumentes in die Zwischenablage."
 #: ../lineoperations/src/lo_prefs.c:58 ../sendmail/src/sendmail.c:128
 #: ../sendmail/src/sendmail.c:293 ../spellcheck/src/scplugin.c:124
 #: ../treebrowser/src/treebrowser.c:2126
-#: ../updatechecker/src/updatechecker.c:262
+#: ../updatechecker/src/updatechecker.c:268
 msgid "Plugin configuration directory could not be created."
 msgstr ""
 "Das Konfigurationsverzeichnis für das Plugin konnte nicht erstellt werden."
@@ -668,15 +668,15 @@ msgstr ""
 "Bietet eine Schnittstelle über eine Auswahlliste für den schnellen Zugriff "
 "auf Funktionen, Dateien und mehr."
 
-#: ../commander/src/commander-plugin.c:772
+#: ../commander/src/commander-plugin.c:776
 msgid "Show Command Panel"
 msgstr "Kommandoliste zeigen"
 
-#: ../commander/src/commander-plugin.c:776
+#: ../commander/src/commander-plugin.c:780
 msgid "Show Command Panel (Commands Only)"
 msgstr "Kommandoliste zeigen (nur Kommandos)"
 
-#: ../commander/src/commander-plugin.c:780
+#: ../commander/src/commander-plugin.c:784
 msgid "Show Command Panel (Files Only)"
 msgstr "Kommandoliste zeigen (nur Dateien)"
 
@@ -1060,7 +1060,8 @@ msgid ""
 "Column mode, select to line / brace / anchor.\n"
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
-msgstr ""
+msgstr "Column mode – Auswahl in Zeile / Klammer / mit anker\n"
+"Dieses Plugin hat im Moment keinen Maintainer. Möchtest Du vielleicht helfen?"
 
 #: ../geanyextrasel/src/extrasel.c:500
 msgid "E_xtra Selection"
@@ -4298,9 +4299,9 @@ msgid "File %s: action %s executed via %s."
 msgstr "Datei %s: Aktion %s wurde über %s ausgeführt."
 
 #: ../geanyvc/src/geanyvc.c:633 ../geanyvc/src/geanyvc.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "geanyvc: diff_external: Unable to rename '%s' to '%s'"
-msgstr "geanyvc: vcdiff_file_activated: Kann »%s« nicht in »%s« umbenennen."
+msgstr "geanyvc: diff_external: Kann »%s« nicht in »%s« umbenennen."
 
 #: ../geanyvc/src/geanyvc.c:698 ../geanyvc/src/geanyvc.c:784
 msgid "No changes were made."
@@ -4394,17 +4395,16 @@ msgstr ""
 #: ../geanyvc/src/geanyvc.c:1874
 #, c-format
 msgid "Commit failed (status: %d, error: %s)."
-msgstr ""
+msgstr "Commit fehlgeschlagen (status: %d, error: %s)."
 
 #: ../geanyvc/src/geanyvc.c:1875
-#, fuzzy
+
 msgid "Commit failed; see status in the Message window."
-msgstr "Verfügbare Aufgaben im Meldungsfenster anzeigen"
+msgstr "Commit fehlgeschlagen. Für Details prüfen Sie das Mittelungs-Fenster."
 
 #: ../geanyvc/src/geanyvc.c:1880
-#, fuzzy
 msgid "Changes committed."
-msgstr "Nichts zum Eintragen."
+msgstr "Änderungen committed."
 
 #: ../geanyvc/src/geanyvc.c:2202
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -4856,38 +4856,38 @@ msgstr ""
 "Hebt noch nicht committete Änderungen an in einem git-Repository verwaltete "
 "Dateien hervor."
 
-#: ../git-changebar/src/gcb-plugin.c:1436 ../pohelper/src/gph-plugin.c:1661
+#: ../git-changebar/src/gcb-plugin.c:1440 ../pohelper/src/gph-plugin.c:1661
 #, c-format
 msgid "Failed to load configuration file: %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1461 ../pohelper/src/gph-plugin.c:1686
+#: ../git-changebar/src/gcb-plugin.c:1465 ../pohelper/src/gph-plugin.c:1686
 #, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
 msgstr "Konnte das Konfigurationsverzeichnis »%s« nicht anlegen: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1464 ../pohelper/src/gph-plugin.c:1689
+#: ../git-changebar/src/gcb-plugin.c:1468 ../pohelper/src/gph-plugin.c:1689
 #, c-format
 msgid "Failed to save configuration file: %s"
 msgstr "Konnte Konfiguration nicht speichern: %s"
 
-#: ../git-changebar/src/gcb-plugin.c:1541
+#: ../git-changebar/src/gcb-plugin.c:1545
 msgid "Undo Git hunk"
 msgstr "Undo Git hunk"
 
-#: ../git-changebar/src/gcb-plugin.c:1549
+#: ../git-changebar/src/gcb-plugin.c:1553
 msgid "Go to the previous hunk"
 msgstr "Zur vorherigen Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1551
+#: ../git-changebar/src/gcb-plugin.c:1555
 msgid "Go to the next hunk"
 msgstr "Zur nächsten Block mit Änderungen springen"
 
-#: ../git-changebar/src/gcb-plugin.c:1553
+#: ../git-changebar/src/gcb-plugin.c:1557
 msgid "Undo hunk at the cursor position"
 msgstr "Hunk an der aktuellen Cursoer-Position rückgänging machen."
 
-#: ../git-changebar/src/gcb-plugin.c:1701 ../pohelper/src/gph-plugin.c:1456
+#: ../git-changebar/src/gcb-plugin.c:1705 ../pohelper/src/gph-plugin.c:1456
 #: ../pohelper/src/gph-plugin.c:1791
 #, c-format
 msgid ""
@@ -4997,7 +4997,7 @@ msgstr "Wert von N"
 
 #: ../lineoperations/src/lo_prefs.c:83
 msgid "Use collation based string compare"
-msgstr ""
+msgstr "Nutze collation-basierende String-Vergleiche"
 
 #: ../lipsum/src/lipsum.c:43
 msgid "Lipsum"
@@ -5636,11 +5636,11 @@ msgstr "Projekte-Seitenleiste fokusieren"
 
 #: ../projectorganizer/src/prjorg-menu.c:289
 msgid "Open File Manager at file location"
-msgstr ""
+msgstr "Datei Manager an diesem Ort öffnen"
 
 #: ../projectorganizer/src/prjorg-menu.c:292
 msgid "Open Terminal at file location"
-msgstr ""
+msgstr "Terminal an diesem Ort öffnen"
 
 #: ../projectorganizer/src/prjorg-menu.c:298
 msgid "Open Selected File (Project Organizer)"
@@ -5698,7 +5698,6 @@ msgstr ""
 "zu erkennen, die nicht nach Quelldateien durchsucht werden sollen. "
 
 #: ../projectorganizer/src/prjorg-project.c:674
-#, fuzzy
 msgid ""
 "The patterns above affect only sidebar and indexing and are not used in the "
 "Find in Files\n"
@@ -5737,9 +5736,8 @@ msgid "Index all project files:"
 msgstr "Alle Projektdateien indizieren:"
 
 #: ../projectorganizer/src/prjorg-project.c:703
-#, fuzzy
 msgid "Auto (index if less than 1000 files)"
-msgstr "Automatisch (bei weniger als 300 Dateien)"
+msgstr "Automatisch (bei weniger als 1000 Dateien)"
 
 #: ../projectorganizer/src/prjorg-project.c:704
 msgid "Yes"
@@ -5777,18 +5775,18 @@ msgid "project or external directory"
 msgstr "Projekt oder externen Verzeichnis"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open folder.  Command unavailable: %s"
-msgstr "Konnte Kommando nicht ausführen: %s"
+msgstr "Konnte Verzeichnis nicht öffen. Kommando verfügbar: %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:397
 msgid "Unable to find folder."
-msgstr ""
+msgstr "Konnte Ordner nicht finden"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open terminal: %s"
-msgstr "Konnte das externe Terminal nicht aufrufen: %s"
+msgstr "Konnte Terminal nicht öffnen: %s"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:433
 msgid "Add External Directory"
@@ -5909,14 +5907,12 @@ msgid "Find Symbol..."
 msgstr "Symbol finden..."
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1788
-#, fuzzy
 msgid "Open File Manager"
-msgstr "_Anleitung öffnen"
+msgstr "Datei-Manager öffnen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1793
-#, fuzzy
 msgid "Open Terminal"
-msgstr "In _Terminal öffnen"
+msgstr "Terminal öffnen"
 
 #: ../projectorganizer/src/prjorg-sidebar.c:1802
 msgid "Remove External Directory"
@@ -6225,26 +6221,25 @@ msgid "State"
 msgstr "Status"
 
 #: ../scope/data/scope.glade.h:76 ../scope/data/scope_gtk3.glade.h:76
-#, fuzzy
+
 msgid "Target Id"
-msgstr "Ziel"
+msgstr "Ziel Id"
 
 #: ../scope/data/scope.glade.h:77 ../scope/data/scope_gtk3.glade.h:77
 msgid "Core"
-msgstr ""
+msgstr "Core"
 
 #: ../scope/data/scope.glade.h:78 ../scope/data/scope_gtk3.glade.h:78
 msgid "Threads"
 msgstr "Zweige"
 
 #: ../scope/data/scope.glade.h:80 ../scope/data/scope_gtk3.glade.h:80
-#, fuzzy
 msgid "Location or expr"
-msgstr "Position"
+msgstr "Position oder Ausdruck"
 
 #: ../scope/data/scope.glade.h:81 ../scope/data/scope_gtk3.glade.h:81
 msgid "Times"
-msgstr ""
+msgstr "Zeiten"
 
 #: ../scope/data/scope.glade.h:82 ../scope/data/scope_gtk3.glade.h:82
 msgid "Ignore"
@@ -6271,9 +6266,8 @@ msgid "Locals"
 msgstr "Lokal"
 
 #: ../scope/data/scope.glade.h:91 ../scope/data/scope_gtk3.glade.h:91
-#, fuzzy
 msgid "Expression"
-msgstr "_Ausdruck ansehen"
+msgstr "Ausdruck"
 
 #: ../scope/data/scope.glade.h:92 ../scope/data/scope_gtk3.glade.h:92
 msgid "Watches"
@@ -6490,14 +6484,12 @@ msgid "breakpoint"
 msgstr "Haltepunkt"
 
 #: ../scope/src/break.c:102
-#, fuzzy
 msgid "hardware breakpoint"
-msgstr "Haltepunkt"
+msgstr "Hardware breakpoint"
 
 #: ../scope/src/break.c:103
-#, fuzzy
 msgid "tracepoint"
-msgstr "Haltepunkte"
+msgstr "Tracepoint"
 
 #: ../scope/src/break.c:104
 msgid "fast tracepoint"
@@ -6517,7 +6509,7 @@ msgstr "Beobachtungspunkt auslesen"
 
 #: ../scope/src/break.c:112
 msgid "catchpoint"
-msgstr ""
+msgstr "Catchpoint"
 
 #: ../scope/src/break.c:139 ../scope/src/break.c:143
 msgid "CLI"
@@ -6565,9 +6557,8 @@ msgid "Add Watchpoint"
 msgstr "Beobachtungspunkt hinzufügen"
 
 #: ../scope/src/conterm.c:110
-#, fuzzy
 msgid "Feed Terminal"
-msgstr "In Terminal ausführen"
+msgstr "In Terminal einfüttern"
 
 #: ../scope/src/conterm.c:110
 msgid "Enter char # (0..255):"
@@ -6619,7 +6610,7 @@ msgstr "ungültige Daten"
 
 #: ../scope/src/inspect.c:375
 msgid "no children in range"
-msgstr ""
+msgstr "keine Kinder im Bereich"
 
 #: ../scope/src/inspect.c:458
 msgid "out of scope"
@@ -6636,7 +6627,7 @@ msgstr "Speicher einlesen"
 #: ../scope/src/memory.c:401
 #, c-format
 msgid "Scope: pointer size > %d, Data disabled."
-msgstr ""
+msgstr "Scope: Pointer-Größe > %d, Daten deaktiviert."
 
 #: ../scope/src/menu.c:386
 msgid "Modify"
@@ -6647,7 +6638,6 @@ msgid "Evaluate/modify"
 msgstr ""
 
 #: ../scope/src/menu.c:496
-#, fuzzy
 msgid "Watch expression"
 msgstr "Ausdruck beobachten"
 
@@ -6668,7 +6658,7 @@ msgid "Select File"
 msgstr "Datei auswählen"
 
 #: ../scope/src/prefs.c:320 ../scope/src/utils.c:470
-#, fuzzy, c-format
+#,  c-format
 msgid "Scope: %s: %s."
 msgstr "Scope: %s: %s."
 
@@ -6682,9 +6672,9 @@ msgid "Loaded debug settings for %s."
 msgstr "Einstellungen für %s geladen."
 
 #: ../scope/src/program.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load debug settings file %s: %s."
-msgstr "Konnte die Datei »%s« nicht laden: %s"
+msgstr "Konnte die Datei mit Debug-Einstellungen nicht laden %s: %s"
 
 #: ../scope/src/program.c:387
 #, c-format
@@ -6698,17 +6688,16 @@ msgstr ""
 "Fortsetzen?"
 
 #: ../scope/src/program.c:423
-#, fuzzy
 msgid "Delete all breakpoints, watches et cetera?"
 msgstr "Alle Halte- und Beobachtungspunkte löschen?"
 
 #: ../scope/src/program.c:531
 msgid "as _Name=value"
-msgstr ""
+msgstr "als _Name=wert"
 
 #: ../scope/src/program.c:532
 msgid "as _Name = value"
-msgstr ""
+msgstr "als _Name = wert"
 
 #: ../scope/src/scope.c:35
 msgid "Scope Debugger"
@@ -6728,7 +6717,6 @@ msgstr "Starten / Fortsetzen"
 
 # Noch keine Idee hierzu --Dominic
 #: ../scope/src/scope.c:66 ../scope/src/scope.c:163
-#, fuzzy
 msgid "Run to source"
 msgstr "Bis zum Cursor ausführen"
 
@@ -6769,34 +6757,29 @@ msgid "Load"
 msgstr "Laden"
 
 #: ../scope/src/scope.c:414
-#, fuzzy
 msgid "Build action activated. Terminate debugging?"
 msgstr "Build-Prozess aktiviert. Debugging abbrechen?"
 
 #: ../scope/src/scope.c:516
-#, fuzzy
 msgid "Breaks"
 msgstr "Haltepunkte"
 
 #: ../scope/src/scope.c:518
-#, fuzzy
 msgid "Console"
 msgstr "Konsole:"
 
 #: ../scope/src/scope.c:518
-#, fuzzy
 msgid "Debug Console"
 msgstr "Debug-Konsole:"
 
 #: ../scope/src/thread.c:53
-#, fuzzy, c-format
+#, fc-format
 msgid "Thread group %s started."
 msgstr "Thread-Gruppe %s gestartet."
 
 #: ../scope/src/thread.c:68
-#, fuzzy
 msgid "Thread group "
-msgstr "Thread %i"
+msgstr "Thread-Gruppe "
 
 #: ../scope/src/thread.c:88
 msgid " exited"
@@ -6808,7 +6791,6 @@ msgid " with exit code %s"
 msgstr " mit Fehlercode %s"
 
 #: ../scope/src/thread.c:753
-#, fuzzy
 msgid "Send Signal"
 msgstr "Signal senden"
 
@@ -7039,14 +7021,12 @@ msgid "Checks the spelling of the current document."
 msgstr "Prüft die Rechtschreibung im aktuellen Dokument."
 
 #: ../spellcheck/src/scplugin.c:225
-#, fuzzy
 msgid "Run spell check once"
-msgstr "Rechtschreibprüfung ausführen"
+msgstr "Rechtschreibprüfung einmalig ausführen"
 
 #: ../spellcheck/src/scplugin.c:228 ../spellcheck/src/scplugin.c:333
-#, fuzzy
 msgid "Toggle spell check"
-msgstr "Rechtschreibprüfung"
+msgstr "Rechtschreibprüfung ein-/ausschalten"
 
 #. initialise the dialog
 #: ../spellcheck/src/scplugin.c:239
@@ -7154,10 +7134,10 @@ msgid "Default (%s)"
 msgstr "Vorgabe (%s)"
 
 #: ../spellcheck/src/gui.c:617
-#, fuzzy, c-format
+#, c-format
 msgid "Toggle spell check (current language: %s)"
 msgstr ""
-"»Rechtschreibung beim Tippen überprüfen« ein-/ausschalten (Aktuelle Sprache: "
+"Rechtschreibung ein-/ausschalten (Aktuelle Sprache: "
 "%s)"
 
 #: ../spellcheck/src/gui.c:695
@@ -7545,16 +7525,16 @@ msgstr "Updatechecker"
 msgid "Checks whether there are updates for Geany available"
 msgstr "Prüft, ob Updates für Geany bereit stehen."
 
-#: ../updatechecker/src/updatechecker.c:194
+#: ../updatechecker/src/updatechecker.c:200
 #, c-format
 msgid "There is a more recent version of Geany available: %s"
 msgstr "Es ist eine aktuellere Version verfügbar: %s"
 
-#: ../updatechecker/src/updatechecker.c:202
+#: ../updatechecker/src/updatechecker.c:208
 msgid "No newer Geany version available."
 msgstr "Keine aktuellere Version von Geany gefunden."
 
-#: ../updatechecker/src/updatechecker.c:217
+#: ../updatechecker/src/updatechecker.c:223
 #, c-format
 msgid ""
 "Unable to perform version check.\n"
@@ -7565,11 +7545,11 @@ msgstr ""
 "Fehlernummer: %d \n"
 "Fehlernachricht: »%s«"
 
-#: ../updatechecker/src/updatechecker.c:285
+#: ../updatechecker/src/updatechecker.c:291
 msgid "Run updatecheck on startup"
 msgstr "Beim Start auf Aktualisierungen prüfen"
 
-#: ../updatechecker/src/updatechecker.c:328
+#: ../updatechecker/src/updatechecker.c:334
 msgid "Check for Updates"
 msgstr "Auf mögliche Aktualisierungen prüfen"
 
@@ -7660,43 +7640,36 @@ msgid "_Zoom"
 msgstr "_Vergrößerung"
 
 #: ../webhelper/src/gwh-browser.c:418
-#, fuzzy
 msgid "Zoom _In"
-msgstr "Hineinzoomen"
+msgstr "Hine_inzoomen"
 
 #: ../webhelper/src/gwh-browser.c:427
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "Herauszoomen"
+msgstr "Herausz_oomen"
 
 #: ../webhelper/src/gwh-browser.c:438
-#, fuzzy
 msgid "_Reset Zoom"
-msgstr "_Vergrößerung"
+msgstr "_Ve_rgrößerung zurücksetzen"
 
 #: ../webhelper/src/gwh-browser.c:451
 msgid "Full-_content zoom"
 msgstr "Dokument _einpassen"
 
 #: ../webhelper/src/gwh-browser.c:686
-#, fuzzy
 msgid "_Back"
-msgstr "Zurück"
+msgstr "_Zurück"
 
 #: ../webhelper/src/gwh-browser.c:687
-#, fuzzy
 msgid "Go back"
-msgstr "Eine Seite nach zurück"
+msgstr "Zurückgehen"
 
 #: ../webhelper/src/gwh-browser.c:690
-#, fuzzy
 msgid "_Forward"
-msgstr "Weiter"
+msgstr "_Weiter"
 
 #: ../webhelper/src/gwh-browser.c:691
-#, fuzzy
 msgid "Go forward"
-msgstr "Weiter"
+msgstr "Weitergehen"
 
 #: ../webhelper/src/gwh-browser.c:695
 msgid "Cancel loading"
@@ -7704,9 +7677,8 @@ msgstr "Laden abbrechen"
 
 #. don't show cancel
 #: ../webhelper/src/gwh-browser.c:698
-#, fuzzy
 msgid "_Refresh"
-msgstr "Auffrischen"
+msgstr "Auff_rischen"
 
 #: ../webhelper/src/gwh-browser.c:699
 msgid "Reload current page"
@@ -7717,9 +7689,8 @@ msgid "Website information and settings"
 msgstr "Webseiteninformationen und -Einstellungen"
 
 #: ../webhelper/src/gwh-browser.c:725
-#, fuzzy
 msgid "Web _Inspector"
-msgstr "Webinspektor"
+msgstr "Web-_Inspektor"
 
 #: ../webhelper/src/gwh-browser.c:726
 msgid "Toggle web inspector"
@@ -7924,7 +7895,6 @@ msgstr ""
 "erkennen, die im Verzeichnisbaum angezeigt werden sollen."
 
 #: ../workbench/src/dialogs.c:417
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "not be displayed in the directory tree."
@@ -7933,7 +7903,6 @@ msgstr ""
 "erkennen, die im Verzeichnisbaum nicht angezeigt werden sollen."
 
 #: ../workbench/src/dialogs.c:443
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "shall not be scanned for source files."
@@ -7982,9 +7951,8 @@ msgid ""
 msgstr ""
 
 #: ../workbench/src/dialogs.c:641
-#, fuzzy
 msgid "_Expand on hover"
-msgstr "Nach _Anwendung ausklappen"
+msgstr "_Ausklappen beim Überfahren"
 
 #: ../workbench/src/dialogs.c:652
 #, fuzzy
