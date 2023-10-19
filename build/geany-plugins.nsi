@@ -33,8 +33,8 @@ Unicode true
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "2.0"
-!define PRODUCT_VERSION_ID "2.0.0.0"
+!define PRODUCT_VERSION "2.1"
+!define PRODUCT_VERSION_ID "2.1.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
