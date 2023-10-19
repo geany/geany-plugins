@@ -346,7 +346,7 @@ lo_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer gdata)
 		{
 			keybindings_set_item(key_group, i,
 				lo_keybinding_callback, 0, 0, menu_items[i].kb_section_name,
-					menu_items[i].label, NULL);
+					_(menu_items[i].label), NULL);
 		}
 	}
 
