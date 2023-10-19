@@ -1,6 +1,57 @@
 Geany Plugins 2.0 (not release date yet)
 
-    t.b.p.s.
+    General:
+    * Require Geany 2.0 as minimum version and so also GTK 3.24
+    * Remove unusable and unmaintained plugins: DevHelp, GeanyPy, Multiterm
+      (PR #1217)
+
+    Addons:
+    * Bookmarks: Prevent duplicating bookmarks when editing line (PR #1040)
+    * Delay updating of tasks list until document has been colorised
+      (Issue #1254, PR #1257)
+
+    GeanyLua:
+    * Update documentation for "geany.keygrab" and fix infinite loop
+      (xiota, PR #1236)
+    * Update for Scintilla 5.1.4 (xiota, PR #1123)
+    * Update glspi_keycmd.h: add GEANY_KEYS_FILE_RELOAD_ALL, remove
+      GEANY_KEYS_COUNT (Skif-off, PR #1124)
+    * Add geany.settype() to set the document filetype (Skif-off, PR #1157)
+
+    GeanyVC:
+    * Support the use of external diff-tool in directory context
+      (nomadbyte, PR #1025)
+    * Fallback to `git rev-parse` for getting the repo/worktree's top directory
+      (nomadbyte, PR #1028)
+
+    ProjectOrganizer:
+    * Use system trash for file/folder removal (xiota, PR #1125)
+    * Set header filetype to match source filetype (xiota, PR #1122)
+    * Add ability to open file manager and terminal (xiota, PR #1126)
+    * Restore tree state in the sidebar (PR #1144)
+    * Increase the file number for automatic indexing to 1000 (PR #1270)
+
+    Spellcheck:
+    * Rename "Toggle spell check" setting and check document+clear indicators
+      when toggling via keybinding  (Issue #1158, PR #1161)
+
+    Treebrowser:
+    * Allow new file/folder in top level (Chris Allan, PR #960)
+    * Fix refresh from popup menu with a selected file (Issue #1194, PR #1195)
+
+    UpdateChecker:
+    * Fix logic comparing version numbers (PR #1284)
+
+    Vimmode:
+    * Support word-related text object commands such as: "ciw", "diw",
+      "viw" etc. (Issue #1155, PR #1240)
+    * Various fixes and improvements (PR #1137, PR #1139, PR #1141)
+
+    Webhelper:
+    * Port Webhelper to webkit2gtk (PR #1224)
+
+    Internationalization:
+    * Updated translations: de, es, pt, ua
 
 
 Geany Plugins 1.38 (2021-10-09)
