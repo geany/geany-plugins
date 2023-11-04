@@ -275,6 +275,43 @@ static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 	return ft;
 }
 
+typedef struct
+{
+	GPtrArray *source_files;
+	GHashTable *file_table;
+	gchar* utf8_path;
+	gboolean cleanup;
+	PrjOrgRoot *root;
+} TagRegenerationData;
+
+static regenerate_tags_on_idle(gpointer user_data)
+{
+	TagRegenerationData* data = (TagRegenerationData*) user_data;
+
+	if (data->cleanup) {
+		g_hash_table_destroy(data->root->file_table);
+		data->root->file_table = data->file_table;
+
+		tm_workspace_add_source_files(data->source_files);
+		g_ptr_array_free(data->source_files, TRUE);
+	} else {
+		TMSourceFile *sf = NULL;
+		gchar *locale_path = utils_get_locale_from_utf8(data->utf8_path);
+		gchar *basename = g_path_get_basename(locale_path);
+
+		if (g_strcmp0(PROJORG_DIR_ENTRY, basename) != 0)
+			sf = tm_source_file_new(locale_path, filetypes_detect(data->utf8_path)->name);
+		if (sf && !document_find_by_filename(data->utf8_path)  )
+			g_ptr_array_add(data->source_files, sf);
+		g_hash_table_insert(data->file_table, g_strdup(data->utf8_path), sf);
+		g_free(locale_path);
+		g_free(basename);
+		g_free(data->utf8_path);
+	}
+	g_free(data);
+	return FALSE;
+}
+
 
 static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 {
@@ -288,25 +325,21 @@ static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 	g_hash_table_iter_init(&iter, root->file_table);
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
-		TMSourceFile *sf = NULL;
-		gchar *utf8_path = key;
-		gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-		gchar *basename = g_path_get_basename(locale_path);
-
-		if (g_strcmp0(PROJORG_DIR_ENTRY, basename) != 0)
-			sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
-		if (sf && !document_find_by_filename(utf8_path)  )
-			g_ptr_array_add(source_files, sf);
-
-		g_hash_table_insert(file_table, g_strdup(utf8_path), sf);
-		g_free(locale_path);
-		g_free(basename);
+		TagRegenerationData* data = g_malloc(sizeof(TagRegenerationData));
+		data->file_table = file_table;
+		data->source_files = source_files;
+		data->utf8_path = key;
+		data->cleanup = FALSE;
+		g_hash_table_iter_steal(&iter);
+		plugin_idle_add(geany_plugin, regenerate_tags_on_idle, data);
 	}
-	g_hash_table_destroy(root->file_table);
-	root->file_table = file_table;
 
-	tm_workspace_add_source_files(source_files);
-	g_ptr_array_free(source_files, TRUE);
+	TagRegenerationData* data = g_malloc(sizeof(TagRegenerationData));
+	data->file_table = file_table;
+	data->source_files = source_files;
+	data->cleanup = TRUE;
+	data->root = root;
+	plugin_idle_add(geany_plugin, regenerate_tags_on_idle, data);
 }
 
 
