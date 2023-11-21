@@ -47,6 +47,18 @@ When loaded into Geany, this plugins adds a web view in the message window
 (the default), the sidebar or in a separate window. You can find most of the
 features from this view.
 
+The web view displays the URL chosen in the address bar.  This can be any valid
+URL that would work in a web browser, for example it could be a local web
+server like ``http://localhost/test/index.php``, a local file like
+``file:///home/user/projects/test/index.html``, or a remote website like
+``https://en.wikipedia.org/wiki/``.
+
+In addition to a rendered preview, the main feature is the inspector.  To
+inspect the displayed page, either open the inspector using the toolbar item on
+the far end of the address bar, or right click on any element of the page and
+select *Inspect Element*.  For more documentation on the inspector's features,
+see https://webkit.org/web-inspector/.
+
 Bookmarks
 ---------
 
