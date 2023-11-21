@@ -226,6 +226,27 @@ on_item_bookmark_toggled (GtkCheckMenuItem *item,
 }
 
 static void
+item_show_accelerator (GtkWidget *item,
+                       gsize      key_id)
+{
+  GeanyKeyBinding *binding = keybindings_get_item (gwh_keybindings_get_group (),
+                                                   key_id);
+
+  if (binding->key) {
+    /* we need an accel group for setting the accelerator, but we can't get
+     * Geany's.  It doesn't matter though, as this is only for showing the
+     * accelarator, not actually for tiggering the item. */
+    GtkAccelGroup *dummy_accel_group = gtk_accel_group_new ();
+
+    gtk_widget_add_accelerator (item, "activate", dummy_accel_group,
+                                binding->key, binding->mods,
+                                GTK_ACCEL_VISIBLE);
+    g_object_set_data_full (G_OBJECT (item), "dummy_accel_group",
+                            dummy_accel_group, g_object_unref);
+  }
+}
+
+static void
 on_url_entry_icon_press (GtkEntry            *entry,
                          GtkEntryIconPosition icon_pos,
                          GdkEventButton      *event,
@@ -243,6 +264,7 @@ on_url_entry_icon_press (GtkEntry            *entry,
                       G_CALLBACK (on_item_bookmark_toggled), self);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     gtk_widget_show (item);
+    item_show_accelerator (item, GWH_KB_TOGGLE_BOOKMARK);
     
     gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
                     event->button, event->time);
