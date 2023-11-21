@@ -31,6 +31,8 @@
 #include <gtk/gtk.h>
 #include <webkit2/webkit2.h>
 
+#include <document.h>
+
 #include "gwh-utils.h"
 #include "gwh-settings.h"
 #include "gwh-keybindings.h"
@@ -269,6 +271,36 @@ on_url_entry_icon_press (GtkEntry            *entry,
     gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
                     event->button, event->time);
   }
+}
+
+static void
+on_item_load_current_file_activate (GtkMenuItem  *item,
+                                    GwhBrowser   *self)
+{
+  gwh_browser_set_uri_from_document (self, document_get_current ());
+}
+
+static void
+on_url_entry_populate_popup (GtkEntry    *entry,
+                             GtkWidget   *menu,
+                             GwhBrowser  *self)
+{
+  GtkWidget *item;
+  GeanyDocument *doc = document_get_current ();
+
+  /* separator */
+  item = gtk_separator_menu_item_new ();
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_show (item);
+
+  /* load current file item */
+  item = gtk_menu_item_new_with_mnemonic (_("_Load current file"));
+  gtk_widget_set_sensitive (item, doc && doc->real_path);
+  g_signal_connect (item, "activate",
+                    G_CALLBACK (on_item_load_current_file_activate), self);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_show (item);
+  item_show_accelerator (item, GWH_KB_LOAD_CURRENT_FILE);
 }
 
 static gboolean
@@ -773,6 +805,8 @@ create_toolbar (GwhBrowser *self)
                     G_CALLBACK (on_url_entry_activate), self);
   g_signal_connect (G_OBJECT (self->priv->url_entry), "icon-press",
                     G_CALLBACK (on_url_entry_icon_press), self);
+  g_signal_connect (G_OBJECT (self->priv->url_entry), "populate-popup",
+                    G_CALLBACK (on_url_entry_populate_popup), self);
   g_signal_connect (G_OBJECT (self->priv->url_combo), "notify::active",
                     G_CALLBACK (on_url_combo_active_notify), self);
   g_signal_connect (G_OBJECT (comp), "match-selected",
@@ -970,6 +1004,23 @@ gwh_browser_set_uri (GwhBrowser  *self,
     g_object_notify (G_OBJECT (self), "uri");
   }
   g_free (real_uri);
+}
+
+gboolean
+gwh_browser_set_uri_from_document (GwhBrowser    *self,
+                                   GeanyDocument *doc)
+{
+  gchar *uri;
+
+  /* document must exist on disk */
+  if (! doc || ! doc->real_path)
+    return FALSE;
+
+  uri = g_strconcat ("file://", doc->file_name, NULL);
+  gwh_browser_set_uri (self, uri);
+  g_free (uri);
+
+  return TRUE;
 }
 
 const gchar *
