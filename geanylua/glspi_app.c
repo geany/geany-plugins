@@ -528,7 +528,7 @@ static gint glspi_reloadconf(lua_State* L)
 
 
 
-static const struct luaL_reg glspi_app_funcs[] = {
+static const struct luaL_Reg glspi_app_funcs[] = {
 	{"pluginver",  glspi_pluginver},
 	{"appinfo",    glspi_appinfo},
 	{"xsel",       glspi_xsel},

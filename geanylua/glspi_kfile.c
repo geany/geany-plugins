@@ -370,7 +370,7 @@ static gint kfile_remove(lua_State* L)
 
 
 
-static const struct luaL_reg kfile_funcs[] = {
+static const struct luaL_Reg kfile_funcs[] = {
 	{"new",     kfile_new},
 	{"data",    kfile_data},
 	{"groups",  kfile_groups},
