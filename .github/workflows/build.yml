@@ -44,10 +44,10 @@ jobs:
 
     steps:
       - name: Checkout Geany-Plugins
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout Geany
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: geany/geany
           path: ${{ env.GEANY_SOURCE_PATH }}
@@ -62,7 +62,7 @@ jobs:
         run: echo "timestamp=$(date +%Y-%m-%d-%H-%M)" >> $GITHUB_OUTPUT
 
       - name: Configure ccache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ${{ runner.os }}-${{ github.job }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
@@ -75,7 +75,7 @@ jobs:
 
       - name: Configure Geany Cache
         id: geany_cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.GEANY_CACHE_PATH }}
           key: ${{ runner.os }}-${{ github.job }}-geany-cache-${{ steps.prepare_geany_cache_key.outputs.commit_hash }}
@@ -186,17 +186,17 @@ jobs:
 
     steps:
       - name: Checkout Geany-Plugins
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout Geany
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: geany/geany
           path: ${{ env.GEANY_SOURCE_PATH }}
           token: ${{ github.token }}
 
       - name: Checkout Build Scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: master
           repository: geany/infrastructure
@@ -223,7 +223,7 @@ jobs:
 
       - name: Configure Geany Cache
         id: geany_cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.GEANY_CACHE_PATH }}
           key: ${{ runner.os }}-${{ github.job }}-geany-mingw64-cache-${{ steps.prepare_geany_cache_key.outputs.commit_hash }}
@@ -234,7 +234,7 @@ jobs:
             env | sort
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.DOCKER_REGISTRY }}
           username: ${{ github.actor }}
@@ -277,7 +277,7 @@ jobs:
           bash start_build.sh --log-to-stdout --mingw64 --geany-plugins --geany-plugins-source "${{ github.workspace }}"
 
       - name: Archive Geany-Plugins Installer
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: geany-plugins-installer-ci-${{ env.SHORT_SHA }}-pr${{ env.GITHUB_PULL_REQUEST_OR_REF }}
           retention-days: 30
