@@ -2,5 +2,8 @@
 # geanyvc
 geanyvc/src/commit.glade
 
+# Pinner
+pinner/pinner.c
+
 # WebHelper
 webhelper/src/gwh-enum-types.c
