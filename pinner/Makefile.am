@@ -4,8 +4,9 @@ plugin = pinner
 
 geanyplugins_LTLIBRARIES = pinner.la
 
-pinner_la_SOURCES = \
-	pinner.c
+pinner_la_SOURCES = pinner.c
+
+noinst_HEADERS = pinner.h
 
 pinner_la_CPPFLAGS = $(AM_CPPFLAGS) \
 						 -DG_LOG_DOMAIN=\"Pinner\"
