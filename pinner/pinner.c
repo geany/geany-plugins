@@ -59,7 +59,10 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	struct pindata *container = pdata;
 	GeanyPlugin *plugin = container->plugin;
 	GSList *list = container->list;
+
 	GeanyDocument *doc = document_get_current();
+	if (doc == NULL)
+		return;
 
 	if (is_duplicate(list, doc->file_name))
 		return;
@@ -72,14 +75,12 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	gchar tmp_file_name[strlen(doc->file_name) + 1];
 	g_strlcpy(tmp_file_name, doc->file_name, sizeof tmp_file_name);
 
-	if (doc != NULL)
-	{
-		list = g_slist_append(list, tmp_file_name);
-		GtkWidget *label = gtk_label_new_with_mnemonic(doc->file_name);
-		gtk_widget_show(label);
-		gtk_box_pack_start(GTK_BOX(pinned_view_vbox), label, FALSE, FALSE, 0);
-		gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
-	}
+	list = g_slist_append(list, tmp_file_name);
+	GtkWidget *label = gtk_label_new_with_mnemonic(doc->file_name);
+	gtk_widget_show(label);
+	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), label, FALSE, FALSE, 0);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
+
 }
 
 
