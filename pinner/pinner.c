@@ -22,6 +22,7 @@
  */
 
 #include <geanyplugin.h>
+#include <stdbool.h>
 
 static GtkWidget *pinned_view_vbox;
 static gint page_number = 0;
@@ -40,19 +41,36 @@ static struct pindata *init_pindata(GeanyPlugin *plugin)
 	return &container;
 }
 
+bool is_duplicate(GSList *list, const gchar* file_name)
+{
+	GSList *iter;
+	for (iter = list; iter != NULL; iter = g_slist_next(iter)) {
+		if (g_strcmp0((const gchar *)iter->data, file_name) == 0) {
+			/* We'll probably want to alert the user the document already
+			 * is pinned */
+			return true;
+		}
+	}
+	return false;
+}
+
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 {
 	struct pindata *container = pdata;
 	GeanyPlugin *plugin = container->plugin;
 	GSList *list = container->list;
-
 	GeanyDocument *doc = document_get_current();
-	// Let's not add the pointer to the list, otherwise
-	// it won't be around when the function returns.
-	// We might find that it's better to store *doc to the list
-	// in which case we'll need to use malloc()
+
+	if (is_duplicate(list, doc->file_name))
+		return;
+
+	/* Let's not add the pointer to the list, otherwise
+	 * it won't be around when the function returns.
+	 * We might find that it's better to store *doc to the list
+	 * in which case we'll need to use malloc()
+	 */
 	gchar tmp_file_name[strlen(doc->file_name) + 1];
-	strcpy(tmp_file_name, doc->file_name);
+	g_strlcpy(tmp_file_name, doc->file_name, sizeof tmp_file_name);
 
 	if (doc != NULL)
 	{
