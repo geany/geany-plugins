@@ -21,8 +21,8 @@
  *
  */
 
-#include <geanyplugin.h>
-#include <stdbool.h>
+#include "pinner.h"
+
 
 static GtkWidget *pinned_view_vbox;
 static gint page_number = 0;
@@ -40,6 +40,37 @@ static struct pindata *init_pindata(void)
 		};
 
 	return &container;
+}
+
+
+void slist_free_wrapper(gpointer pdata)
+{
+	struct pindata *container = pdata;
+	GSList *list = container->list;
+	GSList *iter;
+	for (iter = list; iter != NULL; iter = g_slist_next(iter))
+		g_free(iter->data);
+
+	g_slist_free_full(list, g_free);
+	container->list = NULL;
+}
+
+
+/* A function adapted (pinched) from filebrowser.c */
+static GtkWidget *create_popup_menu(gpointer pdata)
+{
+	GtkWidget *item, *menu;
+
+	menu = gtk_menu_new();
+
+	/* 3? What should the size be? */
+	/* https://docs.gtk.org/gtk3/ctor.Image.new_from_icon_name.html */
+	item = gtk_image_new_from_icon_name("edit-clear", 3);
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	g_signal_connect(item, "activate", G_CALLBACK(slist_free_wrapper), pdata);
+
+	return menu;
 }
 
 bool is_duplicate(GSList *list, const gchar* file_name)
@@ -85,6 +116,25 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	return;
 }
 
+static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event, gpointer pdata)
+{
+	//if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
+	//{
+		//on_open_clicked(NULL, NULL);
+		//return TRUE;
+	//}
+	if (event->button == 3)
+	{
+		static GtkWidget *popup_menu = NULL;
+
+		if (popup_menu == NULL)
+			popup_menu = create_popup_menu(pdata);
+
+		gtk_menu_popup_at_pointer(GTK_MENU(popup_menu), (GdkEvent *) event);
+		/* don't return TRUE here, unless the selection won't be changed */
+	}
+	return FALSE;
+}
 
 static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 {
@@ -100,6 +150,8 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 		main_menu_item);
 	g_signal_connect(main_menu_item, "activate",
 		G_CALLBACK(pin_activate_cb), container);
+	g_signal_connect(pinned_view_vbox, "button-press-event",
+		G_CALLBACK(on_button_press), container);
 
 	geany_plugin_set_data(plugin, main_menu_item, NULL);
 
