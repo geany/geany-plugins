@@ -26,38 +26,21 @@
 
 static GtkWidget *pinned_view_vbox;
 static gint page_number = 0;
+static GSList *pin_list = NULL;
 
-struct pindata {
-		GeanyPlugin *plugin;
-    GSList *list;
-};
-
-static struct pindata *init_pindata(void)
+void slist_free_wrapper(void)
 {
-	static struct pindata container = {
-		NULL,
-		NULL
-		};
-
-	return &container;
-}
-
-
-void slist_free_wrapper(gpointer pdata)
-{
-	struct pindata *container = pdata;
-	GSList *list = container->list;
 	GSList *iter;
-	for (iter = list; iter != NULL; iter = g_slist_next(iter))
+	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
 		g_free(iter->data);
 
-	g_slist_free_full(list, g_free);
-	container->list = NULL;
+	g_slist_free_full(pin_list, g_free);
+	pin_list = NULL;
 }
 
 
 /* A function adapted (pinched) from filebrowser.c */
-static GtkWidget *create_popup_menu(gpointer pdata)
+static GtkWidget *create_popup_menu(void)
 {
 	GtkWidget *item, *menu;
 
@@ -68,15 +51,15 @@ static GtkWidget *create_popup_menu(gpointer pdata)
 	item = gtk_image_new_from_icon_name("edit-clear", 3);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(slist_free_wrapper), pdata);
+	g_signal_connect(item, "activate", G_CALLBACK(slist_free_wrapper), NULL);
 
 	return menu;
 }
 
-bool is_duplicate(GSList *list, const gchar* file_name)
+bool is_duplicate(const gchar* file_name)
 {
 	GSList *iter;
-	for (iter = list; iter != NULL; iter = g_slist_next(iter)) {
+	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter)) {
 		if (g_strcmp0((const gchar *)iter->data, file_name) == 0) {
 			/* We'll probably want to alert the user the document already
 			 * is pinned */
@@ -88,9 +71,7 @@ bool is_duplicate(GSList *list, const gchar* file_name)
 
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 {
-	struct pindata *container = pdata;
-	GeanyPlugin *plugin = container->plugin;
-	GSList *list = container->list;
+	GeanyPlugin *plugin = pdata;
 
 	GeanyDocument *doc = document_get_current();
 	if (doc == NULL)
@@ -101,13 +82,13 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	//for (GSList *iter = list; iter != NULL; iter = g_slist_next(iter))
 		//printf("%s\n", (gchar *)iter->data);
 
-	if (is_duplicate(list, doc->file_name))
+	if (is_duplicate(doc->file_name))
 		return;
 
 	/* This must be freed when nodes are removed from the list */
 	gchar *tmp_file_name = g_strdup(doc->file_name);
 
-	container->list = g_slist_append(list, tmp_file_name);
+	pin_list = g_slist_append(pin_list, tmp_file_name);
 	GtkWidget *label = gtk_label_new_with_mnemonic(doc->file_name);
 	gtk_widget_show(label);
 	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), label, FALSE, FALSE, 0);
@@ -116,7 +97,7 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	return;
 }
 
-static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event, gpointer pdata)
+static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event)
 {
 	//if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
 	//{
@@ -128,7 +109,7 @@ static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event, gpoint
 		static GtkWidget *popup_menu = NULL;
 
 		if (popup_menu == NULL)
-			popup_menu = create_popup_menu(pdata);
+			popup_menu = create_popup_menu();
 
 		gtk_menu_popup_at_pointer(GTK_MENU(popup_menu), (GdkEvent *) event);
 		/* don't return TRUE here, unless the selection won't be changed */
@@ -140,18 +121,15 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 {
 	GtkWidget *main_menu_item;
 
-	struct pindata *container = init_pindata();
-	container->plugin = plugin;
-
 	// Create a new menu item and show it
 	main_menu_item = gtk_menu_item_new_with_mnemonic("Pin Document");
 	gtk_widget_show(main_menu_item);
 	gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu),
 		main_menu_item);
 	g_signal_connect(main_menu_item, "activate",
-		G_CALLBACK(pin_activate_cb), container);
+		G_CALLBACK(pin_activate_cb), plugin);
 	g_signal_connect(pinned_view_vbox, "button-press-event",
-		G_CALLBACK(on_button_press), container);
+		G_CALLBACK(on_button_press), NULL);
 
 	geany_plugin_set_data(plugin, main_menu_item, NULL);
 
@@ -166,7 +144,7 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 static void pin_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
 	GtkWidget *main_menu_item = (GtkWidget *) pdata;
-	//  g_slist_free(list);
+	slist_free_wrapper();
 
 	gtk_widget_destroy(main_menu_item);
 }

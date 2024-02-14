@@ -24,8 +24,7 @@
 #include <geanyplugin.h>
 #include <stdbool.h>
 
-static struct pindata *init_pindata(void);
-void slist_free_wrapper(gpointer pdata);
-static GtkWidget *create_popup_menu(gpointer pdata);
-bool is_duplicate(GSList *list, const gchar* file_name);
+void slist_free_wrapper(void);
+static GtkWidget *create_popup_menu(void);
+bool is_duplicate(const gchar* file_name);
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
