@@ -21,14 +21,19 @@
  *
  */
 
-#include "pinner.h"
+#include <geanyplugin.h>
+#include <stdbool.h>
 
+static void slist_free_wrapper(void);
+static GtkWidget *create_popup_menu(void);
+static bool is_duplicate(const gchar* file_name);
+static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 
 static GtkWidget *pinned_view_vbox;
 static gint page_number = 0;
 static GSList *pin_list = NULL;
 
-void slist_free_wrapper(void)
+static void slist_free_wrapper(void)
 {
 	GSList *iter;
 	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
@@ -56,7 +61,7 @@ static GtkWidget *create_popup_menu(void)
 	return menu;
 }
 
-bool is_duplicate(const gchar* file_name)
+static bool is_duplicate(const gchar* file_name)
 {
 	GSList *iter;
 	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter)) {
