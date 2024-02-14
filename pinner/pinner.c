@@ -32,12 +32,13 @@ struct pindata {
     GSList *list;
 };
 
-static struct pindata *init_pindata(GeanyPlugin *plugin)
+static struct pindata *init_pindata(void)
 {
 	static struct pindata container = {
 		NULL,
 		NULL
 		};
+
 	return &container;
 }
 
@@ -64,23 +65,24 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	if (doc == NULL)
 		return;
 
+	// DEBUG: Print the elements in the list
+	//printf("List elements:\n");
+	//for (GSList *iter = list; iter != NULL; iter = g_slist_next(iter))
+		//printf("%s\n", (gchar *)iter->data);
+
 	if (is_duplicate(list, doc->file_name))
 		return;
 
-	/* Let's not add the pointer to the list, otherwise
-	 * it won't be around when the function returns.
-	 * We might find that it's better to store *doc to the list
-	 * in which case we'll need to use malloc()
-	 */
-	gchar tmp_file_name[strlen(doc->file_name) + 1];
-	g_strlcpy(tmp_file_name, doc->file_name, sizeof tmp_file_name);
+	/* This must be freed when nodes are removed from the list */
+	gchar *tmp_file_name = g_strdup(doc->file_name);
 
-	list = g_slist_append(list, tmp_file_name);
+	container->list = g_slist_append(list, tmp_file_name);
 	GtkWidget *label = gtk_label_new_with_mnemonic(doc->file_name);
 	gtk_widget_show(label);
 	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), label, FALSE, FALSE, 0);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
 
+	return;
 }
 
 
@@ -88,7 +90,7 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 {
 	GtkWidget *main_menu_item;
 
-	struct pindata *container = init_pindata(plugin);
+	struct pindata *container = init_pindata();
 	container->plugin = plugin;
 
 	// Create a new menu item and show it
@@ -112,6 +114,7 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 static void pin_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
 	GtkWidget *main_menu_item = (GtkWidget *) pdata;
+	//  g_slist_free(list);
 
 	gtk_widget_destroy(main_menu_item);
 }
