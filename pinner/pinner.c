@@ -98,8 +98,6 @@ static bool is_duplicate(const gchar* file_name)
 
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 {
-	GeanyPlugin *plugin = pdata;
-
 	GeanyDocument *doc = document_get_current();
 	if (doc == NULL)
 		return;
@@ -116,7 +114,7 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	gtk_container_add(GTK_CONTAINER(event_box), label);
 	gtk_widget_show_all(event_box);
 	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), event_box, FALSE, FALSE, 0);
-	gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
+	// gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
 
 	g_signal_connect(event_box, "button-press-event",
 		G_CALLBACK(label_clicked_cb), tmp_file_name);
@@ -206,7 +204,7 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 	gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu),
 		tools_item[DO_PIN]);
 	g_signal_connect(tools_item[DO_PIN], "activate",
-		G_CALLBACK(pin_activate_cb), plugin);
+		G_CALLBACK(pin_activate_cb), NULL);
 
 	gtk_widget_show(tools_item[DO_UNPIN]);
 	gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu),
