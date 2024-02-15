@@ -32,10 +32,12 @@ enum {
 static void slist_free_wrapper(void);
 static GtkWidget *create_popup_menu(void);
 static bool is_duplicate(const gchar* file_name);
+static gboolean label_clicked_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 
 static GtkWidget *pinned_view_vbox;
+// static GtkWidget *event_box;
 static gint page_number = 0;
 static GSList *pin_list = NULL;
 
@@ -107,12 +109,17 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 
 	/* This must be freed when nodes are removed from the list */
 	gchar *tmp_file_name = g_strdup(doc->file_name);
-
 	pin_list = g_slist_append(pin_list, tmp_file_name);
+
+	GtkWidget *event_box = gtk_event_box_new();
 	GtkWidget *label = gtk_label_new_with_mnemonic(doc->file_name);
-	gtk_widget_show(label);
-	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), label, FALSE, FALSE, 0);
+	gtk_container_add(GTK_CONTAINER(event_box), label);
+	gtk_widget_show_all(event_box);
+	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), event_box, FALSE, FALSE, 0);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
+
+	g_signal_connect(event_box, "button-press-event",
+		G_CALLBACK(label_clicked_cb), tmp_file_name);
 
 	/* remove me */
 	print_list();
@@ -146,25 +153,46 @@ static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 }
 
 
-static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event)
+static gboolean label_clicked_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	//if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
-	//{
-		//on_open_clicked(NULL, NULL);
-		//return TRUE;
-	//}
-	if (event->button == 3)
+	if (event->type == GDK_BUTTON_PRESS && event->button == 1)
 	{
-		static GtkWidget *popup_menu = NULL;
+		// Check if the clicked widget is an event box
+		if (GTK_IS_EVENT_BOX(widget))
+		{
+			GtkWidget *label = gtk_bin_get_child(GTK_BIN(widget));
 
-		if (popup_menu == NULL)
-			popup_menu = create_popup_menu();
-
-		gtk_menu_popup_at_pointer(GTK_MENU(popup_menu), (GdkEvent *) event);
-		/* don't return TRUE here, unless the selection won't be changed */
+			if (GTK_IS_LABEL(label))
+			{
+				const gchar *file_name = gtk_label_get_text(GTK_LABEL(label));
+				document_open_file(file_name, FALSE, NULL, NULL);
+			}
+		}
 	}
+
 	return FALSE;
 }
+
+
+//static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event)
+//{
+	////if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
+	////{
+		////on_open_clicked(NULL, NULL);
+		////return TRUE;
+	////}
+	//if (event->button == 3)
+	//{
+		//static GtkWidget *popup_menu = NULL;
+
+		//if (popup_menu == NULL)
+			//popup_menu = create_popup_menu();
+
+		//gtk_menu_popup_at_pointer(GTK_MENU(popup_menu), (GdkEvent *) event);
+		///* don't return TRUE here, unless the selection won't be changed */
+	//}
+	//return FALSE;
+//}
 
 static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 {
@@ -186,8 +214,10 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 	g_signal_connect(tools_item[DO_UNPIN], "activate",
 		G_CALLBACK(unpin_activate_cb), NULL);
 
-	g_signal_connect(pinned_view_vbox, "button-press-event",
-		G_CALLBACK(on_button_press), NULL);
+	//g_signal_connect(event_box, "button-press-event",
+		//G_CALLBACK(on_button_press), NULL);
+	//g_signal_connect(pinned_view_vbox, "button-press-event",
+		//G_CALLBACK(on_button_press), NULL);
 
 	geany_plugin_set_data(plugin, tools_item, NULL);
 
