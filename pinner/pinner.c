@@ -24,14 +24,32 @@
 #include <geanyplugin.h>
 #include <stdbool.h>
 
+enum {
+	DO_PIN,
+	DO_UNPIN
+};
+
 static void slist_free_wrapper(void);
 static GtkWidget *create_popup_menu(void);
 static bool is_duplicate(const gchar* file_name);
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
+static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 
 static GtkWidget *pinned_view_vbox;
 static gint page_number = 0;
 static GSList *pin_list = NULL;
+
+/* DEBUG: Print the elements in the list
+ *
+ * This function will get removed later
+ */
+static void print_list(void)
+{
+	printf("List elements:\n");
+	for (GSList *iter = pin_list; iter != NULL; iter = g_slist_next(iter))
+		printf("%s\n", (gchar *)iter->data);
+}
+
 
 static void slist_free_wrapper(void)
 {
@@ -64,8 +82,10 @@ static GtkWidget *create_popup_menu(void)
 static bool is_duplicate(const gchar* file_name)
 {
 	GSList *iter;
-	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter)) {
-		if (g_strcmp0((const gchar *)iter->data, file_name) == 0) {
+	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
+	{
+		if (g_strcmp0((const gchar *)iter->data, file_name) == 0)
+		{
 			/* We'll probably want to alert the user the document already
 			 * is pinned */
 			return true;
@@ -82,11 +102,6 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	if (doc == NULL)
 		return;
 
-	// DEBUG: Print the elements in the list
-	//printf("List elements:\n");
-	//for (GSList *iter = list; iter != NULL; iter = g_slist_next(iter))
-		//printf("%s\n", (gchar *)iter->data);
-
 	if (is_duplicate(doc->file_name))
 		return;
 
@@ -99,8 +114,37 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), label, FALSE, FALSE, 0);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
 
+	/* remove me */
+	print_list();
+
 	return;
 }
+
+
+static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
+{
+	GeanyDocument *doc = document_get_current();
+	if (doc == NULL)
+		return;
+
+	GSList *iter;
+	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
+ 	{
+		if (g_strcmp0((const gchar *)iter->data, doc->file_name) == 0)
+		{
+			g_free(iter->data);
+			pin_list = g_slist_delete_link(pin_list, iter);
+			/* Add code to refresh the "Pinned" page */
+			break;
+		}
+	}
+
+	/* remove me */
+	print_list();
+
+	return;
+}
+
 
 static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event)
 {
@@ -124,19 +168,28 @@ static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event)
 
 static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 {
-	GtkWidget *main_menu_item;
+	GtkWidget *tools_item[] = {
+		gtk_menu_item_new_with_mnemonic("Pin Document"),
+		gtk_menu_item_new_with_mnemonic("Unpin Document"),
+		NULL
+	};
 
-	// Create a new menu item and show it
-	main_menu_item = gtk_menu_item_new_with_mnemonic("Pin Document");
-	gtk_widget_show(main_menu_item);
+	gtk_widget_show(tools_item[DO_PIN]);
 	gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu),
-		main_menu_item);
-	g_signal_connect(main_menu_item, "activate",
+		tools_item[DO_PIN]);
+	g_signal_connect(tools_item[DO_PIN], "activate",
 		G_CALLBACK(pin_activate_cb), plugin);
+
+	gtk_widget_show(tools_item[DO_UNPIN]);
+	gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu),
+		tools_item[DO_UNPIN]);
+	g_signal_connect(tools_item[DO_UNPIN], "activate",
+		G_CALLBACK(unpin_activate_cb), NULL);
+
 	g_signal_connect(pinned_view_vbox, "button-press-event",
 		G_CALLBACK(on_button_press), NULL);
 
-	geany_plugin_set_data(plugin, main_menu_item, NULL);
+	geany_plugin_set_data(plugin, tools_item, NULL);
 
 	pinned_view_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show_all(pinned_view_vbox);
@@ -148,10 +201,13 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 
 static void pin_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
-	GtkWidget *main_menu_item = (GtkWidget *) pdata;
-	slist_free_wrapper();
+	GtkWidget **tools_item = pdata;
+	while (*tools_item != NULL) {
+		gtk_widget_destroy(*tools_item);
+		tools_item++;
+	}
 
-	gtk_widget_destroy(main_menu_item);
+	slist_free_wrapper();
 }
 
 
