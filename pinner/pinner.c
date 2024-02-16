@@ -59,8 +59,7 @@ static void slist_free_wrapper(void)
 	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
 		g_free(iter->data);
 
-	g_slist_free_full(pin_list, g_free);
-	pin_list = NULL;
+	g_slist_free(pin_list);
 }
 
 
