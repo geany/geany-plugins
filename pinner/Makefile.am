@@ -9,11 +9,11 @@ pinner_la_SOURCES = pinner.c
 pinner_la_CPPFLAGS = $(AM_CPPFLAGS) \
 						 -DG_LOG_DOMAIN=\"Pinner\"
 
-if MINGW
-	ASAN_FLAG =
-else
-	ASAN_FLAG = -fsanitize=address,undefined
-endif
+#if MINGW
+#	ASAN_FLAG =
+#else
+#	ASAN_FLAG = -fsanitize=address,undefined
+#endif
 
 pinner_la_CFLAGS = \
 	$(AM_CFLAGS) $(ASAN_FLAG)
