@@ -29,7 +29,6 @@ enum {
 	DO_UNPIN
 };
 
-static void slist_free_wrapper(void);
 static GtkWidget *create_popup_menu(void);
 static bool is_duplicate(const gchar* file_name);
 static gboolean label_clicked_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
@@ -37,31 +36,14 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 
 static GtkWidget *pinned_view_vbox;
-// static GtkWidget *event_box;
 static gint page_number = 0;
-static GSList *pin_list = NULL;
+static GHashTable *doc_to_widget_map = NULL;
 
-/* DEBUG: Print the elements in the list
- *
- * This function will get removed later
- */
-static void print_list(void)
+void destroy_widget(gpointer pdata)
 {
-	printf("List elements:\n");
-	for (GSList *iter = pin_list; iter != NULL; iter = g_slist_next(iter))
-		printf("%s\n", (gchar *)iter->data);
+	GtkWidget *widget = (GtkWidget *)pdata;
+	gtk_widget_destroy(widget);
 }
-
-
-static void slist_free_wrapper(void)
-{
-	GSList *iter;
-	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
-		g_free(iter->data);
-
-	g_slist_free(pin_list);
-}
-
 
 /* A function adapted (pinched) from filebrowser.c */
 static GtkWidget *create_popup_menu(void)
@@ -75,25 +57,17 @@ static GtkWidget *create_popup_menu(void)
 	item = gtk_image_new_from_icon_name("edit-clear", 3);
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(slist_free_wrapper), NULL);
 
 	return menu;
 }
 
-static bool is_duplicate(const gchar* file_name)
-{
-	GSList *iter;
-	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
-	{
-		if (g_strcmp0((const gchar *)iter->data, file_name) == 0)
-		{
-			/* We'll probably want to alert the user the document already
-			 * is pinned */
-			return true;
-		}
-	}
-	return false;
+
+static bool is_duplicate(const gchar* file_name) {
+    // Check if the file name (document) is already a key in the hash map.
+    // g_hash_table_contains returns TRUE if the key is found, FALSE otherwise.
+    return g_hash_table_contains(doc_to_widget_map, file_name);
 }
+
 
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 {
@@ -106,9 +80,10 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 
 	/* This must be freed when nodes are removed from the list */
 	gchar *tmp_file_name = g_strdup(doc->file_name);
-	pin_list = g_slist_append(pin_list, tmp_file_name);
+	// pin_list = g_slist_append(pin_list, tmp_file_name);
 
 	GtkWidget *event_box = gtk_event_box_new();
+	g_hash_table_insert(doc_to_widget_map, tmp_file_name, event_box);
 	GtkWidget *label = gtk_label_new_with_mnemonic(doc->file_name);
 	gtk_container_add(GTK_CONTAINER(event_box), label);
 	gtk_widget_show_all(event_box);
@@ -117,9 +92,6 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 
 	g_signal_connect(event_box, "button-press-event",
 		G_CALLBACK(label_clicked_cb), tmp_file_name);
-
-	/* remove me */
-	print_list();
 
 	return;
 }
@@ -131,20 +103,12 @@ static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	if (doc == NULL)
 		return;
 
-	GSList *iter;
-	for (iter = pin_list; iter != NULL; iter = g_slist_next(iter))
- 	{
-		if (g_strcmp0((const gchar *)iter->data, doc->file_name) == 0)
-		{
-			g_free(iter->data);
-			pin_list = g_slist_delete_link(pin_list, iter);
-			/* Add code to refresh the "Pinned" page */
-			break;
-		}
+	gboolean removed = g_hash_table_remove(doc_to_widget_map, doc->file_name);
+	// If removed
+	if (!removed)
+	{
+		// Handle the case where the document was not found in the map
 	}
-
-	/* remove me */
-	print_list();
 
 	return;
 }
@@ -196,7 +160,9 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 	GtkWidget **tools_item = g_new0(GtkWidget*, 3); // Allocate memory for 3 pointers (2 items + NULL terminator)
 	tools_item[DO_PIN] = gtk_menu_item_new_with_mnemonic("Pin Document");
 	tools_item[DO_UNPIN] = gtk_menu_item_new_with_mnemonic("Unpin Document");
-	tools_item[2] = NULL; // NULL terminator
+	tools_item[2] = NULL; // NULL sentinel
+
+	doc_to_widget_map = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, destroy_widget);
 
 	gtk_widget_show(tools_item[DO_PIN]);
 	gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu),
@@ -227,7 +193,11 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 
 static void pin_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
-	slist_free_wrapper();
+	if (doc_to_widget_map != NULL)
+	{
+		g_hash_table_destroy(doc_to_widget_map);
+		doc_to_widget_map = NULL;
+	}
 
 	GtkWidget **tools_item = pdata;
 	while (*tools_item != NULL) {
