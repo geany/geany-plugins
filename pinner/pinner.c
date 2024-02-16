@@ -2,6 +2,7 @@
  * pinner.c
  *
  * Copyright 2024 Andy Alt <arch_stanton5995@proton.me>
+ * With assistance from ChatGPT
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
