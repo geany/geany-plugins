@@ -9,13 +9,17 @@ pinner_la_SOURCES = pinner.c
 pinner_la_CPPFLAGS = $(AM_CPPFLAGS) \
 						 -DG_LOG_DOMAIN=\"Pinner\"
 
+if MINGW
+	ASAN_FLAG =
+else
+	ASAN_FLAG = -fsanitize=address,undefined
+endif
+
 pinner_la_CFLAGS = \
-	$(AM_CFLAGS) \
-	-fsanitize=address,undefined
+	$(AM_CFLAGS) $(ASAN_FLAG)
 
 pinner_la_LDFLAGS = \
-	$(AM_LDFLAGS) \
-	-fsanitize=address,undefined
+	$(AM_LDFLAGS) $(ASAN_FLAG)
 
 pinner_la_LIBADD = \
 	$(COMMONLIBS)
