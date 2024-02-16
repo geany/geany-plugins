@@ -193,11 +193,10 @@ static gboolean label_clicked_cb(GtkWidget *widget, GdkEventButton *event, gpoin
 
 static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 {
-	GtkWidget *tools_item[] = {
-		gtk_menu_item_new_with_mnemonic("Pin Document"),
-		gtk_menu_item_new_with_mnemonic("Unpin Document"),
-		NULL
-	};
+	GtkWidget **tools_item = g_new0(GtkWidget*, 3); // Allocate memory for 3 pointers (2 items + NULL terminator)
+	tools_item[DO_PIN] = gtk_menu_item_new_with_mnemonic("Pin Document");
+	tools_item[DO_UNPIN] = gtk_menu_item_new_with_mnemonic("Unpin Document");
+	tools_item[2] = NULL; // NULL terminator
 
 	gtk_widget_show(tools_item[DO_PIN]);
 	gtk_container_add(GTK_CONTAINER(plugin->geany_data->main_widgets->tools_menu),
@@ -228,13 +227,14 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 
 static void pin_cleanup(GeanyPlugin *plugin, gpointer pdata)
 {
+	slist_free_wrapper();
+
 	GtkWidget **tools_item = pdata;
 	while (*tools_item != NULL) {
 		gtk_widget_destroy(*tools_item);
 		tools_item++;
 	}
-
-	slist_free_wrapper();
+	g_free(pdata);
 }
 
 
