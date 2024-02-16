@@ -22,16 +22,17 @@
  */
 
 #include <geanyplugin.h>
-#include <stdbool.h>
 
 enum {
 	DO_PIN,
 	DO_UNPIN
 };
 
+static void destroy_widget(gpointer pdata);
+static void clear_pinned_documents(void);
 static GtkWidget *create_popup_menu(void);
-static bool is_duplicate(const gchar* file_name);
-static gboolean label_clicked_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
+static gboolean on_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
+static gboolean is_duplicate(const gchar* file_name);
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
 
@@ -39,33 +40,61 @@ static GtkWidget *pinned_view_vbox;
 static gint page_number = 0;
 static GHashTable *doc_to_widget_map = NULL;
 
-void destroy_widget(gpointer pdata)
+static void destroy_widget(gpointer pdata)
 {
 	GtkWidget *widget = (GtkWidget *)pdata;
 	gtk_widget_destroy(widget);
 }
 
-/* A function adapted (pinched) from filebrowser.c */
-static GtkWidget *create_popup_menu(void)
+
+void clear_pinned_documents(void)
 {
-	GtkWidget *item, *menu;
+	if (doc_to_widget_map != NULL)
+	{
+		// Removes all keys and their associated values from the hash table.
+		// This will also call the destroy functions specified for keys and values,
+		// thus freeing the memory for the file names and destroying the widgets.
+		g_hash_table_remove_all(doc_to_widget_map);
+	}
+}
+
+
+static GtkWidget *create_popup_menu(void) {
+	GtkWidget *menu;
+	GtkWidget *clear_item;
 
 	menu = gtk_menu_new();
 
-	/* 3? What should the size be? */
-	/* https://docs.gtk.org/gtk3/ctor.Image.new_from_icon_name.html */
-	item = gtk_image_new_from_icon_name("edit-clear", 3);
-	gtk_widget_show(item);
-	gtk_container_add(GTK_CONTAINER(menu), item);
+	// Remove the duplicate declaration of clear_item
+	clear_item = gtk_menu_item_new(); // Create a menu item without a label
+	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6); // Create a box to hold image and label
+	GtkWidget *image = gtk_image_new_from_icon_name("edit-clear", GTK_ICON_SIZE_MENU); // Create an image
+	GtkWidget *label = gtk_label_new("Clear Pinned Documents"); // Create a label
+
+	// Pack the image and label into the box
+	gtk_box_pack_start(GTK_BOX(box), image, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
+
+	gtk_widget_show(image);
+	gtk_widget_show(label);
+	gtk_widget_show(box);
+
+	// Add the box to the menu item
+	gtk_container_add(GTK_CONTAINER(clear_item), box);
+
+	gtk_widget_show(clear_item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), clear_item);
+
+	// Connect the "activate" signal of the menu item to the clear_pinned_documents function
+	g_signal_connect_swapped(G_OBJECT(clear_item), "activate", G_CALLBACK(clear_pinned_documents), NULL);
 
 	return menu;
 }
 
 
-static bool is_duplicate(const gchar* file_name) {
-    // Check if the file name (document) is already a key in the hash map.
-    // g_hash_table_contains returns TRUE if the key is found, FALSE otherwise.
-    return g_hash_table_contains(doc_to_widget_map, file_name);
+static gboolean is_duplicate(const gchar* file_name)
+{
+	return g_hash_table_contains(doc_to_widget_map, file_name);
 }
 
 
@@ -91,7 +120,7 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 	// gtk_notebook_set_current_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook), page_number);
 
 	g_signal_connect(event_box, "button-press-event",
-		G_CALLBACK(label_clicked_cb), tmp_file_name);
+		G_CALLBACK(on_button_press_cb), tmp_file_name);
 
 	return;
 }
@@ -114,9 +143,9 @@ static void unpin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 }
 
 
-static gboolean label_clicked_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
+static gboolean on_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	if (event->type == GDK_BUTTON_PRESS && event->button == 1)
+	if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_PRIMARY)
 	{
 		// Check if the clicked widget is an event box
 		if (GTK_IS_EVENT_BOX(widget))
@@ -130,30 +159,15 @@ static gboolean label_clicked_cb(GtkWidget *widget, GdkEventButton *event, gpoin
 			}
 		}
 	}
-
+	else if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_SECONDARY)
+	{
+		GtkWidget *menu = create_popup_menu();
+		gtk_menu_popup_at_pointer(GTK_MENU(menu), (const GdkEvent *)event);
+		return TRUE;
+	}
 	return FALSE;
 }
 
-
-//static gboolean on_button_press(GtkWidget *widget, GdkEventButton *event)
-//{
-	////if (event->button == 1 && event->type == GDK_2BUTTON_PRESS)
-	////{
-		////on_open_clicked(NULL, NULL);
-		////return TRUE;
-	////}
-	//if (event->button == 3)
-	//{
-		//static GtkWidget *popup_menu = NULL;
-
-		//if (popup_menu == NULL)
-			//popup_menu = create_popup_menu();
-
-		//gtk_menu_popup_at_pointer(GTK_MENU(popup_menu), (GdkEvent *) event);
-		///* don't return TRUE here, unless the selection won't be changed */
-	//}
-	//return FALSE;
-//}
 
 static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 {
