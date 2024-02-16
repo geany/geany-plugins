@@ -114,7 +114,7 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 
 	GtkWidget *event_box = gtk_event_box_new();
 	g_hash_table_insert(doc_to_widget_map, tmp_file_name, event_box);
-	GtkWidget *label = gtk_label_new_with_mnemonic(doc->file_name);
+	GtkWidget *label = gtk_label_new(doc->file_name);
 	gtk_container_add(GTK_CONTAINER(event_box), label);
 	gtk_widget_show_all(event_box);
 	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), event_box, FALSE, FALSE, 0);
