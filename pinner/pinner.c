@@ -99,6 +99,17 @@ static gboolean is_duplicate(const gchar* file_name)
 }
 
 
+static void pin_document_key_cb(guint key_id)
+{
+	pin_activate_cb(NULL, NULL);
+}
+
+static void unpin_document_key_cb(guint key_id)
+{
+	unpin_activate_cb(NULL, NULL);
+}
+
+
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 {
 	GeanyDocument *doc = document_get_current();
@@ -212,6 +223,12 @@ static gboolean pin_init(GeanyPlugin *plugin, gpointer pdata)
 	gtk_widget_show_all(pinned_view_vbox);
 	page_number = gtk_notebook_append_page(GTK_NOTEBOOK(plugin->geany_data->main_widgets->sidebar_notebook),
 		pinned_view_vbox, gtk_label_new(_("Pinned")));
+
+	// Keybinding setup
+	GeanyKeyGroup *key_group = plugin_set_key_group(plugin, "pinner_keys", 2, NULL);
+	keybindings_set_item(key_group, DO_PIN, pin_document_key_cb, 0, 0, "pin_document", "Pin Document", NULL);
+	keybindings_set_item(key_group, DO_UNPIN, unpin_document_key_cb, 0, 0, "unpin_document", "Unpin Document", NULL);
+
 	return TRUE;
 }
 
