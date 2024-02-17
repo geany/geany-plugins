@@ -31,7 +31,7 @@ enum {
 
 static void destroy_widget(gpointer pdata);
 static void clear_pinned_documents(void);
-static GtkWidget *create_popup_menu(void);
+static GtkWidget *create_popup_menu(const gchar *file_name);
 static gboolean on_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpointer data);
 static gboolean is_duplicate(const gchar* file_name);
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata);
@@ -60,7 +60,7 @@ void clear_pinned_documents(void)
 }
 
 
-static GtkWidget *create_popup_menu(void) {
+static GtkWidget *create_popup_menu(const gchar *file_name) {
 	GtkWidget *menu;
 	GtkWidget *clear_item;
 
@@ -86,7 +86,13 @@ static GtkWidget *create_popup_menu(void) {
 	gtk_widget_show(clear_item);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), clear_item);
 
-	// Connect the "activate" signal of the menu item to the clear_pinned_documents function
+	if (file_name != NULL)
+	{
+ 		GtkWidget *unpin_item = gtk_menu_item_new_with_label("Unpin Document");
+		gtk_menu_shell_append(GTK_MENU_SHELL(menu), unpin_item);
+		// Pass the file_name as user data to the callback function
+		g_signal_connect_data(G_OBJECT(unpin_item), "activate", G_CALLBACK(unpin_activate_cb), g_strdup(file_name), (GClosureNotify)g_free, 0);
+	}
 	g_signal_connect_swapped(G_OBJECT(clear_item), "activate", G_CALLBACK(clear_pinned_documents), NULL);
 
 	return menu;
@@ -183,9 +189,25 @@ static gboolean on_button_press_cb(GtkWidget *widget, GdkEventButton *event, gpo
 	}
 	else if (event->type == GDK_BUTTON_PRESS && event->button == GDK_BUTTON_SECONDARY)
 	{
-		GtkWidget *menu = create_popup_menu();
-		gtk_menu_popup_at_pointer(GTK_MENU(menu), (const GdkEvent *)event);
-		return TRUE;
+		// Check if the clicked widget is an event box
+		if (GTK_IS_EVENT_BOX(widget))
+		{
+			GtkWidget *label = gtk_bin_get_child(GTK_BIN(widget));
+
+			if (GTK_IS_LABEL(label))
+			{
+				const gchar *file_name = gtk_label_get_text(GTK_LABEL(label));
+				GtkWidget *menu = create_popup_menu(file_name);
+				gtk_menu_popup_at_pointer(GTK_MENU(menu), (const GdkEvent *)event);
+				return TRUE;
+			}
+		}
+		else
+		{
+			GtkWidget *menu = create_popup_menu(NULL);
+			gtk_menu_popup_at_pointer(GTK_MENU(menu), (const GdkEvent *)event);
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
