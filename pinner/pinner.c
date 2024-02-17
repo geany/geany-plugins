@@ -61,39 +61,56 @@ void clear_pinned_documents(void)
 
 
 static GtkWidget *create_popup_menu(const gchar *file_name) {
-	GtkWidget *menu;
-	GtkWidget *clear_item;
+	GtkWidget *menu = gtk_menu_new();
 
-	menu = gtk_menu_new();
+	// Create a menu item without a label
+	GtkWidget *clear_item = gtk_menu_item_new();
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), clear_item);
+	g_signal_connect_swapped(clear_item, "activate", G_CALLBACK(clear_pinned_documents), NULL);
 
-	// Remove the duplicate declaration of clear_item
-	clear_item = gtk_menu_item_new(); // Create a menu item without a label
-	GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6); // Create a box to hold image and label
-	GtkWidget *image = gtk_image_new_from_icon_name("edit-clear", GTK_ICON_SIZE_MENU); // Create an image
-	GtkWidget *label = gtk_label_new("Clear Pinned Documents"); // Create a label
+	// Create a box to contain the icon and label
+	GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6); // 6 pixels spacing
 
-	// Pack the image and label into the box
-	gtk_box_pack_start(GTK_BOX(box), image, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
+	// Create the icon
+	GtkWidget *clear_icon = gtk_image_new_from_icon_name("edit-clear", GTK_ICON_SIZE_MENU);
 
-	gtk_widget_show(image);
-	gtk_widget_show(label);
-	gtk_widget_show(box);
+	// Create the label
+	GtkWidget *label = gtk_label_new("Clear List");
+
+	// Pack the icon and label into the box
+	gtk_box_pack_start(GTK_BOX(hbox), clear_icon, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
 	// Add the box to the menu item
-	gtk_container_add(GTK_CONTAINER(clear_item), box);
+	gtk_container_add(GTK_CONTAINER(clear_item), hbox);
 
-	gtk_widget_show(clear_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), clear_item);
+	// Show all widgets
+	gtk_widget_show_all(clear_item);
 
 	if (file_name != NULL)
-	{
- 		GtkWidget *unpin_item = gtk_menu_item_new_with_label("Unpin Document");
+ 	{
+		// Create a menu item without a label for unpinning a document
+		GtkWidget *unpin_item = gtk_menu_item_new();
 		gtk_menu_shell_append(GTK_MENU_SHELL(menu), unpin_item);
-		// Pass the file_name as user data to the callback function
-		g_signal_connect_data(G_OBJECT(unpin_item), "activate", G_CALLBACK(unpin_activate_cb), g_strdup(file_name), (GClosureNotify)g_free, 0);
+		g_signal_connect_data(unpin_item, "activate", G_CALLBACK(unpin_activate_cb), g_strdup(file_name), (GClosureNotify)g_free, 0);
+
+		// Create a horizontal box to hold the icon and label
+		GtkWidget *hbox_unpin = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6); // 6 pixels spacing
+
+		// Create the icon
+		GtkWidget *unpin_icon = gtk_image_new_from_icon_name("list-remove", GTK_ICON_SIZE_MENU);
+
+		// Create the label
+		GtkWidget *label_unpin = gtk_label_new("Unpin Document");
+
+		// Pack the icon and label into the horizontal box
+		gtk_box_pack_start(GTK_BOX(hbox_unpin), unpin_icon, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(hbox_unpin), label_unpin, FALSE, FALSE, 0);
+		gtk_container_add(GTK_CONTAINER(unpin_item), hbox_unpin);
+
+		gtk_widget_show_all(unpin_item);
 	}
-	g_signal_connect_swapped(G_OBJECT(clear_item), "activate", G_CALLBACK(clear_pinned_documents), NULL);
+	gtk_widget_show_all(menu);
 
 	return menu;
 }
@@ -118,21 +135,30 @@ static void unpin_document_key_cb(guint key_id)
 
 static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 {
-	GeanyDocument *doc = document_get_current();
-	if (doc == NULL)
-		return;
+	gchar *ptr_file_name = NULL;
+	if (pdata == NULL)
+	{
+		GeanyDocument *doc = document_get_current();
+		if (doc == NULL)
+			return;
+		else
+			ptr_file_name = doc->file_name;
+	}
+	else
+	{
+		ptr_file_name = pdata;
+	}
 
-	if (is_duplicate(doc->file_name))
+	if (is_duplicate(ptr_file_name))
 		return;
 
 	/* This must be freed when nodes are removed from the list */
-	gchar *tmp_file_name = g_strdup(doc->file_name);
-	// pin_list = g_slist_append(pin_list, tmp_file_name);
+	gchar *tmp_file_name = g_strdup(ptr_file_name);
 
 	GtkWidget *event_box = gtk_event_box_new();
 	g_hash_table_insert(doc_to_widget_map, tmp_file_name, event_box);
 
-	GtkWidget *label = gtk_label_new(doc->file_name);
+	GtkWidget *label = gtk_label_new(ptr_file_name);
 	// Enable ellipsizing at the start of the filename
 	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_START);
 	gtk_label_set_max_width_chars(GTK_LABEL(label), 30);
