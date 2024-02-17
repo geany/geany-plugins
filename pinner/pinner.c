@@ -114,7 +114,17 @@ static void pin_activate_cb(GtkMenuItem *menuitem, gpointer pdata)
 
 	GtkWidget *event_box = gtk_event_box_new();
 	g_hash_table_insert(doc_to_widget_map, tmp_file_name, event_box);
+
 	GtkWidget *label = gtk_label_new(doc->file_name);
+	// Enable ellipsizing at the start of the filename
+	gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_START);
+	gtk_label_set_max_width_chars(GTK_LABEL(label), 30);
+	// Set the label's alignment to left
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	// Set margins
+	gtk_widget_set_margin_start(label, 10);  // 20 pixels margin on the start (left)
+	gtk_widget_set_margin_end(label, 10);    // 20 pixels margin on the end (right)
+
 	gtk_container_add(GTK_CONTAINER(event_box), label);
 	gtk_widget_show_all(event_box);
 	gtk_box_pack_start(GTK_BOX(pinned_view_vbox), event_box, FALSE, FALSE, 0);
