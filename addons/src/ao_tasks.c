@@ -73,6 +73,15 @@ struct _AoTasksPrivate
 	gboolean ignore_selection_changed;
 };
 
+
+typedef struct
+{
+    AoTasks *t;
+    GeanyDocument *doc;
+    gboolean clear;
+} AoTasksUpdateTasksForDocArguments;
+
+
 enum
 {
 	PROP_0,
@@ -556,15 +565,26 @@ static void create_task(AoTasks *t, GeanyDocument *doc, gint line, const gchar *
 }
 
 
-static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
+static gboolean update_tasks_for_doc_idle_cb(gpointer data)
 {
+	AoTasksUpdateTasksForDocArguments *arguments = data;
+	AoTasksPrivate *priv;
+	GeanyDocument *doc;
 	gint lexer, lines, line, last_pos = 0, style;
 	gchar *line_buf, *display_name, *task_start, *closing_comment = NULL;
 	gchar **token;
-	AoTasksPrivate *priv = AO_TASKS_GET_PRIVATE(t);
 
-	if (doc->is_valid)
+	if (! arguments)
+		return FALSE;
+
+	priv = AO_TASKS_GET_PRIVATE(arguments->t);
+	doc = arguments->doc;
+
+	if (DOC_VALID(doc) && priv->active && priv->enable_tasks)
 	{
+		if (arguments->clear)
+			ao_tasks_remove(arguments->t, doc);
+
 		display_name = document_get_basename_for_display(doc, -1);
 		lexer = sci_get_lexer(doc->editor->sci);
 		lines = sci_get_line_count(doc->editor->sci);
@@ -594,7 +614,7 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 					(closing_comment = strstr(task_start, doc->file_type->comment_close)) != NULL)
 					*closing_comment = '\0';
 				/* create the task */
-				create_task(t, doc, line, *token, line_buf, task_start, display_name);
+				create_task(arguments->t, doc, line, *token, line_buf, task_start, display_name);
 				/* if we found a token, continue on next line */
 				break;
 			}
@@ -603,6 +623,31 @@ static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc)
 		}
 		g_free(display_name);
 	}
+	return FALSE;
+}
+
+
+static void	free_update_tasks_for_doc_arguments(gpointer data)
+{
+	AoTasksUpdateTasksForDocArguments *arguments = data;
+	g_slice_free1(sizeof *arguments, arguments);
+}
+
+
+static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc, gboolean clear)
+{
+	AoTasksUpdateTasksForDocArguments *arguments = g_slice_alloc(sizeof *arguments);
+	arguments->t = t;
+	arguments->doc = doc;
+	arguments->clear = clear;
+
+	if (!DOC_VALID(doc))
+		return;
+
+	/* Check for task tokens in an idle callback to wait until Geany applied Scintilla highlighting
+	 * styles as we need them to be set before checking for tasks. */
+	g_idle_add_full(G_PRIORITY_LOW, update_tasks_for_doc_idle_cb, arguments,
+					free_update_tasks_for_doc_arguments);
 }
 
 
@@ -688,8 +733,7 @@ void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 	if (cur_doc != NULL)
 	{
 		/* TODO handle renaming of files, probably we need a new signal for this */
-		ao_tasks_remove(t, cur_doc);
-		update_tasks_for_doc(t, cur_doc);
+		update_tasks_for_doc(t, cur_doc, TRUE);
 	}
 	else
 	{
@@ -699,7 +743,7 @@ void ao_tasks_update(AoTasks *t, GeanyDocument *cur_doc)
 		/* iterate over all docs */
 		foreach_document(i)
 		{
-			update_tasks_for_doc(t, documents[i]);
+			update_tasks_for_doc(t, documents[i], FALSE);
 		}
 	}
 	/* restore selection */

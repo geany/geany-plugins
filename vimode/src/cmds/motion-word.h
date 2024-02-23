@@ -31,4 +31,7 @@ void cmd_goto_previous_word_space(CmdContext *c, CmdParams *p);
 void cmd_goto_next_word_end_space(CmdContext *c, CmdParams *p);
 void cmd_goto_previous_word_end_space(CmdContext *c, CmdParams *p);
 
+void get_word_range(ScintillaObject *sci, gboolean word_space, gboolean inner,
+	gint pos, gint num, gint *sel_start, gint *sel_len);
+
 #endif

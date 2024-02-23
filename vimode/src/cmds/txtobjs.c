@@ -17,6 +17,7 @@
  */
 
 #include "cmds/txtobjs.h"
+#include "cmds/motion-word.h"
 
 
 static gint find_upper_level_brace(ScintillaObject *sci, gint pos, gint open_brace, gint close_brace)
@@ -187,4 +188,47 @@ void cmd_select_less_inner(CmdContext *c, CmdParams *p)
 void cmd_select_bracket_inner(CmdContext *c, CmdParams *p)
 {
 	select_brace(c, p, '[', ']', TRUE);
+}
+
+
+static void select_word(CmdContext *c, CmdParams *p, gboolean word_space, gboolean inner)
+{
+	gint sel_start, sel_len;
+
+	get_word_range(p->sci, word_space, inner, p->pos, p->num, &sel_start, &sel_len);
+
+	if (VI_IS_VISUAL(vi_get_mode()))
+	{
+		c->sel_anchor = sel_start;
+		SET_POS(p->sci, sel_start + sel_len, TRUE);
+	}
+	else
+	{
+		p->sel_start = sel_start;
+		p->sel_len = sel_len;
+	}
+}
+
+
+void cmd_select_word(CmdContext *c, CmdParams *p)
+{
+	select_word(c, p, FALSE, FALSE);
+}
+
+
+void cmd_select_word_space(CmdContext *c, CmdParams *p)
+{
+	select_word(c, p, TRUE, FALSE);
+}
+
+
+void cmd_select_word_inner(CmdContext *c, CmdParams *p)
+{
+	select_word(c, p, FALSE, TRUE);
+}
+
+
+void cmd_select_word_space_inner(CmdContext *c, CmdParams *p)
+{
+	select_word(c, p, TRUE, TRUE);
 }

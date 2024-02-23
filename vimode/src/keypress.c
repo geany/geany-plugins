@@ -26,7 +26,7 @@ KeyPress *kp_from_event_key(GdkEventKey *ev)
 	KeyPress *kp;
 
 	/* ignore keypresses containing Alt and Command on macOS - no Vim command uses them */
-	if (ev->state & (GDK_MOD1_MASK | GDK_MOD2_MASK))
+	if (ev->state & (GDK_MOD1_MASK | GDK_META_MASK))
 		return NULL;
 
 	switch (ev->keyval)

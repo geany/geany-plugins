@@ -837,6 +837,7 @@ get_widget_for_buf_range (GeanyDocument *doc,
   /* hide stuff we don't wanna see */
   scintilla_send_message (sci, SCI_SETHSCROLLBAR, 0, 0);
   scintilla_send_message (sci, SCI_SETVSCROLLBAR, 0, 0);
+  scintilla_send_message (sci, SCI_SETCHANGEHISTORY, SC_CHANGE_HISTORY_DISABLED, 0);
   for (i = 0; i < SC_MAX_MARGIN; i++) {
     scintilla_send_message (sci, SCI_SETMARGINWIDTHN, i, 0);
   }
@@ -877,6 +878,9 @@ get_widget_for_buf_range (GeanyDocument *doc,
   gtk_widget_set_size_request (GTK_WIDGET (sci),
                                MIN (width + 2, alloc.width),
                                MIN (height + 1, alloc.height));
+  
+  /* Size request seems to scroll Scintilla view so we have to re-set visible lines again */
+  scintilla_send_message (sci, SCI_SETFIRSTVISIBLELINE, line_start, 0);
   
   return GTK_WIDGET (sci);
 }

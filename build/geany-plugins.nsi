@@ -33,15 +33,15 @@ Unicode true
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "1.39"
-!define PRODUCT_VERSION_ID "1.39.0.0"
+!define PRODUCT_VERSION "2.1"
+!define PRODUCT_VERSION_ID "2.1.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
 ; Geany version should be major.minor only (patch level is ignored for version checking)
-!define REQUIRED_GEANY_VERSION "1.39"
+!define REQUIRED_GEANY_VERSION "2.0"
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; Version resource  ;
@@ -222,7 +222,7 @@ Section Uninstall
 	Delete "$INSTDIR\bin\libctpl-2.dll"
 	Delete "$INSTDIR\bin\libenchant-2.dll"
 	Delete "$INSTDIR\bin\libgcrypt-20.dll"
-	Delete "$INSTDIR\bin\libgit2.dll"
+	Delete "$INSTDIR\bin\libgit2-1.7.dll"
 	Delete "$INSTDIR\bin\libgpg-error-0.dll"
 	Delete "$INSTDIR\bin\libgpgme-11.dll"
 	Delete "$INSTDIR\bin\libgpgme-glib-11.dll"
@@ -254,7 +254,7 @@ Section Uninstall
 	RMDir /r "$INSTDIR\lib\geany-plugins"
 	RMDir /r "$INSTDIR\lib\ossl-modules"
 	RMDir /r "$INSTDIR\lib\pkcs11"
-	RMDir /r "$INSTDIR\lib\sqlite3.41.1"
+	RMDir /r "$INSTDIR\lib\sqlite3.43.2"
 	RMDir /r "$INSTDIR\libexec\p11-kit"
 	RMDir /r "$INSTDIR\share\doc\geany-plugins"
 	RMDir /r "$INSTDIR\share\enchant"

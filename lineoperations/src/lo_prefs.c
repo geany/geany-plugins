@@ -19,6 +19,10 @@
  *      51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#ifdef HAVE_CONFIG_H
+    #include "config.h" /* for the gettext domain */
+#endif
+
 #include "lo_prefs.h"
 
 

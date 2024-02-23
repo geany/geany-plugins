@@ -20,6 +20,10 @@
 */
 
 
+#ifdef HAVE_CONFIG_H
+    #include "config.h" /* for the gettext domain */
+#endif
+
 #include "lo_fns.h"
 #include "lo_prefs.h"
 
