@@ -6,6 +6,7 @@ AC_DEFUN([GP_CHECK_DEVHELP],
     GP_CHECK_GTK3(
       [
         AC_DEFINE([HAVE_DEVHELP_GTK3], [1], [Define if using GTK3 Devhelp plugin])
+        GP_CHECK_PLUGIN_DEPS([devhelp], [DEVHELP], [webkit2gtk-4.0 libdevhelp-3.0])
       ], [
         WEBKIT_VERSION=1.1.13
         DEVHELP_VERSION=3.0
