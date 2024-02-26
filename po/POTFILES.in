@@ -65,45 +65,6 @@ devhelp/src/dhp-object.c
 devhelp/src/dhp-plugin.c
 devhelp/src/dhp-manpages.c
 devhelp/src/dhp-settings.c
-# bundled libdevhelp2
-devhelp/devhelp/dh-assistant.c
-devhelp/devhelp/dh-assistant.h
-devhelp/devhelp/dh-assistant-view.c
-devhelp/devhelp/dh-assistant-view.h
-devhelp/devhelp/dh-base.c
-devhelp/devhelp/dh-base.h
-devhelp/devhelp/dh-book.c
-devhelp/devhelp/dh-book.h
-devhelp/devhelp/dh-book-manager.c
-devhelp/devhelp/dh-book-manager.h
-devhelp/devhelp/dh-book-tree.c
-devhelp/devhelp/dh-book-tree.h
-devhelp/devhelp/dh-enum-types.c
-devhelp/devhelp/dh-enum-types.h
-devhelp/devhelp/dh-error.c
-devhelp/devhelp/dh-error.h
-devhelp/devhelp/dh-keyword-model.c
-devhelp/devhelp/dh-keyword-model.h
-devhelp/devhelp/dh-link.c
-devhelp/devhelp/dh-link.h
-devhelp/devhelp/dh-marshal.c
-devhelp/devhelp/dh-marshal.h
-devhelp/devhelp/dh-parser.c
-devhelp/devhelp/dh-parser.h
-devhelp/devhelp/dh-preferences.c
-devhelp/devhelp/dh-preferences.h
-devhelp/devhelp/dh-search.c
-devhelp/devhelp/dh-search.h
-devhelp/devhelp/dh-util.c
-devhelp/devhelp/dh-util.h
-devhelp/devhelp/dh-window.c
-devhelp/devhelp/dh-window.h
-devhelp/devhelp/eggfindbar.c
-devhelp/devhelp/eggfindbar.h
-devhelp/devhelp/ige-conf.c
-devhelp/devhelp/ige-conf-gconf.c
-devhelp/devhelp/ige-conf.h
-devhelp/devhelp/ige-conf-private.h
 
 # geanyctags
 geanyctags/src/geanyctags.c
