@@ -12,7 +12,7 @@ AC_DEFUN([GP_CHECK_DEVHELP],
         GCONF_VERSION=2.6.0
         LIBWNCK_VERSION=2.10.0
         GP_CHECK_PLUGIN_DEPS([devhelp], [DEVHELP],
-                            [webkit2gtk-4.0 >= ${WEBKIT_VERSION}
+                             [webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                              gconf-2.0 >= ${GCONF_VERSION}
                              libwnck-1.0 >= ${LIBWNCK_VERSION}
                              gthread-2.0
