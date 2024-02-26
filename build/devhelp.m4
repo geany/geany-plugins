@@ -9,7 +9,6 @@ AC_DEFUN([GP_CHECK_DEVHELP],
         GP_CHECK_PLUGIN_DEPS([devhelp], [DEVHELP], [webkit2gtk-4.0 libdevhelp-3.0])
       ], [
         WEBKIT_VERSION=1.1.13
-        DEVHELP_VERSION=3.0
         GCONF_VERSION=2.6.0
         LIBWNCK_VERSION=2.10.0
         GP_CHECK_PLUGIN_DEPS([devhelp], [DEVHELP],
