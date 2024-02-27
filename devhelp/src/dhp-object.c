@@ -47,48 +47,49 @@
 struct _DevhelpPluginPrivate
 {
 	/* Devhelp stuff */
-	GtkWidget*		book_tree;			/* "Contents" in the sidebar */
-    GtkWidget*		grid;				/* "grid" in the sidebar */
-    GtkWidget*		sidebar;			/* "DH_Sidebar" in the sidebar */
-    GtkWidget*		search;				/* "Search" in the sidebar */
-    GtkWidget*		sb_notebook;		/* "Notebook" that holds contents/search */
+	 GtkWidget*		book_tree;						/* "Contents" in the sidebar */
+    GtkWidget*		grid;								/* "grid" in the sidebar */
+    GtkWidget*		sidebar;							/* "DH_Sidebar" in the sidebar */
+    GtkWidget*		search;							/* "Search" in the sidebar */
+    GtkWidget*		sb_notebook;					/* "Notebook" that holds contents/search */
 
     /* Webview stuff */
-    GtkWidget*		webview;			/*	Webkit that shows documentation */
-    GtkWidget*		webview_tab;		/* 	The widget that has webview related stuff */
-    GtkToolItem*	btn_back;			/*	the webkit browser back button in the toolbar */
-    GtkToolItem*	btn_forward;		/*	the webkit browser forward button in the toolbar */
-    DevhelpPluginWebViewLocation location; /*	where to pack the webview */
+    GtkWidget*		webview;							/*	Webkit that shows documentation */
+    GtkWidget*		webview_tab;					/* The widget that has webview related stuff */
+    GtkToolItem*	btn_back;						/*	the webkit browser back button in the toolbar */
+    GtkToolItem*	btn_forward;					/*	the webkit browser forward button in the toolbar */
+    DevhelpPluginWebViewLocation location; 	/*	where to pack the webview */
 
 	/* Other widgets */
-    GtkWidget*		main_notebook;		/*	Notebook that holds Geany doc notebook and and webkit view */
-    GtkWidget*		editor_menu_item;	/*	Item in the editor's context menu */
-    GtkWidget*		editor_menu_sep;	/*	Separator item above menu item */
+    GtkWidget*		main_notebook;					/*	Notebook that holds Geany doc notebook and and webkit view */
+    GtkWidget*		editor_menu_item;				/*	Item in the editor's context menu */
+    GtkWidget*		editor_menu_sep;				/*	Separator item above menu item */
 
 	/* Position/tab number tracking */
-    gboolean		last_main_tab_id;	/*	These track the last id of the tabs */
-    gboolean		last_sb_tab_id;		/*	before toggling */
-    gboolean		tabs_toggled;		/*	Tracks state of whether to toggle to Devhelp or back to code */
-    GtkPositionType	orig_sb_tab_pos;	/*	The tab idx of the initial sidebar tab */
-    gboolean		in_message_window;	/*	whether the webkit stuff is in the msgwin */
+    gboolean		last_main_tab_id;				/*	These track the last id of the tabs */
+    gboolean		last_sb_tab_id;				/*	before toggling */
+    gboolean		tabs_toggled;					/*	Tracks state of whether to toggle to Devhelp or back to code */
+    GtkPositionType	orig_sb_tab_pos;			/*	The tab idx of the initial sidebar tab */
+    gboolean		in_message_window;			/*	whether the webkit stuff is in the msgwin */
 
-    GList*			temp_files;			/*	Tracks temp files made by the plugin to delete later. */
+    GList*			temp_files;						/*	Tracks temp files made by the plugin to delete later. */
 
-	GKeyFile*	kf;
-	gboolean	focus_webview_on_search;
-	gboolean	focus_sidebar_on_search;
-	gchar*		custom_homepage;
-	gboolean	use_devhelp;
-	gboolean	use_man;
-	gboolean	use_codesearch;
+	 GKeyFile*	kf;
+	 gboolean	focus_webview_on_search;
+	 gboolean	focus_sidebar_on_search;
+	 gchar*		custom_homepage;
+	 gboolean	use_devhelp;
+	 gboolean	use_man;
+	 gboolean	use_codesearch;
 
-	gchar*		man_prog_path;
-	gchar*		man_pager_prog;
-	gchar*		man_section_order;
+	 gchar*		man_prog_path;
+	 gchar*		man_pager_prog;
+	 gchar*		man_section_order;
 
-	gchar*		codesearch_base_uri;
-	gchar*		codesearch_params;
-	gboolean	codesearch_use_lang;
+	 gchar*		codesearch_base_uri;
+	 gchar*		codesearch_params;
+	 gboolean	codesearch_use_lang;
+	 gfloat		zoom_default;		
 
     GtkPositionType main_nb_tab_pos;
 };
@@ -113,7 +114,6 @@ enum
 	PROP_LAST
 };
 
-
 /* Causes problems if it gets re-initialized so leave global for now */
 //static DhBase *dhbase = NULL;
 
@@ -127,6 +127,7 @@ static void on_back_button_clicked(GtkToolButton * btn, DevhelpPlugin *self);
 static void on_forward_button_clicked(GtkToolButton * btn, DevhelpPlugin *self);
 static void on_zoom_in_button_clicked(GtkToolButton * btn, DevhelpPlugin *self);
 static void on_zoom_out_button_clicked(GtkToolButton *btn, DevhelpPlugin *self);
+static void on_zoom_default_button_clicked(GtkToolButton *btn, DevhelpPlugin *self);
 static void on_document_load_finished(WebKitWebView *view, DevhelpPlugin *self);
 static void on_uri_changed_notify(GObject *object, GParamSpec *pspec, DevhelpPlugin *self);
 static void on_load_status_changed_notify(GObject *object, GParamSpec *pspec, DevhelpPlugin *self);
@@ -416,7 +417,7 @@ static void devhelp_plugin_init_edit_menu(DevhelpPlugin *self)
 static void devhelp_plugin_init_webkit(DevhelpPlugin *self)
 {
 	GtkWidget *vbox, *toolbar;
-	GtkToolItem *btn_zoom_in, *btn_zoom_out, *tb_sep;
+	GtkToolItem *btn_zoom_in, *btn_zoom_out,*btn_zoom_default, *tb_sep;
 	GtkScrolledWindow *webview_sw;
 	DevhelpPluginPrivate *p;
 
@@ -425,6 +426,8 @@ static void devhelp_plugin_init_webkit(DevhelpPlugin *self)
 	p = self->priv;
 
 	p->webview = webkit_web_view_new();
+	
+	p->zoom_default = devhelp_plugin_get_zoom_level(self);
 
 	webview_sw = GTK_SCROLLED_WINDOW(gtk_scrolled_window_new(NULL, NULL));
 	gtk_scrolled_window_set_policy(webview_sw, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -436,22 +439,25 @@ static void devhelp_plugin_init_webkit(DevhelpPlugin *self)
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	toolbar = gtk_toolbar_new();
 
-	p->btn_back = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-go-back", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
-	p->btn_forward = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-go-forward", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
-	btn_zoom_in = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-zoom-in", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
-	btn_zoom_out = gtk_tool_button_new(gtk_image_new_from_icon_name ("gtk-zoom-out", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	p->btn_back = gtk_tool_button_new(gtk_image_new_from_icon_name ("go-previous", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	p->btn_forward = gtk_tool_button_new(gtk_image_new_from_icon_name ("go-next", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	btn_zoom_in = gtk_tool_button_new(gtk_image_new_from_icon_name ("zoom-in", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	btn_zoom_out = gtk_tool_button_new(gtk_image_new_from_icon_name ("zoom-out", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
+	btn_zoom_default = gtk_tool_button_new(gtk_image_new_from_icon_name ("zoom-original", GTK_ICON_SIZE_SMALL_TOOLBAR),NULL);
 	tb_sep = gtk_separator_tool_item_new();
 
 	gtk_widget_set_tooltip_text(GTK_WIDGET(p->btn_back), _("Go back one page"));
 	gtk_widget_set_tooltip_text(GTK_WIDGET(p->btn_forward), _("Go forward one page"));
 	gtk_widget_set_tooltip_text(GTK_WIDGET(btn_zoom_in), _("Zoom in"));
 	gtk_widget_set_tooltip_text(GTK_WIDGET(btn_zoom_out), _("Zoom out"));
+	gtk_widget_set_tooltip_text(GTK_WIDGET(btn_zoom_default), _("Normal Size"));
 
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), p->btn_back, -1);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), p->btn_forward, -1);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), tb_sep, -1);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), btn_zoom_in, -1);
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), btn_zoom_out, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), btn_zoom_default, -1);
 
 	gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(webview_sw), TRUE, TRUE, 0);
@@ -464,6 +470,7 @@ static void devhelp_plugin_init_webkit(DevhelpPlugin *self)
 	g_signal_connect(p->btn_forward, "clicked", G_CALLBACK(on_forward_button_clicked), self);
 	g_signal_connect(btn_zoom_in, "clicked", G_CALLBACK(on_zoom_in_button_clicked), self);
 	g_signal_connect(btn_zoom_out, "clicked", G_CALLBACK(on_zoom_out_button_clicked), self);
+	g_signal_connect(btn_zoom_default, "clicked", G_CALLBACK(on_zoom_default_button_clicked), self);
 
 	g_signal_connect(WEBKIT_WEB_VIEW(p->webview), "document-load-finished", G_CALLBACK(on_document_load_finished), self);
 	g_signal_connect(WEBKIT_WEB_VIEW(p->webview), "notify::uri", G_CALLBACK(on_uri_changed_notify), self);
@@ -979,7 +986,7 @@ void devhelp_plugin_set_zoom_level(DevhelpPlugin *self, gfloat zoom_level)
 {
 	g_return_if_fail(DEVHELP_IS_PLUGIN(self));
 
-	if (devhelp_plugin_get_zoom_level(self) != zoom_level)
+	if (devhelp_plugin_get_zoom_level(self) != zoom_level )
 	{
 		webkit_web_view_set_zoom_level(WEBKIT_WEB_VIEW(self->priv->webview), zoom_level);
 		g_object_notify(G_OBJECT(self), "zoom-level");
@@ -1360,17 +1367,33 @@ static void on_zoom_in_button_clicked(GtkToolButton * btn, DevhelpPlugin *self)
 {
 	g_return_if_fail(DEVHELP_IS_PLUGIN(self));
 	//webkit_web_view_zoom_in(devhelp_plugin_get_webview(self));
-	webkit_web_view_set_zoom_level(devhelp_plugin_get_webview(self), 1);
-	//dh_web_view_zoom_out(devhelp_plugin_get_webview(self));
-}
 
+	///webkit_web_view_set_zoom_level(devhelp_plugin_get_webview(self), 1);
+
+	//dh_web_view_zoom_out(devhelp_plugin_get_webview(self));
+	
+    gfloat current_zoom = webkit_web_view_get_zoom_level(devhelp_plugin_get_webview(self));
+
+    devhelp_plugin_set_zoom_level(self, current_zoom + 0.1);
+
+}
+static void on_zoom_default_button_clicked(GtkToolButton *btn, DevhelpPlugin *self)
+{
+	g_return_if_fail(DEVHELP_IS_PLUGIN(self));
+	
+	devhelp_plugin_set_zoom_level(self, self->priv->zoom_default);
+}
 
 static void on_zoom_out_button_clicked(GtkToolButton *btn, DevhelpPlugin *self)
 {
 	g_return_if_fail(DEVHELP_IS_PLUGIN(self));
 	//webkit_web_view_zoom_out(devhelp_plugin_get_webview(self));
-	webkit_web_view_set_zoom_level(devhelp_plugin_get_webview(self), -1);
+	///webkit_web_view_set_zoom_level(devhelp_plugin_get_webview(self), -1);
 	//dh_web_view_zoom_in(devhelp_plugin_get_webview(self));
+	
+	gfloat current_zoom = webkit_web_view_get_zoom_level(devhelp_plugin_get_webview(self));
+
+   devhelp_plugin_set_zoom_level(self, current_zoom - 0.1);
 }
 
 
