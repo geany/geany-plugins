@@ -7,10 +7,10 @@ name: CI Build
 on:
   push:
     branches:
-      - master
+      - devhelpplugin
   pull_request:
     branches:
-      - master
+      - devhelpplugin
   workflow_dispatch:
 
 # cancel already running builds of the same branch or pull request
