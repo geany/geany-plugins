@@ -14,7 +14,7 @@ AC_PROG_CC
 # Checks for libraries.
 PKG_CHECK_MODULES([DEVHELP], [libdevhelp-3.0])
 PKG_CHECK_MODULES(GEANY,geany)
-PKG_CHECK_MODULES([GEANY_DEVHELP], [gtkmm-3.0])
+PKG_CHECK_MODULES([GEANY_DEVHELP], [gtk+-3.0])
 
 
 # Checks for header files.
