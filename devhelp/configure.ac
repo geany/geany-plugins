@@ -2,6 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
+AC_INIT([geany-plugins], [2.1])
 AC_INIT([geany_devhelp], [0.1], [mbrush@leftclick.ca])
 AC_CONFIG_SRCDIR([src/dhp-plugin.h])
 AM_INIT_AUTOMAKE
