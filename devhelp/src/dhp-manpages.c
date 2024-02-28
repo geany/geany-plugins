@@ -12,7 +12,6 @@
 
 #include "dhp.h"
 
-
 #define DEVHELP_PLUGIN_MANPAGE_SECTIONS "3:2:1:8:5:4:7:6"
 #define DEVHELP_PLUGIN_MANPAGE_PAGER "col -b"
 
