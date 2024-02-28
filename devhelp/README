@@ -104,9 +104,9 @@ activated, will perform the same searches as described above.
 Requirements
 ------------
 
-* GTK >= 3.95
+* GTK >= 3.24
 * libwebkit2gtk >= 2.40.1-2
-* libdevhelp 3.0
+* libdevhelp-dev
  
 Contact developers
 ------------------
