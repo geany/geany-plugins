@@ -16143,14 +16143,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GEANY_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "geany >= 2.0" 2>&1`
+                GEANY_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "geany >= 2.0" 2>&1`
         else
-	        GEANY_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "geany >= 2.0" 2>&1`
+                GEANY_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "geany >= 2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GEANY_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GEANY_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (geany >= 2.0) were not met:
+        as_fn_error $? "Package requirements (geany >= 2.0) were not met:
 
 $GEANY_PKG_ERRORS
 
@@ -16163,7 +16163,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -16176,8 +16176,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	GEANY_CFLAGS=$pkg_cv_GEANY_CFLAGS
-	GEANY_LIBS=$pkg_cv_GEANY_LIBS
+        GEANY_CFLAGS=$pkg_cv_GEANY_CFLAGS
+        GEANY_LIBS=$pkg_cv_GEANY_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -16247,14 +16247,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        CHECK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "check >= 0.9.4" 2>&1`
+                CHECK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "check >= 0.9.4" 2>&1`
         else
-	        CHECK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "check >= 0.9.4" 2>&1`
+                CHECK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "check >= 0.9.4" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$CHECK_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$CHECK_PKG_ERRORS" >&5
 
-	 if false; then
+         if false; then
   UNITTESTS_TRUE=
   UNITTESTS_FALSE='#'
 else
@@ -16265,7 +16265,7 @@ fi
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	 if false; then
+         if false; then
   UNITTESTS_TRUE=
   UNITTESTS_FALSE='#'
 else
@@ -16274,11 +16274,11 @@ else
 fi
 
 else
-	CHECK_CFLAGS=$pkg_cv_CHECK_CFLAGS
-	CHECK_LIBS=$pkg_cv_CHECK_LIBS
+        CHECK_CFLAGS=$pkg_cv_CHECK_CFLAGS
+        CHECK_LIBS=$pkg_cv_CHECK_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	 if true; then
+         if true; then
   UNITTESTS_TRUE=
   UNITTESTS_FALSE='#'
 else
@@ -16805,14 +16805,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         else
-	        AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$AUTOCLOSE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$AUTOCLOSE_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.8) were not met:
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.8) were not met:
 
 $AUTOCLOSE_PKG_ERRORS
 
@@ -16825,7 +16825,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -16838,8 +16838,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	AUTOCLOSE_CFLAGS=$pkg_cv_AUTOCLOSE_CFLAGS
-	AUTOCLOSE_LIBS=$pkg_cv_AUTOCLOSE_LIBS
+        AUTOCLOSE_CFLAGS=$pkg_cv_AUTOCLOSE_CFLAGS
+        AUTOCLOSE_LIBS=$pkg_cv_AUTOCLOSE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -16897,21 +16897,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         else
-	        AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOCLOSE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$AUTOCLOSE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$AUTOCLOSE_PKG_ERRORS" >&5
 
-	enable_autoclose=no
+        enable_autoclose=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_autoclose=no
+        enable_autoclose=no
 else
-	AUTOCLOSE_CFLAGS=$pkg_cv_AUTOCLOSE_CFLAGS
-	AUTOCLOSE_LIBS=$pkg_cv_AUTOCLOSE_LIBS
+        AUTOCLOSE_CFLAGS=$pkg_cv_AUTOCLOSE_CFLAGS
+        AUTOCLOSE_LIBS=$pkg_cv_AUTOCLOSE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -17047,14 +17047,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         else
-	        AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$AUTOMARK_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$AUTOMARK_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.8) were not met:
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.8) were not met:
 
 $AUTOMARK_PKG_ERRORS
 
@@ -17067,7 +17067,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -17080,8 +17080,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	AUTOMARK_CFLAGS=$pkg_cv_AUTOMARK_CFLAGS
-	AUTOMARK_LIBS=$pkg_cv_AUTOMARK_LIBS
+        AUTOMARK_CFLAGS=$pkg_cv_AUTOMARK_CFLAGS
+        AUTOMARK_LIBS=$pkg_cv_AUTOMARK_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -17139,21 +17139,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         else
-	        AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                AUTOMARK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$AUTOMARK_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$AUTOMARK_PKG_ERRORS" >&5
 
-	enable_automark=no
+        enable_automark=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_automark=no
+        enable_automark=no
 else
-	AUTOMARK_CFLAGS=$pkg_cv_AUTOMARK_CFLAGS
-	AUTOMARK_LIBS=$pkg_cv_AUTOMARK_LIBS
+        AUTOMARK_CFLAGS=$pkg_cv_AUTOMARK_CFLAGS
+        AUTOMARK_LIBS=$pkg_cv_AUTOMARK_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -17339,16 +17339,16 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        COMMANDER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
+                COMMANDER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
                           glib-2.0 >= 2.4" 2>&1`
         else
-	        COMMANDER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
+                COMMANDER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
                           glib-2.0 >= 2.4" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$COMMANDER_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$COMMANDER_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.16
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.16
                           glib-2.0 >= 2.4) were not met:
 
 $COMMANDER_PKG_ERRORS
@@ -17362,7 +17362,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -17375,8 +17375,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	COMMANDER_CFLAGS=$pkg_cv_COMMANDER_CFLAGS
-	COMMANDER_LIBS=$pkg_cv_COMMANDER_LIBS
+        COMMANDER_CFLAGS=$pkg_cv_COMMANDER_CFLAGS
+        COMMANDER_LIBS=$pkg_cv_COMMANDER_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -17442,23 +17442,23 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        COMMANDER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
+                COMMANDER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
                           glib-2.0 >= 2.4" 2>&1`
         else
-	        COMMANDER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
+                COMMANDER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.16
                           glib-2.0 >= 2.4" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$COMMANDER_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$COMMANDER_PKG_ERRORS" >&5
 
-	enable_commander=no
+        enable_commander=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_commander=no
+        enable_commander=no
 else
-	COMMANDER_CFLAGS=$pkg_cv_COMMANDER_CFLAGS
-	COMMANDER_LIBS=$pkg_cv_COMMANDER_LIBS
+        COMMANDER_CFLAGS=$pkg_cv_COMMANDER_CFLAGS
+        COMMANDER_LIBS=$pkg_cv_COMMANDER_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -17605,24 +17605,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
+                UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
         else
-	        UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
+                UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$UTILSLIB_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$UTILSLIB_PKG_ERRORS" >&5
 
-	utilslib_have_vte=no
+        utilslib_have_vte=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	utilslib_have_vte=no
+        utilslib_have_vte=no
 else
-	UTILSLIB_CFLAGS=$pkg_cv_UTILSLIB_CFLAGS
-	UTILSLIB_LIBS=$pkg_cv_UTILSLIB_LIBS
+        UTILSLIB_CFLAGS=$pkg_cv_UTILSLIB_CFLAGS
+        UTILSLIB_LIBS=$pkg_cv_UTILSLIB_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	utilslib_have_vte=yes
+        utilslib_have_vte=yes
 fi
            if test "$utilslib_have_vte" != yes || test "$enable_utilslib" = no
 then :
@@ -17737,14 +17737,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
         else
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$VTE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$VTE_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (${vte_package} >= ${vte_version}) were not met:
+        as_fn_error $? "Package requirements (${vte_package} >= ${vte_version}) were not met:
 
 $VTE_PKG_ERRORS
 
@@ -17757,7 +17757,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -17770,8 +17770,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
-	VTE_LIBS=$pkg_cv_VTE_LIBS
+        VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
+        VTE_LIBS=$pkg_cv_VTE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -17829,21 +17829,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
         else
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${vte_package} >= ${vte_version}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$VTE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$VTE_PKG_ERRORS" >&5
 
-	enable_debugger=no
+        enable_debugger=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_debugger=no
+        enable_debugger=no
 else
-	VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
-	VTE_LIBS=$pkg_cv_VTE_LIBS
+        VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
+        VTE_LIBS=$pkg_cv_VTE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -17999,14 +17999,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         else
-	        DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$DEFINEFORMAT_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$DEFINEFORMAT_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.8) were not met:
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.8) were not met:
 
 $DEFINEFORMAT_PKG_ERRORS
 
@@ -18019,7 +18019,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -18032,8 +18032,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	DEFINEFORMAT_CFLAGS=$pkg_cv_DEFINEFORMAT_CFLAGS
-	DEFINEFORMAT_LIBS=$pkg_cv_DEFINEFORMAT_LIBS
+        DEFINEFORMAT_CFLAGS=$pkg_cv_DEFINEFORMAT_CFLAGS
+        DEFINEFORMAT_LIBS=$pkg_cv_DEFINEFORMAT_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -18091,21 +18091,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         else
-	        DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
+                DEFINEFORMAT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.8" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$DEFINEFORMAT_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$DEFINEFORMAT_PKG_ERRORS" >&5
 
-	enable_defineformat=no
+        enable_defineformat=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_defineformat=no
+        enable_defineformat=no
 else
-	DEFINEFORMAT_CFLAGS=$pkg_cv_DEFINEFORMAT_CFLAGS
-	DEFINEFORMAT_LIBS=$pkg_cv_DEFINEFORMAT_LIBS
+        DEFINEFORMAT_CFLAGS=$pkg_cv_DEFINEFORMAT_CFLAGS
+        DEFINEFORMAT_LIBS=$pkg_cv_DEFINEFORMAT_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -18341,14 +18341,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
         else
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$DEVHELP_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$DEVHELP_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (webkit2gtk-4.0 libdevhelp-3.0) were not met:
+        as_fn_error $? "Package requirements (webkit2gtk-4.0 libdevhelp-3.0) were not met:
 
 $DEVHELP_PKG_ERRORS
 
@@ -18361,7 +18361,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -18374,8 +18374,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
-	DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
+        DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
+        DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -18433,21 +18433,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
         else
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 libdevhelp-3.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$DEVHELP_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$DEVHELP_PKG_ERRORS" >&5
 
-	enable_devhelp=no
+        enable_devhelp=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_devhelp=no
+        enable_devhelp=no
 else
-	DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
-	DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
+        DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
+        DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -18580,22 +18580,22 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                              gconf-2.0 >= ${GCONF_VERSION}
                              libwnck-1.0 >= ${LIBWNCK_VERSION}
                              gthread-2.0
                              zlib" 2>&1`
         else
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                              gconf-2.0 >= ${GCONF_VERSION}
                              libwnck-1.0 >= ${LIBWNCK_VERSION}
                              gthread-2.0
                              zlib" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$DEVHELP_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$DEVHELP_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (webkit2gtk-4.0 >= ${WEBKIT_VERSION}
+        as_fn_error $? "Package requirements (webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                              gconf-2.0 >= ${GCONF_VERSION}
                              libwnck-1.0 >= ${LIBWNCK_VERSION}
                              gthread-2.0
@@ -18612,7 +18612,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -18625,8 +18625,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
-	DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
+        DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
+        DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -18716,29 +18716,29 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                              gconf-2.0 >= ${GCONF_VERSION}
                              libwnck-1.0 >= ${LIBWNCK_VERSION}
                              gthread-2.0
                              zlib" 2>&1`
         else
-	        DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
+                DEVHELP_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                              gconf-2.0 >= ${GCONF_VERSION}
                              libwnck-1.0 >= ${LIBWNCK_VERSION}
                              gthread-2.0
                              zlib" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$DEVHELP_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$DEVHELP_PKG_ERRORS" >&5
 
-	enable_devhelp=no
+        enable_devhelp=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_devhelp=no
+        enable_devhelp=no
 else
-	DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
-	DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
+        DEVHELP_CFLAGS=$pkg_cv_DEVHELP_CFLAGS
+        DEVHELP_LIBS=$pkg_cv_DEVHELP_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -19032,20 +19032,20 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           ctpl >= ${CTPL_VERSION}" 2>&1`
         else
-	        GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           ctpl >= ${CTPL_VERSION}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GEANYGENDOC_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GEANYGENDOC_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= ${GTK_VERSION}
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           ctpl >= ${CTPL_VERSION}) were not met:
@@ -19061,7 +19061,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -19074,8 +19074,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	GEANYGENDOC_CFLAGS=$pkg_cv_GEANYGENDOC_CFLAGS
-	GEANYGENDOC_LIBS=$pkg_cv_GEANYGENDOC_LIBS
+        GEANYGENDOC_CFLAGS=$pkg_cv_GEANYGENDOC_CFLAGS
+        GEANYGENDOC_LIBS=$pkg_cv_GEANYGENDOC_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -19157,27 +19157,27 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           ctpl >= ${CTPL_VERSION}" 2>&1`
         else
-	        GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                GEANYGENDOC_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           ctpl >= ${CTPL_VERSION}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GEANYGENDOC_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GEANYGENDOC_PKG_ERRORS" >&5
 
-	enable_geanygendoc=no
+        enable_geanygendoc=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_geanygendoc=no
+        enable_geanygendoc=no
 else
-	GEANYGENDOC_CFLAGS=$pkg_cv_GEANYGENDOC_CFLAGS
-	GEANYGENDOC_LIBS=$pkg_cv_GEANYGENDOC_LIBS
+        GEANYGENDOC_CFLAGS=$pkg_cv_GEANYGENDOC_CFLAGS
+        GEANYGENDOC_LIBS=$pkg_cv_GEANYGENDOC_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -19487,16 +19487,16 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        LUA_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
+                LUA_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
                           ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}" 2>&1`
         else
-	        LUA_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
+                LUA_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
                           ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$LUA_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$LUA_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (${LUA_PKG_NAME} >= ${LUA_VERSION}
+        as_fn_error $? "Package requirements (${LUA_PKG_NAME} >= ${LUA_VERSION}
                           ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}) were not met:
 
 $LUA_PKG_ERRORS
@@ -19510,7 +19510,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -19523,8 +19523,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	LUA_CFLAGS=$pkg_cv_LUA_CFLAGS
-	LUA_LIBS=$pkg_cv_LUA_LIBS
+        LUA_CFLAGS=$pkg_cv_LUA_CFLAGS
+        LUA_LIBS=$pkg_cv_LUA_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -19590,23 +19590,23 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        LUA_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
+                LUA_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
                           ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}" 2>&1`
         else
-	        LUA_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
+                LUA_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${LUA_PKG_NAME} >= ${LUA_VERSION}
                           ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$LUA_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$LUA_PKG_ERRORS" >&5
 
-	enable_geanylua=no
+        enable_geanylua=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_geanylua=no
+        enable_geanylua=no
 else
-	LUA_CFLAGS=$pkg_cv_LUA_CFLAGS
-	LUA_LIBS=$pkg_cv_LUA_LIBS
+        LUA_CFLAGS=$pkg_cv_LUA_CFLAGS
+        LUA_LIBS=$pkg_cv_LUA_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -19701,14 +19701,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GMODULE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gmodule-2.0" 2>&1`
+                GMODULE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gmodule-2.0" 2>&1`
         else
-	        GMODULE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gmodule-2.0" 2>&1`
+                GMODULE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gmodule-2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GMODULE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GMODULE_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (gmodule-2.0) were not met:
+        as_fn_error $? "Package requirements (gmodule-2.0) were not met:
 
 $GMODULE_PKG_ERRORS
 
@@ -19721,7 +19721,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -19734,8 +19734,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	GMODULE_CFLAGS=$pkg_cv_GMODULE_CFLAGS
-	GMODULE_LIBS=$pkg_cv_GMODULE_LIBS
+        GMODULE_CFLAGS=$pkg_cv_GMODULE_CFLAGS
+        GMODULE_LIBS=$pkg_cv_GMODULE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -19793,21 +19793,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GMODULE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gmodule-2.0" 2>&1`
+                GMODULE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gmodule-2.0" 2>&1`
         else
-	        GMODULE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gmodule-2.0" 2>&1`
+                GMODULE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gmodule-2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GMODULE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GMODULE_PKG_ERRORS" >&5
 
-	enable_geanylua=no
+        enable_geanylua=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_geanylua=no
+        enable_geanylua=no
 else
-	GMODULE_CFLAGS=$pkg_cv_GMODULE_CFLAGS
-	GMODULE_LIBS=$pkg_cv_GMODULE_LIBS
+        GMODULE_CFLAGS=$pkg_cv_GMODULE_CFLAGS
+        GMODULE_LIBS=$pkg_cv_GMODULE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -20130,24 +20130,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$gtkspell_package" 2>&1`
+                GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$gtkspell_package" 2>&1`
         else
-	        GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$gtkspell_package" 2>&1`
+                GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$gtkspell_package" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GTKSPELL_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GTKSPELL_PKG_ERRORS" >&5
 
-	enable_gtkspell=no
+        enable_gtkspell=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_gtkspell=no
+        enable_gtkspell=no
 else
-	GTKSPELL_CFLAGS=$pkg_cv_GTKSPELL_CFLAGS
-	GTKSPELL_LIBS=$pkg_cv_GTKSPELL_LIBS
+        GTKSPELL_CFLAGS=$pkg_cv_GTKSPELL_CFLAGS
+        GTKSPELL_LIBS=$pkg_cv_GTKSPELL_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	enable_gtkspell=yes
+        enable_gtkspell=yes
 fi
     elif [ x"$enable_gtkspell" = "xyes" ]; then
 
@@ -20202,14 +20202,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$gtkspell_package" 2>&1`
+                GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$gtkspell_package" 2>&1`
         else
-	        GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$gtkspell_package" 2>&1`
+                GTKSPELL_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$gtkspell_package" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GTKSPELL_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GTKSPELL_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($gtkspell_package) were not met:
+        as_fn_error $? "Package requirements ($gtkspell_package) were not met:
 
 $GTKSPELL_PKG_ERRORS
 
@@ -20222,7 +20222,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -20235,8 +20235,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	GTKSPELL_CFLAGS=$pkg_cv_GTKSPELL_CFLAGS
-	GTKSPELL_LIBS=$pkg_cv_GTKSPELL_LIBS
+        GTKSPELL_CFLAGS=$pkg_cv_GTKSPELL_CFLAGS
+        GTKSPELL_LIBS=$pkg_cv_GTKSPELL_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -21045,14 +21045,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
+                GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
         else
-	        GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
+                GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GENIUSPASTE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GENIUSPASTE_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (libsoup-2.4 >= 2.4.0) were not met:
+        as_fn_error $? "Package requirements (libsoup-2.4 >= 2.4.0) were not met:
 
 $GENIUSPASTE_PKG_ERRORS
 
@@ -21065,7 +21065,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -21078,8 +21078,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	GENIUSPASTE_CFLAGS=$pkg_cv_GENIUSPASTE_CFLAGS
-	GENIUSPASTE_LIBS=$pkg_cv_GENIUSPASTE_LIBS
+        GENIUSPASTE_CFLAGS=$pkg_cv_GENIUSPASTE_CFLAGS
+        GENIUSPASTE_LIBS=$pkg_cv_GENIUSPASTE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -21137,21 +21137,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
+                GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
         else
-	        GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
+                GENIUSPASTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.4.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GENIUSPASTE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GENIUSPASTE_PKG_ERRORS" >&5
 
-	enable_geniuspaste=no
+        enable_geniuspaste=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_geniuspaste=no
+        enable_geniuspaste=no
 else
-	GENIUSPASTE_CFLAGS=$pkg_cv_GENIUSPASTE_CFLAGS
-	GENIUSPASTE_LIBS=$pkg_cv_GENIUSPASTE_LIBS
+        GENIUSPASTE_CFLAGS=$pkg_cv_GENIUSPASTE_CFLAGS
+        GENIUSPASTE_LIBS=$pkg_cv_GENIUSPASTE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -21306,18 +21306,18 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
+                GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
                           glib-2.0
                           libgit2 >= 0.21" 2>&1`
         else
-	        GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
+                GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
                           glib-2.0
                           libgit2 >= 0.21" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GITCHANGEBAR_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GITCHANGEBAR_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.18
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= 2.18
                           glib-2.0
                           libgit2 >= 0.21) were not met:
 
@@ -21332,7 +21332,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -21345,8 +21345,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	GITCHANGEBAR_CFLAGS=$pkg_cv_GITCHANGEBAR_CFLAGS
-	GITCHANGEBAR_LIBS=$pkg_cv_GITCHANGEBAR_LIBS
+        GITCHANGEBAR_CFLAGS=$pkg_cv_GITCHANGEBAR_CFLAGS
+        GITCHANGEBAR_LIBS=$pkg_cv_GITCHANGEBAR_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -21420,25 +21420,25 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
+                GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
                           glib-2.0
                           libgit2 >= 0.21" 2>&1`
         else
-	        GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
+                GITCHANGEBAR_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= 2.18
                           glib-2.0
                           libgit2 >= 0.21" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GITCHANGEBAR_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GITCHANGEBAR_PKG_ERRORS" >&5
 
-	enable_gitchangebar=no
+        enable_gitchangebar=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_gitchangebar=no
+        enable_gitchangebar=no
 else
-	GITCHANGEBAR_CFLAGS=$pkg_cv_GITCHANGEBAR_CFLAGS
-	GITCHANGEBAR_LIBS=$pkg_cv_GITCHANGEBAR_LIBS
+        GITCHANGEBAR_CFLAGS=$pkg_cv_GITCHANGEBAR_CFLAGS
+        GITCHANGEBAR_LIBS=$pkg_cv_GITCHANGEBAR_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -21877,18 +21877,18 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           $webkit_package >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         else
-	        MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           $webkit_package >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$MARKDOWN_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$MARKDOWN_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= ${GTK_VERSION}
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= ${GTK_VERSION}
                           $webkit_package >= ${WEBKIT_VERSION}
                           gthread-2.0) were not met:
 
@@ -21903,7 +21903,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -21916,8 +21916,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	MARKDOWN_CFLAGS=$pkg_cv_MARKDOWN_CFLAGS
-	MARKDOWN_LIBS=$pkg_cv_MARKDOWN_LIBS
+        MARKDOWN_CFLAGS=$pkg_cv_MARKDOWN_CFLAGS
+        MARKDOWN_LIBS=$pkg_cv_MARKDOWN_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -21991,25 +21991,25 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           $webkit_package >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         else
-	        MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                MARKDOWN_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           $webkit_package >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$MARKDOWN_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$MARKDOWN_PKG_ERRORS" >&5
 
-	enable_markdown=no
+        enable_markdown=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_markdown=no
+        enable_markdown=no
 else
-	MARKDOWN_CFLAGS=$pkg_cv_MARKDOWN_CFLAGS
-	MARKDOWN_LIBS=$pkg_cv_MARKDOWN_LIBS
+        MARKDOWN_CFLAGS=$pkg_cv_MARKDOWN_CFLAGS
+        MARKDOWN_LIBS=$pkg_cv_MARKDOWN_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -22240,14 +22240,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
+                GLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
         else
-	        GLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
+                GLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GLIB_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GLIB_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (glib-2.0 >= 2.22) were not met:
+        as_fn_error $? "Package requirements (glib-2.0 >= 2.22) were not met:
 
 $GLIB_PKG_ERRORS
 
@@ -22260,7 +22260,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -22273,8 +22273,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	GLIB_CFLAGS=$pkg_cv_GLIB_CFLAGS
-	GLIB_LIBS=$pkg_cv_GLIB_LIBS
+        GLIB_CFLAGS=$pkg_cv_GLIB_CFLAGS
+        GLIB_LIBS=$pkg_cv_GLIB_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -22332,21 +22332,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        GLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
+                GLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
         else
-	        GLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
+                GLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "glib-2.0 >= 2.22" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$GLIB_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$GLIB_PKG_ERRORS" >&5
 
-	enable_pohelper=no
+        enable_pohelper=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_pohelper=no
+        enable_pohelper=no
 else
-	GLIB_CFLAGS=$pkg_cv_GLIB_CFLAGS
-	GLIB_LIBS=$pkg_cv_GLIB_LIBS
+        GLIB_CFLAGS=$pkg_cv_GLIB_CFLAGS
+        GLIB_LIBS=$pkg_cv_GLIB_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -22486,14 +22486,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        LIBXML_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
+                LIBXML_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
         else
-	        LIBXML_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
+                LIBXML_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$LIBXML_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$LIBXML_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (libxml-2.0 >= ${LIBXML_VERSION}) were not met:
+        as_fn_error $? "Package requirements (libxml-2.0 >= ${LIBXML_VERSION}) were not met:
 
 $LIBXML_PKG_ERRORS
 
@@ -22506,7 +22506,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -22519,8 +22519,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	LIBXML_CFLAGS=$pkg_cv_LIBXML_CFLAGS
-	LIBXML_LIBS=$pkg_cv_LIBXML_LIBS
+        LIBXML_CFLAGS=$pkg_cv_LIBXML_CFLAGS
+        LIBXML_LIBS=$pkg_cv_LIBXML_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -22578,21 +22578,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        LIBXML_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
+                LIBXML_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
         else
-	        LIBXML_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
+                LIBXML_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libxml-2.0 >= ${LIBXML_VERSION}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$LIBXML_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$LIBXML_PKG_ERRORS" >&5
 
-	enable_pretty_printer=no
+        enable_pretty_printer=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_pretty_printer=no
+        enable_pretty_printer=no
 else
-	LIBXML_CFLAGS=$pkg_cv_LIBXML_CFLAGS
-	LIBXML_LIBS=$pkg_cv_LIBXML_LIBS
+        LIBXML_CFLAGS=$pkg_cv_LIBXML_CFLAGS
+        LIBXML_LIBS=$pkg_cv_LIBXML_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -22785,14 +22785,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$vte_package" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$vte_package" 2>&1`
         else
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$vte_package" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$vte_package" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$VTE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$VTE_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($vte_package) were not met:
+        as_fn_error $? "Package requirements ($vte_package) were not met:
 
 $VTE_PKG_ERRORS
 
@@ -22805,7 +22805,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -22818,8 +22818,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
-	VTE_LIBS=$pkg_cv_VTE_LIBS
+        VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
+        VTE_LIBS=$pkg_cv_VTE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -22877,21 +22877,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$vte_package" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$vte_package" 2>&1`
         else
-	        VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$vte_package" 2>&1`
+                VTE_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$vte_package" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$VTE_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$VTE_PKG_ERRORS" >&5
 
-	enable_scope=no
+        enable_scope=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_scope=no
+        enable_scope=no
 else
-	VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
-	VTE_LIBS=$pkg_cv_VTE_LIBS
+        VTE_CFLAGS=$pkg_cv_VTE_CFLAGS
+        VTE_LIBS=$pkg_cv_VTE_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -22963,24 +22963,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
+                UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
         else
-	        UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
+                UTILSLIB_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$utilslib_vte_package" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$UTILSLIB_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$UTILSLIB_PKG_ERRORS" >&5
 
-	utilslib_have_vte=no
+        utilslib_have_vte=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	utilslib_have_vte=no
+        utilslib_have_vte=no
 else
-	UTILSLIB_CFLAGS=$pkg_cv_UTILSLIB_CFLAGS
-	UTILSLIB_LIBS=$pkg_cv_UTILSLIB_LIBS
+        UTILSLIB_CFLAGS=$pkg_cv_UTILSLIB_CFLAGS
+        UTILSLIB_LIBS=$pkg_cv_UTILSLIB_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	utilslib_have_vte=yes
+        utilslib_have_vte=yes
 fi
            if test "$utilslib_have_vte" != yes || test "$enable_utilslib" = no
 then :
@@ -23206,24 +23206,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        ENCHANT_2_2_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION_2_2}" 2>&1`
+                ENCHANT_2_2_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION_2_2}" 2>&1`
         else
-	        ENCHANT_2_2_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION_2_2}" 2>&1`
+                ENCHANT_2_2_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION_2_2}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$ENCHANT_2_2_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$ENCHANT_2_2_PKG_ERRORS" >&5
 
-	have_enchant_2_2=no
+        have_enchant_2_2=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	have_enchant_2_2=no
+        have_enchant_2_2=no
 else
-	ENCHANT_2_2_CFLAGS=$pkg_cv_ENCHANT_2_2_CFLAGS
-	ENCHANT_2_2_LIBS=$pkg_cv_ENCHANT_2_2_LIBS
+        ENCHANT_2_2_CFLAGS=$pkg_cv_ENCHANT_2_2_CFLAGS
+        ENCHANT_2_2_LIBS=$pkg_cv_ENCHANT_2_2_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	have_enchant_2_2=yes
+        have_enchant_2_2=yes
 fi
     if [ x"$have_enchant_2_2" = "xyes" ]; then
         # we have got the new enchant-2 package
@@ -23283,24 +23283,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        ENCHANT_1_5_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_1_5}" 2>&1`
+                ENCHANT_1_5_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_1_5}" 2>&1`
         else
-	        ENCHANT_1_5_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_1_5}" 2>&1`
+                ENCHANT_1_5_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_1_5}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$ENCHANT_1_5_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$ENCHANT_1_5_PKG_ERRORS" >&5
 
-	have_enchant_1_5=no
+        have_enchant_1_5=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	have_enchant_1_5=no
+        have_enchant_1_5=no
 else
-	ENCHANT_1_5_CFLAGS=$pkg_cv_ENCHANT_1_5_CFLAGS
-	ENCHANT_1_5_LIBS=$pkg_cv_ENCHANT_1_5_LIBS
+        ENCHANT_1_5_CFLAGS=$pkg_cv_ENCHANT_1_5_CFLAGS
+        ENCHANT_1_5_LIBS=$pkg_cv_ENCHANT_1_5_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	have_enchant_1_5=yes
+        have_enchant_1_5=yes
 fi
 
 pkg_failed=no
@@ -23354,24 +23354,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        ENCHANT_2_0_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_2_0}" 2>&1`
+                ENCHANT_2_0_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_2_0}" 2>&1`
         else
-	        ENCHANT_2_0_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_2_0}" 2>&1`
+                ENCHANT_2_0_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "enchant >= ${ENCHANT_VERSION_2_0}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$ENCHANT_2_0_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$ENCHANT_2_0_PKG_ERRORS" >&5
 
-	have_enchant_2_0=no
+        have_enchant_2_0=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	have_enchant_2_0=no
+        have_enchant_2_0=no
 else
-	ENCHANT_2_0_CFLAGS=$pkg_cv_ENCHANT_2_0_CFLAGS
-	ENCHANT_2_0_LIBS=$pkg_cv_ENCHANT_2_0_LIBS
+        ENCHANT_2_0_CFLAGS=$pkg_cv_ENCHANT_2_0_CFLAGS
+        ENCHANT_2_0_LIBS=$pkg_cv_ENCHANT_2_0_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	have_enchant_2_0=yes
+        have_enchant_2_0=yes
 fi
 
         ENCHANT_PACKAGE_NAME=enchant
@@ -23465,14 +23465,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        ENCHANT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
+                ENCHANT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
         else
-	        ENCHANT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
+                ENCHANT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$ENCHANT_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$ENCHANT_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}) were not met:
+        as_fn_error $? "Package requirements (${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}) were not met:
 
 $ENCHANT_PKG_ERRORS
 
@@ -23485,7 +23485,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -23498,8 +23498,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	ENCHANT_CFLAGS=$pkg_cv_ENCHANT_CFLAGS
-	ENCHANT_LIBS=$pkg_cv_ENCHANT_LIBS
+        ENCHANT_CFLAGS=$pkg_cv_ENCHANT_CFLAGS
+        ENCHANT_LIBS=$pkg_cv_ENCHANT_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -23557,21 +23557,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        ENCHANT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
+                ENCHANT_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
         else
-	        ENCHANT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
+                ENCHANT_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "${ENCHANT_PACKAGE_NAME} >= ${ENCHANT_VERSION}" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$ENCHANT_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$ENCHANT_PKG_ERRORS" >&5
 
-	enable_spellcheck=no
+        enable_spellcheck=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_spellcheck=no
+        enable_spellcheck=no
 else
-	ENCHANT_CFLAGS=$pkg_cv_ENCHANT_CFLAGS
-	ENCHANT_LIBS=$pkg_cv_ENCHANT_LIBS
+        ENCHANT_CFLAGS=$pkg_cv_ENCHANT_CFLAGS
+        ENCHANT_LIBS=$pkg_cv_ENCHANT_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -23858,14 +23858,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
+                UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
         else
-	        UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
+                UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$UPDATECHECKER_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$UPDATECHECKER_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (libsoup-2.4 >= 2.42) were not met:
+        as_fn_error $? "Package requirements (libsoup-2.4 >= 2.42) were not met:
 
 $UPDATECHECKER_PKG_ERRORS
 
@@ -23878,7 +23878,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -23891,8 +23891,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	UPDATECHECKER_CFLAGS=$pkg_cv_UPDATECHECKER_CFLAGS
-	UPDATECHECKER_LIBS=$pkg_cv_UPDATECHECKER_LIBS
+        UPDATECHECKER_CFLAGS=$pkg_cv_UPDATECHECKER_CFLAGS
+        UPDATECHECKER_LIBS=$pkg_cv_UPDATECHECKER_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -23950,21 +23950,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
+                UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
         else
-	        UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
+                UPDATECHECKER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libsoup-2.4 >= 2.42" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$UPDATECHECKER_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$UPDATECHECKER_PKG_ERRORS" >&5
 
-	enable_updatechecker=no
+        enable_updatechecker=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_updatechecker=no
+        enable_updatechecker=no
 else
-	UPDATECHECKER_CFLAGS=$pkg_cv_UPDATECHECKER_CFLAGS
-	UPDATECHECKER_LIBS=$pkg_cv_UPDATECHECKER_LIBS
+        UPDATECHECKER_CFLAGS=$pkg_cv_UPDATECHECKER_CFLAGS
+        UPDATECHECKER_LIBS=$pkg_cv_UPDATECHECKER_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -24276,24 +24276,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           gdk-pixbuf-2.0 >= ${GDK_PIXBUF_VERSION}
                           webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         else
-	        WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           gdk-pixbuf-2.0 >= ${GDK_PIXBUF_VERSION}
                           webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$WEBHELPER_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$WEBHELPER_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= ${GTK_VERSION}
+        as_fn_error $? "Package requirements ($GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           gdk-pixbuf-2.0 >= ${GDK_PIXBUF_VERSION}
@@ -24311,7 +24311,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -24324,8 +24324,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	WEBHELPER_CFLAGS=$pkg_cv_WEBHELPER_CFLAGS
-	WEBHELPER_LIBS=$pkg_cv_WEBHELPER_LIBS
+        WEBHELPER_CFLAGS=$pkg_cv_WEBHELPER_CFLAGS
+        WEBHELPER_LIBS=$pkg_cv_WEBHELPER_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -24423,31 +24423,31 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           gdk-pixbuf-2.0 >= ${GDK_PIXBUF_VERSION}
                           webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         else
-	        WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
+                WEBHELPER_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "$GP_GTK_PACKAGE >= ${GTK_VERSION}
                           glib-2.0 >= ${GLIB_VERSION}
                           gio-2.0 >= ${GIO_VERSION}
                           gdk-pixbuf-2.0 >= ${GDK_PIXBUF_VERSION}
                           webkit2gtk-4.0 >= ${WEBKIT_VERSION}
                           gthread-2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$WEBHELPER_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$WEBHELPER_PKG_ERRORS" >&5
 
-	enable_webhelper=no
+        enable_webhelper=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_webhelper=no
+        enable_webhelper=no
 else
-	WEBHELPER_CFLAGS=$pkg_cv_WEBHELPER_CFLAGS
-	WEBHELPER_LIBS=$pkg_cv_WEBHELPER_LIBS
+        WEBHELPER_CFLAGS=$pkg_cv_WEBHELPER_CFLAGS
+        WEBHELPER_LIBS=$pkg_cv_WEBHELPER_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -24607,14 +24607,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
+                WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
         else
-	        WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
+                WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$WORKBENCH_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$WORKBENCH_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (libgit2 >= 0.21) were not met:
+        as_fn_error $? "Package requirements (libgit2 >= 0.21) were not met:
 
 $WORKBENCH_PKG_ERRORS
 
@@ -24627,7 +24627,7 @@ See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in '$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in '$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -24640,8 +24640,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See 'config.log' for more details" "$LINENO" 5; }
 else
-	WORKBENCH_CFLAGS=$pkg_cv_WORKBENCH_CFLAGS
-	WORKBENCH_LIBS=$pkg_cv_WORKBENCH_LIBS
+        WORKBENCH_CFLAGS=$pkg_cv_WORKBENCH_CFLAGS
+        WORKBENCH_LIBS=$pkg_cv_WORKBENCH_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -24699,21 +24699,21 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
+                WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
         else
-	        WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
+                WORKBENCH_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libgit2 >= 0.21" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$WORKBENCH_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$WORKBENCH_PKG_ERRORS" >&5
 
-	enable_workbench=no
+        enable_workbench=no
 elif test $pkg_failed = untried; then
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	enable_workbench=no
+        enable_workbench=no
 else
-	WORKBENCH_CFLAGS=$pkg_cv_WORKBENCH_CFLAGS
-	WORKBENCH_LIBS=$pkg_cv_WORKBENCH_LIBS
+        WORKBENCH_CFLAGS=$pkg_cv_WORKBENCH_CFLAGS
+        WORKBENCH_LIBS=$pkg_cv_WORKBENCH_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
