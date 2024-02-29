@@ -105,6 +105,12 @@ jobs:
             cppcheck
             # debugger
             libvte-2.91-dev
+            # devhelp
+            libwebkit2gtk-4.0-dev
+            libdevhelp-dev
+            libwnck-dev
+            libgconf2-dev
+            zlib1g-dev
             # geanygendoc
             libctpl-dev
             # geanylua
