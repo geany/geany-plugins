@@ -370,7 +370,7 @@ static gint kfile_remove(lua_State* L)
 
 
 
-static const struct luaL_reg kfile_funcs[] = {
+static const struct luaL_Reg kfile_funcs[] = {
 	{"new",     kfile_new},
 	{"data",    kfile_data},
 	{"groups",  kfile_groups},
@@ -395,8 +395,10 @@ static gint luaopen_keyfile(lua_State *L)
 	lua_pushstring(L,"__gc");
 	lua_pushcfunction(L,kfile_done);
 	lua_rawset(L,-3);
-	luaL_register(L, NULL, &kfile_funcs[1]);
-	luaL_register(L, LUA_MODULE_NAME, kfile_funcs);
+	luaL_setfuncs(L, &kfile_funcs[1], 0);
+	lua_newtable(L);
+	luaL_setfuncs(L, kfile_funcs, 0);
+	lua_setglobal(L, LUA_MODULE_NAME);
 	return 0;
 }
 
