@@ -19,6 +19,9 @@
 #ifndef __PRJORG_UTILS_H__
 #define __PRJORG_UTILS_H__
 
+#include <gtk/gtk.h>
+#include <geanyplugin.h>
+
 gchar *get_relative_path(const gchar *utf8_parent, const gchar *utf8_descendant);
 
 gboolean patterns_match(GSList *patterns, const gchar *str);
