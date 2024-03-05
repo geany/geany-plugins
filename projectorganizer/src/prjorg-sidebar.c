@@ -382,7 +382,8 @@ void on_open_file_manager(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gp
 
 	if (locale_path)
 	{
-		gchar *command, *open_command;
+		const gchar *open_command;
+		gchar *command;
 
 		open_command = PRJORG_COMMAND_OPEN;
 		command = g_strconcat (open_command, " \"", locale_path, "\"", NULL);
@@ -1562,7 +1563,7 @@ gchar **prjorg_sidebar_get_expanded_paths(void)
 		(GtkTreeViewMappingFunc)on_map_expanded, expanded_paths);
 	g_ptr_array_add(expanded_paths, NULL);
 
-	return g_ptr_array_free(expanded_paths, FALSE);
+	return (gchar **)g_ptr_array_free(expanded_paths, FALSE);
 }
 
 
@@ -1587,10 +1588,6 @@ void prjorg_sidebar_update_full(gboolean reload, gchar **expanded_paths)
 
 	if (reload)
 	{
-		GtkTreeSelection *treesel;
-		GtkTreeIter iter;
-		GtkTreeModel *model;
-
 		expand_data->expanded_paths = expanded_paths != NULL ? expanded_paths : prjorg_sidebar_get_expanded_paths();
 		expand_data->selected_path = get_selected_path();
 
