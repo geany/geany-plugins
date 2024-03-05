@@ -346,7 +346,7 @@ static gchar *get_fallback_dir_of_selection(void)
 		{
 			locale_path = g_path_get_dirname(doc->real_path);
 
-			if (locale_path && locale_path == '.')
+			if (locale_path && *locale_path == '.')
 			{
 				g_free(locale_path);
 				locale_path = NULL;
