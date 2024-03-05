@@ -545,7 +545,7 @@ static void create_dialog_find_file(void)
 	size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
 	label = gtk_label_new_with_mnemonic(_("_Search for:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 	gtk_size_group_add_widget(size_group, label);
 
 	s_ft_dialog.combo = gtk_combo_box_text_new_with_entry();
@@ -557,13 +557,13 @@ static void create_dialog_find_file(void)
 	ui_entry_add_clear_icon(GTK_ENTRY(entry));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 
-	ebox = gtk_hbox_new(FALSE, 6);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(ebox), s_ft_dialog.combo, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), ebox, TRUE, FALSE, 0);
 
 	label = gtk_label_new_with_mnemonic(_("_Match type:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 	gtk_size_group_add_widget(size_group, label);
 
 	s_ft_dialog.combo_match = gtk_combo_box_text_new();
@@ -573,16 +573,16 @@ static void create_dialog_find_file(void)
 	gtk_combo_box_set_active(GTK_COMBO_BOX(s_ft_dialog.combo_match), 1);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), s_ft_dialog.combo_match);
 
-	ebox = gtk_hbox_new(FALSE, 6);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(ebox), s_ft_dialog.combo_match, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), ebox, TRUE, FALSE, 0);
 
 	s_ft_dialog.case_sensitive = gtk_check_button_new_with_mnemonic(_("C_ase sensitive"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(s_ft_dialog.case_sensitive), FALSE);
+	gtk_widget_set_focus_on_click(s_ft_dialog.case_sensitive, FALSE);
 
 	s_ft_dialog.declaration = gtk_check_button_new_with_mnemonic(_("_Declaration"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(s_ft_dialog.declaration), FALSE);
+	gtk_widget_set_focus_on_click(s_ft_dialog.declaration, FALSE);
 
 	g_object_unref(G_OBJECT(size_group));	/* auto destroy the size group */
 
