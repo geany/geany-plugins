@@ -19,6 +19,8 @@
 #ifndef __PRJORG_MENU_H__
 #define __PRJORG_MENU_H__
 
+#include <glib.h>
+
 void prjorg_menu_init(void);
 void prjorg_menu_activate_menu_items(gboolean activate);
 void prjorg_menu_cleanup(void);

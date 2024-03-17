@@ -19,6 +19,8 @@
 #ifndef __PRJORG_PROJECT_H__
 #define __PRJORG_PROJECT_H__
 
+#include <gtk/gtk.h>
+
 #define PRJORG_PATTERNS_SOURCE "*.c *.C *.cpp *.cxx *.c++ *.cc *.m"
 #define PRJORG_PATTERNS_HEADER "*.h *.H *.hpp *.hxx *.h++ *.hh"
 #define PRJORG_PATTERNS_IGNORED_DIRS ".* CVS"

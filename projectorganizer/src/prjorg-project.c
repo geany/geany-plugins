@@ -655,23 +655,24 @@ void prjorg_project_read_properties_tab(void)
 
 GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 {
-	GtkWidget *vbox, *hbox, *hbox1;
-	GtkWidget *table;
+	GtkWidget *vbox, *hbox, *hbox1, *ebox, *table_box;
 	GtkWidget *label;
 	gchar *str;
+	GtkSizeGroup *size_group;
 
 	e = g_new0(PropertyDialogElements, 1);
 
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-	table = gtk_table_new(5, 2, FALSE);
-	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-	gtk_table_set_col_spacings(GTK_TABLE(table), 12);
+	table_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
+	gtk_box_set_spacing(GTK_BOX(table_box), 6);
+
+	size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
 	label = gtk_label_new(_("Source patterns:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	gtk_size_group_add_widget(size_group, label);
 	e->source_patterns = gtk_entry_new();
-	ui_table_add_row(GTK_TABLE(table), 0, label, e->source_patterns, NULL);
 	ui_entry_add_clear_icon(GTK_ENTRY(e->source_patterns));
 	gtk_widget_set_tooltip_text(e->source_patterns,
 		_("Space separated list of patterns that are used to identify source files. "
@@ -679,59 +680,75 @@ GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 	str = g_strjoinv(" ", prj_org->source_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->source_patterns), str);
 	g_free(str);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(ebox), e->source_patterns, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(table_box), ebox, TRUE, FALSE, 0);
 
 	label = gtk_label_new(_("Header patterns:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	gtk_size_group_add_widget(size_group, label);
 	e->header_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(e->header_patterns));
-	ui_table_add_row(GTK_TABLE(table), 1, label, e->header_patterns, NULL);
 	gtk_widget_set_tooltip_text(e->header_patterns,
 		_("Space separated list of patterns that are used to identify headers. "
 		  "Used for header/source swapping."));
 	str = g_strjoinv(" ", prj_org->header_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->header_patterns), str);
 	g_free(str);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(ebox), e->header_patterns, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(table_box), ebox, TRUE, FALSE, 0);
 
 	label = gtk_label_new(_("Ignored file patterns:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	gtk_size_group_add_widget(size_group, label);
 	e->ignored_file_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(e->ignored_file_patterns));
-	ui_table_add_row(GTK_TABLE(table), 2, label, e->ignored_file_patterns, NULL);
 	gtk_widget_set_tooltip_text(e->ignored_file_patterns,
 		_("Space separated list of patterns that are used to identify files "
 		  "that are not displayed in the project tree."));
 	str = g_strjoinv(" ", prj_org->ignored_file_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->ignored_file_patterns), str);
 	g_free(str);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(ebox), e->ignored_file_patterns, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(table_box), ebox, TRUE, FALSE, 0);
 
 	label = gtk_label_new(_("Ignored directory patterns:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	gtk_size_group_add_widget(size_group, label);
 	e->ignored_dirs_patterns = gtk_entry_new();
 	ui_entry_add_clear_icon(GTK_ENTRY(e->ignored_dirs_patterns));
-	ui_table_add_row(GTK_TABLE(table), 3, label, e->ignored_dirs_patterns, NULL);
 	gtk_widget_set_tooltip_text(e->ignored_dirs_patterns,
 		_("Space separated list of patterns that are used to identify directories "
 		  "that are not scanned for source files."));
 	str = g_strjoinv(" ", prj_org->ignored_dirs_patterns);
 	gtk_entry_set_text(GTK_ENTRY(e->ignored_dirs_patterns), str);
 	g_free(str);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(ebox), e->ignored_dirs_patterns, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(table_box), ebox, TRUE, FALSE, 0);
 
-	gtk_box_pack_start(GTK_BOX(vbox), table, FALSE, FALSE, 6);
+	gtk_box_pack_start(GTK_BOX(vbox), table_box, FALSE, FALSE, 6);
 
-	hbox1 = gtk_hbox_new(FALSE, 0);
+	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	label = gtk_label_new(_("The patterns above affect only sidebar and indexing and are not used in the Find in Files\n"
 	"dialog. You can further restrict the files belonging to the project by setting the\n"
 	"File Patterns under the Project tab (these are also used for the Find in Files dialog)."));
 	gtk_box_pack_start(GTK_BOX(hbox1), label, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 0);
 
-	hbox1 = gtk_hbox_new(FALSE, 0);
+	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	label = gtk_label_new(NULL);
 	gtk_label_set_markup(GTK_LABEL(label), _("<b>Various</b>"));
 	gtk_box_pack_start(GTK_BOX(hbox1), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 12);
 
-	hbox1 = gtk_hbox_new(FALSE, 0);
+	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	e->show_empty_dirs = gtk_check_button_new_with_label(_("Show empty directories in sidebar"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(e->show_empty_dirs), prj_org->show_empty_dirs);
 	gtk_widget_set_tooltip_text(e->show_empty_dirs,
@@ -741,12 +758,14 @@ GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(hbox1), e->show_empty_dirs, FALSE, FALSE, 12);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 0);
 
-	table = gtk_table_new(1, 2, FALSE);
-	gtk_table_set_row_spacings(GTK_TABLE(table), 6);
-	gtk_table_set_col_spacings(GTK_TABLE(table), 12);
+	table_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
+	gtk_box_set_spacing(GTK_BOX(table_box), 6);
+
+	size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
 	label = gtk_label_new(_("Index all project files:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	gtk_size_group_add_widget(size_group, label);
 	e->generate_tag_prefs = gtk_combo_box_text_new();
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Auto (index if less than 1000 files)"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(e->generate_tag_prefs), _("Yes"));
@@ -755,16 +774,18 @@ GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 	gtk_widget_set_tooltip_text(e->generate_tag_prefs,
 		_("Generate symbol list for all project files instead of only for the currently opened files. "
 		  "Might be slow for big projects."));
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(ebox), e->generate_tag_prefs, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(table_box), ebox, TRUE, FALSE, 0);
 
-	ui_table_add_row(GTK_TABLE(table), 1, label, e->generate_tag_prefs, NULL);
-
-	hbox1 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(hbox1), table, FALSE, FALSE, 12);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 0);
+	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start(GTK_BOX(hbox1), table_box, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 6);
 
 	label = gtk_label_new("Project Organizer");
 
-	hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox, TRUE, TRUE, 6);
 
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), hbox, label);
