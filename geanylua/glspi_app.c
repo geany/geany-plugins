@@ -528,7 +528,7 @@ static gint glspi_reloadconf(lua_State* L)
 
 
 
-static const struct luaL_reg glspi_app_funcs[] = {
+static const struct luaL_Reg glspi_app_funcs[] = {
 	{"pluginver",  glspi_pluginver},
 	{"appinfo",    glspi_appinfo},
 	{"xsel",       glspi_xsel},
@@ -549,5 +549,5 @@ static const struct luaL_reg glspi_app_funcs[] = {
 
 void glspi_init_app_funcs(lua_State *L, const gchar*script_dir) {
 	glspi_script_dir = script_dir;
-	luaL_register(L, NULL,glspi_app_funcs);
+	luaL_setfuncs(L, glspi_app_funcs, 0);
 }
