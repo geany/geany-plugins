@@ -300,6 +300,13 @@ on_kb_toggle_bookmark (guint key_id)
   }
 }
 
+static void
+on_kb_load_current_file (guint key_id)
+{
+  gwh_browser_set_uri_from_document (GWH_BROWSER (G_browser),
+                                     document_get_current ());
+}
+
 
 static gchar *
 get_config_filename (void)
@@ -460,6 +467,9 @@ plugin_init (GeanyData *data)
   keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_TOGGLE_BOOKMARK,
                         on_kb_toggle_bookmark, 0, 0, "toggle_bookmark",
                         _("Toggle bookmark for the current website"), NULL);
+  keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_LOAD_CURRENT_FILE,
+                        on_kb_load_current_file, 0, 0, "load_current_file",
+                        _("Load the current file in the web view"), NULL);
 }
 
 void

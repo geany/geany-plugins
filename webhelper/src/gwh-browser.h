@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include <webkit2/webkit2.h>
 
+#include <document.h>
+
 G_BEGIN_DECLS
 
 
@@ -68,6 +70,9 @@ GtkWidget      *gwh_browser_new                           (void);
 G_GNUC_INTERNAL
 void            gwh_browser_set_uri                       (GwhBrowser  *self,
                                                            const gchar *uri);
+G_GNUC_INTERNAL
+gboolean        gwh_browser_set_uri_from_document         (GwhBrowser    *self,
+                                                           GeanyDocument *doc);
 G_GNUC_INTERNAL
 const gchar    *gwh_browser_get_uri                       (GwhBrowser *self);
 G_GNUC_INTERNAL
