@@ -208,7 +208,7 @@ get_env_for_tag (GgdFileType   *ft,
       CtplValue    *v;
       GList        *tmp = children;
       
-      if (el->type & setting->matches) {
+      if (type_name && el->type & setting->matches) {
         v = g_hash_table_lookup (vars, type_name);
         if (! v) {
           v = ctpl_value_new_array (CTPL_VTYPE_STRING, 0, NULL);
