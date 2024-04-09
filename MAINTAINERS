@@ -61,6 +61,13 @@ M: Pavel Roschin <rpg89(at)post(dot)ru>
 W: http://plugins.geany.org/defineformat.html
 S: Maintained
 
+externaltools
+P: George Katevenis <george_kate(at)hotmail(dot)com>
+g: @gkatev
+M: George Katevenis <george_kate(at)hotmail(dot)com>
+W: http://plugins.geany.org/externaltools.html
+S: Maintained
+
 geanyctags
 P: Jiří Techet <techet@gmail.com>
 g: @techee

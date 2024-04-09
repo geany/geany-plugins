@@ -37,6 +37,10 @@ if ENABLE_DEFINEFORMAT
 SUBDIRS += defineformat
 endif
 
+if ENABLE_EXTERNALTOOLS
+SUBDIRS += externaltools
+endif
+
 if ENABLE_GEANYCTAGS
 SUBDIRS += geanyctags
 endif
