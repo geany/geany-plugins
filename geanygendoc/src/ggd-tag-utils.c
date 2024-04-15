@@ -255,6 +255,7 @@ static const struct {
   { tm_tag_field_t,           "field"     },
   { tm_tag_function_t,        "function"  },
   { tm_tag_interface_t,       "interface" },
+  { tm_tag_local_var_t,       "local"     },
   { tm_tag_member_t,          "member"    },
   { tm_tag_method_t,          "method"    },
   { tm_tag_namespace_t,       "namespace" },
