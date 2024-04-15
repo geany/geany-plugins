@@ -54,7 +54,7 @@ void cmd_goto_up(CmdContext *c, CmdParams *p)
 	 * we want to keep - perform jump to previous/following line and add
 	 * one final SCI_LINEUP/SCI_LINEDOWN which recovers SCI_CHOOSECARETX for us. */
 	one_above = p->line - p->num - 1;
-	if (one_above >= 0)
+	if (one_above >= 0 && SSM(p->sci, SCI_GETLINEVISIBLE, one_above, 0))
 	{
 		/* Every case except for the first line - go one line above and perform
 		 * SCI_LINEDOWN. This ensures that even with wrapping on, we get the
