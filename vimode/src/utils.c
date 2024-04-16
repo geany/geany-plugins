@@ -210,6 +210,7 @@ gint get_line_number_rel(ScintillaObject *sci, gint shift)
 	return new_line;
 }
 
+
 void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll)
 {
 	gint line_end_pos = SSM(sci, SCI_GETLINEENDPOSITION, line, 0);
