@@ -117,8 +117,6 @@ lo_init_prefs(GeanyPlugin *plugin)
 	lo_info->use_collation_compare = utils_get_setting_boolean(config,
 		"general", "use_collation_compare", FALSE);
 
-	/* printf("VALUE: %d\n", lo_info->use_collation_compare); */
-
 	g_key_file_free(config);
 }
 
