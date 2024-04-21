@@ -109,6 +109,10 @@ if ENABLE_LIPSUM
 SUBDIRS += lipsum
 endif
 
+if ENABLE_LSP
+SUBDIRS += lsp
+endif
+
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
