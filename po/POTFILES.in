@@ -178,6 +178,17 @@ lineoperations/src/lo_prefs.c
 # lipsum
 lipsum/src/lipsum.c
 
+# LSP
+lsp/src/json-glib/json-gobject.c
+lsp/src/json-glib/json-gvariant.c
+lsp/src/json-glib/json-parser.c
+lsp/src/json-glib/json-path.c
+lsp/src/json-glib/json-reader.c
+lsp/src/lsp-code-lens.c
+lsp/src/lsp-goto-anywhere.c
+lsp/src/lsp-main.c
+lsp/src/lsp-rename.c
+
 # Markdown
 markdown/src/conf.c
 markdown/src/plugin.c
