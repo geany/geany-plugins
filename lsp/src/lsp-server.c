@@ -789,6 +789,10 @@ static gboolean is_lsp_valid_for_doc(LspServerConfig *cfg, GeanyDocument *doc)
 }
 
 
+#if ! GLIB_CHECK_VERSION(2, 70, 0)
+#define g_pattern_spec_match_string g_pattern_match_string
+#endif
+
 GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
 {
 	LspServer *srv;
