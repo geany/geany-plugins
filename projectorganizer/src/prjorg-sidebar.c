@@ -138,7 +138,7 @@ static gint show_dialog_find_file(gchar *utf8_path, gchar **pattern, gboolean *c
 		size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
 		label = gtk_label_new(_("Search for:"));
-		gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+		gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 		gtk_size_group_add_widget(size_group, label);
 		s_fif_dialog.combo = gtk_combo_box_text_new_with_entry();
 		entry = gtk_bin_get_child(GTK_BIN(s_fif_dialog.combo));
@@ -147,29 +147,29 @@ static gint show_dialog_find_file(gchar *utf8_path, gchar **pattern, gboolean *c
 		ui_entry_add_clear_icon(GTK_ENTRY(entry));
 		gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 
-		ebox = gtk_hbox_new(FALSE, 6);
+		ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 		gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(ebox), s_fif_dialog.combo, TRUE, TRUE, 0);
 
 		gtk_box_pack_start(GTK_BOX(vbox), ebox, TRUE, FALSE, 0);
 
 		label = gtk_label_new(_("Search inside:"));
-		gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+		gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 		gtk_size_group_add_widget(size_group, label);
 		s_fif_dialog.dir_label = gtk_label_new("");
-		gtk_misc_set_alignment(GTK_MISC(s_fif_dialog.dir_label), 0, 0.5);
+		gtk_label_set_xalign(GTK_LABEL(s_fif_dialog.dir_label), 0.0);
 
-		ebox = gtk_hbox_new(FALSE, 6);
+		ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 		gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(ebox), s_fif_dialog.dir_label, TRUE, TRUE, 0);
 
 		gtk_box_pack_start(GTK_BOX(vbox), ebox, TRUE, FALSE, 0);
 
 		s_fif_dialog.case_sensitive = gtk_check_button_new_with_mnemonic(_("C_ase sensitive"));
-		gtk_button_set_focus_on_click(GTK_BUTTON(s_fif_dialog.case_sensitive), FALSE);
+		gtk_widget_set_focus_on_click(s_fif_dialog.case_sensitive, FALSE);
 
 		s_fif_dialog.full_path = gtk_check_button_new_with_mnemonic(_("Search in full path"));
-		gtk_button_set_focus_on_click(GTK_BUTTON(s_fif_dialog.full_path), FALSE);
+		gtk_widget_set_focus_on_click(s_fif_dialog.full_path, FALSE);
 
 		gtk_box_pack_start(GTK_BOX(vbox), s_fif_dialog.case_sensitive, TRUE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(vbox), s_fif_dialog.full_path, TRUE, FALSE, 0);
@@ -346,7 +346,7 @@ static gchar *get_fallback_dir_of_selection(void)
 		{
 			locale_path = g_path_get_dirname(doc->real_path);
 
-			if (locale_path && locale_path == '.')
+			if (locale_path && *locale_path == '.')
 			{
 				g_free(locale_path);
 				locale_path = NULL;
@@ -382,7 +382,8 @@ void on_open_file_manager(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gp
 
 	if (locale_path)
 	{
-		gchar *command, *open_command;
+		const gchar *open_command;
+		gchar *command;
 
 		open_command = PRJORG_COMMAND_OPEN;
 		command = g_strconcat (open_command, " \"", locale_path, "\"", NULL);
@@ -726,7 +727,7 @@ static void create_dialog_find_tag(void)
 	size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
 	label = gtk_label_new(_("Search for:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 	gtk_size_group_add_widget(size_group, label);
 
 	s_ft_dialog.combo = gtk_combo_box_text_new_with_entry();
@@ -738,13 +739,13 @@ static void create_dialog_find_tag(void)
 	ui_entry_add_clear_icon(GTK_ENTRY(entry));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 
-	ebox = gtk_hbox_new(FALSE, 6);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(ebox), s_ft_dialog.combo, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), ebox, TRUE, FALSE, 0);
 
 	label = gtk_label_new(_("Match type:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 	gtk_size_group_add_widget(size_group, label);
 
 	s_ft_dialog.combo_match = gtk_combo_box_text_new();
@@ -754,28 +755,28 @@ static void create_dialog_find_tag(void)
 	gtk_combo_box_set_active(GTK_COMBO_BOX(s_ft_dialog.combo_match), 1);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), s_ft_dialog.combo_match);
 
-	ebox = gtk_hbox_new(FALSE, 6);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(ebox), s_ft_dialog.combo_match, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), ebox, TRUE, FALSE, 0);
 
 	label = gtk_label_new(_("Search inside:"));
-	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 	gtk_size_group_add_widget(size_group, label);
 	s_ft_dialog.dir_label = gtk_label_new("");
-	gtk_misc_set_alignment(GTK_MISC(s_ft_dialog.dir_label), 0, 0.5);
+	gtk_label_set_xalign(GTK_LABEL(s_ft_dialog.dir_label), 0.0);
 
-	ebox = gtk_hbox_new(FALSE, 6);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(ebox), s_ft_dialog.dir_label, TRUE, TRUE, 0);
 
 	gtk_box_pack_start(GTK_BOX(vbox), ebox, TRUE, FALSE, 0);
 
 	s_ft_dialog.case_sensitive = gtk_check_button_new_with_mnemonic(_("C_ase sensitive"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(s_ft_dialog.case_sensitive), FALSE);
+	gtk_widget_set_focus_on_click(s_ft_dialog.case_sensitive, FALSE);
 
 	s_ft_dialog.declaration = gtk_check_button_new_with_mnemonic(_("_Declaration"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(s_ft_dialog.declaration), FALSE);
+	gtk_widget_set_focus_on_click(s_ft_dialog.declaration, FALSE);
 
 	g_object_unref(G_OBJECT(size_group));   /* auto destroy the size group */
 
@@ -1085,8 +1086,7 @@ static gboolean on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButt
 
 		gtk_widget_set_sensitive(s_popup_menu.delete, delete_enabled);
 
-		gtk_menu_popup(GTK_MENU(s_popup_menu.widget), NULL, NULL, NULL, NULL,
-						event->button, event->time);
+		gtk_menu_popup_at_pointer(GTK_MENU(s_popup_menu.widget), (GdkEvent *)event);
 		return TRUE;
 	}
 
@@ -1207,7 +1207,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 					icon = NULL;
 				}
 				else
-					gtk_icon_info_free(icon_info);
+					g_object_unref(icon_info);
 			}
 			g_free(content_type);
 		}
@@ -1562,7 +1562,7 @@ gchar **prjorg_sidebar_get_expanded_paths(void)
 		(GtkTreeViewMappingFunc)on_map_expanded, expanded_paths);
 	g_ptr_array_add(expanded_paths, NULL);
 
-	return g_ptr_array_free(expanded_paths, FALSE);
+	return (gchar **)g_ptr_array_free(expanded_paths, FALSE);
 }
 
 
@@ -1587,10 +1587,6 @@ void prjorg_sidebar_update_full(gboolean reload, gchar **expanded_paths)
 
 	if (reload)
 	{
-		GtkTreeSelection *treesel;
-		GtkTreeIter iter;
-		GtkTreeModel *model;
-
 		expand_data->expanded_paths = expanded_paths != NULL ? expanded_paths : prjorg_sidebar_get_expanded_paths();
 		expand_data->selected_path = get_selected_path();
 
@@ -1658,7 +1654,7 @@ void prjorg_sidebar_init(void)
 	PangoFontDescription *pfd;
 	GList *focus_chain = NULL;
 
-	s_file_view_vbox = gtk_vbox_new(FALSE, 0);
+	s_file_view_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
 	/**** toolbar ****/
 

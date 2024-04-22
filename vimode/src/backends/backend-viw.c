@@ -221,7 +221,7 @@ int main(int argc, char **argv)
 		open_file(argv[1]);
 
 	statusbar = gtk_statusbar_new();
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start(GTK_BOX(vbox), editor, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), statusbar, FALSE, FALSE, 0);
     gtk_container_add(GTK_CONTAINER(window), vbox);
