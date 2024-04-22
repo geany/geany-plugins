@@ -348,6 +348,8 @@ Known types
   A function.
 ``interface``
   An interface.
+``local``
+  A local variable.
 ``member``
   A member (of a structure for example).
 ``method``

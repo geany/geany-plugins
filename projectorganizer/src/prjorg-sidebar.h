@@ -19,6 +19,7 @@
 #ifndef __PRJORG_SIDEBAR_H__
 #define __PRJORG_SIDEBAR_H__
 
+#include <gtk/gtk.h>
 
 void prjorg_sidebar_init(void);
 void prjorg_sidebar_cleanup(void);
