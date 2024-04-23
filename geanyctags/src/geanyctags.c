@@ -395,6 +395,10 @@ static gboolean find_next(tagFile *tf, tagEntry *entry, MatchType match_type)
 	return ret;
 }
 
+#if ! GLIB_CHECK_VERSION(2, 70, 0)
+# define g_pattern_spec_match_string g_pattern_match_string
+#endif
+
 static gboolean filter_tag(tagEntry *entry, GPatternSpec *name, gboolean declaration, gboolean case_sensitive)
 {
 	gboolean filter = TRUE;
@@ -415,7 +419,7 @@ static gboolean filter_tag(tagEntry *entry, GPatternSpec *name, gboolean declara
 	else
 		entry_name = g_utf8_strdown(entry->name, -1);
 
-	filter = !g_pattern_match_string(name, entry_name);
+	filter = !g_pattern_spec_match_string(name, entry_name);
 
 	g_free(entry_name);
 
