@@ -121,7 +121,9 @@ static void shutdown_cb(GVariant *return_value, GError *error, gpointer user_dat
 	else
 	{
 		msgwin_status_add("Force terminating LSP server %s", srv->config.cmd);
+#ifndef G_OS_WIN32
 		g_subprocess_send_signal(srv->process, SIGTERM);
+#endif
 		//TODO: check if sleep can be added here and if g_subprocess_send_signal() is executed immediately
 		g_subprocess_force_exit(srv->process);
 	}
