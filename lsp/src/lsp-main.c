@@ -62,13 +62,16 @@ static gboolean session_opening;
 static GPtrArray *commands;
 
 
+#ifdef GEANY_LSP_COMBINED_PROJECT
+# define PLUGIN_LOCALEDIR GEANY_LOCALEDIR
+#else
+# define PLUGIN_LOCALEDIR LOCALEDIR
+#endif
+
+
 PLUGIN_VERSION_CHECK(246)  //TODO
 PLUGIN_SET_TRANSLATABLE_INFO(
-#ifdef GEANY_LSP_COMBINED_PROJECT
-	GEANY_LOCALEDIR,
-#else
-	LOCALEDIR,
-#endif
+	PLUGIN_LOCALEDIR,
 	GETTEXT_PACKAGE,
 	_("LSP Client"),
 	_("Language server protocol client for Geany"),
