@@ -80,7 +80,7 @@ gboolean patterns_match(GSList *patterns, const gchar *str)
 	foreach_slist (elem, patterns)
 	{
 		GPatternSpec *pattern = elem->data;
-		if (g_pattern_match_string(pattern, str))
+		if (g_pattern_spec_match_string(pattern, str))
 			return TRUE;
 	}
 	return FALSE;
@@ -269,7 +269,7 @@ gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList 
 		full_name = elem->data;
 		gchar *base_name = g_path_get_basename(full_name);
 
-		if (g_pattern_match_string(pattern, base_name))
+		if (g_pattern_spec_match_string(pattern, base_name))
 		{
 			if ((is_header && patterns_match(source_patterns, base_name)) ||
 				(!is_header && patterns_match(header_patterns, base_name)))
