@@ -60,6 +60,8 @@ static gboolean check_on_startup = FALSE;
 /* Configuration file */
 static gchar *config_file = NULL;
 
+static SoupSession *soup_session = NULL;
+
 
 static struct
 {
@@ -79,23 +81,23 @@ version_struct;
 
 static void update_check(gint type)
 {
-    SoupSession *soup;
     SoupMessage *msg;
     gchar *user_agent = g_strconcat("Updatechecker ", VERSION, " at Geany ",
                                      GEANY_VERSION, NULL);
 
     g_message("Checking for updates (querying URL \"%s\")", UPDATE_CHECK_URL);
-    soup = soup_session_new_with_options(
-            "user-agent", user_agent,
-            "timeout", 10,
-            NULL);
+    if (! soup_session)
+        soup_session = soup_session_new_with_options(
+                "user-agent", user_agent,
+                "timeout", 10,
+                NULL);
 
     g_free(user_agent);
 
     msg = soup_message_new ("GET", UPDATE_CHECK_URL);
     g_object_set_data(G_OBJECT(msg), UPDATECHECKER_TYPE_KEY, GINT_TO_POINTER(type));
 
-    soup_session_send_and_read_async(soup, msg, G_PRIORITY_DEFAULT, NULL,
+    soup_session_send_and_read_async(soup_session, msg, G_PRIORITY_DEFAULT, NULL,
                                      update_check_result_cb, msg);
 }
 
@@ -237,6 +239,8 @@ static void update_check_result_cb(GObject *session,
         }
         g_free(remote_version);
     }
+    else if (g_error_matches(err, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        ; /* nothing to do */
     else
     {
         gchar *error_message = g_strdup_printf(
@@ -368,6 +372,11 @@ void plugin_init(GeanyData *data)
 
 void plugin_cleanup(void)
 {
+    if (soup_session)
+    {
+        soup_session_abort(soup_session);
+        g_clear_object(&soup_session);
+    }
     gtk_widget_destroy(main_menu_item);
     g_free(config_file);
 }
