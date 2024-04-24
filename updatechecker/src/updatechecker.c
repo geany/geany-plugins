@@ -316,7 +316,7 @@ GtkWidget *
 plugin_configure(GtkDialog * dialog)
 {
     GtkWidget   *vbox;
-    vbox = gtk_vbox_new(FALSE, 6);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 
     config_widgets.run_on_startup = gtk_check_button_new_with_label(
         _("Run updatecheck on startup"));
