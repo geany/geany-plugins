@@ -244,7 +244,7 @@ static void update_check_result_cb(GObject *session,
     else
     {
         gchar *error_message = g_strdup_printf(
-            _("Unable to perform version check.\nError code: %d \nError message: »%s«"),
+            _("Unable to perform version check.\nError code: %d \nError message: %s"),
             soup_message_get_status(msg),
             err ? err->message : soup_message_get_reason_phrase(msg));
         if (type == UPDATECHECK_MANUAL)
