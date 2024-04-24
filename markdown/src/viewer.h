@@ -23,11 +23,7 @@
 #define MARKDOWN_VIEWER_H 1
 
 #include <gtk/gtk.h>
-#ifdef MARKDOWN_WEBKIT2
-# include <webkit2/webkit2.h>
-#else
-# include <webkit/webkitwebview.h>
-#endif
+#include <webkit2/webkit2.h>
 
 G_BEGIN_DECLS
 
