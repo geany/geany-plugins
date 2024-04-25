@@ -465,6 +465,7 @@ void excmd_perform(CmdContext *ctx, const gchar *cmd)
 	{
 		case ':':
 			perform_simple_ex_cmd(ctx, cmd + 1);
+			ensure_current_line_expanded(ctx->sci);
 			break;
 		case '/':
 		case '?':
@@ -483,6 +484,7 @@ void excmd_perform(CmdContext *ctx, const gchar *cmd)
 			pos = perform_search(ctx->sci, ctx->search_text, ctx->num, FALSE);
 			if (pos >= 0)
 				SET_POS(ctx->sci, pos, TRUE);
+			ensure_current_line_expanded(ctx->sci);
 			break;
 		}
 	}

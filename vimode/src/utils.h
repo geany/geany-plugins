@@ -32,5 +32,6 @@ void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint 
 	const gchar *flag_override);
 
 gint get_line_number_rel(ScintillaObject *sci, gint shift);
+void ensure_current_line_expanded(ScintillaObject *sci);
 
 #endif
