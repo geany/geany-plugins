@@ -35,7 +35,7 @@ struct _GwhSettingsPrivate
 };
 
 
-G_DEFINE_TYPE (GwhSettings, gwh_settings, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_PRIVATE (GwhSettings, gwh_settings, G_TYPE_OBJECT)
 
 
 static void
@@ -124,15 +124,12 @@ gwh_settings_class_init (GwhSettingsClass *klass)
   object_class->finalize      = gwh_settings_finalize;
   object_class->get_property  = gwh_settings_get_property;
   object_class->set_property  = gwh_settings_set_property;
-  
-  g_type_class_add_private (klass, sizeof (GwhSettingsPrivate));
 }
 
 static void
 gwh_settings_init (GwhSettings *self)
 {
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GWH_TYPE_SETTINGS,
-                                            GwhSettingsPrivate);
+  self->priv = gwh_settings_get_instance_private (self);
   self->priv->prop_array = g_ptr_array_new ();
 }
 

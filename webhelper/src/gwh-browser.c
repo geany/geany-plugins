@@ -78,7 +78,7 @@ static const gdouble zoom_in_factor = 1.2;
 static const gdouble zoom_out_factor = 1.0 / 1.2;
 
 
-G_DEFINE_TYPE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX)
+G_DEFINE_TYPE_WITH_PRIVATE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX)
 
 
 static void
@@ -685,8 +685,6 @@ gwh_browser_class_init (GwhBrowserClass *klass)
                                                         "The browser's toolbar",
                                                         GTK_TYPE_TOOLBAR,
                                                         G_PARAM_READABLE));
-  
-  g_type_class_add_private (klass, sizeof (GwhBrowserPrivate));
 }
 
 /* a GtkEntryCompletionMatchFunc matching anywhere in the haystack */
@@ -893,8 +891,7 @@ gwh_browser_init (GwhBrowser *self)
   WebKitWebContext   *wkcontext;
   gboolean            inspector_detached;
   
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GWH_TYPE_BROWSER,
-                                            GwhBrowserPrivate);
+  self->priv = gwh_browser_get_instance_private (self);
   
   self->priv->default_icon = NULL;
   /* web view need to be created first because we use it in create_toolbar() */
