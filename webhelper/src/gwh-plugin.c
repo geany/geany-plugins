@@ -532,11 +532,11 @@ plugin_configure (GtkDialog *dialog)
   cdialog = g_malloc (sizeof *cdialog);
   
   /* Top-level box, containing the different frames */
-  box1 = gtk_vbox_new (FALSE, 12);
+  box1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
   
   /* Browser */
   gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Browser"), &alignment), FALSE, FALSE, 0);
-  box = gtk_vbox_new (FALSE, 0);
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* browser position */
   cdialog->browser_position = gwh_settings_widget_new (G_settings, "browser-position");
@@ -548,7 +548,7 @@ plugin_configure (GtkDialog *dialog)
   
   /* Windows */
   gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Windows"), &alignment), FALSE, FALSE, 0);
-  box = gtk_vbox_new (FALSE, 0);
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* skip taskbar */
   cdialog->secondary_windows_skip_taskbar = gwh_settings_widget_new (G_settings,

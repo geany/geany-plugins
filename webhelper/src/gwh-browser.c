@@ -78,7 +78,7 @@ static const gdouble zoom_in_factor = 1.2;
 static const gdouble zoom_out_factor = 1.0 / 1.2;
 
 
-G_DEFINE_TYPE_WITH_PRIVATE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX)
+G_DEFINE_TYPE_WITH_PRIVATE (GwhBrowser, gwh_browser, GTK_TYPE_BOX)
 
 
 static void
@@ -892,6 +892,8 @@ gwh_browser_init (GwhBrowser *self)
   gboolean            inspector_detached;
   
   self->priv = gwh_browser_get_instance_private (self);
+  
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   
   self->priv->default_icon = NULL;
   /* web view need to be created first because we use it in create_toolbar() */
