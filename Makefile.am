@@ -176,3 +176,7 @@ endif
 if ENABLE_XMLSNIPPETS
 SUBDIRS += xmlsnippets
 endif
+
+if ENABLE_INCDEC
+SUBDIRS += incdec
+endif
