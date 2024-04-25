@@ -186,7 +186,7 @@ gwh_settings_install_property (GwhSettings *self,
         break;
     
     HANDLE_BASIC_TYPE (BOOLEAN, Boolean, boolean)
-    HANDLE_BASIC_TYPE (CHAR,    Char,    char)
+    HANDLE_BASIC_TYPE (CHAR,    Char,    schar)
     HANDLE_BASIC_TYPE (UCHAR,   UChar,   uchar)
     HANDLE_BASIC_TYPE (INT,     Int,     int)
     HANDLE_BASIC_TYPE (UINT,    UInt,    uint)
