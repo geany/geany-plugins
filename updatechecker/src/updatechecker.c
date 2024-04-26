@@ -20,8 +20,8 @@
 
 /* A little plugin for regular checks for updates of Geany */
 
-#include "libsoup/soup.h"
-#include "stdlib.h"
+#include <stdlib.h>
+#include <gio/gio.h>
 
 #ifdef HAVE_CONFIG_H
 	#include "config.h" /* for the gettext domain */
@@ -49,18 +49,16 @@ enum {
 
 #define UPDATE_CHECK_URL "https://geany.org/service/version/"
 
-#define UPDATECHECKER_TYPE_KEY "updatechecker-type"
-
 static GtkWidget *main_menu_item = NULL;
-static void update_check_result_cb(GObject *session,
-    GAsyncResult *result, gpointer user_data);
+static void update_check_result(gint type, const gchar *remote_version,
+    GError *err);
 
 static gboolean check_on_startup = FALSE;
 
 /* Configuration file */
 static gchar *config_file = NULL;
 
-static SoupSession *soup_session = NULL;
+static GCancellable *cancellable = NULL;
 
 
 static struct
@@ -79,28 +77,86 @@ typedef struct
 version_struct;
 
 
-static void update_check(gint type)
+typedef struct {
+    GFile *file;
+    GFileInputStream *stream;
+    gchar buffer[32];
+    int update_type;
+} ReadData;
+
+
+static void read_data_free(ReadData *data)
 {
-    SoupMessage *msg;
-    gchar *user_agent = g_strconcat("Updatechecker ", VERSION, " at Geany ",
-                                     GEANY_VERSION, NULL);
-
-    g_message("Checking for updates (querying URL \"%s\")", UPDATE_CHECK_URL);
-    if (! soup_session)
-        soup_session = soup_session_new_with_options(
-                "user-agent", user_agent,
-                "timeout", 10,
-                NULL);
-
-    g_free(user_agent);
-
-    msg = soup_message_new ("GET", UPDATE_CHECK_URL);
-    g_object_set_data(G_OBJECT(msg), UPDATECHECKER_TYPE_KEY, GINT_TO_POINTER(type));
-
-    soup_session_send_and_read_async(soup_session, msg, G_PRIORITY_DEFAULT, NULL,
-                                     update_check_result_cb, msg);
+    g_clear_object(&data->file);
+    g_clear_object(&data->stream);
+    g_free(data);
 }
 
+
+static void stream_read_all_ready(GObject *stream, GAsyncResult *result, gpointer user_data)
+{
+    ReadData *data = user_data;
+    gsize bytes_read;
+    GError *err = NULL;
+
+    if (! g_input_stream_read_all_finish(G_INPUT_STREAM(stream), result, &bytes_read, &err))
+    {
+        update_check_result(data->update_type, NULL, err);
+        g_error_free(err);
+    }
+    else
+    {
+        g_warn_if_fail(bytes_read < G_N_ELEMENTS(data->buffer));
+        data->buffer[MIN(bytes_read, G_N_ELEMENTS(data->buffer) - 1)] = 0;
+        update_check_result(data->update_type, data->buffer, err);
+    }
+    read_data_free(data);
+}
+
+
+static void file_read_ready(GObject *file, GAsyncResult *result, gpointer user_data)
+{
+    ReadData *data = user_data;
+    GError *err = NULL;
+
+    data->stream = g_file_read_finish(G_FILE(file), result, &err);
+    if (! data->stream)
+    {
+        update_check_result(data->update_type, NULL, err);
+        g_error_free(err);
+        read_data_free(data);
+    }
+    else
+    {
+        g_input_stream_read_all_async(G_INPUT_STREAM(data->stream),
+                                      data->buffer,
+                                      G_N_ELEMENTS(data->buffer) - 1,
+                                      G_PRIORITY_DEFAULT, cancellable,
+                                      stream_read_all_ready, data);
+    }
+}
+
+
+static void update_check(gint type)
+{
+    ReadData *data;
+
+    g_message("Checking for updates (querying URL \"%s\")", UPDATE_CHECK_URL);
+
+    /* cancel any current update check */
+    if (cancellable)
+    {
+        g_cancellable_cancel(cancellable);
+        g_object_unref(cancellable);
+    }
+    cancellable = g_cancellable_new();
+
+    data = g_malloc0(sizeof *data);
+    data->update_type = type;
+    data->file = g_file_new_for_uri(UPDATE_CHECK_URL);
+    g_file_read_async (data->file, G_PRIORITY_DEFAULT, cancellable,
+                       file_read_ready, data);
+}
 
 
 static void
@@ -191,30 +247,27 @@ version_compare(const gchar *current_version)
 }
 
 
-static gchar *bytes_to_string(GBytes *bytes)
+static void update_check_result(gint type, const gchar *remote_version, GError *err)
 {
-    gsize bytes_size = g_bytes_get_size(bytes);
-    gchar *str = g_malloc(bytes_size + 1);
-    memcpy(str, g_bytes_get_data(bytes, NULL), bytes_size);
-    str[bytes_size] = 0;
-    return str;
-}
-
-
-static void update_check_result_cb(GObject *session,
-    GAsyncResult *result, gpointer user_data)
-{
-    SoupMessage *msg = user_data;
-    gpointer type_ptr = g_object_get_data(G_OBJECT(msg), UPDATECHECKER_TYPE_KEY);
-    gint type = GPOINTER_TO_INT(type_ptr);
-    GError *err = NULL;
-
-    GBytes *bytes = soup_session_send_and_read_finish(SOUP_SESSION(session), result, &err);
-
-    /* Checking whether we did get a valid (200) result */
-    if (bytes && soup_message_get_status(msg) == 200)
+    if (g_error_matches(err, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+        ; /* nothing to do */
+    else if (err)
     {
-        gchar *remote_version = bytes_to_string(bytes);
+        gchar *error_message = g_strdup_printf(
+            _("Unable to perform version check: %s"), err->message);
+        if (type == UPDATECHECK_MANUAL)
+        {
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", error_message);
+        }
+        else
+        {
+            msgwin_status_add("%s", error_message);
+        }
+        g_warning("%s", error_message);
+        g_free(error_message);
+    }
+    else
+    {
         if (version_compare(remote_version) == TRUE)
         {
             gchar *update_msg = g_strdup_printf(
@@ -237,33 +290,7 @@ static void update_check_result_cb(GObject *session,
             }
             g_message("%s", no_update_msg);
         }
-        g_free(remote_version);
     }
-    else if (g_error_matches(err, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-        ; /* nothing to do */
-    else
-    {
-        gchar *error_message = g_strdup_printf(
-            _("Unable to perform version check.\nError code: %d \nError message: %s"),
-            soup_message_get_status(msg),
-            err ? err->message : soup_message_get_reason_phrase(msg));
-        if (type == UPDATECHECK_MANUAL)
-        {
-            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", error_message);
-        }
-        else
-        {
-            msgwin_status_add("%s", error_message);
-        }
-        g_warning(
-            "Connection error: Code: %d; Message: %s",
-            soup_message_get_status(msg),
-            err ? err->message : soup_message_get_reason_phrase(msg));
-        g_free(error_message);
-    }
-
-    g_clear_error(&err);
-    g_bytes_unref(bytes);
 }
 
 static void manual_check_activated_cb(GtkMenuItem *menuitem, gpointer gdata)
@@ -372,10 +399,10 @@ void plugin_init(GeanyData *data)
 
 void plugin_cleanup(void)
 {
-    if (soup_session)
+    if (cancellable)
     {
-        soup_session_abort(soup_session);
-        g_clear_object(&soup_session);
+        g_cancellable_cancel(cancellable);
+        g_clear_object(&cancellable);
     }
     gtk_widget_destroy(main_menu_item);
     g_free(config_file);

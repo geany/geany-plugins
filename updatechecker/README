@@ -38,11 +38,11 @@ plugins. This has potential to plague you with Geany's new version.
 Requirements
 ------------
 
-Updatechecker depends on a recent version of Geany (0.20 or above)
+Updatechecker depends on a recent version of Geany (1.25 or above)
 as well as on:
 
 * GTK >= 3.0
-* libsoup 3
+* GIO >= 2.44
 
 To compile it on your own you will need the devel packages for these.
 

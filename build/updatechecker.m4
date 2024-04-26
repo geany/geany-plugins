@@ -3,7 +3,7 @@ AC_DEFUN([GP_CHECK_UPDATECHECKER],
     GP_ARG_DISABLE([Updatechecker], [auto])
 
     GP_CHECK_PLUGIN_DEPS([Updatechecker], UPDATECHECKER,
-                         [libsoup-3.0])
+                         [gio-2.0 >= 2.44])
 
     GP_COMMIT_PLUGIN_STATUS([Updatechecker])
 
