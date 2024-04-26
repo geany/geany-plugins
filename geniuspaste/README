@@ -35,7 +35,7 @@ configuration shipped with the plugin, please report the issue to:
 
 Requirements
 ------------
-	* GTK+ >= 2.12
+	* GTK+ >= 3.16
 	* libsoup 3.0
 
 Installation

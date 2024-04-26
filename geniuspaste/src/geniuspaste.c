@@ -936,13 +936,13 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     gint i;
     GtkWidget *label, *vbox, *author_label;
 
-    vbox = gtk_vbox_new(FALSE, 6);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 
     label = gtk_label_new(_("Select a pastebin:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+    gtk_label_set_xalign(GTK_LABEL(label), 0);
 
     author_label = gtk_label_new(_("Enter the author name:"));
-    gtk_misc_set_alignment(GTK_MISC(author_label), 0, 0.5);
+    gtk_label_set_xalign(GTK_LABEL(author_label), 0);
 
     widgets.author_entry = gtk_entry_new();
 
