@@ -121,7 +121,8 @@ void glatex_insert_environment(const gchar *environment, gint type)
 					environment,
 					"}{}\n%cursor%\n\\end{",
 					environment,
-					"}");
+					"}",
+					NULL);
 			}
 			else /* We don't have a block-like environment */
 			{
@@ -130,9 +131,10 @@ void glatex_insert_environment(const gchar *environment, gint type)
 					tmpstring = g_strconcat(
 						"\\begin{",
 						environment,
-						"}\n\t\\item %cursor% \n\\end{",
+						"}\n\t\\item %cursor%\n\\end{",
 						environment,
-						"}");
+						"}",
+						NULL);
 				}
 				else
 				{
@@ -141,7 +143,8 @@ void glatex_insert_environment(const gchar *environment, gint type)
 						environment,
 						"}\n%cursor%\n\\end{",
 						environment,
-						"}");
+						"}",
+						NULL);
 				}
 			}
 			glatex_insert_snippet(tmpstring);
