@@ -300,6 +300,13 @@ on_kb_toggle_bookmark (guint key_id)
   }
 }
 
+static void
+on_kb_load_current_file (guint key_id)
+{
+  gwh_browser_set_uri_from_document (GWH_BROWSER (G_browser),
+                                     document_get_current ());
+}
+
 
 static gchar *
 get_config_filename (void)
@@ -417,11 +424,6 @@ plugin_init (GeanyData *data)
    * (g_quark_from_static_string() for example) so it's not safe to remove it */
   plugin_module_make_resident (geany_plugin);
   
-  /* webkit uses threads but don't initialize the thread system */
-  if (! g_thread_supported ()) {
-    g_thread_init (NULL);
-  }
-  
   load_config ();
   gwh_keybindings_init ();
   
@@ -460,6 +462,9 @@ plugin_init (GeanyData *data)
   keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_TOGGLE_BOOKMARK,
                         on_kb_toggle_bookmark, 0, 0, "toggle_bookmark",
                         _("Toggle bookmark for the current website"), NULL);
+  keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_LOAD_CURRENT_FILE,
+                        on_kb_load_current_file, 0, 0, "load_current_file",
+                        _("Load the current file in the web view"), NULL);
 }
 
 void
@@ -522,11 +527,11 @@ plugin_configure (GtkDialog *dialog)
   cdialog = g_malloc (sizeof *cdialog);
   
   /* Top-level box, containing the different frames */
-  box1 = gtk_vbox_new (FALSE, 12);
+  box1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
   
   /* Browser */
   gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Browser"), &alignment), FALSE, FALSE, 0);
-  box = gtk_vbox_new (FALSE, 0);
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* browser position */
   cdialog->browser_position = gwh_settings_widget_new (G_settings, "browser-position");
@@ -538,7 +543,7 @@ plugin_configure (GtkDialog *dialog)
   
   /* Windows */
   gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Windows"), &alignment), FALSE, FALSE, 0);
-  box = gtk_vbox_new (FALSE, 0);
+  box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* skip taskbar */
   cdialog->secondary_windows_skip_taskbar = gwh_settings_widget_new (G_settings,
