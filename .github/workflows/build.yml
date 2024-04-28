@@ -152,7 +152,7 @@ jobs:
           tar --strip-components=1 -xf cppcheck.tar.gz
           mkdir build
           cd build
-          cmake .. -DHAVE_RULES=ON -DUSE_MATCHCOMPILER=ON
+          cmake .. -DHAVE_RULES=On -DUSE_MATCHCOMPILER=On
           cmake --build .
 
       - name: Build Geany
