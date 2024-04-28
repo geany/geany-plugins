@@ -1,4 +1,29 @@
-Documentation has been moved into doc subfolder. There you you should
-find a PDF or HTML file shipped with sources of this plugin. If there
-is no documentation available there, please check
-https://plugins.geany.org/latex.html instead.
+About
+-----
+
+This plugin improves support of LaTeX on Geany.
+
+Features
+--------
+
+Some useful functions are provided:
+
+* Wizard to create new LaTeX documents in a fast and easy way
+  with a bunch of templates available
+
+* A front end for add labels ``\label{}`` and references ``\ref{}`` and 
+  ``\pageref{}`` with getting suggestion from aux file of document
+
+* Inserting special characters through menu
+
+* Help entering the right fields for BibTeX entries by
+  providing templates
+
+* Easy inserting format patterns like ``\texttt{}`` through menu
+
+* Support on inserting environments by offering an dialog and
+  recognising selections
+
+* Shortcuts for inserting ``\item`` and ``\newline``
+
+* Toolbar with often used format options
