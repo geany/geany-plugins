@@ -833,6 +833,8 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 			return FALSE;
 		}
 
+		g_free (contents);
+
 		if (g_key_file_has_key (kf, "General", "filetype", NULL)
 			&& g_key_file_has_key (kf, "General", "version", NULL))
 		{
@@ -854,6 +856,7 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 			g_set_error (error, 0, 0,
 						 _("File %s is not a valid workbench file!"),
 						 filename);
+			g_key_file_free (kf);
 			return FALSE;
 		}
 		workbench_set_filename(wb, filename);
@@ -964,7 +967,6 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 		}
 
 		g_key_file_free(kf);
-		g_free (contents);
 		success = TRUE;
 	}
 	else if (error != NULL)
