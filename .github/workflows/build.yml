@@ -170,15 +170,26 @@ jobs:
     name: Linux Meson Build
     runs-on: ubuntu-20.04
 
-    strategy:
-      fail-fast: false
-
     env:
-      CC: ccache gcc
-      CXX: ccache g++
+      CC:                       ccache gcc
+      CXX:                      ccache g++
+      CPPCHECK_CACHE_PATH:      ${{ github.workspace }}/.cppcheck_cache
+      GEANY_SOURCE_PATH:        ${{ github.workspace }}/.geany_source
+      GEANY_CACHE_PATH:         ${{ github.workspace }}/.geany_cache
+      GEANY_INSTALLATION_PATH:  ${{ github.workspace }}/.geany_cache/_geany_install
+      PKG_CONFIG_PATH:          ${{ github.workspace }}/.geany_cache/_geany_install/lib/pkgconfig:$PKG_CONFIG_PATH
+      LD_LIBRARY_PATH:          ${{ github.workspace }}/.geany_cache/_geany_install/lib:$LD_LIBRARY_PATH
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Geany-Plugins
+        uses: actions/checkout@v4
+
+      - name: Checkout Geany
+        uses: actions/checkout@v4
+        with:
+          repository: geany/geany
+          path: ${{ env.GEANY_SOURCE_PATH }}
+          token: ${{ github.token }}
 
       # create and use a timestamp for the cache key: GH Actions will never update a cache
       # only use an existing cache item or create a new one. To use an existing cache *and*
@@ -188,6 +199,15 @@ jobs:
         id: ccache_cache_timestamp
         run: echo "timestamp=$(date +%Y-%m-%d-%H-%M)" >> $GITHUB_OUTPUT
 
+      - name: Prepare Cppcheck Cache Key
+        id: prepare_cppcheck_cache_key
+        run: echo "cppcheck_tag=$(curl -s https://api.github.com/repos/danmar/cppcheck/releases/latest | jq .tag_name)" >> $GITHUB_OUTPUT
+
+      - name: Prepare Geany Cache Key
+        id: prepare_geany_cache_key
+        working-directory: ${{ env.GEANY_SOURCE_PATH }}
+        run: echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
       - name: Configure ccache
         uses: actions/cache@v4
         with:
@@ -195,9 +215,24 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-ccache-
 
+      - name: Configure Cppcheck Cache
+        id: cppcheck_cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CPPCHECK_CACHE_PATH }}
+          key: ${{ runner.os }}-${{ github.job }}-cppcheck-cache-${{ steps.prepare_cppcheck_cache_key.outputs.cppcheck_tag }}
+
+      - name: Configure Geany Cache
+        id: geany_cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.GEANY_CACHE_PATH }}
+          key: ${{ runner.os }}-${{ github.job }}-geany-cache-${{ steps.prepare_geany_cache_key.outputs.commit_hash }}
+
       - name: Show environment
-        run: env | sort
         if: ${{ env.DEBUG == '1' }}
+        run: |
+            env | sort
 
       - name: Install Dependencies
         run: |
@@ -217,7 +252,6 @@ jobs:
             # geany-plugins
             intltool
             check
-            cppcheck
             # debugger
             libvte-2.91-dev
             # geanygendoc
@@ -230,21 +264,35 @@ jobs:
             libgtkspell-dev
             libgtkspell3-3-dev
             # geaniuspaste/updatechecker
-            libsoup3.0-dev
+            libsoup2.4-dev
             # git-changebar
             libgit2-dev
             # markdown
             libmarkdown2-dev
             # markdown/webhelper
-            libwebkit2gtk-4.1-dev
+            libwebkit2gtk-4.0-dev
             # pretty-printer
             libxml2-dev
             # spellcheck
             libenchant-dev
+            # cppcheck
+            cmake
+            libpcre3-dev
           EOF
           grep -v '^[ ]*#' $RUNNER_TEMP/dependencies | xargs sudo apt-get install --assume-yes --no-install-recommends
 
-      - name: Configuration
+      - name: Build Geany
+        if: steps.geany_cache.outputs.cache-hit != 'true'
+        run: |
+          cd "${{ env.GEANY_SOURCE_PATH }}"
+          NOCONFIGURE=1 ./autogen.sh
+          mkdir _build
+          cd _build
+          { ../configure --prefix="${{ env.GEANY_INSTALLATION_PATH }}" || { cat config.log; exit 1; } ; }
+          make -j ${{ env.JOBS }}
+          make -j ${{ env.JOBS }} install
+
+      - name: Configure
         run: |
           meson _build
 
@@ -259,8 +307,8 @@ jobs:
       # distcheck not applicable, meson exports the source tree per git-archive
 
       - name: ccache statistics
-        run: ccache --show-stats
         if: ${{ env.DEBUG == '1' }}
+        run: ccache --show-stats
 
   mingw64:
     name: Mingw-w64 Build (Windows)
