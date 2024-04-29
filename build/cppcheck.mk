@@ -4,6 +4,7 @@ if HAVE_CPPCHECK
 check-cppcheck: $(srcdir)
 	$(CPPCHECK) \
 		-q --template=gcc --error-exitcode=2 \
+		--library=gtk \
 		--library=$(top_srcdir)/build/cppcheck-geany-plugins.cfg \
 		-I$(GEANY_INCLUDEDIR)/geany \
 		-UGEANY_PRIVATE \
