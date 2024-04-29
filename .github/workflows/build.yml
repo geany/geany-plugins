@@ -166,6 +166,102 @@ jobs:
         if: ${{ env.DEBUG == '1' }}
         run: ccache --show-stats
 
+  linux-meson:
+    name: Linux Meson Build
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+
+    env:
+      CC: ccache gcc
+      CXX: ccache g++
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # create and use a timestamp for the cache key: GH Actions will never update a cache
+      # only use an existing cache item or create a new one. To use an existing cache *and*
+      # push back the the updated cache after build, we use a always new cache key (to force
+      # the creation of the cache item at the end) in combination with "restore-keys" as fallback
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        run: echo "timestamp=$(date +%Y-%m-%d-%H-%M)" >> $GITHUB_OUTPUT
+
+      - name: Configure ccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-${{ github.job }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-ccache-
+
+      - name: Show environment
+        run: env | sort
+        if: ${{ env.DEBUG == '1' }}
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update --quiet --quiet
+          # write dependencies to a temporary file which is then fed to "apt-get install",
+          # so we can use comments in the dependency list
+          cat << EOF > $RUNNER_TEMP/dependencies
+            # general
+            ccache
+            libtool
+            libgtk-3-dev
+            meson
+            # geany
+            autopoint
+            gettext
+            python-docutils
+            # geany-plugins
+            intltool
+            check
+            cppcheck
+            # debugger
+            libvte-2.91-dev
+            # geanygendoc
+            libctpl-dev
+            # geanylua
+            liblua5.1-0-dev
+            # geanypg
+            libgpgme-dev
+            # geanyvc
+            libgtkspell-dev
+            libgtkspell3-3-dev
+            # geaniuspaste/updatechecker
+            libsoup3.0-dev
+            # git-changebar
+            libgit2-dev
+            # markdown
+            libmarkdown2-dev
+            # markdown/webhelper
+            libwebkit2gtk-4.1-dev
+            # pretty-printer
+            libxml2-dev
+            # spellcheck
+            libenchant-dev
+          EOF
+          grep -v '^[ ]*#' $RUNNER_TEMP/dependencies | xargs sudo apt-get install --assume-yes --no-install-recommends
+
+      - name: Configuration
+        run: |
+          meson _build
+
+      - name: Build
+        run: |
+          ninja -C _build
+
+      - name: Run Tests
+        run: |
+          ninja -C _build test
+
+      # distcheck not applicable, meson exports the source tree per git-archive
+
+      - name: ccache statistics
+        run: ccache --show-stats
+        if: ${{ env.DEBUG == '1' }}
+
   mingw64:
     name: Mingw-w64 Build (Windows)
     runs-on: ubuntu-20.04

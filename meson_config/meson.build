@@ -1,12 +1,12 @@
 
-# Datadir: /usr/share/geany-plugins
-plugin_datadir = get_option('datadir') / 'geany-plugins' / plugin_name
+docdir = get_option('datadir') / 'doc'
+project_datadir = get_option('datadir') / 'geany-plugins'
+project_libdir = get_option('libdir') / 'geany-plugins'
+project_docdir = docdir / 'geany-plugins'
 
-# Libdir: /usr/lib/geany-plugins
-plugin_libdir = get_option('libdir') / 'geany-plugins' / plugin_name
-
-# Docdir: /usr/share/doc/geany-plugins
-plugin_docdir = get_option('datadir') / 'doc' / 'geany-plugins' / plugin_name
+plugin_datadir = project_datadir / plugin_name
+plugin_libdir = project_libdir / plugin_name
+plugin_docdir = project_docdir / plugin_name
 
 plugin_path = get_option('libdir') / 'geany'
 
@@ -20,6 +20,7 @@ conf_data.set('geany_version', '2.0.0')
 
 conf_data.set('prefix', get_option('prefix'))
 conf_data.set('libdir', get_option('libdir'))
+conf_data.set('docdir', docdir)
 conf_data.set('localedir', get_option('localedir'))
 
 conf_data.set('plugin_datadir', plugin_datadir)
@@ -35,15 +36,4 @@ configure_file(
 config_dep = declare_dependency(
   include_directories: include_directories('.'),
   compile_args: ['-DHAVE_CONFIG_H'],
-)
-
-install_data(
-  sources: [
-    'AUTHORS',
-    'COPYING',
-    'ChangeLog',
-    'NEWS',
-    'README',
-  ],
-  install_dir: plugin_docdir,
 )

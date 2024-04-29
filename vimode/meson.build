@@ -40,7 +40,6 @@ library(
 
 install_data(
   sources: [
-    'AUTHORS',
     'COPYING',
     'ChangeLog',
     'NEWS',

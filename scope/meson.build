@@ -51,53 +51,25 @@ library(
 
 install_data(
   sources: [
-    'AUTHORS',
-    'COPYING',
-    'ChangeLog',
-    'NEWS',
-    'README',
-  ],
-  install_dir: plugin_docdir,
-)
-
-install_data(
-  sources: [
     'docs/codes.html',
     'docs/scope.html',
   ],
   install_dir: plugin_docdir / 'html',
 )
 
+install_subdir(
+  'data',
+  exclude_files: ['Makefile.am'],
+  install_dir: plugin_datadir,
+  strip_directory: true,
+)
+
 install_data(
   sources: [
-    'data/BreakPoint.png',
-    'data/BreakPoint22.png',
-    'data/Continue.png',
-    'data/Continue22.png',
-    'data/Continue24.png',
-    'data/Kill.png',
-    'data/Kill22.png',
-    'data/Kill24.png',
-    'data/Pause.png',
-    'data/Pause22.png',
-    'data/Pause24.png',
-    'data/RunToCursor.png',
-    'data/RunToCursor22.png',
-    'data/RunToCursor24.png',
-    'data/RunToMethod.png',
-    'data/RunToMethod22.png',
-    'data/RunToMethod24.png',
-    'data/StepInto.png',
-    'data/StepInto22.png',
-    'data/StepInto24.png',
-    'data/StepOut.png',
-    'data/StepOut22.png',
-    'data/StepOut24.png',
-    'data/StepOver.png',
-    'data/StepOver22.png',
-    'data/StepOver24.png',
-    'data/scope.glade',
-    'data/scope_gtk3.glade',
+    'COPYING',
+    'ChangeLog',
+    'NEWS',
+    'README',
   ],
-  install_dir: plugin_libdir,
+  install_dir: plugin_docdir,
 )

@@ -1,1 +1,1 @@
-../meson_config/meson.build
+../../meson_config/meson.build

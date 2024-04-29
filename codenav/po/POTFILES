@@ -1,0 +1,4 @@
+codenav/src/codenavigation.c
+codenav/src/goto_file.c
+codenav/src/switch_head_impl.c
+codenav/src/utils.c

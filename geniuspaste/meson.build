@@ -23,21 +23,15 @@ library(
   install_dir: plugin_path,
 )
 
-install_data(
-  sources: [
-    'data/codepad.org.conf',
-    'data/dpaste.de.conf',
-    'data/fpaste.org.conf',
-    'data/paste.debian.net.conf',
-    'data/pastebin.geany.org.conf',
-    'data/sprunge.us.conf',
-  ],
+install_subdir(
+  'data',
+  exclude_files: ['Makefile.am'],
   install_dir: plugin_datadir / 'pastebins',
+  strip_directory: true,
 )
 
 install_data(
   sources: [
-    'AUTHORS',
     'COPYING',
     'ChangeLog',
     'NEWS',

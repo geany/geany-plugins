@@ -1,0 +1,10 @@
+geanyvc/src/geanyvc.c
+geanyvc/src/geanyvc.h
+geanyvc/src/vc_bzr.c
+geanyvc/src/vc_cvs.c
+geanyvc/src/vc_fossil.c
+geanyvc/src/vc_git.c
+geanyvc/src/vc_hg.c
+geanyvc/src/vc_svk.c
+geanyvc/src/vc_svn.c
+geanyvc/src/utils.c

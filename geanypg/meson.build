@@ -41,7 +41,6 @@ install_data(
 
 install_data(
   sources: [
-    'AUTHORS',
     'COPYING',
     'ChangeLog',
     'NEWS',

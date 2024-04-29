@@ -1,0 +1,7 @@
+geanyprj/src/geanyprj.c
+geanyprj/src/geanyprj.h
+geanyprj/src/menu.c
+geanyprj/src/project.c
+geanyprj/src/sidebar.c
+geanyprj/src/utils.c
+geanyprj/src/xproject.c

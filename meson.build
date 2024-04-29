@@ -6,6 +6,9 @@ project(
   version : '2.0'
 )
 
+plugin_name = 'none'
+subdir('meson_config')
+
 install_data(
   sources: [
     'HACKING',
@@ -13,7 +16,7 @@ install_data(
     'NEWS',
     'README',
   ],
-  install_dir: get_option('geanylua') / 'geany-plugins',
+  install_dir: project_docdir,
 )
 
 geany_dep = dependency('geany')

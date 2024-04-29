@@ -12,6 +12,11 @@ subdir('meson_config')
 geany_dep = dependency('geany')
 lua_dep = dependency('lua51')
 
+glib_dep = declare_dependency(
+  dependencies: [dependency('glib-2.0'), dependency('gmodule-2.0')],
+  compile_args: ['-DHAVE_GLIB'],
+)
+
 libgeanylua = library(
   'libgeanylua',
   sources: [
@@ -25,7 +30,7 @@ libgeanylua = library(
     'gsdlg.c',
     'gsdlg_lua.c',
   ],
-  dependencies: [config_dep, geany_dep, lua_dep],
+  dependencies: [config_dep, geany_dep, glib_dep, lua_dep],
   name_prefix: '',
   install: true,
   install_dir: plugin_libdir,
@@ -40,53 +45,32 @@ library(
   sources: [
     'geanylua.c',
   ],
-  dependencies: [config_dep, geany_dep, libgeanylua_dep, lua_dep],
+  dependencies: [config_dep, geany_dep, glib_dep, libgeanylua_dep, lua_dep],
   name_prefix: '',
   install: true,
   install_dir: plugin_path,
 )
 
-
-install_data(
-  sources: [
-    'examples/dialogs/basic-dialogs.lua',
-    'examples/dialogs/complex-dialog.lua',
-    'examples/edit/calculator.lua',
-    'examples/edit/lua-replace.lua',
-    'examples/edit/proper-case.lua',
-    'examples/edit/reverse.lua',
-    'examples/edit/right-trim.lua',
-    'examples/edit/select-block.lua',
-    'examples/info/about.lua',
-    'examples/info/app-information.lua',
-    'examples/info/file-information.lua',
-    'examples/info/list-open-files.lua',
-    'examples/info/show-filename.lua',
-    'examples/scripting/help.lua',
-    'examples/scripting/open-script.lua',
-    'examples/scripting/rebuild-menu.lua',
-    'examples/scripting/show-examples.lua',
-    'examples/work/01.edit-test-script.lua',
-    'examples/work/02.run-test-script.lua',
-    'examples/work/03.install-test-script.lua',
-  ],
+install_subdir(
+  'examples',
+  exclude_files: ['Makefile.am'],
   install_dir: plugin_datadir,
+  strip_directory: true,
+)
+
+install_subdir(
+  'docs',
+  exclude_files: ['Makefile.am'],
+  install_dir: plugin_docdir,
+  strip_directory: true,
 )
 
 install_data(
   sources: [
-    'AUTHORS',
     'COPYING',
     'ChangeLog',
     'NEWS',
     'README',
-    'docs/geanylua-index.html',
-    'docs/geanylua-input.html',
-    'docs/geanylua-intro.html',
-    'docs/geanylua-keyfile.html',
-    'docs/geanylua-keys.html',
-    'docs/geanylua-ref.html',
-    'docs/luarefv51.html',
   ],
   install_dir: plugin_docdir,
 )

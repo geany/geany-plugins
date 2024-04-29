@@ -22,17 +22,15 @@ library(
   install_dir: plugin_path,
 )
 
-install_data(
-  sources: [
-    'data/menus.ui',
-    'data/stats.ui',
-  ],
+install_subdir(
+  'data',
+  exclude_files: ['Makefile.am'],
   install_dir: plugin_datadir,
+  strip_directory: true,
 )
 
 install_data(
   sources: [
-    'AUTHORS',
     'COPYING',
     'ChangeLog',
     'NEWS',

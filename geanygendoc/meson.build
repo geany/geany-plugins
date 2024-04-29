@@ -34,13 +34,10 @@ library(
   install_dir: plugin_path,
 )
 
-install_data(
-  sources: [
-    'data/filetypes/c.conf',
-    'data/filetypes/php.conf',
-    'data/filetypes/vala.conf',
-  ],
-  install_dir: plugin_datadir / 'filetypes',
+install_subdir(
+  'data',
+  exclude_files: ['Makefile.am'],
+  install_dir: plugin_datadir,
 )
 
 install_data(
@@ -55,11 +52,11 @@ install_data(
     'docs/manual.html',
   ],
   install_dir: plugin_docdir / 'html',
+  strip_directory: true,
 )
 
 install_data(
   sources: [
-    'AUTHORS',
     'COPYING',
     'ChangeLog',
     'NEWS',
