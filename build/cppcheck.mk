@@ -3,6 +3,7 @@ if HAVE_CPPCHECK
 
 check-cppcheck: $(srcdir)
 	$(CPPCHECK) \
+		--inline-suppr \
 		-q --template=gcc --error-exitcode=2 \
 		--library=gtk \
 		--library=$(top_srcdir)/build/cppcheck-geany-plugins.cfg \
