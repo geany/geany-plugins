@@ -10,6 +10,7 @@ check-cppcheck: $(srcdir)
 		-UGEANY_PRIVATE \
 		-DGETTEXT_PACKAGE=\"$(GETTEXT_PACKAGE)\" \
 		$(filter -j%,$(MAKEFLAGS)) \
+		$(LOCAL_AM_CFLAGS) \
 		$(AM_CPPCHECKFLAGS) $(CPPCHECKFLAGS) \
 		$(srcdir)
 
