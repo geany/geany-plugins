@@ -24,6 +24,5 @@ unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@
 endif
 
 AM_CPPCHECKFLAGS = --suppress='constStatement:*'
-AM_CPPCHECKFLAGS += --suppress='memleak:utils.c:72'
 
 include $(top_srcdir)/build/cppcheck.mk
