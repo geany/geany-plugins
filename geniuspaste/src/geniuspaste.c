@@ -750,6 +750,8 @@ static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
     /* run the dialog */
     gtk_dialog_run(GTK_DIALOG(dlg));
     gtk_widget_destroy(dlg);
+
+    g_free(markup);
 }
 
 static void debug_log_message_body(SoupMessage *msg,
