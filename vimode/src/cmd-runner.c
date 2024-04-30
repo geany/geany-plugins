@@ -707,6 +707,8 @@ static gboolean process_cmd(CmdDef *cmds, CmdContext *ctx, gboolean ins_mode)
 	}
 	else if (!consumed && ctx->kpl)
 	{
+		/* cppcheck-suppress deallocuse symbolName=kpl
+		 * Not sure how cppcheck gets this wrong here, but all seem OK */
 		g_free(ctx->kpl->data);
 		ctx->kpl = g_slist_delete_link(ctx->kpl, ctx->kpl);
 	}
