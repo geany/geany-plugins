@@ -23,6 +23,4 @@ unittests_CFLAGS  = $(GEANY_CFLAGS) -DUNITTESTS
 unittests_LDADD   = @GEANY_LIBS@ $(INTLLIBS) @CHECK_LIBS@
 endif
 
-AM_CPPCHECKFLAGS = --suppress='constStatement:*'
-
 include $(top_srcdir)/build/cppcheck.mk
