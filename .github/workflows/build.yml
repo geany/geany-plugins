@@ -21,6 +21,7 @@ concurrency:
 env:
   CFLAGS: -g -O2 -Werror=pointer-arith -Werror=implicit-function-declaration
   CONFIGURE_FLAGS: --disable-silent-rules
+  CPPCHECKFLAGS: --check-level=exhaustive
   CCACHE_DIR: ${{ github.workspace }}/.ccache
   CCACHE_COMPRESS: true
   CCACHE_MAXSIZE: 1G
