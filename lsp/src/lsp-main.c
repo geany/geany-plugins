@@ -64,10 +64,11 @@ static GPtrArray *commands;
 
 #ifdef GEANY_LSP_COMBINED_PROJECT
 # define PLUGIN_LOCALEDIR GEANY_LOCALEDIR
+# define PLUGIN_VERSION "0.1"
 #else
 # define PLUGIN_LOCALEDIR LOCALEDIR
+# define PLUGIN_VERSION VERSION
 #endif
-
 
 PLUGIN_VERSION_CHECK(246)  //TODO
 PLUGIN_SET_TRANSLATABLE_INFO(
@@ -75,7 +76,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	GETTEXT_PACKAGE,
 	_("LSP Client"),
 	_("Language server protocol client for Geany"),
-	"0.1",  //TODO: VERSION when part o geany-plugins
+	PLUGIN_VERSION,
 	"Jiri Techet <techet@gmail.com>")
 
 
