@@ -640,8 +640,8 @@ static void get_int(gint *dest, GKeyFile *kf, const gchar *section, const gchar 
 
 static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 {
-	get_bool(&s->config.use_outside_project_dir, kf, section, "lsp_use_outside_project_dir");
-	get_bool(&s->config.use_without_project, kf, section, "lsp_use_without_project");
+	get_bool(&s->config.use_outside_project_dir, kf, section, "use_outside_project_dir");
+	get_bool(&s->config.use_without_project, kf, section, "use_without_project");
 	get_bool(&s->config.rpc_log_full, kf, section, "rpc_log_full");
 
 	get_bool(&s->config.autocomplete_enable, kf, section, "autocomplete_enable");
