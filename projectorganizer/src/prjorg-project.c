@@ -216,7 +216,7 @@ static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
 	{
 		GPatternSpec *pattern = g_pattern_spec_new(ft->pattern[j]);
 
-		if (g_pattern_match_string(pattern, utf8_base_filename))
+		if (g_pattern_spec_match_string(pattern, utf8_base_filename))
 		{
 			ret = TRUE;
 			g_pattern_spec_free(pattern);

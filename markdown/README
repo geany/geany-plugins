@@ -146,8 +146,8 @@ Requirements
 
 The plugin depends on the following libraries:
 
-* `GTK+ <http://www.gtk.org>`_ 2.16 or greater
-* `WebKitGTK+ <http://webkitgtk.org>`_ 1.1.18 or greater
+* `GTK+ <http://www.gtk.org>`_ 3.0 or greater
+* `WebKitGTK+ <http://webkitgtk.org>`_ API 4.0 or 4.1
 
 License
 -------

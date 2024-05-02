@@ -1,7 +1,7 @@
 /*
  *	  latexenvironments.c
  *
- *	  Copyright 2009-2012 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2009-2024 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *	  This program is free software; you can redistribute it and/or modify
  *	  it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ void glatex_insert_environment(const gchar *environment, gint type)
 	/* Only do anything if it is realy needed to */
 	if (doc != NULL && environment != NULL)
 	{
+		/* Checking whether we do have a selection */
 		if (sci_has_selection(doc->editor->sci))
 		{
 			gchar *selection  = NULL;
@@ -92,12 +93,9 @@ void glatex_insert_environment(const gchar *environment, gint type)
 			g_free(replacement);
 
 		}
-		else
+		else /* No selection found*/
 		{
-			gint indent, pos;
-			GString *tmpstring = NULL;
-			gchar *tmp = NULL;
-			static const GeanyIndentPrefs *indention_prefs = NULL;
+			gchar *tmpstring = NULL;
 
 			if (type == -1)
 			{
@@ -114,49 +112,43 @@ void glatex_insert_environment(const gchar *environment, gint type)
 					}
 				}
 			}
-			pos = sci_get_current_position(doc->editor->sci);
-
 			sci_start_undo_action(doc->editor->sci);
-
-			tmpstring = g_string_new("\\begin{");
-			g_string_append(tmpstring, environment);
 
 			if (utils_str_equal(environment, "block") == TRUE)
 			{
-				g_string_append(tmpstring, "}{}");
+				tmpstring = g_strconcat(
+					"\\begin{",
+					environment,
+					"}{}\n%cursor%\n\\end{",
+					environment,
+					"}",
+					NULL);
 			}
-			else
+			else /* We don't have a block-like environment */
 			{
-				g_string_append(tmpstring, "}");
+				if (type == GLATEX_ENVIRONMENT_TYPE_LIST)
+				{
+					tmpstring = g_strconcat(
+						"\\begin{",
+						environment,
+						"}\n\t\\item %cursor%\n\\end{",
+						environment,
+						"}",
+						NULL);
+				}
+				else
+				{
+					tmpstring = g_strconcat(
+						"\\begin{",
+						environment,
+						"}\n%cursor%\n\\end{",
+						environment,
+						"}",
+						NULL);
+				}
 			}
-			g_string_append(tmpstring, "\n");
-
-
-			if (type == GLATEX_ENVIRONMENT_TYPE_LIST)
-			{
-				g_string_append(tmpstring, "\t\\item ");
-			}
-
-			tmp = g_string_free(tmpstring, FALSE);
-			glatex_insert_string(tmp, TRUE);
-			g_free(tmp);
-
-			indent = sci_get_line_indentation(doc->editor->sci,
-				sci_get_line_from_position(doc->editor->sci, pos));
-
-			tmp = g_strdup_printf("\n\\end{%s}", environment);
-			glatex_insert_string(tmp, FALSE);
-			g_free(tmp);
-
-			indention_prefs = editor_get_indent_prefs(doc->editor);
-			if (type == GLATEX_ENVIRONMENT_TYPE_LIST)
-			{
-				sci_set_line_indentation(doc->editor->sci,
-					sci_get_current_line(doc->editor->sci),
-					indent + indention_prefs->width);
-			}
-			sci_set_line_indentation(doc->editor->sci,
-				sci_get_current_line(doc->editor->sci) + 1, indent);
+			glatex_insert_snippet(tmpstring);
+			g_free(tmpstring);
 			sci_end_undo_action(doc->editor->sci);
 		}
 	}

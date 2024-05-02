@@ -22,11 +22,7 @@
 #include "config.h"
 #include <string.h>
 #include <gtk/gtk.h>
-#ifdef MARKDOWN_WEBKIT2
-# include <webkit2/webkit2.h>
-#else
-# include <webkit/webkitwebview.h>
-#endif
+#include <webkit2/webkit2.h>
 #include <geanyplugin.h>
 #ifndef FULL_PRICE
 # include <mkdio.h>
@@ -194,12 +190,15 @@ replace_all(MarkdownViewer *self,
 {
   gchar *ptr;
   gsize needle_len = strlen(needle);
+  gsize replacement_len = strlen(replacement);
+  goffset offset = 0;
 
   /* For each occurrence of needle in haystack */
-  while ((ptr = strstr(haystack->str, needle)) != NULL) {
-    goffset offset = ptr - haystack->str;
+  while ((ptr = strstr(haystack->str + offset, needle)) != NULL) {
+    offset = ptr - haystack->str;
     g_string_erase(haystack, offset, needle_len);
     g_string_insert(haystack, offset, replacement);
+    offset += replacement_len;
   }
 }
 
@@ -300,7 +299,6 @@ pop_scroll_pos(MarkdownViewer *self)
   return popped;
 }
 
-#ifdef MARKDOWN_WEBKIT2
 static void
 on_webview_load_changed(MarkdownViewer  *self,
                         WebKitLoadEvent  load_event,
@@ -311,21 +309,6 @@ on_webview_load_changed(MarkdownViewer  *self,
     pop_scroll_pos(self);
   }
 }
-#else
-static void
-on_webview_load_status_notify(WebKitWebView *view, GParamSpec *pspec,
-  MarkdownViewer *self)
-{
-  WebKitLoadStatus load_status;
-
-  g_object_get(view, "load-status", &load_status, NULL);
-
-  /* When the webkit is done loading, reset the scroll position. */
-  if (load_status == WEBKIT_LOAD_FINISHED) {
-    pop_scroll_pos(self);
-  }
-}
-#endif
 
 gchar *
 markdown_viewer_get_html(MarkdownViewer *self)
@@ -405,23 +388,12 @@ markdown_viewer_update_view(MarkdownViewer *self)
     /* Connect a signal handler (only needed once) to restore the scroll
      * position once the webview is reloaded. */
     if (self->priv->load_handle == 0) {
-#ifdef MARKDOWN_WEBKIT2
       self->priv->load_handle =
         g_signal_connect_swapped(WEBKIT_WEB_VIEW(self), "load-changed",
           G_CALLBACK(on_webview_load_changed), self);
-#else
-      self->priv->load_handle =
-        g_signal_connect_swapped(WEBKIT_WEB_VIEW(self), "notify::load-status",
-          G_CALLBACK(on_webview_load_status_notify), self);
-#endif
     }
 
-#ifdef MARKDOWN_WEBKIT2
     webkit_web_view_load_html(WEBKIT_WEB_VIEW(self), html, base_uri);
-#else
-    webkit_web_view_load_string(WEBKIT_WEB_VIEW(self), html, "text/html",
-      self->priv->enc, base_uri);
-#endif
 
     g_free(base_uri);
     g_free(html);

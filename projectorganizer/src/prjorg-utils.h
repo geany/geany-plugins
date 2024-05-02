@@ -22,6 +22,10 @@
 #include <gtk/gtk.h>
 #include <geanyplugin.h>
 
+#if ! GLIB_CHECK_VERSION(2, 70, 0)
+# define g_pattern_spec_match_string g_pattern_match_string
+#endif
+
 gchar *get_relative_path(const gchar *utf8_parent, const gchar *utf8_descendant);
 
 gboolean patterns_match(GSList *patterns, const gchar *str);

@@ -36,6 +36,7 @@ jobs:
     env:
       CC:                       ccache gcc
       CXX:                      ccache g++
+      CPPCHECK_CACHE_PATH:      ${{ github.workspace }}/.cppcheck_cache
       GEANY_SOURCE_PATH:        ${{ github.workspace }}/.geany_source
       GEANY_CACHE_PATH:         ${{ github.workspace }}/.geany_cache
       GEANY_INSTALLATION_PATH:  ${{ github.workspace }}/.geany_cache/_geany_install
@@ -61,6 +62,15 @@ jobs:
         id: ccache_cache_timestamp
         run: echo "timestamp=$(date +%Y-%m-%d-%H-%M)" >> $GITHUB_OUTPUT
 
+      - name: Prepare Cppcheck Cache Key
+        id: prepare_cppcheck_cache_key
+        run: echo "cppcheck_tag=$(curl -s https://api.github.com/repos/danmar/cppcheck/releases/latest | jq .tag_name)" >> $GITHUB_OUTPUT
+
+      - name: Prepare Geany Cache Key
+        id: prepare_geany_cache_key
+        working-directory: ${{ env.GEANY_SOURCE_PATH }}
+        run: echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
       - name: Configure ccache
         uses: actions/cache@v4
         with:
@@ -68,10 +78,12 @@ jobs:
           key: ${{ runner.os }}-${{ github.job }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: ${{ runner.os }}-${{ github.job }}-ccache-
 
-      - name: Prepare Geany Cache Key
-        id: prepare_geany_cache_key
-        working-directory: ${{ env.GEANY_SOURCE_PATH }}
-        run: echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+      - name: Configure Cppcheck Cache
+        id: cppcheck_cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CPPCHECK_CACHE_PATH }}
+          key: ${{ runner.os }}-${{ github.job }}-cppcheck-cache-${{ steps.prepare_cppcheck_cache_key.outputs.cppcheck_tag }}
 
       - name: Configure Geany Cache
         id: geany_cache
@@ -102,7 +114,6 @@ jobs:
             # geany-plugins
             intltool
             check
-            cppcheck
             # debugger
             libvte-2.91-dev
             # devhelp
@@ -132,8 +143,23 @@ jobs:
             libxml2-dev
             # spellcheck
             libenchant-dev
+            # cppcheck
+            cmake
+            libpcre3-dev
           EOF
           grep -v '^[ ]*#' $RUNNER_TEMP/dependencies | xargs sudo apt-get install --assume-yes --no-install-recommends
+
+      - name: Build cppcheck
+        if: steps.cppcheck_cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ${{ env.CPPCHECK_CACHE_PATH }}
+          cd ${{ env.CPPCHECK_CACHE_PATH }}
+          curl -s https://api.github.com/repos/danmar/cppcheck/releases/latest | jq .tarball_url | xargs wget -O cppcheck.tar.gz
+          tar --strip-components=1 -xf cppcheck.tar.gz
+          mkdir build
+          cd build
+          cmake .. -DHAVE_RULES=On -DUSE_MATCHCOMPILER=On
+          cmake --build .
 
       - name: Build Geany
         if: steps.geany_cache.outputs.cache-hit != 'true'
@@ -148,6 +174,10 @@ jobs:
 
       - name: Configure
         run: |
+          # Add previously built cppcheck to $PATH, for this and for succeeding steps
+          export "PATH=$PATH:${{ env.CPPCHECK_CACHE_PATH }}/build/bin"
+          echo "PATH=$PATH" >> "$GITHUB_ENV"
+
           NOCONFIGURE=1 ./autogen.sh
           mkdir _build
           cd _build

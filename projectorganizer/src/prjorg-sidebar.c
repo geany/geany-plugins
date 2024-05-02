@@ -657,7 +657,7 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 		if (!case_sensitive)
 			SETPTR(utf8_name, g_utf8_strdown(utf8_name, -1));
 
-		if (g_pattern_match_string(pattern, utf8_name))
+		if (g_pattern_spec_match_string(pattern, utf8_name))
 		{
 			gchar *utf8_base_path = get_project_base_path();
 			gchar *utf8_path, *rel_path;
@@ -840,7 +840,7 @@ static gboolean match(TMTag *tag, const gchar *name, gboolean declaration, gbool
 				matches = g_strcmp0(name_case, name) == 0;
 				break;
 			case MATCH_PATTERN:
-				matches = g_pattern_match_string(pspec, name_case);
+				matches = g_pattern_spec_match_string(pspec, name_case);
 				break;
 			case MATCH_PREFIX:
 				matches = g_str_has_prefix(name_case, name);

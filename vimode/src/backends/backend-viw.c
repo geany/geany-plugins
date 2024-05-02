@@ -90,8 +90,8 @@ static gboolean on_save(gboolean force)
 	{
 		GtkWidget *dialog = gtk_file_chooser_dialog_new ("Save File", GTK_WINDOW(window),
 			GTK_FILE_CHOOSER_ACTION_SAVE,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-			GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+			"_Cancel", GTK_RESPONSE_CANCEL,
+			"_Save", GTK_RESPONSE_ACCEPT, NULL);
 		gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
 		if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
 			fname = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
