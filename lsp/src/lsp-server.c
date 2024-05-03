@@ -45,6 +45,7 @@ extern LspProjectConfigurationType project_configuration_type;
 static GPtrArray *lsp_servers = NULL;
 static GPtrArray *servers_in_shutdown = NULL;
 
+static LspServerInitializedCallback lsp_server_initialized_cb;
 
 static void free_config(LspServerConfig *cfg)
 {
@@ -316,9 +317,6 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 
 	if (!error)
 	{
-		GeanyDocument *current_doc = document_get_current();
-		guint i;
-
 		g_free(s->autocomplete_trigger_chars);
 		s->autocomplete_trigger_chars = get_autocomplete_trigger_chars(return_value);
 		if (!*s->autocomplete_trigger_chars)
@@ -330,11 +328,22 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 			s->config.signature_enable = FALSE;
 
 		update_config(return_value, &s->config.hover_enable, "hoverProvider");
+		update_config(return_value, &s->config.hover_popup_enable, "hoverProvider");
 		update_config(return_value, &s->config.goto_enable, "definitionProvider");
 		update_config(return_value, &s->config.document_symbols_enable, "documentSymbolProvider");
 		update_config(return_value, &s->config.highlighting_enable, "documentHighlightProvider");
-		update_config(return_value, &s->config.execute_command_enable, "executeCommandProvider");
 		update_config(return_value, &s->config.code_lens_enable, "codeLensProvider");
+
+		update_config(return_value, &s->config.goto_declaration_enable, "declarationProvider");
+		update_config(return_value, &s->config.goto_definition_enable, "definitionProvider");
+		update_config(return_value, &s->config.goto_implementation_enable, "implementationProvider");
+		update_config(return_value, &s->config.goto_references_enable, "referencesProvider");
+		update_config(return_value, &s->config.goto_type_definition_enable, "typeDefinitionProvider");
+		update_config(return_value, &s->config.document_formatting_enable, "documentFormattingProvider");
+		update_config(return_value, &s->config.range_formatting_enable, "documentRangeFormattingProvider");
+		update_config(return_value, &s->config.execute_command_enable, "executeCommandProvider");
+		update_config(return_value, &s->config.code_action_enable, "codeActionProvider");
+		update_config(return_value, &s->config.rename_enable, "renameProvider");
 
 		s->supports_workspace_symbols = TRUE;
 		update_config(return_value, &s->supports_workspace_symbols, "workspaceSymbolProvider");
@@ -354,20 +363,8 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 
 		lsp_semtokens_init(s->filetype);
 
-		foreach_document(i)
-		{
-			GeanyDocument *doc = documents[i];
-
-			// see on_document_activate() for detailed comment
-			if (doc->file_type->id == s->filetype && (doc->changed || doc == current_doc))
-			{
-				// returns NULL if e.g. configured not to use LSP outside project dir
-				LspServer *s2 = lsp_server_get_if_running(doc);
-
-				if (s2)
-					lsp_sync_text_document_did_open(s, doc);
-			}
-		}
+		if (lsp_server_initialized_cb)
+			lsp_server_initialized_cb(s);
 	}
 	else
 	{
@@ -678,10 +675,20 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_bool(&s->config.highlighting_enable, kf, section, "highlighting_enable");
 	get_str(&s->config.highlighting_style, kf, section, "highlighting_style");
 
-	s->config.execute_command_enable = TRUE;
-
 	get_bool(&s->config.code_lens_enable, kf, section, "code_lens_enable");
 	get_str(&s->config.code_lens_style, kf, section, "code_lens_style");
+
+	s->config.goto_declaration_enable = TRUE;
+	s->config.goto_definition_enable = TRUE;
+	s->config.goto_implementation_enable = TRUE;
+	s->config.goto_references_enable = TRUE;
+	s->config.goto_type_definition_enable = TRUE;
+	s->config.document_formatting_enable = TRUE;
+	s->config.range_formatting_enable = TRUE;
+	s->config.execute_command_enable = TRUE;
+	s->config.code_action_enable = TRUE;
+	s->config.rename_enable = TRUE;
+	s->config.hover_popup_enable = TRUE;
 }
 
 
@@ -1071,4 +1078,10 @@ gchar *lsp_server_get_initialize_responses(void)
 	g_string_append(str, "\n}");
 
 	return g_string_free(str, FALSE);
+}
+
+
+void lsp_server_set_initialized_cb(LspServerInitializedCallback cb)
+{
+	lsp_server_initialized_cb = cb;
 }

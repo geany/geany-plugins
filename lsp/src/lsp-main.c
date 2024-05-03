@@ -116,9 +116,30 @@ enum {
 struct
 {
 	GtkWidget *parent_item;
+
 	GtkWidget *project_config;
 	GtkWidget *user_config;
-	// context menu
+
+	GtkWidget *goto_def;
+	GtkWidget *goto_decl;
+	GtkWidget *goto_type_def;
+
+	GtkWidget *goto_next_diag;
+	GtkWidget *goto_prev_diag;
+
+	GtkWidget *goto_ref;
+	GtkWidget *goto_impl;
+
+	GtkWidget *rename_in_file;
+	GtkWidget *rename_in_project;
+	GtkWidget *format_code;
+
+	GtkWidget *hover_popup;
+} menu_items;
+
+
+struct
+{
 	GtkWidget *command_item;
 	GtkWidget *goto_type_def;
 	GtkWidget *goto_def;
@@ -128,7 +149,7 @@ struct
 	GtkWidget *format_code;
 	GtkWidget *separator1;
 	GtkWidget *separator2;
-} menu_items;
+} context_menu_items;
 
 
 struct
@@ -347,6 +368,39 @@ static void on_document_new(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 }
 
 
+static void update_menu(GeanyDocument *doc)
+{
+	LspServer *srv = lsp_server_get_if_running(doc);
+	gboolean goto_definition_enable = srv && srv->config.goto_definition_enable;
+	gboolean goto_references_enable = srv && srv->config.goto_references_enable;
+	gboolean goto_type_definition_enable = srv && srv->config.goto_type_definition_enable;
+	gboolean document_formatting_enable = srv && srv->config.document_formatting_enable;
+	gboolean range_formatting_enable = srv && srv->config.range_formatting_enable;
+	gboolean rename_enable = srv && srv->config.rename_enable;
+	gboolean highlighting_enable = srv && srv->config.highlighting_enable;
+	gboolean goto_declaration_enable = srv && srv->config.goto_declaration_enable;
+	gboolean goto_implementation_enable = srv && srv->config.goto_implementation_enable;
+	gboolean diagnostics_enable = srv && srv->config.diagnostics_enable;
+	gboolean hover_popup_enable = srv && srv->config.hover_popup_enable;
+
+	gtk_widget_set_sensitive(menu_items.goto_def, goto_definition_enable);
+	gtk_widget_set_sensitive(menu_items.goto_decl, goto_declaration_enable);
+	gtk_widget_set_sensitive(menu_items.goto_type_def, goto_type_definition_enable);
+
+	gtk_widget_set_sensitive(menu_items.goto_next_diag, diagnostics_enable);
+	gtk_widget_set_sensitive(menu_items.goto_prev_diag, diagnostics_enable);
+
+	gtk_widget_set_sensitive(menu_items.goto_ref, goto_references_enable);
+	gtk_widget_set_sensitive(menu_items.goto_impl, goto_implementation_enable);
+
+	gtk_widget_set_sensitive(menu_items.rename_in_file, highlighting_enable);
+	gtk_widget_set_sensitive(menu_items.rename_in_project, rename_enable);
+	gtk_widget_set_sensitive(menu_items.format_code, document_formatting_enable || range_formatting_enable);
+
+	gtk_widget_set_sensitive(menu_items.hover_popup, hover_popup_enable);
+}
+
+
 static void on_document_visible(GeanyDocument *doc)
 {
 	LspServer *srv;
@@ -378,12 +432,14 @@ static void on_document_visible(GeanyDocument *doc)
 	if (symbol_highlight_provided(doc))
 		lsp_semtokens_send_request(doc);
 
+	update_menu(doc);
+
 	if (!srv)
 		return;
 
 	// this might not get called for the first time when server gets started because
 	// lsp_server_get() returns NULL. However, we also "open" current and modified
-	// documents after successful server handshake
+	// documents after successful server handshake inside on_server_initialized()
 	if (!lsp_sync_is_document_open(doc))
 		lsp_sync_text_document_did_open(srv, doc);
 }
@@ -757,6 +813,7 @@ static void on_project_close(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED gpointer 
 	project_configuration_file = NULL;
 
 	gtk_widget_set_sensitive(menu_items.project_config, FALSE);
+	gtk_widget_set_sensitive(menu_items.user_config, TRUE);
 
 	stop_and_init_all_servers();
 }
@@ -904,7 +961,7 @@ static void remove_item(GtkWidget *widget, gpointer data)
 static void update_command_menu_items(void)
 {
 	GeanyDocument *doc = document_get_current();
-	GtkWidget *menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(menu_items.command_item));
+	GtkWidget *menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(context_menu_items.command_item));
 	GPtrArray *arr = lsp_command_get_resolved_code_actions();
 	LspCommand *cmd;
 	guint i;
@@ -935,8 +992,8 @@ static void update_command_menu_items(void)
 		g_signal_connect(item, "activate", G_CALLBACK(code_action_cb), GUINT_TO_POINTER(i));
 	}
 
-	gtk_widget_show_all(menu_items.command_item);
-	gtk_widget_set_sensitive(menu_items.command_item, commands->len > 0);
+	gtk_widget_show_all(context_menu_items.command_item);
+	gtk_widget_set_sensitive(context_menu_items.command_item, commands->len > 0);
 }
 
 
@@ -944,8 +1001,25 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 	const gchar *word, gint pos, GeanyDocument *doc, gpointer user_data)
 {
 	LspServer *srv = lsp_server_get_if_running(doc);
+	gboolean goto_definition_enable = srv && srv->config.goto_definition_enable;
+	gboolean goto_references_enable = srv && srv->config.goto_references_enable;
+	gboolean goto_type_definition_enable = srv && srv->config.goto_type_definition_enable;
+	gboolean execute_command_enable = srv && srv->config.execute_command_enable;
+	gboolean document_formatting_enable = srv && srv->config.document_formatting_enable;
+	gboolean range_formatting_enable = srv && srv->config.range_formatting_enable;
+	gboolean rename_enable = srv && srv->config.rename_enable;
+	gboolean highlighting_enable = srv && srv->config.highlighting_enable;
 
-	if (srv && srv->config.execute_command_enable)
+	gtk_widget_set_sensitive(context_menu_items.goto_ref, goto_references_enable);
+	gtk_widget_set_sensitive(context_menu_items.goto_def, goto_definition_enable);
+	gtk_widget_set_sensitive(context_menu_items.goto_type_def, goto_type_definition_enable);
+
+	gtk_widget_set_sensitive(context_menu_items.rename_in_file, highlighting_enable);
+	gtk_widget_set_sensitive(context_menu_items.rename_in_project, rename_enable);
+	gtk_widget_set_sensitive(context_menu_items.format_code, document_formatting_enable || range_formatting_enable);
+
+	gtk_widget_set_sensitive(context_menu_items.command_item, execute_command_enable);
+	if (execute_command_enable)
 	{
 		last_click_pos = pos;
 		lsp_command_send_code_action_request(pos, update_command_menu_items);
@@ -1158,26 +1232,26 @@ static void create_menu_items()
 	menu = gtk_menu_new ();
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_items.parent_item), menu);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Go to _Definition"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.goto_def = gtk_menu_item_new_with_mnemonic(_("Go to _Definition"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_def);
+	g_signal_connect(menu_items.goto_def, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_DEFINITION));
 	keybindings_set_item(group, KB_GOTO_DEFINITION, NULL, 0, 0, "goto_definition",
-		_("Go to definition"), item);
+		_("Go to definition"), menu_items.goto_def);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Go to D_eclaration"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.goto_decl = gtk_menu_item_new_with_mnemonic(_("Go to D_eclaration"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_decl);
+	g_signal_connect(menu_items.goto_decl, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_DECLARATION));
 	keybindings_set_item(group, KB_GOTO_DECLARATION, NULL, 0, 0, "goto_declaration",
-		_("Go to declaration"), item);
+		_("Go to declaration"), menu_items.goto_decl);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Go to _Type Definition"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.goto_type_def = gtk_menu_item_new_with_mnemonic(_("Go to _Type Definition"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_type_def);
+	g_signal_connect(menu_items.goto_type_def, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_TYPE_DEFINITION));
 	keybindings_set_item(group, KB_GOTO_TYPE_DEFINITION, NULL, 0, 0, "goto_type_definition",
-		_("Go to type definition"), item);
+		_("Go to type definition"), menu_items.goto_type_def);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
@@ -1211,67 +1285,67 @@ static void create_menu_items()
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
-	item = gtk_menu_item_new_with_mnemonic(_("Go to _Next Diagnostic"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.goto_next_diag = gtk_menu_item_new_with_mnemonic(_("Go to _Next Diagnostic"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_next_diag);
+	g_signal_connect(menu_items.goto_next_diag, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_NEXT_DIAG));
 	keybindings_set_item(group, KB_GOTO_NEXT_DIAG, NULL, 0, 0, "goto_next_diag",
-		_("Go to next diagnostic"), item);
+		_("Go to next diagnostic"), menu_items.goto_next_diag);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Go to _Previous Diagnostic"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.goto_prev_diag = gtk_menu_item_new_with_mnemonic(_("Go to _Previous Diagnostic"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_prev_diag);
+	g_signal_connect(menu_items.goto_prev_diag, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_PREV_DIAG));
 	keybindings_set_item(group, KB_GOTO_PREV_DIAG, NULL, 0, 0, "goto_prev_diag",
-		_("Go to previous diagnostic"), item);
+		_("Go to previous diagnostic"), menu_items.goto_prev_diag);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
-	item = gtk_menu_item_new_with_mnemonic(_("Find _References"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.goto_ref = gtk_menu_item_new_with_mnemonic(_("Find _References"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_ref);
+	g_signal_connect(menu_items.goto_ref, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_FIND_REFERENCES));
 	keybindings_set_item(group, KB_FIND_REFERENCES, NULL, 0, 0, "find_references",
-		_("Find references"), item);
+		_("Find references"), menu_items.goto_ref);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Find _Implementations"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.goto_impl = gtk_menu_item_new_with_mnemonic(_("Find _Implementations"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_impl);
+	g_signal_connect(menu_items.goto_impl, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_FIND_IMPLEMENTATIONS));
 	keybindings_set_item(group, KB_FIND_IMPLEMENTATIONS, NULL, 0, 0, "find_implementations",
-		_("Find implementations"), item);
+		_("Find implementations"), menu_items.goto_impl);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
-	item = gtk_menu_item_new_with_mnemonic(_("_Rename in File"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.rename_in_file = gtk_menu_item_new_with_mnemonic(_("_Rename in File"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.rename_in_file);
+	g_signal_connect(menu_items.rename_in_file, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_RENAME_IN_FILE));
 	keybindings_set_item(group, KB_RENAME_IN_FILE, NULL, 0, 0, "rename_in_file",
-		_("Rename in file"), item);
+		_("Rename in file"), menu_items.rename_in_file);
 
-	item = gtk_menu_item_new_with_mnemonic(_("Rename in _Project..."));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.rename_in_project = gtk_menu_item_new_with_mnemonic(_("Rename in _Project..."));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.rename_in_project);
+	g_signal_connect(menu_items.rename_in_project, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_RENAME_IN_PROJECT));
 	keybindings_set_item(group, KB_RENAME_IN_PROJECT, NULL, 0, 0, "rename_in_project",
-		_("Rename in project"), item);
+		_("Rename in project"), menu_items.rename_in_project);
 
-	item = gtk_menu_item_new_with_mnemonic(_("_Format Code"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.format_code = gtk_menu_item_new_with_mnemonic(_("_Format Code"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.format_code);
+	g_signal_connect(menu_items.format_code, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_FORMAT_CODE));
 	keybindings_set_item(group, KB_FORMAT_CODE, NULL, 0, 0, "format_code",
-		_("Format code"), item);
+		_("Format code"), menu_items.format_code);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
-	item = gtk_menu_item_new_with_mnemonic(_("Show _Hover Popup"));
-	gtk_container_add(GTK_CONTAINER(menu), item);
-	g_signal_connect(item, "activate", G_CALLBACK(on_menu_invoked),
+	menu_items.hover_popup = gtk_menu_item_new_with_mnemonic(_("Show _Hover Popup"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.hover_popup);
+	g_signal_connect(menu_items.hover_popup, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_SHOW_HOVER_POPUP));
 	keybindings_set_item(group, KB_SHOW_HOVER_POPUP, NULL, 0, 0, "show_hover_popup",
-		_("Show hover popup"), item);
+		_("Show hover popup"), menu_items.hover_popup);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
@@ -1313,61 +1387,87 @@ static void create_menu_items()
 #endif
 
 	/* context menu */
-	menu_items.separator1 = gtk_separator_menu_item_new();
-	gtk_widget_show(menu_items.separator1);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.separator1);
+	context_menu_items.separator1 = gtk_separator_menu_item_new();
+	gtk_widget_show(context_menu_items.separator1);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.separator1);
 
-	menu_items.command_item = gtk_menu_item_new_with_mnemonic(_("_Commands (LSP)"));
+	context_menu_items.command_item = gtk_menu_item_new_with_mnemonic(_("_Commands (LSP)"));
 	command_submenu = gtk_menu_new ();
-	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menu_items.command_item), command_submenu);
-	gtk_widget_show_all(menu_items.command_item);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.command_item);
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(context_menu_items.command_item), command_submenu);
+	gtk_widget_show_all(context_menu_items.command_item);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.command_item);
 
-	menu_items.format_code = gtk_menu_item_new_with_mnemonic(_("_Format Code (LSP)"));
-	gtk_widget_show(menu_items.format_code);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.format_code);
-	g_signal_connect(menu_items.format_code, "activate", G_CALLBACK(on_context_menu_invoked),
+	context_menu_items.format_code = gtk_menu_item_new_with_mnemonic(_("_Format Code (LSP)"));
+	gtk_widget_show(context_menu_items.format_code);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.format_code);
+	g_signal_connect(context_menu_items.format_code, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_FORMAT_CODE));
 
-	menu_items.rename_in_project = gtk_menu_item_new_with_mnemonic(_("Rename in _Project (LSP)..."));
-	gtk_widget_show(menu_items.rename_in_project);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.rename_in_project);
-	g_signal_connect(menu_items.rename_in_project, "activate", G_CALLBACK(on_context_menu_invoked),
+	context_menu_items.rename_in_project = gtk_menu_item_new_with_mnemonic(_("Rename in _Project (LSP)..."));
+	gtk_widget_show(context_menu_items.rename_in_project);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.rename_in_project);
+	g_signal_connect(context_menu_items.rename_in_project, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_RENAME_IN_PROJECT));
 
-	menu_items.rename_in_file = gtk_menu_item_new_with_mnemonic(_("_Rename in File (LSP)"));
-	gtk_widget_show(menu_items.rename_in_file);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.rename_in_file);
-	g_signal_connect(menu_items.rename_in_file, "activate", G_CALLBACK(on_context_menu_invoked),
+	context_menu_items.rename_in_file = gtk_menu_item_new_with_mnemonic(_("_Rename in File (LSP)"));
+	gtk_widget_show(context_menu_items.rename_in_file);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.rename_in_file);
+	g_signal_connect(context_menu_items.rename_in_file, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_RENAME_IN_FILE));
 
-	menu_items.separator2 = gtk_separator_menu_item_new();
-	gtk_widget_show(menu_items.separator2);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.separator2);
+	context_menu_items.separator2 = gtk_separator_menu_item_new();
+	gtk_widget_show(context_menu_items.separator2);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.separator2);
 
-	menu_items.goto_type_def = gtk_menu_item_new_with_mnemonic(_("Go to _Type Definition (LSP)"));
-	gtk_widget_show(menu_items.goto_type_def);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.goto_type_def);
-	g_signal_connect(menu_items.goto_type_def, "activate", G_CALLBACK(on_context_menu_invoked),
+	context_menu_items.goto_type_def = gtk_menu_item_new_with_mnemonic(_("Go to _Type Definition (LSP)"));
+	gtk_widget_show(context_menu_items.goto_type_def);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.goto_type_def);
+	g_signal_connect(context_menu_items.goto_type_def, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_TYPE_DEFINITION));
 
-	menu_items.goto_def = gtk_menu_item_new_with_mnemonic(_("Go to _Definition (LSP)"));
-	gtk_widget_show(menu_items.goto_def);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.goto_def);
-	g_signal_connect(menu_items.goto_def, "activate", G_CALLBACK(on_context_menu_invoked),
+	context_menu_items.goto_def = gtk_menu_item_new_with_mnemonic(_("Go to _Definition (LSP)"));
+	gtk_widget_show(context_menu_items.goto_def);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.goto_def);
+	g_signal_connect(context_menu_items.goto_def, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_DEFINITION));
 
-	menu_items.goto_ref = gtk_menu_item_new_with_mnemonic(_("Find _References (LSP)"));
-	gtk_widget_show(menu_items.goto_ref);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), menu_items.goto_ref);
-	g_signal_connect(menu_items.goto_ref, "activate", G_CALLBACK(on_context_menu_invoked),
+	context_menu_items.goto_ref = gtk_menu_item_new_with_mnemonic(_("Find _References (LSP)"));
+	gtk_widget_show(context_menu_items.goto_ref);
+	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.goto_ref);
+	g_signal_connect(context_menu_items.goto_ref, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_FIND_REFERENCES));
+}
+
+
+static void on_server_initialized(LspServer *srv)
+{
+	GeanyDocument *current_doc = document_get_current();
+	guint i;
+
+	update_menu(current_doc);
+
+	foreach_document(i)
+	{
+		GeanyDocument *doc = documents[i];
+
+		// see on_document_visible() for detailed comment
+		if (doc->file_type->id == srv->filetype && (doc->changed || doc == current_doc))
+		{
+			// returns NULL if e.g. configured not to use LSP outside project dir
+			LspServer *s2 = lsp_server_get_if_running(doc);
+
+			if (s2)
+				lsp_sync_text_document_did_open(srv, doc);
+		}
+	}
 }
 
 
 void plugin_init(G_GNUC_UNUSED GeanyData * data)
 {
 	plugin_module_make_resident(geany_plugin);
+
+	lsp_server_set_initialized_cb(on_server_initialized);
 
 	stop_and_init_all_servers();
 
@@ -1381,19 +1481,21 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 void plugin_cleanup(void)
 {
 	gtk_widget_destroy(menu_items.parent_item);
-	gtk_widget_destroy(menu_items.goto_type_def);
-	gtk_widget_destroy(menu_items.goto_def);
-	gtk_widget_destroy(menu_items.format_code);
-	gtk_widget_destroy(menu_items.rename_in_file);
-	gtk_widget_destroy(menu_items.rename_in_project);
-	gtk_widget_destroy(menu_items.goto_ref);
-	gtk_widget_destroy(menu_items.command_item);
-	gtk_widget_destroy(menu_items.separator1);
-	gtk_widget_destroy(menu_items.separator2);
+
+	gtk_widget_destroy(context_menu_items.goto_type_def);
+	gtk_widget_destroy(context_menu_items.goto_def);
+	gtk_widget_destroy(context_menu_items.format_code);
+	gtk_widget_destroy(context_menu_items.rename_in_file);
+	gtk_widget_destroy(context_menu_items.rename_in_project);
+	gtk_widget_destroy(context_menu_items.goto_ref);
+	gtk_widget_destroy(context_menu_items.command_item);
+	gtk_widget_destroy(context_menu_items.separator1);
+	gtk_widget_destroy(context_menu_items.separator2);
 
 #ifdef HAVE_GEANY_PLUGIN_EXTENSION
 	plugin_extension_unregister(&extension);
 #endif
+	lsp_server_set_initialized_cb(NULL);
 	lsp_server_stop_all(TRUE);
 	destroy_all();
 }

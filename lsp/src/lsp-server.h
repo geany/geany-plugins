@@ -60,6 +60,7 @@ typedef struct
 	gchar *formatting_options_file;
 
 	gboolean hover_enable;
+	gboolean hover_popup_enable;
 	gint hover_popup_max_lines;
 	gint hover_popup_max_paragraphs;
 
@@ -76,11 +77,19 @@ typedef struct
 	gboolean highlighting_enable;
 	gchar *highlighting_style;
 
-	gboolean execute_command_enable;
-
 	gboolean code_lens_enable;
 	gchar *code_lens_style;
 
+	gboolean goto_declaration_enable;
+	gboolean goto_definition_enable;
+	gboolean goto_implementation_enable;
+	gboolean goto_references_enable;
+	gboolean goto_type_definition_enable;
+	gboolean document_formatting_enable;
+	gboolean range_formatting_enable;
+	gboolean execute_command_enable;
+	gboolean code_action_enable;
+	gboolean rename_enable;
 } LspServerConfig;
 
 
@@ -118,6 +127,7 @@ typedef struct LspServer
 	guint64 semantic_token_mask;
 } LspServer;
 
+typedef void (*LspServerInitializedCallback) (LspServer *srv);
 
 LspServer *lsp_server_get(GeanyDocument *doc);
 LspServer *lsp_server_get_for_ft(GeanyFiletype *ft);
@@ -128,6 +138,8 @@ GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id);
 
 void lsp_server_stop_all(gboolean wait);
 void lsp_server_init_all(void);
+
+void lsp_server_set_initialized_cb(LspServerInitializedCallback cb);
 
 gboolean lsp_server_uses_init_file(gchar *path);
 
