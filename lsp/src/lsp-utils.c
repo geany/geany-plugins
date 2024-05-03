@@ -27,9 +27,9 @@
 #include <jsonrpc-glib.h>
 
 
-//TODO: remove once part of geany-plugins
-#define PLUGIN "lsp"
-
+#ifdef GEANY_LSP_COMBINED_PROJECT
+# define PLUGIN "lsp"
+#endif
 
 extern GeanyData *geany_data;
 
