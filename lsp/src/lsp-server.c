@@ -98,7 +98,7 @@ static void process_stopped(GObject *source_object, GAsyncResult *res, gpointer 
 		gint restarts = s->restarts;
 		gint ft = s->filetype;
 
-		msgwin_status_add("LSP server %s stopped, restarting", s->config.cmd);
+		msgwin_status_add(_("LSP server %s stopped, restarting"), s->config.cmd);
 
 		free_server(s);
 
@@ -116,12 +116,12 @@ static void shutdown_cb(GVariant *return_value, GError *error, gpointer user_dat
 
 	if (!error)
 	{
-		msgwin_status_add("Sending exit notification to LSP server %s", srv->config.cmd);
+		msgwin_status_add(_("Sending exit notification to LSP server %s"), srv->config.cmd);
 		lsp_rpc_notify(srv, "exit", NULL, NULL, srv);
 	}
 	else
 	{
-		msgwin_status_add("Force terminating LSP server %s", srv->config.cmd);
+		msgwin_status_add(_("Force terminating LSP server %s"), srv->config.cmd);
 #ifndef G_OS_WIN32
 		g_subprocess_send_signal(srv->process, SIGTERM);
 #endif
@@ -136,7 +136,7 @@ static void stop_process(LspServer *s)
 	s->startup_shutdown = TRUE;
 	g_ptr_array_add(servers_in_shutdown, s);
 
-	msgwin_status_add("Sending shutdown request to LSP server %s", s->config.cmd);
+	msgwin_status_add(_("Sending shutdown request to LSP server %s"), s->config.cmd);
 	lsp_rpc_call_startup_shutdown(s, "shutdown", NULL, shutdown_cb, s);
 }
 
@@ -356,7 +356,7 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 			s->config.semantic_tokens_enable = FALSE;
 		s->semantic_token_mask = get_semantic_token_mask(return_value);
 
-		msgwin_status_add("LSP server %s initialized", s->config.cmd);
+		msgwin_status_add(_("LSP server %s initialized"), s->config.cmd);
 
 		lsp_rpc_notify(s, "initialized", NULL, NULL, NULL);
 		s->startup_shutdown = FALSE;
@@ -371,7 +371,7 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		gint restarts = s->restarts;
 		gint ft = s->filetype;
 
-		msgwin_status_add("LSP initialize request failed for LSP server %s", s->config.cmd);
+		msgwin_status_add(_("LSP initialize request failed for LSP server %s"), s->config.cmd);
 
 		stop_process(s);
 		s = lsp_server_init(ft);
@@ -490,7 +490,7 @@ static void perform_initialize(LspServer *server)
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
-	msgwin_status_add("Sending initialize request to LSP server %s", server->config.cmd);
+	msgwin_status_add(_("Sending initialize request to LSP server %s"), server->config.cmd);
 
 	server->startup_shutdown = TRUE;
 	lsp_rpc_call_startup_shutdown(server, "initialize", node, initialize_cb, server);
@@ -509,7 +509,7 @@ static GKeyFile *read_keyfile(const gchar *config_file)
 
 	if (!g_key_file_load_from_file(kf, config_file, G_KEY_FILE_NONE, &error))
 	{
-		msgwin_status_add("Failed to load LSP configuration file with message %s", error->message);
+		msgwin_status_add(_("Failed to load LSP configuration file with message %s"), error->message);
 		g_error_free(error);
 	}
 
@@ -536,7 +536,7 @@ static void start_lsp_server(LspServer *server)
 	server->restarts++;
 	if (is_dead(server))
 	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, "LSP server %s terminated more than 5 times, giving up", server->config.cmd);
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("LSP server %s terminated more than 5 times, giving up"), server->config.cmd);
 		return;
 	}
 
@@ -569,7 +569,7 @@ static void start_lsp_server(LspServer *server)
 
 	if (!server->process)
 	{
-		msgwin_status_add("LSP server process %s failed to start with error message: %s", server->config.cmd, error->message);
+		msgwin_status_add(_("LSP server process %s failed to start with error message: %s"), server->config.cmd, error->message);
 		g_error_free(error);
 		return;
 	}

@@ -258,11 +258,11 @@ const gchar *lsp_utils_get_user_config_filename(void)
 		gchar *cont = NULL;
 
 		utils_mkdir(dirname, TRUE);
-		msgwin_status_add("User LSP config filename %s does not exist, creating", filename);
+		msgwin_status_add(_("User LSP config filename %s does not exist, creating"), filename);
 		if (!g_file_get_contents(global_config, &cont, NULL, NULL))
-			msgwin_status_add("Cannot read global LSP config filename %s", global_config);
+			msgwin_status_add(_("Cannot read global LSP config filename %s"), global_config);
 		if (!g_file_set_contents(filename, cont ? cont : "", -1, NULL))
-			msgwin_status_add("Cannot write user LSP config filename %s", filename);
+			msgwin_status_add(_("Cannot write user LSP config filename %s"), filename);
 		g_free(cont);
 	}
 

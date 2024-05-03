@@ -466,7 +466,6 @@ static void on_document_close(G_GNUC_UNUSED GObject * obj, GeanyDocument *doc,
 		return;
 
 	lsp_sync_text_document_did_close(srv, doc);
-	//printf("close document\n");
 }
 
 

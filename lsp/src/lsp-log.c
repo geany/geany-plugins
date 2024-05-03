@@ -64,7 +64,7 @@ LspLogInfo lsp_log_start(LspServerConfig *config)
 		info.stream = g_file_create(fp, G_FILE_CREATE_NONE, NULL, NULL);
 
 		if (!info.stream)
-			g_warning("failed to create log file: %s\n", config->rpc_log);
+			msgwin_status_add(_("Failed to create log file: %s"), config->rpc_log);
 
 		g_object_unref(fp);
 	}

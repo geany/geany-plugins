@@ -42,7 +42,6 @@ void lsp_symbol_free(LspSymbol *symbol);
 
 #include <geanyplugin.h>
 
-
 TMTag *tm_tag_new(void);
 
 void tm_tag_unref(TMTag *tag);

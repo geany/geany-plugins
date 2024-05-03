@@ -181,8 +181,11 @@ lipsum/src/lipsum.c
 # LSP
 lsp/src/lsp-code-lens.c
 lsp/src/lsp-goto-anywhere.c
+lsp/src/lsp-log.c
 lsp/src/lsp-main.c
 lsp/src/lsp-rename.c
+lsp/src/lsp-server.c
+lsp/src/lsp-utils.c
 
 # Markdown
 markdown/src/conf.c
