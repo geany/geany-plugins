@@ -468,6 +468,8 @@ static void on_document_close(G_GNUC_UNUSED GObject * obj, GeanyDocument *doc,
 	if (!srv)
 		return;
 
+	lsp_diagnostics_clear(doc);
+	lsp_semtokens_clear(doc);
 	lsp_sync_text_document_did_close(srv, doc);
 }
 
