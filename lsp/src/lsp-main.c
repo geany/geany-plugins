@@ -1109,10 +1109,17 @@ static void show_hover_popup(void)
 
 static void on_rename_done(void)
 {
+	GeanyDocument *doc = document_get_current();;
+
 	// TODO: workaround strange behavior of clangd: it doesn't seem to reflect changes
 	// in non-open files unless all files are saved and the server is restarted
 	lsp_utils_save_all_docs();
 	restart_all_servers();
+	if (doc)
+	{
+		if (symbol_highlight_provided(doc))
+			lsp_semtokens_send_request(doc);
+	}
 }
 
 
