@@ -328,9 +328,10 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 			s->config.signature_enable = FALSE;
 
 		update_config(return_value, &s->config.hover_enable, "hoverProvider");
-		update_config(return_value, &s->config.hover_popup_enable, "hoverProvider");
+		update_config(return_value, &s->config.hover_available, "hoverProvider");
 		update_config(return_value, &s->config.goto_enable, "definitionProvider");
 		update_config(return_value, &s->config.document_symbols_enable, "documentSymbolProvider");
+		update_config(return_value, &s->config.document_symbols_available, "documentSymbolProvider");
 		update_config(return_value, &s->config.highlighting_enable, "documentHighlightProvider");
 		update_config(return_value, &s->config.code_lens_enable, "codeLensProvider");
 
@@ -688,7 +689,9 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	s->config.execute_command_enable = TRUE;
 	s->config.code_action_enable = TRUE;
 	s->config.rename_enable = TRUE;
-	s->config.hover_popup_enable = TRUE;
+
+	s->config.hover_available = TRUE;
+	s->config.document_symbols_available = TRUE;
 }
 
 

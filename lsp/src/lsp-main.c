@@ -381,7 +381,7 @@ static void update_menu(GeanyDocument *doc)
 	gboolean goto_declaration_enable = srv && srv->config.goto_declaration_enable;
 	gboolean goto_implementation_enable = srv && srv->config.goto_implementation_enable;
 	gboolean diagnostics_enable = srv && srv->config.diagnostics_enable;
-	gboolean hover_popup_enable = srv && srv->config.hover_popup_enable;
+	gboolean hover_popup_enable = srv && srv->config.hover_available;
 
 	gtk_widget_set_sensitive(menu_items.goto_def, goto_definition_enable);
 	gtk_widget_set_sensitive(menu_items.goto_decl, goto_declaration_enable);

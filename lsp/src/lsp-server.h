@@ -60,7 +60,7 @@ typedef struct
 	gchar *formatting_options_file;
 
 	gboolean hover_enable;
-	gboolean hover_popup_enable;
+	gboolean hover_available;
 	gint hover_popup_max_lines;
 	gint hover_popup_max_paragraphs;
 
@@ -69,6 +69,7 @@ typedef struct
 	gboolean goto_enable;
 
 	gboolean document_symbols_enable;
+	gboolean document_symbols_available;
 
 	gboolean semantic_tokens_enable;
 	gint semantic_tokens_lexer_kw_index;

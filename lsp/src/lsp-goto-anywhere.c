@@ -204,7 +204,7 @@ static void perform_lookup(const gchar *query)
 	}
 	else if (g_str_has_prefix(query_str, "@"))
 	{
-		if (srv && srv->config.document_symbols_enable)
+		if (srv && srv->config.document_symbols_available)
 		{
 			DocQueryData *data = g_new0(DocQueryData, 1);
 			data->query = g_strdup(query_str);
