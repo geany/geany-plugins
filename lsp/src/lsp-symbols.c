@@ -149,7 +149,7 @@ static void parse_symbols(GPtrArray *symbols, GVariant *symbol_variant, const gc
 
 		if (uri_str)
 			sym->file_name = lsp_utils_get_real_path_from_uri_utf8(uri_str);
-		else if (doc)
+		else if (doc && doc->real_path)
 			sym->file_name = utils_get_utf8_from_locale(doc->real_path);
 
 		g_ptr_array_add(symbols, sym);
@@ -240,10 +240,14 @@ void lsp_symbols_doc_request(GeanyDocument *doc, LspCallback callback,
 	gpointer user_data)
 {
 	LspServer *server = lsp_server_get_if_running(doc);
-	LspSymbolUserData *data = g_new0(LspSymbolUserData, 1);
+	LspSymbolUserData *data;
 	GVariant *node;
 	gchar *doc_uri;
 
+	if (!doc || !doc->real_path)
+		return;
+
+	data = g_new0(LspSymbolUserData, 1);
 	data->user_data = user_data;
 	data->doc = doc;
 	data->callback = callback;

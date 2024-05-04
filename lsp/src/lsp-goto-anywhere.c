@@ -50,12 +50,14 @@ static void doc_symbol_cb(gpointer user_data)
 {
 	DocQueryData *data = user_data;
 	GeanyDocument *doc = document_get_current();
-	GPtrArray *symbols = lsp_symbols_doc_get_cached(doc);
 	gchar *text = data->query;
+	GPtrArray *symbols;
 	GPtrArray *filtered;
 
 	if (doc != data->doc)
 		return;
+
+	symbols = lsp_symbols_doc_get_cached(doc);
 
 	filtered = lsp_goto_panel_filter(symbols, text[0] ? text + 1 : text);
 	lsp_goto_panel_fill(filtered);
@@ -209,7 +211,7 @@ static void perform_lookup(const gchar *query)
 			data->doc = doc;
 			lsp_symbols_doc_request(doc, doc_symbol_cb, data);
 		}
-		else
+		else if (doc)
 		{
 			GPtrArray *tags = doc->tm_file ? doc->tm_file->tags_array : g_ptr_array_new();
 			goto_tm_symbol(query_str+1, tags, doc->file_type->lang);
@@ -218,7 +220,10 @@ static void perform_lookup(const gchar *query)
 		}
 	}
 	else if (g_str_has_prefix(query_str, ":"))
-		goto_line(doc, query_str+1);
+	{
+		if (doc && doc->real_path)
+			goto_line(doc, query_str+1);
+	}
 	else
 		goto_file(query_str);
 }

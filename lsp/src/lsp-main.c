@@ -408,6 +408,11 @@ static void on_document_visible(GeanyDocument *doc)
 	if (session_opening)
 		return;
 
+	update_menu(doc);
+
+	if (!doc)
+		return;
+
 	srv = lsp_server_get(doc);
 
 	lsp_diagnostics_style_init(doc);
@@ -431,8 +436,6 @@ static void on_document_visible(GeanyDocument *doc)
 
 	if (symbol_highlight_provided(doc))
 		lsp_semtokens_send_request(doc);
-
-	update_menu(doc);
 
 	if (!srv)
 		return;

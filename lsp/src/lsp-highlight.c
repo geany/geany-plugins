@@ -204,6 +204,9 @@ void lsp_highlight_send_request(LspServer *server, GeanyDocument *doc)
 {
 	gint pos = sci_get_current_position(doc->editor->sci);
 
+	if (!doc || !doc->real_path)
+		return;
+
 	send_request(server, doc, pos, TRUE);
 }
 
@@ -213,7 +216,7 @@ void lsp_highlight_rename(gint pos)
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
 
-	if (!srv)
+	if (!srv || !doc->real_path)
 		return;
 
 	send_request(srv, doc, pos, FALSE);

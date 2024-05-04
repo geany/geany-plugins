@@ -152,14 +152,17 @@ void lsp_rename_send_request(gint pos, GCallback on_rename_done)
 {
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
-	ScintillaObject *sci = doc->editor->sci;
-	LspPosition lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
+	ScintillaObject *sci;
+	LspPosition lsp_pos;
 	GVariant *node;
 	gchar *selection;
 	gchar *iden;
 
 	if (!srv)
 		return;
+
+	sci = doc->editor->sci;
+	lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
 
 	iden = lsp_utils_get_current_iden(doc, pos);
 	selection = sci_get_selection_contents(sci);

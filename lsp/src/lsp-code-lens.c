@@ -262,6 +262,9 @@ void lsp_code_lens_send_request(GeanyDocument *doc)
 	gchar *doc_uri;
 	GVariant *node;
 
+	if (!doc || !doc->real_path)
+		return;
+
 	if (!server)
 	{
 		// happens when Geany and LSP server started - we cannot send the request yet

@@ -136,7 +136,7 @@ static const gchar *get_cached(GeanyDocument *doc)
 {
 	CachedData *data;
 
-	if (!cached_tokens || style_index > 0)
+	if (!cached_tokens || style_index > 0 || !doc->real_path)
 		return "";
 
 	data = g_hash_table_lookup(cached_tokens, doc->real_path);
@@ -440,12 +440,16 @@ static gboolean retry_cb(gpointer user_data)
 
 void lsp_semtokens_send_request(GeanyDocument *doc)
 {
-	LspSemtokensUserData *data = g_new0(LspSemtokensUserData, 1);
 	LspServer *server = lsp_server_get_if_running(doc);
+	LspSemtokensUserData *data;
 	gchar *doc_uri;
 	GVariant *node;
 	CachedData *cached_data;
 
+	if (!doc || !doc->real_path)
+		return;
+
+	data = g_new0(LspSemtokensUserData, 1);
 	data->doc = doc;
 
 	if (!server)
@@ -499,6 +503,9 @@ void lsp_semtokens_send_request(GeanyDocument *doc)
 
 void lsp_semtokens_clear(GeanyDocument *doc)
 {
+	if (!doc || !doc->real_path)
+		return;
+
 	g_hash_table_remove(cached_tokens, doc->real_path);
 	keyword_hash = 0;
 

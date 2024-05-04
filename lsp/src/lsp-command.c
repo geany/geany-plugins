@@ -145,11 +145,11 @@ static void code_action_cb(GVariant *return_value, GError *error, gpointer user_
 void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_cb)
 {
 	GeanyDocument *doc = document_get_current();
-	ScintillaObject *sci = doc->editor->sci;
 	LspServer *srv = lsp_server_get_if_running(doc);
-	LspPosition lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
 	GVariant *diag_raw = lsp_diagnostics_get_diag_raw(pos);
 	GVariant *node, *diagnostics, *diags_dict;
+	ScintillaObject *sci;
+	LspPosition lsp_pos;
 	GVariantDict dict;
 	GPtrArray *arr;
 	gchar *doc_uri;
@@ -161,6 +161,9 @@ void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_c
 		actions_resolved_cb();
 		return;
 	}
+
+	sci = doc->editor->sci;
+	lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
 
 	doc_uri = lsp_utils_get_doc_uri(doc);
 	arr = g_ptr_array_new_full(1, (GDestroyNotify) g_variant_unref);

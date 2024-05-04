@@ -256,7 +256,7 @@ void lsp_goto_definition(gint pos)
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
 
-	if (!srv)
+	if (!doc || !srv)
 		return;
 
 	perform_goto(srv, doc, pos, "textDocument/definition", FALSE);
@@ -268,7 +268,7 @@ void lsp_goto_declaration(gint pos)
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
 
-	if (!srv)
+	if (!doc || !srv)
 		return;
 
 	perform_goto(srv, doc, pos, "textDocument/declaration", FALSE);
@@ -280,7 +280,7 @@ void lsp_goto_type_definition(gint pos)
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
 
-	if (!srv)
+	if (!doc || !srv)
 		return;
 
 	perform_goto(srv, doc, pos, "textDocument/typeDefinition", FALSE);
@@ -292,7 +292,7 @@ void lsp_goto_implementations(gint pos)
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
 
-	if (!srv)
+	if (!doc || !srv)
 		return;
 
 	perform_goto(srv, doc, pos, "textDocument/implementation", TRUE);
@@ -304,7 +304,7 @@ void lsp_goto_references(gint pos)
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
 
-	if (!srv)
+	if (!doc || !srv)
 		return;
 
 	perform_goto(srv, doc, pos, "textDocument/references", TRUE);

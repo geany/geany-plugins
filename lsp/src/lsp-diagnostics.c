@@ -182,11 +182,12 @@ void lsp_diagnostics_goto_prev_diag(gint pos)
 
 void lsp_diagnostics_show_calltip(gint pos)
 {
+	GeanyDocument *doc = document_get_current();
 	LspDiag *diag = get_diag(pos, 0);
 	gchar *first = NULL;
 	gchar *second;
 
-	if (!diag)
+	if (!doc || !diag)
 		return;
 
 	second = diag->message;
@@ -200,7 +201,6 @@ void lsp_diagnostics_show_calltip(gint pos)
 
 	if (first || second)
 	{
-		GeanyDocument *doc = document_get_current();
 		ScintillaObject *sci = doc->editor->sci;
 		gchar *msg;
 
@@ -381,8 +381,11 @@ void lsp_diagnostics_received(GVariant* diags)
 
 void lsp_diagnostics_clear(GeanyDocument *doc)
 {
-	g_hash_table_remove(diag_table, doc->real_path);
-	lsp_diagnostics_redraw(doc);
+	if (doc && doc->real_path)
+	{
+		g_hash_table_remove(diag_table, doc->real_path);
+		lsp_diagnostics_redraw(doc);
+	}
 }
 
 
