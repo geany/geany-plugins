@@ -314,15 +314,13 @@ static void process_delta_result(GeanyDocument *doc, GVariant *result, guint64 t
 	if (cached_tokens)
 		data = g_hash_table_lookup(cached_tokens, doc->real_path);
 
-	// in case of some error clangd returns iter == NULL but still requires that
-	// result_id gets updated otherwise subsequent requests fail
-	if (data && result_id)
+	if (data && (!iter || !result_id))
 	{
-		g_free(data->result_id);
-		data->result_id = g_strdup(result_id);
+		// something got wrong - let's delete our cached result so the next request
+		// is full instead of delta which may be out of sync
+		g_hash_table_remove(cached_tokens, doc->real_path);
 	}
-
-	if (data && iter)
+	else if (data && iter && result_id)
 	{
 		GPtrArray *edits = g_ptr_array_new_full(4, (GDestroyNotify)sem_tokens_edit_free);
 		SemanticTokensEdit *edit;
@@ -365,6 +363,8 @@ static void process_delta_result(GeanyDocument *doc, GVariant *result, guint64 t
 
 		g_free(data->tokens_str);
 		data->tokens_str = process_tokens(data->tokens, doc, token_mask);
+		g_free(data->result_id);
+		data->result_id = g_strdup(result_id);
 
 		g_ptr_array_free(edits, TRUE);
 		g_variant_iter_free(iter);
