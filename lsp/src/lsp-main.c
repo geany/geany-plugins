@@ -1138,10 +1138,8 @@ static void invoke_kb(guint key_id, gint pos)
 {
 	GeanyDocument *doc = document_get_current();
 
-	if (!doc)
-		return;
-
-	pos = pos >= 0 ? pos : sci_get_current_position(doc->editor->sci);
+	if (pos < 0)
+		pos = doc ? sci_get_current_position(doc->editor->sci) : 0;
 
 	switch (key_id)
 	{
@@ -1204,12 +1202,12 @@ static void invoke_kb(guint key_id, gint pos)
 
 #ifndef HAVE_GEANY_PLUGIN_EXTENSION
 		case KB_INVOKE_AUTOCOMPLETE:
-			if (autocomplete_provided(doc))
+			if (doc && autocomplete_provided(doc))
 				autocomplete_perform(doc);
 			break;
 
 		case KB_SHOW_CALLTIP:
-			if (calltips_provided(doc))
+			if (doc && calltips_provided(doc))
 				calltips_show(doc, TRUE);
 			break;
 #endif
