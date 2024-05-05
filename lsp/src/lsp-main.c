@@ -460,10 +460,21 @@ static void on_document_open(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocu
 }
 
 
+static gboolean on_doc_close_idle(gpointer user_data)
+{
+	if (!document_get_current() && menu_items.parent_item)
+		update_menu(NULL);  // the last open document was closed
+
+	return FALSE;
+}
+
+
 static void on_document_close(G_GNUC_UNUSED GObject * obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
 	LspServer *srv = lsp_server_get_if_running(doc);
+
+	plugin_idle_add(geany_plugin, on_doc_close_idle, NULL);
 
 	if (!srv)
 		return;
@@ -1492,6 +1503,7 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 void plugin_cleanup(void)
 {
 	gtk_widget_destroy(menu_items.parent_item);
+	menu_items.parent_item = NULL;
 
 	gtk_widget_destroy(context_menu_items.goto_type_def);
 	gtk_widget_destroy(context_menu_items.goto_def);
