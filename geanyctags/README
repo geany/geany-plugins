@@ -11,7 +11,7 @@ GeanyCtags adds a simple support for generating and querying ctags files for a G
 project. It requires that the ctags command is installed in a system path. On
 unix systems, distributions usually provide the ctags package; on Windows, the
 ctags binary can be found in the zip Windows distribution from the ctags home
-page (http://ctags.sourceforge.net).
+page (https://ctags.sourceforge.net).
 
 Even though Geany supports symbol definition searching by itself within the open files
 (and with a plugin support within the whole project), tag regeneration can become
@@ -97,7 +97,7 @@ Downloads
 
 GeanyCtags is part of the combined Geany Plugins release.
 For more information and downloads, please visit
-http://plugins.geany.org/geany-plugins/
+https://plugins.geany.org/geany-plugins/
 
 Development Code
 ================
