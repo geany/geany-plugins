@@ -300,7 +300,7 @@ static gint sort_edits(gconstpointer a, gconstpointer b)
 }
 
 
-static void process_delta_result(GeanyDocument *doc, GVariant *result, guint64 token_mask)
+static gboolean process_delta_result(GeanyDocument *doc, GVariant *result, guint64 token_mask)
 {
 	GVariantIter *iter = NULL;
 	const gchar *result_id = NULL;
@@ -368,7 +368,11 @@ static void process_delta_result(GeanyDocument *doc, GVariant *result, guint64 t
 
 		g_ptr_array_free(edits, TRUE);
 		g_variant_iter_free(iter);
+
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 
@@ -396,14 +400,17 @@ static void semtokens_cb(GVariant *return_value, GError *error, gpointer user_da
 
 		if (doc_exists && srv)
 		{
+			gboolean success = TRUE;
+
 			//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
 
 			if (data->delta)
-				process_delta_result(doc, return_value, srv->semantic_token_mask);
+				success = process_delta_result(doc, return_value, srv->semantic_token_mask);
 			else
 				process_full_result(doc, return_value, srv->semantic_token_mask);
 
-			highlight_keywords(srv, doc);
+			if (success)
+				highlight_keywords(srv, doc);
 		}
 	}
 
@@ -458,8 +465,6 @@ void lsp_semtokens_send_request(GeanyDocument *doc)
 		plugin_timeout_add(geany_plugin, 300, retry_cb, data);
 		return;
 	}
-
-	highlight_keywords(server, doc);
 
 	doc_uri = lsp_utils_get_doc_uri(doc);
 
