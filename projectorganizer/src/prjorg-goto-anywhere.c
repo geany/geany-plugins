@@ -226,18 +226,27 @@ static void perform_lookup(const gchar *query)
 
 	if (g_str_has_prefix(query_str, "#"))
 	{
-		// TODO: possibly improve performance by binary searching the start and the end point
-		goto_tm_symbol(query_str+1, geany_data->app->tm_workspace->tags_array, doc->file_type->lang);
+		if (doc)
+		{
+			// TODO: possibly improve performance by binary searching the start and the end point
+			goto_tm_symbol(query_str+1, geany_data->app->tm_workspace->tags_array, doc->file_type->lang);
+		}
 	}
 	else if (g_str_has_prefix(query_str, "@"))
 	{
-		GPtrArray *tags = doc->tm_file ? doc->tm_file->tags_array : g_ptr_array_new();
-		goto_tm_symbol(query_str+1, tags, doc->file_type->lang);
-		if (!doc->tm_file)
-			g_ptr_array_free(tags, TRUE);
+		if (doc)
+		{
+			GPtrArray *tags = doc->tm_file ? doc->tm_file->tags_array : g_ptr_array_new();
+			goto_tm_symbol(query_str+1, tags, doc->file_type->lang);
+			if (!doc->tm_file)
+				g_ptr_array_free(tags, TRUE);
+		}
 	}
 	else if (g_str_has_prefix(query_str, ":"))
-		goto_line(doc, query_str+1);
+	{
+		if (doc)
+			goto_line(doc, query_str+1);
+	}
 	else
 		goto_file(query_str);
 }
@@ -298,14 +307,14 @@ static gchar *get_current_iden(GeanyDocument *doc, gint current_pos)
 static void goto_panel_query(const gchar *query_type, gboolean prefill)
 {
 	GeanyDocument *doc = document_get_current();
-	gint pos = sci_get_current_position(doc->editor->sci);
 	gchar *query = NULL;
+	gint pos;
 
-	if (!doc)
-		return;
-
-	if (prefill)
+	if (prefill && doc)
+	{
+		pos = sci_get_current_position(doc->editor->sci);
 		query = get_current_iden(doc, pos);
+	}
 	if (!query)
 		query = g_strdup("");
 	SETPTR(query, g_strconcat(query_type, query, NULL));
