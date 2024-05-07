@@ -433,11 +433,12 @@ void lsp_goto_panel_show(const gchar *query, LspGotoPanelLookupFunction func)
 	if (!panel_data.panel)
 		create_panel();
 
+	lookup_function = func;
+
 	gtk_entry_set_text(GTK_ENTRY(panel_data.entry), query);
 	gtk_list_store_clear(panel_data.store);
 	gtk_widget_show(panel_data.panel);
 
-	lookup_function = func;
 	lookup_function(query);
 }
 
