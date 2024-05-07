@@ -40,42 +40,53 @@ void cmd_goto_right(CmdContext *c, CmdParams *p)
 	SET_POS(p->sci, pos, TRUE);
 }
 
+static gint doc_line_from_visible_delta(CmdParams *p, gint line, gint delta, gint *previous)
+{
+	gint step = delta < 0 ? -1 : 1;
+	gint new_line = p->line;
+	gint left = abs(delta);
+	gint prev_line = -1, tmp;
+
+	if ((step > 0 && new_line < p->line_num - 1) || (step < 0 && new_line > 0)) {
+		while (left > 0) {
+			tmp = new_line;
+			if (SSM(p->sci, SCI_GETLINEVISIBLE, new_line, 0)) {
+				left--;
+				prev_line = tmp;
+			}
+			new_line += step;
+			if (new_line >= p->line_num || new_line <= 0) break;
+		}
+	}
+
+	if (previous) *previous = prev_line;
+
+	return new_line;
+}
 
 void cmd_goto_up(CmdContext *c, CmdParams *p)
 {
-	gint one_above, pos;
+	gint previous = -1;
+	gint new_line;
+	gint wrap_count;
 
 	if (p->line == 0)
 		return;
+
+	new_line = doc_line_from_visible_delta(p, p->line, -p->num, &previous);
 
 	/* Calling SCI_LINEUP/SCI_LINEDOWN in a loop for num lines leads to visible
 	 * slow scrolling. On the other hand, SCI_LINEUP preserves the value of
 	 * SCI_CHOOSECARETX which we cannot read directly from Scintilla and which
 	 * we want to keep - perform jump to previous/following line and add
 	 * one final SCI_LINEUP/SCI_LINEDOWN which recovers SCI_CHOOSECARETX for us. */
-	one_above = p->line - p->num - 1;
-	if (one_above >= 0 && SSM(p->sci, SCI_GETLINEVISIBLE, one_above, 0))
-	{
-		/* Every case except for the first line - go one line above and perform
-		 * SCI_LINEDOWN. This ensures that even with wrapping on, we get the
-		 * caret on the first line of the wrapped line */
-		pos = SSM(p->sci, SCI_GETLINEENDPOSITION, one_above, 0);
-		SET_POS_NOX(p->sci, pos, FALSE);
-		SSM(p->sci, SCI_LINEDOWN, 0, 0);
-	}
-	else
-	{
-		/* This is the first line and there is no line above - we need to go to
-		 * the following line and do SCI_LINEUP. In addition, when wrapping is
-		 * on, we need to repeat SCI_LINEUP to get to the first line of wrapping.
-		 * This may lead to visible slow scrolling which is why there's the
-		 * fast case above for anything else but the first line. */
-		gint one_below = p->line - p->num + 1;
-		gint wrap_count;
 
-		one_below = one_below > 0 ? one_below : 1;
-		pos = SSM(p->sci, SCI_POSITIONFROMLINE, one_below, 0);
+	if (previous > -1) {
+		guint pos = SSM(p->sci, SCI_POSITIONFROMLINE, previous, 0); 
 		SET_POS_NOX(p->sci, pos, FALSE);
+	}
+
+	if (new_line < p->line) {
 		SSM(p->sci, SCI_LINEUP, 0, 0);
 
 		wrap_count = SSM(p->sci, SCI_WRAPCOUNT, GET_CUR_LINE(p->sci), 0);
@@ -97,18 +108,20 @@ void cmd_goto_up_nonempty(CmdContext *c, CmdParams *p)
 
 static void goto_down(CmdParams *p, gint num)
 {
-	gint one_above, pos;
-	gint last_line = p->line_num - 1;
+	gint previous = -1;
+	gint new_line;
 
-	if (p->line == last_line)
+	if (p->line >= p->line_num - 1)
 		return;
 
-	/* see cmd_goto_up() for explanation */
-	one_above = p->line + num - 1;
-	one_above = one_above < last_line ? one_above : last_line - 1;
-	pos = SSM(p->sci, SCI_GETLINEENDPOSITION, one_above, 0);
-	SET_POS_NOX(p->sci, pos, FALSE);
-	SSM(p->sci, SCI_LINEDOWN, 0, 0);
+	new_line = doc_line_from_visible_delta(p, p->line, num, &previous);
+
+	if (previous > -1) {
+		guint pos = SSM(p->sci, SCI_GETLINEENDPOSITION, previous, 0);
+		SET_POS_NOX(p->sci, pos, FALSE);
+	}
+
+	if (new_line > p->line) SSM(p->sci, SCI_LINEDOWN, 0, 0);
 }
 
 
@@ -136,7 +149,7 @@ void cmd_goto_down_one_less_nonempty(CmdContext *c, CmdParams *p)
 void cmd_goto_page_up(CmdContext *c, CmdParams *p)
 {
 	gint shift = p->line_visible_num * p->num;
-	gint new_line = get_line_number_rel(p->sci, -shift);
+	gint new_line = doc_line_from_visible_delta(p, p->line, -shift, NULL);
 	goto_nonempty(p->sci, new_line, TRUE);
 }
 
@@ -144,7 +157,7 @@ void cmd_goto_page_up(CmdContext *c, CmdParams *p)
 void cmd_goto_page_down(CmdContext *c, CmdParams *p)
 {
 	gint shift = p->line_visible_num * p->num;
-	gint new_line = get_line_number_rel(p->sci, shift);
+	gint new_line = doc_line_from_visible_delta(p, p->line, shift, NULL);
 	goto_nonempty(p->sci, new_line, TRUE);
 }
 
@@ -152,7 +165,7 @@ void cmd_goto_page_down(CmdContext *c, CmdParams *p)
 void cmd_goto_halfpage_up(CmdContext *c, CmdParams *p)
 {
 	gint shift = p->num_present ? p->num : p->line_visible_num / 2;
-	gint new_line = get_line_number_rel(p->sci, -shift);
+	gint new_line = doc_line_from_visible_delta(p, p->line, -shift, NULL);
 	goto_nonempty(p->sci, new_line, TRUE);
 }
 
@@ -160,7 +173,7 @@ void cmd_goto_halfpage_up(CmdContext *c, CmdParams *p)
 void cmd_goto_halfpage_down(CmdContext *c, CmdParams *p)
 {
 	gint shift = p->num_present ? p->num : p->line_visible_num / 2;
-	gint new_line = get_line_number_rel(p->sci, shift);
+	gint new_line = doc_line_from_visible_delta(p, p->line, shift, NULL);
 	goto_nonempty(p->sci, new_line, TRUE);
 }
 
@@ -168,7 +181,8 @@ void cmd_goto_halfpage_down(CmdContext *c, CmdParams *p)
 void cmd_goto_line(CmdContext *c, CmdParams *p)
 {
 	gint num = p->num > p->line_num ? p->line_num : p->num;
-	goto_nonempty(p->sci, num - 1, TRUE);
+	num = doc_line_from_visible_delta(p, num, -1, NULL);
+	goto_nonempty(p->sci, num, TRUE);
 }
 
 
@@ -177,22 +191,31 @@ void cmd_goto_line_last(CmdContext *c, CmdParams *p)
 	gint num = p->num > p->line_num ? p->line_num : p->num;
 	if (!p->num_present)
 		num = p->line_num;
-	goto_nonempty(p->sci, num - 1, TRUE);
+	num = doc_line_from_visible_delta(p, num, -1, NULL);
+	goto_nonempty(p->sci, num, TRUE);
 }
 
 
 void cmd_goto_screen_top(CmdContext *c, CmdParams *p)
 {
+	gint line;
 	gint top = p->line_visible_first;
 	gint count = p->line_visible_num;
-	gint line = top + p->num;
-	goto_nonempty(p->sci, line > top + count ? top + count : line, FALSE);
+	gint max = doc_line_from_visible_delta(p, top, count, NULL);
+	gint num = p->num;
+
+	if (!p->num_present)
+		num = 0;
+
+	line = doc_line_from_visible_delta(p, top, num, NULL);
+	goto_nonempty(p->sci, line > max ? max : line, FALSE);
 }
 
 
 void cmd_goto_screen_middle(CmdContext *c, CmdParams *p)
 {
-	goto_nonempty(p->sci, p->line_visible_first + p->line_visible_num/2, FALSE);
+	gint num = doc_line_from_visible_delta(p, p->line_visible_first, p->line_visible_num / 2, NULL);
+	goto_nonempty(p->sci, num, FALSE);
 }
 
 
@@ -200,7 +223,7 @@ void cmd_goto_screen_bottom(CmdContext *c, CmdParams *p)
 {
 	gint top = p->line_visible_first;
 	gint count = p->line_visible_num;
-	gint line = top + count - p->num;
+	gint line = doc_line_from_visible_delta(p, top, count - p->num, NULL);
 	goto_nonempty(p->sci, line < top ? top : line, FALSE);
 }
 
