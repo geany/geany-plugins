@@ -22,6 +22,7 @@
 
 #include "prjorg-goto-anywhere.h"
 #include "prjorg-goto-panel.h"
+#include "prjorg-project.h"
 
 #include <gtk/gtk.h>
 #include <geanyplugin.h>
@@ -102,6 +103,7 @@ static void goto_line(GeanyDocument *doc, const gchar *line_str)
 static void goto_file(const gchar *file_str)
 {
 	GPtrArray *arr = g_ptr_array_new_full(0, (GDestroyNotify)prjorg_goto_symbol_free);
+	GHashTable *files_added = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 	GPtrArray *filtered;
 	guint i;
 
@@ -114,10 +116,33 @@ static void goto_file(const gchar *file_str)
 			continue;
 
 		sym = g_new0(PrjorgGotoSymbol, 1);
-		sym->name = g_path_get_basename(doc->real_path);
 		sym->file_name = utils_get_utf8_from_locale(doc->real_path);
+		sym->name = g_path_get_basename(sym->file_name);
 		sym->icon = _ICON_OTHER;
 		g_ptr_array_add(arr, sym);
+
+		g_hash_table_insert(files_added, g_strdup(sym->file_name), GINT_TO_POINTER(1));
+	}
+
+	if (prj_org && prj_org->roots)
+	{
+		PrjOrgRoot *root = prj_org->roots->data;
+		GHashTableIter iter;
+		gpointer key, value;
+
+		g_hash_table_iter_init(&iter, root->file_table);
+		while (g_hash_table_iter_next(&iter, &key, &value))
+		{
+			if (!g_hash_table_lookup(files_added, key))
+			{
+				PrjorgGotoSymbol *sym;
+				sym = g_new0(PrjorgGotoSymbol, 1);
+				sym->file_name = g_strdup(key);
+				sym->name = g_path_get_basename(key);
+				sym->icon = _ICON_NONE;
+				g_ptr_array_add(arr, sym);
+			}
+		}
 	}
 
 	filtered = prjorg_goto_panel_filter(arr, file_str);
@@ -125,6 +150,7 @@ static void goto_file(const gchar *file_str)
 
 	g_ptr_array_free(filtered, TRUE);
 	g_ptr_array_free(arr, TRUE);
+	g_hash_table_destroy(files_added);
 }
 
 

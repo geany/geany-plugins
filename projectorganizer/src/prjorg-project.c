@@ -70,7 +70,7 @@ static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer use
 }
 
 
-/* path - absolute path in locale, returned list in locale */
+/* path - absolute path in locale, returned list in utf8 */
 static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 		GSList *ignored_dirs_patterns, GSList *ignored_file_patterns, GHashTable *visited_paths)
 {
