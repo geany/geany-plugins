@@ -31,6 +31,8 @@
 #include <gtk/gtk.h>
 #include <webkit2/webkit2.h>
 
+#include <document.h>
+
 #include "gwh-utils.h"
 #include "gwh-settings.h"
 #include "gwh-keybindings.h"
@@ -76,7 +78,7 @@ static const gdouble zoom_in_factor = 1.2;
 static const gdouble zoom_out_factor = 1.0 / 1.2;
 
 
-G_DEFINE_TYPE (GwhBrowser, gwh_browser, GTK_TYPE_VBOX)
+G_DEFINE_TYPE_WITH_PRIVATE (GwhBrowser, gwh_browser, GTK_TYPE_BOX)
 
 
 static void
@@ -226,6 +228,27 @@ on_item_bookmark_toggled (GtkCheckMenuItem *item,
 }
 
 static void
+item_show_accelerator (GtkWidget *item,
+                       gsize      key_id)
+{
+  GeanyKeyBinding *binding = keybindings_get_item (gwh_keybindings_get_group (),
+                                                   key_id);
+
+  if (binding->key) {
+    /* we need an accel group for setting the accelerator, but we can't get
+     * Geany's.  It doesn't matter though, as this is only for showing the
+     * accelarator, not actually for tiggering the item. */
+    GtkAccelGroup *dummy_accel_group = gtk_accel_group_new ();
+
+    gtk_widget_add_accelerator (item, "activate", dummy_accel_group,
+                                binding->key, binding->mods,
+                                GTK_ACCEL_VISIBLE);
+    g_object_set_data_full (G_OBJECT (item), "dummy_accel_group",
+                            dummy_accel_group, g_object_unref);
+  }
+}
+
+static void
 on_url_entry_icon_press (GtkEntry            *entry,
                          GtkEntryIconPosition icon_pos,
                          GdkEventButton      *event,
@@ -243,10 +266,41 @@ on_url_entry_icon_press (GtkEntry            *entry,
                       G_CALLBACK (on_item_bookmark_toggled), self);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
     gtk_widget_show (item);
+    item_show_accelerator (item, GWH_KB_TOGGLE_BOOKMARK);
     
     gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
                     event->button, event->time);
   }
+}
+
+static void
+on_item_load_current_file_activate (GtkMenuItem  *item,
+                                    GwhBrowser   *self)
+{
+  gwh_browser_set_uri_from_document (self, document_get_current ());
+}
+
+static void
+on_url_entry_populate_popup (GtkEntry    *entry,
+                             GtkWidget   *menu,
+                             GwhBrowser  *self)
+{
+  GtkWidget *item;
+  GeanyDocument *doc = document_get_current ();
+
+  /* separator */
+  item = gtk_separator_menu_item_new ();
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_show (item);
+
+  /* load current file item */
+  item = gtk_menu_item_new_with_mnemonic (_("_Load current file"));
+  gtk_widget_set_sensitive (item, doc && doc->real_path);
+  g_signal_connect (item, "activate",
+                    G_CALLBACK (on_item_load_current_file_activate), self);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_show (item);
+  item_show_accelerator (item, GWH_KB_LOAD_CURRENT_FILE);
 }
 
 static gboolean
@@ -631,8 +685,6 @@ gwh_browser_class_init (GwhBrowserClass *klass)
                                                         "The browser's toolbar",
                                                         GTK_TYPE_TOOLBAR,
                                                         G_PARAM_READABLE));
-  
-  g_type_class_add_private (klass, sizeof (GwhBrowserPrivate));
 }
 
 /* a GtkEntryCompletionMatchFunc matching anywhere in the haystack */
@@ -751,6 +803,8 @@ create_toolbar (GwhBrowser *self)
                     G_CALLBACK (on_url_entry_activate), self);
   g_signal_connect (G_OBJECT (self->priv->url_entry), "icon-press",
                     G_CALLBACK (on_url_entry_icon_press), self);
+  g_signal_connect (G_OBJECT (self->priv->url_entry), "populate-popup",
+                    G_CALLBACK (on_url_entry_populate_popup), self);
   g_signal_connect (G_OBJECT (self->priv->url_combo), "notify::active",
                     G_CALLBACK (on_url_combo_active_notify), self);
   g_signal_connect (G_OBJECT (comp), "match-selected",
@@ -837,8 +891,9 @@ gwh_browser_init (GwhBrowser *self)
   WebKitWebContext   *wkcontext;
   gboolean            inspector_detached;
   
-  self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, GWH_TYPE_BROWSER,
-                                            GwhBrowserPrivate);
+  self->priv = gwh_browser_get_instance_private (self);
+  
+  gtk_orientable_set_orientation (GTK_ORIENTABLE (self), GTK_ORIENTATION_VERTICAL);
   
   self->priv->default_icon = NULL;
   /* web view need to be created first because we use it in create_toolbar() */
@@ -948,6 +1003,23 @@ gwh_browser_set_uri (GwhBrowser  *self,
     g_object_notify (G_OBJECT (self), "uri");
   }
   g_free (real_uri);
+}
+
+gboolean
+gwh_browser_set_uri_from_document (GwhBrowser    *self,
+                                   GeanyDocument *doc)
+{
+  gchar *uri;
+
+  /* document must exist on disk */
+  if (! doc || ! doc->real_path)
+    return FALSE;
+
+  uri = g_strconcat ("file://", doc->file_name, NULL);
+  gwh_browser_set_uri (self, uri);
+  g_free (uri);
+
+  return TRUE;
 }
 
 const gchar *

@@ -89,12 +89,22 @@ void glatex_usepackage(const gchar *pkg, const gchar *options)
 	ui_set_statusbar(TRUE, _("Could not determine where to insert package: %s"), pkg );
 }
 
-
 void glatex_enter_key_pressed_in_entry(G_GNUC_UNUSED GtkWidget *widget, gpointer dialog)
 {
 	gtk_dialog_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
 }
 
+void glatex_insert_snippet(const gchar *string)
+{
+	GeanyDocument *doc = NULL;
+
+	doc = document_get_current();
+	if (doc != NULL && string != NULL)
+	{
+		gint pos = sci_get_current_position(doc->editor->sci);
+		editor_insert_snippet(doc->editor, pos, string);
+	}
+}
 
 void
 glatex_insert_string(const gchar *string, gboolean reset_position)
@@ -116,7 +126,6 @@ glatex_insert_string(const gchar *string, gboolean reset_position)
 		editor_insert_text_block(doc->editor, string, pos, len, 0, TRUE);
 	}
 }
-
 
 void glatex_replace_special_character(void)
 {

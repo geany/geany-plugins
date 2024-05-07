@@ -26,9 +26,9 @@ Prominent features
 Requirements
 ============
 
-This plugin requires GTK+ (>= 2.16), GLib (>= 2.16), GIO (>= 2.18),
-GdkPixbuf (>= 2.0), WebKitGTK (>= 1.1.18), and obviously Geany (>= 0.20) to
-work. If you intend to build it yourself, you will need to get the development
+This plugin requires GTK3, GLib (>= 2.38), GIO (>= 2.30), GdkPixbuf,
+WebKit2GTK (either API 4.0 or 4.1), and obviously Geany (>= 1.25) to work.
+If you intend to build it yourself, you will need to get the development
 files of these libraries. You can find these packages at http://www.geany.org/,
 http://www.gtk.org/ and http://www.webkitgtk.org/.
 
@@ -46,6 +46,18 @@ Usage
 When loaded into Geany, this plugins adds a web view in the message window
 (the default), the sidebar or in a separate window. You can find most of the
 features from this view.
+
+The web view displays the URL chosen in the address bar.  This can be any valid
+URL that would work in a web browser, for example it could be a local web
+server like ``http://localhost/test/index.php``, a local file like
+``file:///home/user/projects/test/index.html``, or a remote website like
+``https://en.wikipedia.org/wiki/``.
+
+In addition to a rendered preview, the main feature is the inspector.  To
+inspect the displayed page, either open the inspector using the toolbar item on
+the far end of the address bar, or right click on any element of the page and
+select *Inspect Element*.  For more documentation on the inspector's features,
+see https://webkit.org/web-inspector/.
 
 Bookmarks
 ---------
