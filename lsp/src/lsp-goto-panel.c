@@ -446,6 +446,7 @@ void lsp_goto_panel_show(const gchar *query, LspGotoPanelLookupFunction func)
 GPtrArray *lsp_goto_panel_filter(GPtrArray *symbols, const gchar *filter)
 {
 	GPtrArray *ret = g_ptr_array_new();
+	gchar *case_normalized_filter;
 	gchar **tf_strv;
 	guint i;
 	guint j = 0;
@@ -453,29 +454,25 @@ GPtrArray *lsp_goto_panel_filter(GPtrArray *symbols, const gchar *filter)
 	if (!symbols)
 		return ret;
 
-	tf_strv = g_strsplit_set(filter, " ", -1);
+	case_normalized_filter = g_utf8_normalize(filter, -1, G_NORMALIZE_ALL);
+	SETPTR(case_normalized_filter, g_utf8_casefold(case_normalized_filter, -1));
 
-	for (i = 0; i < symbols->len && j < 100; i++)
+	tf_strv = g_strsplit_set(case_normalized_filter, " ", -1);
+
+	for (i = 0; i < symbols->len && j < 20; i++)
 	{
 		LspSymbol *symbol = symbols->pdata[i];
-		gchar *normalized_name = g_utf8_normalize(symbol->name, -1, G_NORMALIZE_ALL);
 		gboolean filtered = FALSE;
+		gchar *case_normalized_name;
 		gchar **val;
+
+		case_normalized_name = g_utf8_normalize(symbol->name, -1, G_NORMALIZE_ALL);
+		SETPTR(case_normalized_name, g_utf8_casefold(case_normalized_name, -1));
 
 		foreach_strv(val, tf_strv)
 		{
-			gchar *normalized_val = g_utf8_normalize(*val, -1, G_NORMALIZE_ALL);
-
-			if (normalized_name != NULL && normalized_val != NULL)
-			{
-				gchar *case_normalized_name = g_utf8_casefold(normalized_name, -1);
-				gchar *case_normalized_val = g_utf8_casefold(normalized_val, -1);
-
-				filtered = strstr(case_normalized_name, case_normalized_val) == NULL;
-				g_free(case_normalized_name);
-				g_free(case_normalized_val);
-			}
-			g_free(normalized_val);
+			if (case_normalized_name != NULL && *val != NULL)
+				filtered = strstr(case_normalized_name, *val) == NULL;
 
 			if (filtered)
 				break;
@@ -486,10 +483,11 @@ GPtrArray *lsp_goto_panel_filter(GPtrArray *symbols, const gchar *filter)
 			j++;
 		}
 
-		g_free(normalized_name);
+		g_free(case_normalized_name);
 	}
 
 	g_strfreev(tf_strv);
+	g_free(case_normalized_filter);
 
 	return ret;
 }
