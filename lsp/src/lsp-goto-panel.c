@@ -259,7 +259,7 @@ static gboolean on_panel_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			gboolean up = event->keyval == GDK_KEY_Page_Up || event->keyval == GDK_KEY_KP_Page_Up;
 			tree_view_move_focus(GTK_TREE_VIEW(panel_data.tree_view),
 				GTK_MOVEMENT_PAGES, up ? -1 : 1);
-		  return TRUE;
+			return TRUE;
 		}
 
 		case GDK_KEY_Up:
