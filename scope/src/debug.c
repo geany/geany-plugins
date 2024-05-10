@@ -207,6 +207,8 @@ static void create_send_source(void)
 	g_source_set_callback(send_source, (GSourceFunc) send_commands_cb, NULL,
 		send_source_destroy_cb);
 	send_source_id = g_source_attach(send_source, NULL);
+	/* cppcheck-suppress memleak symbolName=send_source
+	 * the source is attached and managed through its ID */
 }
 
 #define HAS_SPAWN_LEAVE_STDIN_OPEN 0
@@ -347,6 +349,8 @@ static void gdb_finalize(void)
 	if (send_channel)
 	{
 		g_io_channel_shutdown(send_channel, FALSE, NULL);
+		/* cppcheck-suppress doubleFree symbolName=send_channel
+		 * erroneously thinks g_io_channel_shutdown() frees the channel */
 		g_io_channel_unref(send_channel);
 		send_channel = NULL;
 

@@ -691,6 +691,7 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 
 		if (path)
 		{
+			/* cppcheck-suppress leakNoVarFunctionCall -- key is freed automatically */
 			g_hash_table_add(root->file_table, g_strdup(path));
 			filenum++;
 		}
@@ -757,6 +758,7 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
 	}
 
 	/* Update file table and counters. */
+	/* cppcheck-suppress leakNoVarFunctionCall -- key is freed automatically */
 	g_hash_table_add(root->file_table, g_strdup(filepath));
 	if (g_file_test(filepath, G_FILE_TEST_IS_DIR))
 	{
@@ -818,6 +820,7 @@ static void wb_project_dir_update_tags(WB_PROJECT_DIR *root)
 			gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
 
 			g_ptr_array_add(files, g_strdup(key));
+			/* cppcheck-suppress leakNoVarFunctionCall -- key is freed automatically */
 			g_hash_table_add(root->file_table, g_strdup(utf8_path));
 			g_free(locale_path);
 		}
@@ -960,6 +963,7 @@ static void wb_project_dir_regenerate_tags(WB_PROJECT_DIR *root, G_GNUC_UNUSED g
 		}
 
 		/* Add all files to the file-table (files and dirs)! */
+		/* cppcheck-suppress leakNoVarFunctionCall -- key is freed automatically */
 		g_hash_table_add(file_table, g_strdup(key));
 	}
 	g_hash_table_destroy(root->file_table);

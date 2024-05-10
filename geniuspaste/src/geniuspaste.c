@@ -381,6 +381,8 @@ static gchar *pastebin_get_language(const Pastebin *pastebin,
     gchar *lang = g_key_file_get_string(pastebin->config, PASTEBIN_GROUP_LANGUAGES,
                                         geany_ft_name, NULL);
 
+    /* cppcheck-suppress memleak symbolName=lang
+     * obvious cppcheck bug */
     return lang ? lang : pastebin_get_default(pastebin, "language", "");
 }
 
@@ -750,6 +752,9 @@ static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
     /* run the dialog */
     gtk_dialog_run(GTK_DIALOG(dlg));
     gtk_widget_destroy(dlg);
+
+    g_free(markup);
+    /* cppcheck-suppress memleak symbolName=dlg */
 }
 
 static void debug_log_message_body(SoupMessage *msg,

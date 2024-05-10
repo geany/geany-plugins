@@ -1121,6 +1121,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 		}
 		g_free(uri_new);
 	}
+	/* cppcheck-suppress doubleFree symbolName=uri */
 	g_free(uri);
 }
 
@@ -1192,6 +1193,7 @@ on_menu_refresh(GtkMenuItem *menuitem, gpointer *user_data)
 			}
 		}
 		treebrowser_browse(uri, target_iter);
+		/* cppcheck-suppress doubleFree symbolName=uri */
 		g_free(uri);
 	}
 	else

@@ -202,6 +202,7 @@ ggd_opt_group_add_entry (GgdOptGroup   *group,
   
   g_array_append_val (group->prefs, entry);
   
+  /* cppcheck-suppress memleak symbolName=entry.key */
   return &g_array_index (group->prefs, GgdOptEntry, group->prefs->len -1);
 }
 
