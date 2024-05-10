@@ -429,7 +429,7 @@ static void on_document_visible(GeanyDocument *doc)
 	{
 		gchar *ft_lower = g_utf8_strdown(doc->file_type->name, -1);
 
-		dialogs_show_msgbox(GTK_MESSAGE_WARNING, _("Because of conflicting implementations, the LSP plugin requires that symbol generation is disabled for the filetypes for which LSP is enabled.\n\nTo disable it for the current filetype, go to:\n\nTools->Configuration Files->...->filetypes.%s\n\nand under the [settings] section add tag_parser= (with no value after =) which disables the symbol parser."), ft_lower);
+		dialogs_show_msgbox(GTK_MESSAGE_WARNING, _("Because of conflicting implementations, the LSP plugin requires that symbol generation is disabled for the filetypes for which LSP is enabled.\n\nTo disable it for the current filetype, go to:\n\nTools->Configuration Files->...->filetypes.%s\n\nand under the [settings] section add tag_parser= (with no value after =) which disables the symbol parser. Plugin reload or Geany restart may be required afterwards."), ft_lower);
 		g_free(ft_lower);
 	}
 #endif
