@@ -1053,12 +1053,14 @@ gboolean lsp_server_uses_init_file(gchar *path)
 
 gchar *lsp_server_get_initialize_responses(void)
 {
-	GString *str = g_string_new("{");
-	guint i;
 	gboolean first = TRUE;
+	GString *str;
+	guint i;
 
 	if (!lsp_servers)
 		return FALSE;
+
+	str = g_string_new("{");
 
 	for (i = 0; i < lsp_servers->len; i++)
 	{

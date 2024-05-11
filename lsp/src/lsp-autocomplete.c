@@ -337,7 +337,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 		else
 		{
 			g_ptr_array_add(symbols_filtered, sym);
-			g_hash_table_add(entry_set, g_strdup(display_label));
+			g_hash_table_insert(entry_set, g_strdup(display_label), NULL);
 		}
 	}
 

@@ -227,7 +227,7 @@ static gchar *process_tokens(GArray *tokens, GeanyDocument *doc, guint64 token_m
 
 				str = sci_get_contents_range(sci, sci_pos_start, sci_pos_end);
 				if (str)
-					g_hash_table_add(type_table, str);
+					g_hash_table_insert(type_table, str, NULL);
 			}
 		}
 	}

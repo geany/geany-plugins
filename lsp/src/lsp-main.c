@@ -727,7 +727,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 		{
 			LspPosition pos_start = lsp_utils_scintilla_pos_to_lsp(sci, nt->position);
 			LspPosition pos_end = pos_start;
-			gchar *text = malloc(nt->length + 1);
+			gchar *text = g_malloc(nt->length + 1);
 
 			memcpy(text, nt->text, nt->length);
 			text[nt->length] = '\0';
