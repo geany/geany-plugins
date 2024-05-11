@@ -283,11 +283,12 @@ menu_item_activate(guint key_id)
 
 	log_func();
 
-	if(current_doc == NULL || current_doc->file_name == NULL || current_doc->file_name[0] == '\0')
-		return;
-		
+	if(current_doc && !EMPTY(current_doc->file_name))
+		directory_ref = g_path_get_dirname(current_doc->file_name);
+	else
+		directory_ref = g_strdup(g_get_home_dir());
+
 	/* Build current directory listing */
-	directory_ref = g_path_get_dirname(current_doc->file_name);
 	completion_list = build_file_list(directory_ref, "");
 
 	/* Create the user dialog and get response */
@@ -322,7 +323,8 @@ _show_dialog:
 
 			if (response == GTK_RESPONSE_OK)
 			{
-				document_new_file(chosen_path, current_doc->file_type, NULL);
+				document_new_file(chosen_path, (current_doc ?
+					current_doc->file_type : NULL), NULL);
 				document_set_text_changed(document_get_current(), TRUE);
 			}
 
