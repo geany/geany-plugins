@@ -78,6 +78,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	PLUGIN_VERSION,
 	"Jiri Techet <techet@gmail.com>")
 
+#define UPDATE_SOURCE_DOC_DATA "lsp_update_source"
 
 enum {
   KB_GOTO_DEFINITION,
@@ -608,6 +609,27 @@ static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 }
 
 
+static gboolean on_update_idle(gpointer data)
+{
+	GeanyDocument *doc = data;
+
+	if (!lsp_utils_doc_is_valid(doc))
+		return FALSE;
+
+	plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(0));
+
+	lsp_code_lens_send_request(doc);
+	if (symbol_highlight_provided(doc))
+		lsp_semtokens_send_request(doc);
+#ifdef HAVE_GEANY_PLUGIN_EXTENSION
+	if (doc_symbols_provided(doc))
+		lsp_symbols_doc_request(doc, lsp_symbol_request_cb, doc);
+#endif
+
+	return FALSE;
+}
+
+
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor, SCNotification *nt,
 	G_GNUC_UNUSED gpointer user_data)
 {
@@ -732,7 +754,6 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 			memcpy(text, nt->text, nt->length);
 			text[nt->length] = '\0';
 			lsp_sync_text_document_did_change(srv, doc, pos_start, pos_end, text);
-			lsp_code_lens_send_request(doc);
 
 			g_free(text);
 		}
@@ -743,19 +764,20 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 			gchar *text = g_strdup("");
 
 			lsp_sync_text_document_did_change(srv, doc, pos_start, pos_end, text);
-			lsp_code_lens_send_request(doc);
 
 			g_free(text);
 		}
 
 		if (nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_BEFOREDELETE))
 		{
-			if (symbol_highlight_provided(doc))
-				lsp_semtokens_send_request(doc);
-#ifdef HAVE_GEANY_PLUGIN_EXTENSION
-			if (doc_symbols_provided(doc))
-				lsp_symbols_doc_request(doc, lsp_symbol_request_cb, doc);
-#endif
+			guint update_source = GPOINTER_TO_UINT(plugin_get_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA));
+
+			if (update_source != 0)
+				g_source_remove(update_source);
+
+			// perform expensive queries only after some minimum delay
+			update_source = plugin_timeout_add(geany_plugin, 300, on_update_idle, doc);
+			plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(update_source));
 		}
 	}
 	else if (nt->nmhdr.code == SCN_UPDATEUI)
