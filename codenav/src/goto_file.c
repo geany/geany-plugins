@@ -296,10 +296,14 @@ menu_item_activate(guint key_id)
 _show_dialog:
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
 
-	/* Filename */
+	/* Entered filename */
 	chosen_file = gtk_entry_get_text(GTK_ENTRY(dialog_entry));
-	/* Path + Filename */
-	chosen_path = g_build_filename(directory_ref, chosen_file, NULL);
+
+	/* Filename as-is, if it's absolute, otherwise relative to the doc dir */
+	if (g_path_is_absolute(chosen_file))
+		chosen_path = g_strdup(chosen_file);
+	else
+		chosen_path = g_build_filename(directory_ref, chosen_file, NULL);
 
 	if ( response == GTK_RESPONSE_ACCEPT )
 	{
@@ -312,7 +316,7 @@ _show_dialog:
 													GTK_DIALOG_MODAL,
 													GTK_MESSAGE_QUESTION,
 													GTK_BUTTONS_OK_CANCEL,
-													_("%s not found, create it?"), chosen_file);
+													_("%s not found, create it?"), chosen_path);
 			gtk_window_set_title(GTK_WINDOW(dialog_new), "Geany");
 			response = gtk_dialog_run(GTK_DIALOG(dialog_new));
 
@@ -327,7 +331,10 @@ _show_dialog:
 			/* File wasn't found and user denied creating it,
 			 * go back to the initial "Go to file" dialog. */
 			if (response != GTK_RESPONSE_OK)
+			{
+				g_free(chosen_path);
 				goto _show_dialog;
+			}
 		}
 		else
 			document_open_file(chosen_path, FALSE, NULL, NULL);
@@ -336,5 +343,6 @@ _show_dialog:
 	/* Freeing memory */
 	gtk_widget_destroy(dialog);
 	g_free(directory_ref);
+	g_free(chosen_path);
 	g_object_unref (completion_list);
 }
