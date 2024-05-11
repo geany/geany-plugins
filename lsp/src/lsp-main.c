@@ -58,7 +58,6 @@ gchar *project_configuration_file;
 
 static gint last_click_pos;
 static gboolean ignore_selection_change;
-static gboolean session_opening;
 static GPtrArray *commands;
 
 
@@ -405,9 +404,6 @@ static void on_document_visible(GeanyDocument *doc)
 {
 	LspServer *srv;
 
-	if (session_opening)
-		return;
-
 	update_menu(doc);
 
 	if (!doc)
@@ -451,9 +447,6 @@ static void on_document_visible(GeanyDocument *doc)
 static void on_document_open(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
-	if (!session_opening)
-		on_document_visible(doc);
-
 #ifndef HAVE_GEANY_PLUGIN_EXTENSION
 	g_signal_connect(doc->editor->sci, "button-press-event", G_CALLBACK(on_button_press_event), doc);
 #endif
@@ -611,8 +604,7 @@ static void on_document_reload(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
-	if (!session_opening)
-		on_document_visible(doc);
+	on_document_visible(doc);
 }
 
 
@@ -1044,15 +1036,6 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 }
 
 
-static void on_session_opening(G_GNUC_UNUSED GObject *obj, gboolean opening,
-		G_GNUC_UNUSED gpointer user_data)
-{
-	session_opening = opening;
-	if (!opening)
-		on_document_visible(document_get_current());
-}
-
-
 PluginCallback plugin_callbacks[] = {
 	{"document-new", (GCallback) &on_document_new, FALSE, NULL},
 	{"document-open", (GCallback) &on_document_open, FALSE, NULL},
@@ -1064,7 +1047,6 @@ PluginCallback plugin_callbacks[] = {
 	{"document-filetype-set", (GCallback) &on_document_filetype_set, FALSE, NULL},
 	{"editor-notify", (GCallback) &on_editor_notify, FALSE, NULL},
 	{"update-editor-menu", (GCallback) &on_update_editor_menu, FALSE, NULL},
-	{"session-opening", (GCallback) &on_session_opening, FALSE, NULL},
 	{"project-open", (GCallback) &on_project_open, FALSE, NULL},
 	{"project-close", (GCallback) &on_project_close, FALSE, NULL},
 	{"project-save", (GCallback) &on_project_save, FALSE, NULL},
