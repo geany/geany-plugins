@@ -122,18 +122,8 @@ static void add_annotation(ScintillaObject *sci, gint line, const gchar *text)
 static void code_lens_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
 	GeanyDocument *doc = user_data;
-	gboolean doc_exists = FALSE;
+	gboolean doc_exists = lsp_utils_doc_is_valid(doc);
 	LspServer *srv;
-	gint i;
-
-	foreach_document(i)
-	{
-		if (doc == documents[i])
-		{
-			doc_exists = TRUE;
-			break;
-		}
-	}
 
 	srv = doc_exists ? lsp_server_get(doc) : NULL;
 

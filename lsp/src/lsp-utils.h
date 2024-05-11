@@ -112,4 +112,6 @@ void lsp_utils_save_all_docs(void);
 
 gboolean lsp_utils_doc_ft_has_tags(GeanyDocument *doc);
 
+gboolean lsp_utils_doc_is_valid(GeanyDocument *doc);
+
 #endif  /* LSP_UTILS_H */

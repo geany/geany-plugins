@@ -383,18 +383,8 @@ static void semtokens_cb(GVariant *return_value, GError *error, gpointer user_da
 	if (!error)
 	{
 		GeanyDocument *doc = data->doc;
-		gboolean doc_exists = FALSE;
+		gboolean doc_exists = lsp_utils_doc_is_valid(doc);
 		LspServer *srv;
-		gint i;
-
-		foreach_document(i)
-		{
-			if (doc == documents[i])
-			{
-				doc_exists = TRUE;
-				break;
-			}
-		}
 
 		srv = doc_exists ? lsp_server_get(doc) : NULL;
 
