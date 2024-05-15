@@ -611,7 +611,7 @@ static SoupMessage *json_request_new(const gchar *method,
     g_datalist_foreach(fields, append_json_data_item, str);
     g_string_append_c(str, '}');
     bytes = g_bytes_new_take(str->str, str->len);
-    g_string_free(str, FALSE);
+    (void) g_string_free(str, FALSE); /* buffer already taken above */
     soup_message_set_request_body_from_bytes(msg, "application/json", bytes);
     g_bytes_unref(bytes);
 
