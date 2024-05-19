@@ -337,5 +337,5 @@ void plugin_cleanup(void)
 
 void plugin_help(void)
 {
-	utils_open_browser("http://plugins.geany.org/vimode.html");
+	utils_open_browser("https://plugins.geany.org/vimode.html");
 }

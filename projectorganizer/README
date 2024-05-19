@@ -216,7 +216,7 @@ Downloads
 
 Project Organizer is part of the combined Geany Plugins release.
 For more information and downloads, please visit
-http://plugins.geany.org/geany-plugins/
+https://plugins.geany.org/geany-plugins/
 
 Development Code
 ================
@@ -228,9 +228,10 @@ Get the code from::
 Ideas, questions, patches and bug reports
 =========================================
 
-Please direct all questions, bug reports and patches to the plugin author using the
-email address listed below or to the Geany mailing list to get some help from other
-Geany users.
+Please direct all questions, bug reports and patches to the combined geany-plugins
+project at https://github.com/geany/geany-plugins and open the corresponding
+bug report or pull request there. To notify the author of this plugin about
+your post, mention him using his github user name (@techee).
 
 2010-2014 by Jiří Techet
 techet(at)gmail(dot)com

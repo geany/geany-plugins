@@ -106,7 +106,7 @@ This is an incomplete list of known limitations of the plugin:
 * only the 'g' flag is supported in the substitute command
 * in search and substitute the regular expressions are based on Scintilla regular
   expressions which differ from Vim. Check the Scintilla documentation at
-  http://www.scintilla.org/ScintillaDoc.html#Searching for more details.
+  https://www.scintilla.org/ScintillaDoc.html#Searching for more details.
   In addition, \c is also supported to allow case-insensitive search.
 
 FAQ
@@ -182,8 +182,10 @@ Jiří Techet, <techet(at)gmail(dot)com>.
 
 Bug Reports
 -----------
-To report bugs, please use the Geany-Plugins GitHub page at
-https://github.com/geany/geany-plugins/issues
+Please direct all questions, bug reports and patches to the combined geany-plugins
+project at https://github.com/geany/geany-plugins and open the corresponding
+bug report or pull request there. To notify the author of this plugin about
+your post, mention him using his github user name (@techee).
 
 License
 =======
@@ -198,7 +200,7 @@ Downloads
 =========
 
 Vimode is part of the combined Geany Plugins release. For more information and
-downloads, please visit http://plugins.geany.org/geany-plugins/
+downloads, please visit https://plugins.geany.org/geany-plugins/
 
 Source Code
 ===========
