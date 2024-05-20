@@ -52,6 +52,7 @@ typedef struct
 	gint autocomplete_window_max_width;
 
 	gboolean diagnostics_enable;
+	gchar *diagnostics_disable_for;
 	gchar *diagnostics_error_style;
 	gchar *diagnostics_warning_style;
 	gchar *diagnostics_info_style;

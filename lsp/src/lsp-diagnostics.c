@@ -180,14 +180,36 @@ void lsp_diagnostics_goto_prev_diag(gint pos)
 }
 
 
+static gboolean is_diagnostics_disabled_for(GeanyDocument *doc, LspServerConfig *cfg)
+{
+	gchar **comps = g_strsplit(cfg->diagnostics_disable_for, ";", -1);
+	gchar *fname = utils_get_utf8_from_locale(doc->real_path);
+	gboolean is_disabled = FALSE;
+	gint i = 0;
+
+	for (i = 0; comps && comps[i] && !is_disabled; i++)
+	{
+		// TODO: possibly precompile the glob and store somewhere if performance is a problem
+		if (g_pattern_match_simple(comps[i], fname))
+			is_disabled = TRUE;
+	}
+
+	g_strfreev(comps);
+	g_free(fname);
+
+	return is_disabled;
+}
+
+
 void lsp_diagnostics_show_calltip(gint pos)
 {
 	GeanyDocument *doc = document_get_current();
+	LspServerConfig *cfg = lsp_server_get_config(doc);
 	LspDiag *diag = get_diag(pos, 0);
 	gchar *first = NULL;
 	gchar *second;
 
-	if (!doc || !diag)
+	if (!doc || !diag || !cfg || is_diagnostics_disabled_for(doc, cfg))
 		return;
 
 	second = diag->message;
@@ -243,6 +265,9 @@ void lsp_diagnostics_redraw(GeanyDocument *doc)
 	gint i;
 
 	if (!doc || !doc->real_path || !cfg)
+		return;
+
+	if (is_diagnostics_disabled_for(doc, cfg))
 		return;
 
 	sci = doc->editor->sci;
