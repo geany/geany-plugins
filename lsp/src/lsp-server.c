@@ -73,7 +73,6 @@ static void free_server(LspServer *s)
 	{
 		g_object_unref(s->process);
 		lsp_rpc_destroy(s->rpc);
-		//TODO: check if stream should be closed
 		g_object_unref(s->stream);
 		lsp_log_stop(s->log);
 	}
