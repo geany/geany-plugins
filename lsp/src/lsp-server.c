@@ -40,12 +40,14 @@ static LspServer *lsp_server_init(gint ft);
 
 
 extern GeanyData *geany_data;
+extern GeanyPlugin *geany_plugin;
 extern LspProjectConfigurationType project_configuration_type;
 
 static GPtrArray *lsp_servers = NULL;
 static GPtrArray *servers_in_shutdown = NULL;
 
 static LspServerInitializedCallback lsp_server_initialized_cb;
+
 
 static void free_config(LspServerConfig *cfg)
 {
@@ -110,6 +112,20 @@ static void process_stopped(GObject *source_object, GAsyncResult *res, gpointer 
 }
 
 
+static gboolean kill_cb(gpointer user_data)
+{
+	LspServer *srv = user_data;
+
+	if (g_ptr_array_find(servers_in_shutdown, srv, NULL))
+	{
+		msgwin_status_add(_("Killing LSP server %s"), srv->config.cmd);
+		g_subprocess_force_exit(srv->process);
+	}
+
+	return FALSE;
+}
+
+
 static void shutdown_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
 	LspServer *srv = user_data;
@@ -121,13 +137,13 @@ static void shutdown_cb(GVariant *return_value, GError *error, gpointer user_dat
 	}
 	else
 	{
-		msgwin_status_add(_("Force terminating LSP server %s"), srv->config.cmd);
 #ifndef G_OS_WIN32
+		msgwin_status_add(_("Force terminating LSP server %s"), srv->config.cmd);
 		g_subprocess_send_signal(srv->process, SIGTERM);
 #endif
-		//TODO: check if sleep can be added here and if g_subprocess_send_signal() is executed immediately
-		g_subprocess_force_exit(srv->process);
 	}
+
+	plugin_timeout_add(geany_plugin, 2000, kill_cb, srv);
 }
 
 
