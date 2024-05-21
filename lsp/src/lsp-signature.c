@@ -149,11 +149,11 @@ void lsp_signature_show_next(void)
 void lsp_signature_send_request(LspServer *server, GeanyDocument *doc, gboolean force)
 {
 	GVariant *node;
+	gchar *doc_uri;
 	LspSignatureData *data;
 	ScintillaObject *sci = doc->editor->sci;
 	gint pos = sci_get_current_position(sci);
 	LspPosition lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
-	gchar *doc_uri = lsp_utils_get_doc_uri(doc);
 	gchar c = pos > 0 ? sci_get_char_at(sci, SSM(sci, SCI_POSITIONBEFORE, pos, 0)) : '\0';
 	gint lexer = sci_get_lexer(sci);
 	gint style = sci_get_style_at(sci, pos);
@@ -168,6 +168,8 @@ void lsp_signature_send_request(LspServer *server, GeanyDocument *doc, gboolean 
 	{
 		return;
 	}
+
+	doc_uri = lsp_utils_get_doc_uri(doc);
 
 	node = JSONRPC_MESSAGE_NEW (
 		"textDocument", "{",

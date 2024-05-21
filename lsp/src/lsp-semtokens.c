@@ -65,6 +65,7 @@ static void cached_data_free(CachedData *data)
 	g_array_free(data->tokens, TRUE);
 	g_free(data->tokens_str);
 	g_free(data->result_id);
+	g_free(data);
 }
 
 
@@ -120,6 +121,7 @@ static SemanticTokensEdit *sem_tokens_edit_new(void)
 static void sem_tokens_edit_free(SemanticTokensEdit *edit)
 {
 	g_array_free(edit->data, TRUE);
+	g_free(edit);
 }
 
 
