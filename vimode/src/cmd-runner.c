@@ -704,6 +704,7 @@ static gboolean process_cmd(CmdDef *cmds, CmdContext *ctx, gboolean ins_mode)
 	{
 		if (orig_mode == VI_MODE_COMMAND_SINGLE)
 			vi_set_mode(VI_MODE_INSERT);
+		ensure_current_line_expanded(ctx->sci);
 	}
 	else if (!consumed && ctx->kpl)
 	{

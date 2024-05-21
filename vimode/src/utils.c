@@ -219,3 +219,11 @@ void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll)
 		pos = NEXT(sci, pos);
 	SET_POS(sci, pos, scroll);
 }
+
+
+void ensure_current_line_expanded(ScintillaObject *sci)
+{
+	gint line = GET_CUR_LINE(sci);
+	if (!SSM(sci, SCI_GETLINEVISIBLE, line, 0))
+		SSM(sci, SCI_ENSUREVISIBLE, line, 0);
+}
