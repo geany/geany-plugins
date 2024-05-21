@@ -12,6 +12,8 @@ lsp_la_SOURCES = \
 	lsp-command.h \
 	lsp-diagnostics.c \
 	lsp-diagnostics.h \
+	lsp-extension.c \
+	lsp-extension.h \
 	lsp-format.c \
 	lsp-format.h \
 	lsp-goto-anywhere.c \

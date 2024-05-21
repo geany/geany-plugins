@@ -164,6 +164,13 @@ This feature enables quick navigation to the definition of the type associated
 with the symbol under the cursor, such as the type of a variable. You can also
 access this feature from the context menu.
 
+Swap header/source
+------------------
+
+This is a non-standard clangd extension allowing quick swapping between a
+source file and the corresponding header. This feature is not supported by
+any other language server.
+
 Find references
 ---------------
 

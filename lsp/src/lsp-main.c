@@ -37,6 +37,7 @@
 #include "lsp-command.h"
 #include "lsp-code-lens.h"
 #include "lsp-symbol.h"
+#include "lsp-extension.h"
 
 #include <sys/time.h>
 #include <string.h>
@@ -97,6 +98,7 @@ enum {
   KB_FIND_REFERENCES,
 
   KB_SHOW_HOVER_POPUP,
+  KB_SWAP_HEADER_SOURCE,
 
   KB_RENAME_IN_FILE,
   KB_RENAME_IN_PROJECT,
@@ -135,6 +137,7 @@ struct
 	GtkWidget *format_code;
 
 	GtkWidget *hover_popup;
+	GtkWidget *header_source;
 } menu_items;
 
 
@@ -1188,6 +1191,10 @@ static void invoke_kb(guint key_id, gint pos)
 			show_hover_popup();
 			break;
 
+		case KB_SWAP_HEADER_SOURCE:
+			lsp_extension_clangd_switch_source_header();
+			break;
+
 		case KB_RENAME_IN_FILE:
 			lsp_highlight_rename(pos);
 			break;
@@ -1370,6 +1377,15 @@ static void create_menu_items()
 		GUINT_TO_POINTER(KB_SHOW_HOVER_POPUP));
 	keybindings_set_item(group, KB_SHOW_HOVER_POPUP, NULL, 0, 0, "show_hover_popup",
 		_("Show hover popup"), menu_items.hover_popup);
+
+	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
+
+	menu_items.header_source = gtk_menu_item_new_with_mnemonic(_("Swap Header/Source"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.header_source);
+	g_signal_connect(menu_items.header_source, "activate", G_CALLBACK(on_menu_invoked),
+		GUINT_TO_POINTER(KB_SWAP_HEADER_SOURCE));
+	keybindings_set_item(group, KB_SWAP_HEADER_SOURCE, NULL, 0, 0, "swap_header_source",
+		_("Swap header/source"), menu_items.header_source);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
