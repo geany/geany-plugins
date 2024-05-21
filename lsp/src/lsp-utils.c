@@ -209,21 +209,23 @@ gchar *lsp_utils_get_project_base_path(void)
 
 static gchar *get_data_dir_path(const gchar *filename)
 {
+#ifdef GEANY_LSP_COMBINED_PROJECT
+	return g_build_filename(geany_data->app->datadir, PLUGIN, filename, NULL);
+#else
 	gchar *prefix = NULL;
 	gchar *path;
 
-#ifdef GEANY_LSP_COMBINED_PROJECT
-	return g_build_filename(geany_data->app->datadir, PLUGIN, filename, NULL);
-#elif defined(G_OS_WIN32)
+# if defined(G_OS_WIN32)
 	prefix = g_win32_get_package_installation_directory_of_module(NULL);
-#elif defined(__APPLE__)
+# elif defined(__APPLE__)
 	if (g_getenv("GEANY_PLUGINS_SHARE_PATH"))
 		return g_build_filename(g_getenv("GEANY_PLUGINS_SHARE_PATH"),
 								PLUGIN, filename, NULL);
-#endif
+# endif
 	path = g_build_filename(prefix ? prefix : "", PLUGINDATADIR, filename, NULL);
 	g_free(prefix);
 	return path;
+#endif
 }
 
 
