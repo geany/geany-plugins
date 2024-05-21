@@ -281,6 +281,9 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 		//"isIncomplete", JSONRPC_MESSAGE_GET_BOOLEAN(&is_incomplete),
 		"items", JSONRPC_MESSAGE_GET_ITER(&iter));
 
+	if (!iter)
+		return;
+
 	symbols = g_ptr_array_new_full(0, NULL);  // not freeing symbols here
 
 	while (g_variant_iter_loop(iter, "v", &member))

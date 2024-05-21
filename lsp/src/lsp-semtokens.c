@@ -285,9 +285,10 @@ static void process_full_result(GeanyDocument *doc, GVariant *result, guint64 to
 
 		g_free(data->tokens_str);
 		data->tokens_str = process_tokens(data->tokens, doc, token_mask);
-
-		g_variant_iter_free(iter);
 	}
+
+	if (iter)
+		g_variant_iter_free(iter);
 }
 
 
@@ -305,6 +306,7 @@ static gboolean process_delta_result(GeanyDocument *doc, GVariant *result, guint
 	GVariantIter *iter = NULL;
 	const gchar *result_id = NULL;
 	CachedData *data = NULL;
+	gboolean ret = FALSE;
 
 	JSONRPC_MESSAGE_PARSE(result,
 		"resultId", JSONRPC_MESSAGE_GET_STRING(&result_id),
@@ -333,27 +335,31 @@ static gboolean process_delta_result(GeanyDocument *doc, GVariant *result, guint
 			GVariant *val2 = NULL;
 			gint64 delete_count = 0;
 			gint64 start = 0;
+			gboolean success;
 
-			edit = sem_tokens_edit_new();
-
-			JSONRPC_MESSAGE_PARSE(val,
+			success = JSONRPC_MESSAGE_PARSE(val,
 				"start", JSONRPC_MESSAGE_GET_INT64(&start),
 				"deleteCount", JSONRPC_MESSAGE_GET_INT64(&delete_count),
 				"data", JSONRPC_MESSAGE_GET_ITER(&iter2)
 			);
 
-			edit->start = start;
-			edit->delete_count = delete_count;
-
-			while (g_variant_iter_loop(iter2, "v", &val2))
+			if (success)
 			{
-				guint v = g_variant_get_int64(val2);
-				g_array_append_val(edit->data, v);
+				edit = sem_tokens_edit_new();
+				edit->start = start;
+				edit->delete_count = delete_count;
+
+				while (g_variant_iter_loop(iter2, "v", &val2))
+				{
+					guint v = g_variant_get_int64(val2);
+					g_array_append_val(edit->data, v);
+				}
+
+				g_ptr_array_add(edits, edit);
 			}
 
-			g_ptr_array_add(edits, edit);
-
-			g_variant_iter_free(iter2);
+			if (iter2)
+				g_variant_iter_free(iter2);
 		}
 
 		g_ptr_array_sort(edits, sort_edits);
@@ -367,12 +373,14 @@ static gboolean process_delta_result(GeanyDocument *doc, GVariant *result, guint
 		data->result_id = g_strdup(result_id);
 
 		g_ptr_array_free(edits, TRUE);
-		g_variant_iter_free(iter);
 
-		return TRUE;
+		ret = TRUE;
 	}
 
-	return FALSE;
+	if (iter)
+		g_variant_iter_free(iter);
+
+	return ret;
 }
 
 

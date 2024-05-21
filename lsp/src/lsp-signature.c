@@ -111,7 +111,8 @@ static void signature_cb(GVariant *return_value, GError *error, gpointer user_da
 			else
 				show_signature(current_doc->editor->sci);
 
-			g_variant_iter_free(iter);
+			if (iter)
+				g_variant_iter_free(iter);
 		}
 	}
 

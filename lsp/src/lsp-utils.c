@@ -586,8 +586,8 @@ void lsp_utils_free_lsp_location(LspLocation *e)
 LspLocation *lsp_utils_parse_location(GVariant *variant)
 {
 	LspLocation *ret = NULL;
+	GVariant *range = NULL;
 	const gchar *uri;
-	GVariant *range;
 
 	gboolean success = JSONRPC_MESSAGE_PARSE(variant,
 		"uri", JSONRPC_MESSAGE_GET_STRING(&uri),
