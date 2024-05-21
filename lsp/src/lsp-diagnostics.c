@@ -390,6 +390,9 @@ void lsp_diagnostics_received(GVariant* diags)
 		lsp_diag->diag_raw = diag;
 
 		g_ptr_array_add(arr, lsp_diag);
+
+		if (range)
+			g_variant_unref(range);
 	}
 
 	g_ptr_array_sort(arr, sort_diags);

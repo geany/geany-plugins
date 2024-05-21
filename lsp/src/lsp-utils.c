@@ -355,6 +355,9 @@ LspTextEdit *lsp_utils_parse_text_edit(GVariant *variant)
 		ret->range = lsp_utils_parse_range(range);
 	}
 
+	if (range)
+		g_variant_unref(range);
+
 	return ret;
 }
 
@@ -595,9 +598,10 @@ LspLocation *lsp_utils_parse_location(GVariant *variant)
 		ret = g_new0(LspLocation, 1);
 		ret->uri = g_strdup(uri);
 		ret->range = lsp_utils_parse_range(range);
-
-		g_variant_unref(range);
 	}
+
+	if (range)
+		g_variant_unref(range);
 
 	return ret;
 }
