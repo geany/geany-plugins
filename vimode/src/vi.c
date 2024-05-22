@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "keypress.h"
 #include "excmd-prompt.h"
+#include "cmds/undo.h"
 
 #include <gdk/gdkkeysyms.h>
 
@@ -51,7 +52,8 @@ CmdContext ctx =
 	NULL, NULL, NULL,
 	FALSE, FALSE,
 	0, 1,
-	"", 0 
+	"", 0,
+	-1
 };
 
 
@@ -305,6 +307,10 @@ gboolean vi_notify_sci(SCNotification *nt)
 				SSM(sci, SCI_SETSEL, anchor_linepos, pos_linepos);
 		}
 	}
+
+	/* Keep position of undo operation */
+	if (nt->nmhdr.code == SCN_MODIFIED && (nt->modificationType & SC_MOD_BEFOREINSERT && nt->modificationType & SC_PERFORMED_UNDO) && nt->length > 1)
+		undo_update(&ctx, nt->position);
 
 	/* This makes sure that when we click behind the end of line in command mode,
 	 * the cursor is not placed BEHIND the last character but ON the last character.

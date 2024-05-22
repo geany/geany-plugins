@@ -57,6 +57,9 @@ typedef struct
 	 * copied N times when e.g. 'i' is preceded by a number or when using '.' */
 	gchar insert_buf[INSERT_BUF_LEN];
 	gint insert_buf_len;
+
+	/* cursor position to restore after undo */
+	gint undo_pos;
 } CmdContext;
 
 #endif

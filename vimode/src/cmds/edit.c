@@ -17,6 +17,7 @@
  */
 
 #include "cmds/edit.h"
+#include "cmds/undo.h"
 #include "utils.h"
 
 
@@ -161,13 +162,7 @@ void cmd_del_word_left(CmdContext *c, CmdParams *p)
 
 void cmd_undo(CmdContext *c, CmdParams *p)
 {
-	gint i;
-	for (i = 0; i < p->num; i++)
-	{
-		if (!SSM(p->sci, SCI_CANUNDO, 0, 0))
-			break;
-		SSM(p->sci, SCI_UNDO, 0, 0);
-	}
+	undo_apply(c, p->num);
 }
 
 
