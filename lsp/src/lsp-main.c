@@ -828,7 +828,7 @@ static void on_project_open(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 {
 	gboolean have_project_config;
 
-	project_configuration_type = g_key_file_get_integer(kf, "lsp", "settings_type", NULL);
+	project_configuration_type = utils_get_setting_integer(kf, "lsp", "settings_type", UnconfiguredConfigurationType);
 	project_configuration_file = g_key_file_get_string(kf, "lsp", "config_file", NULL);
 
 	have_project_config = lsp_utils_get_project_config_filename() != NULL;
@@ -886,9 +886,11 @@ static void on_combo_changed(void)
 
 static void add_project_properties_tab(GtkWidget *notebook)
 {
+	LspServerConfig *all_cfg = lsp_server_get_all_section_config();
 	GtkWidget *vbox, *hbox, *ebox, *table_box;
 	GtkWidget *label;
 	GtkSizeGroup *size_group;
+	gint combo_value;
 
 	table_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
 	gtk_box_set_spacing(GTK_BOX(table_box), 6);
@@ -903,7 +905,11 @@ static void add_project_properties_tab(GtkWidget *notebook)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use user configuration"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use project configuration"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Disable LSP Client for project"));
-	gtk_combo_box_set_active(GTK_COMBO_BOX(project_dialog.settings_type_combo), project_configuration_type);
+	if (project_configuration_type == UnconfiguredConfigurationType)
+		combo_value = all_cfg->enable_by_default ? UserConfigurationType : DisableConfigurationType;
+	else
+		combo_value = project_configuration_type;
+	gtk_combo_box_set_active(GTK_COMBO_BOX(project_dialog.settings_type_combo), combo_value);
 	g_signal_connect(project_dialog.settings_type_combo, "changed", on_combo_changed, NULL);
 
 	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
@@ -963,9 +969,12 @@ static void on_project_dialog_close(G_GNUC_UNUSED GObject * obj, GtkWidget * not
 static void on_project_save(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	g_key_file_set_integer(kf, "lsp", "settings_type", project_configuration_type);
-	g_key_file_set_string(kf, "lsp", "config_file",
-		project_configuration_file ? project_configuration_file : "");
+	if (project_configuration_type != UnconfiguredConfigurationType)
+	{
+		g_key_file_set_integer(kf, "lsp", "settings_type", project_configuration_type);
+		g_key_file_set_string(kf, "lsp", "config_file",
+			project_configuration_file ? project_configuration_file : "");
+	}
 }
 
 

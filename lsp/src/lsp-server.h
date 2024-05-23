@@ -41,6 +41,7 @@ typedef struct
 	gboolean rpc_log_full;
 	gchar *initialization_options_file;
 	gchar *initialization_options;
+	gboolean enable_by_default;
 	gboolean use_outside_project_dir;
 	gboolean use_without_project;
 
@@ -137,6 +138,7 @@ LspServer *lsp_server_get(GeanyDocument *doc);
 LspServer *lsp_server_get_for_ft(GeanyFiletype *ft);
 LspServer *lsp_server_get_if_running(GeanyDocument *doc);
 LspServerConfig *lsp_server_get_config(GeanyDocument *doc);
+LspServerConfig *lsp_server_get_all_section_config(void);
 gboolean lsp_server_is_usable(GeanyDocument *doc);
 GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id);
 

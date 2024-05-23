@@ -660,6 +660,7 @@ static void get_int(gint *dest, GKeyFile *kf, const gchar *section, const gchar 
 
 static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 {
+	get_bool(&s->config.use_outside_project_dir, kf, section, "enable_by_default");
 	get_bool(&s->config.use_outside_project_dir, kf, section, "use_outside_project_dir");
 	get_bool(&s->config.use_without_project, kf, section, "use_without_project");
 	get_bool(&s->config.rpc_log_full, kf, section, "rpc_log_full");
@@ -951,6 +952,17 @@ LspServerConfig *lsp_server_get_config(GeanyDocument *doc)
 
 	if (!s)
 		return NULL;
+
+	return &s->config;
+}
+
+
+LspServerConfig *lsp_server_get_all_section_config(void)
+{
+	// hack - the assumption is that nobody will ever configure anything for
+	// ABC so its settings are identical to the [all] section
+	GeanyFiletype *ft = filetypes_index(GEANY_FILETYPES_ABC);
+	LspServer *s = lsp_servers->pdata[ft->id];
 
 	return &s->config;
 }

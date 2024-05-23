@@ -46,6 +46,15 @@ accessible from::
 This file provides extensive information about all the settings options, so be
 sure to refer to it for more details.
 
+By default, the LSP plugin is disabled unless explicitly enabled for a
+project under
+
+::
+
+    Project->Properties->LSP Client
+
+This behavior can be controlled by the first three configuration options in
+the `[all]` section of the configuration file.
 
 To start a language server for a specific file type, create a section named
 ``[Filetype]`` (where ``Filetype`` is the name of a language as defined in Geany,

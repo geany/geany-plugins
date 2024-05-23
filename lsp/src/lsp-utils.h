@@ -26,6 +26,7 @@
 
 typedef enum
 {
+	UnconfiguredConfigurationType = -1,
 	UserConfigurationType,
 	ProjectConfigurationType,
 	DisableConfigurationType

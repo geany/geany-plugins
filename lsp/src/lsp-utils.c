@@ -297,7 +297,11 @@ const gchar *lsp_utils_get_config_filename(void)
 
 gboolean lsp_utils_is_lsp_disabled_for_project(void)
 {
-	return geany->app->project && project_configuration_type == DisableConfigurationType;
+	LspServerConfig *all_cfg = lsp_server_get_all_section_config();
+
+	return geany->app->project &&
+		(project_configuration_type == DisableConfigurationType ||
+		 (project_configuration_type == UnconfiguredConfigurationType && !all_cfg->enable_by_default));
 }
 
 
