@@ -182,10 +182,16 @@ void lsp_diagnostics_goto_prev_diag(gint pos)
 
 static gboolean is_diagnostics_disabled_for(GeanyDocument *doc, LspServerConfig *cfg)
 {
-	gchar **comps = g_strsplit(cfg->diagnostics_disable_for, ";", -1);
-	gchar *fname = utils_get_utf8_from_locale(doc->real_path);
 	gboolean is_disabled = FALSE;
 	gint i = 0;
+	gchar **comps;
+	gchar *fname;
+
+	if (!cfg->diagnostics_disable_for)
+		return FALSE;
+
+	comps = g_strsplit(cfg->diagnostics_disable_for, ";", -1);
+	fname = utils_get_utf8_from_locale(doc->real_path);
 
 	for (i = 0; comps && comps[i] && !is_disabled; i++)
 	{
