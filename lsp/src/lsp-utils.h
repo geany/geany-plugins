@@ -98,7 +98,7 @@ gboolean lsp_utils_apply_workspace_edit(GVariant *workspace_edit);
 
 gboolean lsp_utils_wrap_string(gchar *string, gint wrapstart);
 
-GVariant *lsp_utils_parse_json_file(const gchar *utf8_fname);
+GVariant *lsp_utils_parse_json_file(const gchar *utf8_fname, const gchar *fallback_json);
 
 ScintillaObject *lsp_utils_new_sci_from_file(const gchar *utf8_fname);
 

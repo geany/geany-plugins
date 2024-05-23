@@ -653,13 +653,21 @@ gboolean lsp_utils_wrap_string(gchar *string, gint wrapstart)
 }
 
 
-GVariant *lsp_utils_parse_json_file(const gchar *utf8_fname)
+GVariant *lsp_utils_parse_json_file(const gchar *utf8_fname, const gchar *fallback_json)
 {
-	JsonNode *json_node = json_from_string("{}", NULL);
-	GVariant *variant = json_gvariant_deserialize(json_node, NULL, NULL);
+	JsonNode *json_node = NULL;
+	GVariant *variant;
 	gchar *file_contents;
 	gchar *fname;
 	gboolean success;
+
+	if (fallback_json)
+		json_node = json_from_string(fallback_json, NULL);
+
+	if (!json_node)
+		json_node = json_from_string("{}", NULL);
+
+	variant = json_gvariant_deserialize(json_node, NULL, NULL);
 
 	json_node_free(json_node);
 

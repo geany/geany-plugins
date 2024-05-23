@@ -64,6 +64,9 @@ static void free_config(LspServerConfig *cfg)
 	g_free(cfg->highlighting_style);
 	g_free(cfg->code_lens_style);
 	g_free(cfg->formatting_options_file);
+	g_free(cfg->formatting_options);
+	g_free(cfg->initialization_options_file);
+	g_free(cfg->initialization_options);
 	g_strfreev(cfg->lang_id_mappings);
 }
 
@@ -501,7 +504,7 @@ static void perform_initialize(LspServer *server)
 		"trace", JSONRPC_MESSAGE_PUT_STRING("off"),
 		"initializationOptions", "{",
 			JSONRPC_MESSAGE_PUT_VARIANT(
-				lsp_utils_parse_json_file(server->config.initialization_options_file)),
+				lsp_utils_parse_json_file(server->config.initialization_options_file, server->config.initialization_options)),
 		"}"
 	);
 
@@ -621,6 +624,9 @@ static void get_str(gchar **dest, GKeyFile *kf, const gchar *section, const gcha
 	gchar *str_val = g_key_file_get_string(kf, section, key, NULL);
 
 	if (str_val)
+		g_strstrip(str_val);
+
+	if (str_val)
 	{
 		g_free(*dest);
 		*dest = str_val;
@@ -688,8 +694,6 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_int(&s->config.semantic_tokens_lexer_kw_index, kf, section, "semantic_tokens_lexer_kw_index");
 	get_str(&s->config.semantic_tokens_type_style, kf, section, "semantic_tokens_type_style");
 
-	get_str(&s->config.formatting_options_file, kf, section, "formatting_options_file");
-
 	get_bool(&s->config.highlighting_enable, kf, section, "highlighting_enable");
 	get_str(&s->config.highlighting_style, kf, section, "highlighting_style");
 
@@ -719,6 +723,9 @@ static void load_filetype_only_config(GKeyFile *kf, gchar *section, LspServer *s
 	get_str(&s->config.ref_lang, kf, section, "use");
 	get_str(&s->config.rpc_log, kf, section, "rpc_log");
 	get_str(&s->config.initialization_options_file, kf, section, "initialization_options_file");
+	get_str(&s->config.initialization_options, kf, section, "initialization_options");
+	get_str(&s->config.formatting_options_file, kf, section, "formatting_options_file");
+	get_str(&s->config.formatting_options, kf, section, "formatting_options");
 	get_strv(&s->config.lang_id_mappings, kf, section, "lang_id_mappings");
 }
 

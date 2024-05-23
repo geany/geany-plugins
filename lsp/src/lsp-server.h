@@ -40,6 +40,7 @@ typedef struct
 	gchar *rpc_log;
 	gboolean rpc_log_full;
 	gchar *initialization_options_file;
+	gchar *initialization_options;
 	gboolean use_outside_project_dir;
 	gboolean use_without_project;
 
@@ -59,6 +60,7 @@ typedef struct
 	gchar *diagnostics_hint_style;
 
 	gchar *formatting_options_file;
+	gchar *formatting_options;
 
 	gboolean hover_enable;
 	gboolean hover_available;

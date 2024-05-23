@@ -72,7 +72,7 @@ void lsp_format_perform(void)
 	sci = doc->editor->sci;
 	doc_uri = lsp_utils_get_doc_uri(doc);
 
-	GVariant *options = lsp_utils_parse_json_file(srv->config.formatting_options_file);
+	GVariant *options = lsp_utils_parse_json_file(srv->config.formatting_options_file, srv->config.formatting_options);
 
 	if (sci_has_selection(sci))
 	{
