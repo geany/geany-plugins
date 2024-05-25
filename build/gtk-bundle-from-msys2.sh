@@ -253,7 +253,6 @@ cleanup_unnecessary_files() {
 	rm -rf share/emacs
 	rm -rf share/GConf
 	rm -rf share/gir-1.0
-	rm -rf share/glib-2.0
 	rm -rf share/gnupg
 	rm -rf share/gtk-doc
 	rm -rf share/info

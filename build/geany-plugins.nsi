@@ -152,6 +152,8 @@ Section "Dependencies" SEC04
 SectionEnd
 
 Section -Post
+	Exec '"$INSTDIR\bin\glib-compile-schemas.exe" "$INSTDIR\share\glib-2.0\schemas"'
+
 	WriteUninstaller "$INSTDIR\uninst-plugins.exe"
 	WriteRegStr SHCTX "${PRODUCT_DIR_REGKEY}" Path "$INSTDIR"
 	${if} $Answer == "yes" ; if user is admin
