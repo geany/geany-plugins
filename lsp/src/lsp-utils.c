@@ -33,6 +33,7 @@
 
 extern GeanyData *geany_data;
 
+extern LspProjectConfiguration project_configuration;
 extern LspProjectConfigurationType project_configuration_type;
 extern gchar *project_configuration_file;
 
@@ -300,8 +301,8 @@ gboolean lsp_utils_is_lsp_disabled_for_project(void)
 	LspServerConfig *all_cfg = lsp_server_get_all_section_config();
 
 	return geany->app->project &&
-		(project_configuration_type == DisableConfigurationType ||
-		 (project_configuration_type == UnconfiguredConfigurationType && !all_cfg->enable_by_default));
+		(project_configuration == DisabledConfiguration ||
+		 (project_configuration == UnconfiguredConfiguration && !all_cfg->enable_by_default));
 }
 
 

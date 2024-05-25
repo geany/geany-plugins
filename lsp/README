@@ -37,14 +37,15 @@ to use, as some may have specific requirements. Note that many language servers,
 such as ``clangd``, ``pylsp``, and ``gopls``, are often packaged by Linux
 distributions, making them easy to install and use.
 
-By default, no language server is started when the plugin is loaded.
 You can configure servers and other settings using the User configuration file,
 accessible from::
 
     Tools->LSP Client->User configuration
 
 This file provides extensive information about all the settings options, so be
-sure to refer to it for more details.
+sure to refer to it for more details. The default configuration file comes with
+pre-configured values for ``clangd`` (C, C++), ``pylsp`` (Python), and ``gopls``
+(Go). Other servers have to be added manually.
 
 By default, the LSP plugin is disabled unless explicitly enabled for a
 project under
@@ -55,17 +56,6 @@ project under
 
 This behavior can be controlled by the first three configuration options in
 the `[all]` section of the configuration file.
-
-To start a language server for a specific file type, create a section named
-``[Filetype]`` (where ``Filetype`` is the name of a language as defined in Geany,
-such as ``Python``). Within this section, add the configuration option 
-``cmd=some_command``, where ``some_command`` is the command to start the server
-(for example, ``pylsp`` if the server is on your system's ``PATH``, or the full
-path to the server).
-
-The default configuration file comes with pre-configured values for ``clangd``
-(C, C++), ``pylsp`` (Python), and ``gopls`` (Go). To start these servers, simply
-uncomment the ``cmd`` configuration option.
 
 Language servers are started lazily, meaning they only launch when you switch
 a tab to a file with a filetype that has a corresponding LSP server configured.
@@ -82,15 +72,14 @@ for more details, refer to:
 https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
 
 In addition to the User configuration file, you can also create a per-project
-configuration file or a configuration file shared by multiple projects. This file
+configuration file (which can also be shared by multiple projects). This file
 can be configured under the
 
 ::
 
     Project->Properties->LSP Client
 
-tab. This tab also provides an option to completely disable LSP for specific
-projects.
+tab.
 
 Furthermore, the plugin offers a range of customizable keybindings, which can be
 configured from::

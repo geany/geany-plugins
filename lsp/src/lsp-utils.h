@@ -26,10 +26,16 @@
 
 typedef enum
 {
-	UnconfiguredConfigurationType = -1,
+	UnconfiguredConfiguration = -1,
+	DisabledConfiguration,
+	EnabledConfiguration
+} LspProjectConfiguration;
+
+
+typedef enum
+{
 	UserConfigurationType,
 	ProjectConfigurationType,
-	DisableConfigurationType
 } LspProjectConfigurationType;
 
 

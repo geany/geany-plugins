@@ -54,6 +54,7 @@
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 
+LspProjectConfiguration project_configuration;
 LspProjectConfigurationType project_configuration_type;
 gchar *project_configuration_file;
 
@@ -157,6 +158,7 @@ struct
 
 struct
 {
+	GtkWidget *enable_check_button;
 	GtkWidget *settings_type_combo;
 	GtkWidget *config_file_entry;
 	GtkWidget *path_box;
@@ -828,7 +830,8 @@ static void on_project_open(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 {
 	gboolean have_project_config;
 
-	project_configuration_type = utils_get_setting_integer(kf, "lsp", "settings_type", UnconfiguredConfigurationType);
+	project_configuration = utils_get_setting_boolean(kf, "lsp", "enabled", UnconfiguredConfiguration);
+	project_configuration_type = utils_get_setting_integer(kf, "lsp", "settings_type", UserConfigurationType);
 	project_configuration_file = g_key_file_get_string(kf, "lsp", "config_file", NULL);
 
 	have_project_config = lsp_utils_get_project_config_filename() != NULL;
@@ -857,6 +860,7 @@ static void on_project_dialog_confirmed(G_GNUC_UNUSED GObject *obj, GtkWidget *n
 	const gchar *config_file;
 	gboolean have_project_config;
 
+	project_configuration = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(project_dialog.enable_check_button));
 	project_configuration_type = gtk_combo_box_get_active(GTK_COMBO_BOX(project_dialog.settings_type_combo));
 	config_file = gtk_entry_get_text(GTK_ENTRY(project_dialog.config_file_entry));
 	SETPTR(project_configuration_file, g_strdup(config_file));
@@ -869,18 +873,19 @@ static void on_project_dialog_confirmed(G_GNUC_UNUSED GObject *obj, GtkWidget *n
 }
 
 
-static void update_sensitivity(LspProjectConfigurationType config)
+static void update_sensitivity(gboolean checkbox_enabled, LspProjectConfigurationType combo_state)
 {
-	if (config == ProjectConfigurationType)
-		gtk_widget_set_sensitive(project_dialog.path_box, TRUE);
-	else
-		gtk_widget_set_sensitive(project_dialog.path_box, FALSE);
+	gtk_widget_set_sensitive(project_dialog.settings_type_combo, checkbox_enabled);
+	gtk_widget_set_sensitive(project_dialog.path_box, checkbox_enabled && combo_state == ProjectConfigurationType);
 }
 
 
-static void on_combo_changed(void)
+static void on_config_changed(void)
 {
-	update_sensitivity(gtk_combo_box_get_active(GTK_COMBO_BOX(project_dialog.settings_type_combo)));
+	LspProjectConfigurationType combo_state = gtk_combo_box_get_active(GTK_COMBO_BOX(project_dialog.settings_type_combo));
+	gboolean checkbox_enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(project_dialog.enable_check_button));
+
+	update_sensitivity(checkbox_enabled, combo_state);
 }
 
 
@@ -891,26 +896,43 @@ static void add_project_properties_tab(GtkWidget *notebook)
 	GtkWidget *label;
 	GtkSizeGroup *size_group;
 	gint combo_value;
+	gboolean project_enabled;
+
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+	project_dialog.enable_check_button = gtk_check_button_new_with_label(_("Enable LSP client for project"));
+
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), project_dialog.enable_check_button, TRUE, TRUE, 12);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 12);
 
 	table_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
 	gtk_box_set_spacing(GTK_BOX(table_box), 6);
 
 	size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
 
-	label = gtk_label_new(_("Configuration:"));
+	label = gtk_label_new(_("Configuration type:"));
 	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 	gtk_size_group_add_widget(size_group, label);
 
 	project_dialog.settings_type_combo = gtk_combo_box_text_new();
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use user configuration"));
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use project configuration"));
-	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Disable LSP Client for project"));
-	if (project_configuration_type == UnconfiguredConfigurationType)
-		combo_value = all_cfg->enable_by_default ? UserConfigurationType : DisableConfigurationType;
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use user configuration file"));
+	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use project configuration file"));
+
+	if (project_configuration == UnconfiguredConfiguration)
+	{
+		project_enabled = all_cfg->enable_by_default;
+		combo_value = UserConfigurationType;
+	}
 	else
+	{
+		project_enabled = project_configuration;
 		combo_value = project_configuration_type;
+	}
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(project_dialog.enable_check_button), project_enabled);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(project_dialog.settings_type_combo), combo_value);
-	g_signal_connect(project_dialog.settings_type_combo, "changed", on_combo_changed, NULL);
+	g_signal_connect(project_dialog.settings_type_combo, "changed", on_config_changed, NULL);
+	g_signal_connect(project_dialog.enable_check_button, "toggled", on_config_changed, NULL);
 
 	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
@@ -928,7 +950,7 @@ static void add_project_properties_tab(GtkWidget *notebook)
 	gtk_entry_set_text(GTK_ENTRY(project_dialog.config_file_entry),
 		project_configuration_file ? project_configuration_file : "");
 
-	update_sensitivity(project_configuration_type);
+	update_sensitivity(project_enabled, combo_value);
 
 	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
@@ -937,7 +959,6 @@ static void add_project_properties_tab(GtkWidget *notebook)
 
 	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), table_box, TRUE, TRUE, 12);
-	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
 
 	label = gtk_label_new(_("LSP Client"));
@@ -969,8 +990,9 @@ static void on_project_dialog_close(G_GNUC_UNUSED GObject * obj, GtkWidget * not
 static void on_project_save(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (project_configuration_type != UnconfiguredConfigurationType)
+	if (project_configuration != UnconfiguredConfiguration)
 	{
+		g_key_file_set_boolean(kf, "lsp", "enabled", project_configuration);
 		g_key_file_set_integer(kf, "lsp", "settings_type", project_configuration_type);
 		g_key_file_set_string(kf, "lsp", "config_file",
 			project_configuration_file ? project_configuration_file : "");
