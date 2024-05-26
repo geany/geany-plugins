@@ -41,7 +41,7 @@ Unicode true
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
 ; Geany version should be major.minor only (patch level is ignored for version checking)
-!define REQUIRED_GEANY_VERSION "2.0"
+!define REQUIRED_GEANY_VERSION "2.1"
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; Version resource  ;
