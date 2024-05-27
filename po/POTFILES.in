@@ -87,6 +87,9 @@ geanygendoc/src/ggd-widget-doctype-selector.c
 # GeanyInsertnum
 geanyinsertnum/src/insertnum.c
 
+# incdec
+incdec/src/incdec-plugin.c
+
 # latex
 latex/src/bibtex.c
 latex/src/formatutils.c
