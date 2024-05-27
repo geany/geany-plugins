@@ -54,8 +54,8 @@
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 
-LspProjectConfiguration project_configuration;
-LspProjectConfigurationType project_configuration_type;
+LspProjectConfiguration project_configuration = UnconfiguredConfiguration;
+LspProjectConfigurationType project_configuration_type = UserConfigurationType;
 gchar *project_configuration_file;
 
 static gint last_click_pos;
@@ -837,6 +837,8 @@ static void on_project_open(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 
 static void on_project_close(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED gpointer user_data)
 {
+	project_configuration = UnconfiguredConfiguration;
+	project_configuration_type = UserConfigurationType;
 	g_free(project_configuration_file);
 	project_configuration_file = NULL;
 
