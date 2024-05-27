@@ -99,7 +99,7 @@ static void show_in_msgwin(LspLocation *loc, GHashTable *sci_table)
 		gchar *rel_path = lsp_utils_get_relative_path(base_path, fname);
 		gchar *locale_base_path = utils_get_locale_from_utf8(base_path);
 
-		if (!g_str_has_prefix(rel_path, ".."))
+		if (rel_path && !g_str_has_prefix(rel_path, ".."))
 			SETPTR(fname, g_strdup(rel_path));
 
 		msgwin_set_messages_dir(locale_base_path);

@@ -287,7 +287,7 @@ static void workspace_symbols_cb(GVariant *return_value, GError *error, gpointer
 	LspWorkspaceSymbolUserData *data = user_data;
 	GPtrArray *ret = g_ptr_array_new_full(0, (GDestroyNotify)lsp_symbol_free);
 
-	if (!error)
+	if (!error && g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
 	{
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
 

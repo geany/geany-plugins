@@ -127,7 +127,7 @@ static void code_lens_cb(GVariant *return_value, GError *error, gpointer user_da
 
 	srv = doc_exists ? lsp_server_get(doc) : NULL;
 
-	if (!error && srv)
+	if (!error && srv && g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
 	{
 		GVariant *code_action = NULL;
 		gint last_line = 0;

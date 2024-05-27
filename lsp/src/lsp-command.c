@@ -101,7 +101,7 @@ void lsp_command_send_request(LspServer *server, const gchar *cmd, GVariant *arg
 
 static void code_action_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
-	if (!error)
+	if (!error && g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
 	{
 		GCallback callback = user_data;
 		GVariant *code_action = NULL;
