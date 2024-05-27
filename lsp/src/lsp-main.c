@@ -423,6 +423,15 @@ static void on_document_visible(GeanyDocument *doc)
 	lsp_semtokens_style_init(doc);
 	lsp_code_lens_style_init(doc);
 
+	// this might not get called for the first time when server gets started because
+	// lsp_server_get() returns NULL. However, we also "open" current and modified
+	// documents after successful server handshake inside on_server_initialized()
+	if (srv && !lsp_sync_is_document_open(doc))
+		lsp_sync_text_document_did_open(srv, doc);
+
+	if (symbol_highlight_provided(doc))
+		lsp_semtokens_send_request(doc);
+
 #ifdef HAVE_GEANY_PLUGIN_EXTENSION
 	if (doc_symbols_provided(doc))
 		lsp_symbols_doc_request(doc, lsp_symbol_request_cb, doc);
@@ -435,18 +444,6 @@ static void on_document_visible(GeanyDocument *doc)
 		g_free(ft_lower);
 	}
 #endif
-
-	if (symbol_highlight_provided(doc))
-		lsp_semtokens_send_request(doc);
-
-	if (!srv)
-		return;
-
-	// this might not get called for the first time when server gets started because
-	// lsp_server_get() returns NULL. However, we also "open" current and modified
-	// documents after successful server handshake inside on_server_initialized()
-	if (!lsp_sync_is_document_open(doc))
-		lsp_sync_text_document_did_open(srv, doc);
 }
 
 
@@ -513,7 +510,7 @@ static void restart_all_servers(void)
 	stop_and_init_all_servers();
 
 	if (doc)
-		lsp_server_get(doc);
+		on_document_visible(doc);
 }
 
 
@@ -542,7 +539,7 @@ static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	{
 		// "new" documents without filename saved for the first time or
 		// "save as" performed
-		lsp_sync_text_document_did_open(srv, doc);
+		on_document_visible(doc);
 #ifndef HAVE_GEANY_PLUGIN_EXTENSION
 		g_signal_connect(doc->editor->sci, "button-press-event", G_CALLBACK(on_button_press_event), doc);
 #endif
@@ -589,13 +586,9 @@ static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *
 		lsp_sync_text_document_did_close(srv_old, doc);
 	}
 
-	// might be NULL because lsp_server_get() just launched new server but should
+	// might not succeed because lsp_server_get() just launched new server but should
 	// be opened once the new server starts
-	if (srv_new)
-	{
-		lsp_sync_text_document_did_open(srv_new, doc);
-		on_document_visible(doc);
-	}
+	on_document_visible(doc);
 }
 
 
@@ -1528,7 +1521,12 @@ static void on_server_initialized(LspServer *srv)
 			LspServer *s2 = lsp_server_get_if_running(doc);
 
 			if (s2)
-				lsp_sync_text_document_did_open(srv, doc);
+			{
+				if (doc == current_doc)
+					on_document_visible(doc);
+				else
+					lsp_sync_text_document_did_open(srv, doc);
+			}
 		}
 	}
 }
