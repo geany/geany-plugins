@@ -35,7 +35,10 @@ void lsp_command_free(LspCommand *cmd)
 {
 	g_free(cmd->title);
 	g_free(cmd->command);
-	g_variant_unref(cmd->arguments);
+	if (cmd->arguments)
+		g_variant_unref(cmd->arguments);
+	if (cmd->edit)
+		g_variant_unref(cmd->edit);
 	g_free(cmd);
 }
 
@@ -107,9 +110,13 @@ void lsp_command_perform(LspServer *server, LspCommand *cmd)
 
 static void code_action_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
-	if (!error && g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
+	GCallback callback = user_data;
+
+	if (error)
+		return;
+
+	if (g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
 	{
-		GCallback callback = user_data;
 		GVariant *code_action = NULL;
 		GVariantIter iter;
 
@@ -183,9 +190,9 @@ static void code_action_cb(GVariant *return_value, GError *error, gpointer user_
 					g_variant_unref(edit);
 			}
 		}
-
-		callback();
 	}
+
+	callback();
 }
 
 
@@ -214,13 +221,6 @@ void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_c
 
 	pos_start = sci_get_selection_start(sci);
 	pos_end = sci_get_selection_end(sci);
-
-	if (pos_start == pos_end)
-	{
-		gint line = sci_get_current_line(sci);
-		pos_start = sci_get_position_from_line(sci, line);
-		pos_end = sci_get_position_from_line(sci, line + 1);
-	}
 
 	lsp_pos_start = lsp_utils_scintilla_pos_to_lsp(sci, pos_start);
 	lsp_pos_end = lsp_utils_scintilla_pos_to_lsp(sci, pos_end);

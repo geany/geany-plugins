@@ -113,9 +113,9 @@ void lsp_code_lens_style_init(GeanyDocument *doc)
 
 static void add_annotation(ScintillaObject *sci, gint line, const gchar *text)
 {
-	SSM(sci, SCI_EOLANNOTATIONSETTEXT, line, (sptr_t)text);
-	SSM(sci, SCI_EOLANNOTATIONSETSTYLE, 0, 0);
 	SSM(sci, SCI_EOLANNOTATIONSETVISIBLE, EOLANNOTATION_ANGLE_FLAT, 0);
+	SSM(sci, SCI_EOLANNOTATIONSETSTYLE, line, 0);
+	SSM(sci, SCI_EOLANNOTATIONSETTEXT, line, (sptr_t)text);
 }
 
 
@@ -252,6 +252,8 @@ void lsp_code_lens_send_request(GeanyDocument *doc)
 	gchar *doc_uri;
 	GVariant *node;
 
+	g_ptr_array_set_size(commands, 0);
+
 	if (!doc || !doc->real_path)
 		return;
 
@@ -264,8 +266,6 @@ void lsp_code_lens_send_request(GeanyDocument *doc)
 
 	if (!server->config.code_lens_enable)
 		return;
-
-	g_ptr_array_set_size(commands, 0);
 
 	/* set annotation colors every time - Geany doesn't provide any notification
 	 * when color theme changes which also resets colors to some defaults. Even

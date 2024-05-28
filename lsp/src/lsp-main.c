@@ -60,6 +60,7 @@ gchar *project_configuration_file;
 
 static gint last_click_pos;
 static gboolean ignore_selection_change;
+static GPtrArray *commands;
 
 
 #ifdef GEANY_LSP_COMBINED_PROJECT
@@ -1010,7 +1011,6 @@ static void on_project_save(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 static void code_action_cb(GtkWidget *widget, gpointer user_data)
 {
 	GeanyDocument *doc = document_get_current();
-	GPtrArray *commands = lsp_command_get_resolved_code_actions();
 	LspServer *srv = lsp_server_get_if_running(doc);
 	guint index = GPOINTER_TO_UINT(user_data);
 	LspCommand *cmd;
@@ -1035,11 +1035,20 @@ static void update_command_menu_items(void)
 {
 	GeanyDocument *doc = document_get_current();
 	GtkWidget *menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(context_menu_items.command_item));
-	GPtrArray *commands = lsp_command_get_resolved_code_actions();
+	GPtrArray *arr = lsp_command_get_resolved_code_actions();
 	LspCommand *cmd;
 	guint i;
 
+	if (commands)
+		g_ptr_array_free(commands, TRUE);
+	commands = g_ptr_array_new();
+
 	gtk_container_foreach(GTK_CONTAINER(menu), remove_item, menu);
+
+	foreach_ptr_array(cmd, i, arr)
+	{
+		g_ptr_array_add(commands, cmd);
+	}
 
 	if (doc)
 	{
