@@ -55,6 +55,7 @@ static void free_config(LspServerConfig *cfg)
 	g_strfreev(cfg->env);
 	g_free(cfg->ref_lang);
 	g_strfreev(cfg->autocomplete_trigger_sequences);
+	g_strfreev(cfg->semantic_tokens_types);
 	g_free(cfg->semantic_tokens_type_style);
 	g_free(cfg->diagnostics_disable_for);
 	g_free(cfg->diagnostics_error_style);
@@ -193,7 +194,22 @@ static gchar *get_autocomplete_trigger_chars(GVariant *node)
 }
 
 
-static gboolean supports_semantic_tokens(GVariant *node)
+static gboolean supports_full_semantic_tokens(GVariant *node)
+{
+	gboolean val = FALSE;
+
+	JSONRPC_MESSAGE_PARSE(node,
+		"capabilities", "{",
+			"semanticTokensProvider", "{",
+				"full", JSONRPC_MESSAGE_GET_BOOLEAN(&val),
+			"}",
+		"}");
+
+	return val;
+}
+
+
+static gboolean supports_delta_semantic_tokens(GVariant *node)
 {
 	gboolean val = FALSE;
 
@@ -210,7 +226,7 @@ static gboolean supports_semantic_tokens(GVariant *node)
 }
 
 
-static guint64 get_semantic_token_mask(GVariant *node)
+static guint64 get_semantic_token_mask(LspServer *srv, GVariant *node)
 {
 	guint64 mask = 0;
 	guint64 index = 1;
@@ -225,21 +241,21 @@ static guint64 get_semantic_token_mask(GVariant *node)
 			"}",
 		"}");
 
-	if (iter)
+	if (iter && srv->config.semantic_tokens_types)
 	{
 		GVariant *val = NULL;
 		while (g_variant_iter_loop(iter, "v", &val))
 		{
 			const gchar *str = g_variant_get_string(val, NULL);
-			if (g_strcmp0(str, "namespace") == 0 ||
-				g_strcmp0(str, "type") == 0 ||
-				g_strcmp0(str, "class") == 0 ||
-				g_strcmp0(str, "enum") == 0 ||
-				g_strcmp0(str, "interface") == 0 ||
-				g_strcmp0(str, "struct") == 0 ||
-				g_strcmp0(str, "decorator") == 0)
+			gchar **token_ptr;
+
+			foreach_strv(token_ptr, srv->config.semantic_tokens_types)
 			{
-				mask |= index;
+				if (g_strcmp0(str, *token_ptr) == 0)
+				{
+					mask |= index;
+					break;
+				}
 			}
 
 			index <<= 1;
@@ -372,9 +388,10 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 
 		s->initialize_response = lsp_utils_json_pretty_print(return_value);
 
-		if (!supports_semantic_tokens(return_value))
+		s->config.semantic_tokens_supports_delta = supports_delta_semantic_tokens(return_value);
+		if (!supports_full_semantic_tokens(return_value) && !s->config.semantic_tokens_supports_delta)
 			s->config.semantic_tokens_enable = FALSE;
-		s->semantic_token_mask = get_semantic_token_mask(return_value);
+		s->semantic_token_mask = get_semantic_token_mask(s, return_value);
 
 		msgwin_status_add(_("LSP server %s initialized"), s->config.cmd);
 
@@ -709,6 +726,7 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_bool(&s->config.show_server_stderr, kf, section, "show_server_stderr");
 
 	get_bool(&s->config.semantic_tokens_enable, kf, section, "semantic_tokens_enable");
+	get_strv(&s->config.semantic_tokens_types, kf, section, "semantic_tokens_types");
 	get_int(&s->config.semantic_tokens_lexer_kw_index, kf, section, "semantic_tokens_lexer_kw_index");
 	get_str(&s->config.semantic_tokens_type_style, kf, section, "semantic_tokens_type_style");
 

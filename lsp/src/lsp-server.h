@@ -76,6 +76,8 @@ typedef struct
 	gboolean document_symbols_available;
 
 	gboolean semantic_tokens_enable;
+	gchar **semantic_tokens_types;
+	gboolean semantic_tokens_supports_delta;
 	gint semantic_tokens_lexer_kw_index;
 	gchar *semantic_tokens_type_style;
 
