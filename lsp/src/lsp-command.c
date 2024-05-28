@@ -70,32 +70,38 @@ static void command_cb(GVariant *return_value, GError *error, gpointer user_data
 }
 
 
-void lsp_command_send_request(LspServer *server, const gchar *cmd, GVariant *arguments)
+void lsp_command_perform(LspServer *server, LspCommand *cmd)
 {
-	GVariant *node;
+	if (cmd->edit)
+		lsp_utils_apply_workspace_edit(cmd->edit);
 
-	if (arguments)
+	if (cmd->command)
 	{
-		GVariantDict dict;
+		GVariant *node;
 
-		g_variant_dict_init(&dict, NULL);
-		g_variant_dict_insert_value(&dict, "command", g_variant_new_string(cmd));
-		g_variant_dict_insert_value(&dict, "arguments", arguments);
-		node = g_variant_take_ref(g_variant_dict_end(&dict));
+		if (cmd->arguments)
+		{
+			GVariantDict dict;
+
+			g_variant_dict_init(&dict, NULL);
+			g_variant_dict_insert_value(&dict, "command", g_variant_new_string(cmd->command));
+			g_variant_dict_insert_value(&dict, "arguments", cmd->arguments);
+			node = g_variant_take_ref(g_variant_dict_end(&dict));
+		}
+		else
+		{
+			node = JSONRPC_MESSAGE_NEW(
+				"command", JSONRPC_MESSAGE_PUT_STRING(cmd->command)
+			);
+		}
+
+		//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
+
+		lsp_rpc_call(server, "workspace/executeCommand", node,
+			command_cb, NULL);
+
+		g_variant_unref(node);
 	}
-	else
-	{
-		node = JSONRPC_MESSAGE_NEW (
-			"command", JSONRPC_MESSAGE_PUT_STRING(cmd)
-		);
-	}
-
-	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
-
-	lsp_rpc_call(server, "workspace/executeCommand", node,
-		command_cb, NULL);
-
-	g_variant_unref(node);
 }
 
 
@@ -115,26 +121,67 @@ static void code_action_cb(GVariant *return_value, GError *error, gpointer user_
 		{
 			const gchar *title = NULL;
 			const gchar *command = NULL;
-			GVariant *arguments = NULL;
+			GVariant *edit = NULL;
 			LspCommand *cmd;
+			gboolean is_command;
 
-			if (!JSONRPC_MESSAGE_PARSE(code_action,
-					"title", JSONRPC_MESSAGE_GET_STRING(&title),
-					"command", JSONRPC_MESSAGE_GET_STRING(&command)))
-			{
-				continue;
-			}
+			// Can either be Command or CodeAction:
+			//   Command {title: string; command: string; arguments?: LSPAny[];}
+			//   CodeAction {title: string; edit?: WorkspaceEdit; command?: Command;}
 
-			JSONRPC_MESSAGE_PARSE (code_action,
-				"arguments", JSONRPC_MESSAGE_GET_VARIANT(&arguments)
+			JSONRPC_MESSAGE_PARSE(code_action,
+				"title", JSONRPC_MESSAGE_GET_STRING(&title)
 			);
 
-			cmd = g_new0(LspCommand, 1);
-			cmd->title = g_strdup(title);
-			cmd->command = g_strdup(command);
-			cmd->arguments = arguments;
+			is_command = JSONRPC_MESSAGE_PARSE(code_action,
+				"command", JSONRPC_MESSAGE_GET_STRING(&command)
+			);
 
-			g_ptr_array_add(code_actions, cmd);
+			if (!is_command)
+			{
+				JSONRPC_MESSAGE_PARSE(code_action,
+					"command", "{",
+						"command", JSONRPC_MESSAGE_GET_STRING(&command),
+					"}"
+				);
+
+				JSONRPC_MESSAGE_PARSE(code_action,
+					"edit", JSONRPC_MESSAGE_GET_VARIANT(&edit)
+				);
+			}
+
+			if (title && (command || edit))
+			{
+				GVariant *arguments = NULL;
+
+				if (is_command)
+				{
+					JSONRPC_MESSAGE_PARSE(code_action,
+						"arguments", JSONRPC_MESSAGE_GET_VARIANT(&arguments)
+					);
+				}
+				else
+				{
+					JSONRPC_MESSAGE_PARSE(code_action,
+						"command", "{",
+							"arguments", JSONRPC_MESSAGE_GET_VARIANT(&arguments),
+						"}"
+					);
+				}
+
+				cmd = g_new0(LspCommand, 1);
+				cmd->title = g_strdup(title);
+				cmd->command = g_strdup(command);
+				cmd->arguments = arguments;
+				cmd->edit = edit;
+
+				g_ptr_array_add(code_actions, cmd);
+			}
+			else
+			{
+				if (edit)
+					g_variant_unref(edit);
+			}
 		}
 
 		callback();
@@ -148,34 +195,47 @@ void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_c
 	LspServer *srv = lsp_server_get_if_running(doc);
 	GVariant *diag_raw = lsp_diagnostics_get_diag_raw(pos);
 	GVariant *node, *diagnostics, *diags_dict;
+	LspPosition lsp_pos_start, lsp_pos_end;
+	gint pos_start, pos_end;
 	ScintillaObject *sci;
-	LspPosition lsp_pos;
 	GVariantDict dict;
 	GPtrArray *arr;
 	gchar *doc_uri;
 
 	lsp_command_send_code_action_init();
 
-	if (!srv || !diag_raw)
+	if (!srv)
 	{
 		actions_resolved_cb();
 		return;
 	}
 
 	sci = doc->editor->sci;
-	lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
 
-	doc_uri = lsp_utils_get_doc_uri(doc);
+	pos_start = sci_get_selection_start(sci);
+	pos_end = sci_get_selection_end(sci);
+
+	if (pos_start == pos_end)
+	{
+		gint line = sci_get_current_line(sci);
+		pos_start = sci_get_position_from_line(sci, line);
+		pos_end = sci_get_position_from_line(sci, line + 1);
+	}
+
+	lsp_pos_start = lsp_utils_scintilla_pos_to_lsp(sci, pos_start);
+	lsp_pos_end = lsp_utils_scintilla_pos_to_lsp(sci, pos_end);
+
 	arr = g_ptr_array_new_full(1, (GDestroyNotify) g_variant_unref);
-
-	// TODO: works with current position only, support selection range in the future
-	g_ptr_array_add(arr, g_variant_ref(diag_raw));
+	if (diag_raw)
+		g_ptr_array_add(arr, g_variant_ref(diag_raw));
 	diagnostics = g_variant_new_array(G_VARIANT_TYPE_VARDICT,
-		(GVariant **)(gpointer)arr->pdata, arr->len);
+		(GVariant **)arr->pdata, arr->len);
 
 	g_variant_dict_init(&dict, NULL);
 	g_variant_dict_insert_value(&dict, "diagnostics", diagnostics);
 	diags_dict = g_variant_take_ref(g_variant_dict_end(&dict));
+
+	doc_uri = lsp_utils_get_doc_uri(doc);
 
 	node = JSONRPC_MESSAGE_NEW (
 		"textDocument", "{",
@@ -183,12 +243,12 @@ void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_c
 		"}",
 		"range", "{",
 			"start", "{",
-				"line", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.line),
-				"character", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.character),
+				"line", JSONRPC_MESSAGE_PUT_INT32(lsp_pos_start.line),
+				"character", JSONRPC_MESSAGE_PUT_INT32(lsp_pos_start.character),
 			"}",
 			"end", "{",
-				"line", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.line),
-				"character", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.character),
+				"line", JSONRPC_MESSAGE_PUT_INT32(lsp_pos_end.line),
+				"character", JSONRPC_MESSAGE_PUT_INT32(lsp_pos_end.character),
 			"}",
 		"}",
 		"context", "{",

@@ -29,11 +29,12 @@ typedef struct
 	gchar *title;
 	gchar *command;
 	GVariant *arguments;
+	GVariant *edit;
 } LspCommand;
 
 void lsp_command_free(LspCommand *cmd);
 
-void lsp_command_send_request(LspServer *server, const gchar *cmd, GVariant *arguments);
+void lsp_command_perform(LspServer *server, LspCommand *cmd);
 
 void lsp_command_send_code_action_init(void);
 void lsp_command_send_code_action_destroy(void);
