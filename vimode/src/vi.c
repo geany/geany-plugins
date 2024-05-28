@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "keypress.h"
 #include "excmd-prompt.h"
+#include "cmds/undo.h"
 
 #include <gdk/gdkkeysyms.h>
 
@@ -51,7 +52,8 @@ CmdContext ctx =
 	NULL, NULL, NULL,
 	FALSE, FALSE,
 	0, 1,
-	"", 0 
+	"", 0,
+	-1
 };
 
 
@@ -303,6 +305,19 @@ gboolean vi_notify_sci(SCNotification *nt)
 			 * multiple selections to simulate this behavior */
 			if (SSM(sci, SCI_GETANCHOR, 0, 0) != anchor_linepos || pos != pos_linepos)
 				SSM(sci, SCI_SETSEL, anchor_linepos, pos_linepos);
+		}
+	}
+
+	/* Keep position of undo operation */
+	if (nt->nmhdr.code == SCN_MODIFIED && (nt->modificationType & SC_MOD_BEFOREINSERT && nt->modificationType & SC_PERFORMED_UNDO) && nt->length > 1)
+		undo_update(&ctx, nt->position);
+
+	if (nt->nmhdr.code == SCN_MARGINCLICK)
+	{
+		if (nt->margin == 2)
+		{
+			gint line = GET_CUR_LINE(sci);
+			jump_to_expended_parent(sci, line);
 		}
 	}
 

@@ -25,6 +25,7 @@
 #include "cmds/changemode.h"
 #include "cmds/edit.h"
 #include "cmds/special.h"
+#include "cmds/fold.h"
 
 #include <gdk/gdkkeysyms.h>
 
@@ -262,6 +263,15 @@ CmdDef text_object_cmds[] = {
 	{cmd_copy_line, GDK_KEY_Y, 0, 0, 0, FALSE, FALSE}, \
 	{cmd_paste_after, GDK_KEY_p, 0, 0, 0, FALSE, FALSE}, \
 	{cmd_paste_before, GDK_KEY_P, 0, 0, 0, FALSE, FALSE}, \
+	/* fold */ \
+	{cmd_toggle_fold, GDK_KEY_z, GDK_KEY_a, 0, 0, FALSE, FALSE}, \
+	{cmd_open_fold, GDK_KEY_z, GDK_KEY_o, 0, 0, FALSE, FALSE}, \
+	{cmd_close_fold, GDK_KEY_z, GDK_KEY_c, 0, 0, FALSE, FALSE}, \
+	{cmd_toggle_fold_child, GDK_KEY_z, GDK_KEY_A, 0, 0, FALSE, FALSE}, \
+	{cmd_open_fold_child, GDK_KEY_z, GDK_KEY_O, 0, 0, FALSE, FALSE}, \
+	{cmd_close_fold_child, GDK_KEY_z, GDK_KEY_C, 0, 0, FALSE, FALSE}, \
+	{cmd_open_fold_all, GDK_KEY_z, GDK_KEY_R, 0, 0, FALSE, FALSE}, \
+	{cmd_close_fold_all, GDK_KEY_z, GDK_KEY_M, 0, 0, FALSE, FALSE}, \
 	/* changing text */ \
 	{cmd_enter_insert_cut_line, GDK_KEY_c, GDK_KEY_c, 0, 0, FALSE, FALSE}, \
 	{cmd_enter_insert_cut_line, GDK_KEY_S, 0, 0, 0, FALSE, FALSE}, \
@@ -704,9 +714,12 @@ static gboolean process_cmd(CmdDef *cmds, CmdContext *ctx, gboolean ins_mode)
 	{
 		if (orig_mode == VI_MODE_COMMAND_SINGLE)
 			vi_set_mode(VI_MODE_INSERT);
+		ensure_current_line_expanded(ctx->sci);
 	}
 	else if (!consumed && ctx->kpl)
 	{
+		/* cppcheck-suppress deallocuse symbolName=kpl
+		 * Not sure how cppcheck gets this wrong here, but all seem OK */
 		g_free(ctx->kpl->data);
 		ctx->kpl = g_slist_delete_link(ctx->kpl, ctx->kpl);
 	}

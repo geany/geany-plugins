@@ -210,6 +210,7 @@ gint get_line_number_rel(ScintillaObject *sci, gint shift)
 	return new_line;
 }
 
+
 void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll)
 {
 	gint line_end_pos = SSM(sci, SCI_GETLINEENDPOSITION, line, 0);
@@ -218,4 +219,37 @@ void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll)
 	while (g_ascii_isspace(SSM(sci, SCI_GETCHARAT, pos, 0)) && pos < line_end_pos)
 		pos = NEXT(sci, pos);
 	SET_POS(sci, pos, scroll);
+}
+
+
+void ensure_current_line_expanded(ScintillaObject *sci)
+{
+	gint line = GET_CUR_LINE(sci);
+	if (!SSM(sci, SCI_GETLINEVISIBLE, line, 0))
+		SSM(sci, SCI_ENSUREVISIBLE, line, 0);
+}
+
+
+gint jump_to_expended_parent(ScintillaObject *sci, gint line)
+{
+	gint fold_parent = line;
+
+	/* go through the parents as long as they are not visible */
+	while (SSM(sci, SCI_GETLINEVISIBLE, fold_parent, 0) == FALSE)
+	{
+		gint prev_parent = SSM(sci, SCI_GETFOLDPARENT, fold_parent, 0);
+
+		if (prev_parent == -1)
+			break;
+		fold_parent = prev_parent;
+	}
+
+	if (fold_parent != line)
+	{
+		/* move the cursor on the visible line before the fold */
+		gint pos = SSM(sci, SCI_POSITIONFROMLINE, fold_parent, 0);
+		SET_POS(sci, pos, TRUE);
+	}
+
+	return fold_parent;
 }

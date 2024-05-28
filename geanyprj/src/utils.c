@@ -69,7 +69,10 @@ gchar *normpath(const gchar *filename)
 		return g_strdup(".");
 	v = g_strsplit_set(filename, "/\\", -1);
 	if (!g_strv_length(v))
+	{
+		g_strfreev(v);
 		return g_strdup(".");
+	}
 
 	out = g_malloc0(sizeof(gchar *) * (g_strv_length(v) + 2));
 	pout = out;

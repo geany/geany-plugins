@@ -21,6 +21,7 @@ concurrency:
 env:
   CFLAGS: -g -O2 -Werror=pointer-arith -Werror=implicit-function-declaration
   CONFIGURE_FLAGS: --disable-silent-rules
+  CPPCHECKFLAGS: --check-level=exhaustive
   CCACHE_DIR: ${{ github.workspace }}/.ccache
   CCACHE_COMPRESS: true
   CCACHE_MAXSIZE: 1G
@@ -196,7 +197,7 @@ jobs:
       - name: Run distcheck
         run: |
           cd _build
-          make -j ${{ env.JOBS }} distcheck DISTCHECK_CONFIGURE_FLAGS="${{ env.CONFIGURE_FLAGS }}";
+          make -j ${{ env.JOBS }} distcheck DISTCHECK_CONFIGURE_FLAGS="${{ env.CONFIGURE_FLAGS }} --disable-cppcheck";
 
       - name: ccache statistics
         if: ${{ env.DEBUG == '1' }}

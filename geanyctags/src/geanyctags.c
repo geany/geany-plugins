@@ -162,6 +162,8 @@ static void spawn_cmd(const gchar *cmd, const gchar *dir)
 		msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s", out);
 	}
 
+	/* cppcheck-suppress mismatchAllocDealloc symbolName=argv
+	 * argv is built manually, but is a valid GStrv */
 	g_strfreev(argv);
 	g_free(working_dir);
 	g_free(out);

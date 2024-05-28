@@ -636,18 +636,21 @@ static void	free_update_tasks_for_doc_arguments(gpointer data)
 
 static void update_tasks_for_doc(AoTasks *t, GeanyDocument *doc, gboolean clear)
 {
-	AoTasksUpdateTasksForDocArguments *arguments = g_slice_alloc(sizeof *arguments);
-	arguments->t = t;
-	arguments->doc = doc;
-	arguments->clear = clear;
+	AoTasksUpdateTasksForDocArguments *arguments;
 
 	if (!DOC_VALID(doc))
 		return;
+
+	arguments = g_slice_alloc(sizeof *arguments);
+	arguments->t = t;
+	arguments->doc = doc;
+	arguments->clear = clear;
 
 	/* Check for task tokens in an idle callback to wait until Geany applied Scintilla highlighting
 	 * styles as we need them to be set before checking for tasks. */
 	g_idle_add_full(G_PRIORITY_LOW, update_tasks_for_doc_idle_cb, arguments,
 					free_update_tasks_for_doc_arguments);
+	/* cppcheck-suppress memleak symbolName=arguments */
 }
 
 
