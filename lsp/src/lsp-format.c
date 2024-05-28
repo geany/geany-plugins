@@ -28,13 +28,21 @@
 #include <jsonrpc-glib.h>
 
 
+typedef struct {
+	GeanyDocument *doc;
+	gboolean is_format_on_save;
+} FormatData;
+
+
 static void format_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
+	FormatData *data = user_data;
+
 	if (!error)
 	{
 		GeanyDocument *doc = document_get_current();
 
-		if (doc == user_data)
+		if (doc == data->doc)
 		{
 			if (g_variant_is_of_type(return_value, G_VARIANT_TYPE("av")))
 			{
@@ -48,16 +56,23 @@ static void format_cb(GVariant *return_value, GError *error, gpointer user_data)
 				lsp_utils_apply_text_edits(doc->editor->sci, NULL, edits);
 				sci_end_undo_action(doc->editor->sci);
 
+				// Because of the asynchronous nature of LSP, formatting happens
+				// after actual Geany's save so we have to re-save again
+				if (data->is_format_on_save)
+					document_save_file(doc, FALSE);
+
 				g_ptr_array_free(edits, TRUE);
 			}
 		}
 
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
 	}
+
+	g_free(data);
 }
 
 
-void lsp_format_perform(void)
+void lsp_format_perform(gboolean is_format_on_save)
 {
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
@@ -65,6 +80,7 @@ void lsp_format_perform(void)
 	const gchar *method;
 	GVariant *node;
 	gchar *doc_uri;
+	FormatData *data;
 
 	if (!srv)
 		return;
@@ -74,7 +90,7 @@ void lsp_format_perform(void)
 
 	GVariant *options = lsp_utils_parse_json_file(srv->config.formatting_options_file, srv->config.formatting_options);
 
-	if (sci_has_selection(sci))
+	if (sci_has_selection(sci) && srv->config.range_formatting_enable && !is_format_on_save)
 	{
 		LspRange range;
 		gint sel_start = sci_get_selection_start(sci);
@@ -118,7 +134,11 @@ void lsp_format_perform(void)
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
-	lsp_rpc_call(srv, method, node, format_cb, doc);
+	data = g_new0(FormatData, 1);
+	data->doc = doc;
+	data->is_format_on_save = is_format_on_save;
+
+	lsp_rpc_call(srv, method, node, format_cb, data);
 
 	g_free(doc_uri);
 	g_variant_unref(node);

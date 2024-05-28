@@ -548,6 +548,19 @@ static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 }
 
 
+static void on_document_before_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
+	G_GNUC_UNUSED gpointer user_data)
+{
+	LspServer *srv = lsp_server_get(doc);
+
+	if (!srv)
+		return;
+
+	if (srv->config.document_formatting_enable && srv->config.format_on_save)
+		lsp_format_perform(TRUE);
+}
+
+
 static void on_document_before_save_as(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
@@ -1087,6 +1100,7 @@ PluginCallback plugin_callbacks[] = {
 	{"document-reload", (GCallback) &on_document_reload, FALSE, NULL},
 	{"document-activate", (GCallback) &on_document_activate, FALSE, NULL},
 	{"document-save", (GCallback) &on_document_save, FALSE, NULL},
+	{"document-before-save", (GCallback) &on_document_before_save, FALSE, NULL},
 	{"document-before-save-as", (GCallback) &on_document_before_save_as, TRUE, NULL},
 	{"document-filetype-set", (GCallback) &on_document_filetype_set, FALSE, NULL},
 	{"editor-notify", (GCallback) &on_editor_notify, FALSE, NULL},
@@ -1223,7 +1237,7 @@ static void invoke_kb(guint key_id, gint pos)
 			break;
 
 		case KB_FORMAT_CODE:
-			lsp_format_perform();
+			lsp_format_perform(FALSE);
 			break;
 
 		case KB_RESTART_SERVERS:

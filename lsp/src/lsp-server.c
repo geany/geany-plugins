@@ -701,6 +701,8 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_bool(&s->config.code_lens_enable, kf, section, "code_lens_enable");
 	get_str(&s->config.code_lens_style, kf, section, "code_lens_style");
 
+	get_bool(&s->config.format_on_save, kf, section, "format_on_save");
+
 	s->config.goto_declaration_enable = TRUE;
 	s->config.goto_definition_enable = TRUE;
 	s->config.goto_implementation_enable = TRUE;

@@ -22,6 +22,6 @@
 #include <glib.h>
 
 
-void lsp_format_perform(void);
+void lsp_format_perform(gboolean is_format_on_save);
 
 #endif  /* LSP_FORMAT_H */

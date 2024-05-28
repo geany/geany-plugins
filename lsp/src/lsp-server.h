@@ -90,8 +90,11 @@ typedef struct
 	gboolean goto_implementation_enable;
 	gboolean goto_references_enable;
 	gboolean goto_type_definition_enable;
+
 	gboolean document_formatting_enable;
 	gboolean range_formatting_enable;
+	gboolean format_on_save;
+
 	gboolean execute_command_enable;
 	gboolean code_action_enable;
 	gboolean rename_enable;
