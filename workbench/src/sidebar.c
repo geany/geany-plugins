@@ -213,6 +213,8 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 					FILEVIEW_COLUMN_ICON, icon_dir,
 					FILEVIEW_COLUMN_NAME, last_dir_name,
 					FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
+					/* cppcheck-suppress leakNoVarFunctionCall
+					 * type is gpointer, but admittedly I don't see where it's freed? */
 					FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(full),
 					-1);
 
@@ -235,6 +237,8 @@ static void sidebar_create_branch(gint level, const gchar *abs_base_dir, GSList 
 			FILEVIEW_COLUMN_ICON, icon_dir,
 			FILEVIEW_COLUMN_NAME, last_dir_name,
 			FILEVIEW_COLUMN_DATA_ID, DATA_ID_SUB_DIRECTORY,
+			/* cppcheck-suppress leakNoVarFunctionCall
+			 * type is gpointer, but admittedly I don't see where it's freed? */
 			FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(full),
 			-1);
 			g_free(full);
@@ -440,6 +444,8 @@ static void sidebar_add_file (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar
 		FILEVIEW_COLUMN_ICON, icon,
 		FILEVIEW_COLUMN_NAME, name,
 		FILEVIEW_COLUMN_DATA_ID, dataid,
+		/* cppcheck-suppress leakNoVarFunctionCall
+		 * type is gpointer, but admittedly I don't see where it's freed? */
 		FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, g_strdup(filepath),
 		-1);
 

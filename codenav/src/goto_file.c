@@ -163,8 +163,11 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
         if (old_model != NULL)
         {   /* Restore the no-sub-directory model */
             log_debug("Restoring old model!");
+
             gtk_entry_completion_set_model (completion, old_model);
+            g_object_unref(old_model);
             old_model = NULL;
+
             g_free(curr_dir);
             curr_dir = NULL;
         }
@@ -185,7 +188,10 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 
     /* Save the completion_mode for future restore. */
     if (old_model == NULL)
+    {
         old_model = gtk_entry_completion_get_model(completion);
+        g_object_ref(old_model);
+    }
 
     log_debug("New completion list!");
 

@@ -233,7 +233,7 @@ markdown_config_get_string_key(MarkdownConfig *conf, const gchar *group,
   GError *error = NULL;
 
   out_str = g_key_file_get_string(conf->priv->kf, group, key, &error);
-  if (error) {
+  if (!out_str) {
     g_debug("Config read failed: %s", error->message);
     g_error_free(error); error = NULL;
     out_str = g_strdup(default_value);
@@ -451,7 +451,7 @@ markdown_config_save(MarkdownConfig *conf)
 
   /*g_debug("Saving: %s\n%s", conf->priv->filename, contents);*/
 
-  if (error) {
+  if (!contents) {
     g_warning("Error getting config data as string: %s", error->message);
     g_error_free(error); error = NULL;
     return success;

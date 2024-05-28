@@ -18,6 +18,7 @@
 
 #include "cmds/excmds.h"
 #include "cmds/edit.h"
+#include "cmds/undo.h"
 #include "utils.h"
 
 void excmd_save(CmdContext *c, ExCmdParams *p)
@@ -93,7 +94,7 @@ void excmd_put(CmdContext *c, ExCmdParams *p)
 
 void excmd_undo(CmdContext *c, ExCmdParams *p)
 {
-	SSM(c->sci, SCI_UNDO, 0, 0);
+	undo_apply(c, 1);
 }
 
 

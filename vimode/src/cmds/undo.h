@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jiri Techet <techet@gmail.com>
+ * Copyright 2024 Sylvain Cresto <scresto@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __VIMODE_UTILS_H__
-#define __VIMODE_UTILS_H__
+#ifndef __UNDO_H__
+#define __UNDO_H__
 
-#include "sci.h"
+#include "context.h"
 
-gchar *get_current_word(ScintillaObject *sci);
-
-void clamp_cursor_pos(ScintillaObject *sci);
-void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll);
-
-gint perform_search(ScintillaObject *sci, const gchar *search_text,
-	gint num, gboolean invert);
-void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint to,
-	const gchar *flag_override);
-
-gint get_line_number_rel(ScintillaObject *sci, gint shift);
-void ensure_current_line_expanded(ScintillaObject *sci);
-
-gint jump_to_expended_parent(ScintillaObject *sci, gint line);
+void undo_update(CmdContext *c, gint pos);
+void undo_apply(CmdContext *c, gint num);
 
 #endif

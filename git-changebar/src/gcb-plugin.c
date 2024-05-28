@@ -566,6 +566,7 @@ get_cached_blob_contents_async (const gchar          *path,
     }
     
     g_async_queue_push (G_queue, job);
+    /* cppcheck-suppress memleak symbolName=job */
   }
 }
 

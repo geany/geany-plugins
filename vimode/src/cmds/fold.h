@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jiri Techet <techet@gmail.com>
+ * Copyright 2024 Sylvain Cresto <scresto@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __VIMODE_UTILS_H__
-#define __VIMODE_UTILS_H__
+#ifndef __VIMODE_CMDS_FOLD_H__
+#define __VIMODE_CMDS_FOLD_H__
 
-#include "sci.h"
+#include "context.h"
+#include "cmd-params.h"
 
-gchar *get_current_word(ScintillaObject *sci);
+void cmd_toggle_fold(CmdContext *c, CmdParams *p);
+void cmd_open_fold(CmdContext *c, CmdParams *p);
+void cmd_close_fold(CmdContext *c, CmdParams *p);
 
-void clamp_cursor_pos(ScintillaObject *sci);
-void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll);
+void cmd_toggle_fold_child(CmdContext *c, CmdParams *p);
+void cmd_open_fold_child(CmdContext *c, CmdParams *p);
+void cmd_close_fold_child(CmdContext *c, CmdParams *p);
 
-gint perform_search(ScintillaObject *sci, const gchar *search_text,
-	gint num, gboolean invert);
-void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint to,
-	const gchar *flag_override);
-
-gint get_line_number_rel(ScintillaObject *sci, gint shift);
-void ensure_current_line_expanded(ScintillaObject *sci);
-
-gint jump_to_expended_parent(ScintillaObject *sci, gint line);
+void cmd_toggle_fold_all(CmdContext *c, CmdParams *p);
+void cmd_open_fold_all(CmdContext *c, CmdParams *p);
+void cmd_close_fold_all(CmdContext *c, CmdParams *p);
 
 #endif
