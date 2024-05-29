@@ -60,7 +60,7 @@ gchar *project_configuration_file;
 
 static gint last_click_pos;
 static gboolean ignore_selection_change;
-static GPtrArray *commands;
+GPtrArray *code_actions_performed;
 
 
 #ifdef GEANY_LSP_COMBINED_PROJECT
@@ -164,6 +164,10 @@ struct
 	GtkWidget *path_box;
 	GtkWidget *properties_tab;
 } project_dialog;
+
+
+static void on_save_finish(void);
+static void on_code_actions_received(gpointer user_data);
 
 
 static gboolean autocomplete_provided(GeanyDocument *doc)
@@ -444,6 +448,9 @@ static void on_document_visible(GeanyDocument *doc)
 	lsp_semtokens_style_init(doc);
 	lsp_code_lens_style_init(doc);
 
+	// just in case we didn't get some callback from the server
+	on_save_finish();
+
 	// this might not get called for the first time when server gets started because
 	// lsp_server_get() returns NULL. However, we also "open" current and modified
 	// documents after successful server handshake inside on_server_initialized()
@@ -566,16 +573,113 @@ static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 }
 
 
+static gboolean code_action_was_performed(LspCommand *cmd)
+{
+	gchar *name;
+	guint i;
+
+	foreach_ptr_array(name, i, code_actions_performed)
+	{
+		if (g_strcmp0(cmd->title, name) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean matches_pattern(LspServer *srv, LspCommand *cmd)
+{
+	gchar **pattern;
+
+	foreach_strv(pattern, srv->config.code_action_on_save_patterns)
+	{
+		if (g_pattern_match_simple(*pattern, cmd->title))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static void on_save_finish(void)
+{
+	if (code_actions_performed)
+	{
+		GeanyDocument *doc = document_get_current();
+
+		// save file at the end because the intermediate updates modified the file
+		if (doc)
+			document_save_file(doc, FALSE);
+		g_ptr_array_free(code_actions_performed, TRUE);
+		code_actions_performed = NULL;
+	}
+}
+
+
+static void on_command_performed(void)
+{
+	GeanyDocument *doc = document_get_current();
+
+	if (doc)
+	{
+		// re-request code actions on the now modified document
+		lsp_command_send_code_action_request(sci_get_current_position(doc->editor->sci),
+			on_code_actions_received, NULL);
+	}
+}
+
+
+static void on_code_actions_received(gpointer user_data)
+{
+	GeanyDocument *doc = document_get_current();
+	LspServer *srv = lsp_server_get_if_running(doc);
+	GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
+	LspCommand *cmd;
+	guint i;
+
+	if (srv)
+	{
+		foreach_ptr_array(cmd, i, code_action_commands)
+		{
+			if (!code_action_was_performed(cmd) && matches_pattern(srv, cmd))
+			{
+				// save the performed title so it isn't performed in the next iteration
+				g_ptr_array_add(code_actions_performed, g_strdup(cmd->title));
+				// perform the code action and re-request code actions in its
+				// callback
+				lsp_command_perform(srv, cmd, on_command_performed);
+				// this isn't the final call - return now
+				return;
+			}
+		}
+	}
+
+	// we get here only when nothing can be performed above - this is the last
+	// code action call
+	if (srv->config.document_formatting_enable && srv->config.format_on_save)
+		lsp_format_perform(TRUE, on_save_finish);
+	else
+		on_save_finish();
+}
+
+
 static void on_document_before_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
 	LspServer *srv = lsp_server_get(doc);
 
-	if (!srv)
+	// code_actions_performed non-NULL when performing save and applying code actions
+	if (!srv || code_actions_performed)
 		return;
 
-	if (srv->config.document_formatting_enable && srv->config.format_on_save)
-		lsp_format_perform(TRUE);
+	code_actions_performed = g_ptr_array_new_full(1, g_free);
+
+	if (srv->config.code_action_enable && srv->config.code_action_on_save_patterns)
+		lsp_command_send_code_action_request(sci_get_current_position(doc->editor->sci),
+			on_code_actions_received, NULL);
+	else if (srv->config.document_formatting_enable && srv->config.format_on_save)
+		lsp_format_perform(TRUE, on_save_finish);
 }
 
 
@@ -1006,18 +1110,21 @@ static void on_project_save(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 
 static void code_action_cb(GtkWidget *widget, gpointer user_data)
 {
+	GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
+	GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get_if_running(doc);
 	guint index = GPOINTER_TO_UINT(user_data);
-	LspCommand *cmd;
 
 	// the assumption is that code actions haven't been changed before the item
 	// got clicked
-	if (!srv || index >= commands->len)
+	if (!srv || index >= code_action_commands->len + code_lens_commands->len)
 		return;
 
-	cmd = commands->pdata[index];
-	lsp_command_perform(srv, cmd);
+	if (index < code_action_commands->len)
+		lsp_command_perform(srv, code_action_commands->pdata[index], NULL);
+	else
+		lsp_command_perform(srv, code_lens_commands->pdata[index - code_action_commands->len], NULL);
 }
 
 
@@ -1027,42 +1134,43 @@ static void remove_item(GtkWidget *widget, gpointer data)
 }
 
 
-static void update_command_menu_items(void)
+static void update_command_menu_items(gpointer user_data)
 {
 	GeanyDocument *doc = document_get_current();
 	GtkWidget *menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(context_menu_items.command_item));
-	GPtrArray *arr = lsp_command_get_resolved_code_actions();
+	GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
+	GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
 	LspCommand *cmd;
-	guint i;
-
-	if (commands)
-		g_ptr_array_free(commands, TRUE);
-	commands = g_ptr_array_new();
+	guint i, j;
 
 	gtk_container_foreach(GTK_CONTAINER(menu), remove_item, menu);
 
-	foreach_ptr_array(cmd, i, arr)
-	{
-		g_ptr_array_add(commands, cmd);
-	}
-
-	if (doc)
-	{
-		guint line = sci_get_line_from_position(doc->editor->sci, last_click_pos);
-
-		lsp_code_lens_append_commands(commands, line);
-	}
-
-	foreach_ptr_array(cmd, i, commands)
+	j = 0;
+	foreach_ptr_array(cmd, i, code_action_commands)
 	{
 		GtkWidget *item = gtk_menu_item_new_with_label(cmd->title);
 
 		gtk_container_add(GTK_CONTAINER(menu), item);
 		g_signal_connect(item, "activate", G_CALLBACK(code_action_cb), GUINT_TO_POINTER(i));
+		j++;
+	}
+
+	foreach_ptr_array(cmd, i, code_lens_commands)
+	{
+		guint line = sci_get_line_from_position(doc->editor->sci, last_click_pos);
+
+		if (cmd->line == line)
+		{
+			GtkWidget *item = gtk_menu_item_new_with_label(cmd->title);
+
+			gtk_container_add(GTK_CONTAINER(menu), item);
+			g_signal_connect(item, "activate", G_CALLBACK(code_action_cb), GUINT_TO_POINTER(j));
+			j++;
+		}
 	}
 
 	gtk_widget_show_all(context_menu_items.command_item);
-	gtk_widget_set_sensitive(context_menu_items.command_item, commands->len > 0);
+	gtk_widget_set_sensitive(context_menu_items.command_item, j > 0);
 }
 
 
@@ -1073,7 +1181,7 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 	gboolean goto_definition_enable = srv && srv->config.goto_definition_enable;
 	gboolean goto_references_enable = srv && srv->config.goto_references_enable;
 	gboolean goto_type_definition_enable = srv && srv->config.goto_type_definition_enable;
-	gboolean execute_command_enable = srv && srv->config.execute_command_enable;
+	gboolean code_action_enable = srv && srv->config.code_action_enable;
 	gboolean document_formatting_enable = srv && srv->config.document_formatting_enable;
 	gboolean range_formatting_enable = srv && srv->config.range_formatting_enable;
 	gboolean rename_enable = srv && srv->config.rename_enable;
@@ -1087,11 +1195,11 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 	gtk_widget_set_sensitive(context_menu_items.rename_in_project, rename_enable);
 	gtk_widget_set_sensitive(context_menu_items.format_code, document_formatting_enable || range_formatting_enable);
 
-	gtk_widget_set_sensitive(context_menu_items.command_item, execute_command_enable);
-	if (execute_command_enable)
+	gtk_widget_set_sensitive(context_menu_items.command_item, code_action_enable);
+	if (code_action_enable)
 	{
 		last_click_pos = pos;
-		lsp_command_send_code_action_request(pos, update_command_menu_items);
+		lsp_command_send_code_action_request(pos, update_command_menu_items, NULL);
 	}
 
 	return FALSE;
@@ -1235,7 +1343,7 @@ static void invoke_kb(guint key_id, gint pos)
 			break;
 
 		case KB_FORMAT_CODE:
-			lsp_format_perform(FALSE);
+			lsp_format_perform(FALSE, NULL);
 			break;
 
 		case KB_RESTART_SERVERS:

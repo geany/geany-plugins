@@ -206,16 +206,9 @@ static void code_lens_cb(GVariant *return_value, GError *error, gpointer user_da
 }
 
 
-void lsp_code_lens_append_commands(GPtrArray *cmds, guint line)
+GPtrArray *lsp_code_lens_get_commands(void)
 {
-	LspCommand *cmd;
-	guint i;
-
-	foreach_ptr_array(cmd, i, commands)
-	{
-		if (cmd->line == line)
-			g_ptr_array_add(cmds, cmd);
-	}
+	return commands;
 }
 
 

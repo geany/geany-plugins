@@ -30,7 +30,7 @@
 
 typedef struct {
 	GeanyDocument *doc;
-	gboolean is_format_on_save;
+	GCallback callback;
 } FormatData;
 
 
@@ -42,27 +42,22 @@ static void format_cb(GVariant *return_value, GError *error, gpointer user_data)
 	{
 		GeanyDocument *doc = document_get_current();
 
-		if (doc == data->doc)
+		if (doc == data->doc && g_variant_is_of_type(return_value, G_VARIANT_TYPE("av")))
 		{
-			if (g_variant_is_of_type(return_value, G_VARIANT_TYPE("av")))
-			{
-				GPtrArray *edits;
-				GVariantIter iter;
+			GPtrArray *edits;
+			GVariantIter iter;
 
-				g_variant_iter_init(&iter, return_value);
-				edits = lsp_utils_parse_text_edits(&iter);
+			g_variant_iter_init(&iter, return_value);
+			edits = lsp_utils_parse_text_edits(&iter);
 
-				sci_start_undo_action(doc->editor->sci);
-				lsp_utils_apply_text_edits(doc->editor->sci, NULL, edits);
-				sci_end_undo_action(doc->editor->sci);
+			sci_start_undo_action(doc->editor->sci);
+			lsp_utils_apply_text_edits(doc->editor->sci, NULL, edits);
+			sci_end_undo_action(doc->editor->sci);
 
-				// Because of the asynchronous nature of LSP, formatting happens
-				// after actual Geany's save so we have to re-save again
-				if (data->is_format_on_save)
-					document_save_file(doc, FALSE);
+			g_ptr_array_free(edits, TRUE);
 
-				g_ptr_array_free(edits, TRUE);
-			}
+			if (data->callback)
+				data->callback();
 		}
 
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
@@ -72,7 +67,7 @@ static void format_cb(GVariant *return_value, GError *error, gpointer user_data)
 }
 
 
-void lsp_format_perform(gboolean is_format_on_save)
+void lsp_format_perform(gboolean force_whole_doc, GCallback callback)
 {
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
@@ -90,7 +85,7 @@ void lsp_format_perform(gboolean is_format_on_save)
 
 	GVariant *options = lsp_utils_parse_json_file(srv->config.formatting_options_file, srv->config.formatting_options);
 
-	if (sci_has_selection(sci) && srv->config.range_formatting_enable && !is_format_on_save)
+	if (sci_has_selection(sci) && srv->config.range_formatting_enable && !force_whole_doc)
 	{
 		LspRange range;
 		gint sel_start = sci_get_selection_start(sci);
@@ -136,7 +131,7 @@ void lsp_format_perform(gboolean is_format_on_save)
 
 	data = g_new0(FormatData, 1);
 	data->doc = doc;
-	data->is_format_on_save = is_format_on_save;
+	data->callback = callback;
 
 	lsp_rpc_call(srv, method, node, format_cb, data);
 

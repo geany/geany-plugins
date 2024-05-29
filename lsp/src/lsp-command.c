@@ -30,6 +30,12 @@
 
 static GPtrArray *code_actions;
 
+typedef struct
+{
+	LspCallback callback;
+	gpointer user_data;
+} CodeActionData;
+
 
 void lsp_command_free(LspCommand *cmd)
 {
@@ -66,14 +72,14 @@ GPtrArray *lsp_command_get_resolved_code_actions(void)
 
 static void command_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
-	if (!error)
-	{
-		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
-	}
+	GCallback callback = user_data;
+
+	if (!error && callback)
+		callback();
 }
 
 
-void lsp_command_perform(LspServer *server, LspCommand *cmd)
+void lsp_command_perform(LspServer *server, LspCommand *cmd, GCallback callback)
 {
 	if (cmd->edit)
 		lsp_utils_apply_workspace_edit(cmd->edit);
@@ -101,102 +107,106 @@ void lsp_command_perform(LspServer *server, LspCommand *cmd)
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
 		lsp_rpc_call(server, "workspace/executeCommand", node,
-			command_cb, NULL);
+			command_cb, callback);
 
 		g_variant_unref(node);
 	}
+	else if (callback)
+		callback();  // this was just an edit without command execution
 }
 
 
 static void code_action_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
-	GCallback callback = user_data;
+	CodeActionData *data = user_data;
 
-	if (error)
-		return;
-
-	if (g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
+	if (!error)
 	{
-		GVariant *code_action = NULL;
-		GVariantIter iter;
-
-		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
-
-		g_variant_iter_init(&iter, return_value);
-
-		while (g_variant_iter_loop(&iter, "v", &code_action))
+		if (g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
 		{
-			const gchar *title = NULL;
-			const gchar *command = NULL;
-			GVariant *edit = NULL;
-			LspCommand *cmd;
-			gboolean is_command;
+			GVariant *code_action = NULL;
+			GVariantIter iter;
 
-			// Can either be Command or CodeAction:
-			//   Command {title: string; command: string; arguments?: LSPAny[];}
-			//   CodeAction {title: string; edit?: WorkspaceEdit; command?: Command;}
+			//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
 
-			JSONRPC_MESSAGE_PARSE(code_action,
-				"title", JSONRPC_MESSAGE_GET_STRING(&title)
-			);
+			g_variant_iter_init(&iter, return_value);
 
-			is_command = JSONRPC_MESSAGE_PARSE(code_action,
-				"command", JSONRPC_MESSAGE_GET_STRING(&command)
-			);
-
-			if (!is_command)
+			while (g_variant_iter_loop(&iter, "v", &code_action))
 			{
-				JSONRPC_MESSAGE_PARSE(code_action,
-					"command", "{",
-						"command", JSONRPC_MESSAGE_GET_STRING(&command),
-					"}"
-				);
+				const gchar *title = NULL;
+				const gchar *command = NULL;
+				GVariant *edit = NULL;
+				LspCommand *cmd;
+				gboolean is_command;
+
+				// Can either be Command or CodeAction:
+				//   Command {title: string; command: string; arguments?: LSPAny[];}
+				//   CodeAction {title: string; edit?: WorkspaceEdit; command?: Command;}
 
 				JSONRPC_MESSAGE_PARSE(code_action,
-					"edit", JSONRPC_MESSAGE_GET_VARIANT(&edit)
+					"title", JSONRPC_MESSAGE_GET_STRING(&title)
 				);
-			}
 
-			if (title && (command || edit))
-			{
-				GVariant *arguments = NULL;
+				is_command = JSONRPC_MESSAGE_PARSE(code_action,
+					"command", JSONRPC_MESSAGE_GET_STRING(&command)
+				);
 
-				if (is_command)
-				{
-					JSONRPC_MESSAGE_PARSE(code_action,
-						"arguments", JSONRPC_MESSAGE_GET_VARIANT(&arguments)
-					);
-				}
-				else
+				if (!is_command)
 				{
 					JSONRPC_MESSAGE_PARSE(code_action,
 						"command", "{",
-							"arguments", JSONRPC_MESSAGE_GET_VARIANT(&arguments),
+							"command", JSONRPC_MESSAGE_GET_STRING(&command),
 						"}"
+					);
+
+					JSONRPC_MESSAGE_PARSE(code_action,
+						"edit", JSONRPC_MESSAGE_GET_VARIANT(&edit)
 					);
 				}
 
-				cmd = g_new0(LspCommand, 1);
-				cmd->title = g_strdup(title);
-				cmd->command = g_strdup(command);
-				cmd->arguments = arguments;
-				cmd->edit = edit;
+				if (title && (command || edit))
+				{
+					GVariant *arguments = NULL;
 
-				g_ptr_array_add(code_actions, cmd);
-			}
-			else
-			{
-				if (edit)
-					g_variant_unref(edit);
+					if (is_command)
+					{
+						JSONRPC_MESSAGE_PARSE(code_action,
+							"arguments", JSONRPC_MESSAGE_GET_VARIANT(&arguments)
+						);
+					}
+					else
+					{
+						JSONRPC_MESSAGE_PARSE(code_action,
+							"command", "{",
+								"arguments", JSONRPC_MESSAGE_GET_VARIANT(&arguments),
+							"}"
+						);
+					}
+
+					cmd = g_new0(LspCommand, 1);
+					cmd->title = g_strdup(title);
+					cmd->command = g_strdup(command);
+					cmd->arguments = arguments;
+					cmd->edit = edit;
+
+					g_ptr_array_add(code_actions, cmd);
+				}
+				else
+				{
+					if (edit)
+						g_variant_unref(edit);
+				}
 			}
 		}
+
+		data->callback(data->user_data);
 	}
 
-	callback();
+	g_free(data);
 }
 
 
-void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_cb)
+void lsp_command_send_code_action_request(gint pos, LspCallback actions_resolved_cb, gpointer user_data)
 {
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get_if_running(doc);
@@ -208,12 +218,13 @@ void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_c
 	GVariantDict dict;
 	GPtrArray *arr;
 	gchar *doc_uri;
+	CodeActionData *data;
 
 	lsp_command_send_code_action_init();
 
 	if (!srv)
 	{
-		actions_resolved_cb();
+		actions_resolved_cb(user_data);
 		return;
 	}
 
@@ -258,8 +269,10 @@ void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_c
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
-	lsp_rpc_call(srv, "textDocument/codeAction", node, code_action_cb,
-		actions_resolved_cb);
+	data = g_new0(CodeActionData, 1);
+	data->user_data = user_data;
+	data->callback = actions_resolved_cb;
+	lsp_rpc_call(srv, "textDocument/codeAction", node, code_action_cb, data);
 
 	g_variant_unref(node);
 	g_variant_unref(diags_dict);

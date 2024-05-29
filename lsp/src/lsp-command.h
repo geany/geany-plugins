@@ -34,11 +34,11 @@ typedef struct
 
 void lsp_command_free(LspCommand *cmd);
 
-void lsp_command_perform(LspServer *server, LspCommand *cmd);
+void lsp_command_perform(LspServer *server, LspCommand *cmd, GCallback callback);
 
 void lsp_command_send_code_action_init(void);
 void lsp_command_send_code_action_destroy(void);
-void lsp_command_send_code_action_request(gint pos, GCallback actions_resolved_cb);
+void lsp_command_send_code_action_request(gint pos, LspCallback actions_resolved_cb, gpointer user_data);
 GPtrArray *lsp_command_get_resolved_code_actions(void);
 
 #endif  /* LSP_COMMAND_H */

@@ -19,9 +19,9 @@
 #ifndef LSP_FORMAT_H
 #define LSP_FORMAT_H 1
 
-#include <glib.h>
+#include "lsp-server.h"
 
 
-void lsp_format_perform(gboolean is_format_on_save);
+void lsp_format_perform(gboolean force_whole_doc, GCallback callback);
 
 #endif  /* LSP_FORMAT_H */
