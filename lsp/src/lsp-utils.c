@@ -472,10 +472,7 @@ static void apply_edits_in_file(const gchar *uri, GPtrArray *edits)
 		lsp_utils_apply_text_edits(sci, NULL, edits);
 		sci_end_undo_action(sci);
 
-		if (doc)
-			// clangd rename doesn't refresh the file when not saved after the operation
-			document_save_file(doc, FALSE);
-		else
+		if (!doc)
 		{
 			gchar *contents = sci_get_contents(sci, -1);
 
