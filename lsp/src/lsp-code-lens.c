@@ -102,8 +102,6 @@ void lsp_code_lens_style_init(GeanyDocument *doc)
 
 		SSM(sci, SCI_EOLANNOTATIONSETSTYLEOFFSET, style_offset, 0);
 		set_color(doc);
-
-		lsp_code_lens_send_request(doc);
 	}
 
 	if (!commands)
@@ -113,8 +111,8 @@ void lsp_code_lens_style_init(GeanyDocument *doc)
 
 static void add_annotation(ScintillaObject *sci, gint line, const gchar *text)
 {
-	SSM(sci, SCI_EOLANNOTATIONSETVISIBLE, EOLANNOTATION_ANGLE_FLAT, 0);
 	SSM(sci, SCI_EOLANNOTATIONSETSTYLE, line, 0);
+	SSM(sci, SCI_EOLANNOTATIONSETVISIBLE, EOLANNOTATION_ANGLE_FLAT, 0);
 	SSM(sci, SCI_EOLANNOTATIONSETTEXT, line, (sptr_t)text);
 }
 
@@ -271,7 +269,7 @@ void lsp_code_lens_send_request(GeanyDocument *doc)
 	 * when color theme changes which also resets colors to some defaults. Even
 	 * though we set colors here, it isn't a perfect solution as it needs a modification
 	 * of the document for the update and in the meantime the color is wrong. */
-	set_color(doc);
+	lsp_code_lens_style_init(doc);
 
 	doc_uri = lsp_utils_get_doc_uri(doc);
 

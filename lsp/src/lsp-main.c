@@ -406,6 +406,27 @@ static void update_menu(GeanyDocument *doc)
 }
 
 
+static gboolean on_update_idle(gpointer data)
+{
+	GeanyDocument *doc = data;
+
+	if (!lsp_utils_doc_is_valid(doc))
+		return FALSE;
+
+	plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(0));
+
+	lsp_code_lens_send_request(doc);
+	if (symbol_highlight_provided(doc))
+		lsp_semtokens_send_request(doc);
+#ifdef HAVE_GEANY_PLUGIN_EXTENSION
+	if (doc_symbols_provided(doc))
+		lsp_symbols_doc_request(doc, lsp_symbol_request_cb, doc);
+#endif
+
+	return FALSE;
+}
+
+
 static void on_document_visible(GeanyDocument *doc)
 {
 	LspServer *srv;
@@ -429,13 +450,9 @@ static void on_document_visible(GeanyDocument *doc)
 	if (srv && !lsp_sync_is_document_open(doc))
 		lsp_sync_text_document_did_open(srv, doc);
 
-	if (symbol_highlight_provided(doc))
-		lsp_semtokens_send_request(doc);
+	on_update_idle(doc);
 
-#ifdef HAVE_GEANY_PLUGIN_EXTENSION
-	if (doc_symbols_provided(doc))
-		lsp_symbols_doc_request(doc, lsp_symbol_request_cb, doc);
-#else
+#ifndef HAVE_GEANY_PLUGIN_EXTENSION
 	if (lsp_utils_doc_ft_has_tags(doc))
 	{
 		gchar *ft_lower = g_utf8_strdown(doc->file_type->name, -1);
@@ -617,27 +634,6 @@ static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
 	on_document_visible(doc);
-}
-
-
-static gboolean on_update_idle(gpointer data)
-{
-	GeanyDocument *doc = data;
-
-	if (!lsp_utils_doc_is_valid(doc))
-		return FALSE;
-
-	plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(0));
-
-	lsp_code_lens_send_request(doc);
-	if (symbol_highlight_provided(doc))
-		lsp_semtokens_send_request(doc);
-#ifdef HAVE_GEANY_PLUGIN_EXTENSION
-	if (doc_symbols_provided(doc))
-		lsp_symbols_doc_request(doc, lsp_symbol_request_cb, doc);
-#endif
-
-	return FALSE;
 }
 
 
@@ -1169,17 +1165,10 @@ static void show_hover_popup(void)
 
 static void on_rename_done(void)
 {
-	GeanyDocument *doc = document_get_current();;
-
 	// TODO: workaround strange behavior of clangd: it doesn't seem to reflect changes
 	// in non-open files unless all files are saved and the server is restarted
 	lsp_utils_save_all_docs();
 	restart_all_servers();
-	if (doc)
-	{
-		if (symbol_highlight_provided(doc))
-			lsp_semtokens_send_request(doc);
-	}
 }
 
 
