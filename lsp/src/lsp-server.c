@@ -489,6 +489,7 @@ static void perform_initialize(LspServer *server)
 					"}",
 					"tokenTypes", "[",
 						// specify all possible token types - gopls returns incorrect offsets without it
+						// TODO: investigate more and possibly report upstream
 						"namespace",
 						"type",
 						"class",
