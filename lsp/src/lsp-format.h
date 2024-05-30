@@ -22,6 +22,6 @@
 #include "lsp-server.h"
 
 
-void lsp_format_perform(gboolean force_whole_doc, GCallback callback);
+void lsp_format_perform(GeanyDocument *doc, gboolean force_whole_doc, LspCallback callback, gpointer user_data);
 
 #endif  /* LSP_FORMAT_H */

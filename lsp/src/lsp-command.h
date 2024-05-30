@@ -32,13 +32,14 @@ typedef struct
 	GVariant *edit;
 } LspCommand;
 
+typedef gboolean (*CodeActionCallback) (GPtrArray *actions, gpointer user_data);
+
 void lsp_command_free(LspCommand *cmd);
 
-void lsp_command_perform(LspServer *server, LspCommand *cmd, GCallback callback);
+void lsp_command_perform(LspServer *server, LspCommand *cmd, LspCallback callback, gpointer user_data);
 
-void lsp_command_send_code_action_init(void);
-void lsp_command_send_code_action_destroy(void);
-void lsp_command_send_code_action_request(gint pos, LspCallback actions_resolved_cb, gpointer user_data);
-GPtrArray *lsp_command_get_resolved_code_actions(void);
+// Careful! Returning TRUE from actions_resolved_cb frees the actions array, FALSE passes the
+// ownership to the caller
+void lsp_command_send_code_action_request(GeanyDocument *doc, gint pos, CodeActionCallback actions_resolved_cb, gpointer user_data);
 
 #endif  /* LSP_COMMAND_H */

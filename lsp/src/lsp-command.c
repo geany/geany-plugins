@@ -28,11 +28,16 @@
 #include <jsonrpc-glib.h>
 
 
-static GPtrArray *code_actions;
-
 typedef struct
 {
 	LspCallback callback;
+	gpointer user_data;
+} CommandData;
+
+
+typedef struct
+{
+	CodeActionCallback callback;
 	gpointer user_data;
 } CodeActionData;
 
@@ -49,37 +54,17 @@ void lsp_command_free(LspCommand *cmd)
 }
 
 
-void lsp_command_send_code_action_destroy(void)
-{
-	if (code_actions)
-		g_ptr_array_free(code_actions, TRUE);
-	code_actions = NULL;
-}
-
-
-void lsp_command_send_code_action_init(void)
-{
-	lsp_command_send_code_action_destroy();
-	code_actions = g_ptr_array_new_full(0, (GDestroyNotify)lsp_command_free);
-}
-
-
-GPtrArray *lsp_command_get_resolved_code_actions(void)
-{
-	return code_actions;
-}
-
-
 static void command_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
-	GCallback callback = user_data;
+	CommandData *data = user_data;
 
-	if (!error && callback)
-		callback();
+	if (data->callback)
+		data->callback(data->user_data);
+	g_free(data);
 }
 
 
-void lsp_command_perform(LspServer *server, LspCommand *cmd, GCallback callback)
+void lsp_command_perform(LspServer *server, LspCommand *cmd, LspCallback callback, gpointer user_data)
 {
 	if (cmd->edit)
 		lsp_utils_apply_workspace_edit(cmd->edit);
@@ -87,6 +72,7 @@ void lsp_command_perform(LspServer *server, LspCommand *cmd, GCallback callback)
 	if (cmd->command)
 	{
 		GVariant *node;
+		CommandData *data;
 
 		if (cmd->arguments)
 		{
@@ -106,18 +92,22 @@ void lsp_command_perform(LspServer *server, LspCommand *cmd, GCallback callback)
 
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
+		data = g_new0(CommandData, 1);
+		data->callback = callback;
+		data->user_data = user_data;
 		lsp_rpc_call(server, "workspace/executeCommand", node,
-			command_cb, callback);
+			command_cb, data);
 
 		g_variant_unref(node);
 	}
 	else if (callback)
-		callback();  // this was just an edit without command execution
+		callback(user_data);  // this was just an edit without command execution
 }
 
 
 static void code_action_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
+	GPtrArray *code_actions = g_ptr_array_new_full(1, (GDestroyNotify)lsp_command_free);
 	CodeActionData *data = user_data;
 
 	if (!error)
@@ -198,17 +188,17 @@ static void code_action_cb(GVariant *return_value, GError *error, gpointer user_
 				}
 			}
 		}
-
-		data->callback(data->user_data);
 	}
+
+	if (data->callback(code_actions, data->user_data))
+		g_ptr_array_free(code_actions, TRUE);
 
 	g_free(data);
 }
 
 
-void lsp_command_send_code_action_request(gint pos, LspCallback actions_resolved_cb, gpointer user_data)
+void lsp_command_send_code_action_request(GeanyDocument *doc, gint pos, CodeActionCallback actions_resolved_cb, gpointer user_data)
 {
-	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get_if_running(doc);
 	GVariant *diag_raw = lsp_diagnostics_get_diag_raw(pos);
 	GVariant *node, *diagnostics, *diags_dict;
@@ -220,11 +210,11 @@ void lsp_command_send_code_action_request(gint pos, LspCallback actions_resolved
 	gchar *doc_uri;
 	CodeActionData *data;
 
-	lsp_command_send_code_action_init();
-
 	if (!srv)
 	{
-		actions_resolved_cb(user_data);
+		GPtrArray *empty = g_ptr_array_new_full(0, (GDestroyNotify)lsp_command_free);
+		if (actions_resolved_cb(empty, user_data))
+			g_ptr_array_free(empty, TRUE);
 		return;
 	}
 

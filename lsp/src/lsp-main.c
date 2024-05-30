@@ -60,7 +60,6 @@ gchar *project_configuration_file;
 
 static gint last_click_pos;
 static gboolean ignore_selection_change;
-GPtrArray *code_actions_performed;
 
 
 #ifdef GEANY_LSP_COMBINED_PROJECT
@@ -81,6 +80,7 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 	"Jiri Techet <techet@gmail.com>")
 
 #define UPDATE_SOURCE_DOC_DATA "lsp_update_source"
+#define CODE_ACTIONS_PERFORMED "lsp_code_actions_performed"
 
 enum {
   KB_GOTO_DEFINITION,
@@ -166,8 +166,8 @@ struct
 } project_dialog;
 
 
-static void on_save_finish(void);
-static void on_code_actions_received(gpointer user_data);
+static void on_save_finish(GeanyDocument *doc);
+static gboolean on_code_actions_received(GPtrArray *actions, gpointer user_data);
 
 
 static gboolean autocomplete_provided(GeanyDocument *doc)
@@ -449,7 +449,7 @@ static void on_document_visible(GeanyDocument *doc)
 	lsp_code_lens_style_init(doc);
 
 	// just in case we didn't get some callback from the server
-	on_save_finish();
+	on_save_finish(doc);
 
 	// this might not get called for the first time when server gets started because
 	// lsp_server_get() returns NULL. However, we also "open" current and modified
@@ -510,7 +510,6 @@ static void destroy_all(void)
 	lsp_diagnostics_destroy();
 	lsp_semtokens_destroy();
 	lsp_symbols_destroy();
-	lsp_command_send_code_action_destroy();
 }
 
 
@@ -523,7 +522,6 @@ static void stop_and_init_all_servers(void)
 
 	lsp_sync_init();
 	lsp_diagnostics_init();
-	lsp_command_send_code_action_init();
 }
 
 
@@ -573,10 +571,14 @@ static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 }
 
 
-static gboolean code_action_was_performed(LspCommand *cmd)
+static gboolean code_action_was_performed(LspCommand *cmd, GeanyDocument *doc)
 {
+	GPtrArray *code_actions_performed = plugin_get_document_data(geany_plugin, doc, CODE_ACTIONS_PERFORMED);
 	gchar *name;
 	guint i;
+
+	if (!code_actions_performed)
+		return TRUE;
 
 	foreach_ptr_array(name, i, code_actions_performed)
 	{
@@ -588,72 +590,84 @@ static gboolean code_action_was_performed(LspCommand *cmd)
 }
 
 
-static void on_save_finish(void)
+static void on_save_finish(GeanyDocument *doc)
 {
-	if (code_actions_performed)
-	{
-		GeanyDocument *doc = document_get_current();
+	if (!DOC_VALID(doc))
+		return;
 
+	if (plugin_get_document_data(geany_plugin, doc, CODE_ACTIONS_PERFORMED))
+	{
 		// save file at the end because the intermediate updates modified the file
-		if (doc)
-			document_save_file(doc, FALSE);
-		g_ptr_array_free(code_actions_performed, TRUE);
-		code_actions_performed = NULL;
+		document_save_file(doc, FALSE);
+		plugin_set_document_data(geany_plugin, doc, CODE_ACTIONS_PERFORMED, NULL);
 	}
 }
 
 
-static void on_command_performed(void)
+static void on_command_performed(GeanyDocument *doc)
 {
-	GeanyDocument *doc = document_get_current();
-
-	if (doc)
+	if (DOC_VALID(doc))
 	{
 		// re-request code actions on the now modified document
-		lsp_command_send_code_action_request(sci_get_current_position(doc->editor->sci),
-			on_code_actions_received, NULL);
+		lsp_command_send_code_action_request(doc, sci_get_current_position(doc->editor->sci),
+			on_code_actions_received, doc);
 	}
 }
 
 
-static void on_code_actions_received(gpointer user_data)
+static gboolean on_code_actions_received(GPtrArray *actions, gpointer user_data)
 {
-	GeanyDocument *doc = document_get_current();
-	LspServer *srv = lsp_server_get_if_running(doc);
-	GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
+	GeanyDocument *doc = user_data;
 	LspCommand *cmd;
+	LspServer *srv;
 	guint i;
 
-	if (srv)
+	if (!DOC_VALID(doc))
+		return TRUE;
+
+	srv = lsp_server_get_if_running(doc);
+
+	if (!srv)
+		return TRUE;
+
+	foreach_ptr_array(cmd, i, actions)
 	{
-		foreach_ptr_array(cmd, i, code_action_commands)
+		if (!code_action_was_performed(cmd, doc) &&
+			g_regex_match_simple(srv->config.command_on_save_regex, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
 		{
-			if (!code_action_was_performed(cmd) &&
-				g_regex_match_simple(srv->config.command_on_save_regex, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
-			{
-				// save the performed title so it isn't performed in the next iteration
-				g_ptr_array_add(code_actions_performed, g_strdup(cmd->title));
-				// perform the code action and re-request code actions in its
-				// callback
-				lsp_command_perform(srv, cmd, on_command_performed);
-				// this isn't the final call - return now
-				return;
-			}
+			GPtrArray *code_actions_performed = plugin_get_document_data(geany_plugin, doc, CODE_ACTIONS_PERFORMED);
+
+			// save the performed title so it isn't performed in the next iteration
+			g_ptr_array_add(code_actions_performed, g_strdup(cmd->title));
+			// perform the code action and re-request code actions in its
+			// callback
+			lsp_command_perform(srv, cmd, (LspCallback)on_command_performed, doc);
+			// this isn't the final call - return now
+			return TRUE;
 		}
 	}
 
 	// we get here only when nothing can be performed above - this is the last
 	// code action call
 	if (srv->config.document_formatting_enable && srv->config.format_on_save)
-		lsp_format_perform(TRUE, on_save_finish);
+		lsp_format_perform(doc, TRUE, (LspCallback)on_save_finish, doc);
 	else
-		on_save_finish();
+		on_save_finish(doc);
+
+	return TRUE;
+}
+
+
+static void free_ptrarray(gpointer data)
+{
+	g_ptr_array_free((GPtrArray *)data, TRUE);
 }
 
 
 static void on_document_before_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	G_GNUC_UNUSED gpointer user_data)
 {
+	GPtrArray *code_actions_performed = plugin_get_document_data(geany_plugin, doc, CODE_ACTIONS_PERFORMED);
 	LspServer *srv = lsp_server_get(doc);
 
 	// code_actions_performed non-NULL when performing save and applying code actions
@@ -661,12 +675,13 @@ static void on_document_before_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *d
 		return;
 
 	code_actions_performed = g_ptr_array_new_full(1, g_free);
+	plugin_set_document_data_full(geany_plugin, doc, CODE_ACTIONS_PERFORMED, code_actions_performed, free_ptrarray);
 
 	if (srv->config.code_action_enable && srv->config.command_on_save_regex)
-		lsp_command_send_code_action_request(sci_get_current_position(doc->editor->sci),
-			on_code_actions_received, NULL);
+		lsp_command_send_code_action_request(doc, sci_get_current_position(doc->editor->sci),
+			on_code_actions_received, doc);
 	else if (srv->config.document_formatting_enable && srv->config.format_on_save)
-		lsp_format_perform(TRUE, on_save_finish);
+		lsp_format_perform(doc, TRUE, (LspCallback)on_save_finish, doc);
 }
 
 
@@ -1097,21 +1112,11 @@ static void on_project_save(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 
 static void code_action_cb(GtkWidget *widget, gpointer user_data)
 {
-	GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
-	GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
+	LspCommand *cmd = user_data;
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get_if_running(doc);
-	guint index = GPOINTER_TO_UINT(user_data);
 
-	// the assumption is that code actions haven't been changed before the item
-	// got clicked
-	if (!srv || index >= code_action_commands->len + code_lens_commands->len)
-		return;
-
-	if (index < code_action_commands->len)
-		lsp_command_perform(srv, code_action_commands->pdata[index], NULL);
-	else
-		lsp_command_perform(srv, code_lens_commands->pdata[index - code_action_commands->len], NULL);
+	lsp_command_perform(srv, cmd, NULL, NULL);
 }
 
 
@@ -1121,25 +1126,32 @@ static void remove_item(GtkWidget *widget, gpointer data)
 }
 
 
-static void update_command_menu_items(gpointer user_data)
+static void on_editor_menu_hide(gpointer user_data)
 {
-	GeanyDocument *doc = document_get_current();
+	g_ptr_array_free((GPtrArray *)user_data, TRUE);
+}
+
+
+static gboolean update_command_menu_items(GPtrArray *code_action_commands, gpointer user_data)
+{
+	GeanyDocument *doc = user_data;
 	GtkWidget *menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(context_menu_items.command_item));
-	GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
 	GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
+	gboolean command_added = FALSE;
 	LspCommand *cmd;
-	guint i, j;
+	guint i;
 
 	gtk_container_foreach(GTK_CONTAINER(menu), remove_item, menu);
 
-	j = 0;
+	g_signal_connect(geany->main_widgets->editor_menu, "hide", G_CALLBACK(on_editor_menu_hide), code_action_commands);
+
 	foreach_ptr_array(cmd, i, code_action_commands)
 	{
 		GtkWidget *item = gtk_menu_item_new_with_label(cmd->title);
 
 		gtk_container_add(GTK_CONTAINER(menu), item);
-		g_signal_connect(item, "activate", G_CALLBACK(code_action_cb), GUINT_TO_POINTER(i));
-		j++;
+		g_signal_connect(item, "activate", G_CALLBACK(code_action_cb), code_action_commands->pdata[i]);
+		command_added = TRUE;
 	}
 
 	foreach_ptr_array(cmd, i, code_lens_commands)
@@ -1151,13 +1163,15 @@ static void update_command_menu_items(gpointer user_data)
 			GtkWidget *item = gtk_menu_item_new_with_label(cmd->title);
 
 			gtk_container_add(GTK_CONTAINER(menu), item);
-			g_signal_connect(item, "activate", G_CALLBACK(code_action_cb), GUINT_TO_POINTER(j));
-			j++;
+			g_signal_connect(item, "activate", G_CALLBACK(code_action_cb), code_lens_commands->pdata[i]);
+			command_added = TRUE;
 		}
 	}
 
 	gtk_widget_show_all(context_menu_items.command_item);
-	gtk_widget_set_sensitive(context_menu_items.command_item, j > 0);
+	gtk_widget_set_sensitive(context_menu_items.command_item, command_added);
+
+	return FALSE;  // code_action_commands are not freed now but when the popup disappears
 }
 
 
@@ -1186,7 +1200,7 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 	if (code_action_enable)
 	{
 		last_click_pos = pos;
-		lsp_command_send_code_action_request(pos, update_command_menu_items, NULL);
+		lsp_command_send_code_action_request(doc, pos, update_command_menu_items, doc);
 	}
 
 	return FALSE;
@@ -1267,14 +1281,13 @@ static void on_rename_done(void)
 }
 
 
-static void on_code_actions_received_kb(gpointer user_data)
+static gboolean on_code_actions_received_kb(GPtrArray *code_action_commands, gpointer user_data)
 {
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get_if_running(doc);
 
 	if (srv)
 	{
-		GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
 		GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
 		gint cmd_id = GPOINTER_TO_INT(user_data);
 		gchar *cmd_str = srv->config.command_regexes[cmd_id];
@@ -1286,9 +1299,9 @@ static void on_code_actions_received_kb(gpointer user_data)
 		{
 			if (g_regex_match_simple(cmd_str, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
 			{
-				lsp_command_perform(srv, cmd, NULL);
+				lsp_command_perform(srv, cmd, NULL, NULL);
 				// perform only the first matching command
-				return;
+				return TRUE;
 			}
 		}
 
@@ -1297,12 +1310,14 @@ static void on_code_actions_received_kb(gpointer user_data)
 			if (cmd->line == line &&
 				g_regex_match_simple(cmd_str, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
 			{
-				lsp_command_perform(srv, cmd, NULL);
+				lsp_command_perform(srv, cmd, NULL, NULL);
 				// perform only the first matching command
-				return;
+				return TRUE;
 			}
 		}
 	}
+
+	return TRUE;
 }
 
 
@@ -1314,7 +1329,7 @@ static void invoke_command_kb(guint key_id, gint pos)
 	if (key_id >= KB_COUNT + cfg->command_keybinding_num)
 		return;
 
-	lsp_command_send_code_action_request(pos, on_code_actions_received_kb, GINT_TO_POINTER(key_id - KB_COUNT));
+	lsp_command_send_code_action_request(doc, pos, on_code_actions_received_kb, GINT_TO_POINTER(key_id - KB_COUNT));
 }
 
 
@@ -1387,7 +1402,7 @@ static void invoke_kb(guint key_id, gint pos)
 			break;
 
 		case KB_FORMAT_CODE:
-			lsp_format_perform(FALSE, NULL);
+			lsp_format_perform(doc, FALSE, NULL, NULL);
 			break;
 
 		case KB_RESTART_SERVERS:

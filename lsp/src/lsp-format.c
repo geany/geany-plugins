@@ -30,46 +30,42 @@
 
 typedef struct {
 	GeanyDocument *doc;
-	GCallback callback;
+	LspCallback callback;
+	gpointer user_data;
 } FormatData;
 
 
 static void format_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
 	FormatData *data = user_data;
+	GeanyDocument *doc = data->doc;
 
-	if (!error)
+	if (!error && DOC_VALID(doc) && g_variant_is_of_type(return_value, G_VARIANT_TYPE("av")))
 	{
-		GeanyDocument *doc = document_get_current();
+		GPtrArray *edits;
+		GVariantIter iter;
 
-		if (doc == data->doc && g_variant_is_of_type(return_value, G_VARIANT_TYPE("av")))
-		{
-			GPtrArray *edits;
-			GVariantIter iter;
+		g_variant_iter_init(&iter, return_value);
+		edits = lsp_utils_parse_text_edits(&iter);
 
-			g_variant_iter_init(&iter, return_value);
-			edits = lsp_utils_parse_text_edits(&iter);
+		sci_start_undo_action(doc->editor->sci);
+		lsp_utils_apply_text_edits(doc->editor->sci, NULL, edits);
+		sci_end_undo_action(doc->editor->sci);
 
-			sci_start_undo_action(doc->editor->sci);
-			lsp_utils_apply_text_edits(doc->editor->sci, NULL, edits);
-			sci_end_undo_action(doc->editor->sci);
-
-			g_ptr_array_free(edits, TRUE);
-
-			if (data->callback)
-				data->callback();
-		}
+		g_ptr_array_free(edits, TRUE);
 
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
 	}
+
+	if (data->callback)
+		data->callback(data->user_data);
 
 	g_free(data);
 }
 
 
-void lsp_format_perform(gboolean force_whole_doc, GCallback callback)
+void lsp_format_perform(GeanyDocument *doc, gboolean force_whole_doc, LspCallback callback, gpointer user_data)
 {
-	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get(doc);
 	ScintillaObject *sci;
 	const gchar *method;
@@ -132,6 +128,7 @@ void lsp_format_perform(gboolean force_whole_doc, GCallback callback)
 	data = g_new0(FormatData, 1);
 	data->doc = doc;
 	data->callback = callback;
+	data->user_data = user_data;
 
 	lsp_rpc_call(srv, method, node, format_cb, data);
 
