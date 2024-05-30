@@ -70,6 +70,7 @@ static void free_config(LspServerConfig *cfg)
 	g_free(cfg->initialization_options_file);
 	g_free(cfg->initialization_options);
 	g_strfreev(cfg->lang_id_mappings);
+	g_strfreev(cfg->command_regexes);
 }
 
 
@@ -660,7 +661,14 @@ static void get_str(gchar **dest, GKeyFile *kf, const gchar *section, const gcha
 	gchar *str_val = g_key_file_get_string(kf, section, key, NULL);
 
 	if (str_val)
+	{
 		g_strstrip(str_val);
+		if (!*str_val)
+		{
+			g_free(str_val);
+			str_val = NULL;
+		}
+	}
 
 	if (str_val)
 	{
@@ -696,6 +704,8 @@ static void get_int(gint *dest, GKeyFile *kf, const gchar *section, const gchar 
 
 static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 {
+	gint i;
+
 	get_bool(&s->config.use_outside_project_dir, kf, section, "enable_by_default");
 	get_bool(&s->config.use_outside_project_dir, kf, section, "use_outside_project_dir");
 	get_bool(&s->config.use_without_project, kf, section, "use_without_project");
@@ -740,6 +750,30 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 
 	get_bool(&s->config.format_on_save, kf, section, "format_on_save");
 	get_strv(&s->config.code_action_on_save_patterns, kf, section, "code_action_on_save_patterns");
+
+	get_int(&s->config.command_keybinding_num, kf, section, "command_keybinding_num");
+	s->config.command_keybinding_num = CLAMP(s->config.command_keybinding_num, 1, 1000);
+
+	// create for the first time, then just update
+	if (!s->config.command_regexes)
+	{
+		GPtrArray *cmds = g_ptr_array_new_full(s->config.command_keybinding_num + 1, NULL);
+		for (i = 0; i < s->config.command_keybinding_num; i++)
+			g_ptr_array_add(cmds, NULL);
+		g_ptr_array_add(cmds, NULL);  // final strv NULL
+		s->config.command_regexes = (gchar **)g_ptr_array_free(cmds, FALSE);
+	}
+
+	for (i = 0; i < s->config.command_keybinding_num; i++)
+	{
+		gchar *key = g_strdup_printf("command_%d_regex", i + 1);
+
+		get_str(&s->config.command_regexes[i], kf, section, key);
+		if (!s->config.command_regexes[i])
+			s->config.command_regexes[i] = g_strdup("");
+
+		g_free(key);
+	}
 
 	s->config.goto_declaration_enable = TRUE;
 	s->config.goto_definition_enable = TRUE;

@@ -1280,12 +1280,56 @@ static void on_rename_done(void)
 }
 
 
+static void on_code_actions_received2(gpointer user_data)
+{
+	GeanyDocument *doc = document_get_current();
+	LspServer *srv = lsp_server_get_if_running(doc);
+
+	if (srv)
+	{
+		GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
+		gint cmd_id = GPOINTER_TO_INT(user_data);
+		gchar *cmd_str = srv->config.command_regexes[cmd_id];
+		LspCommand *cmd;
+		guint i;
+
+		foreach_ptr_array(cmd, i, code_action_commands)
+		{
+			if (g_regex_match_simple(cmd_str, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
+			{
+				lsp_command_perform(srv, cmd, NULL);
+				// perform only the first matching command
+				return;
+			}
+		}
+	}
+}
+
+
+static void invoke_command_kb(guint key_id, gint pos)
+{
+	GeanyDocument *doc = document_get_current();
+	LspServerConfig *cfg = lsp_server_get_config(doc);
+
+	if (key_id >= KB_COUNT + cfg->command_keybinding_num)
+		return;
+
+	lsp_command_send_code_action_request(pos, on_code_actions_received2, GINT_TO_POINTER(key_id - KB_COUNT));
+}
+
+
 static void invoke_kb(guint key_id, gint pos)
 {
 	GeanyDocument *doc = document_get_current();
 
 	if (pos < 0)
 		pos = doc ? sci_get_current_position(doc->editor->sci) : 0;
+
+	if (key_id >= KB_COUNT)
+	{
+		invoke_command_kb(key_id , pos);
+		return;
+	}
 
 	switch (key_id)
 	{
@@ -1391,10 +1435,12 @@ static void on_context_menu_invoked(GtkWidget *widget, gpointer user_data)
 
 static void create_menu_items()
 {
+	LspServerConfig *all_cfg = lsp_server_get_all_section_config();
 	GtkWidget *menu, *item, *command_submenu;
 	GeanyKeyGroup *group;
+	gint i;
 
-	group = plugin_set_key_group(geany_plugin, "lsp", KB_COUNT, on_kb_invoked);
+	group = plugin_set_key_group(geany_plugin, "lsp", KB_COUNT + all_cfg->command_keybinding_num, on_kb_invoked);
 
 	menu_items.parent_item = gtk_menu_item_new_with_mnemonic(_("_LSP Client"));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_items.parent_item);
@@ -1564,6 +1610,17 @@ static void create_menu_items()
 	keybindings_set_item(group, KB_SHOW_CALLTIP, NULL, 0, 0, "show_calltip",
 		_("Show calltip"), NULL);
 #endif
+
+	for (i = 0; i < all_cfg->command_keybinding_num; i++)
+	{
+		gchar *kb_name = g_strdup_printf("lsp_command_%d", i + 1);
+		gchar *kb_display_name = g_strdup_printf(_("Command %d"), i + 1);
+
+		keybindings_set_item(group, KB_COUNT + i, NULL, 0, 0, kb_name, kb_display_name, NULL);
+
+		g_free(kb_display_name);
+		g_free(kb_name);
+	}
 
 	/* context menu */
 	context_menu_items.separator1 = gtk_separator_menu_item_new();
