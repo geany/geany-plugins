@@ -1267,7 +1267,7 @@ static void on_rename_done(void)
 }
 
 
-static void on_code_actions_received2(gpointer user_data)
+static void on_code_actions_received_kb(gpointer user_data)
 {
 	GeanyDocument *doc = document_get_current();
 	LspServer *srv = lsp_server_get_if_running(doc);
@@ -1275,14 +1275,27 @@ static void on_code_actions_received2(gpointer user_data)
 	if (srv)
 	{
 		GPtrArray *code_action_commands = lsp_command_get_resolved_code_actions();
+		GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
 		gint cmd_id = GPOINTER_TO_INT(user_data);
 		gchar *cmd_str = srv->config.command_regexes[cmd_id];
+		gint line = sci_get_current_line(doc->editor->sci);
 		LspCommand *cmd;
 		guint i;
 
 		foreach_ptr_array(cmd, i, code_action_commands)
 		{
 			if (g_regex_match_simple(cmd_str, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
+			{
+				lsp_command_perform(srv, cmd, NULL);
+				// perform only the first matching command
+				return;
+			}
+		}
+
+		foreach_ptr_array(cmd, i, code_lens_commands)
+		{
+			if (cmd->line == line &&
+				g_regex_match_simple(cmd_str, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
 			{
 				lsp_command_perform(srv, cmd, NULL);
 				// perform only the first matching command
@@ -1301,7 +1314,7 @@ static void invoke_command_kb(guint key_id, gint pos)
 	if (key_id >= KB_COUNT + cfg->command_keybinding_num)
 		return;
 
-	lsp_command_send_code_action_request(pos, on_code_actions_received2, GINT_TO_POINTER(key_id - KB_COUNT));
+	lsp_command_send_code_action_request(pos, on_code_actions_received_kb, GINT_TO_POINTER(key_id - KB_COUNT));
 }
 
 
