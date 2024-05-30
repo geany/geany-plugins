@@ -588,20 +588,6 @@ static gboolean code_action_was_performed(LspCommand *cmd)
 }
 
 
-static gboolean matches_pattern(LspServer *srv, LspCommand *cmd)
-{
-	gchar **pattern;
-
-	foreach_strv(pattern, srv->config.code_action_on_save_patterns)
-	{
-		if (g_pattern_match_simple(*pattern, cmd->title))
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-
 static void on_save_finish(void)
 {
 	if (code_actions_performed)
@@ -642,7 +628,8 @@ static void on_code_actions_received(gpointer user_data)
 	{
 		foreach_ptr_array(cmd, i, code_action_commands)
 		{
-			if (!code_action_was_performed(cmd) && matches_pattern(srv, cmd))
+			if (!code_action_was_performed(cmd) &&
+				g_regex_match_simple(srv->config.command_on_save_regex, cmd->title, G_REGEX_CASELESS, G_REGEX_MATCH_NOTEMPTY))
 			{
 				// save the performed title so it isn't performed in the next iteration
 				g_ptr_array_add(code_actions_performed, g_strdup(cmd->title));
@@ -675,7 +662,7 @@ static void on_document_before_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *d
 
 	code_actions_performed = g_ptr_array_new_full(1, g_free);
 
-	if (srv->config.code_action_enable && srv->config.code_action_on_save_patterns)
+	if (srv->config.code_action_enable && srv->config.command_on_save_regex)
 		lsp_command_send_code_action_request(sci_get_current_position(doc->editor->sci),
 			on_code_actions_received, NULL);
 	else if (srv->config.document_formatting_enable && srv->config.format_on_save)

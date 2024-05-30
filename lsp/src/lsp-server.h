@@ -99,7 +99,7 @@ typedef struct
 
 	gboolean execute_command_enable;
 	gboolean code_action_enable;
-	gchar **code_action_on_save_patterns;
+	gchar *command_on_save_regex;
 	gint command_keybinding_num;
 	gchar **command_regexes;
 

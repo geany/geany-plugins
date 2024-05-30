@@ -56,7 +56,7 @@ static void free_config(LspServerConfig *cfg)
 	g_free(cfg->ref_lang);
 	g_strfreev(cfg->autocomplete_trigger_sequences);
 	g_strfreev(cfg->semantic_tokens_types);
-	g_strfreev(cfg->code_action_on_save_patterns);
+	g_free(cfg->command_on_save_regex);
 	g_free(cfg->semantic_tokens_type_style);
 	g_free(cfg->diagnostics_disable_for);
 	g_free(cfg->diagnostics_error_style);
@@ -749,7 +749,7 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_str(&s->config.code_lens_style, kf, section, "code_lens_style");
 
 	get_bool(&s->config.format_on_save, kf, section, "format_on_save");
-	get_strv(&s->config.code_action_on_save_patterns, kf, section, "code_action_on_save_patterns");
+	get_str(&s->config.command_on_save_regex, kf, section, "command_on_save_regex");
 
 	get_int(&s->config.command_keybinding_num, kf, section, "command_keybinding_num");
 	s->config.command_keybinding_num = CLAMP(s->config.command_keybinding_num, 1, 1000);
