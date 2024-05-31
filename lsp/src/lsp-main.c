@@ -59,7 +59,6 @@ LspProjectConfigurationType project_configuration_type = UserConfigurationType;
 gchar *project_configuration_file;
 
 static gint last_click_pos;
-static gboolean ignore_selection_change;
 
 
 #ifdef GEANY_LSP_COMBINED_PROJECT
@@ -746,6 +745,7 @@ static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor, SCNotification *nt,
 	G_GNUC_UNUSED gpointer user_data)
 {
+	static gboolean ignore_selection_change = FALSE;  // static!
 	GeanyDocument *doc = editor->document;
 	ScintillaObject *sci = editor->sci;
 
@@ -1126,14 +1126,9 @@ static void remove_item(GtkWidget *widget, gpointer data)
 }
 
 
-static void on_editor_menu_hide(gpointer user_data)
-{
-	g_ptr_array_free((GPtrArray *)user_data, TRUE);
-}
-
-
 static gboolean update_command_menu_items(GPtrArray *code_action_commands, gpointer user_data)
 {
+	static GPtrArray *action_commands = NULL;  // static!
 	GeanyDocument *doc = user_data;
 	GtkWidget *menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(context_menu_items.command_item));
 	GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
@@ -1143,7 +1138,9 @@ static gboolean update_command_menu_items(GPtrArray *code_action_commands, gpoin
 
 	gtk_container_foreach(GTK_CONTAINER(menu), remove_item, menu);
 
-	g_signal_connect(geany->main_widgets->editor_menu, "hide", G_CALLBACK(on_editor_menu_hide), code_action_commands);
+	if (action_commands)
+		g_ptr_array_free(action_commands, TRUE);
+	action_commands = code_action_commands;
 
 	foreach_ptr_array(cmd, i, code_action_commands)
 	{
@@ -1171,7 +1168,8 @@ static gboolean update_command_menu_items(GPtrArray *code_action_commands, gpoin
 	gtk_widget_show_all(context_menu_items.command_item);
 	gtk_widget_set_sensitive(context_menu_items.command_item, command_added);
 
-	return FALSE;  // code_action_commands are not freed now but when the popup disappears
+	// code_action_commands are not freed now but preserved until the next call
+	return FALSE;
 }
 
 
