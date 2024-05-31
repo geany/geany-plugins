@@ -223,6 +223,9 @@ void lsp_command_send_code_action_request(GeanyDocument *doc, gint pos, CodeActi
 	pos_start = sci_get_selection_start(sci);
 	pos_end = sci_get_selection_end(sci);
 
+	if (pos_start == pos_end)
+		pos_start = pos_end = pos;
+
 	lsp_pos_start = lsp_utils_scintilla_pos_to_lsp(sci, pos_start);
 	lsp_pos_end = lsp_utils_scintilla_pos_to_lsp(sci, pos_end);
 
