@@ -233,36 +233,62 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 	g_string_free(words, TRUE);
 }
 
-
 static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer user_data)
 {
 	LspAutocompleteSymbol *sym1 = *((LspAutocompleteSymbol **)a);
 	LspAutocompleteSymbol *sym2 = *((LspAutocompleteSymbol **)b);
-	gint pass = GPOINTER_TO_INT(user_data);
+	gchar *prefix = user_data;
+	gchar *label1 = NULL;
+	gchar *label2 = NULL;
 
-	if (pass > 1)
+	if (sym1->text_edit && sym1->text_edit->new_text)
+		label1 = sym1->text_edit->new_text;
+	else if (sym1->insert_text)
+		label1 = sym1->insert_text;
+	else if (sym1->label)
+		label1 = sym1->label;
+
+	if (sym2->text_edit && sym2->text_edit->new_text)
+		label2 = sym2->text_edit->new_text;
+	else if (sym2->insert_text)
+		label2 = sym2->insert_text;
+	else if (sym2->label)
+		label2 = sym2->label;
+
+	// called in second sorting pass
+	if (label1 && label2 && prefix)
 	{
+		/*
 		if (sym1->kind == LspCompletionKindKeyword && sym2->kind != LspCompletionKindKeyword)
 			return -1;
 
 		if (sym1->kind != LspCompletionKindKeyword && sym2->kind == LspCompletionKindKeyword)
-			return 1;
+			return 1;*/
 
 		if (sym1->kind == LspCompletionKindSnippet && sym2->kind != LspCompletionKindSnippet)
 			return -1;
 
 		if (sym1->kind != LspCompletionKindSnippet && sym2->kind == LspCompletionKindSnippet)
 			return 1;
+
+		if (g_strcmp0(label1, prefix) == 0 && g_strcmp0(label2, prefix) != 0)
+			return -1;
+
+		if (g_strcmp0(label1, prefix) != 0 && g_strcmp0(label2, prefix) == 0)
+			return 1;
+
+		if (g_str_has_prefix(label1, prefix) && !g_str_has_prefix(label2, prefix))
+			return -1;
+
+		if (!g_str_has_prefix(label1, prefix) && g_str_has_prefix(label2, prefix))
+			return 1;
 	}
 
 	if (sym1->sort_text && sym2->sort_text)
 		return g_strcmp0(sym1->sort_text, sym2->sort_text);
 
-	if (sym1->text_edit && sym1->text_edit->new_text && sym2->text_edit && sym2->text_edit->new_text)
-		return g_strcmp0(sym1->text_edit->new_text, sym2->text_edit->new_text);
-
-	if (sym1->label && sym2->label)
-		return g_strcmp0(sym1->label, sym2->label);
+	if (label1 && label2)
+		return g_strcmp0(label1, label2);
 
 	return 0;
 }
@@ -273,6 +299,10 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	//gboolean is_incomplete = FALSE;
 	GVariantIter *iter = NULL;
 	GVariant *member = NULL;
+	ScintillaObject *sci = doc->editor->sci;
+	gint pos = sci_get_current_position(sci);
+	gint prefixlen = get_ident_prefixlen(doc, pos);
+	gchar *prefix;
 	GPtrArray *symbols, *symbols_filtered;
 	GHashTable *entry_set;
 	gint i;
@@ -324,7 +354,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	}
 
 	/* sort based on sorting provided by LSP server */
-	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, GINT_TO_POINTER(1));
+	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, NULL);
 
 	symbols_filtered = g_ptr_array_new_full(symbols->len, free_autocomplete_symbol);
 	entry_set = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
@@ -347,8 +377,9 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	g_ptr_array_free(symbols, TRUE);
 	symbols = symbols_filtered;
 
-	/* sort with keywords and snippets first */
-	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, GINT_TO_POINTER(2));
+	/* sort with snippets and symbols matching the typed prefix first */
+	prefix = sci_get_contents_range(sci, pos - prefixlen, pos);
+	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, prefix);
 
 	if (symbols->len > 0)
 		show_tags_list(server, doc, symbols);
@@ -360,6 +391,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 
 	g_variant_iter_free(iter);
 	g_hash_table_destroy(entry_set);
+	g_free(prefix);
 }
 
 
