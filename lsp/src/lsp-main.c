@@ -180,14 +180,14 @@ static gboolean autocomplete_provided(GeanyDocument *doc)
 }
 
 
-static void autocomplete_perform(GeanyDocument *doc)
+static void autocomplete_perform(GeanyDocument *doc, gboolean force)
 {
 	LspServer *srv = lsp_server_get(doc);
 
 	if (!srv)
 		return;
 
-	lsp_autocomplete_completion(srv, doc);
+	lsp_autocomplete_completion(srv, doc, force);
 }
 
 
@@ -923,7 +923,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 
 #ifndef HAVE_GEANY_PLUGIN_EXTENSION
 		if (autocomplete_provided(doc))
-			autocomplete_perform(doc);
+			autocomplete_perform(doc, FALSE);
 		if (calltips_provided(doc))
 			calltips_show(doc, FALSE);
 #endif
@@ -1410,7 +1410,7 @@ static void invoke_kb(guint key_id, gint pos)
 #ifndef HAVE_GEANY_PLUGIN_EXTENSION
 		case KB_INVOKE_AUTOCOMPLETE:
 			if (doc && autocomplete_provided(doc))
-				autocomplete_perform(doc);
+				autocomplete_perform(doc, TRUE);
 			break;
 
 		case KB_SHOW_CALLTIP:

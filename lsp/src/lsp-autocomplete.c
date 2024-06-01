@@ -459,7 +459,7 @@ static gboolean ends_with_sequence(ScintillaObject *sci, gchar** seqs)
 }
 
 
-void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc)
+void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc, gboolean force)
 {
 	//gboolean static first_time = TRUE;
 	GVariant *node;
@@ -470,7 +470,9 @@ void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc)
 	LspPosition lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
 	gint lexer = sci_get_lexer(sci);
 	gint style = sci_get_style_at(sci, pos);
+	gboolean is_trigger_char = FALSE;
 	gchar c = pos > 0 ? sci_get_char_at(sci, SSM(sci, SCI_POSITIONBEFORE, pos, 0)) : '\0';
+	gchar c_str[2] = {c, '\0'};
 
 	// highlighting_is_code_style(lexer, style) also checks for preprocessor
 	// style which we might not want here as LSP servers might support it
@@ -489,11 +491,14 @@ void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc)
 			SSM(doc->editor->sci, SCI_AUTOCCANCEL, 0, 0);
 			return;
 		}
+
 		if (!server->autocomplete_trigger_chars || !strchr(server->autocomplete_trigger_chars, c))
 		{
 			SSM(doc->editor->sci, SCI_AUTOCCANCEL, 0, 0);
 			return;
 		}
+		else
+			is_trigger_char = !force;
 	}
 	else
 	{
@@ -515,10 +520,14 @@ void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc)
 		"position", "{",
 			"line", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.line),
 			"character", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.character),
+		"}",
+		"context", "{",
+			"triggerKind", JSONRPC_MESSAGE_PUT_INT32(is_trigger_char ? 2 : 1),
+			"triggerCharacter", JSONRPC_MESSAGE_PUT_STRING(c_str),
 		"}"
 	);
 
-//	printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
+	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 	data = g_new0(LspAutocompleteAsyncData, 1);
 	data->doc = doc;
 	data->request_id = ++sent_request_id;

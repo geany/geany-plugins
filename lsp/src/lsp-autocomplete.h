@@ -21,7 +21,7 @@
 
 #include "lsp-server.h"
 
-void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc);
+void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc, gboolean force);
 
 void lsp_autocomplete_set_displayed_symbols(GPtrArray *symbols);
 void lsp_autocomplete_item_selected(LspServer *server, GeanyDocument *doc, guint index);
