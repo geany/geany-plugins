@@ -593,7 +593,7 @@ static void start_lsp_server(LspServer *server)
 	server->restarts++;
 	if (is_dead(server))
 	{
-		dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("LSP server %s terminated more than 5 times, giving up"), server->config.cmd);
+		msgwin_status_add(_("LSP server %s terminated more than 5 times, giving up"), server->config.cmd);
 		return;
 	}
 
