@@ -229,6 +229,9 @@ static void perform_goto(LspServer *server, GeanyDocument *doc, gint pos, const 
 		"position", "{",
 			"line", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.line),
 			"character", JSONRPC_MESSAGE_PUT_INT32(lsp_pos.character),
+		"}",
+		"context", "{",  // only for textDocument/references
+			"includeDeclaration", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 		"}"
 	);
 
