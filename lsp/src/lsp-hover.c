@@ -42,6 +42,7 @@ static void show_calltip(GeanyDocument *doc, gint pos, const gchar *calltip)
 	gchar *s = g_strdup(calltip);
 	gchar *p = s;
 	gboolean quit = FALSE;
+	gboolean start = TRUE;
 	gint paragraph_no = 0;
 	guint i;
 
@@ -49,8 +50,10 @@ static void show_calltip(GeanyDocument *doc, gint pos, const gchar *calltip)
 	for (i = 0; p && !quit && i < cfg->hover_popup_max_lines; i++)
 	{
 		gchar *q;
-		if (p != s)
+
+		if (!start)
 			p++;
+		start = FALSE;
 
 		q = strchr(p, '\n');
 
