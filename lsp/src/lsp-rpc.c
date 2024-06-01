@@ -120,19 +120,21 @@ static void handle_notification(JsonrpcClient *client, gchar *method, GVariant *
 }
 
 
+static void reply_async(LspServer *srv, const gchar *method, JsonrpcClient *client,
+	GVariant *id, GVariant *result)
+{
+	jsonrpc_client_reply_async(client, id, result, NULL, NULL, NULL);
+	lsp_log(srv->log, LspLogServerMessageReceived, method, result, NULL, NULL);
+}
+
+
 static gboolean handle_call(JsonrpcClient *client, gchar* method, GVariant *id, GVariant *params,
 	gpointer user_data)
 {
 	LspServer *srv = g_hash_table_lookup(client_table, client);
-	gboolean ret = FALSE;
-	GVariant *variant;
-	JsonNode *node;
 
 	if (!srv)
-		return ret;
-
-	node = json_from_string("{}", NULL);
-	variant = json_gvariant_deserialize(node, NULL, NULL);
+		return FALSE;
 
 	lsp_log(srv->log, LspLogServerMessageSent, method, params, NULL, NULL);
 
@@ -161,8 +163,8 @@ static gboolean handle_call(JsonrpcClient *client, gchar* method, GVariant *id, 
 			lsp_progress_create(srv, token);
 		}
 
-		jsonrpc_client_reply_async(client, id, NULL, NULL, NULL, NULL);
-		ret = TRUE;
+		reply_async(srv, method, client, id, NULL);
+		return TRUE;
 	}
 	else if (g_strcmp0(method, "workspace/applyEdit") == 0)
 	{
@@ -180,19 +182,26 @@ static gboolean handle_call(JsonrpcClient *client, gchar* method, GVariant *id, 
 			"applied", JSONRPC_MESSAGE_PUT_BOOLEAN(success)
 		);
 
-		jsonrpc_client_reply_async(client, id, msg, NULL, NULL, NULL);
+		reply_async(srv, method, client, id, msg);
 
 		g_variant_unref(msg);
 		if (edit)
 			g_variant_unref(edit);
-		ret = TRUE;
+		return TRUE;
+	}
+	else
+	{
+		GVariant *variant;
+		JsonNode *node;
+
+		node = json_from_string("{}", NULL);
+		variant = json_gvariant_deserialize(node, NULL, NULL);
+		lsp_log(srv->log, LspLogServerMessageReceived, method, variant, NULL, NULL);
+		g_variant_unref(variant);
+		json_node_free(node);
 	}
 
-	lsp_log(srv->log, LspLogServerMessageReceived, method, variant, NULL, NULL);
-	g_variant_unref(variant);
-	json_node_free(node);
-
-	return ret;
+	return FALSE;
 }
 
 
