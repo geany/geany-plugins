@@ -799,7 +799,9 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 
 	if (nt->nmhdr.code == SCN_DWELLSTART)
 	{
-		LspServer *srv = lsp_server_get(doc);
+		LspServer *srv = lsp_server_get_if_running(doc);
+		if (!srv)
+			return FALSE;
 
 		// also delivered when other window has focus
 		if (!gtk_widget_has_focus(GTK_WIDGET(sci)))
@@ -809,9 +811,6 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 		// is -1. In addition, at the top of Scintilla window, the event is delivered
 		// when mouse is at the menubar place, with y = 0
 		if (nt->position < 0 || nt->y == 0)
-			return FALSE;
-
-		if (!srv)
 			return FALSE;
 
 		if (lsp_signature_showing_calltip(doc))
@@ -825,7 +824,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 	}
 	else if (nt->nmhdr.code == SCN_DWELLEND)
 	{
-		LspServer *srv = lsp_server_get(doc);
+		LspServer *srv = lsp_server_get_if_running(doc);
 		if (!srv)
 			return FALSE;
 
