@@ -50,6 +50,13 @@ typedef struct
 } LspAutocompleteAsyncData;
 
 
+typedef struct
+{
+	gint pass;
+	gchar *prefix;
+} SortData;
+
+
 static GPtrArray *displayed_autocomplete_symbols = NULL;
 static gint sent_request_id = 0;
 static gint received_request_id = 0;
@@ -233,11 +240,12 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 	g_string_free(words, TRUE);
 }
 
+
 static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer user_data)
 {
 	LspAutocompleteSymbol *sym1 = *((LspAutocompleteSymbol **)a);
 	LspAutocompleteSymbol *sym2 = *((LspAutocompleteSymbol **)b);
-	gchar *prefix = user_data;
+	SortData *sort_data = user_data;
 	gchar *label1 = NULL;
 	gchar *label2 = NULL;
 
@@ -255,8 +263,7 @@ static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer
 	else if (sym2->label)
 		label2 = sym2->label;
 
-	// called in second sorting pass
-	if (label1 && label2 && prefix)
+	if (sort_data->pass == 2)
 	{
 		/*
 		if (sym1->kind == LspCompletionKindKeyword && sym2->kind != LspCompletionKindKeyword)
@@ -270,17 +277,20 @@ static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer
 
 		if (sym1->kind != LspCompletionKindSnippet && sym2->kind == LspCompletionKindSnippet)
 			return 1;
+	}
 
-		if (g_strcmp0(label1, prefix) == 0 && g_strcmp0(label2, prefix) != 0)
+	if (sort_data->pass == 2 && label1 && label2 && sort_data->prefix)
+	{
+		if (g_strcmp0(label1, sort_data->prefix) == 0 && g_strcmp0(label2, sort_data->prefix) != 0)
 			return -1;
 
-		if (g_strcmp0(label1, prefix) != 0 && g_strcmp0(label2, prefix) == 0)
+		if (g_strcmp0(label1, sort_data->prefix) != 0 && g_strcmp0(label2, sort_data->prefix) == 0)
 			return 1;
 
-		if (g_str_has_prefix(label1, prefix) && !g_str_has_prefix(label2, prefix))
+		if (g_str_has_prefix(label1, sort_data->prefix) && !g_str_has_prefix(label2, sort_data->prefix))
 			return -1;
 
-		if (!g_str_has_prefix(label1, prefix) && g_str_has_prefix(label2, prefix))
+		if (!g_str_has_prefix(label1, sort_data->prefix) && g_str_has_prefix(label2, sort_data->prefix))
 			return 1;
 	}
 
@@ -302,7 +312,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	ScintillaObject *sci = doc->editor->sci;
 	gint pos = sci_get_current_position(sci);
 	gint prefixlen = get_ident_prefixlen(doc, pos);
-	gchar *prefix;
+	SortData sort_data = { 1, NULL };
 	GPtrArray *symbols, *symbols_filtered;
 	GHashTable *entry_set;
 	gint i;
@@ -354,7 +364,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	}
 
 	/* sort based on sorting provided by LSP server */
-	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, NULL);
+	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, &sort_data);
 
 	symbols_filtered = g_ptr_array_new_full(symbols->len, free_autocomplete_symbol);
 	entry_set = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
@@ -377,9 +387,11 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	g_ptr_array_free(symbols, TRUE);
 	symbols = symbols_filtered;
 
+	if (prefixlen > 0)
+		sort_data.prefix = sci_get_contents_range(sci, pos - prefixlen, pos);
+	sort_data.pass = 2;
 	/* sort with snippets and symbols matching the typed prefix first */
-	prefix = sci_get_contents_range(sci, pos - prefixlen, pos);
-	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, prefix);
+	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, &sort_data);
 
 	if (symbols->len > 0)
 		show_tags_list(server, doc, symbols);
@@ -391,7 +403,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 
 	g_variant_iter_free(iter);
 	g_hash_table_destroy(entry_set);
-	g_free(prefix);
+	g_free(sort_data.prefix);
 }
 
 
