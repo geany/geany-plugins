@@ -243,8 +243,6 @@ void lsp_code_lens_send_request(GeanyDocument *doc)
 	gchar *doc_uri;
 	GVariant *node;
 
-	g_ptr_array_set_size(commands, 0);
-
 	if (!doc || !doc->real_path)
 		return;
 
@@ -263,6 +261,8 @@ void lsp_code_lens_send_request(GeanyDocument *doc)
 	 * though we set colors here, it isn't a perfect solution as it needs a modification
 	 * of the document for the update and in the meantime the color is wrong. */
 	lsp_code_lens_style_init(doc);
+
+	g_ptr_array_set_size(commands, 0);
 
 	doc_uri = lsp_utils_get_doc_uri(doc);
 
