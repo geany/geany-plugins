@@ -303,7 +303,14 @@ void lsp_rpc_notify(LspServer *srv, const gchar *method, GVariant *params,
 	lsp_log(srv->log, LspLogClientNotificationSent,
 		method, params, NULL, NULL);
 
-	if (!params)
+	/* Two hacks in one:
+	 * 1. gopls requires that the params member is present (jsonrpc-glib removes
+	 *    it when there are no parameters which is jsonrpc compliant)
+	 * 2. haskell-language-server also requires params present _unless_ it's the
+	 *    "exit" notifications, where, if "params" present, it fails to
+	 *    terminate
+	 */
+	if (!params && !(srv->filetype == GEANY_FILETYPES_HASKELL && g_strcmp0(method, "exit") == 0))
 	{
 		params = JSONRPC_MESSAGE_NEW("gopls_bug_workarond",
 			JSONRPC_MESSAGE_PUT_STRING("https://github.com/golang/go/issues/57459"));
