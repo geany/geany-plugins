@@ -840,7 +840,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 		LspServer *srv;
 
 		// lots of SCN_MODIFIED notifications, filter-out those we are not interested in
-		if (!(nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_BEFOREDELETE | SC_MOD_BEFOREINSERT)))
+		if (!(nt->modificationType & (SC_MOD_BEFOREINSERT | SC_MOD_INSERTTEXT | SC_MOD_BEFOREDELETE | SC_MOD_DELETETEXT)))
 			return FALSE;
 
 		srv = lsp_server_get(doc);
@@ -861,26 +861,43 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 		{
 			LspPosition pos_start = lsp_utils_scintilla_pos_to_lsp(sci, nt->position);
 			LspPosition pos_end = pos_start;
-			gchar *text = g_malloc(nt->length + 1);
+			gchar *text;
 
-			memcpy(text, nt->text, nt->length);
-			text[nt->length] = '\0';
+			if (srv->use_incremental_sync)
+			{
+				text = g_malloc(nt->length + 1);
+				memcpy(text, nt->text, nt->length);
+				text[nt->length] = '\0';
+			}
+			else
+				text = sci_get_contents(doc->editor->sci, -1);
+
 			lsp_sync_text_document_did_change(srv, doc, pos_start, pos_end, text);
 
 			g_free(text);
 		}
-		else if (nt->modificationType & SC_MOD_BEFOREDELETE)  // BEFORE! delete
+		else if (srv->use_incremental_sync &&(nt->modificationType & SC_MOD_BEFOREDELETE))
 		{
+			// BEFORE! delete for incremental sync
 			LspPosition pos_start = lsp_utils_scintilla_pos_to_lsp(sci, nt->position);
 			LspPosition pos_end = lsp_utils_scintilla_pos_to_lsp(sci, nt->position + nt->length);
 			gchar *text = g_strdup("");
 
 			lsp_sync_text_document_did_change(srv, doc, pos_start, pos_end, text);
+			g_free(text);
+		}
+		else if (!srv->use_incremental_sync &&(nt->modificationType & SC_MOD_DELETETEXT))
+		{
+			// AFTER! delete for full document sync
+			LspPosition dummy_start = lsp_utils_scintilla_pos_to_lsp(sci, 0);
+			LspPosition dummy_end = lsp_utils_scintilla_pos_to_lsp(sci, 0);
+			gchar *text = sci_get_contents(doc->editor->sci, -1);
 
+			lsp_sync_text_document_did_change(srv, doc, dummy_start, dummy_end, text);
 			g_free(text);
 		}
 
-		if (nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_BEFOREDELETE))
+		if (nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT))
 		{
 			guint update_source = GPOINTER_TO_UINT(plugin_get_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA));
 

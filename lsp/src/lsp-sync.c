@@ -186,17 +186,15 @@ void lsp_sync_text_document_did_change(LspServer *server, GeanyDocument *doc,
 	}
 	else
 	{
-		gchar *contents = sci_get_contents(doc->editor->sci, -1);
 		node = JSONRPC_MESSAGE_NEW (
 			"textDocument", "{",
 				"uri", JSONRPC_MESSAGE_PUT_STRING(doc_uri),
 				"version", JSONRPC_MESSAGE_PUT_INT32(doc_version),
 			"}",
 			"contentChanges", "[", "{",
-				"text", JSONRPC_MESSAGE_PUT_STRING(contents),
+				"text", JSONRPC_MESSAGE_PUT_STRING(text),
 			"}", "]"
 		);
-		g_free(contents);
 	}
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
