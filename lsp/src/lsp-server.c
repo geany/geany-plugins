@@ -95,20 +95,37 @@ static void free_server(LspServer *s)
 }
 
 
+static gboolean free_server_after_delay(gpointer user_data)
+{
+	free_server((LspServer *)user_data);
+
+	return FALSE;
+}
+
+
 static void process_stopped(GObject *source_object, GAsyncResult *res, gpointer data)
 {
 	LspServer *s = data;
 
-	if (s->startup_shutdown)  // normal shutdown
+	// normal shutdown
+	if (g_ptr_array_find(servers_in_shutdown, s, NULL))
+	{
+		msgwin_status_add(_("LSP server %s stopped"), s->config.cmd);
 		g_ptr_array_remove_fast(servers_in_shutdown, s);
+	}
 	else  // crash
 	{
 		gint restarts = s->restarts;
 		gint ft = s->filetype;
 
-		msgwin_status_add(_("LSP server %s stopped, restarting"), s->config.cmd);
+		msgwin_status_add(_("LSP server %s stopped unexpectedly, restarting"), s->config.cmd);
 
-		free_server(s);
+		// it seems that calls/notifications get delivered to the plugin
+		// from the server even after the process is stopped in unnormal
+		// conditions like server crash and if we free the server immediately,
+		// the RPC call gets invalid server. Wait for a while until such
+		// calls get performed
+		plugin_timeout_add(geany_plugin, 300, free_server_after_delay, s);
 
 		s = lsp_server_init(ft);
 		s->restarts = restarts;
@@ -136,6 +153,9 @@ static void shutdown_cb(GVariant *return_value, GError *error, gpointer user_dat
 {
 	LspServer *srv = user_data;
 
+	if (!g_ptr_array_find(servers_in_shutdown, srv, NULL))
+		return;
+
 	if (!error)
 	{
 		msgwin_status_add(_("Sending exit notification to LSP server %s"), srv->config.cmd);
@@ -155,6 +175,9 @@ static void shutdown_cb(GVariant *return_value, GError *error, gpointer user_dat
 
 static void stop_process(LspServer *s)
 {
+	if (g_ptr_array_find(servers_in_shutdown, s, NULL))
+		return;
+
 	s->startup_shutdown = TRUE;
 	g_ptr_array_add(servers_in_shutdown, s);
 
@@ -407,16 +430,12 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 	}
 	else
 	{
-		gint restarts = s->restarts;
-		gint ft = s->filetype;
+		msgwin_status_add(_("LSP initialize request failed for LSP server, killing %s"), s->config.cmd);
 
-		msgwin_status_add(_("LSP initialize request failed for LSP server %s"), s->config.cmd);
-
-		stop_process(s);
-		s = lsp_server_init(ft);
-		s->restarts = restarts;
-		lsp_servers->pdata[ft] = s;
-		start_lsp_server(s);
+		// force exit the server - since the handshake didn't perform, the
+		// server may be in some strange state and normal "exit" may not work
+		// (happens with haskell server)
+		g_subprocess_force_exit(s->process);
 	}
 }
 
