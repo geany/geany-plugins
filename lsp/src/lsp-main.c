@@ -1684,6 +1684,8 @@ static void create_menu_items()
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.goto_ref);
 	g_signal_connect(context_menu_items.goto_ref, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_FIND_REFERENCES));
+
+	update_menu(NULL);
 }
 
 
