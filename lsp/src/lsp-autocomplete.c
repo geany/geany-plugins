@@ -323,6 +323,9 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 		"items", JSONRPC_MESSAGE_GET_ITER(&iter));
 
 	if (!iter)
+		iter = g_variant_iter_new(response);
+
+	if (!iter)
 		return;
 
 	symbols = g_ptr_array_new_full(0, NULL);  // not freeing symbols here
