@@ -234,7 +234,7 @@ static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
  * extension and only if this fails, look at the shebang */
 static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 {
-	struct stat s;
+	GStatBuf s;
 	GeanyFiletype *ft = NULL;
 	gchar *locale_filename;
 
