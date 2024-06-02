@@ -444,7 +444,7 @@ static void perform_initialize(LspServer *server)
 			"uri", JSONRPC_MESSAGE_PUT_STRING (project_base_uri),
 			"name", JSONRPC_MESSAGE_PUT_STRING (project_base),
 		"}", "]",
-		//"rootUri", JSONRPC_MESSAGE_PUT_STRING(project_base_uri),
+		"rootUri", JSONRPC_MESSAGE_PUT_STRING(project_base_uri),
 		"capabilities", "{",
 			"window", "{",
 				"workDoneProgress", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
