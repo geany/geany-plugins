@@ -263,14 +263,14 @@ static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer
 	else if (sym2->label)
 		label2 = sym2->label;
 
+	/*
 	if (sort_data->pass == 2)
 	{
-		/*
 		if (sym1->kind == LspCompletionKindKeyword && sym2->kind != LspCompletionKindKeyword)
 			return -1;
 
 		if (sym1->kind != LspCompletionKindKeyword && sym2->kind == LspCompletionKindKeyword)
-			return 1;*/
+			return 1;
 
 		if (sym1->kind == LspCompletionKindSnippet && sym2->kind != LspCompletionKindSnippet)
 			return -1;
@@ -278,6 +278,7 @@ static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer
 		if (sym1->kind != LspCompletionKindSnippet && sym2->kind == LspCompletionKindSnippet)
 			return 1;
 	}
+	*/
 
 	if (sort_data->pass == 2 && label1 && label2 && sort_data->prefix)
 	{
@@ -337,11 +338,15 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 		const gchar *detail = NULL;
 		gint64 kind = 0;
 
+		JSONRPC_MESSAGE_PARSE(member, "kind", JSONRPC_MESSAGE_GET_INT64(&kind));
+
+		if (kind == LspCompletionKindSnippet)
+			continue;  // not supported right now
+
 		JSONRPC_MESSAGE_PARSE(member, "label", JSONRPC_MESSAGE_GET_STRING(&label));
 		JSONRPC_MESSAGE_PARSE(member, "insertText", JSONRPC_MESSAGE_GET_STRING(&insert_text));
 		JSONRPC_MESSAGE_PARSE(member, "sortText", JSONRPC_MESSAGE_GET_STRING(&sort_text));
 		JSONRPC_MESSAGE_PARSE(member, "detail", JSONRPC_MESSAGE_GET_STRING(&detail));
-		JSONRPC_MESSAGE_PARSE(member, "kind", JSONRPC_MESSAGE_GET_INT64(&kind));
 		JSONRPC_MESSAGE_PARSE(member, "textEdit", JSONRPC_MESSAGE_GET_VARIANT(&text_edit));
 		JSONRPC_MESSAGE_PARSE(member, "additionalTextEdits", JSONRPC_MESSAGE_GET_ITER(&additional_edits));
 
@@ -390,7 +395,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	if (prefixlen > 0)
 		sort_data.prefix = sci_get_contents_range(sci, pos - prefixlen, pos);
 	sort_data.pass = 2;
-	/* sort with snippets and symbols matching the typed prefix first */
+	/* sort with symbols matching the typed prefix first */
 	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, &sort_data);
 
 	if (symbols->len > 0)
