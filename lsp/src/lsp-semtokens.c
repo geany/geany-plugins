@@ -480,7 +480,8 @@ void lsp_semtokens_send_request(GeanyDocument *doc)
 
 	cached_data = g_hash_table_lookup(cached_tokens, doc->real_path);
 	data->delta = cached_data != NULL && cached_data->result_id &&
-		server->config.semantic_tokens_supports_delta;
+		server->config.semantic_tokens_supports_delta &&
+		!server->config.semantic_tokens_force_full;
 
 	if (data->delta)
 	{

@@ -757,6 +757,7 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_bool(&s->config.show_server_stderr, kf, section, "show_server_stderr");
 
 	get_bool(&s->config.semantic_tokens_enable, kf, section, "semantic_tokens_enable");
+	get_bool(&s->config.semantic_tokens_force_full, kf, section, "semantic_tokens_force_full");
 	get_strv(&s->config.semantic_tokens_types, kf, section, "semantic_tokens_types");
 	get_int(&s->config.semantic_tokens_lexer_kw_index, kf, section, "semantic_tokens_lexer_kw_index");
 	get_str(&s->config.semantic_tokens_type_style, kf, section, "semantic_tokens_type_style");
