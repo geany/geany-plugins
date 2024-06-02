@@ -748,6 +748,9 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_bool(&s->config.code_lens_enable, kf, section, "code_lens_enable");
 	get_str(&s->config.code_lens_style, kf, section, "code_lens_style");
 
+	get_str(&s->config.formatting_options_file, kf, section, "formatting_options_file");
+	get_str(&s->config.formatting_options, kf, section, "formatting_options");
+
 	get_bool(&s->config.format_on_save, kf, section, "format_on_save");
 	get_str(&s->config.command_on_save_regex, kf, section, "command_on_save_regex");
 
@@ -799,8 +802,6 @@ static void load_filetype_only_config(GKeyFile *kf, gchar *section, LspServer *s
 	get_str(&s->config.rpc_log, kf, section, "rpc_log");
 	get_str(&s->config.initialization_options_file, kf, section, "initialization_options_file");
 	get_str(&s->config.initialization_options, kf, section, "initialization_options");
-	get_str(&s->config.formatting_options_file, kf, section, "formatting_options_file");
-	get_str(&s->config.formatting_options, kf, section, "formatting_options");
 	get_strv(&s->config.lang_id_mappings, kf, section, "lang_id_mappings");
 }
 
