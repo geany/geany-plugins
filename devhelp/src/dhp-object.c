@@ -47,7 +47,7 @@
 struct _DevhelpPluginPrivate
 {
 	/* Devhelp stuff */
-	 GtkWidget*		book_tree;						/* "Contents" in the sidebar */
+	GtkWidget*		book_tree;						/* "Contents" in the sidebar */
     GtkWidget*		grid;								/* "grid" in the sidebar */
     GtkWidget*		sidebar;							/* "DH_Sidebar" in the sidebar */
     GtkWidget*		search;							/* "Search" in the sidebar */
