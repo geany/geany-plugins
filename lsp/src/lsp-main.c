@@ -1562,12 +1562,12 @@ static void create_menu_items()
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
-	menu_items.rename_in_file = gtk_menu_item_new_with_mnemonic(_("_Rename in File"));
+	menu_items.rename_in_file = gtk_menu_item_new_with_mnemonic(_("_Rename Highlighted"));
 	gtk_container_add(GTK_CONTAINER(menu), menu_items.rename_in_file);
 	g_signal_connect(menu_items.rename_in_file, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_RENAME_IN_FILE));
 	keybindings_set_item(group, KB_RENAME_IN_FILE, NULL, 0, 0, "rename_in_file",
-		_("Rename in file"), menu_items.rename_in_file);
+		_("Rename highlighted"), menu_items.rename_in_file);
 
 	menu_items.rename_in_project = gtk_menu_item_new_with_mnemonic(_("Rename in _Project..."));
 	gtk_container_add(GTK_CONTAINER(menu), menu_items.rename_in_project);
@@ -1674,7 +1674,7 @@ static void create_menu_items()
 	g_signal_connect(context_menu_items.rename_in_project, "activate", G_CALLBACK(on_context_menu_invoked),
 		GUINT_TO_POINTER(KB_RENAME_IN_PROJECT));
 
-	context_menu_items.rename_in_file = gtk_menu_item_new_with_mnemonic(_("_Rename in File (LSP)"));
+	context_menu_items.rename_in_file = gtk_menu_item_new_with_mnemonic(_("_Rename Highlighted (LSP)"));
 	gtk_widget_show(context_menu_items.rename_in_file);
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.rename_in_file);
 	g_signal_connect(context_menu_items.rename_in_file, "activate", G_CALLBACK(on_context_menu_invoked),
