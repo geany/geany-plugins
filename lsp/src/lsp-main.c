@@ -1737,6 +1737,8 @@ static void on_server_initialized(LspServer *srv)
 
 void plugin_init(G_GNUC_UNUSED GeanyData * data)
 {
+	GeanyDocument *doc = document_get_current();
+
 	plugin_module_make_resident(geany_plugin);
 
 	lsp_server_set_initialized_cb(on_server_initialized);
@@ -1747,6 +1749,9 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 	plugin_extension_register(&extension);
 #endif
 	create_menu_items();
+
+	if (doc)
+		on_document_visible(doc);
 }
 
 
