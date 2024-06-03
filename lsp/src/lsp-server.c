@@ -103,6 +103,12 @@ static gboolean free_server_after_delay(gpointer user_data)
 }
 
 
+static gboolean is_dead(LspServer *server)
+{
+	return server->restarts >= 10;
+}
+
+
 static void process_stopped(GObject *source_object, GAsyncResult *res, gpointer data)
 {
 	LspServer *s = data;
@@ -127,10 +133,16 @@ static void process_stopped(GObject *source_object, GAsyncResult *res, gpointer 
 		// calls get performed
 		plugin_timeout_add(geany_plugin, 300, free_server_after_delay, s);
 
-		s = lsp_server_init(ft);
-		s->restarts = restarts;
-		lsp_servers->pdata[ft] = s;
-		start_lsp_server(s);
+		if (lsp_servers)  // NULL on plugin unload
+		{
+			s = lsp_server_init(ft);
+			s->restarts = restarts + 1;
+			lsp_servers->pdata[ft] = s;
+			if (is_dead(s))
+				msgwin_status_add(_("LSP server %s terminated %d times, giving up"), s->config.cmd, s->restarts);
+			else
+				start_lsp_server(s);
+		}
 	}
 }
 
@@ -180,6 +192,9 @@ static void stop_process(LspServer *s)
 
 	s->startup_shutdown = TRUE;
 	g_ptr_array_add(servers_in_shutdown, s);
+
+	if (lsp_servers)  // NULL on plugin unload
+		lsp_servers->pdata[s->filetype] = lsp_server_init(s->filetype);
 
 	msgwin_status_add(_("Sending shutdown request to LSP server %s"), s->config.cmd);
 	lsp_rpc_call_startup_shutdown(s, "shutdown", NULL, shutdown_cb, s);
@@ -592,12 +607,6 @@ static GKeyFile *read_keyfile(const gchar *config_file)
 }
 
 
-static gboolean is_dead(LspServer *server)
-{
-	return server->restarts > 5;
-}
-
-
 static void start_lsp_server(LspServer *server)
 {
 	GInputStream *input_stream;
@@ -607,13 +616,6 @@ static void start_lsp_server(LspServer *server)
 	gint flags = G_SUBPROCESS_FLAGS_STDIN_PIPE | G_SUBPROCESS_FLAGS_STDOUT_PIPE;
 	GString *cmd;
 	GSubprocessLauncher *launcher;
-
-	server->restarts++;
-	if (is_dead(server))
-	{
-		msgwin_status_add(_("LSP server %s terminated more than 5 times, giving up"), server->config.cmd);
-		return;
-	}
 
 	cmd = g_string_new(server->config.cmd);
 	while (utils_string_replace_all(cmd, "  ", " ") > 0)
@@ -644,7 +646,7 @@ static void start_lsp_server(LspServer *server)
 
 	if (!server->process)
 	{
-		msgwin_status_add(_("LSP server process %s failed to start with error message: %s"), server->config.cmd, error->message);
+		msgwin_status_add(_("LSP server process %s failed to start, giving up: %s"), server->config.cmd, error->message);
 		server->restarts = 100;  // don't retry - probably missing executable
 		g_error_free(error);
 		return;
@@ -1076,9 +1078,13 @@ gboolean lsp_server_is_usable(GeanyDocument *doc)
 
 void lsp_server_stop_all(gboolean wait)
 {
-	if (lsp_servers)
-		g_ptr_array_free(lsp_servers, TRUE);
+	GPtrArray *lsp_servers_tmp = lsp_servers;
+
+	// set to NULL now - inside free functions of g_ptr_array_free() we need
+	// to check if lsp_servers is NULL in this case
 	lsp_servers = NULL;
+	if (lsp_servers_tmp)
+		g_ptr_array_free(lsp_servers_tmp, TRUE);
 
 	if (wait)
 	{
