@@ -394,7 +394,6 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		update_config(return_value, &s->config.document_symbols_available, "documentSymbolProvider");
 		update_config(return_value, &s->config.highlighting_enable, "documentHighlightProvider");
 		update_config(return_value, &s->config.code_lens_enable, "codeLensProvider");
-
 		update_config(return_value, &s->config.goto_declaration_enable, "declarationProvider");
 		update_config(return_value, &s->config.goto_definition_enable, "definitionProvider");
 		update_config(return_value, &s->config.goto_implementation_enable, "implementationProvider");
