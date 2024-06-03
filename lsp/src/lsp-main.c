@@ -1211,11 +1211,11 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 	gtk_widget_set_sensitive(context_menu_items.format_code, document_formatting_enable || range_formatting_enable);
 
 	gtk_widget_set_sensitive(context_menu_items.command_item, code_action_enable);
+
+	last_click_pos = pos;
+
 	if (code_action_enable)
-	{
-		last_click_pos = pos;
 		lsp_command_send_code_action_request(doc, pos, update_command_menu_items, doc);
-	}
 
 	return FALSE;
 }
