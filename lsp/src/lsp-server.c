@@ -645,6 +645,7 @@ static void start_lsp_server(LspServer *server)
 	if (!server->process)
 	{
 		msgwin_status_add(_("LSP server process %s failed to start with error message: %s"), server->config.cmd, error->message);
+		server->restarts = 100;  // don't retry - probably missing executable
 		g_error_free(error);
 		return;
 	}
