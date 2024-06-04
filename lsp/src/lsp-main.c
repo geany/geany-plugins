@@ -93,6 +93,7 @@ enum {
 
   KB_GOTO_NEXT_DIAG,
   KB_GOTO_PREV_DIAG,
+  KB_SHOW_DIAG,
 
   KB_FIND_IMPLEMENTATIONS,
   KB_FIND_REFERENCES,
@@ -128,6 +129,7 @@ struct
 
 	GtkWidget *goto_next_diag;
 	GtkWidget *goto_prev_diag;
+	GtkWidget *show_diag;
 
 	GtkWidget *goto_ref;
 	GtkWidget *goto_impl;
@@ -397,6 +399,7 @@ static void update_menu(GeanyDocument *doc)
 
 	gtk_widget_set_sensitive(menu_items.goto_next_diag, diagnostics_enable);
 	gtk_widget_set_sensitive(menu_items.goto_prev_diag, diagnostics_enable);
+	gtk_widget_set_sensitive(menu_items.show_diag, diagnostics_enable);
 
 	gtk_widget_set_sensitive(menu_items.goto_ref, goto_references_enable);
 	gtk_widget_set_sensitive(menu_items.goto_impl, goto_implementation_enable);
@@ -1391,6 +1394,9 @@ static void invoke_kb(guint key_id, gint pos)
 		case KB_GOTO_PREV_DIAG:
 			lsp_diagnostics_goto_prev_diag(pos);
 			break;
+		case KB_SHOW_DIAG:
+			lsp_diagnostics_show_calltip(pos);
+			break;
 
 		case KB_FIND_REFERENCES:
 			lsp_goto_references(pos);
@@ -1543,6 +1549,13 @@ static void create_menu_items()
 		GUINT_TO_POINTER(KB_GOTO_PREV_DIAG));
 	keybindings_set_item(group, KB_GOTO_PREV_DIAG, NULL, 0, 0, "goto_prev_diag",
 		_("Go to previous diagnostic"), menu_items.goto_prev_diag);
+
+	menu_items.show_diag = gtk_menu_item_new_with_mnemonic(_("_Show Diagnostic"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.show_diag);
+	g_signal_connect(menu_items.show_diag, "activate", G_CALLBACK(on_menu_invoked),
+		GUINT_TO_POINTER(KB_SHOW_DIAG));
+	keybindings_set_item(group, KB_SHOW_DIAG, NULL, 0, 0, "show_diag",
+		_("Show diagnostic"), menu_items.show_diag);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 
