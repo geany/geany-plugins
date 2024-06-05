@@ -120,10 +120,9 @@ static void add_annotation(ScintillaObject *sci, gint line, const gchar *text)
 static void code_lens_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
 	GeanyDocument *doc = user_data;
-	gboolean doc_exists = lsp_utils_doc_is_valid(doc);
 	LspServer *srv;
 
-	srv = doc_exists ? lsp_server_get(doc) : NULL;
+	srv = DOC_VALID(doc) ? lsp_server_get(doc) : NULL;
 
 	if (!error && srv && g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
 	{

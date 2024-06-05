@@ -916,17 +916,3 @@ gboolean lsp_utils_doc_ft_has_tags(GeanyDocument *doc)
 
 	return found;
 }
-
-
-gboolean lsp_utils_doc_is_valid(GeanyDocument *doc)
-{
-	gint i;
-
-	foreach_document(i)
-	{
-		if (doc == documents[i])
-			return TRUE;
-	}
-
-	return FALSE;
-}

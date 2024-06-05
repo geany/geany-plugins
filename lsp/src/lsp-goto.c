@@ -125,9 +125,8 @@ static void goto_cb(GVariant *return_value, GError *error, gpointer user_data)
 	if (!error)
 	{
 		GotoData *data = user_data;
-		gboolean doc_exists = lsp_utils_doc_is_valid(data->doc);
 
-		if (doc_exists)
+		if (DOC_VALID(data->doc))
 		{
 			if (data->show_in_msgwin)
 			{

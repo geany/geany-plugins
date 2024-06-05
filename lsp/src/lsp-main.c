@@ -416,7 +416,7 @@ static gboolean on_update_idle(gpointer data)
 {
 	GeanyDocument *doc = data;
 
-	if (!lsp_utils_doc_is_valid(doc))
+	if (!DOC_VALID(doc))
 		return G_SOURCE_REMOVE;
 
 	plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(0));
