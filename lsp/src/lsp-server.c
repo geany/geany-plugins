@@ -99,7 +99,7 @@ static gboolean free_server_after_delay(gpointer user_data)
 {
 	free_server((LspServer *)user_data);
 
-	return FALSE;
+	return G_SOURCE_REMOVE;
 }
 
 
@@ -157,7 +157,7 @@ static gboolean kill_cb(gpointer user_data)
 		g_subprocess_force_exit(srv->process);
 	}
 
-	return FALSE;
+	return G_SOURCE_REMOVE;
 }
 
 

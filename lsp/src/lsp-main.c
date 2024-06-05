@@ -417,7 +417,7 @@ static gboolean on_update_idle(gpointer data)
 	GeanyDocument *doc = data;
 
 	if (!lsp_utils_doc_is_valid(doc))
-		return FALSE;
+		return G_SOURCE_REMOVE;
 
 	plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(0));
 
@@ -429,7 +429,7 @@ static gboolean on_update_idle(gpointer data)
 		lsp_symbols_doc_request(doc, lsp_symbol_request_cb, doc);
 #endif
 
-	return FALSE;
+	return G_SOURCE_REMOVE;
 }
 
 
@@ -487,7 +487,7 @@ static gboolean on_doc_close_idle(gpointer user_data)
 	if (!document_get_current() && menu_items.parent_item)
 		update_menu(NULL);  // the last open document was closed
 
-	return FALSE;
+	return G_SOURCE_REMOVE;
 }
 
 
