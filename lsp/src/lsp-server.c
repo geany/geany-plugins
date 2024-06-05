@@ -198,6 +198,9 @@ static void stop_process(LspServer *s)
 
 	msgwin_status_add(_("Sending shutdown request to LSP server %s"), s->config.cmd);
 	lsp_rpc_call_startup_shutdown(s, "shutdown", NULL, shutdown_cb, s);
+
+	// should not be performed if server behaves correctly
+	plugin_timeout_add(geany_plugin, 5000, kill_cb, s);
 }
 
 
