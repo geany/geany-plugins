@@ -212,46 +212,14 @@ GPtrArray *lsp_code_lens_get_commands(void)
 }
 
 
-static gboolean retry_cb(gpointer user_data)
-{
-	GeanyDocument *doc = user_data;
-
-	//printf("retrying code lens\n");
-	if (doc == document_get_current())
-	{
-		LspServer *srv = lsp_server_get_if_running(doc);
-		if (!lsp_server_is_usable(doc))
-			;  // server died or misconfigured
-		else if (!srv)
-			return TRUE;  // retry
-		else
-		{
-			// should be successful now
-			lsp_code_lens_send_request(doc);
-			return FALSE;
-		}
-	}
-
-	// server shut down or document not current any more
-	return FALSE;
-}
-
-
 void lsp_code_lens_send_request(GeanyDocument *doc)
 {
-	LspServer *server = lsp_server_get_if_running(doc);
+	LspServer *server = lsp_server_get(doc);
 	gchar *doc_uri;
 	GVariant *node;
 
-	if (!doc || !doc->real_path)
+	if (!doc || !doc->real_path || !server)
 		return;
-
-	if (!server)
-	{
-		// happens when Geany and LSP server started - we cannot send the request yet
-		plugin_timeout_add(geany_plugin, 300, retry_cb, doc);
-		return;
-	}
 
 	if (!server->config.code_lens_enable)
 		return;

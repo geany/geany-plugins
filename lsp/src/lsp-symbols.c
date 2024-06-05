@@ -209,55 +209,21 @@ GPtrArray *lsp_symbols_doc_get_cached(GeanyDocument *doc)
 }
 
 
-static gboolean retry_cb(gpointer user_data)
-{
-	LspSymbolUserData *data = user_data;
-
-	//printf("retrying symbols\n");
-	if (data->doc == document_get_current())
-	{
-		LspServer *srv = lsp_server_get_if_running(data->doc);
-		if (!lsp_server_is_usable(data->doc))
-			;  // server died or misconfigured
-		else if (!srv)
-			return TRUE;  // retry
-		else
-		{
-			// should be successful now
-			lsp_symbols_doc_request(data->doc, data->callback, data->user_data);
-			g_free(data);
-			return FALSE;
-		}
-	}
-
-	// server shut down or document not current any more
-	g_free(data);
-	return FALSE;
-}
-
-
 void lsp_symbols_doc_request(GeanyDocument *doc, LspCallback callback,
 	gpointer user_data)
 {
-	LspServer *server = lsp_server_get_if_running(doc);
+	LspServer *server = lsp_server_get(doc);
 	LspSymbolUserData *data;
 	GVariant *node;
 	gchar *doc_uri;
 
-	if (!doc || !doc->real_path)
+	if (!doc || !doc->real_path || !server)
 		return;
 
 	data = g_new0(LspSymbolUserData, 1);
 	data->user_data = user_data;
 	data->doc = doc;
 	data->callback = callback;
-
-	if (!server)
-	{
-		// happens when Geany and LSP server started - we cannot send the request yet
-		plugin_timeout_add(geany_plugin, 300, retry_cb, data);
-		return;
-	}
 
 	doc_uri = lsp_utils_get_doc_uri(doc);
 

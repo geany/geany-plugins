@@ -932,7 +932,7 @@ GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
 	LspServer *srv;
 	guint i;
 
-	if (!lsp_servers || (doc->file_type && (!doc->real_path || doc->file_type->id != GEANY_FILETYPES_NONE)))
+	if (!lsp_servers || (!doc->real_path || doc->file_type->id != GEANY_FILETYPES_NONE))
 	{
 		if (lsp_lang_id)
 			*lsp_lang_id = lsp_utils_get_lsp_lang_id(doc);
@@ -978,6 +978,7 @@ GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
 
 	if (lsp_lang_id)
 		*lsp_lang_id = lsp_utils_get_lsp_lang_id(doc);
+
 	return doc->file_type;
 }
 
