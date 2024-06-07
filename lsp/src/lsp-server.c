@@ -459,127 +459,141 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 
 static void perform_initialize(LspServer *server)
 {
-	GVariant *node;
-
 	gchar *locale = lsp_utils_get_locale();
-	gchar *project_base_uri = NULL;
 	gchar *project_base = lsp_utils_get_project_base_path();
+	GVariant *workspace_folders = NULL;
+	GVariant *node, *capabilities;
+	gchar *project_base_uri = NULL;
+	GVariantDict dct;
 
 	if (project_base)
 		project_base_uri = g_filename_to_uri(project_base, NULL, NULL);
 
-	node = JSONRPC_MESSAGE_NEW(
-		"processId", JSONRPC_MESSAGE_PUT_INT64(getpid()),
-		"clientInfo", "{",
-			"name", JSONRPC_MESSAGE_PUT_STRING("Geany"),
-			"version", JSONRPC_MESSAGE_PUT_STRING("0.1"),  //VERSION
+	capabilities = JSONRPC_MESSAGE_NEW(
+		"window", "{",
+			"workDoneProgress", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 		"}",
-		"locale", JSONRPC_MESSAGE_PUT_STRING(locale),
-		"rootPath", JSONRPC_MESSAGE_PUT_STRING(project_base),
-		"workspaceFolders", "[", "{",
-			"uri", JSONRPC_MESSAGE_PUT_STRING (project_base_uri),
-			"name", JSONRPC_MESSAGE_PUT_STRING (project_base),
-		"}", "]",
-		"rootUri", JSONRPC_MESSAGE_PUT_STRING(project_base_uri),
-		"capabilities", "{",
-			"window", "{",
-				"workDoneProgress", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
+		"textDocument", "{",
+			"synchronization", "{",
+				"willSave", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
+				"willSaveWaitUntil", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
+				"didSave", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 			"}",
-			"textDocument", "{",
-				"synchronization", "{",
-					"willSave", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-					"willSaveWaitUntil", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-					"didSave", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
-				"}",
-				"completion", "{",
-					"completionItem", "{",
+			"completion", "{",
+				"completionItem", "{",
 //						"snippetSupport", JSONRPC_MESSAGE_PUT_BOOLEAN (TRUE),
-						"documentationFormat", "[",
-							"plaintext",
-						"]",
-					"}",
-					"completionItemKind", "{",
-						"valueSet", "[",
-							LSP_COMPLETION_KINDS,
-						"]",
-					"}",
-					"contxtSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
-				"}",
-				"hover", "{",
-					"contentFormat", "[",
+					"documentationFormat", "[",
 						"plaintext",
 					"]",
 				"}",
-				"documentSymbol", "{",
-					"symbolKind", "{",
-						"valueSet", "[",
-							LSP_SYMBOL_KINDS,
-						"]",
-					"}",
-					"hierarchicalDocumentSymbolSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
+				"completionItemKind", "{",
+					"valueSet", "[",
+						LSP_COMPLETION_KINDS,
+					"]",
 				"}",
-				"semanticTokens", "{",
-					"requests", "{",
-						"range", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-						"full", "{",
-							"delta", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
-						"}",
-					"}",
-					"tokenTypes", "[",
-						// specify all possible token types - gopls returns incorrect offsets without it
-						// TODO: investigate more and possibly report upstream
-						"namespace",
-						"type",
-						"class",
-						"enum",
-						"interface",
-						"struct",
-						"typeParameter",
-						"parameter",
-						"variable",
-						"property",
-						"enumMember",
-						"event",
-						"function",
-						"method",
-						"macro",
-						"keyword",
-						"modifier",
-						"comment",
-						"string",
-						"number",
-						"regexp",
-						"operator",
-						"decorator",
-					"]",
-					"tokenModifiers", "[",
-					"]",
-					"formats", "[",
-						"relative",
-					"]",
-					"overlappingTokenSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-					"multilineTokenSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-					"serverCancelSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-					"augmentsSyntaxTokens", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
-				"}",
+				"contxtSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 			"}",
-			"workspace", "{",
-				"applyEdit", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
-				"symbol", "{",
-					"symbolKind", "{",
-						"valueSet", "[",
-							LSP_SYMBOL_KINDS,
-						"]",
+			"hover", "{",
+				"contentFormat", "[",
+					"plaintext",
+				"]",
+			"}",
+			"documentSymbol", "{",
+				"symbolKind", "{",
+					"valueSet", "[",
+						LSP_SYMBOL_KINDS,
+					"]",
+				"}",
+				"hierarchicalDocumentSymbolSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
+			"}",
+			"semanticTokens", "{",
+				"requests", "{",
+					"range", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
+					"full", "{",
+						"delta", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 					"}",
 				"}",
+				"tokenTypes", "[",
+					// specify all possible token types - gopls returns incorrect offsets without it
+					// TODO: investigate more and possibly report upstream
+					"namespace",
+					"type",
+					"class",
+					"enum",
+					"interface",
+					"struct",
+					"typeParameter",
+					"parameter",
+					"variable",
+					"property",
+					"enumMember",
+					"event",
+					"function",
+					"method",
+					"macro",
+					"keyword",
+					"modifier",
+					"comment",
+					"string",
+					"number",
+					"regexp",
+					"operator",
+					"decorator",
+				"]",
+				"tokenModifiers", "[",
+				"]",
+				"formats", "[",
+					"relative",
+				"]",
+				"overlappingTokenSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
+				"multilineTokenSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
+				"serverCancelSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
+				"augmentsSyntaxTokens", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 			"}",
 		"}",
-		"trace", JSONRPC_MESSAGE_PUT_STRING("off"),
-		"initializationOptions", "{",
-			JSONRPC_MESSAGE_PUT_VARIANT(
-				lsp_utils_parse_json_file(server->config.initialization_options_file, server->config.initialization_options)),
+		"workspace", "{",
+			"applyEdit", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
+			"symbol", "{",
+				"symbolKind", "{",
+					"valueSet", "[",
+						LSP_SYMBOL_KINDS,
+					"]",
+				"}",
+			"}",
+			"workspaceFolders", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 		"}"
 	);
+
+	node = JSONRPC_MESSAGE_NEW(
+		"clientInfo", "{",
+			"name", JSONRPC_MESSAGE_PUT_STRING("Geany LSP Client Plugin"),
+			"version", JSONRPC_MESSAGE_PUT_STRING(VERSION),
+		"}",
+		"processId", JSONRPC_MESSAGE_PUT_INT64(getpid()),
+		"locale", JSONRPC_MESSAGE_PUT_STRING(locale),
+		"trace", JSONRPC_MESSAGE_PUT_STRING("off"),
+		"rootPath", JSONRPC_MESSAGE_PUT_STRING(project_base),
+		"rootUri", JSONRPC_MESSAGE_PUT_STRING(project_base_uri)
+	);
+
+	if (project_base)
+	{
+		workspace_folders = JSONRPC_MESSAGE_NEW_ARRAY(
+			"{",
+				"uri", JSONRPC_MESSAGE_PUT_STRING(project_base_uri),
+				"name", JSONRPC_MESSAGE_PUT_STRING(project_base),
+			"}");
+	}
+
+	g_variant_dict_init(&dct, node);
+
+	if (workspace_folders)
+		g_variant_dict_insert_value(&dct, "workspaceFolders", workspace_folders);
+	g_variant_dict_insert_value(&dct, "initializationOptions",
+		lsp_utils_parse_json_file(server->config.initialization_options_file, server->config.initialization_options));
+	g_variant_dict_insert_value(&dct, "capabilities", capabilities);
+
+	node = g_variant_take_ref(g_variant_dict_end(&dct));
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
