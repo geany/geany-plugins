@@ -29,7 +29,7 @@ struct LspRpc;
 typedef struct LspRpc LspRpc;
 
 
-typedef struct
+typedef struct LspServerConfig
 {
 	gchar *cmd;
 	gchar **env;
@@ -41,6 +41,7 @@ typedef struct
 	gboolean rpc_log_full;
 	gchar *initialization_options_file;
 	gchar *initialization_options;
+	gchar **project_root_marker_patterns;
 	gboolean enable_by_default;
 	gboolean use_outside_project_dir;
 	gboolean use_without_project;
@@ -137,6 +138,7 @@ typedef struct LspServer
 	gchar *signature_trigger_chars;
 	gchar *initialize_response;
 	gboolean use_incremental_sync;
+	gboolean use_workspace_folders;
 	gboolean supports_workspace_symbols;
 
 	guint64 semantic_token_mask;

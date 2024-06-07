@@ -23,6 +23,8 @@
 
 #define SSM(s, m, w, l) scintilla_send_message(s, m, w, l)
 
+struct LspServerConfig;
+typedef struct LspServerConfig LspServerConfig;
 
 typedef enum
 {
@@ -118,5 +120,7 @@ gchar *lsp_utils_get_relative_path(const gchar *utf8_parent, const gchar *utf8_d
 void lsp_utils_save_all_docs(void);
 
 gboolean lsp_utils_doc_ft_has_tags(GeanyDocument *doc);
+
+gchar *lsp_utils_find_project_root(GeanyDocument *doc, LspServerConfig *cfg);
 
 #endif  /* LSP_UTILS_H */

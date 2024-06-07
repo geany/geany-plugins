@@ -71,6 +71,7 @@ static void free_config(LspServerConfig *cfg)
 	g_free(cfg->initialization_options);
 	g_strfreev(cfg->lang_id_mappings);
 	g_strfreev(cfg->command_regexes);
+	g_strfreev(cfg->project_root_marker_patterns);
 }
 
 
@@ -359,6 +360,50 @@ static gboolean use_incremental_sync(GVariant *node)
 }
 
 
+static gboolean use_workspace_folders(GVariant *node)
+{
+	gboolean change_notifications = FALSE;
+	const gchar *notif_id = NULL;
+	gboolean supported = FALSE;
+	gboolean success;
+
+	JSONRPC_MESSAGE_PARSE(node,
+		"capabilities", "{",
+			"workspace", "{",
+				"workspaceFolders", "{",
+					"supported", JSONRPC_MESSAGE_GET_BOOLEAN(&supported),
+				"}",
+			"}",
+		"}");
+
+	if (!supported)
+		return FALSE;
+
+	success = JSONRPC_MESSAGE_PARSE(node,
+		"capabilities", "{",
+			"workspace", "{",
+				"workspaceFolders", "{",
+					"changeNotifications", JSONRPC_MESSAGE_GET_BOOLEAN(&change_notifications),
+				"}",
+			"}",
+		"}");
+
+	if (!success)  // can also be string
+	{
+		JSONRPC_MESSAGE_PARSE(node,
+			"capabilities", "{",
+				"workspace", "{",
+					"workspaceFolders", "{",
+						"changeNotifications", JSONRPC_MESSAGE_GET_STRING(&notif_id),
+					"}",
+				"}",
+			"}");
+	}
+
+	return change_notifications || notif_id;
+}
+
+
 static void update_config(GVariant *variant, gboolean *option, const gchar *key)
 {
 	gboolean val = FALSE;
@@ -427,6 +472,7 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		update_config(return_value, &s->supports_workspace_symbols, "workspaceSymbolProvider");
 
 		s->use_incremental_sync = use_incremental_sync(return_value);
+		s->use_workspace_folders = use_workspace_folders(return_value);
 
 		s->initialize_response = lsp_utils_json_pretty_print(return_value);
 
@@ -752,6 +798,7 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_bool(&s->config.autocomplete_enable, kf, section, "autocomplete_enable");
 
 	get_strv(&s->config.autocomplete_trigger_sequences, kf, section, "autocomplete_trigger_sequences");
+	get_strv(&s->config.project_root_marker_patterns, kf, section, "project_root_marker_patterns");
 
 	get_int(&s->config.autocomplete_window_max_entries, kf, section, "autocomplete_window_max_entries");
 	get_int(&s->config.autocomplete_window_max_displayed, kf, section, "autocomplete_window_max_displayed");
@@ -917,10 +964,21 @@ static gboolean is_lsp_valid_for_doc(LspServerConfig *cfg, GeanyDocument *doc)
 	gchar *base_path, *real_path, *rel_path;
 	gboolean inside_project;
 
-	if (!cfg->use_without_project && !geany_data->app->project)
+	if (!doc || !doc->real_path)
 		return FALSE;
 
-	if (!doc || !doc->real_path)
+	if (cfg->project_root_marker_patterns)
+	{
+		gchar *project_root = lsp_utils_find_project_root(doc, cfg);
+		if (project_root)
+		{
+			g_free(project_root);
+			return TRUE;
+		}
+		g_free(project_root);
+	}
+
+	if (!cfg->use_without_project && !geany_data->app->project)
 		return FALSE;
 
 	if (cfg->use_outside_project_dir || !geany_data->app->project)
@@ -1002,19 +1060,14 @@ GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
 
 static LspServer *server_get_for_doc(GeanyDocument *doc, gboolean launch_server)
 {
+	LspServerConfig *cfg = lsp_server_get_config(doc);
 	GeanyFiletype *ft;
-	LspServer *srv;
 
-	if (!doc)
+	if (!doc || !cfg)
 		return NULL;
 
 	ft = lsp_server_get_ft(doc, NULL);
-	srv = server_get_or_start_for_ft(ft, launch_server);
-
-	if (!srv || !is_lsp_valid_for_doc(&srv->config, doc))
-		return NULL;
-
-	return srv;
+	return server_get_or_start_for_ft(ft, launch_server);
 }
 
 

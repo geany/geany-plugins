@@ -50,7 +50,9 @@ lsp_la_SOURCES = \
 	lsp-sync.c \
 	lsp-sync.h \
 	lsp-utils.c \
-	lsp-utils.h
+	lsp-utils.h \
+	lsp-workspace-folders.c \
+	lsp-workspace-folders.h
 
 lsp_la_CPPFLAGS = $(AM_CPPFLAGS) \
 	-DG_LOG_DOMAIN=\"LSP\" \

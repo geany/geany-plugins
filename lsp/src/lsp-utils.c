@@ -183,14 +183,25 @@ gchar *lsp_utils_get_real_path_from_uri_utf8(const gchar *uri)
 }
 
 
+static gchar *utf8_real_path_from_utf8(const gchar *utf8_path)
+{
+	gchar *ret = utils_get_locale_from_utf8(utf8_path);
+	SETPTR(ret, utils_get_real_path(ret));
+	SETPTR(ret, utils_get_utf8_from_locale(ret));
+	return ret;
+}
+
+
 /* utf8 */
 gchar *lsp_utils_get_project_base_path(void)
 {
+	gchar *ret = NULL;
+
 	GeanyProject *project = geany_data->app->project;
 	if (project && !EMPTY(project->base_path))
 	{
 		if (g_path_is_absolute(project->base_path))
-			return g_strdup(project->base_path);
+			return utf8_real_path_from_utf8(project->base_path);
 		else
 		{	/* build base_path out of project file name's dir and base_path */
 			gchar *path;
@@ -200,11 +211,12 @@ gchar *lsp_utils_get_project_base_path(void)
 				return dir;
 
 			path = g_build_filename(dir, project->base_path, NULL);
+			SETPTR(path, utf8_real_path_from_utf8(path));
 			g_free(dir);
 			return path;
 		}
 	}
-	return NULL;
+	return ret;
 }
 
 
@@ -915,4 +927,64 @@ gboolean lsp_utils_doc_ft_has_tags(GeanyDocument *doc)
 	}
 
 	return found;
+}
+
+
+static gboolean content_matches_pattern(const gchar *dirname, gchar **patterns)
+{
+	gboolean success = FALSE;
+	const gchar *filename;
+	GDir *dir;
+
+	dir = g_dir_open(dirname, 0, NULL);
+	if (!dir)
+		return FALSE;
+
+	while ((filename = g_dir_read_name(dir)) && !success)
+	{
+		gchar **pattern;
+
+		foreach_strv(pattern, patterns)
+		{
+			if (g_pattern_match_simple(*pattern, filename))
+			{
+				success = TRUE;
+				break;
+			}
+		}
+	}
+
+	g_dir_close(dir);
+
+	return success;
+}
+
+
+gchar *lsp_utils_find_project_root(GeanyDocument *doc, LspServerConfig *cfg)
+{
+	gchar *dirname;
+
+	if (!cfg || !cfg->project_root_marker_patterns || !doc->real_path)
+		return NULL;
+
+	dirname = g_path_get_dirname(doc->real_path);
+
+	while (dirname)
+	{
+		gchar *new_dirname;
+
+		if (content_matches_pattern(dirname, cfg->project_root_marker_patterns))
+			break;
+
+		new_dirname = g_path_get_dirname(dirname);
+		if (strlen(new_dirname) >= strlen(dirname))
+		{
+			g_free(new_dirname);
+			new_dirname = NULL;
+		}
+		g_free(dirname);
+		dirname = new_dirname;
+	}
+
+	return dirname;
 }

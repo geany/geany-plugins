@@ -26,6 +26,7 @@
 #include "lsp-progress.h"
 #include "lsp-log.h"
 #include "lsp-utils.h"
+#include "lsp-workspace-folders.h"
 
 #include <jsonrpc-glib.h>
 #include <stdio.h>
@@ -46,6 +47,8 @@ struct LspRpc
 	JsonrpcClient *client;
 };
 
+
+extern GeanyData *geany_data;
 
 GHashTable *client_table;
 
@@ -187,6 +190,53 @@ static gboolean handle_call(JsonrpcClient *client, gchar* method, GVariant *id, 
 		g_variant_unref(msg);
 		if (edit)
 			g_variant_unref(edit);
+		return TRUE;
+	}
+	else if (g_strcmp0(method, "workspace/workspaceFolders") == 0)
+	{
+		GPtrArray *folders = lsp_workspace_folders_get();
+		guint num = 0;
+
+		foreach_document(num)
+		{
+			if (num > 1)
+				break;
+		}
+
+		if (num > 1)  // non-single-open document variant
+		{
+			GPtrArray *arr = g_ptr_array_new_full(1, (GDestroyNotify) g_variant_unref);
+			GVariant *folders_variant;
+			gchar *folder;
+			guint i;
+
+			foreach_ptr_array(folder, i, folders)
+			{
+				gchar *uri = g_filename_to_uri(folder, NULL, NULL);
+				GVariant *folder_variant;
+
+				folder_variant = JSONRPC_MESSAGE_NEW(
+					"uri", JSONRPC_MESSAGE_PUT_STRING(uri),
+					"name", JSONRPC_MESSAGE_PUT_STRING(folder)
+				);
+				g_ptr_array_add(arr, folder_variant);
+
+				g_free(uri);
+			}
+
+			folders_variant = g_variant_take_ref(g_variant_new_array(G_VARIANT_TYPE_VARDICT,
+				(GVariant **)arr->pdata, arr->len));
+
+			reply_async(srv, method, client, id, folders_variant);
+
+			g_variant_unref(folders_variant);
+			g_ptr_array_free(arr, TRUE);
+		}
+		else
+			reply_async(srv, method, client, id, NULL);
+
+		g_ptr_array_free(folders, TRUE);
+
 		return TRUE;
 	}
 	else

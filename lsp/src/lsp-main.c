@@ -38,6 +38,7 @@
 #include "lsp-code-lens.h"
 #include "lsp-symbol.h"
 #include "lsp-extension.h"
+#include "lsp-workspace-folders.h"
 
 #include <sys/time.h>
 #include <string.h>
@@ -459,6 +460,8 @@ static void on_document_visible(GeanyDocument *doc)
 	if (srv && !lsp_sync_is_document_open(doc))
 		lsp_sync_text_document_did_open(srv, doc);
 
+	lsp_workspace_folders_doc_open(doc);
+
 	on_update_idle(doc);
 
 #ifndef HAVE_GEANY_PLUGIN_EXTENSION
@@ -504,6 +507,7 @@ static void on_document_close(G_GNUC_UNUSED GObject * obj, GeanyDocument *doc,
 	lsp_diagnostics_clear(doc);
 	lsp_semtokens_clear(doc);
 	lsp_sync_text_document_did_close(srv, doc);
+	lsp_workspace_folders_doc_closed(doc);
 }
 
 
@@ -512,6 +516,7 @@ static void destroy_all(void)
 	lsp_diagnostics_destroy();
 	lsp_semtokens_destroy();
 	lsp_symbols_destroy();
+	lsp_workspace_folders_destroy();
 }
 
 
@@ -524,6 +529,7 @@ static void stop_and_init_all_servers(void)
 
 	lsp_sync_init();
 	lsp_diagnostics_init();
+	lsp_workspace_folders_init();
 }
 
 
