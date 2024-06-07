@@ -119,11 +119,12 @@ void lsp_workspace_folders_doc_open(GeanyDocument *doc)
 void lsp_workspace_folders_doc_closed(GeanyDocument *doc)
 {
 	LspServer *srv = lsp_server_get_if_running(doc);
-	GList *roots = g_hash_table_get_keys(folder_table);
-	GList *root;
+	GList *roots, *root;
 
 	if (!srv || !srv->use_workspace_folders)
 		return;
+
+	roots = g_hash_table_get_keys(folder_table);
 
 	foreach_list(root, roots)
 	{
