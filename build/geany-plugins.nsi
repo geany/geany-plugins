@@ -41,7 +41,7 @@ Unicode true
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
 ; Geany version should be major.minor only (patch level is ignored for version checking)
-!define REQUIRED_GEANY_VERSION "2.0"
+!define REQUIRED_GEANY_VERSION "2.1"
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; Version resource  ;
@@ -152,6 +152,8 @@ Section "Dependencies" SEC04
 SectionEnd
 
 Section -Post
+	Exec '"$INSTDIR\bin\glib-compile-schemas.exe" "$INSTDIR\share\glib-2.0\schemas"'
+
 	WriteUninstaller "$INSTDIR\uninst-plugins.exe"
 	WriteRegStr SHCTX "${PRODUCT_DIR_REGKEY}" Path "$INSTDIR"
 	${if} $Answer == "yes" ; if user is admin
