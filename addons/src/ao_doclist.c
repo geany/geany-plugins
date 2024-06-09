@@ -141,13 +141,8 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 		/* Get the root coordinates of the toolbar's window */
 		int wx_root, wy_root, width;
 		window = gtk_widget_get_window (gtk_widget_get_ancestor(widget, GTK_TYPE_TOOLBAR));
-#if GTK_CHECK_VERSION(3, 0, 0)
 		gdk_window_get_geometry(window, &wx, &wy, &width, NULL);
 		gtk_widget_get_preferred_size(widget, &widget_req, NULL);
-#else
-		gdk_window_get_geometry(window, &wx, &wy, &width, NULL, NULL);
-		gtk_widget_size_request(widget, &widget_req);
-#endif
 		gdk_window_get_root_coords(window, wx, wy, &wx_root, &wy_root);
 
 		/* Approximate the horizontal location of the overflow menu button */
@@ -173,11 +168,7 @@ static void ao_popup_position_menu(GtkMenu *menu, gint *x, gint *y, gboolean *pu
 		else
 			gdk_window_get_origin(window, &wx, &wy);
 	}
-#if GTK_CHECK_VERSION(3, 0, 0)
 	gtk_widget_get_preferred_size(widget, &widget_req, NULL);
-#else
-	gtk_widget_size_request(widget, &widget_req);
-#endif
 	widget_height = widget_req.height; /* Better than allocation.height */
 
 	/* Calculate menu position */
@@ -270,13 +261,7 @@ static gboolean ao_create_proxy_menu_cb(GtkToolItem *widget, gpointer data)
 	/* Create the menu item if needed */
 	if (priv->overflow_menu_item == NULL)
 	{
-#if GTK_CHECK_VERSION(3, 0, 0)
 		priv->overflow_menu_item = gtk_menu_item_new_with_label("Document List");
-#else
-		GtkWidget *menu_image = gtk_image_new_from_icon_name(GTK_STOCK_INDEX, GTK_ICON_SIZE_MENU);
-		priv->overflow_menu_item = gtk_image_menu_item_new_with_label("Document List");
-		gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(priv->overflow_menu_item), menu_image);
-#endif
 		g_signal_connect(priv->overflow_menu_item, "activate",
 			G_CALLBACK(ao_toolbar_item_doclist_clicked_cb), data);
 	}
@@ -306,10 +291,8 @@ static void ao_toolbar_update(AoDocList *self)
 		if (priv->toolbar_doclist_button == NULL)
 		{
 			priv->toolbar_doclist_button = gtk_tool_button_new_from_stock(GTK_STOCK_INDEX);
-#if GTK_CHECK_VERSION(2, 12, 0)
 			gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(priv->toolbar_doclist_button),
 				_("Show Document List"));
-#endif
 			plugin_add_toolbar_item(geany_plugin, priv->toolbar_doclist_button);
 			ui_add_document_sensitive(GTK_WIDGET(priv->toolbar_doclist_button));
 
