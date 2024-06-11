@@ -752,8 +752,12 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 	GeanyDocument *doc = editor->document;
 	ScintillaObject *sci = editor->sci;
 
+	if (nt->nmhdr.code == SCN_PAINTED)  // e.g. caret blinking
+		return FALSE;
+
 #ifndef HAVE_GEANY_PLUGIN_EXTENSION
-	if (!lsp_utils_doc_ft_has_tags(doc))
+	if ((nt->nmhdr.code == SCN_AUTOCSELECTION || nt->nmhdr.code == SCN_AUTOCCANCELLED ||
+		nt->nmhdr.code == SCN_CALLTIPCLICK) && !lsp_utils_doc_ft_has_tags(doc))
 	{
 #endif
 		if (nt->nmhdr.code == SCN_AUTOCSELECTION)
