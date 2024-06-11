@@ -652,8 +652,6 @@ static GtkWidget *plugin_addons_configure(G_GNUC_UNUSED GeanyPlugin *plugin, Gtk
 
 	gtk_widget_show_all(vbox);
 
-	gtk_widget_hide(check_systray);
-
 	return vbox;
 }
 
