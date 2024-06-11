@@ -109,31 +109,31 @@ build_file_list(const gchar* dirname, const gchar* prefix)
 	GtkListStore *ret_list;
 	GtkTreeIter iter;
 	ret_list = gtk_list_store_new (1, G_TYPE_STRING);
-	
+
 	GSList* file_iterator;
-	GSList* files_list;	/* used to free later the sub-elements*/
+	GSList* files_list; /* used to later free the sub-elements */
 	gchar *file;
 	gchar *pathfile;
 	guint files_n;
 
 	files_list = file_iterator = utils_get_file_list(dirname, &files_n, NULL);
-	
+
 	for( ; file_iterator; file_iterator = file_iterator->next) 
 	{
-		file = file_iterator->data;		
-		
+		file = file_iterator->data;
+
 		pathfile = g_build_filename(dirname,file,NULL);   
-	
-        /* Append the element to model list */
-        gtk_list_store_append (ret_list, &iter);
-        gtk_list_store_set (ret_list, &iter, 0, 
-                            g_strconcat(prefix, file, NULL), -1);
+
+		/* Append the element to model list */
+		gtk_list_store_append (ret_list, &iter);
+		gtk_list_store_set (ret_list, &iter, 0,
+		                    g_strconcat(prefix, file, NULL), -1);
 		g_free(pathfile);
 	}
-	
+
 	g_slist_foreach(files_list, (GFunc) g_free, NULL);
 	g_slist_free(files_list);
-	
+
 	return GTK_TREE_MODEL(ret_list);
  
 }
@@ -148,64 +148,64 @@ build_file_list(const gchar* dirname, const gchar* prefix)
 static void
 directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 {
-    static GtkTreeModel *old_model = NULL;
-   	GtkTreeModel* completion_list;
-    static gchar *curr_dir = NULL;
-    gchar *new_dir, *new_dir_path = NULL; 
-    const gchar *text;
-    
-    text = gtk_entry_get_text(entry);
-    gint dir_sep = strrpos(text, G_DIR_SEPARATOR_S);
-    
-    /* No subdir separator found */
-    if (dir_sep == -1)
-    {
-        if (old_model != NULL)
-        {   /* Restore the no-sub-directory model */
-            log_debug("Restoring old model!");
+	static GtkTreeModel *old_model = NULL;
+	GtkTreeModel* completion_list;
+	static gchar *curr_dir = NULL;
+	gchar *new_dir, *new_dir_path = NULL;
+	const gchar *text;
 
-            gtk_entry_completion_set_model (completion, old_model);
-            g_object_unref(old_model);
-            old_model = NULL;
+	text = gtk_entry_get_text(entry);
+	gint dir_sep = strrpos(text, G_DIR_SEPARATOR_S);
 
-            g_free(curr_dir);
-            curr_dir = NULL;
-        }
-        return;
-    }
-    
-    new_dir = g_strndup (text, dir_sep+1);
-    /* I've already inserted new model completion for sub-dir elements? */
-    if ( g_strcmp0 (new_dir, curr_dir) == 0 )
-    {
-        g_free(new_dir);
-        return;
-    }
-    if ( curr_dir != NULL )
-        g_free(curr_dir);
+	/* No subdir separator found */
+	if (dir_sep == -1)
+	{
+		if (old_model != NULL)
+		{   /* Restore the no-sub-directory model */
+			log_debug("Restoring old model!");
 
-    curr_dir = new_dir;
+			gtk_entry_completion_set_model (completion, old_model);
+			g_object_unref(old_model);
+			old_model = NULL;
 
-    /* Save the completion_mode for future restore. */
-    if (old_model == NULL)
-    {
-        old_model = gtk_entry_completion_get_model(completion);
-        g_object_ref(old_model);
-    }
+			g_free(curr_dir);
+			curr_dir = NULL;
+		}
+		return;
+	}
 
-    log_debug("New completion list!");
+	new_dir = g_strndup (text, dir_sep+1);
+	/* I've already inserted new model completion for sub-dir elements? */
+	if ( g_strcmp0 (new_dir, curr_dir) == 0 )
+	{
+		g_free(new_dir);
+		return;
+	}
+	if ( curr_dir != NULL )
+		g_free(curr_dir);
 
-    if ( g_path_is_absolute(new_dir) )
-        new_dir_path = g_strdup(new_dir);
-    else
-        new_dir_path = g_build_filename(directory_ref, new_dir, NULL);
+	curr_dir = new_dir;
 
-    /* Build the new file list for completion */
-    completion_list = build_file_list(new_dir_path, new_dir);
-  	gtk_entry_completion_set_model (completion, completion_list);
-    g_object_unref(completion_list);
+	/* Save the completion_mode for future restore. */
+	if (old_model == NULL)
+	{
+		old_model = gtk_entry_completion_get_model(completion);
+		g_object_ref(old_model);
+	}
 
-    g_free(new_dir_path);
+	log_debug("New completion list!");
+
+	if ( g_path_is_absolute(new_dir) )
+		new_dir_path = g_strdup(new_dir);
+	else
+		new_dir_path = g_build_filename(directory_ref, new_dir, NULL);
+
+	/* Build the new file list for completion */
+	completion_list = build_file_list(new_dir_path, new_dir);
+	gtk_entry_completion_set_model (completion, completion_list);
+	g_object_unref(completion_list);
+
+	g_free(new_dir_path);
 }
 
 
@@ -224,13 +224,13 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	GtkWidget *label;
 	GtkWidget *vbox;
 	GtkEntryCompletion *completion;
-		
+
 	*dialog = gtk_dialog_new_with_buttons(_("Go to File..."), GTK_WINDOW(geany->main_widgets->window),
 		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
-	
+
 	gtk_dialog_set_default_response(GTK_DIALOG(*dialog), GTK_RESPONSE_ACCEPT);
-	
+
 	gtk_widget_set_name(*dialog, "GotoFile");
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(*dialog));
 
@@ -244,20 +244,19 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	gtk_entry_set_max_length(GTK_ENTRY(entry), MAX_FILENAME_LENGTH);
 	gtk_entry_set_width_chars(GTK_ENTRY(entry), 40);
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);   /* 'enter' key */
-    
+
 	/* Completion definition */
 	completion = gtk_entry_completion_new();
 	gtk_entry_set_completion(GTK_ENTRY(entry), completion);
 	gtk_entry_completion_set_model (completion, completion_model);
-	
+
 	/* Completion options */
 	gtk_entry_completion_set_inline_completion(completion, 1);
 	gtk_entry_completion_set_text_column (completion, 0);
 
 	/* Signals */
-	g_signal_connect_after(GTK_ENTRY(entry), "changed", 
-                               G_CALLBACK(directory_check), completion);
-
+	g_signal_connect_after(GTK_ENTRY(entry), "changed",
+	                       G_CALLBACK(directory_check), completion);
 	gtk_widget_show_all(*dialog);
 
 	return entry;
