@@ -32,7 +32,8 @@
 /******************* Global variables for the feature *****************/
 
 static GtkWidget* menu_item = NULL;
-gchar *directory_ref = NULL;
+static gchar *directory_ref = NULL;
+static gint entry_len_before_completion = -1;
 
 /********************** Prototypes *********************/
 static void
@@ -43,6 +44,12 @@ build_file_list(const gchar*, const gchar*);
 
 static void
 directory_check(GtkEntry*, GtkEntryCompletion*);
+
+static gboolean
+entry_inline_completion_event(GtkEntryCompletion *, gchar *, GtkEntry *);
+
+static gboolean
+entry_key_event(GtkEntry *, GdkEventKey *, GtkEntryCompletion *);
 
 static GtkWidget*
 create_dialog(GtkWidget**, GtkTreeModel*);
@@ -113,7 +120,6 @@ build_file_list(const gchar* dirname, const gchar* prefix)
 	GSList* file_iterator;
 	GSList* files_list; /* used to later free the sub-elements */
 	gchar *file;
-	gchar *pathfile;
 	guint files_n;
 
 	files_list = file_iterator = utils_get_file_list(dirname, &files_n, NULL);
@@ -122,20 +128,21 @@ build_file_list(const gchar* dirname, const gchar* prefix)
 	{
 		file = file_iterator->data;
 
-		pathfile = g_build_filename(dirname,file,NULL);   
+		gchar *full_path = g_build_filename(dirname, file, NULL);
+		gboolean is_dir = g_file_test(full_path, G_FILE_TEST_IS_DIR);
 
 		/* Append the element to model list */
 		gtk_list_store_append (ret_list, &iter);
-		gtk_list_store_set (ret_list, &iter, 0,
-		                    g_strconcat(prefix, file, NULL), -1);
-		g_free(pathfile);
+		gtk_list_store_set (ret_list, &iter, 0, g_strconcat(prefix,
+			file, (is_dir ? "/" : NULL), NULL), -1);
+
+		g_free(full_path);
 	}
 
 	g_slist_foreach(files_list, (GFunc) g_free, NULL);
 	g_slist_free(files_list);
 
 	return GTK_TREE_MODEL(ret_list);
- 
 }
 
 /**
@@ -152,9 +159,19 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 	GtkTreeModel* completion_list;
 	static gchar *curr_dir = NULL;
 	gchar *new_dir, *new_dir_path = NULL;
-	const gchar *text;
+	gchar *text;
 
-	text = gtk_entry_get_text(entry);
+	/* We need to discern between text written by the user and text filled by the
+	 * autocomplete, and to only use what the user wrote for the completion model.
+	 * Otherwise, when a directory is 'suggested', the completion model will start
+	 * traversing it, even though the user has not yet 'accepted' the suggestion.
+	 * One way to tell apart the autocompletion is to check if there is a selection.
+	 * However, the "changed" event triggers before the selection occurs, so no dice.
+	 * Instead, we watch the completion event (insert-prefix) and back-up (in entry_
+	 * inline_completion_event) the user's text. */
+	text = gtk_editable_get_chars(GTK_EDITABLE(entry), 0, entry_len_before_completion);
+	entry_len_before_completion = -1;
+
 	gint dir_sep = strrpos(text, G_DIR_SEPARATOR_S);
 
 	/* No subdir separator found */
@@ -171,10 +188,13 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 			g_free(curr_dir);
 			curr_dir = NULL;
 		}
+		g_free(text);
 		return;
 	}
 
 	new_dir = g_strndup (text, dir_sep+1);
+	g_free(text);
+
 	/* I've already inserted new model completion for sub-dir elements? */
 	if ( g_strcmp0 (new_dir, curr_dir) == 0 )
 	{
@@ -208,6 +228,59 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 	g_free(new_dir_path);
 }
 
+/**
+ * @brief 	GtkEntryCompletion insert-prefix callback
+ * @param 	GtkEntryCompletion *completion entry completion object
+ * @param	gchar *prefix common prefix of all possible completions
+ * @param	GtkEntry *entry attached data (path entry field object)
+ * @return	gboolean whether the signal has been handled (i.e. run other handlers?)
+ * 
+ */
+static gboolean
+entry_inline_completion_event(GtkEntryCompletion *completion, gchar *prefix, GtkEntry *entry)
+{
+	entry_len_before_completion = gtk_entry_get_text_length(entry);
+	return FALSE;
+}
+
+/**
+ * @brief 	Widget key callback (path entry field)
+ * @param	GtkEntry *entry
+ * @param 	GdkEventKey *key key that triggered event
+ * @param	GtkEntryCompletion *completion attached data (entry completion object)
+ * @return	gboolean whether the signal has been handled (i.e. run other handlers?)
+ * 
+ */
+static gboolean
+entry_key_event(GtkEntry *entry, GdkEventKey *key, GtkEntryCompletion *completion)
+{
+	if (key->keyval == GDK_KEY_Tab)
+	{
+		gint end_pos;
+
+		/* Give the user the ability to 'accept' the autocomplete's suggestion
+		 * with the Tab key, like in shells (and in GtkFileChooser). If there's
+		 * a suggestion, it will be selected, and we can simply move the cursor
+		 * to accept it. */
+
+		if (gtk_editable_get_selection_bounds(GTK_EDITABLE(entry), NULL, &end_pos))
+		{
+			gtk_editable_set_position(GTK_EDITABLE(entry), end_pos);
+
+			/* Moving the cursor does not trigger the "changed" event.
+			 * Do it manually, to show completions for the new path. */
+			g_signal_emit_by_name(entry, "changed");
+		}
+
+		/* Effectively reserve the Tab key for autocompletion purposes,
+		 * so don't let any other handlers run. Do this even when there
+		 * wasn't any actual suggestion, to make it safe for the user
+		 * to 'spam' the key (mimics GtkFileChooser). */
+		return TRUE;
+	}
+
+	return FALSE;
+}
 
 /**
  * @brief 	Create the dialog, return the entry object to get the
@@ -253,10 +326,19 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	/* Completion options */
 	gtk_entry_completion_set_inline_completion(completion, 1);
 	gtk_entry_completion_set_text_column (completion, 0);
+	gtk_entry_completion_set_minimum_key_length(completion, 0);
+
+	/* Manually trigger the provided completion model */
+	g_signal_emit_by_name(entry, "changed");
 
 	/* Signals */
-	g_signal_connect_after(GTK_ENTRY(entry), "changed",
-	                       G_CALLBACK(directory_check), completion);
+	g_signal_connect_after(entry, "changed",
+		G_CALLBACK(directory_check), completion);
+	g_signal_connect(completion, "insert-prefix",
+		G_CALLBACK(entry_inline_completion_event), entry);
+	g_signal_connect(entry, "key-press-event",
+		G_CALLBACK(entry_key_event), completion);
+
 	gtk_widget_show_all(*dialog);
 
 	return entry;
