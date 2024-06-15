@@ -32,7 +32,9 @@
 /******************* Global variables for the feature *****************/
 
 static GtkWidget* menu_item = NULL;
-static gchar *directory_ref = NULL;
+static GtkTreeModel *ref_model = NULL;
+static gchar *ref_dir = NULL;
+static gchar *curr_dir = NULL;
 static gint entry_len_before_completion = -1;
 
 /********************** Prototypes *********************/
@@ -155,10 +157,8 @@ build_file_list(const gchar* dirname, const gchar* prefix)
 static void
 directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 {
-	static GtkTreeModel *old_model = NULL;
 	GtkTreeModel* completion_list;
-	static gchar *curr_dir = NULL;
-	gchar *new_dir, *new_dir_path = NULL;
+	gchar *new_dir, *new_dir_path;
 	gchar *text;
 
 	/* We need to discern between text written by the user and text filled by the
@@ -177,17 +177,15 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 	/* No subdir separator found */
 	if (dir_sep == -1)
 	{
-		if (old_model != NULL)
-		{   /* Restore the no-sub-directory model */
-			log_debug("Restoring old model!");
-
-			gtk_entry_completion_set_model (completion, old_model);
-			g_object_unref(old_model);
-			old_model = NULL;
+		// Restore the no-sub-directory model
+		if(g_strcmp0(ref_dir, curr_dir) != 0)
+		{
+			gtk_entry_completion_set_model(completion, ref_model);
 
 			g_free(curr_dir);
-			curr_dir = NULL;
+			curr_dir = g_strdup(ref_dir);
 		}
+
 		g_free(text);
 		return;
 	}
@@ -195,22 +193,12 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 	new_dir = g_strndup (text, dir_sep+1);
 	g_free(text);
 
-	/* I've already inserted new model completion for sub-dir elements? */
+	/* If this the same dir as the one of the active
+	 * completion model, no further steps required. */
 	if ( g_strcmp0 (new_dir, curr_dir) == 0 )
 	{
 		g_free(new_dir);
 		return;
-	}
-	if ( curr_dir != NULL )
-		g_free(curr_dir);
-
-	curr_dir = new_dir;
-
-	/* Save the completion_mode for future restore. */
-	if (old_model == NULL)
-	{
-		old_model = gtk_entry_completion_get_model(completion);
-		g_object_ref(old_model);
 	}
 
 	log_debug("New completion list!");
@@ -218,12 +206,15 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 	if ( g_path_is_absolute(new_dir) )
 		new_dir_path = g_strdup(new_dir);
 	else
-		new_dir_path = g_build_filename(directory_ref, new_dir, NULL);
+		new_dir_path = g_build_filename(ref_dir, new_dir, NULL);
 
 	/* Build the new file list for completion */
 	completion_list = build_file_list(new_dir_path, new_dir);
 	gtk_entry_completion_set_model (completion, completion_list);
 	g_object_unref(completion_list);
+
+	g_free(curr_dir);
+	curr_dir = new_dir;
 
 	g_free(new_dir_path);
 }
@@ -395,7 +386,6 @@ menu_item_activate(guint key_id)
 	GtkWidget* dialog;
 	GtkWidget* dialog_new = NULL;
 	GtkWidget* dialog_entry;
-	GtkTreeModel* completion_list;
 	GeanyDocument* current_doc = document_get_current();
 	gchar *chosen_path;
 	const gchar *chosen_file;
@@ -404,15 +394,16 @@ menu_item_activate(guint key_id)
 	log_func();
 
 	if(current_doc && !EMPTY(current_doc->file_name))
-		directory_ref = g_path_get_dirname(current_doc->file_name);
+		ref_dir = g_path_get_dirname(current_doc->file_name);
 	else
-		directory_ref = g_strdup(g_get_home_dir());
+		ref_dir = g_strdup(g_get_home_dir());
 
 	/* Build current directory listing */
-	completion_list = build_file_list(directory_ref, "");
+	ref_model = build_file_list(ref_dir, "");
+	curr_dir = g_strdup(ref_dir);
 
 	/* Create the user dialog and get response */
-	dialog_entry = create_dialog(&dialog, completion_list);
+	dialog_entry = create_dialog(&dialog, ref_model);
 
 _show_dialog:
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
@@ -424,7 +415,7 @@ _show_dialog:
 	if (g_path_is_absolute(chosen_file))
 		chosen_path = g_strdup(chosen_file);
 	else
-		chosen_path = g_build_filename(directory_ref, chosen_file, NULL);
+		chosen_path = g_build_filename(ref_dir, chosen_file, NULL);
 
 	if ( response == GTK_RESPONSE_ACCEPT )
 	{
@@ -463,8 +454,15 @@ _show_dialog:
 	}
 
 	/* Freeing memory */
+
 	gtk_widget_destroy(dialog);
-	g_free(directory_ref);
+
+	g_object_unref(ref_model);
 	g_free(chosen_path);
-	g_object_unref (completion_list);
+	g_free(ref_dir);
+	g_free(curr_dir);
+
+	ref_model = NULL;
+	ref_dir = NULL;
+	curr_dir = NULL;
 }
