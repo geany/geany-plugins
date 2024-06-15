@@ -374,6 +374,10 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	g_signal_connect(entry, "key-press-event",
 		G_CALLBACK(entry_key_event), completion);
 
+	/* The completion object is tracked in the entry. We may release our local
+	 * reference, and it will be deallocated when the entry is destroyed. */
+	g_object_unref(completion);
+
 	gtk_widget_show_all(*dialog);
 
 	return entry;
