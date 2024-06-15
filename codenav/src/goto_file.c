@@ -239,8 +239,25 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 static gboolean
 entry_inline_completion_event(GtkEntryCompletion *completion, gchar *prefix, GtkEntry *entry)
 {
-	entry_len_before_completion = gtk_entry_get_text_length(entry);
-	return FALSE;
+	gint entry_len = gtk_entry_get_text_length(entry);
+	gint prefix_len = g_utf8_strlen(prefix, -1);
+
+	/* We want to mark the length of the entry before the completion, but
+	 * only if an inline completion is actually about to be suggested. If
+	 * a suggestion is not created, the entry text won't be modified, the
+	 * 'changed' event won't fire, and thus entry_len_before_completion's
+	 * value will be stale, as it won't get cleared in directory_check. */
+	if(prefix_len > entry_len)
+	{
+		entry_len_before_completion = entry_len;
+		return FALSE;
+	}
+	else
+	{
+		/* We know no completion will take place, no reason
+		 * for the default sig handler to be called... */
+		return TRUE;
+	}
 }
 
 /**
@@ -254,29 +271,47 @@ entry_inline_completion_event(GtkEntryCompletion *completion, gchar *prefix, Gtk
 static gboolean
 entry_key_event(GtkEntry *entry, GdkEventKey *key, GtkEntryCompletion *completion)
 {
-	if (key->keyval == GDK_KEY_Tab)
+	gint end_pos;
+
+	if(key->keyval == GDK_KEY_Tab)
 	{
-		gint end_pos;
-
-		/* Give the user the ability to 'accept' the autocomplete's suggestion
-		 * with the Tab key, like in shells (and in GtkFileChooser). If there's
-		 * a suggestion, it will be selected, and we can simply move the cursor
-		 * to accept it. */
-
-		if (gtk_editable_get_selection_bounds(GTK_EDITABLE(entry), NULL, &end_pos))
+		/* The user may 'accept' the autocomplete's suggestion with the Tab key,
+		 * like in shells, and in GtkFileChoose. If there's a suggestion, it will
+		 * be selected, and we may simply move the cursor to accept it. */
+		if(gtk_editable_get_selection_bounds(GTK_EDITABLE(entry), NULL, &end_pos))
 		{
 			gtk_editable_set_position(GTK_EDITABLE(entry), end_pos);
 
-			/* Moving the cursor does not trigger the "changed" event.
-			 * Do it manually, to show completions for the new path. */
+			/* Moving the cursor does not trigger the "changed" event. Do it
+			 * manually, to caclulate & show completions for the new path. */
 			g_signal_emit_by_name(entry, "changed");
 		}
+
+		/* The 2nd purpose of the Tab key is to trigger the procedure that
+		 * calculates and suggests an inline completion. FYI doing this here
+		 * is still useful even if the Tab key was used to accept a suggestion
+		 * above, as it will trigger an attempt for inline completion in the
+		 * new/next directory. */
+		gtk_entry_completion_insert_prefix(completion);
 
 		/* Effectively reserve the Tab key for autocompletion purposes,
 		 * so don't let any other handlers run. Do this even when there
 		 * wasn't any actual suggestion, to make it safe for the user
 		 * to 'spam' the key (mimics GtkFileChooser). */
 		return TRUE;
+	}
+	else if(key->keyval == GDK_KEY_Return)
+	{
+		if(gtk_editable_get_selection_bounds(GTK_EDITABLE(entry), NULL, &end_pos))
+		{
+			gtk_editable_set_position(GTK_EDITABLE(entry), end_pos);
+			g_signal_emit_by_name(entry, "changed");
+			gtk_entry_completion_insert_prefix(completion);
+
+			/* Unlike with the Tab key, only intercept Enter
+			 * when there was a completion available. */
+			return TRUE;
+		}
 	}
 
 	return FALSE;
