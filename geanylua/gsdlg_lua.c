@@ -387,7 +387,7 @@ static gint gsdl_done(lua_State *L)
 
 
 
-static const struct luaL_reg gsdl_funcs[] = {
+static const struct luaL_Reg gsdl_funcs[] = {
 	{"new",      gsdl_new},
 	{"run",      gsdl_run},
 	{"label",    gsdl_label},	
