@@ -88,6 +88,7 @@ static struct
     GtkWidget *combo;
     GtkWidget *check_button;
     GtkWidget *author_entry;
+    GtkWidget *check_confirm;
 } widgets;
 
 static gchar *config_file = NULL;
@@ -95,8 +96,9 @@ static gchar *author_name = NULL;
 
 static gchar *pastebin_selected = NULL;
 static gboolean check_button_is_checked = FALSE;
+static gboolean confirm_paste = TRUE;
 
-PLUGIN_VERSION_CHECK(224)
+PLUGIN_VERSION_CHECK(236)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
                              _("Paste your code on your favorite pastebin"),
                              PLUGIN_VERSION, "Enrico Trotta <enrico.trt@gmail.com>")
@@ -318,26 +320,37 @@ static void load_settings(void)
     }
     check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
     author_name = utils_get_setting_string(config, "geniuspaste", "author_name", USERNAME);
+    confirm_paste = utils_get_setting_boolean(config, "geniuspaste", "confirm_paste", TRUE);
 
     g_key_file_free(config);
 }
 
-static void save_settings(void)
+static void save_settings(gboolean interactive)
 {
     GKeyFile *config = g_key_file_new();
     gchar *data;
     gchar *config_dir = g_path_get_dirname(config_file);
+    gint error = 0;
 
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
     g_key_file_set_string(config, "geniuspaste", "pastebin", pastebin_selected);
     g_key_file_set_boolean(config, "geniuspaste", "open_browser", check_button_is_checked);
     g_key_file_set_string(config, "geniuspaste", "author_name", author_name);
+    g_key_file_set_boolean(config, "geniuspaste", "confirm_paste", confirm_paste);
 
-    if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+    if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) &&
+        (error = utils_mkdir(config_dir, TRUE)) != 0)
     {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-                            _("Plugin configuration directory could not be created."));
+        gchar *message;
+
+        message = g_strdup_printf(_("Plugin configuration directory could not be created: %s"),
+                                  g_strerror(error));
+
+        if (interactive)
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", message);
+        else
+            msgwin_status_add_string(message);
     }
     else
     {
@@ -790,6 +803,56 @@ static void debug_logger(SoupLogger *logger,
     msgwin_msg_add(COLOR_BLUE, -1, NULL, "[geniuspaste] %s%s", prefix, data);
 }
 
+static gboolean ask_paste_confirmation(GeanyDocument *doc, const gchar *website)
+{
+    GtkWidget *dialog;
+    GtkWidget *check_confirm;
+    gboolean ret = FALSE;
+
+    dialog = gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
+                                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                    GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+                                    _("Are you sure you want to paste %s to %s?"),
+                                    sci_has_selection(doc->editor->sci)
+                                    ? _("the selection")
+                                    : _("the whole document"),
+                                    website);
+    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog),
+                                             _("The paste might be public, "
+                                               "and it might not be possible "
+                                               "to delete it."));
+    gtk_dialog_add_buttons(GTK_DIALOG(dialog),
+                           _("_Cancel"), GTK_RESPONSE_CANCEL,
+                           _("_Paste it"), GTK_RESPONSE_ACCEPT,
+                           NULL);
+    check_confirm = gtk_check_button_new_with_mnemonic(_("Do not _ask again"));
+    gtk_widget_set_tooltip_text(check_confirm, _("Whether to ask this question "
+                                                 "again for future pastes. "
+                                                 "This can be changed at any "
+                                                 "time in the plugin preferences."));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_confirm), ! confirm_paste);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                       check_confirm, FALSE, TRUE, 0);
+
+    gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+    gtk_style_context_add_class(gtk_widget_get_style_context(gtk_dialog_get_widget_for_response(GTK_DIALOG(dialog),
+                                                                                                GTK_RESPONSE_ACCEPT)),
+                                GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
+    gtk_widget_show_all(dialog);
+
+    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+    {
+        confirm_paste = ! gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_confirm));
+        save_settings(FALSE);
+        ret = TRUE;
+    }
+
+    gtk_widget_destroy(dialog);
+
+    return ret;
+}
+
 static void paste(GeanyDocument * doc, const gchar * website)
 {
     const Pastebin *pastebin;
@@ -824,6 +887,9 @@ static void paste(GeanyDocument * doc, const gchar * website)
         dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Refusing to create blank paste"));
         return;
     }
+
+    if (confirm_paste && ! ask_paste_confirmation(doc, website))
+        return;
 
     msg = pastebin_soup_message_new(pastebin, doc, f_content);
 
@@ -925,7 +991,8 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
             SETPTR(pastebin_selected, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widgets.combo)));
             check_button_is_checked = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_button));
             SETPTR(author_name, g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry))));
-            save_settings();
+            confirm_paste = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_confirm));
+            save_settings(TRUE);
         }
     }
 }
@@ -963,14 +1030,17 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     }
 
     widgets.check_button = gtk_check_button_new_with_label(_("Show your paste in a new browser tab"));
+    widgets.check_confirm = gtk_check_button_new_with_label(_("Confirm before pasting"));
 
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), widgets.combo, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), author_label, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), widgets.author_entry, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), widgets.check_button, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), widgets.check_confirm, FALSE, FALSE, 0);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.check_button), check_button_is_checked);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.check_confirm), confirm_paste);
 
     gtk_widget_show_all(vbox);
 
