@@ -181,7 +181,7 @@ install_dependencies() {
 		mingw-w64-${ARCH}-gpgme \
 		mingw-w64-${ARCH}-gtkspell3 \
 		mingw-w64-${ARCH}-libgit2 \
-		mingw-w64-${ARCH}-libsoup \
+		mingw-w64-${ARCH}-libsoup3 \
 		mingw-w64-${ARCH}-lua51
 }
 

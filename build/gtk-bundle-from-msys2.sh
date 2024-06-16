@@ -21,7 +21,7 @@ EXE_WRAPPER_64="mingw-w64-x86_64-wine"
 # enchant, hunspell - for SpellCheck plugin
 # lua51 - for GeanyLua plugin
 # gnupg, gpgme - for GeanyPG plugin
-# libsoup - for UpdateChecker plugin
+# libsoup3 - for UpdateChecker & GeniusPaste plugins
 # libgit2 - for GitChangeBar plugin
 # gtkspell3 - for GeanyVC plugin
 # the rest is dependency-dependency
@@ -29,9 +29,12 @@ packages="
 ca-certificates
 ctags
 ctpl-git
+curl
 enchant
+glib-networking
 gnupg
 gpgme
+gsettings-desktop-schemas
 http-parser
 hunspell
 libassuan
@@ -39,8 +42,9 @@ libgcrypt
 libgit2
 libgpg-error
 libidn2
+libproxy
 libpsl
-libsoup
+libsoup3
 libssh2
 libsystre
 libunistring
@@ -51,6 +55,7 @@ p11-kit
 readline
 sqlite3
 termcap
+zstd
 "
 
 gtk3_dependency_pkgs="
