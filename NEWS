@@ -56,6 +56,21 @@ Geany Plugins 2.0 (2023-10-19)
     Internationalization:
     * Updated translations: de, es, pt, ua
 
+    GeanyLua
+    * 
+    * 
+    * Add LuaJIT build support (PR #1231, #1233)
+
+      The build default will continue to be Lua 5.1 until the next release,
+      after which the default will switch to LuaJIT.  To force a specific
+      Lua package, configure with the `with-lua-pkg` flag:
+
+          ./configure --with-lua-pkg=luajit
+          ./configure --with-lua-pkg=lua51
+
+    * 
+    * 
+    * 
 
 Geany Plugins 1.38 (2021-10-09)
 
