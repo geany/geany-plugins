@@ -421,6 +421,22 @@ _show_dialog:
 				goto _show_dialog;
 			}
 		}
+		else if(g_file_test(chosen_path, G_FILE_TEST_IS_DIR))
+		{
+			log_debug("File is a dir.");
+
+			dialog_new = gtk_message_dialog_new(GTK_WINDOW(geany_data->main_widgets->window),
+			                                    GTK_DIALOG_MODAL,
+			                                    GTK_MESSAGE_ERROR,
+			                                    GTK_BUTTONS_CLOSE,
+			                                    _("%s is a directory."), chosen_path);
+			gtk_window_set_title(GTK_WINDOW(dialog_new), "Geany");
+
+			gtk_dialog_run(GTK_DIALOG(dialog_new));
+			gtk_widget_destroy(dialog_new);
+
+			goto _show_dialog;
+		}
 		else
 			document_open_file(chosen_path, FALSE, NULL, NULL);
 	}
