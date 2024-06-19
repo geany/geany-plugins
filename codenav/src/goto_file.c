@@ -105,6 +105,27 @@ goto_file_cleanup(void)
 }
 
 /**
+ * @brief 	Replace any special characters present in path_name
+ * @param 	gchar** path_name
+ * @return	void
+ * 
+ */
+static void
+path_name_replace_special(gchar **path_name)
+{
+	GString *str;
+
+	if(*path_name[0] == '~')
+	{
+		str = g_string_new(*path_name);
+		utils_string_replace_first(str, "~", g_get_home_dir());
+
+		free(*path_name);
+		*path_name = g_string_free(str, FALSE);
+	}
+}
+
+/**
  * @brief 	Populate the file list with file list of directory 
  * @param 	const char* dirname	the directory where to find files
  * @param	const char* prefix	file prefix (the path)
@@ -157,7 +178,7 @@ static void
 directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 {
 	GtkTreeModel* completion_list;
-	gchar *text, *new_dir, *new_dir_path;
+	gchar *text, *new_dir, *new_dir_exp, *new_dir_path;
 
 	/* We need to discern between text written by the user and text filled by the
 	 * autocomplete, and to only use what the user wrote for the completion model.
@@ -188,15 +209,20 @@ directory_check(GtkEntry* entry, GtkEntryCompletion* completion)
 	g_free(curr_dir);
 	curr_dir = new_dir;
 
+	/* Replace special chars here (e.g. '~') */
+	new_dir_exp = g_strdup(new_dir);
+	path_name_replace_special(&new_dir_exp);
+
 	/* Assemble full path to the entered directory */
-	new_dir_path = (g_path_is_absolute(new_dir) ? g_strdup(new_dir)
-		: g_build_filename(ref_dir, new_dir, NULL));
+	new_dir_path = (g_path_is_absolute(new_dir_exp) ? g_strdup(new_dir_exp)
+		: g_build_filename(ref_dir, new_dir_exp, NULL));
 
 	/* Build the new file list for completion */
 	completion_list = build_file_list(new_dir_path, new_dir);
 	gtk_entry_completion_set_model (completion, completion_list);
 	g_object_unref(completion_list);
 
+	g_free(new_dir_exp);
 	g_free(new_dir_path);
 }
 
@@ -368,8 +394,8 @@ menu_item_activate(guint key_id)
 	GtkWidget* dialog_new = NULL;
 	GtkWidget* dialog_entry;
 	GeanyDocument* current_doc = document_get_current();
-	gchar *chosen_path;
 	const gchar *chosen_file;
+	gchar *chosen_file_exp, *chosen_path;
 	gint response;
 
 	log_func();
@@ -386,8 +412,12 @@ _show_dialog:
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 	chosen_file = gtk_entry_get_text(GTK_ENTRY(dialog_entry));
-	chosen_path = (g_path_is_absolute(chosen_file) ? g_strdup(chosen_file)
-		: g_build_filename(ref_dir, chosen_file, NULL));
+
+	chosen_file_exp = g_strdup(chosen_file);
+	path_name_replace_special(&chosen_file_exp);
+
+	chosen_path = (g_path_is_absolute(chosen_file_exp) ? g_strdup(chosen_file_exp)
+		: g_build_filename(ref_dir, chosen_file_exp, NULL));
 
 	if ( response == GTK_RESPONSE_ACCEPT )
 	{
@@ -444,6 +474,8 @@ _show_dialog:
 	/* Freeing memory */
 
 	gtk_widget_destroy(dialog);
+
+	g_free(chosen_file_exp);
 	g_free(chosen_path);
 
 	g_free(ref_dir);
