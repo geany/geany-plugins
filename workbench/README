@@ -74,6 +74,13 @@ These are the available items:
   to save the workbench settings by selecting "Workbench / Save" in the
   menubar.
 
+**Select/Unselect project**
+  Toggles the selection of a project. If the project gets selected then
+  the corresponding Geany project will be opened. In the sidebar the
+  project will be marked with the suffix "[SEL]". If the project already
+  is selected then it will be un-selected. This feature at least requires
+  Geany version 1.36.
+
 **Fold/unfold project**
   Fold or unfold the items belonging to the project. It is only available
   if you right clicked inside of a project.
@@ -167,6 +174,13 @@ The following settings exist for a workbench:
   If the option is activated, lines will be drawn between the nodes in
   the sidebar tree.
 
+**Enable auto-open project by document**
+  If the option is activated, then opening or activating a document will
+  automatically open the project belonging to the document. If a specific
+  project is selected (see above under **Select/Unselect project**) then
+  that project will stay opened and no switching to another project will
+  take place. This feature at least requires Geany version 1.36.
+
 Live update
 -----------
 From version 1.03 on the workbench plugin supports an automatic live update
@@ -258,6 +272,9 @@ History
 
 This is a short release history showing the major changes:
 
+**1.10:**
+  Support project switching/opening by the Workbench plugin.
+  This feature at least requires Geany version 1.36.
 **1.09:**
   Added option to let git decide which files to display
 **1.08:**
