@@ -226,8 +226,8 @@ create_dialog(GtkWidget **dialog, GtkTreeModel *completion_model)
 	GtkEntryCompletion *completion;
 		
 	*dialog = gtk_dialog_new_with_buttons(_("Go to File..."), GTK_WINDOW(geany->main_widgets->window),
-	GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-	GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 	
 	gtk_dialog_set_default_response(GTK_DIALOG(*dialog), GTK_RESPONSE_ACCEPT);
 	
@@ -292,6 +292,8 @@ menu_item_activate(guint key_id)
 
 	/* Create the user dialog and get response */
 	dialog_entry = create_dialog(&dialog, completion_list);
+
+_show_dialog:
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 	/* Filename */
@@ -312,12 +314,20 @@ menu_item_activate(guint key_id)
 													GTK_BUTTONS_OK_CANCEL,
 													_("%s not found, create it?"), chosen_file);
 			gtk_window_set_title(GTK_WINDOW(dialog_new), "Geany");
-			if(gtk_dialog_run(GTK_DIALOG(dialog_new)) == GTK_RESPONSE_OK)
+			response = gtk_dialog_run(GTK_DIALOG(dialog_new));
+
+			if (response == GTK_RESPONSE_OK)
 			{
 				document_new_file(chosen_path, current_doc->file_type, NULL);
 				document_set_text_changed(document_get_current(), TRUE);
 			}
+
 			gtk_widget_destroy(dialog_new);
+
+			/* File wasn't found and user denied creating it,
+			 * go back to the initial "Go to file" dialog. */
+			if (response != GTK_RESPONSE_OK)
+				goto _show_dialog;
 		}
 		else
 			document_open_file(chosen_path, FALSE, NULL, NULL);
