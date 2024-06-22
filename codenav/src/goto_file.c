@@ -352,6 +352,12 @@ create_dialog(GtkWidget **dialog)
 
 	/* Completion definition */
 	completion = gtk_entry_completion_new();
+
+	/* Installed here, so it'll get installed before the respective
+	 * handler inside GtkEntryCompletion, and will thus be called first. */
+	g_signal_connect(entry, "key-press-event",
+		G_CALLBACK(entry_key_event), completion);
+
 	gtk_entry_set_completion(GTK_ENTRY(entry), completion);
 
 	/* Completion options */
@@ -364,8 +370,6 @@ create_dialog(GtkWidget **dialog)
 		G_CALLBACK(directory_check), completion);
 	g_signal_connect(completion, "insert-prefix",
 		G_CALLBACK(entry_inline_completion_event), entry);
-	g_signal_connect(entry, "key-press-event",
-		G_CALLBACK(entry_key_event), completion);
 
 	/* The completion object is tracked in the entry. We may release our local
 	 * reference, and it will be deallocated when the entry is destroyed. */
