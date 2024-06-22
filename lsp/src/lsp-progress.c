@@ -45,7 +45,12 @@ static void progress_free(LspProgress *p)
 
 void lsp_progress_create(LspServer *server, LspProgressToken token)
 {
-	LspProgress *p = g_new0(LspProgress, 1);
+	LspProgress *p;
+
+	if (!server->config.progress_enable)
+		return;
+
+	p = g_new0(LspProgress, 1);
 
 	p->token.token_str = g_strdup(token.token_str);
 	p->token.token_int = token.token_int;
@@ -62,7 +67,7 @@ static gboolean token_equal(LspProgressToken t1, LspProgressToken t2)
 }
 
 
-void lsp_progress_begin(LspServer *server, LspProgressToken token, const gchar *title, const gchar *message)
+static void progress_begin(LspServer *server, LspProgressToken token, const gchar *title, const gchar *message)
 {
 	GSList *node;
 
@@ -82,7 +87,7 @@ void lsp_progress_begin(LspServer *server, LspProgressToken token, const gchar *
 }
 
 
-void lsp_progress_report(LspServer *server, LspProgressToken token, const gchar *message)
+static void progress_report(LspServer *server, LspProgressToken token, const gchar *message)
 {
 	GSList *node;
 
@@ -98,7 +103,7 @@ void lsp_progress_report(LspServer *server, LspProgressToken token, const gchar 
 }
 
 
-void lsp_progress_end(LspServer *server, LspProgressToken token, const gchar *message)
+static void progress_end(LspServer *server, LspProgressToken token, const gchar *message)
 {
 	GSList *node;
 
@@ -147,6 +152,9 @@ void lsp_progress_process_notification(LspServer *srv, GVariant *params)
 	const gchar *message = NULL;
 	gchar buf[50];
 
+	if (!srv->config.progress_enable)
+		return;
+
 	have_token = JSONRPC_MESSAGE_PARSE(params,
 		"token", JSONRPC_MESSAGE_GET_STRING(&token_str)
 	);
@@ -191,10 +199,10 @@ void lsp_progress_process_notification(LspServer *srv, GVariant *params)
 	{
 		LspProgressToken token = {token_int, (gchar *)token_str};
 		if (g_strcmp0(kind, "begin") == 0)
-			lsp_progress_begin(srv, token, title, message);
+			progress_begin(srv, token, title, message);
 		else if (g_strcmp0(kind, "report") == 0)
-			lsp_progress_report(srv, token, message);
+			progress_report(srv, token, message);
 		else if (g_strcmp0(kind, "end") == 0)
-			lsp_progress_end(srv, token, message);
+			progress_end(srv, token, message);
 	}
 }

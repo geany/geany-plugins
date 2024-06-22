@@ -843,6 +843,8 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_int(&s->config.command_keybinding_num, kf, section, "command_keybinding_num");
 	s->config.command_keybinding_num = CLAMP(s->config.command_keybinding_num, 1, 1000);
 
+	get_bool(&s->config.progress_enable, kf, section, "progress_enable");
+
 	// create for the first time, then just update
 	if (!s->config.command_regexes)
 	{

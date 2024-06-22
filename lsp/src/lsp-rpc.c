@@ -111,7 +111,7 @@ static void handle_notification(JsonrpcClient *client, gchar *method, GVariant *
 	{
 		log_message(params);
 	}
-	else if (g_str_has_prefix(method, "$/"))
+	else if (g_strcmp0(method, "$/progress") == 0)
 	{
 		lsp_progress_process_notification(srv, params);
 	}

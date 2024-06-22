@@ -99,6 +99,8 @@ typedef struct LspServerConfig
 	gboolean range_formatting_enable;
 	gboolean format_on_save;
 
+	gboolean progress_enable;
+
 	gboolean execute_command_enable;
 	gboolean code_action_enable;
 	gchar *command_on_save_regex;
