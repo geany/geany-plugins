@@ -180,6 +180,7 @@ static void ao_systray_init(AoSystray *self)
 	const gchar *icon_name;
 
 	priv->icon = gtk_status_icon_new();
+	gtk_status_icon_set_visible(priv->icon, FALSE);
 	icon_name = gtk_window_get_icon_name(GTK_WINDOW(geany->main_widgets->window));
 	if (icon_name) /* Geany >= 1.23 */
 		gtk_status_icon_set_from_icon_name(priv->icon, icon_name);
