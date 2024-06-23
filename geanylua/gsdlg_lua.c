@@ -323,7 +323,7 @@ static gint gsdl_new(lua_State *L) {
 	if (argc>=2) {
 		if (!lua_istable(L,2)) { return FAIL_TABLE_ARG(2); }
 	}
-	n=lua_objlen(L,2);
+	n=lua_rawlen(L,2);
 	for (i=1;i<=n; i++) {
 		lua_rawgeti(L,2,i);
 		if (!lua_isstring(L, -1)) {
@@ -425,8 +425,10 @@ gint luaopen_dialog(lua_State *L)
 	lua_pushcfunction(L,gsdl_done);
 	lua_rawset(L,-3);
 
-	luaL_register(L, NULL, &gsdl_funcs[1]);
-	luaL_register(L, LUA_MODULE_NAME, gsdl_funcs);
+	luaL_setfuncs(L, &gsdl_funcs[1], 0);
+	lua_newtable(L);
+	luaL_setfuncs(L, gsdl_funcs, 0);
+	lua_setglobal(L, LUA_MODULE_NAME);
 	return 0;
 }
 
