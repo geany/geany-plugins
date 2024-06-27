@@ -1,0 +1,3 @@
+spellcheck/src/speller.c
+spellcheck/src/scplugin.c
+spellcheck/src/gui.c

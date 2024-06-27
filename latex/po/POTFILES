@@ -1,0 +1,13 @@
+latex/src/bibtex.c
+latex/src/formatutils.c
+latex/src/latexenvironments.c
+latex/src/latexutils.c
+latex/src/templates.c
+latex/src/bibtexlabels.c
+latex/src/latex.c
+latex/src/latexkeybindings.c
+latex/src/letters.c
+latex/src/formatpatterns.c
+latex/src/latexencodings.c
+latex/src/latexstructure.c
+latex/src/reftex.c
