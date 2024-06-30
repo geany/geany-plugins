@@ -64,55 +64,6 @@ void prjorg_goto_symbol_free(PrjorgGotoSymbol *symbol)
 }
 
 
-static struct
-{
-	const gchar *icon_name;
-	GdkPixbuf *pixbuf;
-}
-/* keep in sync with Geany */
-geany_icons[_N_ICONS] = {
-	[_ICON_CLASS]		= { "classviewer-class", NULL },
-	[_ICON_MACRO]		= { "classviewer-macro", NULL },
-	[_ICON_MEMBER]		= { "classviewer-member", NULL },
-	[_ICON_METHOD]		= { "classviewer-method", NULL },
-	[_ICON_NAMESPACE]	= { "classviewer-namespace", NULL },
-	[_ICON_OTHER]		= { "classviewer-other", NULL },
-	[_ICON_STRUCT]		= { "classviewer-struct", NULL },
-	[_ICON_VAR]			= { "classviewer-var", NULL },
-};
-
-
-static GdkPixbuf *get_tag_icon(const gchar *icon_name)
-{
-	static GtkIconTheme *icon_theme = NULL;
-	static gint x = -1;
-
-	if (G_UNLIKELY(x < 0))
-	{
-		gint dummy;
-		icon_theme = gtk_icon_theme_get_default();
-		gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &x, &dummy);
-	}
-	return gtk_icon_theme_load_icon(icon_theme, icon_name, x, 0, NULL);
-}
-
-
-static GdkPixbuf *get_icon_pixbuf(gint icon)
-{
-	if (!geany_icons[_ICON_CLASS].pixbuf)
-	{
-		guint i;
-		for (i = 0; i < G_N_ELEMENTS(geany_icons); i++)
-			geany_icons[i].pixbuf = get_tag_icon(geany_icons[i].icon_name);
-	}
-
-	if (icon < _N_ICONS)
-		return geany_icons[icon].pixbuf;
-
-	return NULL;
-}
-
-
 static void tree_view_set_cursor_from_iter(GtkTreeView *view, GtkTreeIter *iter)
 {
 	GtkTreePath *path;
@@ -221,7 +172,7 @@ void prjorg_goto_panel_fill(GPtrArray *symbols)
 			label = g_markup_printf_escaped("%s", sym->name);
 
 		gtk_list_store_insert_with_values(panel_data.store, NULL, -1,
-			COL_ICON, get_icon_pixbuf(sym->icon),
+			COL_ICON, symbols_get_icon_pixbuf(sym->icon),
 			COL_LABEL, label,
 			COL_PATH, sym->file_name,
 			COL_LINENO, sym->line,

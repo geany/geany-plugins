@@ -53,7 +53,7 @@ static void goto_line(GeanyDocument *doc, const gchar *line_str)
 		PrjorgGotoSymbol *sym = g_new0(PrjorgGotoSymbol, 1);
 
 		sym->file_name = utils_get_utf8_from_locale(doc->real_path);
-		sym->icon = _ICON_OTHER;
+		sym->icon = TM_ICON_OTHER;
 
 		switch (i)
 		{
@@ -118,7 +118,7 @@ static void goto_file(const gchar *file_str)
 		sym = g_new0(PrjorgGotoSymbol, 1);
 		sym->file_name = utils_get_utf8_from_locale(doc->real_path);
 		sym->name = g_path_get_basename(sym->file_name);
-		sym->icon = _ICON_OTHER;
+		sym->icon = TM_ICON_OTHER;
 		g_ptr_array_add(arr, sym);
 
 		g_hash_table_insert(files_added, g_strdup(sym->file_name), GINT_TO_POINTER(1));
@@ -139,7 +139,7 @@ static void goto_file(const gchar *file_str)
 				sym = g_new0(PrjorgGotoSymbol, 1);
 				sym->file_name = g_strdup(key);
 				sym->name = g_path_get_basename(key);
-				sym->icon = _ICON_NONE;
+				sym->icon = TM_ICON_NONE;
 				g_ptr_array_add(arr, sym);
 			}
 		}
@@ -160,37 +160,37 @@ static int get_icon(TMTagType type)
 	switch (type)
 	{
 		case tm_tag_class_t:
-			return _ICON_CLASS;
+			return TM_ICON_CLASS;
 		case tm_tag_macro_t:
 		case tm_tag_macro_with_arg_t:
 		case tm_tag_undef_t:
-			return _ICON_MACRO;
+			return TM_ICON_MACRO;
 		case tm_tag_enum_t:
 		case tm_tag_struct_t:
 		case tm_tag_typedef_t:
 		case tm_tag_union_t:
-			return _ICON_STRUCT;
+			return TM_ICON_STRUCT;
 		case tm_tag_enumerator_t:
 		case tm_tag_field_t:
 		case tm_tag_member_t:
-			return _ICON_MEMBER;
+			return TM_ICON_MEMBER;
 		case tm_tag_method_t:
 		case tm_tag_function_t:
 		case tm_tag_prototype_t:
-			return _ICON_METHOD;
+			return TM_ICON_METHOD;
 		case tm_tag_interface_t:
 		case tm_tag_namespace_t:
 		case tm_tag_package_t:
-			return _ICON_NAMESPACE;
+			return TM_ICON_NAMESPACE;
 		case tm_tag_variable_t:
 		case tm_tag_externvar_t:
 		case tm_tag_local_var_t:
 		case tm_tag_include_t:
-			return _ICON_VAR;
+			return TM_ICON_VAR;
 		case tm_tag_other_t:
-			return _ICON_OTHER;
+			return TM_ICON_OTHER;
 		default:
-			return _ICON_NONE;
+			return TM_ICON_NONE;
 	}
 }
 

@@ -19,23 +19,8 @@
 #ifndef PRJORG_GOTO_PANEL_H
 #define PRJORG_GOTO_PANEL_H 1
 
-#include <glib.h>
+#include <geanyplugin.h>
 
-
-/* keep in sync with icon names in symbols.c */
-enum
-{
-	_ICON_CLASS,
-	_ICON_MACRO,
-	_ICON_MEMBER,
-	_ICON_METHOD,
-	_ICON_NAMESPACE,
-	_ICON_OTHER,
-	_ICON_STRUCT,
-	_ICON_VAR,
-	_ICON_NONE,
-	_N_ICONS = _ICON_NONE
-};
 
 typedef struct
 {
@@ -44,7 +29,7 @@ typedef struct
 	gchar *scope;
 	gchar *tooltip;
 	gint line;
-	gint icon;
+	TMIcon icon;
 } PrjorgGotoSymbol;
 
 void prjorg_goto_symbol_free(PrjorgGotoSymbol *symbol);
