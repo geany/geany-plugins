@@ -4,5 +4,4 @@ TODO
     - recent pastes history
     - URL shortening (?)
     - authentication (per-pastebin)
-    - confirmation dialog/infobar?  pasted data is potentially sensitive
     - support for Gist, which is likely the most used service
