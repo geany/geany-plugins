@@ -252,10 +252,13 @@ static const struct {
   { tm_tag_class_t,           "class"     },
   { tm_tag_enum_t,            "enum"      },
   { tm_tag_enumerator_t,      "enumval"   },
+  { tm_tag_externvar_t,       "extern"    },
   { tm_tag_field_t,           "field"     },
   { tm_tag_function_t,        "function"  },
   { tm_tag_interface_t,       "interface" },
   { tm_tag_local_var_t,       "local"     },
+  { tm_tag_macro_t,           "define"    },
+  { tm_tag_macro_with_arg_t,  "macro"     },
   { tm_tag_member_t,          "member"    },
   { tm_tag_method_t,          "method"    },
   { tm_tag_namespace_t,       "namespace" },
@@ -264,10 +267,7 @@ static const struct {
   { tm_tag_struct_t,          "struct"    },
   { tm_tag_typedef_t,         "typedef"   },
   { tm_tag_union_t,           "union"     },
-  { tm_tag_variable_t,        "variable"  },
-  { tm_tag_externvar_t,       "extern"    },
-  { tm_tag_macro_t,           "define"    },
-  { tm_tag_macro_with_arg_t,  "macro"     }
+  { tm_tag_variable_t,        "variable"  }
 };
 
 /**
