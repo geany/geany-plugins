@@ -128,9 +128,12 @@ ggd_doc_type_get_setting (const GgdDocType *doctype,
 {
   GgdDocSetting  *setting = NULL;
   GList          *tmp;
-  gssize          match_len = strlen (match);
+  gssize          match_len;
   
   g_return_val_if_fail (doctype != NULL, NULL);
+  g_return_val_if_fail (match != NULL, NULL);
+  
+  match_len = (gssize) strlen (match);
   
   for (tmp = doctype->settings; tmp && ! setting; tmp = g_list_next (tmp)) {
     if (ggd_doc_setting_matches (tmp->data, match, match_len)) {
@@ -177,6 +180,7 @@ ggd_doc_type_resolve_setting (const GgdDocType  *doctype,
   gchar         *child_match = NULL;
   
   g_return_val_if_fail (doctype != NULL, NULL);
+  g_return_val_if_fail (match != NULL, NULL);
   
   /*g_debug ("Resolving match \"%s\"...", child_match);*/
   if (nth_child) (*nth_child) = 0;
