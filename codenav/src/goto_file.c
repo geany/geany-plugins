@@ -248,14 +248,9 @@ entry_inline_completion_event(GtkEntryCompletion *completion, gchar *prefix, Gtk
 	if(prefix_len > entry_len)
 	{
 		entry_len_before_completion = entry_len;
-		return FALSE;
 	}
-	else
-	{
-		/* We know no completion will take place, no reason
-		 * for the default sig handler to be called... */
-		return TRUE;
-	}
+
+	return FALSE;
 }
 
 /**
