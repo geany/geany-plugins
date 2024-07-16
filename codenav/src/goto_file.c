@@ -268,17 +268,17 @@ entry_key_event(GtkEntry *entry, GdkEventKey *key, GtkEntryCompletion *completio
 
 	if(key->keyval == GDK_KEY_Tab)
 	{
-		/* The user may 'accept' the autocomplete's suggestion with the Tab key,
+		/* The user can use the Tab key to 'accept' the autocomplete's suggestion,
 		 * like in shells, and in GtkFileChoose. If there's a suggestion, it will
 		 * be selected, and we may simply move the cursor to accept it. */
 		if(gtk_editable_get_selection_bounds(GTK_EDITABLE(entry), NULL, &end_pos))
-		{
 			gtk_editable_set_position(GTK_EDITABLE(entry), end_pos);
 
-			/* Moving the cursor does not trigger the "changed" event. Do it
-			 * manually, to caclulate & show completions for the new path. */
-			g_signal_emit_by_name(entry, "changed");
-		}
+		/* The Tab key may also be used to trigger the autocomplete list
+		 * to show up. And this trigger right here after 'accepting' an
+		 * autocomplete suggestion is also useful in order to calculate
+		 * and show completions for the new path. */
+		g_signal_emit_by_name(entry, "changed");
 
 		/* The 2nd purpose of the Tab key is to trigger the procedure that
 		 * calculates and suggests an inline completion. FYI doing this here
@@ -360,6 +360,13 @@ create_dialog(GtkWidget **dialog)
 	gtk_entry_completion_set_text_column (completion, 0);
 	gtk_entry_completion_set_minimum_key_length(completion, 0);
 
+	/* Initialize a model for the completion, to avoid errors in code that
+	 * might attempt to utilize it, before any 'changed' events are fired. */
+	directory_check(GTK_ENTRY(entry), completion);
+
+	/* Manual trigger to show the completion list as soon as the dialog opens */
+	g_signal_emit_by_name(entry, "changed");
+
 	/* Signals */
 	g_signal_connect_after(entry, "changed",
 		G_CALLBACK(directory_check), completion);
@@ -369,11 +376,6 @@ create_dialog(GtkWidget **dialog)
 	/* The completion object is tracked in the entry. We may release our local
 	 * reference, and it will be deallocated when the entry is destroyed. */
 	g_object_unref(completion);
-
-	/* Manual trigger to invoke directory_check to put together
-	 * a completion model (for the reference dirrectory), and to
-	 * show the completion options as soon as the dialog opens. */
-	g_signal_emit_by_name(entry, "changed");
 
 	gtk_widget_show_all(*dialog);
 
