@@ -1,0 +1,11 @@
+addons/src/ao_bookmarklist.c
+addons/src/ao_tasks.c
+addons/src/ao_systray.c
+addons/src/ao_blanklines.c
+addons/src/ao_markword.c
+addons/src/ao_xmltagging.c
+addons/src/ao_openuri.c
+addons/src/ao_wrapwords.c
+addons/src/ao_doclist.c
+addons/src/ao_copyfilepath.c
+addons/src/addons.c
