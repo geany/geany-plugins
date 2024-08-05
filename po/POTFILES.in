@@ -205,6 +205,7 @@ pretty-printer/src/PluginEntry.c
 pretty-printer/src/ConfigUI.c
 
 # ProjectOrganizer
+projectorganizer/src/prjorg-goto-anywhere.c
 projectorganizer/src/prjorg-main.c
 projectorganizer/src/prjorg-menu.c
 projectorganizer/src/prjorg-project.c
