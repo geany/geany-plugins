@@ -156,6 +156,13 @@ Project Organizer adds some extra entries under the Project menu:
   the properties, it opens a project file with the same base name (without extension)
   matching header patterns (and vice versa). If the files are already open, it
   just switches the document tabs. Nothing happens if no matching file is found.
+* Go to anywhere, Go to document symbol, Go to workspace symbol, Go to line -
+  these items allow to perform jump to the entered destination. The popup window is
+  identical for all of these actions, the only difference is the pre-filled prefix
+  that determines the type of the go to. No prefix performs the search in open and
+  project files, @ performs the search in current document's symbols, # performs
+  the search in all workspace symbols, and : performs navigation to the specified
+  line.
 
 Each of these entries can be assigned a key binding under Edit->Preferences->Keybindings.
 
