@@ -59,6 +59,13 @@ debugger/src/atree.c
 # defineformat
 defineformat/src/defineformat.c
 
+# devhelp
+devhelp/src/dhp.h
+devhelp/src/dhp-object.c
+devhelp/src/dhp-plugin.c
+devhelp/src/dhp-manpages.c
+devhelp/src/dhp-settings.c
+
 # geanyctags
 geanyctags/src/geanyctags.c
 

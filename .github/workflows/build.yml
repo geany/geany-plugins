@@ -7,10 +7,10 @@ name: CI Build
 on:
   push:
     branches:
-      - master
+      - devhelpplugin
   pull_request:
     branches:
-      - master
+      - devhelpplugin
   workflow_dispatch:
 
 # cancel already running builds of the same branch or pull request
@@ -117,6 +117,12 @@ jobs:
             check
             # debugger
             libvte-2.91-dev
+            # devhelp
+            libwebkit2gtk-4.0-dev
+            libdevhelp-dev
+            libwnck-dev
+            libgconf2-dev
+            zlib1g-dev
             # geanygendoc
             libctpl-dev
             # geanylua
