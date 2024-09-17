@@ -105,7 +105,8 @@ LspLocation *lsp_utils_parse_location(GVariant *variant);
 GPtrArray *lsp_utils_parse_locations(GVariantIter *iter);
 
 void lsp_utils_apply_text_edit(ScintillaObject *sci, LspTextEdit *e, gboolean process_snippets);
-void lsp_utils_apply_text_edits(ScintillaObject *sci, LspTextEdit *edit, GPtrArray *edits);
+void lsp_utils_apply_text_edits(ScintillaObject *sci, LspTextEdit *edit, GPtrArray *edits,
+	gboolean process_snippets);
 gboolean lsp_utils_apply_workspace_edit(GVariant *workspace_edit);
 
 gboolean lsp_utils_wrap_string(gchar *string, gint wrapstart);

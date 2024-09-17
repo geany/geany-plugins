@@ -133,24 +133,39 @@ void lsp_sync_text_document_did_close(LspServer *server, GeanyDocument *doc)
 
 void lsp_sync_text_document_did_save(LspServer *server, GeanyDocument *doc)
 {
+	gchar *doc_uri;
 	GVariant *node;
-	gchar *doc_uri = lsp_utils_get_doc_uri(doc);
-	gchar *doc_text = sci_get_contents(doc->editor->sci, -1);
 
-	node = JSONRPC_MESSAGE_NEW (
-		"textDocument", "{",
-			"uri", JSONRPC_MESSAGE_PUT_STRING(doc_uri),
-		"}",
-		"text", JSONRPC_MESSAGE_PUT_STRING(doc_text)
-	);
+	if (!server->send_did_save)
+		return;
+
+	doc_uri = lsp_utils_get_doc_uri(doc);
+
+	if (server->include_text_on_save)
+	{
+		gchar *doc_text = sci_get_contents(doc->editor->sci, -1);
+		node = JSONRPC_MESSAGE_NEW (
+			"textDocument", "{",
+				"uri", JSONRPC_MESSAGE_PUT_STRING(doc_uri),
+			"}",
+			"text", JSONRPC_MESSAGE_PUT_STRING(doc_text)
+		);
+		g_free(doc_text);
+	}
+	else
+	{
+		node = JSONRPC_MESSAGE_NEW (
+			"textDocument", "{",
+				"uri", JSONRPC_MESSAGE_PUT_STRING(doc_uri),
+			"}"
+		);
+	}
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
 	lsp_rpc_notify(server, "textDocument/didSave", node, NULL, NULL);
 
 	g_free(doc_uri);
-	g_free(doc_text);
-
 	g_variant_unref(node);
 }
 

@@ -94,9 +94,9 @@ static void free_autocomplete_symbol(gpointer data)
 }
 
 
-static const gchar *get_symbol_label(LspServer *server, LspAutocompleteSymbol *sym)
+static const gchar *get_label(LspAutocompleteSymbol *sym, gboolean use_label)
 {
-	if (server->config.autocomplete_use_label && sym->label)
+	if (use_label && sym->label)
 		return sym->label;
 
 	if (sym->text_edit && sym->text_edit->new_text)
@@ -107,6 +107,32 @@ static const gchar *get_symbol_label(LspServer *server, LspAutocompleteSymbol *s
 		return sym->label;
 
 	return "";
+}
+
+
+static gchar *get_symbol_label(LspServer *server, LspAutocompleteSymbol *sym)
+{
+	gchar *label = g_strdup(get_label(sym, server->config.autocomplete_use_label));
+	gchar *pos;
+
+	// remove stuff after newlines (we don't want them in the popup plus \n
+	// is used as the autocompletion list separator)
+	pos = strchr(label, '\n');
+	if (pos)
+		*pos = '\0';
+	pos = strchr(label, '\r');
+	if (pos)
+		*pos = '\0';
+
+	// ? used by Scintilla for icon specification
+	pos = strchr(label, '?');
+	if (pos)
+		*pos = ' ';
+	pos = strchr(label, '\t');
+	if (pos)
+		*pos = ' ';
+
+	return label;
 }
 
 
@@ -150,9 +176,9 @@ void lsp_autocomplete_item_selected(LspServer *server, GeanyDocument *doc, guint
 	if (sel_num == 1 && sym->text_edit && sent_request_id == received_request_id)
 	{
 		if (server->config.autocomplete_apply_additional_edits && sym->additional_edits)
-			lsp_utils_apply_text_edits(sci, sym->text_edit, sym->additional_edits);
+			lsp_utils_apply_text_edits(sci, sym->text_edit, sym->additional_edits, sym->is_snippet);
 		else
-			lsp_utils_apply_text_edit(sci, sym->text_edit, TRUE);
+			lsp_utils_apply_text_edit(sci, sym->text_edit, sym->is_snippet);
 	}
 	else
 	{
@@ -172,7 +198,7 @@ void lsp_autocomplete_item_selected(LspServer *server, GeanyDocument *doc, guint
 				text_edit.range.start = lsp_utils_scintilla_pos_to_lsp(sci, pos - rootlen);
 				text_edit.range.end = lsp_utils_scintilla_pos_to_lsp(sci, pos);
 
-				lsp_utils_apply_text_edit(sci, &text_edit, sym->insert_text != NULL);
+				lsp_utils_apply_text_edit(sci, &text_edit, sym->is_snippet);
 			}
 		}
 
@@ -211,7 +237,7 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 	ScintillaObject *sci = doc->editor->sci;
 	gint pos = sci_get_current_position(sci);
 	GString *words = g_string_sized_new(2000);
-	const gchar *label;
+	gchar *label;
 
 	for (i = 0; i < symbols->len; i++)
 	{
@@ -230,6 +256,8 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 
 		sprintf(buf, "?%u", icon_id + 1);
 		g_string_append(words, buf);
+
+		g_free(label);
 	}
 
 	lsp_autocomplete_set_displayed_symbols(symbols);
@@ -242,6 +270,7 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 		//make sure Scintilla selects the first item - see https://sourceforge.net/p/scintilla/bugs/2403/
 		label = get_symbol_label(server, symbols->pdata[0]);
 		SSM(sci, SCI_AUTOCSELECT, 0, (sptr_t)label);
+		g_free(label);
 	}
 #endif
 
@@ -353,6 +382,27 @@ static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer
 }
 
 
+static gboolean should_add(GPtrArray *symbols, const gchar *prefix)
+{
+	LspAutocompleteSymbol *sym;
+	const gchar *label;
+
+	if (symbols->len == 0)
+		return FALSE;
+
+	if (symbols->len > 1)
+		return TRUE;
+
+	// don't single value with what's already typed unless it's a snippet
+	sym = symbols->pdata[0];
+	label = get_label(sym, FALSE);
+	if (g_strcmp0(label, prefix) != 0)
+		return TRUE;
+
+	return sym->is_snippet || sym->kind == LspCompletionKindSnippet;
+}
+
+
 static void process_response(LspServer *server, GVariant *response, GeanyDocument *doc)
 {
 	//gboolean is_incomplete = FALSE;
@@ -440,14 +490,17 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	for (i = 0; i < symbols->len; i++)
 	{
 		LspAutocompleteSymbol *sym = symbols->pdata[i];
-		const gchar *display_label = get_symbol_label(server, sym);
+		gchar *display_label = get_symbol_label(server, sym);
 
 		if (g_hash_table_contains(entry_set, display_label))
+		{
 			free_autocomplete_symbol(sym);
+			g_free(display_label);
+		}
 		else
 		{
 			g_ptr_array_add(symbols_filtered, sym);
-			g_hash_table_insert(entry_set, g_strdup(display_label), NULL);
+			g_hash_table_insert(entry_set, display_label, NULL);
 		}
 	}
 
@@ -460,7 +513,7 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	/* sort with symbols matching the typed prefix first */
 	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, &sort_data);
 
-	if (symbols->len > 0)
+	if (should_add(symbols, sort_data.prefix))
 		show_tags_list(server, doc, symbols);
 	else
 	{
