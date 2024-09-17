@@ -38,7 +38,8 @@ static void goto_cb(GVariant *return_value, GError *error, gpointer user_data)
 		{
 			gchar *fname = lsp_utils_get_real_path_from_uri_locale(str);
 
-			document_open_file(fname, FALSE, NULL, NULL);
+			if (fname)
+				document_open_file(fname, FALSE, NULL, NULL);
 			g_free(fname);
 		}
 	}

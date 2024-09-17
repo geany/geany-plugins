@@ -45,7 +45,10 @@ GPtrArray *last_result;
 static void goto_location(GeanyDocument *old_doc, LspLocation *loc)
 {
 	gchar *fname = lsp_utils_get_real_path_from_uri_locale(loc->uri);
-	GeanyDocument *doc = document_open_file(fname, FALSE, NULL, NULL);
+	GeanyDocument *doc = NULL;
+
+	if (fname)
+		doc = document_open_file(fname, FALSE, NULL, NULL);
 
 	if (doc)
 		navqueue_goto_line(old_doc, doc, loc->range.start.line + 1);
@@ -70,12 +73,18 @@ static void filter_symbols(const gchar *filter)
 
 static void show_in_msgwin(LspLocation *loc, GHashTable *sci_table)
 {
-	gchar *fname = lsp_utils_get_real_path_from_uri_utf8(loc->uri);
-	gchar *base_path = lsp_utils_get_project_base_path();
-	GeanyDocument *doc = document_find_by_filename(fname);
 	ScintillaObject *sci = NULL;
 	gint lineno = loc->range.start.line;
+	gchar *fname, *base_path;
+	GeanyDocument *doc;
 	gchar *line_str;
+
+	fname = lsp_utils_get_real_path_from_uri_utf8(loc->uri);
+	if (!fname)
+		return;
+
+	doc = document_find_by_filename(fname);
+	base_path = lsp_utils_get_project_base_path();
 
 	if (doc)
 		sci = doc->editor->sci;
@@ -178,6 +187,9 @@ static void goto_cb(GVariant *return_value, GError *error, gpointer user_data)
 							LspSymbol *sym;
 
 							file_name = lsp_utils_get_real_path_from_uri_utf8(loc->uri);
+							if (!file_name)
+								continue;
+
 							name = g_path_get_basename(file_name);
 
 							sym = lsp_symbol_new(name, "", "", file_name, 0, 0, loc->range.start.line + 1, 0,

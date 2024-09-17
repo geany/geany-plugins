@@ -268,9 +268,12 @@ static GVariant *show_document(LspServer *srv, GVariant *params)
 		else if (g_str_has_prefix(uri, "file://"))
 		{
 			gchar *fname = lsp_utils_get_real_path_from_uri_locale(uri);
-			document_open_file(fname, FALSE, NULL, NULL);
-			g_free(fname);
-			success = TRUE;
+			if (fname)
+			{
+				document_open_file(fname, FALSE, NULL, NULL);
+				g_free(fname);
+				success = TRUE;
+			}
 		}
 	}
 
@@ -487,16 +490,19 @@ void lsp_rpc_notify(LspServer *srv, const gchar *method, GVariant *params,
 		method, params, NULL, NULL);
 
 	/* Two hacks in one:
-	 * 1. gopls requires that the params member is present (jsonrpc-glib removes
-	 *    it when there are no parameters which is jsonrpc compliant)
-	 * 2. haskell-language-server also requires params present _unless_ it's the
-	 *    "exit" notifications, where, if "params" present, it fails to
-	 *    terminate
+	 * 1. some servers (e.g. gopls) require that the params member is present
+	 *    (jsonrpc-glib removes it when there are no parameters which is jsonrpc
+	 *    compliant)
+	 * 2. haskell-language-server or nil require that the "exit" notification
+	 *    has no params member
 	 */
-	if (!params && !(srv->filetype == GEANY_FILETYPES_HASKELL && g_strcmp0(method, "exit") == 0))
+	if (!params && g_strcmp0(method, "exit") != 0)
 	{
-		params = JSONRPC_MESSAGE_NEW("gopls_bug_workarond",
-			JSONRPC_MESSAGE_PUT_STRING("https://github.com/golang/go/issues/57459"));
+		GVariantDict dict;
+
+		g_variant_dict_init(&dict, NULL);
+		params = g_variant_take_ref(g_variant_dict_end(&dict));
+
 		params_added = TRUE;
 	}
 

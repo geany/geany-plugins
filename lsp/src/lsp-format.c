@@ -49,7 +49,7 @@ static void format_cb(GVariant *return_value, GError *error, gpointer user_data)
 		edits = lsp_utils_parse_text_edits(&iter);
 
 		sci_start_undo_action(doc->editor->sci);
-		lsp_utils_apply_text_edits(doc->editor->sci, NULL, edits);
+		lsp_utils_apply_text_edits(doc->editor->sci, NULL, edits, FALSE);
 		sci_end_undo_action(doc->editor->sci);
 
 		g_ptr_array_free(edits, TRUE);

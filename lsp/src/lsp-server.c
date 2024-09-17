@@ -365,6 +365,52 @@ static gboolean use_incremental_sync(GVariant *node)
 }
 
 
+static gboolean send_did_save(GVariant *node)
+{
+	gboolean val;
+	gboolean success = JSONRPC_MESSAGE_PARSE(node,
+		"capabilities", "{",
+			"textDocumentSync", "{",
+				"save", JSONRPC_MESSAGE_GET_BOOLEAN(&val),
+			"}",
+		"}");
+
+	if (!success)
+	{
+		GVariant *var = NULL;
+
+		JSONRPC_MESSAGE_PARSE(node,
+			"capabilities", "{",
+				"textDocumentSync", "{",
+					"save", JSONRPC_MESSAGE_GET_VARIANT(&var),
+				"}",
+			"}");
+
+		success = val = var != NULL;
+		if (var)
+			g_variant_unref(var);
+	}
+
+	return success && val;
+}
+
+
+static gboolean include_text_on_save(GVariant *node)
+{
+	gboolean val;
+	gboolean success = JSONRPC_MESSAGE_PARSE(node,
+		"capabilities", "{",
+			"textDocumentSync", "{",
+				"save", "{",
+					"includeText", JSONRPC_MESSAGE_GET_BOOLEAN(&val),
+				"}",
+			"}",
+		"}");
+
+	return success && val;
+}
+
+
 static gboolean use_workspace_folders(GVariant *node)
 {
 	gboolean change_notifications = FALSE;
@@ -492,6 +538,8 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		update_config(return_value, &s->supports_workspace_symbols, "workspaceSymbolProvider");
 
 		s->use_incremental_sync = use_incremental_sync(return_value);
+		s->send_did_save = send_did_save(return_value);
+		s->include_text_on_save = include_text_on_save(return_value);
 		s->use_workspace_folders = use_workspace_folders(return_value);
 
 		s->initialize_response = lsp_utils_json_pretty_print(return_value);
@@ -554,8 +602,6 @@ static void perform_initialize(LspServer *server)
 		"}",
 		"textDocument", "{",
 			"synchronization", "{",
-				"willSave", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-				"willSaveWaitUntil", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
 				"didSave", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 			"}",
 			"completion", "{",
@@ -587,7 +633,6 @@ static void perform_initialize(LspServer *server)
 			"}",
 			"semanticTokens", "{",
 				"requests", "{",
-					"range", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
 					"full", "{",
 						"delta", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 					"}",
@@ -624,9 +669,6 @@ static void perform_initialize(LspServer *server)
 				"formats", "[",
 					"relative",
 				"]",
-				"overlappingTokenSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-				"multilineTokenSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
-				"serverCancelSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(FALSE),
 				"augmentsSyntaxTokens", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 			"}",
 		"}",
