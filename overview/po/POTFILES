@@ -1,0 +1,7 @@
+overview/overview/overviewcolor.c
+overview/overview/overviewplugin.c
+overview/overview/overviewprefs.c
+overview/overview/overviewprefspanel.c
+overview/overview/overviewscintilla.c
+overview/overview/overviewui.c
+[type: gettext/glade]overview/data/prefs.ui

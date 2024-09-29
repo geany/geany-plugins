@@ -1,0 +1,3 @@
+pretty-printer/src/PrettyPrinter.c
+pretty-printer/src/PluginEntry.c
+pretty-printer/src/ConfigUI.c
