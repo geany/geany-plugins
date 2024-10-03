@@ -389,6 +389,22 @@
 }
 
 
+// -----------------------------------------------------------------------------
+    static gboolean is_ignore_style(
+        ScintillaObject *sci,
+        gint position
+    )
+/*
+    check if position is part of non source section
+----------------------------------------------------------------------------- */
+{
+    gint style = SSM(sci, SCI_GETSTYLEAT, position, BC_NO_ARG);
+    gint lexer = sci_get_lexer(sci);
+
+    return not highlighting_is_code_style(lexer, style);
+}
+
+
 
 // -----------------------------------------------------------------------------
     static gint compute_bracket_at(
@@ -399,10 +415,19 @@
     )
 /*
     compute bracket at position
+    braceIdentity == -1 : unknown start brace
+    braceIdentity == -2 : invalid computation
 ----------------------------------------------------------------------------- */
 {
     gint matchedBrace = SSM(sci, SCI_BRACEMATCH, position, BC_NO_ARG);
     gint braceIdentity = position;
+
+    if (is_ignore_style(sci, position) or is_ignore_style(sci, matchedBrace)) {
+        // https://www.scintilla.org/ScintillaDoc.html#SCI_BRACEMATCH
+        // A match only occurs if the style of the matching brace is the same as
+        // the starting brace or the matching brace is beyond the end of styling.
+        return -2;
+    }
 
     if (matchedBrace != -1) {
 
@@ -436,24 +461,6 @@
     return braceIdentity;
 }
 
-
-
-// -----------------------------------------------------------------------------
-    static gboolean is_ignore_style(
-        BracketColorsData *data,
-        gint position
-    )
-/*
-    check if position is part of non source section
------------------------------------------------------------------------------ */
-{
-    ScintillaObject *sci = data->doc->editor->sci;
-
-    gint style = SSM(sci, SCI_GETSTYLEAT, position, BC_NO_ARG);
-    gint lexer = sci_get_lexer(sci);
-
-    return not highlighting_is_code_style(lexer, style);
-}
 
 
 
@@ -975,48 +982,81 @@
         data->init = TRUE;
     }
 
-    if (data->recomputeIndicies.size()) {
+    if (not data->recomputeIndicies.size()) {
+        return TRUE;
+    }
 
-        ScintillaObject *sci = data->doc->editor->sci;
+    ScintillaObject *sci = data->doc->editor->sci;
 
-        guint numIterations = 0;
-        for (
-            auto position = data->recomputeIndicies.begin();
-            position != data->recomputeIndicies.end();
-            numIterations++
-        )
-        {
-            for (gint bracketType = 0; bracketType < BracketType::COUNT; bracketType++) {
+    // If we encounter an error computing the brace due to styles changing
+    // it can through off the color orders for entire blocks. If this happens,
+    // just redo the computations which will get fixed once styling settles.
+    std::set<BracketMap::Index> recomputedPositions;
+    gboolean recalculate = FALSE;
 
-                BracketMap &bracketMap = data->bracketMaps[bracketType];
+    guint numIterations = 0;
+    for (
+        auto position = data->recomputeIndicies.begin();
+        position != data->recomputeIndicies.end();
+        numIterations++
+    )
+    {
+        for (gint bracketType = 0; bracketType < BracketType::COUNT; bracketType++) {
 
-                if (
-                    is_bracket_type(
-                        sci_get_char_at(sci, *position),
-                        static_cast<BracketType>(bracketType)
-                    )
-                ) {
-                    // check if in a comment
-                    if (is_ignore_style(data, *position)) {
-                        bracketMap.mBracketMap.erase(*position);
-                        clear_bc_indicators(sci, *position, 1);
-                    }
-                    else {
-                        gint brace = compute_bracket_at(sci, bracketMap, *position);
-                        if (brace >= 0) {
-                            data->redrawIndicies.insert(brace);
+            BracketMap &bracketMap = data->bracketMaps[bracketType];
+
+            if (
+                is_bracket_type(
+                    sci_get_char_at(sci, *position),
+                    static_cast<BracketType>(bracketType)
+                )
+            ) {
+                // check if in a comment
+                if (is_ignore_style(sci, *position)) {
+                    // check if the closing bracket in a comment needs to be cleared
+                    auto it = bracketMap.mBracketMap.find(*position);
+                    if (it != bracketMap.mBracketMap.end()) {
+                        auto length = BracketMap::GetLength(it->second);
+                        if (length != BracketMap::UNDEFINED) {
+                            clear_bc_indicators(sci, (*position) + length, 1);
                         }
-                        data->updateUI = TRUE;
+                        bracketMap.mBracketMap.erase(it->first);
                     }
+                    clear_bc_indicators(sci, *position, 1);
                 }
-            }
+                else {
+                    gint brace = compute_bracket_at(sci, bracketMap, *position);
+                    recomputedPositions.insert(*position);
+                    if (brace >= 0) {
+                        data->redrawIndicies.insert(brace);
+                    }
+                    else if (brace == -2) {
+                        // Tried to brace match across nonsource which can
+                        // have different sylings. Need to redo computations
+                        recalculate = TRUE;
+                    }
+                    data->updateUI = TRUE;
+                }
 
-            position = data->recomputeIndicies.erase(position);
-            if (numIterations >= sIterationLimit) {
                 break;
             }
         }
 
+        position = data->recomputeIndicies.erase(position);
+
+        if (numIterations >= sIterationLimit) {
+            break;
+        }
+    }
+
+    if (recalculate) {
+        // Redo everything we just did since it's likely wrong
+        data->recomputeIndicies.insert(
+            recomputedPositions.begin(),
+            recomputedPositions.end()
+        );
+    }
+    else {
         if (data->updateUI) {
             for (gint bracketType = 0; bracketType < BracketType::COUNT; bracketType++) {
                 BracketMap &bracketMap = data->bracketMaps[bracketType];
@@ -1025,6 +1065,7 @@
             }
         }
     }
+
 
     return TRUE;
 }
