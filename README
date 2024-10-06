@@ -68,6 +68,7 @@ Available plugins are:
 * ``geniuspaste`` -- the paste to a pastebin plugin
 * ``gitchangebar`` -- the GitChangeBar plugin
 * ``gtkspell`` -- GeanyVC's spell-check support
+* ``incdec`` -- the Increment/Decrement plugin
 * ``latex`` -- the LaTeX plugin
 * ``lineoperations`` -- simple line functions that can be applied to an open file
 * ``lipsum`` -- the Lipsum plugin
