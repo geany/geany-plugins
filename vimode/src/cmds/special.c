@@ -94,7 +94,7 @@ static void search_current(CmdContext *c, CmdParams *p, gboolean next)
 	else
 	{
 		const gchar *prefix = next ? "/" : "?";
-		c->search_text = g_strconcat(prefix, word, NULL);
+		c->search_text = g_strconcat(prefix, "\\<", word, "\\>", NULL);
 	}
 	g_free(word);
 
