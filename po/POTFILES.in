@@ -19,6 +19,9 @@ autoclose/src/autoclose.c
 # Automark
 automark/src/automark.c
 
+# bracketcolors
+bracketcolors/src/bracketcolors.cc
+
 # codenav
 codenav/src/codenavigation.c
 codenav/src/goto_file.c
