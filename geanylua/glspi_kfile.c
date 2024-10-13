@@ -12,6 +12,8 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
+#include "glspi_compat.h"
+
 #define LUA_MODULE_NAME "keyfile"
 #define MetaName "_g_key_file_metatable"
 

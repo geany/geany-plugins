@@ -35,6 +35,7 @@
 #include <lualib.h>
 #include <lauxlib.h>
 
+#include "glspi_compat.h"
 
 #define GSDLG_ALL_IN_ONE
 #include "gsdlg.h"
