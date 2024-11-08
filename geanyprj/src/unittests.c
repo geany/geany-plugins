@@ -25,12 +25,6 @@ file_teardown(void)
 	system("rm -rf test_list_dir");
 }
 
-gboolean
-true(G_GNUC_UNUSED const gchar * arg)
-{
-	return TRUE;
-}
-
 START_TEST(test_get_file_list)
 {
 	GSList *files = get_file_list("test_list_dir", NULL, NULL, NULL);
