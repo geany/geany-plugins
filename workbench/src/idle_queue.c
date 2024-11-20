@@ -94,6 +94,16 @@ static gboolean wb_idle_queue_callback(gpointer foo)
 			case WB_IDLE_ACTION_ID_TM_SOURCE_FILES_REMOVE:
 				wb_tm_control_source_files_remove(action->param_a);
 			break;
+#if GEANY_API_VERSION >= 240
+			case WB_IDLE_ACTION_ID_OPEN_PROJECT_BY_DOC:
+				workbench_open_project_by_filename(wb_globals.opened_wb, action->param_a);
+				g_free(action->param_a);
+			break;
+#endif
+			case WB_IDLE_ACTION_ID_OPEN_DOC:
+				document_open_file(action->param_a, FALSE, NULL, NULL);
+				g_free(action->param_a);
+			break;
 		}
 	}
 
@@ -130,5 +140,5 @@ void wb_idle_queue_add_action(WB_IDLE_QUEUE_ACTION_ID id, gpointer param_a)
 		plugin_idle_add(wb_globals.geany_plugin, (GSourceFunc)wb_idle_queue_callback, NULL);
 	}
 
-	s_idle_actions = g_slist_prepend(s_idle_actions, action);
+	s_idle_actions = g_slist_append(s_idle_actions, action);
 }
