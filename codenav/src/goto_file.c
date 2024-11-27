@@ -364,9 +364,6 @@ create_dialog(GtkWidget **dialog)
 	 * might attempt to utilize it, before any 'changed' events are fired. */
 	directory_check(GTK_ENTRY(entry), completion);
 
-	/* Manual trigger to show the completion list as soon as the dialog opens */
-	g_signal_emit_by_name(entry, "changed");
-
 	/* Signals */
 	g_signal_connect_after(entry, "changed",
 		G_CALLBACK(directory_check), completion);
