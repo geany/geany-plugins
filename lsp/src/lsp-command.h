@@ -30,6 +30,7 @@ typedef struct
 	gchar *command;
 	GVariant *arguments;
 	GVariant *edit;
+	GVariant *data;
 } LspCommand;
 
 typedef gboolean (*CodeActionCallback) (GPtrArray *actions, gpointer user_data);

@@ -26,6 +26,8 @@
 
 #include <jsonrpc-glib.h>
 
+#define HIGHLIGHT_DIRTY "lsp_highlight_dirty"
+
 
 typedef struct {
 	GeanyDocument *doc;
@@ -35,12 +37,17 @@ typedef struct {
 } LspHighlightData;
 
 
+extern GeanyPlugin *geany_plugin;
+extern GeanyData *geany_data;
+
 static gint indicator;
-static gboolean dirty;
+static gint64 last_request_time;
+static gint request_source;
 
 
 void lsp_highlight_clear(GeanyDocument *doc)
 {
+	gboolean dirty = GPOINTER_TO_UINT(plugin_get_document_data(geany_plugin, doc, HIGHLIGHT_DIRTY));
 	if (dirty)
 	{
 		ScintillaObject *sci = doc->editor->sci;
@@ -48,7 +55,7 @@ void lsp_highlight_clear(GeanyDocument *doc)
 		if (indicator > 0)
 			sci_indicator_set(sci, indicator);
 		sci_indicator_clear(sci, 0, sci_get_length(sci));
-		dirty = FALSE;
+		plugin_set_document_data(geany_plugin, doc, HIGHLIGHT_DIRTY, GUINT_TO_POINTER(FALSE));
 	}
 }
 
@@ -65,7 +72,7 @@ void lsp_highlight_style_init(GeanyDocument *doc)
 
 	if (indicator > 0)
 	{
-		dirty = TRUE;
+		plugin_set_document_data(geany_plugin, doc, HIGHLIGHT_DIRTY, GUINT_TO_POINTER(TRUE));
 		lsp_highlight_clear(doc);
 	}
 	indicator = lsp_utils_set_indicator_style(sci, srv->config.highlighting_style);
@@ -82,7 +89,7 @@ static void highlight_range(GeanyDocument *doc, LspRange range)
 
 	if (indicator > 0)
 		editor_indicator_set_on_range(doc->editor, indicator, start_pos, end_pos);
-	dirty = TRUE;
+	plugin_set_document_data(geany_plugin, doc, HIGHLIGHT_DIRTY, GUINT_TO_POINTER(TRUE));
 }
 
 
@@ -193,6 +200,7 @@ static void send_request(LspServer *server, GeanyDocument *doc, gint pos, gboole
 		data->highlight = highlight;
 		lsp_rpc_call(server, "textDocument/documentHighlight", node,
 			highlight_cb, data);
+		last_request_time = g_get_monotonic_time();
 	}
 	else
 		lsp_highlight_clear(doc);
@@ -204,14 +212,56 @@ static void send_request(LspServer *server, GeanyDocument *doc, gint pos, gboole
 }
 
 
-void lsp_highlight_send_request(LspServer *server, GeanyDocument *doc)
+static gboolean request_idle(gpointer data)
+{
+	GeanyDocument *doc = document_get_current();
+	LspServer *srv;
+	gint pos;
+
+	request_source = 0;
+
+	srv = lsp_server_get_if_running(doc);
+	if (!srv)
+		return G_SOURCE_REMOVE;
+
+	pos = sci_get_current_position(doc->editor->sci);
+
+	send_request(srv, doc, pos, TRUE);
+
+	return G_SOURCE_REMOVE;
+}
+
+
+void lsp_highlight_schedule_request(GeanyDocument *doc)
 {
 	gint pos = sci_get_current_position(doc->editor->sci);
+	LspServer *srv = lsp_server_get_if_running(doc);
+	gchar *iden;
 
-	if (!doc || !doc->real_path)
+	if (!srv)
 		return;
 
-	send_request(server, doc, pos, TRUE);
+	iden = lsp_utils_get_current_iden(doc, pos, srv->config.word_chars);
+	if (!iden)
+	{
+		lsp_highlight_clear(doc);
+		// cancel request because we have an up-to-date information there's nothing
+		// to highlight
+		if (request_source != 0)
+			g_source_remove(request_source);
+		request_source = 0;
+		return;
+	}
+	g_free(iden);
+
+	if (request_source != 0)
+		g_source_remove(request_source);
+	request_source = 0;
+
+	if (last_request_time == 0 || g_get_monotonic_time() > last_request_time + 300000)
+		request_idle(NULL);
+	else
+		request_source = plugin_timeout_add(geany_plugin, 300, request_idle, NULL);
 }
 
 

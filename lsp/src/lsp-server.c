@@ -159,8 +159,12 @@ static gboolean kill_cb(gpointer user_data)
 
 	if (g_ptr_array_find(servers_in_shutdown, srv, NULL))
 	{
-		msgwin_status_add(_("Killing LSP server %s"), srv->config.cmd);
+		msgwin_status_add(_("Force terminating LSP server %s"), srv->config.cmd);
+#ifdef G_OS_WIN32
 		g_subprocess_force_exit(srv->process);
+#else
+		g_subprocess_send_signal(srv->process, SIGTERM);
+#endif
 	}
 
 	return G_SOURCE_REMOVE;
@@ -206,7 +210,7 @@ static void stop_process(LspServer *s)
 	lsp_rpc_call_startup_shutdown(s, "shutdown", NULL, shutdown_cb, s);
 
 	// should not be performed if server behaves correctly
-	plugin_timeout_add(geany_plugin, 5000, kill_cb, s);
+	plugin_timeout_add(geany_plugin, 4000, kill_cb, s);
 }
 
 
@@ -240,38 +244,6 @@ static gchar *get_autocomplete_trigger_chars(GVariant *node)
 	}
 
 	return g_string_free(str, FALSE);
-}
-
-
-static gboolean supports_full_semantic_tokens(GVariant *node)
-{
-	gboolean val = FALSE;
-
-	JSONRPC_MESSAGE_PARSE(node,
-		"capabilities", "{",
-			"semanticTokensProvider", "{",
-				"full", JSONRPC_MESSAGE_GET_BOOLEAN(&val),
-			"}",
-		"}");
-
-	return val;
-}
-
-
-static gboolean supports_delta_semantic_tokens(GVariant *node)
-{
-	gboolean val = FALSE;
-
-	JSONRPC_MESSAGE_PARSE(node,
-		"capabilities", "{",
-			"semanticTokensProvider", "{",
-				"full", "{",
-					"delta", JSONRPC_MESSAGE_GET_BOOLEAN(&val),
-				"}",
-			"}",
-		"}");
-
-	return val;
 }
 
 
@@ -319,6 +291,7 @@ static guint64 get_semantic_token_mask(LspServer *srv, GVariant *node)
 static gchar *get_signature_trigger_chars(GVariant *node)
 {
 	GVariantIter *iter = NULL;
+	GVariantIter *iter2 = NULL;
 	GString *str = g_string_new("");
 
 	JSONRPC_MESSAGE_PARSE(node,
@@ -328,12 +301,31 @@ static gchar *get_signature_trigger_chars(GVariant *node)
 			"}",
 		"}");
 
+	JSONRPC_MESSAGE_PARSE(node,
+		"capabilities", "{",
+			"signatureHelpProvider", "{",
+				"retriggerCharacters", JSONRPC_MESSAGE_GET_ITER(&iter2),
+			"}",
+		"}");
+
 	if (iter)
 	{
 		GVariant *val = NULL;
 		while (g_variant_iter_loop(iter, "v", &val))
 			g_string_append(str, g_variant_get_string(val, NULL));
 		g_variant_iter_free(iter);
+	}
+
+	if (iter2)
+	{
+		GVariant *val = NULL;
+		while (g_variant_iter_loop(iter2, "v", &val))
+		{
+			const gchar *chr = g_variant_get_string(val, NULL);
+			if (!strstr(str->str, chr))
+				g_string_append(str, chr);
+		}
+		g_variant_iter_free(iter2);
 	}
 
 	return g_string_free(str, FALSE);
@@ -362,52 +354,6 @@ static gboolean use_incremental_sync(GVariant *node)
 	// not supporting "0", i.e. no sync - not sure if any server uses it and how
 	// Geany could work with it
 	return success && val == 2;
-}
-
-
-static gboolean send_did_save(GVariant *node)
-{
-	gboolean val;
-	gboolean success = JSONRPC_MESSAGE_PARSE(node,
-		"capabilities", "{",
-			"textDocumentSync", "{",
-				"save", JSONRPC_MESSAGE_GET_BOOLEAN(&val),
-			"}",
-		"}");
-
-	if (!success)
-	{
-		GVariant *var = NULL;
-
-		JSONRPC_MESSAGE_PARSE(node,
-			"capabilities", "{",
-				"textDocumentSync", "{",
-					"save", JSONRPC_MESSAGE_GET_VARIANT(&var),
-				"}",
-			"}");
-
-		success = val = var != NULL;
-		if (var)
-			g_variant_unref(var);
-	}
-
-	return success && val;
-}
-
-
-static gboolean include_text_on_save(GVariant *node)
-{
-	gboolean val;
-	gboolean success = JSONRPC_MESSAGE_PARSE(node,
-		"capabilities", "{",
-			"textDocumentSync", "{",
-				"save", "{",
-					"includeText", JSONRPC_MESSAGE_GET_BOOLEAN(&val),
-				"}",
-			"}",
-		"}");
-
-	return success && val;
 }
 
 
@@ -455,33 +401,74 @@ static gboolean use_workspace_folders(GVariant *node)
 }
 
 
-static void update_config(GVariant *variant, gboolean *option, const gchar *key)
+static gboolean has_capability(GVariant *variant, const gchar *key1, const gchar *key2, const gchar *key3)
 {
 	gboolean val = FALSE;
-	gboolean success = JSONRPC_MESSAGE_PARSE(variant,
-		"capabilities", "{",
-			key, JSONRPC_MESSAGE_GET_BOOLEAN(&val),
-		"}");
+	GVariant *var = NULL;
+	gboolean success;
 
-	if (success)  // explicit TRUE, FALSE
-	{
-		if (!val)
-			*option = FALSE;
-	}
-	else  // dict (possibly just empty) which also indicates TRUE
-	{
-		GVariant *var = NULL;
-
-		JSONRPC_MESSAGE_PARSE(variant,
+	if (key2 && key3)
+		success = JSONRPC_MESSAGE_PARSE(variant,
 			"capabilities", "{",
-				key, JSONRPC_MESSAGE_GET_VARIANT(&var),
+				key1, "{",
+					key2, "{",
+						key3, JSONRPC_MESSAGE_GET_BOOLEAN(&val),
+					"}",
+				"}",
+			"}");
+	else if (key2)
+		success = JSONRPC_MESSAGE_PARSE(variant,
+			"capabilities", "{",
+				key1, "{",
+					key2, JSONRPC_MESSAGE_GET_BOOLEAN(&val),
+				"}",
+			"}");
+	else
+		success = JSONRPC_MESSAGE_PARSE(variant,
+			"capabilities", "{",
+				key1, JSONRPC_MESSAGE_GET_BOOLEAN(&val),
 			"}");
 
-		if (var)
-			g_variant_unref(var);
-		else
-			*option = FALSE;
+	// explicit TRUE, FALSE
+	if (success)
+		return val;
+
+	// dict (possibly just empty) which also indicates TRUE
+	if (key2 && key3)
+		JSONRPC_MESSAGE_PARSE(variant,
+			"capabilities", "{",
+				key1, "{",
+					key2, "{",
+						key3, JSONRPC_MESSAGE_GET_VARIANT(&var),
+					"}",
+				"}",
+			"}");
+	else if (key2)
+		JSONRPC_MESSAGE_PARSE(variant,
+			"capabilities", "{",
+				key1, "{",
+					key2, JSONRPC_MESSAGE_GET_VARIANT(&var),
+				"}",
+			"}");
+	else
+		JSONRPC_MESSAGE_PARSE(variant,
+			"capabilities", "{",
+				key1, JSONRPC_MESSAGE_GET_VARIANT(&var),
+			"}");
+
+	if (var)
+	{
+		g_variant_unref(var);
+		return TRUE;
 	}
+
+	return FALSE;
+}
+
+
+static void update_config(GVariant *variant, gboolean *option, const gchar *key)
+{
+	*option = *option && has_capability(variant, key, NULL, NULL);
 }
 
 
@@ -516,6 +503,7 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		if (EMPTY(s->signature_trigger_chars))
 			s->config.signature_enable = FALSE;
 
+		update_config(return_value, &s->config.autocomplete_enable, "completionProvider");
 		update_config(return_value, &s->config.hover_enable, "hoverProvider");
 		update_config(return_value, &s->config.hover_available, "hoverProvider");
 		update_config(return_value, &s->config.goto_enable, "definitionProvider");
@@ -533,20 +521,24 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		update_config(return_value, &s->config.execute_command_enable, "executeCommandProvider");
 		update_config(return_value, &s->config.code_action_enable, "codeActionProvider");
 		update_config(return_value, &s->config.rename_enable, "renameProvider");
+		update_config(return_value, &s->config.selection_range_enable, "selectionRangeProvider");
+
+		s->supports_completion_resolve = has_capability(return_value, "completionProvider", "resolveProvider", NULL);
 
 		s->supports_workspace_symbols = TRUE;
 		update_config(return_value, &s->supports_workspace_symbols, "workspaceSymbolProvider");
 
 		s->use_incremental_sync = use_incremental_sync(return_value);
-		s->send_did_save = send_did_save(return_value);
-		s->include_text_on_save = include_text_on_save(return_value);
+		s->send_did_save = has_capability(return_value, "textDocumentSync", "save", NULL);
+		s->include_text_on_save = has_capability(return_value, "textDocumentSync", "save", "includeText");
 		s->use_workspace_folders = use_workspace_folders(return_value);
 
 		s->initialize_response = lsp_utils_json_pretty_print(return_value);
 
-		s->config.semantic_tokens_supports_delta = supports_delta_semantic_tokens(return_value);
-		if (!supports_full_semantic_tokens(return_value) && !s->config.semantic_tokens_supports_delta)
-			s->config.semantic_tokens_enable = FALSE;
+		s->config.semantic_tokens_enable = s->config.semantic_tokens_enable &&
+			has_capability(return_value, "semanticTokensProvider", "full", NULL);
+		s->config.semantic_tokens_supports_delta = has_capability(return_value,
+			"semanticTokensProvider", "full", "delta");
 		s->semantic_token_mask = get_semantic_token_mask(s, return_value);
 
 		msgwin_status_add(_("LSP server %s initialized"), s->config.cmd);
@@ -572,12 +564,16 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 	}
 	else
 	{
-		msgwin_status_add(_("LSP initialize request failed for LSP server, killing %s"), s->config.cmd);
+		msgwin_status_add(_("LSP initialize request failed for LSP server, terminating %s"), s->config.cmd);
 
 		// force exit the server - since the handshake didn't perform, the
 		// server may be in some strange state and normal "exit" may not work
 		// (happens with haskell server)
+#ifdef G_OS_WIN32
 		g_subprocess_force_exit(s->process);
+#else
+		g_subprocess_send_signal(s->process, SIGTERM);
+#endif
 	}
 }
 
@@ -616,7 +612,7 @@ static void perform_initialize(LspServer *server)
 						LSP_COMPLETION_KINDS,
 					"]",
 				"}",
-				"contxtSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
+				"contextSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
 			"}",
 			"hover", "{",
 				"contentFormat", "[",
@@ -630,6 +626,31 @@ static void perform_initialize(LspServer *server)
 					"]",
 				"}",
 				"hierarchicalDocumentSymbolSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
+			"}",
+			"publishDiagnostics", "{",  // zls requires this to publish diagnostics
+			"}",
+			"codeAction", "{",
+				"resolveSupport", "{",
+					"properties", "[",
+						"edit", "command",
+					"]",
+				"}",
+				"dataSupport", JSONRPC_MESSAGE_PUT_BOOLEAN(TRUE),
+				"codeActionLiteralSupport", "{",
+					"codeActionKind", "{",
+						"valueSet", "[",
+							"",
+							"quickfix",
+							"refactor",
+							"refactor.extract",
+							"refactor.inline",
+							"refactor.rewrite",
+							"source",
+							"source.organizeImports",
+							"source.fixAll",
+						"]",
+					"}",
+				"}",
 			"}",
 			"semanticTokens", "{",
 				"requests", "{",
@@ -883,6 +904,8 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_bool(&s->config.autocomplete_apply_additional_edits, kf, section, "autocomplete_apply_additional_edits");
 	get_bool(&s->config.diagnostics_enable, kf, section, "diagnostics_enable");
 	get_bool(&s->config.autocomplete_use_snippets, kf, section, "autocomplete_use_snippets");
+	get_bool(&s->config.autocomplete_in_strings, kf, section, "autocomplete_in_strings");
+	get_bool(&s->config.autocomplete_show_documentation, kf, section, "autocomplete_show_documentation");
 	get_int(&s->config.diagnostics_statusbar_severity, kf, section, "diagnostics_statusbar_severity");
 	get_str(&s->config.diagnostics_disable_for, kf, section, "diagnostics_disable_for");
 
@@ -919,6 +942,7 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	get_str(&s->config.command_on_save_regex, kf, section, "command_on_save_regex");
 
 	get_bool(&s->config.progress_bar_enable, kf, section, "progress_bar_enable");
+	get_bool(&s->config.swap_header_source_enable, kf, section, "swap_header_source_enable");
 
 	// create for the first time, then just update
 	if (!s->config.command_regexes)
@@ -947,6 +971,7 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 	s->config.execute_command_enable = TRUE;
 	s->config.code_action_enable = TRUE;
 	s->config.rename_enable = TRUE;
+	s->config.selection_range_enable = TRUE;
 
 	s->config.hover_available = TRUE;
 	s->config.document_symbols_available = TRUE;
@@ -966,9 +991,20 @@ static void load_all_section_only_config(GKeyFile *kf, const gchar *section, Lsp
 
 static void load_filetype_only_config(GKeyFile *kf, const gchar *section, LspServer *s)
 {
-	get_str(&s->config.cmd, kf, section, "cmd");
+	gchar *cmd = NULL;
+	gchar *use = NULL;
+
+	get_str(&cmd, kf, section, "cmd");
+	get_str(&use, kf, section, "use");
+	if (!EMPTY(cmd) || !EMPTY(use))
+	{
+		// make sure 'use' from global config file gets overridden by 'cmd' from user config file
+		// and that not both of them are set
+		SETPTR(s->config.cmd, cmd);
+		SETPTR(s->config.ref_lang, use);
+	}
+
 	get_strv(&s->config.env, kf, section, "env");
-	get_str(&s->config.ref_lang, kf, section, "use");
 	get_str(&s->config.rpc_log, kf, section, "rpc_log");
 	get_str(&s->config.initialization_options_file, kf, section, "initialization_options_file");
 	get_str(&s->config.initialization_options, kf, section, "initialization_options");

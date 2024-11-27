@@ -36,11 +36,15 @@ typedef struct
 	gchar *label;
 	LspCompletionKind kind;
 	gchar *sort_text;
+	gchar *filter_text;
 	gchar *insert_text;
 	gchar *detail;
+	gchar *documentation;
 	LspTextEdit *text_edit;
 	GPtrArray * additional_edits;
 	gboolean is_snippet;
+	GVariant *raw_symbol;
+	gboolean resolved;
 } LspAutocompleteSymbol;
 
 
@@ -60,10 +64,18 @@ typedef struct
 } SortData;
 
 
+typedef struct
+{
+	LspAutocompleteSymbol *symbol;
+	GeanyDocument *doc;
+} ResolveData;
+
+
 static GPtrArray *displayed_autocomplete_symbols = NULL;
 static gint sent_request_id = 0;
 static gint received_request_id = 0;
 static gint discard_up_to_request_id = 0;
+static gboolean statusbar_modified = FALSE;
 
 
 void lsp_autocomplete_discard_pending_requests()
@@ -85,11 +97,14 @@ static void free_autocomplete_symbol(gpointer data)
 	LspAutocompleteSymbol *sym = data;
 	g_free(sym->label);
 	g_free(sym->sort_text);
+	g_free(sym->filter_text);
 	g_free(sym->insert_text);
 	g_free(sym->detail);
+	g_free(sym->documentation);
 	lsp_utils_free_lsp_text_edit(sym->text_edit);
 	if (sym->additional_edits)
 		g_ptr_array_free(sym->additional_edits, TRUE);
+	g_variant_unref(sym->raw_symbol);
 	g_free(sym);
 }
 
@@ -210,12 +225,134 @@ void lsp_autocomplete_item_selected(LspServer *server, GeanyDocument *doc, guint
 }
 
 
+void lsp_autocomplete_clear_statusbar(void)
+{
+	if (statusbar_modified)
+		ui_set_statusbar(FALSE, " ");
+	statusbar_modified = FALSE;
+}
+
+
+static void resolve_cb(GVariant *return_value, GError *error, gpointer user_data)
+{
+	ResolveData *data = user_data;
+	LspServer *server = lsp_server_get_if_running(data->doc);
+
+	if (!error && server && data->doc == document_get_current() && displayed_autocomplete_symbols &&
+		g_ptr_array_find(displayed_autocomplete_symbols, data->symbol, NULL))
+	{
+		const gchar *documentation = NULL;
+
+		if (!JSONRPC_MESSAGE_PARSE(return_value, "documentation", JSONRPC_MESSAGE_GET_STRING(&documentation)))
+		{
+			JSONRPC_MESSAGE_PARSE(return_value, "documentation", "{",
+				"value", JSONRPC_MESSAGE_GET_STRING(&documentation),
+			"}");
+		}
+
+		if (documentation)
+		{
+			gint current_selection = SSM(data->doc->editor->sci, SCI_AUTOCGETCURRENT, 0, 0);
+			gchar *label;
+
+			g_free(data->symbol->documentation);
+			data->symbol->documentation = g_strdup(documentation);
+			data->symbol->resolved = TRUE;
+
+			if (current_selection < displayed_autocomplete_symbols->len)
+			{
+				LspAutocompleteSymbol *sym = displayed_autocomplete_symbols->pdata[current_selection];
+
+				label = get_symbol_label(server, sym);
+				if (sym == data->symbol)
+					lsp_autocomplete_selection_changed(data->doc, label);  // reshow
+				g_free(label);
+			}
+		}
+
+		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
+	}
+
+	g_free(data);
+}
+
+
+LspAutocompleteSymbol *find_symbol(GeanyDocument *doc, const gchar *text)
+{
+	LspServer *srv = lsp_server_get(doc);
+	LspAutocompleteSymbol *sym = NULL;
+	guint i;
+
+	if (!srv || !displayed_autocomplete_symbols)
+		return NULL;
+
+	foreach_ptr_array(sym, i, displayed_autocomplete_symbols)
+	{
+		gchar *label = get_symbol_label(srv, sym);
+		gboolean should_return = FALSE;
+
+		if (g_strcmp0(label, text) == 0)
+			should_return = TRUE;
+
+		g_free(label);
+
+		if (should_return)
+			return sym;
+	}
+
+	return NULL;
+}
+
+
+void lsp_autocomplete_selection_changed(GeanyDocument *doc, const gchar *text)
+{
+	LspAutocompleteSymbol *sym = find_symbol(doc, text);
+	LspServer *srv = lsp_server_get(doc);
+
+	if (!sym || !srv || !srv->config.autocomplete_show_documentation)
+		return;
+
+	if (!sym->resolved && srv->supports_completion_resolve)
+	{
+		ResolveData *data = g_new0(ResolveData, 1);
+		data->doc = doc;
+		data->symbol = sym;
+		lsp_rpc_call(srv, "completionItem/resolve", sym->raw_symbol, resolve_cb, data);
+	}
+	else if (!sym->documentation)
+		lsp_autocomplete_clear_statusbar();
+	else
+	{
+		GString *str;
+
+		g_strstrip(sym->documentation);
+		str = g_string_new(sym->documentation);
+		g_string_replace(str, "\n\n", " | ", -1);
+		g_string_replace(str, "\n", " ", -1);
+		g_string_replace(str, "  ", " ", -1);
+		if (!EMPTY(str->str))
+		{
+			ui_set_statusbar(FALSE, "%s", str->str);
+			statusbar_modified = TRUE;
+		}
+		else
+			lsp_autocomplete_clear_statusbar();
+
+		g_string_free(str, TRUE);
+	}
+}
+
+
 void lsp_autocomplete_style_init(GeanyDocument *doc)
 {
 	ScintillaObject *sci = doc->editor->sci;
 	LspServer *srv = lsp_server_get_if_running(doc);
 
-	if (!srv)
+	// make sure to revert to default Geany behavior when autocompletion not
+	// available
+	SSM(sci, SCI_AUTOCSETAUTOHIDE, TRUE, 0);
+
+	if (!srv || !srv->config.autocomplete_enable)
 		return;
 
 	SSM(sci, SCI_AUTOCSETORDER, SC_ORDER_CUSTOM, 0);
@@ -238,6 +375,7 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 	gint pos = sci_get_current_position(sci);
 	GString *words = g_string_sized_new(2000);
 	gchar *label;
+	gchar *first_label = NULL;
 
 	for (i = 0; i < symbols->len; i++)
 	{
@@ -252,6 +390,8 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 			g_string_append_c(words, '\n');
 
 		label = get_symbol_label(server, symbol);
+		if (!first_label)
+			first_label = g_strdup(label);
 		g_string_append(words, label);
 
 		sprintf(buf, "?%u", icon_id + 1);
@@ -262,6 +402,11 @@ static void show_tags_list(LspServer *server, GeanyDocument *doc, GPtrArray *sym
 
 	lsp_autocomplete_set_displayed_symbols(symbols);
 	SSM(sci, SCI_AUTOCSHOW, get_ident_prefixlen(server->config.word_chars, doc, pos), (sptr_t) words->str);
+	if (first_label)
+	{
+		lsp_autocomplete_selection_changed(doc, first_label);
+		g_free(first_label);
+	}
 
 // TODO: remove eventually
 #ifndef SC_AUTOCOMPLETE_SELECT_FIRST_ITEM
@@ -300,31 +445,72 @@ static gboolean has_identifier_chars(const gchar *s, const gchar *word_chars)
 }
 
 
+static void get_letter_counts(gint *counts, const gchar *str)
+{
+	gint i;
+
+	for (i = 0; str[i]; i++)
+	{
+		gchar c = str[i];
+		if (c >= 'a' && c <= 'z')
+			counts[c-'a']++;
+	}
+}
+
+
+// fuzzy filtering - only require the same letters appear in name and prefix and
+// that the first two letters of prefix appear as a substring in name. Most
+// servers filter by themselves and this avoids filtering-out good suggestions
+// when the typed string is just slightly misspelled. For servers that don't
+// filter by themselves this filters the the strings that are totally out and
+// together with sorting presents reasonable suggestions
+static gboolean should_filter(const gchar *name, const gchar *prefix)
+{
+	gint name_letters['z'-'a'+1] = {0};
+	gint prefix_letters['z'-'a'+1] = {0};
+	gchar c;
+
+	get_letter_counts(name_letters, name);
+	get_letter_counts(prefix_letters, prefix);
+
+	for (c = 'a'; c <= 'z'; c++)
+	{
+		if (name_letters[c-'a'] < prefix_letters[c-'a'])
+			return TRUE;
+	}
+
+	if (strlen(prefix) >= 2)
+	{
+		gchar pref[] = {prefix[0], prefix[1], '\0'};
+		if (!strstr(name, pref))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean filter_autocomplete_symbols(LspAutocompleteSymbol *sym, const gchar *text,
+	gboolean use_label)
+{
+	const gchar *filter_text;
+
+	if (EMPTY(text))
+		return FALSE;
+
+	filter_text = sym->filter_text ? sym->filter_text : get_label(sym, use_label);
+
+	return GPOINTER_TO_INT(lsp_utils_lowercase_cmp((LspUtilsCmpFn)should_filter, filter_text, text));
+}
+
+
 static gint sort_autocomplete_symbols(gconstpointer a, gconstpointer b, gpointer user_data)
 {
 	LspAutocompleteSymbol *sym1 = *((LspAutocompleteSymbol **)a);
 	LspAutocompleteSymbol *sym2 = *((LspAutocompleteSymbol **)b);
 	SortData *sort_data = user_data;
-	gchar *label1 = NULL;
-	gchar *label2 = NULL;
-
-	if (sort_data->use_label && sym1->label)
-		label1 = sym1->label;
-	else if (sym1->text_edit && sym1->text_edit->new_text)
-		label1 = sym1->text_edit->new_text;
-	else if (sym1->insert_text)
-		label1 = sym1->insert_text;
-	else if (sym1->label)
-		label1 = sym1->label;
-
-	if (sort_data->use_label && sym2->label)
-		label2 = sym2->label;
-	else if (sym2->text_edit && sym2->text_edit->new_text)
-		label2 = sym2->text_edit->new_text;
-	else if (sym2->insert_text)
-		label2 = sym2->insert_text;
-	else if (sym2->label)
-		label2 = sym2->label;
+	const gchar *label1 = get_label(sym1, sort_data->use_label);
+	const gchar *label2 = get_label(sym2, sort_data->use_label);
 
 	if (sort_data->pass == 2 && label1 && label2 && sort_data->prefix)
 	{
@@ -393,13 +579,13 @@ static gboolean should_add(GPtrArray *symbols, const gchar *prefix)
 	if (symbols->len > 1)
 		return TRUE;
 
-	// don't single value with what's already typed unless it's a snippet
+	// don't add single value with what's already typed unless it's a snippet
 	sym = symbols->pdata[0];
 	label = get_label(sym, FALSE);
 	if (g_strcmp0(label, prefix) != 0)
 		return TRUE;
 
-	return sym->is_snippet || sym->kind == LspCompletionKindSnippet;
+	return sym->is_snippet;
 }
 
 
@@ -424,11 +610,14 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 		iter = g_variant_iter_new(response);
 
 	if (!iter)
+	{
+		SSM(doc->editor->sci, SCI_AUTOCCANCEL, 0, 0);
 		return;
+	}
 
 	symbols = g_ptr_array_new_full(0, NULL);  // not freeing symbols here
 
-	while (g_variant_iter_loop(iter, "v", &member))
+	while (g_variant_iter_next(iter, "v", &member))
 	{
 		LspAutocompleteSymbol *sym;
 		GVariant *text_edit = NULL;
@@ -436,14 +625,19 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 		const gchar *label = NULL;
 		const gchar *insert_text = NULL;
 		const gchar *sort_text = NULL;
+		const gchar *filter_text = NULL;
 		const gchar *detail = NULL;
+		const gchar *documentation = NULL;
 		gint64 kind = 0;
 		gint64 format = 0;
 
 		JSONRPC_MESSAGE_PARSE(member, "kind", JSONRPC_MESSAGE_GET_INT64(&kind));
 
 		if (kind == LspCompletionKindSnippet && !server->config.autocomplete_use_snippets)
+		{
+			g_variant_unref(member);
 			continue;
+		}
 
 		JSONRPC_MESSAGE_PARSE(member, "insertText", JSONRPC_MESSAGE_GET_STRING(&insert_text));
 		JSONRPC_MESSAGE_PARSE(member, "insertTextFormat", JSONRPC_MESSAGE_GET_INT64(&format));
@@ -452,24 +646,35 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 			// Lua server flags as snippet without actually being a snippet
 			insert_text && strchr(insert_text, '$'))
 		{
+			g_variant_unref(member);
 			continue;
 		}
 
 		JSONRPC_MESSAGE_PARSE(member, "label", JSONRPC_MESSAGE_GET_STRING(&label));
 		JSONRPC_MESSAGE_PARSE(member, "sortText", JSONRPC_MESSAGE_GET_STRING(&sort_text));
+		JSONRPC_MESSAGE_PARSE(member, "filterText", JSONRPC_MESSAGE_GET_STRING(&filter_text));
 		JSONRPC_MESSAGE_PARSE(member, "detail", JSONRPC_MESSAGE_GET_STRING(&detail));
 		JSONRPC_MESSAGE_PARSE(member, "textEdit", JSONRPC_MESSAGE_GET_VARIANT(&text_edit));
 		JSONRPC_MESSAGE_PARSE(member, "additionalTextEdits", JSONRPC_MESSAGE_GET_ITER(&additional_edits));
+
+		if (!JSONRPC_MESSAGE_PARSE(member, "documentation", JSONRPC_MESSAGE_GET_STRING(&documentation)))
+		{
+			JSONRPC_MESSAGE_PARSE(member, "documentation", "{",
+				"value", JSONRPC_MESSAGE_GET_STRING(&documentation),
+			"}");
+		}
 
 		sym = g_new0(LspAutocompleteSymbol, 1);
 		sym->label = g_strdup(label);
 		sym->insert_text = g_strdup(insert_text);
 		sym->sort_text = g_strdup(sort_text);
 		sym->detail = g_strdup(detail);
+		sym->documentation = g_strdup(documentation);
 		sym->kind = kind;
 		sym->text_edit = lsp_utils_parse_text_edit(text_edit);
 		sym->additional_edits = lsp_utils_parse_text_edits(additional_edits);
 		sym->is_snippet = (format == 2);
+		sym->raw_symbol = member;
 
 		g_ptr_array_add(symbols, sym);
 
@@ -486,13 +691,17 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	symbols_filtered = g_ptr_array_new_full(symbols->len, free_autocomplete_symbol);
 	entry_set = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 
-	/* remove duplicates */
+	if (prefixlen > 0)
+		sort_data.prefix = sci_get_contents_range(sci, pos - prefixlen, pos);
+
+	/* remove duplicates and items not matching filtering criteria */
 	for (i = 0; i < symbols->len; i++)
 	{
 		LspAutocompleteSymbol *sym = symbols->pdata[i];
 		gchar *display_label = get_symbol_label(server, sym);
 
-		if (g_hash_table_contains(entry_set, display_label))
+		if (g_hash_table_contains(entry_set, display_label) ||
+			filter_autocomplete_symbols(sym, sort_data.prefix, sort_data.use_label))
 		{
 			free_autocomplete_symbol(sym);
 			g_free(display_label);
@@ -507,8 +716,6 @@ static void process_response(LspServer *server, GVariant *response, GeanyDocumen
 	g_ptr_array_free(symbols, TRUE);
 	symbols = symbols_filtered;
 
-	if (prefixlen > 0)
-		sort_data.prefix = sci_get_contents_range(sci, pos - prefixlen, pos);
 	sort_data.pass = 2;
 	/* sort with symbols matching the typed prefix first */
 	g_ptr_array_sort_with_data(symbols, sort_autocomplete_symbols, &sort_data);
@@ -586,11 +793,26 @@ void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc, gboolean
 	LspAutocompleteAsyncData *data;
 	ScintillaObject *sci = doc->editor->sci;
 	gint pos = sci_get_current_position(sci);
+	gint pos_before = SSM(sci, SCI_POSITIONBEFORE, pos, 0);
 	LspPosition lsp_pos = lsp_utils_scintilla_pos_to_lsp(sci, pos);
+	gint lexer = sci_get_lexer(sci);
+	gint style = sci_get_style_at(sci, pos_before);
+	gint style_before = sci_get_style_at(sci, SSM(sci, SCI_POSITIONBEFORE, pos_before, 0));
 	gboolean is_trigger_char = FALSE;
-	gchar c = pos > 0 ? sci_get_char_at(sci, SSM(sci, SCI_POSITIONBEFORE, pos, 0)) : '\0';
+	gchar c = pos > 0 ? sci_get_char_at(sci, pos_before) : '\0';
 	gchar c_str[2] = {c, '\0'};
 	gint prefixlen = get_ident_prefixlen(server->config.word_chars, doc, pos);
+
+	// also check position before the just typed characters (i.e. 2 positions
+	// before pos) - at least for Python comments typing at EOL probably doesn't
+	// have up-to-date styling information
+	if ((!server->config.autocomplete_in_strings &&
+		(highlighting_is_string_style(lexer, style) || highlighting_is_string_style(lexer, style_before))) ||
+		(highlighting_is_comment_style(lexer, style) || highlighting_is_comment_style(lexer, style_before)))
+	{
+		SSM(doc->editor->sci, SCI_AUTOCCANCEL, 0, 0);
+		return;
+	}
 
 	if (prefixlen == 0)
 	{
@@ -660,7 +882,7 @@ void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc, gboolean
 		"}",
 		"context", "{",
 			"triggerKind", JSONRPC_MESSAGE_PUT_INT32(is_trigger_char ? 2 : 1),
-			"triggerCharacter", JSONRPC_MESSAGE_PUT_STRING(c_str),
+			"triggerCharacter", JSONRPC_MESSAGE_PUT_STRING(is_trigger_char ? c_str : NULL),
 		"}"
 	);
 

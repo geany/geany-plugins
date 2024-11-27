@@ -205,6 +205,13 @@ When you click on a symbol in the document, this feature highlights all its
 occurrences in the document. You can customize the highlighting style to your
 preference by configuring it in the configuration file.
 
+Smart selection expanding/shrinking
+-----------------------------------
+
+This feature allows to expand the current text selection to contain the next
+upper syntactic element such as a parent block in programming languages or a
+parent tag in XML. Selection shrinking works in the opposite direction.
+
 Document symbol renaming
 ------------------------
 
@@ -224,7 +231,20 @@ servers may not be completely reliable when performing the rename so be very
 cautious when using it. The plugin does not perform any additional
 checks and does not show any preview of the changes so it is best to use this
 feature only after committing all modified files so you can
-easily revert to a working state if needed.
+easily revert to a working state if needed. Since this is potentially a
+dangerous operation, to prevent accidental renames, the "Rename" button in the
+dialog is not selected by defalut and simply pressing enter just cancels the
+dialog.
+
+Limitations
+===========
+
+By design, the plugin communicates over stdin/stdout only, is responsible
+for launching and terminating the language server process, and supports only
+a single language server per file type.
+
+All of these limitations are addressed by the LSP proxy project available at
+https://github.com/techee/lsp-proxy and related issues should be directed there.
 
 License
 =======

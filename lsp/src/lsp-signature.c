@@ -75,44 +75,52 @@ static void signature_cb(GVariant *return_value, GError *error, gpointer user_da
 
 		//printf("%s\n", lsp_utils_json_pretty_print(return_value));
 
-		if (current_doc == data->doc &&
-			sci_get_current_position(current_doc->editor->sci) < data->pos + 10 &&
-			(data->force || (!data->force && !SSM(current_doc->editor->sci, SCI_AUTOCACTIVE, 0, 0))))
+		if (current_doc == data->doc)
 		{
-			GVariantIter *iter = NULL;
-			gint64 active = 1;
-
-			JSONRPC_MESSAGE_PARSE(return_value, "signatures", JSONRPC_MESSAGE_GET_ITER(&iter));
-			JSONRPC_MESSAGE_PARSE(return_value, "activeSignature", JSONRPC_MESSAGE_GET_INT64(&active));
-
-			if (signatures)
-				g_ptr_array_free(signatures, TRUE);
-			signatures = g_ptr_array_new_full(1, g_free);
-
-			if (iter)
+			if (!g_variant_is_of_type(return_value, G_VARIANT_TYPE_DICTIONARY) &&
+				lsp_signature_showing_calltip(current_doc))
 			{
-				GVariant *member = NULL;
-
-				while (g_variant_iter_loop(iter, "v", &member))
-				{
-					const gchar *label = NULL;
-
-					JSONRPC_MESSAGE_PARSE(member, "label", JSONRPC_MESSAGE_GET_STRING(&label));
-
-					if (label)
-						g_ptr_array_add(signatures, g_strdup(label));
-				}
+				// null response
+				lsp_signature_hide_calltip(current_doc);
 			}
+			else if (sci_get_current_position(current_doc->editor->sci) < data->pos + 10 &&
+				(data->force || (!data->force && !SSM(current_doc->editor->sci, SCI_AUTOCACTIVE, 0, 0))))
+			{
+				GVariantIter *iter = NULL;
+				gint64 active = 1;
 
-			displayed_signature = CLAMP(active, 1, signatures->len) - 1;
+				JSONRPC_MESSAGE_PARSE(return_value, "signatures", JSONRPC_MESSAGE_GET_ITER(&iter));
+				JSONRPC_MESSAGE_PARSE(return_value, "activeSignature", JSONRPC_MESSAGE_GET_INT64(&active));
 
-			if (signatures->len == 0)
-				SSM(current_doc->editor->sci, SCI_CALLTIPCANCEL, 0, 0);
-			else
-				show_signature(current_doc->editor->sci);
+				if (signatures)
+					g_ptr_array_free(signatures, TRUE);
+				signatures = g_ptr_array_new_full(1, g_free);
 
-			if (iter)
-				g_variant_iter_free(iter);
+				if (iter)
+				{
+					GVariant *member = NULL;
+
+					while (g_variant_iter_loop(iter, "v", &member))
+					{
+						const gchar *label = NULL;
+
+						JSONRPC_MESSAGE_PARSE(member, "label", JSONRPC_MESSAGE_GET_STRING(&label));
+
+						if (label)
+							g_ptr_array_add(signatures, g_strdup(label));
+					}
+				}
+
+				displayed_signature = CLAMP(active, 1, signatures->len) - 1;
+
+				if (signatures->len == 0)
+					SSM(current_doc->editor->sci, SCI_CALLTIPCANCEL, 0, 0);
+				else
+					show_signature(current_doc->editor->sci);
+
+				if (iter)
+					g_variant_iter_free(iter);
+			}
 		}
 	}
 

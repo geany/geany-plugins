@@ -143,8 +143,27 @@ static void goto_cb(GVariant *return_value, GError *error, gpointer user_data)
 				msgwin_switch_tab(MSG_MESSAGE, TRUE);
 			}
 
+			// single location
+
+			/* check G_VARIANT_TYPE_DICTIONARY ("a{?*}") before
+			   G_VARIANT_TYPE_ARRAY ("a*") as dictionary is apparently a
+			   subset of array :-( */
+			if (g_variant_is_of_type(return_value, G_VARIANT_TYPE_DICTIONARY))
+			{
+				LspLocation *loc = lsp_utils_parse_location(return_value);
+
+				if (loc)
+				{
+					if (data->show_in_msgwin)
+						show_in_msgwin(loc, NULL);
+					else
+						goto_location(data->doc, loc);
+				}
+
+				lsp_utils_free_lsp_location(loc);
+			}
 			// array of locations
-			if (g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
+			else if (g_variant_is_of_type(return_value, G_VARIANT_TYPE_ARRAY))
 			{
 				GPtrArray *locations = NULL;
 				GVariantIter iter;
@@ -206,21 +225,6 @@ static void goto_cb(GVariant *return_value, GError *error, gpointer user_data)
 				}
 
 				g_ptr_array_free(locations, TRUE);
-			}
-			//single location
-			else if (g_variant_is_of_type(return_value, G_VARIANT_TYPE_DICTIONARY))
-			{
-				LspLocation *loc = lsp_utils_parse_location(return_value);
-
-				if (loc)
-				{
-					if (data->show_in_msgwin)
-						show_in_msgwin(loc, NULL);
-					else
-						goto_location(data->doc, loc);
-				}
-
-				lsp_utils_free_lsp_location(loc);
 			}
 		}
 

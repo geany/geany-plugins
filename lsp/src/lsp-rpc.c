@@ -349,12 +349,27 @@ static gboolean handle_call(JsonrpcClient *client, gchar* method, GVariant *id, 
 		msg = apply_edit(srv, params);
 		handled = TRUE;
 	}
-	// we officially don't support this (not advertised in initialize's
-	// workspace/configuration) but some servers ask for it anyway so do our
-	// best in this case
 	else if (g_strcmp0(method, "workspace/configuration") == 0)
 	{
+		// we officially don't support this (not advertised in initialize's
+		// workspace/configuration) but some servers ask for it anyway so do our
+		// best in this case
 		msg = workspace_configuration(srv, params);
+		handled = TRUE;
+	}
+	else if (g_strcmp0(method, "client/registerCapability") == 0)
+	{
+		// not supported at all, HTML/CSS servers sending the request despite
+		// no indication of support from the client. Just to suppress warnings
+		// from the servers
+		msg = NULL;
+		handled = TRUE;
+	}
+	else if (g_strcmp0(method, "workspace/semanticTokens/refresh") == 0)
+	{
+		// not supported at all - Kate seems to do the same as some servers
+		// require a successful reply
+		msg = NULL;
 		handled = TRUE;
 	}
 	else if (g_strcmp0(method, "window/showDocument") == 0)

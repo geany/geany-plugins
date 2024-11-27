@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Jiri Techet <techet@gmail.com>
+ * Copyright 2024 Jiri Techet <techet@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,19 +16,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef LSP_HIGHLIGHT_H
-#define LSP_HIGHLIGHT_H 1
+#ifndef LSP_SELECTION_RANGE_H
+#define LSP_SELECTION_RANGE_H 1
 
 #include "lsp-server.h"
 
 #include <glib.h>
 
-void lsp_highlight_style_init(GeanyDocument *doc);
 
-void lsp_highlight_schedule_request(GeanyDocument *doc);
+void lsp_selection_range_expand(void);
+void lsp_selection_range_shrink(void);
 
-void lsp_highlight_rename(gint pos);
+void lsp_selection_clear_selections(void);
 
-void lsp_highlight_clear(GeanyDocument *doc);
 
-#endif  /* LSP_HIGHLIGHT_H */
+#endif  /* LSP_SELECTION_RANGE_H */

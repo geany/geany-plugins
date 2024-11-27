@@ -37,6 +37,8 @@ lsp_la_SOURCES = \
 	lsp-rpc.h \
 	lsp-semtokens.c \
 	lsp-semtokens.h \
+	lsp-selection-range.c \
+	lsp-selection-range.h \
 	lsp-server.c \
 	lsp-server.h \
 	lsp-signature.c \

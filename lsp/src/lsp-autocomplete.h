@@ -27,6 +27,8 @@ void lsp_autocomplete_completion(LspServer *server, GeanyDocument *doc, gboolean
 
 void lsp_autocomplete_set_displayed_symbols(GPtrArray *symbols);
 void lsp_autocomplete_item_selected(LspServer *server, GeanyDocument *doc, guint index);
+void lsp_autocomplete_selection_changed(GeanyDocument *doc, const gchar *text);
 void lsp_autocomplete_discard_pending_requests();
+void lsp_autocomplete_clear_statusbar(void);
 
 #endif  /* LSP_AUTOCOMPLETE_H */

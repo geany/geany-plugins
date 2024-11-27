@@ -40,6 +40,7 @@
 #include "lsp-extension.h"
 #include "lsp-workspace-folders.h"
 #include "lsp-symbol-tree.h"
+#include "lsp-selection-range.h"
 
 #include <sys/time.h>
 #include <string.h>
@@ -61,6 +62,7 @@ LspProjectConfigurationType project_configuration_type = UserConfigurationType;
 gchar *project_configuration_file;
 
 static gint last_click_pos;
+static gboolean session_loaded;
 
 
 PLUGIN_VERSION_CHECK(248)
@@ -76,32 +78,37 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 #define CODE_ACTIONS_PERFORMED "lsp_code_actions_performed"
 
 enum {
-  KB_GOTO_DEFINITION,
-  KB_GOTO_DECLARATION,
-  KB_GOTO_TYPE_DEFINITION,
+	KB_GOTO_DEFINITION,
+	KB_GOTO_DECLARATION,
+	KB_GOTO_TYPE_DEFINITION,
 
-  KB_GOTO_ANYWHERE,
-  KB_GOTO_DOC_SYMBOL,
-  KB_GOTO_WORKSPACE_SYMBOL,
-  KB_GOTO_LINE,
+	KB_GOTO_ANYWHERE,
+	KB_GOTO_DOC_SYMBOL,
+	KB_GOTO_WORKSPACE_SYMBOL,
+	KB_GOTO_LINE,
 
-  KB_GOTO_NEXT_DIAG,
-  KB_GOTO_PREV_DIAG,
-  KB_SHOW_DIAG,
+	KB_GOTO_NEXT_DIAG,
+	KB_GOTO_PREV_DIAG,
+	KB_SHOW_DIAG,
 
-  KB_FIND_IMPLEMENTATIONS,
-  KB_FIND_REFERENCES,
+	KB_FIND_IMPLEMENTATIONS,
+	KB_FIND_REFERENCES,
 
-  KB_SHOW_HOVER_POPUP,
-  KB_SWAP_HEADER_SOURCE,
+	KB_EXPAND_SELECTION,
+	KB_SHRINK_SELECTION,
 
-  KB_RENAME_IN_FILE,
-  KB_RENAME_IN_PROJECT,
-  KB_FORMAT_CODE,
+	KB_SHOW_HOVER_POPUP,
+	KB_SHOW_CODE_ACTIONS,
 
-  KB_RESTART_SERVERS,
+	KB_SWAP_HEADER_SOURCE,
 
-  KB_COUNT
+	KB_RENAME_IN_FILE,
+	KB_RENAME_IN_PROJECT,
+	KB_FORMAT_CODE,
+
+	KB_RESTART_SERVERS,
+
+	KB_COUNT
 };
 
 
@@ -127,7 +134,12 @@ struct
 	GtkWidget *rename_in_project;
 	GtkWidget *format_code;
 
+	GtkWidget *expand_selection;
+	GtkWidget *shrink_selection;
+
 	GtkWidget *hover_popup;
+	GtkWidget *code_action_popup;
+
 	GtkWidget *header_source;
 } menu_items;
 
@@ -271,6 +283,7 @@ static void update_menu(GeanyDocument *doc)
 {
 	LspServer *srv = lsp_server_get_if_running(doc);
 	gboolean goto_definition_enable = srv && srv->config.goto_definition_enable;
+	gboolean selection_range_enable = srv && srv->config.selection_range_enable;
 	gboolean goto_references_enable = srv && srv->config.goto_references_enable;
 	gboolean goto_type_definition_enable = srv && srv->config.goto_type_definition_enable;
 	gboolean document_formatting_enable = srv && srv->config.document_formatting_enable;
@@ -281,6 +294,8 @@ static void update_menu(GeanyDocument *doc)
 	gboolean goto_implementation_enable = srv && srv->config.goto_implementation_enable;
 	gboolean diagnostics_enable = srv && srv->config.diagnostics_enable;
 	gboolean hover_popup_enable = srv && srv->config.hover_available;
+	gboolean code_action_enable = srv && (srv->config.code_action_enable || srv->config.code_lens_enable);
+	gboolean swap_header_source_enable = srv && srv->config.swap_header_source_enable;
 
 	if (!menu_items.parent_item)
 		return;
@@ -300,7 +315,13 @@ static void update_menu(GeanyDocument *doc)
 	gtk_widget_set_sensitive(menu_items.rename_in_project, rename_enable);
 	gtk_widget_set_sensitive(menu_items.format_code, document_formatting_enable || range_formatting_enable);
 
+	gtk_widget_set_sensitive(menu_items.expand_selection, selection_range_enable);
+	gtk_widget_set_sensitive(menu_items.shrink_selection, selection_range_enable);
+
+	gtk_widget_set_sensitive(menu_items.header_source, swap_header_source_enable);
+
 	gtk_widget_set_sensitive(menu_items.hover_popup, hover_popup_enable);
+	gtk_widget_set_sensitive(menu_items.code_action_popup, code_action_enable);
 }
 
 
@@ -309,10 +330,10 @@ static gboolean on_update_idle(gpointer data)
 	GeanyDocument *doc = data;
 	LspServer *srv;
 
+	plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(0));
+
 	if (!DOC_VALID(doc))
 		return G_SOURCE_REMOVE;
-
-	plugin_set_document_data(geany_plugin, doc, UPDATE_SOURCE_DOC_DATA, GUINT_TO_POINTER(0));
 
 	srv = lsp_server_get_if_running(doc);
 	if (!srv)
@@ -332,10 +353,15 @@ static void on_document_visible(GeanyDocument *doc)
 {
 	LspServer *srv = lsp_server_get(doc);
 
+	session_loaded = TRUE;
+
 	update_menu(doc);
 
 	// quick synchronous refresh with the last value without server request
 	lsp_symbol_tree_refresh();
+
+	// perform also without server - to revert to default Geany behavior
+	lsp_autocomplete_style_init(doc);
 
 	if (!srv)
 		return;
@@ -345,7 +371,8 @@ static void on_document_visible(GeanyDocument *doc)
 	lsp_highlight_style_init(doc);
 	lsp_semtokens_style_init(doc);
 	lsp_code_lens_style_init(doc);
-	lsp_autocomplete_style_init(doc);
+
+	lsp_selection_clear_selections();
 
 	// just in case we didn't get some callback from the server
 	on_save_finish(doc);
@@ -397,6 +424,7 @@ static void destroy_all(void)
 static void stop_and_init_all_servers(void)
 {
 	lsp_server_stop_all(FALSE);
+	session_loaded = FALSE;
 	lsp_server_init_all();
 
 	destroy_all();
@@ -585,7 +613,7 @@ static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *
 
 	// called also when opening documents - without this it would start servers
 	// unnecessarily
-	if (!lsp_sync_is_document_open(doc))
+	if (!session_loaded)
 		return;
 
 	srv_old = lsp_server_get_for_ft(filetype_old);
@@ -626,7 +654,7 @@ static void on_document_activate(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor, SCNotification *nt,
 	G_GNUC_UNUSED gpointer user_data)
 {
-	static gboolean ignore_selection_change = FALSE;  // static!
+	static gboolean perform_highlight = TRUE;  // static!
 	GeanyDocument *doc = editor->document;
 	ScintillaObject *sci = editor->sci;
 
@@ -642,7 +670,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 			return FALSE;
 
 		// ignore cursor position change as a result of autocomplete (for highlighting)
-		ignore_selection_change = TRUE;
+		perform_highlight = FALSE;
 
 		sci_start_undo_action(editor->sci);
 		lsp_autocomplete_item_selected(srv, doc, SSM(sci, SCI_AUTOCGETCURRENT, 0, 0));
@@ -657,7 +685,13 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 	{
 		lsp_autocomplete_set_displayed_symbols(NULL);
 		lsp_autocomplete_discard_pending_requests();
+		lsp_autocomplete_clear_statusbar();
 		return FALSE;
+	}
+	else if (nt->nmhdr.code == SCN_AUTOCSELECTIONCHANGE &&
+		plugin_extension_autocomplete_provided(doc, &extension))
+	{
+		lsp_autocomplete_selection_changed(doc, nt->text);
 	}
 	else if (nt->nmhdr.code == SCN_CALLTIPCLICK &&
 		plugin_extension_calltips_provided(doc, &extension))
@@ -726,6 +760,12 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 
 		if (!srv || !doc->real_path)
 			return FALSE;
+
+		if (nt->modificationType & (SC_MOD_BEFOREINSERT | SC_MOD_BEFOREDELETE))
+		{
+			perform_highlight = FALSE;
+			lsp_highlight_clear(doc);
+		}
 
 		// BEFORE insert, BEFORE delete - send the original document
 		if (!lsp_sync_is_document_open(doc) &&
@@ -802,20 +842,24 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 			lsp_diagnostics_hide_calltip(doc);
 
 			SSM(sci, SCI_AUTOCCANCEL, 0, 0);
+
+			if ((nt->updated & SC_UPDATE_SELECTION) && !sci_has_selection(sci))
+				lsp_selection_clear_selections();
 		}
 
-		if (srv->config.highlighting_enable && !ignore_selection_change &&
+		if (srv->config.highlighting_enable && perform_highlight &&
 			(nt->updated & SC_UPDATE_SELECTION))
 		{
-			lsp_highlight_send_request(srv, doc);
+			lsp_highlight_schedule_request(doc);
 		}
-		ignore_selection_change = FALSE;
+		perform_highlight = TRUE;
 	}
 	else if (nt->nmhdr.code == SCN_CHARADDED)
 	{
 		// don't hightlight while typing
 		lsp_highlight_clear(doc);
-
+		lsp_hover_hide_calltip(doc);
+		lsp_diagnostics_hide_calltip(doc);
 	}
 
 	return FALSE;
@@ -1058,6 +1102,43 @@ static gboolean update_command_menu_items(GPtrArray *code_action_commands, gpoin
 	gtk_widget_set_sensitive(context_menu_items.command_item, command_added);
 
 	// code_action_commands are not freed now but preserved until the next call
+	return FALSE;
+}
+
+
+// stolen from Geany
+static void show_menu_at_caret(GtkMenu* menu, ScintillaObject *sci)
+{
+	GdkWindow *window = gtk_widget_get_window(GTK_WIDGET(sci));
+	gint pos = sci_get_current_position(sci);
+	gint line = sci_get_line_from_position(sci, pos);
+	gint line_height = SSM(sci, SCI_TEXTHEIGHT, line, 0);
+	gint x = SSM(sci, SCI_POINTXFROMPOSITION, 0, pos);
+	gint y = SSM(sci, SCI_POINTYFROMPOSITION, 0, pos);
+	gint pos_next = SSM(sci, SCI_POSITIONAFTER, pos, 0);
+	gint char_width = 0;
+	/* if next pos is on the same Y (same line and not after wrapping), diff the X */
+	if (pos_next > pos && SSM(sci, SCI_POINTYFROMPOSITION, 0, pos_next) == y)
+		char_width = SSM(sci, SCI_POINTXFROMPOSITION, 0, pos_next) - x;
+	GdkRectangle rect = {x, y, char_width, line_height};
+	gtk_menu_popup_at_rect(GTK_MENU(menu), window, &rect, GDK_GRAVITY_SOUTH_WEST, GDK_GRAVITY_NORTH_WEST, NULL);
+}
+
+
+static gboolean show_code_action_popup(GPtrArray *code_action_commands, gpointer user_data)
+{
+	GPtrArray *code_lens_commands = lsp_code_lens_get_commands();
+
+	if (code_action_commands->len > 0 || code_lens_commands->len > 0)
+	{
+		GeanyDocument *doc = user_data;
+		GtkWidget *menu;
+
+		update_command_menu_items(code_action_commands, user_data);
+		menu = gtk_menu_item_get_submenu(GTK_MENU_ITEM(context_menu_items.command_item));
+		show_menu_at_caret(GTK_MENU(menu), doc->editor->sci);
+		gtk_menu_shell_select_first(GTK_MENU_SHELL(menu), FALSE);
+	}
 	return FALSE;
 }
 
@@ -1317,6 +1398,13 @@ static void invoke_kb(guint key_id, gint pos)
 			lsp_goto_implementations(pos);
 			break;
 
+		case KB_EXPAND_SELECTION:
+			lsp_selection_range_expand();
+			break;
+		case KB_SHRINK_SELECTION:
+			lsp_selection_range_shrink();
+			break;
+
 		case KB_SHOW_HOVER_POPUP:
 			show_hover_popup();
 			break;
@@ -1339,6 +1427,10 @@ static void invoke_kb(guint key_id, gint pos)
 
 		case KB_RESTART_SERVERS:
 			restart_all_servers();
+			break;
+
+		case KB_SHOW_CODE_ACTIONS:
+			lsp_command_send_code_action_request(doc, pos, show_code_action_popup, doc);
 			break;
 
 		default:
@@ -1504,6 +1596,29 @@ static void create_menu_items()
 		GUINT_TO_POINTER(KB_SHOW_HOVER_POPUP));
 	keybindings_set_item(group, KB_SHOW_HOVER_POPUP, NULL, 0, 0, "show_hover_popup",
 		_("Show hover popup"), menu_items.hover_popup);
+
+	menu_items.code_action_popup = gtk_menu_item_new_with_mnemonic(_("Show Code Action Popup"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.code_action_popup);
+	g_signal_connect(menu_items.code_action_popup, "activate", G_CALLBACK(on_menu_invoked),
+		GUINT_TO_POINTER(KB_SHOW_CODE_ACTIONS));
+	keybindings_set_item(group, KB_SHOW_CODE_ACTIONS, NULL, 0, 0, "show_code_action_popup",
+		_("Show code action popup"), menu_items.code_action_popup);
+
+	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
+
+	menu_items.expand_selection = gtk_menu_item_new_with_mnemonic(_("Expand Selection"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.expand_selection);
+	g_signal_connect(menu_items.expand_selection, "activate", G_CALLBACK(on_menu_invoked),
+		GUINT_TO_POINTER(KB_EXPAND_SELECTION));
+	keybindings_set_item(group, KB_EXPAND_SELECTION, NULL, 0, 0, "expand_selection",
+		_("Expand Selection"), menu_items.expand_selection);
+
+	menu_items.shrink_selection = gtk_menu_item_new_with_mnemonic(_("Shrink Selection"));
+	gtk_container_add(GTK_CONTAINER(menu), menu_items.shrink_selection);
+	g_signal_connect(menu_items.shrink_selection, "activate", G_CALLBACK(on_menu_invoked),
+		GUINT_TO_POINTER(KB_SHRINK_SELECTION));
+	keybindings_set_item(group, KB_SHRINK_SELECTION, NULL, 0, 0, "shrink_selection",
+		_("Shrink Selection"), menu_items.shrink_selection);
 
 	gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
 

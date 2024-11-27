@@ -57,6 +57,8 @@ typedef struct LspServerConfig
 	gint autocomplete_window_max_width;
 	gboolean autocomplete_use_snippets;
 	gchar *autocomplete_hide_after_words;
+	gboolean autocomplete_in_strings;
+	gboolean autocomplete_show_documentation;
 
 	gboolean diagnostics_enable;
 	gint diagnostics_statusbar_severity;
@@ -109,6 +111,8 @@ typedef struct LspServerConfig
 
 	gboolean execute_command_enable;
 	gboolean code_action_enable;
+	gboolean selection_range_enable;
+	gboolean swap_header_source_enable;
 	gchar *command_on_save_regex;
 	gint command_keybinding_num;
 	GPtrArray *command_regexes;
@@ -150,6 +154,7 @@ typedef struct LspServer
 	gboolean include_text_on_save;
 	gboolean use_workspace_folders;
 	gboolean supports_workspace_symbols;
+	gboolean supports_completion_resolve;
 
 	guint64 semantic_token_mask;
 } LspServer;
