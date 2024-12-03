@@ -363,11 +363,12 @@ static void on_document_visible(GeanyDocument *doc)
 	// perform also without server - to revert to default Geany behavior
 	lsp_autocomplete_style_init(doc);
 
+	lsp_diagnostics_style_init(doc);
+	lsp_diagnostics_redraw(doc);
+
 	if (!srv)
 		return;
 
-	lsp_diagnostics_style_init(doc);
-	lsp_diagnostics_redraw(doc);
 	lsp_highlight_style_init(doc);
 	lsp_semtokens_style_init(doc);
 	lsp_code_lens_style_init(doc);
@@ -380,8 +381,7 @@ static void on_document_visible(GeanyDocument *doc)
 	// this might not get called for the first time when server gets started because
 	// lsp_server_get() returns NULL. However, we also "open" current and modified
 	// documents after successful server handshake inside on_server_initialized()
-	if (!lsp_sync_is_document_open(doc))
-		lsp_sync_text_document_did_open(srv, doc);
+	lsp_sync_text_document_did_open(srv, doc);
 
 	on_update_idle(doc);
 }
@@ -406,18 +406,9 @@ static void on_document_close(G_GNUC_UNUSED GObject * obj, GeanyDocument *doc,
 	if (!srv)
 		return;
 
-	lsp_diagnostics_clear(doc);
+	lsp_diagnostics_clear(srv, doc);
 	lsp_semtokens_clear(doc);
 	lsp_sync_text_document_did_close(srv, doc);
-}
-
-
-static void destroy_all(void)
-{
-	lsp_diagnostics_destroy();
-	lsp_semtokens_destroy();
-	lsp_symbols_destroy();
-	lsp_workspace_folders_destroy();
 }
 
 
@@ -425,13 +416,8 @@ static void stop_and_init_all_servers(void)
 {
 	lsp_server_stop_all(FALSE);
 	session_loaded = FALSE;
+
 	lsp_server_init_all();
-
-	destroy_all();
-
-	lsp_sync_init();
-	lsp_diagnostics_init();
-	lsp_workspace_folders_init();
 	lsp_symbol_tree_init();
 }
 
@@ -468,7 +454,7 @@ static void on_document_save(G_GNUC_UNUSED GObject *obj, GeanyDocument *doc,
 	if (!srv)
 		return;
 
-	if (!lsp_sync_is_document_open(doc))
+	if (!lsp_sync_is_document_open(srv, doc))
 	{
 		// "new" documents without filename saved for the first time or
 		// "save as" performed
@@ -625,7 +611,7 @@ static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *
 	if (srv_old)
 	{
 		// only uses URI/path so no problem we are using the "new" doc here
-		lsp_diagnostics_clear(doc);
+		lsp_diagnostics_clear(srv_old, doc);
 		lsp_semtokens_clear(doc);
 		lsp_sync_text_document_did_close(srv_old, doc);
 	}
@@ -768,7 +754,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 		}
 
 		// BEFORE insert, BEFORE delete - send the original document
-		if (!lsp_sync_is_document_open(doc) &&
+		if (!lsp_sync_is_document_open(srv, doc) &&
 			nt->modificationType & (SC_MOD_BEFOREINSERT | SC_MOD_BEFOREDELETE))
 		{
 			// might happen when the server just started and no interaction with it was
@@ -1785,12 +1771,12 @@ void plugin_cleanup(void)
 	gtk_widget_destroy(context_menu_items.separator2);
 
 	lsp_symbol_tree_destroy();
+	lsp_diagnostics_common_destroy();
 
 	plugin_extension_unregister(&extension);
 
 	lsp_server_set_initialized_cb(NULL);
 	lsp_server_stop_all(TRUE);
-	destroy_all();
 }
 
 

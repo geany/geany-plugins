@@ -132,7 +132,8 @@ typedef struct
 typedef struct LspServer
 {
 	LspRpc *rpc;
-	GSubprocess *process;
+	//GSubprocess *process;
+	GPid pid;
 	GIOStream *stream;
 	LspLogInfo log;
 
@@ -144,6 +145,10 @@ typedef struct LspServer
 
 	LspServerConfig config;
 
+	GHashTable *open_docs;
+	GSList *mru_docs;
+	GHashTable *diag_table;
+	GHashTable *wks_folder_table;
 	GSList *progress_ops;
 
 	gchar *autocomplete_trigger_chars;

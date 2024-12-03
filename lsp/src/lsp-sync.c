@@ -27,21 +27,53 @@
 #include "lsp-highlight.h"
 #include "lsp-semtokens.h"
 #include "lsp-workspace-folders.h"
+#include "lsp-symbols.h"
 
 #include <jsonrpc-glib.h>
 
 #define VERSION_NUM_KEY "lsp_sync_version_num"
 
+#define MRU_SIZE 50
+
+
 extern GeanyPlugin *geany_plugin;
 
-static GHashTable *open_docs = NULL;
 
-
-void lsp_sync_init()
+void lsp_sync_init(LspServer *srv)
 {
-	if (!open_docs)
-		open_docs = g_hash_table_new(NULL, NULL);
-	g_hash_table_remove_all(open_docs);
+	if (!srv->open_docs)
+		srv->open_docs = g_hash_table_new(NULL, NULL);
+	g_hash_table_remove_all(srv->open_docs);
+
+	g_slist_free(srv->mru_docs);
+	srv->mru_docs = NULL;
+}
+
+
+static void destroy_doc_data(LspServer *srv, GeanyDocument *doc)
+{
+	lsp_semtokens_destroy(doc);
+	lsp_symbols_destroy(doc);
+	srv->mru_docs = g_slist_remove(srv->mru_docs, doc);
+}
+
+
+void lsp_sync_free(LspServer *srv)
+{
+	if (srv->open_docs)
+	{
+		GList *docs = g_hash_table_get_keys(srv->open_docs);
+		GList *item;
+
+		foreach_list(item, docs)
+		{
+			destroy_doc_data(srv, item->data);
+		}
+		g_list_free(docs);
+
+		g_hash_table_destroy(srv->open_docs);
+	}
+	srv->open_docs = NULL;
 }
 
 
@@ -55,9 +87,12 @@ static guint get_next_doc_version_num(GeanyDocument *doc)
 }
 
 
-gboolean lsp_sync_is_document_open(GeanyDocument *doc)
+gboolean lsp_sync_is_document_open(LspServer *server, GeanyDocument *doc)
 {
-	return g_hash_table_lookup(open_docs, doc) != NULL;
+	if (!server)
+		return FALSE;
+
+	return g_hash_table_lookup(server->open_docs, doc) != NULL;
 }
 
 
@@ -69,12 +104,18 @@ void lsp_sync_text_document_did_open(LspServer *server, GeanyDocument *doc)
 	gchar *doc_text;
 	guint doc_version;
 
-	if (lsp_sync_is_document_open(doc))
+	if (!server || lsp_sync_is_document_open(server, doc))
 		return;
+
+	if (g_slist_length(server->mru_docs) >= MRU_SIZE)
+	{
+		lsp_sync_text_document_did_close(server, server->mru_docs->data);
+	}
 
 	lsp_workspace_folders_doc_open(doc);
 
-	g_hash_table_add(open_docs, doc);
+	g_hash_table_add(server->open_docs, doc);
+	server->mru_docs = g_slist_append(server->mru_docs, doc);
 
 	lsp_server_get_ft(doc, &lang_id);
 	doc_uri = lsp_utils_get_doc_uri(doc);
@@ -107,7 +148,10 @@ void lsp_sync_text_document_did_close(LspServer *server, GeanyDocument *doc)
 	GVariant *node;
 	gchar *doc_uri;
 
-	if (!lsp_sync_is_document_open(doc))
+	if (doc && server)
+		destroy_doc_data(server, doc);
+
+	if (!server || !lsp_sync_is_document_open(server, doc))
 		return;
 
 	doc_uri = lsp_utils_get_doc_uri(doc);
@@ -120,7 +164,7 @@ void lsp_sync_text_document_did_close(LspServer *server, GeanyDocument *doc)
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
-	g_hash_table_remove(open_docs, doc);
+	g_hash_table_remove(server->open_docs, doc);
 
 	lsp_rpc_notify(server, "textDocument/didClose", node, NULL, NULL);
 

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2013 The Geany contributors
  * Copyright 2023 Jiri Techet <techet@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,24 +17,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef LSP_SYMBOLS_H
-#define LSP_SYMBOLS_H 1
+// stolen from Geany, made lsp_spawn_async_with_pipes() public, removed unneeded stuff
 
-#include "lsp-server.h"
+#ifndef LSP_SPAWN_H
+#define LSP_SPAWN_H 1
 
 #include <glib.h>
 
-void lsp_symbols_doc_request(GeanyDocument *doc, LspCallback callback,
-	gpointer user_data);
+G_BEGIN_DECLS
 
-GPtrArray *lsp_symbols_doc_get_cached(GeanyDocument *doc);
+gboolean lsp_spawn_async_with_pipes(const gchar *working_directory, const gchar *command_line,
+	gchar **argv, gchar **envp, GPid *child_pid, gint *stdin_fd, gint *stdout_fd,
+	gint *stderr_fd, GError **error);
 
+G_END_DECLS
 
-typedef void (*LspWorkspaceSymbolRequestCallback) (GPtrArray *arr, gpointer user_data);
-
-void lsp_symbols_workspace_request(GeanyDocument *doc, const gchar *query, LspWorkspaceSymbolRequestCallback callback,
-	gpointer user_data);
-
-void lsp_symbols_destroy(GeanyDocument *doc);
-
-#endif  /* LSP_SYMBOLS_H */
+#endif  /* LSP_SPAWN_H */

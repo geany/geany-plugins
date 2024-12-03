@@ -23,15 +23,17 @@
 
 #include <glib.h>
 
-void lsp_diagnostics_init(void);
-void lsp_diagnostics_destroy(void);
+void lsp_diagnostics_common_destroy(void);
+
+void lsp_diagnostics_init(LspServer *srv);
+void lsp_diagnostics_free(LspServer *srv);
 
 void lsp_diagnostics_show_calltip(gint pos);
 void lsp_diagnostics_hide_calltip(GeanyDocument *doc);
 
-void lsp_diagnostics_received(GVariant* diags);
+void lsp_diagnostics_received(LspServer *srv, GVariant* diags);
 void lsp_diagnostics_redraw(GeanyDocument *doc);
-void lsp_diagnostics_clear(GeanyDocument *doc);
+void lsp_diagnostics_clear(LspServer *srv, GeanyDocument *doc);
 
 void lsp_diagnostics_style_init(GeanyDocument *doc);
 

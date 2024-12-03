@@ -33,7 +33,16 @@
 #include "lsp-highlight.h"
 #include "lsp-workspace-folders.h"
 
+#include "spawn/lspunixinputstream.h"
+#include "spawn/lspunixoutputstream.h"
+#include "spawn/spawn.h"
+
 #include <jsonrpc-glib.h>
+
+#ifdef G_OS_UNIX
+# include <gio/gunixinputstream.h>
+# include <gio/gunixoutputstream.h>
+#endif
 
 
 static void start_lsp_server(LspServer *server);
@@ -82,13 +91,14 @@ static void free_config(LspServerConfig *cfg)
 
 static void free_server(LspServer *s)
 {
-	if (s->process)
-	{
-		g_object_unref(s->process);
+	if (s->rpc)
 		lsp_rpc_destroy(s->rpc);
+	if (s->stream)
 		g_object_unref(s->stream);
-		lsp_log_stop(s->log);
-	}
+	lsp_log_stop(s->log);
+	lsp_sync_free(s);
+	lsp_diagnostics_free(s);
+	lsp_workspace_folders_free(s);
 
 	g_free(s->autocomplete_trigger_chars);
 	g_free(s->signature_trigger_chars);
@@ -115,9 +125,12 @@ static gboolean is_dead(LspServer *server)
 }
 
 
-static void process_stopped(GObject *source_object, GAsyncResult *res, gpointer data)
+static void process_stopped(GPid pid, gint status, gpointer data)
 {
 	LspServer *s = data;
+
+	g_spawn_close_pid(pid);
+	s->pid = 0;
 
 	// normal shutdown
 	if (g_ptr_array_find(servers_in_shutdown, s, NULL))
@@ -153,6 +166,17 @@ static void process_stopped(GObject *source_object, GAsyncResult *res, gpointer 
 }
 
 
+static void kill_server(LspServer *srv)
+{
+	GError *error = NULL;
+	if (!spawn_kill_process(srv->pid, &error))
+	{
+		msgwin_status_add(_("Failed to send SIGTERM to server: %s"), error->message);
+		g_error_free(error);
+	}
+}
+
+
 static gboolean kill_cb(gpointer user_data)
 {
 	LspServer *srv = user_data;
@@ -160,11 +184,7 @@ static gboolean kill_cb(gpointer user_data)
 	if (g_ptr_array_find(servers_in_shutdown, srv, NULL))
 	{
 		msgwin_status_add(_("Force terminating LSP server %s"), srv->config.cmd);
-#ifdef G_OS_WIN32
-		g_subprocess_force_exit(srv->process);
-#else
-		g_subprocess_send_signal(srv->process, SIGTERM);
-#endif
+		kill_server(srv);
 	}
 
 	return G_SOURCE_REMOVE;
@@ -185,10 +205,8 @@ static void shutdown_cb(GVariant *return_value, GError *error, gpointer user_dat
 	}
 	else
 	{
-#ifndef G_OS_WIN32
 		msgwin_status_add(_("Force terminating LSP server %s"), srv->config.cmd);
-		g_subprocess_send_signal(srv->process, SIGTERM);
-#endif
+		kill_server(srv);
 	}
 
 	plugin_timeout_add(geany_plugin, 2000, kill_cb, srv);
@@ -216,7 +234,7 @@ static void stop_process(LspServer *s)
 
 static void stop_and_free_server(LspServer *s)
 {
-	if (s->process)
+	if (s->pid)
 		stop_process(s);
 	else
 		free_server(s);
@@ -569,11 +587,7 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		// force exit the server - since the handshake didn't perform, the
 		// server may be in some strange state and normal "exit" may not work
 		// (happens with haskell server)
-#ifdef G_OS_WIN32
-		g_subprocess_force_exit(s->process);
-#else
-		g_subprocess_send_signal(s->process, SIGTERM);
-#endif
+		kill_server(s);
 	}
 }
 
@@ -776,41 +790,21 @@ static void start_lsp_server(LspServer *server)
 	GInputStream *input_stream;
 	GOutputStream *output_stream;
 	GError *error = NULL;
-	gchar **argv, **env;
-	gint flags = G_SUBPROCESS_FLAGS_STDIN_PIPE | G_SUBPROCESS_FLAGS_STDOUT_PIPE;
-	GString *cmd;
-	GSubprocessLauncher *launcher;
-
-	cmd = g_string_new(server->config.cmd);
-	while (utils_string_replace_all(cmd, "  ", " ") > 0)
-		;
-	if (g_str_has_prefix(cmd->str, "~/"))
-		utils_string_replace_first(cmd, "~", g_get_home_dir());
-	argv = g_strsplit_set(cmd->str, " ", -1);
-	g_string_free(cmd, TRUE);
-
-	if (!server->config.show_server_stderr)
-		flags |= G_SUBPROCESS_FLAGS_STDERR_SILENCE;
-	launcher = g_subprocess_launcher_new(flags);
-
-	foreach_strv(env, server->config.env)
-	{
-		gchar **kv = g_strsplit_set(*env, "=", 2);
-		if (kv && kv[0] && kv[1])
-		{
-			g_subprocess_launcher_setenv(launcher, kv[0], kv[1], TRUE);
-		}
-		g_strfreev(kv);
-	}
+	gint stdin_fd = -1;
+	gint stdout_fd = -1;
+	gint stderr_fd = -1;
+	gboolean success;
+	GSource *source;
 
 	msgwin_status_add(_("Starting LSP server %s"), server->config.cmd);
 
-	server->process = g_subprocess_launcher_spawnv(launcher, (const gchar * const *)argv, &error);
+	success = lsp_spawn_async_with_pipes(NULL, server->config.cmd, NULL,
+		server->config.env, &server->pid,
+		&stdin_fd, &stdout_fd,
+		server->config.show_server_stderr ? NULL : &stderr_fd,
+		&error);
 
-	g_strfreev(argv);
-	g_object_unref(launcher);
-
-	if (!server->process)
+	if (!success)
 	{
 		msgwin_status_add(_("LSP server process %s failed to start, giving up: %s"), server->config.cmd, error->message);
 		server->restarts = 100;  // don't retry - probably missing executable
@@ -818,14 +812,25 @@ static void start_lsp_server(LspServer *server)
 		return;
 	}
 
-	g_subprocess_wait_async(server->process, NULL, process_stopped, server);
-
-	input_stream = g_subprocess_get_stdout_pipe(server->process);
-	output_stream = g_subprocess_get_stdin_pipe(server->process);
+#ifdef G_OS_UNIX
+	input_stream = g_unix_input_stream_new(stdout_fd, FALSE);
+	output_stream = g_unix_output_stream_new(stdin_fd, FALSE);
+#else
+	// GWin32InputStream / GWin32OutputStream use windows handle-based file
+	// API and we need fd-based API. Use our copy of unix input/output streams
+	// on Windows
+	input_stream = lsp_unix_input_stream_new(stdout_fd, FALSE);
+	output_stream = lsp_unix_output_stream_new(stdin_fd, FALSE);
+#endif
 	server->stream = g_simple_io_stream_new(input_stream, output_stream);
 
 	server->log = lsp_log_start(&server->config);
 	server->rpc = lsp_rpc_new(server, server->stream);
+
+	source = g_child_watch_source_new(server->pid);
+	g_source_set_callback(source, (GSourceFunc) (void(*)(void)) (GChildWatchFunc) process_stopped, server, NULL);
+	g_source_attach(source, NULL);
+	g_source_unref(source);
 
 	perform_initialize(server);
 }
@@ -1026,7 +1031,7 @@ static LspServer *server_get_or_start_for_ft(GeanyFiletype *ft, gboolean launch_
 	if (s->startup_shutdown)
 		return NULL;
 
-	if (s->process)
+	if (s->pid)
 		return s;
 
 	if (s->not_used)
@@ -1046,7 +1051,7 @@ static LspServer *server_get_or_start_for_ft(GeanyFiletype *ft, gboolean launch_
 		{
 			s2 = g_ptr_array_index(lsp_servers, ref_ft->id);
 			s->referenced = s2;
-			if (s2->process)
+			if (s2->pid)
 				return s2;
 		}
 	}
@@ -1310,6 +1315,10 @@ static LspServer *lsp_server_new(GKeyFile *kf_global, GKeyFile *kf, GeanyFiletyp
 	}
 	g_free(s->config.word_chars);
 	s->config.word_chars = g_string_free(wc, FALSE);
+
+	lsp_sync_init(s);
+	lsp_diagnostics_init(s);
+	lsp_workspace_folders_init(s);
 
 	return s;
 }

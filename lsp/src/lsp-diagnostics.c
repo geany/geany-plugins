@@ -50,7 +50,6 @@ typedef enum {
 
 static gint style_indices[LSP_DIAG_SEVERITY_MAX];
 
-static GHashTable *diag_table = NULL;
 static ScintillaObject *calltip_sci;
 static GtkWidget *issue_label;
 
@@ -71,44 +70,43 @@ static void array_free(GPtrArray *arr)
 }
 
 
-void lsp_diagnostics_init(void)
+void lsp_diagnostics_common_destroy(void)
 {
-	GtkWidget *geany_statusbar;
-
-	if (!diag_table)
-		diag_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GDestroyNotify)array_free);
-	g_hash_table_remove_all(diag_table);
-
-	issue_label = gtk_label_new("");
-	geany_statusbar = ui_lookup_widget(geany_data->main_widgets->window, "statusbar");
-	gtk_box_pack_start(GTK_BOX(geany_statusbar), issue_label, FALSE, FALSE, 4);
-	gtk_widget_show_all(issue_label);
+	if (issue_label)
+		gtk_widget_destroy(issue_label);
+	calltip_sci = NULL;
+	issue_label = NULL;
 }
 
 
-void lsp_diagnostics_destroy(void)
+void lsp_diagnostics_init(LspServer *srv)
 {
-	if (diag_table)
-		g_hash_table_destroy(diag_table);
-	if (issue_label)
-		gtk_widget_destroy(issue_label);
-	diag_table = NULL;
-	calltip_sci = NULL;
-	issue_label = NULL;
+	if (!srv->diag_table)
+		srv->diag_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GDestroyNotify)array_free);
+	g_hash_table_remove_all(srv->diag_table);
+}
+
+
+void lsp_diagnostics_free(LspServer *srv)
+{
+	if (srv->diag_table)
+		g_hash_table_destroy(srv->diag_table);
+	srv->diag_table = NULL;
 }
 
 
 static LspDiag *get_diag(gint pos, gint where)
 {
 	GeanyDocument *doc = document_get_current();
+	LspServer *srv = lsp_server_get(doc);
 	LspDiag *previous_diag = NULL;
 	GPtrArray *diags;
 	gint i;
 
-	if (!doc || !doc->real_path)
+	if (!srv || !doc->real_path)
 		return NULL;
 
-	diags = g_hash_table_lookup(diag_table, doc->real_path);
+	diags = g_hash_table_lookup(srv->diag_table, doc->real_path);
 	if (!diags)
 		return NULL;
 
@@ -284,12 +282,23 @@ static void clear_indicators(ScintillaObject *sci)
 }
 
 
+static void create_label(void)
+{
+	GtkWidget *geany_statusbar;
+
+	issue_label = gtk_label_new("");
+	geany_statusbar = ui_lookup_widget(geany_data->main_widgets->window, "statusbar");
+	gtk_box_pack_start(GTK_BOX(geany_statusbar), issue_label, FALSE, FALSE, 4);
+	gtk_widget_show_all(issue_label);
+}
+
+
 static void set_statusbar_issue_num(gint num)
 {
 	gchar *issue_str;
 
 	if (!issue_label)
-		return;
+		create_label();
 
 	issue_str = num >= 0 ? g_strdup_printf(_("issues: %d"), num) : g_strdup("");
 	gtk_label_set_text(GTK_LABEL(issue_label), issue_str);
@@ -304,7 +313,7 @@ static void refresh_issue_statusbar(GeanyDocument *doc)
 
 	if (srv && doc->real_path && !is_diagnostics_disabled_for(doc, &srv->config))
 	{
-		GPtrArray *diags = g_hash_table_lookup(diag_table, doc->real_path);
+		GPtrArray *diags = g_hash_table_lookup(srv->diag_table, doc->real_path);
 		gint i;
 
 		for (i = 0; diags && i < diags->len; i++)
@@ -331,6 +340,8 @@ void lsp_diagnostics_redraw(GeanyDocument *doc)
 	if (!srv || !doc || !doc->real_path || is_diagnostics_disabled_for(doc, &srv->config))
 	{
 		set_statusbar_issue_num(-1);
+		if (doc)
+			clear_indicators(doc->editor->sci);
 		return;
 	}
 
@@ -338,7 +349,7 @@ void lsp_diagnostics_redraw(GeanyDocument *doc)
 
 	clear_indicators(sci);
 
-	diags = g_hash_table_lookup(diag_table, doc->real_path);
+	diags = g_hash_table_lookup(srv->diag_table, doc->real_path);
 	if (!diags)
 	{
 		set_statusbar_issue_num(0);
@@ -419,7 +430,7 @@ static gint sort_diags(gconstpointer a, gconstpointer b)
 }
 
 
-void lsp_diagnostics_received(GVariant* diags)
+void lsp_diagnostics_received(LspServer *srv, GVariant* diags)
 {
 	GeanyDocument *doc = document_get_current();;
 	GVariantIter *iter = NULL;
@@ -477,7 +488,7 @@ void lsp_diagnostics_received(GVariant* diags)
 
 	g_ptr_array_sort(arr, sort_diags);
 
-	g_hash_table_insert(diag_table, g_strdup(real_path), arr);
+	g_hash_table_insert(srv->diag_table, g_strdup(real_path), arr);
 
 	if (doc && doc->real_path && g_strcmp0(doc->real_path, real_path) == 0)
 		lsp_diagnostics_redraw(doc);
@@ -487,11 +498,11 @@ void lsp_diagnostics_received(GVariant* diags)
 }
 
 
-void lsp_diagnostics_clear(GeanyDocument *doc)
+void lsp_diagnostics_clear(LspServer *srv, GeanyDocument *doc)
 {
-	if (doc && doc->real_path)
+	if (srv && doc && doc->real_path)
 	{
-		g_hash_table_remove(diag_table, doc->real_path);
+		g_hash_table_remove(srv->diag_table, doc->real_path);
 		lsp_diagnostics_redraw(doc);
 	}
 

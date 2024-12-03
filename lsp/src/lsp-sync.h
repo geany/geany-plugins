@@ -23,7 +23,8 @@
 #include "lsp-server.h"
 #include "lsp-utils.h"
 
-void lsp_sync_init();
+void lsp_sync_init(LspServer *server);
+void lsp_sync_free(LspServer *server);
 
 void lsp_sync_text_document_did_open(LspServer *server, GeanyDocument *doc);
 void lsp_sync_text_document_did_close(LspServer *server, GeanyDocument *doc);
@@ -31,6 +32,6 @@ void lsp_sync_text_document_did_save(LspServer *server, GeanyDocument *doc);
 void lsp_sync_text_document_did_change(LspServer *server, GeanyDocument *doc,
 	LspPosition pos_start, LspPosition pos_end, gchar *text);
 
-gboolean lsp_sync_is_document_open(GeanyDocument *doc);
+gboolean lsp_sync_is_document_open(LspServer *server, GeanyDocument *doc);
 
 #endif  /* LSP_SYNC_H */

@@ -29,22 +29,20 @@
 
 extern GeanyData *geany_data;
 
-static GHashTable *folder_table = NULL;
 
-
-void lsp_workspace_folders_init(void)
+void lsp_workspace_folders_init(LspServer *srv)
 {
-	if (!folder_table)
-		folder_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-	g_hash_table_remove_all(folder_table);
+	if (!srv->wks_folder_table)
+		srv->wks_folder_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+	g_hash_table_remove_all(srv->wks_folder_table);
 }
 
 
-void lsp_workspace_folders_destroy(void)
+void lsp_workspace_folders_free(LspServer *srv)
 {
-	if (folder_table)
-		g_hash_table_destroy(folder_table);
-	folder_table = NULL;
+	if (srv->wks_folder_table)
+		g_hash_table_destroy(srv->wks_folder_table);
+	srv->wks_folder_table = NULL;
 }
 
 
@@ -128,9 +126,9 @@ void lsp_workspace_folders_doc_open(GeanyDocument *doc)
 	if (!project_root)
 		return;
 
-	if (!g_hash_table_contains(folder_table, project_root))
+	if (!g_hash_table_contains(srv->wks_folder_table, project_root))
 	{
-		g_hash_table_insert(folder_table, project_root, GINT_TO_POINTER(0));
+		g_hash_table_insert(srv->wks_folder_table, project_root, GINT_TO_POINTER(0));
 
 		noitfy_root_change(srv, project_root, TRUE);
 	}
@@ -147,7 +145,7 @@ void lsp_workspace_folders_doc_closed(GeanyDocument *doc)
 	if (!srv || !srv->use_workspace_folders)
 		return;
 
-	roots = g_hash_table_get_keys(folder_table);
+	roots = g_hash_table_get_keys(srv->wks_folder_table);
 
 	foreach_list(root, roots)
 	{
@@ -172,7 +170,7 @@ void lsp_workspace_folders_doc_closed(GeanyDocument *doc)
 		{
 			noitfy_root_change(srv, root->data, FALSE);
 
-			g_hash_table_remove(folder_table, root->data);
+			g_hash_table_remove(srv->wks_folder_table, root->data);
 		}
 	}
 
@@ -180,21 +178,21 @@ void lsp_workspace_folders_doc_closed(GeanyDocument *doc)
 }
 
 
-GPtrArray *lsp_workspace_folders_get(void)
+GPtrArray *lsp_workspace_folders_get(LspServer *srv)
 {
 	GPtrArray *arr = g_ptr_array_new_full(1, g_free);
 	gchar *project_base;
 	GList *node, *lst;
 
-	if (!folder_table)
-		lsp_workspace_folders_init();
+	if (!srv->wks_folder_table)
+		lsp_workspace_folders_init(srv);
 
 	project_base = lsp_utils_get_project_base_path();
 	if (project_base)
 		g_ptr_array_add(arr, project_base);
 	g_free(project_base);
 
-	lst = g_hash_table_get_keys(folder_table);
+	lst = g_hash_table_get_keys(srv->wks_folder_table);
 	foreach_list(node, lst)
 		g_ptr_array_add(arr, g_strdup(node->data));
 	g_list_free(lst);

@@ -4,6 +4,9 @@ plugin = lsp
 geanyplugins_LTLIBRARIES = lsp.la
 
 lsp_la_SOURCES = \
+	spawn/lspunixinputstream.c \
+	spawn/lspunixoutputstream.c \
+	spawn/spawn.c \
 	lsp-autocomplete.c \
 	lsp-autocomplete.h \
 	lsp-code-lens.c \

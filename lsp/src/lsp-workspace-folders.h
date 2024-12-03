@@ -21,14 +21,14 @@
 
 #include "lsp-server.h"
 
-void lsp_workspace_folders_init(void);
-void lsp_workspace_folders_destroy(void);
+void lsp_workspace_folders_init(LspServer *srv);
+void lsp_workspace_folders_free(LspServer *srv);
 
 void lsp_workspace_folders_add_project_root(LspServer *srv);
 
 void lsp_workspace_folders_doc_open(GeanyDocument *doc);
 void lsp_workspace_folders_doc_closed(GeanyDocument *doc);
 
-GPtrArray *lsp_workspace_folders_get(void);
+GPtrArray *lsp_workspace_folders_get(LspServer *srv);
 
 #endif   /* LSP_WORKSPACE_FOLDERS */

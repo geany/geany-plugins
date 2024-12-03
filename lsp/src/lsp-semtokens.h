@@ -29,6 +29,6 @@ void lsp_semtokens_clear(GeanyDocument *doc);
 void lsp_semtokens_style_init(GeanyDocument *doc);
 
 void lsp_semtokens_init(gint ft_id);
-void lsp_semtokens_destroy(void);
+void lsp_semtokens_destroy(GeanyDocument *doc);
 
 #endif  /* LSP_SEMTOKENS_H */

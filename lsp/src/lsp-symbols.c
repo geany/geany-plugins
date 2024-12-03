@@ -55,17 +55,10 @@ static void arr_free(GPtrArray *arr)
 }
 
 
-void lsp_symbols_destroy(void)
+void lsp_symbols_destroy(GeanyDocument *doc)
 {
-	guint i;
-
-	foreach_document(i)
-	{
-		GeanyDocument *doc = documents[i];
-
-		plugin_set_document_data_full(geany_plugin, doc, CACHED_SYMBOLS_KEY,
-				NULL, (GDestroyNotify)arr_free);
-	}
+	plugin_set_document_data_full(geany_plugin, doc, CACHED_SYMBOLS_KEY,
+			NULL, (GDestroyNotify)arr_free);
 }
 
 
@@ -242,8 +235,7 @@ void lsp_symbols_doc_request(GeanyDocument *doc, LspCallback callback,
 
 	/* Geany requests symbols before firing "document-activate" signal so we may
 	 * need to request document opening here */
-	if (!lsp_sync_is_document_open(doc))
-		lsp_sync_text_document_did_open(server, doc);
+	lsp_sync_text_document_did_open(server, doc);
 
 	node = JSONRPC_MESSAGE_NEW (
 		"textDocument", "{",
