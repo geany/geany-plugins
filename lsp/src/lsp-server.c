@@ -33,8 +33,6 @@
 #include "lsp-highlight.h"
 #include "lsp-workspace-folders.h"
 
-#include "spawn/lspunixinputstream.h"
-#include "spawn/lspunixoutputstream.h"
 #include "spawn/spawn.h"
 
 #include <jsonrpc-glib.h>
@@ -42,6 +40,9 @@
 #ifdef G_OS_UNIX
 # include <gio/gunixinputstream.h>
 # include <gio/gunixoutputstream.h>
+#else
+# include "spawn/lspunixinputstream.h"
+# include "spawn/lspunixoutputstream.h"
 #endif
 
 
