@@ -25,7 +25,6 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdio.h>
-#include <sys/uio.h>
 
 #include <glib.h>
 #include <glib/gstdio.h>
@@ -80,12 +79,6 @@ static gssize   lsp_unix_output_stream_write        (GOutputStream        *strea
 						   gsize                 count,
 						   GCancellable         *cancellable,
 						   GError              **error);
-static gboolean lsp_unix_output_stream_writev       (GOutputStream        *stream,
-						   const GOutputVector  *vectors,
-						   gsize                 n_vectors,
-						   gsize                *bytes_written,
-						   GCancellable         *cancellable,
-						   GError              **error);
 static gboolean lsp_unix_output_stream_close        (GOutputStream        *stream,
 						   GCancellable         *cancellable,
 						   GError              **error);
@@ -100,7 +93,7 @@ lsp_unix_output_stream_class_init (LspUnixOutputStreamClass *klass)
   gobject_class->set_property = lsp_unix_output_stream_set_property;
 
   stream_class->write_fn = lsp_unix_output_stream_write;
-  stream_class->writev_fn = lsp_unix_output_stream_writev;
+  stream_class->writev_fn = NULL;
   stream_class->close_fn = lsp_unix_output_stream_close;
 
    /**
@@ -351,128 +344,6 @@ lsp_unix_output_stream_write (GOutputStream  *stream,
   return res;
 }
 
-/* Macro to check if struct iovec and GOutputVector have the same ABI */
-#define G_OUTPUT_VECTOR_IS_IOVEC (sizeof (struct iovec) == sizeof (GOutputVector) && \
-      G_SIZEOF_MEMBER (struct iovec, iov_base) == G_SIZEOF_MEMBER (GOutputVector, buffer) && \
-      G_STRUCT_OFFSET (struct iovec, iov_base) == G_STRUCT_OFFSET (GOutputVector, buffer) && \
-      G_SIZEOF_MEMBER (struct iovec, iov_len) == G_SIZEOF_MEMBER (GOutputVector, size) && \
-      G_STRUCT_OFFSET (struct iovec, iov_len) == G_STRUCT_OFFSET (GOutputVector, size))
-
-#if defined(IOV_MAX)
-#define G_IOV_MAX IOV_MAX
-#elif defined(UIO_MAXIOV)
-#define G_IOV_MAX UIO_MAXIOV
-#elif defined(__APPLE__)
-/* For macOS/iOS, UIO_MAXIOV is documented in writev(2), but <sys/uio.h>
- * only declares it if defined(KERNEL) */
-#define G_IOV_MAX 512
-#else
-/* 16 is the minimum value required by POSIX */
-#define G_IOV_MAX 16
-#endif
-
-static gboolean
-lsp_unix_output_stream_writev (GOutputStream        *stream,
-			     const GOutputVector  *vectors,
-			     gsize                 n_vectors,
-			     gsize                *bytes_written,
-			     GCancellable         *cancellable,
-			     GError              **error)
-{
-  LspUnixOutputStream *unix_stream;
-  gssize res = -1;
-  GPollFD poll_fds[2];
-  int nfds = 0;
-  int poll_ret;
-  struct iovec *iov;
-
-  if (bytes_written)
-    *bytes_written = 0;
-
-  /* Clamp the number of vectors if more given than we can write in one go.
-   * The caller has to handle short writes anyway.
-   */
-  if (n_vectors > G_IOV_MAX)
-    n_vectors = G_IOV_MAX;
-
-  unix_stream = LSP_UNIX_OUTPUT_STREAM (stream);
-
-  if (G_OUTPUT_VECTOR_IS_IOVEC)
-    {
-      /* ABI is compatible */
-      iov = (struct iovec *) vectors;
-    }
-  else
-    {
-      gsize i;
-
-      /* ABI is incompatible */
-      iov = g_newa (struct iovec, n_vectors);
-      for (i = 0; i < n_vectors; i++)
-        {
-          iov[i].iov_base = (void *)vectors[i].buffer;
-          iov[i].iov_len = vectors[i].size;
-        }
-    }
-
-  poll_fds[0].fd = unix_stream->priv->fd;
-  poll_fds[0].events = G_IO_OUT;
-  nfds++;
-
-  if (unix_stream->priv->can_poll &&
-      g_cancellable_make_pollfd (cancellable, &poll_fds[1]))
-    nfds++;
-
-  while (1)
-    {
-      int errsv;
-
-      poll_fds[0].revents = poll_fds[1].revents = 0;
-      do
-        {
-          poll_ret = g_poll (poll_fds, nfds, -1);
-          errsv = errno;
-        }
-      while (poll_ret == -1 && errsv == EINTR);
-
-      if (poll_ret == -1)
-	{
-	  g_set_error (error, G_IO_ERROR,
-		       g_io_error_from_errno (errsv),
-		       "Error writing to file descriptor: %s",
-		       g_strerror (errsv));
-	  break;
-	}
-
-      if (g_cancellable_set_error_if_cancelled (cancellable, error))
-	break;
-
-      if (!poll_fds[0].revents)
-	continue;
-
-      res = writev (unix_stream->priv->fd, iov, n_vectors);
-      errsv = errno;
-      if (res == -1)
-	{
-	  if (errsv == EINTR || errsv == EAGAIN)
-	    continue;
-
-	  g_set_error (error, G_IO_ERROR,
-		       g_io_error_from_errno (errsv),
-		       "Error writing to file descriptor: %s",
-		       g_strerror (errsv));
-	}
-
-      if (bytes_written)
-        *bytes_written = res;
-
-      break;
-    }
-
-  if (nfds == 2)
-    g_cancellable_release_fd (cancellable);
-  return res != -1;
-}
 
 static gboolean
 lsp_unix_output_stream_close (GOutputStream  *stream,
