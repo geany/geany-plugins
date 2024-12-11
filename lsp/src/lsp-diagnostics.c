@@ -38,6 +38,12 @@ typedef struct {
 } LspDiag;
 
 
+typedef struct {
+	const gchar *fname;
+	const LspDiag *diag;
+} LspFileDiag;
+
+
 typedef enum {
 	LSP_DIAG_SEVERITY_MIN = 1,
 	LspError = 1,
@@ -517,4 +523,113 @@ void lsp_diagnostics_hide_calltip(GeanyDocument *doc)
 		SSM(doc->editor->sci, SCI_CALLTIPCANCEL, 0, 0);
 		calltip_sci = NULL;
 	}
+}
+
+
+static gint compare_diags(gconstpointer a, gconstpointer b)
+{
+	const LspFileDiag *item_a = *((LspFileDiag **) a);
+	const LspFileDiag *item_b = *((LspFileDiag **) b);
+	gint res = g_strcmp0(item_a->fname, item_b->fname);
+
+	if (res != 0)
+		return res;
+
+	if (item_a->diag->range.start.line < item_b->diag->range.start.line)
+		return -1;
+	if (item_a->diag->range.start.line > item_b->diag->range.start.line)
+		return 1;
+
+	if (item_a->diag->severity < item_b->diag->severity)
+		return -1;
+	if (item_a->diag->severity > item_b->diag->severity)
+		return 1;
+
+	return 0;
+}
+
+
+static void replace_char(gchar *str, gchar find, gchar replace)
+{
+	gchar *current_pos = strchr(str, find);
+	while (current_pos)
+	{
+		*current_pos = replace;
+		current_pos = strchr(current_pos, find);
+	}
+}
+
+
+static void show_in_msgwin(LspFileDiag *diag)
+{
+	gint lineno = diag->diag->range.start.line;
+	gchar *fname = g_strdup(diag->fname);
+	gchar *new_msg = g_strdup(diag->diag->message);
+	gchar *base_path;
+
+	base_path = lsp_utils_get_project_base_path();
+
+	if (base_path)
+	{
+		gchar *rel_path = lsp_utils_get_relative_path(base_path, fname);
+		gchar *locale_base_path = utils_get_locale_from_utf8(base_path);
+
+		if (rel_path && !g_str_has_prefix(rel_path, ".."))
+			SETPTR(fname, g_strdup(rel_path));
+
+		msgwin_set_messages_dir(locale_base_path);
+
+		g_free(locale_base_path);
+		g_free(rel_path);
+	}
+
+	replace_char(new_msg, '\n', ' ');
+	replace_char(new_msg, '\r', ' ');
+	msgwin_msg_add(COLOR_BLACK, -1, NULL, "%s:%d:  %s", fname, lineno + 1, new_msg);
+
+	g_free(fname);
+	g_free(new_msg);
+	g_free(base_path);
+}
+
+
+void lsp_diagnostics_show_all(void)
+{
+	GeanyDocument *doc = document_get_current();
+	LspServer *srv = lsp_server_get(doc);
+	GPtrArray *arr, *diags;
+	LspFileDiag *item;
+	GHashTableIter iter;
+	const gchar *key;
+	guint i;
+
+	if (!srv)
+		return;
+
+	arr = g_ptr_array_new_full(100, g_free);
+
+	g_hash_table_iter_init(&iter, srv->diag_table);
+	while (g_hash_table_iter_next(&iter, (gpointer *)&key, (gpointer *)&diags))
+	{
+		LspDiag *diag;
+
+		foreach_ptr_array(diag, i, diags)
+		{
+			item = g_new0(LspFileDiag, 1);
+			item->fname = key;
+			item->diag = diag;
+			g_ptr_array_add(arr, item);
+		}
+	}
+
+	g_ptr_array_sort(arr, compare_diags);
+
+	msgwin_clear_tab(MSG_MESSAGE);
+	msgwin_switch_tab(MSG_MESSAGE, TRUE);
+	foreach_ptr_array(item, i, arr)
+	{
+		show_in_msgwin(item);
+	}
+
+	g_ptr_array_free(arr, TRUE);
 }

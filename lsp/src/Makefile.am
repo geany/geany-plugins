@@ -69,7 +69,21 @@ lsp_la_CPPFLAGS = $(AM_CPPFLAGS) \
 	-I$(top_srcdir)/lsp/deps/jsonrpc-glib \
 	-I$(top_srcdir)/lsp/deps \
 	-I$(top_srcdir)/lsp/src
+if ENABLE_BUILTIN_JSONRPC
+lsp_la_CPPFLAGS += -I$(top_srcdir)/lsp/deps/jsonrpc-glib -I$(top_srcdir)/lsp/deps
+endif
+
+if ENABLE_BUILTIN_JSONRPC
 lsp_la_CFLAGS = $(AM_CFLAGS)
-lsp_la_LIBADD = $(COMMONLIBS) $(top_builddir)/lsp/deps/libjsonrpc.la
+else
+lsp_la_CFLAGS = $(AM_CFLAGS) $(LSP_CFLAGS)
+endif
+
+lsp_la_LIBADD = $(COMMONLIBS)
+if ENABLE_BUILTIN_JSONRPC
+lsp_la_LIBADD += $(top_builddir)/lsp/deps/libjsonrpc.la
+else
+lsp_la_LIBADD += $(LSP_LIBS)
+endif
 
 include $(top_srcdir)/build/cppcheck.mk

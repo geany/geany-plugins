@@ -37,6 +37,8 @@ static struct
 
 extern GeanyData *geany_data;
 
+static GtkWidget *progress_dialog;
+
 
 static gchar *show_dialog_rename(const gchar *old_name)
 {
@@ -132,9 +134,44 @@ static gchar *show_dialog_rename(const gchar *old_name)
 }
 
 
+static GtkWidget *create_progress_dialog(void)
+{
+	GtkWidget *dialog, *label, *vbox;
+
+	dialog = gtk_window_new(GTK_WINDOW_POPUP);
+
+	gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(geany->main_widgets->window));
+	gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog), TRUE);
+
+	gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT);
+
+	gtk_widget_set_name(dialog, "GeanyDialog");
+
+	gtk_window_set_decorated(GTK_WINDOW(dialog), FALSE);
+	gtk_window_set_default_size(GTK_WINDOW(dialog), 200, 100);
+
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+	gtk_container_set_border_width(GTK_CONTAINER(vbox), 12);
+	gtk_container_add(GTK_CONTAINER(dialog), vbox);
+
+	label = gtk_label_new(NULL);
+	gtk_label_set_markup(GTK_LABEL(label), _("<b>Renaming...</b>"));
+	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
+	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, FALSE, 0);
+
+	gtk_widget_show_all(dialog);
+
+	return dialog;
+}
+
+
 static void rename_cb(GVariant *return_value, GError *error, gpointer user_data)
 {
 	GCallback on_rename_done = user_data;
+
+	gtk_widget_destroy(progress_dialog);
+	progress_dialog = NULL;
 
 	if (!error)
 	{
@@ -186,6 +223,8 @@ void lsp_rename_send_request(gint pos, GCallback on_rename_done)
 			);
 
 			//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
+
+			progress_dialog = create_progress_dialog();
 
 			lsp_rpc_call(srv, "textDocument/rename", node,
 				rename_cb, on_rename_done);

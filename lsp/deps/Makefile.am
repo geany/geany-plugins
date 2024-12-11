@@ -56,6 +56,8 @@ jsonrpc_glib_srcs = \
 	jsonrpc-glib/jsonrpc-version.h \
 	jsonrpc-glib/jsonrpc-version-macros.h
 
+if ENABLE_BUILTIN_JSONRPC
+
 libjsonrpc_la_SOURCES = \
 	$(json_glib_srcs) \
 	$(jsonrpc_glib_srcs)
@@ -72,3 +74,5 @@ libjsonrpc_la_CFLAGS = $(AM_CFLAGS)
 # false positives and it's not "our" code anyway
 #
 # include $(top_srcdir)/build/cppcheck.mk
+
+endif

@@ -111,6 +111,60 @@ static gint compare_symbol_lines(gconstpointer a, gconstpointer b)
 }
 
 
+static gboolean is_symbol_within_parent(const LspSymbol *sym, const LspSymbol *parent)
+{
+	const gchar *scope_sep = LSP_SCOPE_SEPARATOR;
+	const gchar *sym_scope = lsp_symbol_get_scope(sym);
+	const gchar *parent_scope = lsp_symbol_get_scope(parent);
+	const gchar *parent_name = lsp_symbol_get_name(parent);
+
+	guint scope_len = 0;
+
+	if (EMPTY(sym_scope))
+		return FALSE;
+
+	if (!EMPTY(parent_scope))
+	{
+		if (!g_str_has_prefix(sym_scope, parent_scope))
+			return FALSE;
+		scope_len = strlen(parent_scope);
+
+		if (!g_str_has_prefix(sym_scope + scope_len, scope_sep))
+			return FALSE;
+		scope_len += strlen(scope_sep);
+	}
+
+	if (!g_str_has_prefix(sym_scope + scope_len, parent_name))
+		return FALSE;
+	scope_len += strlen(parent_name);
+
+	if (sym_scope[scope_len] == '\0')
+		return TRUE;
+
+	if (!g_str_has_prefix(sym_scope + scope_len, scope_sep))
+		return FALSE;
+
+	return TRUE;
+}
+
+
+/* for symbol tree construction make sure that symbol parents appear before
+ * their children in the list */
+static gint compare_symbol_parent_first(gconstpointer a, gconstpointer b)
+{
+	const LspSymbol *sym_a = a;
+	const LspSymbol *sym_b = b;
+
+	if (is_symbol_within_parent(sym_a, sym_b))
+		return 1;
+
+	if (is_symbol_within_parent(sym_b, sym_a))
+		return -1;
+
+	return compare_symbol_lines(a, b);
+}
+
+
 static GList *get_symbol_list(GeanyDocument *doc, GPtrArray *lsp_symbols)
 {
 	GList *symbols = NULL;
@@ -157,7 +211,7 @@ static GList *get_symbol_list(GeanyDocument *doc, GPtrArray *lsp_symbols)
 		g_free(normalized_tagname);
 		g_free(full_tagname);
 	}
-	symbols = g_list_sort(symbols, compare_symbol_lines);
+	symbols = g_list_sort(symbols, compare_symbol_parent_first);
 
 	g_strfreev(tf_strv);
 

@@ -76,6 +76,7 @@ static void free_config(LspServerConfig *cfg)
 	g_free(cfg->diagnostics_info_style);
 	g_free(cfg->diagnostics_hint_style);
 	g_free(cfg->highlighting_style);
+	g_free(cfg->trace_value);
 	g_free(cfg->code_lens_style);
 	g_free(cfg->formatting_options_file);
 	g_free(cfg->formatting_options);
@@ -169,11 +170,14 @@ static void process_stopped(GPid pid, gint status, gpointer data)
 
 static void kill_server(LspServer *srv)
 {
-	GError *error = NULL;
-	if (!spawn_kill_process(srv->pid, &error))
+	if (srv->pid > 0)
 	{
-		msgwin_status_add(_("Failed to send SIGTERM to server: %s"), error->message);
-		g_error_free(error);
+		GError *error = NULL;
+		if (!spawn_kill_process(srv->pid, &error))
+		{
+			msgwin_status_add(_("Failed to send SIGTERM to server: %s"), error->message);
+			g_error_free(error);
+		}
 	}
 }
 
@@ -514,6 +518,8 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 
 	if (!error)
 	{
+		gboolean supports_semantic_token_range, supports_semantic_token_full;
+
 		g_free(s->autocomplete_trigger_chars);
 		s->autocomplete_trigger_chars = get_autocomplete_trigger_chars(return_value);
 
@@ -554,10 +560,16 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 
 		s->initialize_response = lsp_utils_json_pretty_print(return_value);
 
-		s->config.semantic_tokens_enable = s->config.semantic_tokens_enable &&
-			has_capability(return_value, "semanticTokensProvider", "full", NULL);
+		supports_semantic_token_range = has_capability(return_value, "semanticTokensProvider", "range", NULL);
+		supports_semantic_token_full = has_capability(return_value, "semanticTokensProvider", "full", NULL);
 		s->config.semantic_tokens_supports_delta = has_capability(return_value,
 			"semanticTokensProvider", "full", "delta");
+
+		s->config.semantic_tokens_enable = s->config.semantic_tokens_enable &&
+			(supports_semantic_token_full || supports_semantic_token_range);
+		s->config.semantic_tokens_range_only = !supports_semantic_token_full &&
+			supports_semantic_token_range;
+
 		s->semantic_token_mask = get_semantic_token_mask(s, return_value);
 
 		msgwin_status_add(_("LSP server %s initialized"), s->config.cmd);
@@ -590,6 +602,16 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 		// (happens with haskell server)
 		kill_server(s);
 	}
+}
+
+
+static const gchar *get_trace_level(LspServer *srv)
+{
+	if (g_strcmp0(srv->config.trace_value, "messages") == 0 ||
+		g_strcmp0(srv->config.trace_value, "verbose") == 0)
+		return srv->config.trace_value;
+
+	return "off";
 }
 
 
@@ -730,7 +752,7 @@ static void perform_initialize(LspServer *server)
 		"}",
 		"processId", JSONRPC_MESSAGE_PUT_INT64(getpid()),
 		"locale", JSONRPC_MESSAGE_PUT_STRING("en"),
-		"trace", JSONRPC_MESSAGE_PUT_STRING("off"),
+		"trace", JSONRPC_MESSAGE_PUT_STRING(get_trace_level(server)),
 		"rootPath", JSONRPC_MESSAGE_PUT_STRING(project_base),
 		"rootUri", JSONRPC_MESSAGE_PUT_STRING(project_base_uri)
 	);
@@ -796,10 +818,21 @@ static void start_lsp_server(LspServer *server)
 	gint stderr_fd = -1;
 	gboolean success;
 	GSource *source;
+	GString *cmd = g_string_new(server->config.cmd);
 
-	msgwin_status_add(_("Starting LSP server %s"), server->config.cmd);
+#ifdef G_OS_UNIX
+	// command itself
+	if (g_str_has_prefix(cmd->str, "~/"))
+		utils_string_replace_first(cmd, "~", g_get_home_dir());
+	// arguments such as config files
+	gchar *replacement = g_strconcat(" ", g_get_home_dir(), "/", NULL);
+	utils_string_replace_all(cmd, " ~/", replacement);
+	g_free(replacement);
+#endif
 
-	success = lsp_spawn_async_with_pipes(NULL, server->config.cmd, NULL,
+	msgwin_status_add(_("Starting LSP server %s"), cmd->str);
+
+	success = lsp_spawn_async_with_pipes(NULL, cmd->str, NULL,
 		server->config.env, &server->pid,
 		&stdin_fd, &stdout_fd,
 		server->config.show_server_stderr ? NULL : &stderr_fd,
@@ -807,33 +840,35 @@ static void start_lsp_server(LspServer *server)
 
 	if (!success)
 	{
-		msgwin_status_add(_("LSP server process %s failed to start, giving up: %s"), server->config.cmd, error->message);
+		msgwin_status_add(_("LSP server process %s failed to start, giving up: %s"), cmd->str, error->message);
 		server->restarts = 100;  // don't retry - probably missing executable
 		g_error_free(error);
+		g_string_free(cmd, TRUE);
 		return;
 	}
-
-#ifdef G_OS_UNIX
-	input_stream = g_unix_input_stream_new(stdout_fd, FALSE);
-	output_stream = g_unix_output_stream_new(stdin_fd, FALSE);
-#else
-	// GWin32InputStream / GWin32OutputStream use windows handle-based file
-	// API and we need fd-based API. Use our copy of unix input/output streams
-	// on Windows
-	input_stream = lsp_unix_input_stream_new(stdout_fd, FALSE);
-	output_stream = lsp_unix_output_stream_new(stdin_fd, FALSE);
-#endif
-	server->stream = g_simple_io_stream_new(input_stream, output_stream);
-
-	server->log = lsp_log_start(&server->config);
-	server->rpc = lsp_rpc_new(server, server->stream);
 
 	source = g_child_watch_source_new(server->pid);
 	g_source_set_callback(source, (GSourceFunc) (void(*)(void)) (GChildWatchFunc) process_stopped, server, NULL);
 	g_source_attach(source, NULL);
 	g_source_unref(source);
 
+#ifdef G_OS_UNIX
+	input_stream = g_unix_input_stream_new(stdout_fd, TRUE);
+	output_stream = g_unix_output_stream_new(stdin_fd, TRUE);
+#else
+	// GWin32InputStream / GWin32OutputStream use windows handle-based file
+	// API and we need fd-based API. Use our copy of unix input/output streams
+	// on Windows
+	input_stream = lsp_unix_input_stream_new(stdout_fd, TRUE);
+	output_stream = lsp_unix_output_stream_new(stdin_fd, TRUE);
+#endif
+	server->stream = g_simple_io_stream_new(input_stream, output_stream);
+
+	server->log = lsp_log_start(&server->config);
+	server->rpc = lsp_rpc_new(server, server->stream);
+
 	perform_initialize(server);
+	g_string_free(cmd, TRUE);
 }
 
 
@@ -949,6 +984,9 @@ static void load_config(GKeyFile *kf, const gchar *section, LspServer *s)
 
 	get_bool(&s->config.progress_bar_enable, kf, section, "progress_bar_enable");
 	get_bool(&s->config.swap_header_source_enable, kf, section, "swap_header_source_enable");
+
+	get_str(&s->config.trace_value, kf, section, "trace_value");
+	get_bool(&s->config.enable_telemetry, kf, section, "telemetry_notifications");
 
 	// create for the first time, then just update
 	if (!s->config.command_regexes)

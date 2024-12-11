@@ -438,6 +438,29 @@ void lsp_semtokens_send_request(GeanyDocument *doc)
 		lsp_rpc_call(server, "textDocument/semanticTokens/full/delta", node,
 			semtokens_cb, doc);
 	}
+	else if (server->config.semantic_tokens_range_only)
+	{
+		guint last_pos = SSM(doc->editor->sci, SCI_GETLENGTH, 0, 0);
+		LspPosition pos = lsp_utils_scintilla_pos_to_lsp(doc->editor->sci, last_pos);
+
+		node = JSONRPC_MESSAGE_NEW(
+			"textDocument", "{",
+				"uri", JSONRPC_MESSAGE_PUT_STRING(doc_uri),
+			"}",
+			"range", "{",
+				"start", "{",
+					"line", JSONRPC_MESSAGE_PUT_INT32(0),
+					"character", JSONRPC_MESSAGE_PUT_INT32(0),
+				"}",
+				"end", "{",
+					"line", JSONRPC_MESSAGE_PUT_INT32(pos.line),
+					"character", JSONRPC_MESSAGE_PUT_INT32(pos.character),
+				"}",
+			"}"
+		);
+		lsp_rpc_call(server, "textDocument/semanticTokens/range", node,
+			semtokens_cb, doc);
+	}
 	else
 	{
 		node = JSONRPC_MESSAGE_NEW(

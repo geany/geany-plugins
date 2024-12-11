@@ -101,12 +101,18 @@ LSP diagnostic messages typically include error messages or warnings from
 compilers, as well as messages from linters. These messages are highlighted in
 the code; the exact style of highlighting can be configured to suit your
 preferences. When you hover over the highlighted part with your mouse cursor,
-a popup window appears, providing additional details about the issue.
+a popup window appears, providing additional details about the issue. It is
+also possible to display all diagnostic messages received from the server in
+the message window.
 
-Some servers offer auto-fixes of certain issues. For instance, the ``clangd``
-server displays ``fix available`` next to the issue in the hover popup window.
-To perform the auto-fix, right-click the line with the issue and select the
-corresponding option from the Commands submenu.
+Code actions
+------------
+
+Some servers offer auto-fixes of certain issues or various refactoring options.
+For instance, the ``clangd`` server displays ``fix available`` next to the issue
+in the hover popup window. To perform the auto-fix, right-click the line with
+the issue and select the corresponding option from the Commands submenu. This
+popup can also be invoked by a keybinding.
 
 Code lenses
 -----------
@@ -114,8 +120,7 @@ Code lenses
 Code lenses are executable commands that are specific to a particular piece of
 code. As Geany's Scintilla component limitations prevent these commands
 from being clickable and executable directly in the editor, they are accessible
-through the Commands submenu of the context menu, similarly to diagnostic
-messages.
+through the Commands submenu of the context menu, similarly to code actions.
 
 Semantic token type highlighting
 --------------------------------
@@ -203,7 +208,9 @@ Identical symbol highlighting
 
 When you click on a symbol in the document, this feature highlights all its
 occurrences in the document. You can customize the highlighting style to your
-preference by configuring it in the configuration file.
+preference by configuring it in the configuration file. Also, it is possible
+to disable this feature to be performed automatically, but, instead, manually
+through a keybinding.
 
 Smart selection expanding/shrinking
 -----------------------------------

@@ -31,6 +31,8 @@ void lsp_diagnostics_free(LspServer *srv);
 void lsp_diagnostics_show_calltip(gint pos);
 void lsp_diagnostics_hide_calltip(GeanyDocument *doc);
 
+void lsp_diagnostics_show_all(void);
+
 void lsp_diagnostics_received(LspServer *srv, GVariant* diags);
 void lsp_diagnostics_redraw(GeanyDocument *doc);
 void lsp_diagnostics_clear(LspServer *srv, GeanyDocument *doc);
