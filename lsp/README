@@ -39,7 +39,7 @@ project under
     Project->Properties->LSP Client
 
 This behavior can be controlled by the first three configuration options in
-the `[all]` section of the configuration file.
+the ``[all]`` section of the configuration file.
 
 Language servers are started lazily, meaning they only launch when you switch
 a tab to a file with a filetype that has a corresponding LSP server configured.

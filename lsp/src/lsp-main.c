@@ -153,7 +153,6 @@ struct
 struct
 {
 	GtkWidget *command_item;
-	GtkWidget *goto_type_def;
 	GtkWidget *goto_def;
 	GtkWidget *goto_ref;
 	GtkWidget *rename_in_file;
@@ -1141,7 +1140,6 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 	LspServer *srv = lsp_server_get_if_running(doc);
 	gboolean goto_definition_enable = srv && srv->config.goto_definition_enable;
 	gboolean goto_references_enable = srv && srv->config.goto_references_enable;
-	gboolean goto_type_definition_enable = srv && srv->config.goto_type_definition_enable;
 	gboolean code_action_enable = srv && srv->config.code_action_enable;
 	gboolean document_formatting_enable = srv && srv->config.document_formatting_enable;
 	gboolean range_formatting_enable = srv && srv->config.range_formatting_enable;
@@ -1150,7 +1148,6 @@ static gboolean on_update_editor_menu(G_GNUC_UNUSED GObject *obj,
 
 	gtk_widget_set_sensitive(context_menu_items.goto_ref, goto_references_enable);
 	gtk_widget_set_sensitive(context_menu_items.goto_def, goto_definition_enable);
-	gtk_widget_set_sensitive(context_menu_items.goto_type_def, goto_type_definition_enable);
 
 	gtk_widget_set_sensitive(context_menu_items.rename_in_file, highlighting_enable);
 	gtk_widget_set_sensitive(context_menu_items.rename_in_project, rename_enable);
@@ -1726,12 +1723,6 @@ static void create_menu_items()
 	gtk_widget_show(context_menu_items.separator2);
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.separator2);
 
-	context_menu_items.goto_type_def = gtk_menu_item_new_with_mnemonic(_("Go to _Type Definition (LSP)"));
-	gtk_widget_show(context_menu_items.goto_type_def);
-	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.goto_type_def);
-	g_signal_connect(context_menu_items.goto_type_def, "activate", G_CALLBACK(on_context_menu_invoked),
-		GUINT_TO_POINTER(KB_GOTO_TYPE_DEFINITION));
-
 	context_menu_items.goto_def = gtk_menu_item_new_with_mnemonic(_("Go to _Definition (LSP)"));
 	gtk_widget_show(context_menu_items.goto_def);
 	gtk_menu_shell_prepend(GTK_MENU_SHELL(geany->main_widgets->editor_menu), context_menu_items.goto_def);
@@ -1796,7 +1787,6 @@ void plugin_cleanup(void)
 	gtk_widget_destroy(menu_items.parent_item);
 	menu_items.parent_item = NULL;
 
-	gtk_widget_destroy(context_menu_items.goto_type_def);
 	gtk_widget_destroy(context_menu_items.goto_def);
 	gtk_widget_destroy(context_menu_items.format_code);
 	gtk_widget_destroy(context_menu_items.rename_in_file);
