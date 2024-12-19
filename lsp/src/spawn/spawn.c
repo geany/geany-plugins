@@ -25,6 +25,7 @@
 
 #include <errno.h>
 #include <string.h>
+#include <geanyplugin.h>
 
 #include "spawn/spawn.h"
 
@@ -225,7 +226,7 @@ static gchar *spawn_create_process_with_pipes(wchar_t *w_command_line, const wch
 
 	startup.hStdInput = hpipe[READ_STDIN];
 	startup.hStdOutput = hpipe[WRITE_STDOUT];
-	startup.hStdError = 0;
+	startup.hStdError = hpipe[WRITE_STDERR];
 
 	if (!CreateProcessW(NULL, w_command_line, NULL, NULL, TRUE,
 		CREATE_UNICODE_ENVIRONMENT | (pipe_io ? CREATE_NO_WINDOW : 0),
@@ -641,4 +642,340 @@ gboolean lsp_spawn_async_with_pipes(const gchar *working_directory, const gchar 
 
 	return spawned;
 #endif  /* G_OS_WIN32 */
+}
+
+
+/*
+ * Spawn with callbacks - general event sequence:
+ *
+ * - Launch the child.
+ * - Setup any I/O callbacks and a child watch callback.
+ * - On sync execution, run a main loop.
+ * - Wait for the child to terminate.
+ * - Check for active I/O sources. If any, add a timeout source to watch them, they should
+ *   become inactive real soon now that the child is dead. Otherwise, finalize immediately.
+ * - In the timeout source: check for active I/O sources and finalize if none.
+ */
+
+typedef struct _SpawnChannelData
+{
+	GIOChannel *channel;  /* NULL if not created / already destroyed */
+	union
+	{
+		GIOFunc write;
+		SpawnReadFunc read;
+	} cb;
+	gpointer cb_data;
+	/* stdout/stderr only */
+	GString *buffer;       /* NULL if recursive */
+	GString *line_buffer;  /* NULL if char buffered */
+	gsize max_length;
+	/* stdout/stderr: fix continuous empty G_IO_IN-s for recursive channels */
+	guint empty_gio_ins;
+} SpawnChannelData;
+
+#define SPAWN_CHANNEL_GIO_WATCH(sc) ((sc)->empty_gio_ins < 200)
+
+
+static void spawn_destroy_common(SpawnChannelData *sc)
+{
+	g_io_channel_shutdown(sc->channel, FALSE, NULL);
+
+	if (sc->buffer)
+		g_string_free(sc->buffer, TRUE);
+
+	if (sc->line_buffer)
+		g_string_free(sc->line_buffer, TRUE);
+}
+
+
+static void spawn_timeout_destroy_cb(gpointer data)
+{
+	SpawnChannelData *sc = (SpawnChannelData *) data;
+
+	spawn_destroy_common(sc);
+	g_io_channel_unref(sc->channel);
+	sc->channel = NULL;
+}
+
+
+static void spawn_destroy_cb(gpointer data)
+{
+	SpawnChannelData *sc = (SpawnChannelData *) data;
+
+	if (SPAWN_CHANNEL_GIO_WATCH(sc))
+	{
+		spawn_destroy_common(sc);
+		sc->channel = NULL;
+	}
+}
+
+
+static gboolean spawn_read_cb(GIOChannel *channel, GIOCondition condition, gpointer data);
+
+static gboolean spawn_timeout_read_cb(gpointer data)
+{
+	SpawnChannelData *sc = (SpawnChannelData *) data;
+
+	/* The solution for continuous empty G_IO_IN-s is to generate them outselves. :) */
+	return spawn_read_cb(sc->channel, G_IO_IN, data);
+}
+
+#define SPAWN_IO_FAILURE (G_IO_ERR | G_IO_HUP | G_IO_NVAL)  /* always used together */
+
+static gboolean spawn_read_cb(GIOChannel *channel, GIOCondition condition, gpointer data)
+{
+	SpawnChannelData *sc = (SpawnChannelData *) data;
+	GString *line_buffer = sc->line_buffer;
+	GString *buffer = sc->buffer ? sc->buffer : g_string_sized_new(sc->max_length);
+	GIOCondition input_cond = condition & (G_IO_IN | G_IO_PRI);
+	GIOCondition failure_cond = condition & SPAWN_IO_FAILURE;
+	GIOStatus status = G_IO_STATUS_NORMAL;
+	/*
+	 * - Normally, read only once. With IO watches, our data processing must be immediate,
+	 *   which may give the child time to emit more data, and a read loop may combine it into
+	 *   large stdout and stderr portions. Under Windows, looping blocks.
+	 * - On failure, read in a loop. It won't block now, there will be no more data, and the
+	 *   IO watch is not guaranteed to be called again (under Windows this is the last call).
+	 * - When using timeout callbacks, read in a loop. Otherwise, the input processing will
+	 *   be limited to (1/0.050 * DEFAULT_IO_LENGTH) KB/sec, which is pretty low.
+	 */
+	if (input_cond)
+	{
+		gsize chars_read;
+
+		if (line_buffer)
+		{
+			gsize n = line_buffer->len;
+
+			while ((status = g_io_channel_read_chars(channel, line_buffer->str + n,
+				DEFAULT_IO_LENGTH, &chars_read, NULL)) == G_IO_STATUS_NORMAL)
+			{
+				g_string_set_size(line_buffer, n + chars_read);
+
+				while (n < line_buffer->len)
+				{
+					gsize line_len = 0;
+
+					if (n == sc->max_length)
+						line_len = n;
+					else if (strchr("\n", line_buffer->str[n]))  /* '\n' or '\0' */
+						line_len = n + 1;
+					else if (n < line_buffer->len - 1 && line_buffer->str[n] == '\r')
+						line_len = n + 1 + (line_buffer->str[n + 1] == '\n');
+
+					if (!line_len)
+						n++;
+					else
+					{
+						g_string_append_len(buffer, line_buffer->str, line_len);
+						g_string_erase(line_buffer, 0, line_len);
+						/* input only, failures are reported separately below */
+						sc->cb.read(buffer, input_cond, sc->cb_data);
+						g_string_truncate(buffer, 0);
+						n = 0;
+					}
+				}
+
+				if (SPAWN_CHANNEL_GIO_WATCH(sc) && !failure_cond)
+					break;
+			}
+		}
+		else
+		{
+			while ((status = g_io_channel_read_chars(channel, buffer->str, sc->max_length,
+				&chars_read, NULL)) == G_IO_STATUS_NORMAL)
+			{
+				g_string_set_size(buffer, chars_read);
+				/* input only, failures are reported separately below */
+				sc->cb.read(buffer, input_cond, sc->cb_data);
+
+				if (SPAWN_CHANNEL_GIO_WATCH(sc) && !failure_cond)
+					break;
+			}
+		}
+
+		/* Under OSX, after child death, the read watches receive input conditions instead
+		   of error conditions, so we convert the termination statuses into conditions.
+		   Should not hurt the other OS. */
+		if (status == G_IO_STATUS_ERROR)
+			failure_cond |= G_IO_ERR;
+		else if (status == G_IO_STATUS_EOF)
+			failure_cond |= G_IO_HUP;
+	}
+
+	if (failure_cond)  /* we must signal the callback */
+	{
+		if (line_buffer && line_buffer->len)  /* flush the line buffer */
+		{
+			g_string_append_len(buffer, line_buffer->str, line_buffer->len);
+			/* all data may be from a previous call */
+			if (!input_cond)
+				input_cond = G_IO_IN;
+		}
+		else
+		{
+			input_cond = 0;
+			g_string_truncate(buffer, 0);
+		}
+
+		sc->cb.read(buffer, input_cond | failure_cond, sc->cb_data);
+	}
+	/* Check for continuous activations with G_IO_IN | G_IO_PRI, without any
+	   data to read and without errors. If detected, switch to timeout source. */
+	else if (SPAWN_CHANNEL_GIO_WATCH(sc) && status == G_IO_STATUS_AGAIN)
+	{
+		sc->empty_gio_ins++;
+
+		if (!SPAWN_CHANNEL_GIO_WATCH(sc))
+		{
+			GSource *old_source = g_main_current_source();
+			GSource *new_source = g_timeout_source_new(50);
+
+//			geany_debug("Switching spawn source %s ((GSource*)%p on (GIOChannel*)%p) to a timeout source",
+//						g_source_get_name(old_source), (gpointer) old_source, (gpointer)sc->channel);
+
+			g_io_channel_ref(sc->channel);
+			g_source_set_can_recurse(new_source, g_source_get_can_recurse(old_source));
+			g_source_set_callback(new_source, spawn_timeout_read_cb, data, spawn_timeout_destroy_cb);
+			g_source_attach(new_source, g_source_get_context(old_source));
+			g_source_unref(new_source);
+			failure_cond |= G_IO_ERR;
+		}
+	}
+
+	if (buffer != sc->buffer)
+		g_string_free(buffer, TRUE);
+
+	return !failure_cond;
+}
+
+
+typedef struct _SpawnWatcherData
+{
+	SpawnChannelData sc;       /* stderr */
+	GChildWatchFunc exit_cb;
+	gpointer exit_data;
+	GPid pid;
+	gint exit_status;
+	GMainContext *main_context;  /* NULL if async execution */
+	GMainLoop *main_loop;        /* NULL if async execution */
+} SpawnWatcherData;
+
+
+static void spawn_finalize(SpawnWatcherData *sw)
+{
+	if (sw->exit_cb)
+		sw->exit_cb(sw->pid, sw->exit_status, sw->exit_data);
+
+	if (sw->main_loop)
+	{
+		g_main_loop_quit(sw->main_loop);
+		g_main_loop_unref(sw->main_loop);
+	}
+
+	g_spawn_close_pid(sw->pid);
+	g_slice_free(SpawnWatcherData, sw);
+}
+
+
+static gboolean spawn_timeout_watch_cb(gpointer data)
+{
+	SpawnWatcherData *sw = (SpawnWatcherData *) data;
+
+	if (sw->sc.channel)
+		return TRUE;
+
+	spawn_finalize(sw);
+	return FALSE;
+}
+
+
+static void spawn_watch_cb(GPid pid, gint status, gpointer data)
+{
+	SpawnWatcherData *sw = (SpawnWatcherData *) data;
+
+	sw->pid = pid;
+	sw->exit_status = status;
+
+	if (sw->sc.channel)
+	{
+		GSource *source = g_timeout_source_new(50);
+
+		g_source_set_callback(source, spawn_timeout_watch_cb, data, NULL);
+		g_source_attach(source, sw->main_context);
+		g_source_unref(source);
+		return;
+	}
+
+	spawn_finalize(sw);
+}
+
+
+gboolean lsp_spawn_with_pipes_and_stderr_callback(const gchar *working_directory, const gchar *command_line,
+	gchar **argv, gchar **envp, gint *stdin_fd, gint *stdout_fd,
+	SpawnReadFunc stderr_cb, gpointer stderr_data, gsize stderr_max_length,
+	GChildWatchFunc exit_cb, gpointer exit_data, GPid *child_pid, GError **error)
+{
+	GPid pid;
+	int pipe = -1;
+
+	if (lsp_spawn_async_with_pipes(working_directory, command_line, argv, envp, &pid,
+		stdin_fd, stdout_fd, stderr_cb ? &pipe : NULL, error))
+	{
+		SpawnWatcherData *sw = g_slice_new0(SpawnWatcherData);
+		GSource *source;
+		SpawnChannelData *sc = &sw->sc;
+		GIOCondition condition;
+		GIOFunc callback;
+
+		sw->main_context = NULL;
+
+		if (child_pid)
+			*child_pid = pid;
+
+		if (pipe != -1)
+		{
+		#ifdef G_OS_WIN32
+			sc->channel = g_io_channel_win32_new_fd(pipe);
+		#else
+			sc->channel = g_io_channel_unix_new(pipe);
+			g_io_channel_set_flags(sc->channel, G_IO_FLAG_NONBLOCK, NULL);
+		#endif
+			g_io_channel_set_encoding(sc->channel, NULL, NULL);
+			/* we have our own buffers, and GIO buffering blocks under Windows */
+			g_io_channel_set_buffered(sc->channel, FALSE);
+			sc->cb_data = stderr_data;
+
+			condition = G_IO_IN | G_IO_PRI | SPAWN_IO_FAILURE;
+			callback = spawn_read_cb;
+
+			{
+				sc->cb.read = stderr_cb;
+				sc->max_length = stderr_max_length ? stderr_max_length : DEFAULT_IO_LENGTH;
+			}
+
+			sc->empty_gio_ins = 0;
+
+			source = g_io_create_watch(sc->channel, condition);
+			g_io_channel_unref(sc->channel);
+
+			sc->buffer = g_string_sized_new(sc->max_length);
+
+			g_source_set_callback(source, (GSourceFunc) (void(*)(void)) callback, sc, spawn_destroy_cb);
+			g_source_attach(source, sw->main_context);
+			g_source_unref(source);
+
+			sw->exit_cb = exit_cb;
+			sw->exit_data = exit_data;
+			source = g_child_watch_source_new(pid);
+			g_source_set_callback(source, (GSourceFunc) (void(*)(void)) (GChildWatchFunc) spawn_watch_cb, sw, NULL);
+			g_source_attach(source, sw->main_context);
+			g_source_unref(source);
+		}
+
+		return TRUE;
+	}
+
+	return FALSE;
 }

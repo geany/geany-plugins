@@ -30,6 +30,11 @@ gboolean lsp_spawn_async_with_pipes(const gchar *working_directory, const gchar 
 	gchar **argv, gchar **envp, GPid *child_pid, gint *stdin_fd, gint *stdout_fd,
 	gint *stderr_fd, GError **error);
 
+gboolean lsp_spawn_with_pipes_and_stderr_callback(const gchar *working_directory, const gchar *command_line,
+	gchar **argv, gchar **envp, gint *stdin_fd, gint *stdout_fd,
+	SpawnReadFunc stderr_cb, gpointer stderr_data, gsize stderr_max_length,
+	GChildWatchFunc exit_cb, gpointer exit_data, GPid *child_pid, GError **error);
+
 G_END_DECLS
 
 #endif  /* LSP_SPAWN_H */

@@ -810,6 +810,12 @@ static GKeyFile *read_keyfile(const gchar *config_file)
 }
 
 
+static void stderr_cb(GString *string, GIOCondition condition, gpointer data)
+{
+//	printf("%s", string->str);
+}
+
+
 static void start_lsp_server(LspServer *server)
 {
 	GInputStream *input_stream;
@@ -817,9 +823,7 @@ static void start_lsp_server(LspServer *server)
 	GError *error = NULL;
 	gint stdin_fd = -1;
 	gint stdout_fd = -1;
-	gint stderr_fd = -1;
 	gboolean success;
-	GSource *source;
 	GString *cmd = g_string_new(server->config.cmd);
 
 #ifdef G_OS_UNIX
@@ -834,11 +838,10 @@ static void start_lsp_server(LspServer *server)
 
 	msgwin_status_add(_("Starting LSP server %s"), cmd->str);
 
-	success = lsp_spawn_async_with_pipes(NULL, cmd->str, NULL,
-		server->config.env, &server->pid,
-		&stdin_fd, &stdout_fd,
-		server->config.show_server_stderr ? NULL : &stderr_fd,
-		&error);
+	success = lsp_spawn_with_pipes_and_stderr_callback(NULL, cmd->str, NULL,
+		server->config.env,
+		&stdin_fd, &stdout_fd, stderr_cb, NULL, 0,
+		process_stopped, server, &server->pid, &error);
 
 	if (!success)
 	{
@@ -848,11 +851,6 @@ static void start_lsp_server(LspServer *server)
 		g_string_free(cmd, TRUE);
 		return;
 	}
-
-	source = g_child_watch_source_new(server->pid);
-	g_source_set_callback(source, (GSourceFunc) (void(*)(void)) (GChildWatchFunc) process_stopped, server, NULL);
-	g_source_attach(source, NULL);
-	g_source_unref(source);
 
 #ifdef G_OS_UNIX
 	input_stream = g_unix_input_stream_new(stdout_fd, TRUE);
