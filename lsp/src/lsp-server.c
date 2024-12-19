@@ -859,8 +859,8 @@ static void start_lsp_server(LspServer *server)
 	// GWin32InputStream / GWin32OutputStream use windows handle-based file
 	// API and we need fd-based API. Use our copy of unix input/output streams
 	// on Windows
-	input_stream = lsp_unix_input_stream_new(stdout_fd, TRUE);
-	output_stream = lsp_unix_output_stream_new(stdin_fd, TRUE);
+	input_stream = lsp_unix_input_stream_new(stdout_fd, FALSE);
+	output_stream = lsp_unix_output_stream_new(stdin_fd, FALSE);
 #endif
 	server->stream = g_simple_io_stream_new(input_stream, output_stream);
 
