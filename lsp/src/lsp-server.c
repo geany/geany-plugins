@@ -595,11 +595,13 @@ static void initialize_cb(GVariant *return_value, GError *error, gpointer user_d
 	}
 	else
 	{
-		msgwin_status_add(_("LSP initialize request failed for LSP server, terminating %s"), s->config.cmd);
+		msgwin_status_add(_("LSP initialize request failed for LSP server %s: %s"), s->config.cmd, error->message);
+		msgwin_status_add(_("Force terminating %s"), s->config.cmd);
 
 		// force exit the server - since the handshake didn't perform, the
 		// server may be in some strange state and normal "exit" may not work
 		// (happens with haskell server)
+		s->restarts = 100;  // don't retry
 		kill_server(s);
 	}
 }
