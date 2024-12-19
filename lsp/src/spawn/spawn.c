@@ -225,7 +225,7 @@ static gchar *spawn_create_process_with_pipes(wchar_t *w_command_line, const wch
 
 	startup.hStdInput = hpipe[READ_STDIN];
 	startup.hStdOutput = hpipe[WRITE_STDOUT];
-	startup.hStdError = hpipe[WRITE_STDERR];
+	startup.hStdError = 0;
 
 	if (!CreateProcessW(NULL, w_command_line, NULL, NULL, TRUE,
 		CREATE_UNICODE_ENVIRONMENT | (pipe_io ? CREATE_NO_WINDOW : 0),
