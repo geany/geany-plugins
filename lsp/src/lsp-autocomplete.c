@@ -165,6 +165,8 @@ static guint get_ident_prefixlen(const gchar *word_chars, GeanyDocument *doc, gi
 			if (!strchr(word_chars, c))
 				break;
 		}
+		else
+			break;
 		num++;
 		pos = new_pos;
 	}
