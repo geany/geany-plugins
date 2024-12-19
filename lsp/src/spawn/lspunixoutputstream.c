@@ -282,46 +282,12 @@ lsp_unix_output_stream_write (GOutputStream  *stream,
 {
   LspUnixOutputStream *unix_stream;
   gssize res = -1;
-  GPollFD poll_fds[2];
-  int nfds = 0;
-  int poll_ret;
 
   unix_stream = LSP_UNIX_OUTPUT_STREAM (stream);
-
-  poll_fds[0].fd = unix_stream->priv->fd;
-  poll_fds[0].events = G_IO_OUT;
-  nfds++;
-
-  if (unix_stream->priv->can_poll &&
-      g_cancellable_make_pollfd (cancellable, &poll_fds[1]))
-    nfds++;
 
   while (1)
     {
       int errsv;
-
-      poll_fds[0].revents = poll_fds[1].revents = 0;
-      do
-        {
-          poll_ret = g_poll (poll_fds, nfds, -1);
-          errsv = errno;
-        }
-      while (poll_ret == -1 && errsv == EINTR);
-
-      if (poll_ret == -1)
-	{
-	  g_set_error (error, G_IO_ERROR,
-		       g_io_error_from_errno (errsv),
-		       "Error writing to file descriptor: %s",
-		       g_strerror (errsv));
-	  break;
-	}
-
-      if (g_cancellable_set_error_if_cancelled (cancellable, error))
-	break;
-
-      if (!poll_fds[0].revents)
-	continue;
 
       res = write (unix_stream->priv->fd, buffer, count);
       errsv = errno;
@@ -339,8 +305,6 @@ lsp_unix_output_stream_write (GOutputStream  *stream,
       break;
     }
 
-  if (nfds == 2)
-    g_cancellable_release_fd (cancellable);
   return res;
 }
 
