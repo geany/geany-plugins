@@ -544,8 +544,9 @@ The returned table contains the following fields:
 <tr><td width="5%"></td><td><tt>ext</tt> </td><td> -- The file extension, including the dot, e.g. "<b>.DLL</b>" or "<b>.txt</b>"</td></tr>
 <tr><td width="5%"></td><td><tt>type</tt> </td><td> -- A one-word description of the filetype, e.g. "<b>C</b>" or "<b>Python</b>".</td></tr>
 <tr><td width="5%"></td><td><tt>desc</tt> </td><td> -- A longer description of the filetype, e.g. "<b>Lua source file</b>" or "<b>Cascading StyleSheet</b>".</td></tr>
-<tr><td width="5%"></td><td><tt>opener</tt> </td><td> -- The string used to begin a comment, e.g. "<b class="desc">&lt;!--</b>".</td></tr>
-<tr><td width="5%"></td><td><tt>closer</tt> </td><td> -- The string used to end a comment, e.g. "<b class="desc">--&gt;</b>".</td></tr>
+<tr><td width="5%"></td><td><tt>comment_single</tt> </td><td> -- The string used for a single-line comment, e.g. "<b class="desc">//</b>".</td></tr>
+<tr><td width="5%"></td><td><tt>comment_open</tt> </td><td> -- The string used to begin a multi-line comment, e.g. "<b class="desc">&lt;!--</b>".</td></tr>
+<tr><td width="5%"></td><td><tt>comment_close</tt> </td><td> -- The string used to end a multi-line comment, e.g. "<b class="desc">--&gt;</b>".</td></tr>
 <tr><td width="5%"></td><td><tt>action</tt> </td><td> -- The action command as executed by the context menu</td></tr>
 <!--
 <tr><td width="5%"></td><td><tt>compiler</tt> </td><td> -- The command used to compile this type of file.</td></tr>
