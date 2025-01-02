@@ -206,11 +206,11 @@ delayed_post_install() {
 		# ca-certificates
 		DEST=etc/pki/ca-trust/extracted
 		# OpenSSL PEM bundle that includes trust flags
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=openssl-bundle --filter=certificates --overwrite $DEST/openssl/ca-bundle.trust.crt
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose server-auth $DEST/pem/tls-ca-bundle.pem
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose email $DEST/pem/email-ca-bundle.pem
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose code-signing $DEST/pem/objsign-ca-bundle.pem
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=java-cacerts --filter=ca-anchors --overwrite --purpose server-auth $DEST/java/cacerts
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=openssl-bundle --filter=certificates --overwrite $DEST/openssl/ca-bundle.trust.crt
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose server-auth $DEST/pem/tls-ca-bundle.pem
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose email $DEST/pem/email-ca-bundle.pem
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose code-signing $DEST/pem/objsign-ca-bundle.pem
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=java-cacerts --filter=ca-anchors --overwrite --purpose server-auth $DEST/java/cacerts
 		mkdir -p ssl/certs
 		cp -f $DEST/pem/tls-ca-bundle.pem ssl/certs/ca-bundle.crt
 		cp -f $DEST/pem/tls-ca-bundle.pem ssl/cert.pem
