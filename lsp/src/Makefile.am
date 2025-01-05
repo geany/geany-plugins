@@ -66,8 +66,6 @@ lsp_la_SOURCES = \
 
 lsp_la_CPPFLAGS = $(AM_CPPFLAGS) \
 	-DG_LOG_DOMAIN=\"LSP\" \
-	-I$(top_srcdir)/lsp/deps/jsonrpc-glib \
-	-I$(top_srcdir)/lsp/deps \
 	-I$(top_srcdir)/lsp/src
 if ENABLE_BUILTIN_JSONRPC
 lsp_la_CPPFLAGS += -I$(top_srcdir)/lsp/deps/jsonrpc-glib -I$(top_srcdir)/lsp/deps

@@ -993,7 +993,7 @@ gchar *lsp_utils_find_project_root(GeanyDocument *doc, LspServerConfig *cfg)
 {
 	gchar *dirname;
 
-	if (!cfg || !cfg->project_root_marker_patterns || !doc->real_path)
+	if (!doc || !cfg || !cfg->project_root_marker_patterns || !doc->real_path)
 		return NULL;
 
 	dirname = g_path_get_dirname(doc->real_path);

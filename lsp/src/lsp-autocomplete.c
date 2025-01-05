@@ -159,14 +159,23 @@ static guint get_ident_prefixlen(const gchar *word_chars, GeanyDocument *doc, gi
 	while (pos > 0)
 	{
 		gint new_pos = SSM(sci, SCI_POSITIONBEFORE, pos, 0);
+		gchar c = sci_get_char_at(sci, new_pos);
+
 		if (pos - new_pos == 1)
 		{
-			gchar c = sci_get_char_at(sci, new_pos);
 			if (!strchr(word_chars, c))
 				break;
 		}
-		else
-			break;
+		else if (pos - new_pos == 2)
+		{
+			gchar c2 = sci_get_char_at(sci, new_pos + 1);
+
+			// multibyte sequence - we consider everything except \r\n as
+			// visible characters (SCI_POSITIONBEFORE skips \r\n in one step
+			// which then breaks autocompletion with CRLF line ends)
+			if ((c == '\r' && c2 == '\n') || (c == '\n' && c2 == '\r'))
+				break;
+		}
 		num++;
 		pos = new_pos;
 	}

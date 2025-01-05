@@ -618,11 +618,18 @@ static const gchar *get_trace_level(LspServer *srv)
 
 static void perform_initialize(LspServer *server)
 {
+	GeanyDocument *doc = document_get_current();
 	gchar *project_base = lsp_utils_get_project_base_path();
 	GVariant *workspace_folders = NULL;
 	GVariant *node, *capabilities, *info;
 	gchar *project_base_uri = NULL;
 	GVariantDict dct;
+
+	if (!project_base && doc && server->config.project_root_marker_patterns)
+		project_base = lsp_utils_find_project_root(doc, &server->config);
+
+	if (!project_base && doc)
+		project_base = g_path_get_dirname(doc->real_path);
 
 	if (project_base)
 		project_base_uri = g_filename_to_uri(project_base, NULL, NULL);

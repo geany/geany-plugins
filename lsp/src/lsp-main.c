@@ -64,8 +64,9 @@ gchar *project_configuration_file;
 static gint last_click_pos;
 static gboolean session_loaded;
 
+static gboolean geany_quitting = FALSE;
 
-PLUGIN_VERSION_CHECK(248)
+PLUGIN_VERSION_CHECK(250)
 PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR,
 	GETTEXT_PACKAGE,
@@ -1195,6 +1196,23 @@ static gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer use
 }
 
 
+static void terminate_all(void)
+{
+	plugin_extension_unregister(&extension);
+	lsp_server_set_initialized_cb(NULL);
+
+	lsp_server_stop_all(TRUE);
+}
+
+
+static void on_geany_before_quit(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED gpointer user_data)
+{
+	geany_quitting = TRUE;
+
+	terminate_all();  // blocks until all servers are stopped
+}
+
+
 PluginCallback plugin_callbacks[] = {
 	{"document-new", (GCallback) &on_document_new, FALSE, NULL},
 	{"document-close", (GCallback) &on_document_close, FALSE, NULL},
@@ -1213,6 +1231,7 @@ PluginCallback plugin_callbacks[] = {
 	{"project-dialog-confirmed", (GCallback) &on_project_dialog_confirmed, FALSE, NULL},
 	{"project-dialog-close", (GCallback) &on_project_dialog_close, FALSE, NULL},
 	{"key-press", (GCallback) &on_key_press, FALSE, NULL},
+	{"geany-before-quit", (GCallback) &on_geany_before_quit, FALSE, NULL},
 	{NULL, NULL, FALSE, NULL}
 };
 
@@ -1784,6 +1803,9 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 
 void plugin_cleanup(void)
 {
+	if (!geany_quitting)
+		terminate_all();  // done in "geany-before-quit" handler when quitting
+
 	gtk_widget_destroy(menu_items.parent_item);
 	menu_items.parent_item = NULL;
 
@@ -1798,11 +1820,6 @@ void plugin_cleanup(void)
 
 	lsp_symbol_tree_destroy();
 	lsp_diagnostics_common_destroy();
-
-	plugin_extension_unregister(&extension);
-
-	lsp_server_set_initialized_cb(NULL);
-	lsp_server_stop_all(TRUE);
 }
 
 
