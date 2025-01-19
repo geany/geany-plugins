@@ -198,6 +198,7 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\keyrecord.dll"
 	Delete "$INSTDIR\lib\geany\lipsum.dll"
 	Delete "$INSTDIR\lib\geany\lineoperations.dll"
+	Delete "$INSTDIR\lib\geany\lsp.dll"
 	Delete "$INSTDIR\lib\geany\overview.dll"
 	Delete "$INSTDIR\lib\geany\pairtaghighlighter.dll"
 	Delete "$INSTDIR\lib\geany\pohelper.dll"
