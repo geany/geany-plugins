@@ -1,0 +1,168 @@
+#
+# Copyright:	2022, The Geany contributors
+# License:		GNU GPL v2 or later
+
+name: Meson Build
+
+on:
+  workflow_dispatch:
+
+# cancel already running builds of the same branch or pull request
+concurrency:
+  group: ci-${{ github.head_ref }} || concat(${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CFLAGS: -g -O2 -Werror=pointer-arith -Werror=implicit-function-declaration
+  CONFIGURE_FLAGS: --disable-silent-rules
+  CCACHE_DIR: ${{ github.workspace }}/.ccache
+  CCACHE_COMPRESS: true
+  CCACHE_MAXSIZE: 1G
+  PYTHON: python3
+  JOBS: 2
+  DEBUG: 0
+
+jobs:
+  linux:
+    name: Linux Meson Build
+    runs-on: ubuntu-20.04
+
+    env:
+      CC:                       ccache gcc
+      CXX:                      ccache g++
+      CPPCHECK_CACHE_PATH:      ${{ github.workspace }}/.cppcheck_cache
+      GEANY_SOURCE_PATH:        ${{ github.workspace }}/.geany_source
+      GEANY_CACHE_PATH:         ${{ github.workspace }}/.geany_cache
+      GEANY_INSTALLATION_PATH:  ${{ github.workspace }}/.geany_cache/_geany_install
+      PKG_CONFIG_PATH:          ${{ github.workspace }}/.geany_cache/_geany_install/lib/pkgconfig:$PKG_CONFIG_PATH
+      LD_LIBRARY_PATH:          ${{ github.workspace }}/.geany_cache/_geany_install/lib:$LD_LIBRARY_PATH
+
+    steps:
+      - name: Checkout Geany-Plugins
+        uses: actions/checkout@v4
+
+      - name: Checkout Geany
+        uses: actions/checkout@v4
+        with:
+          repository: geany/geany
+          path: ${{ env.GEANY_SOURCE_PATH }}
+          token: ${{ github.token }}
+
+      # create and use a timestamp for the cache key: GH Actions will never update a cache
+      # only use an existing cache item or create a new one. To use an existing cache *and*
+      # push back the the updated cache after build, we use a always new cache key (to force
+      # the creation of the cache item at the end) in combination with "restore-keys" as fallback
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        run: echo "timestamp=$(date +%Y-%m-%d-%H-%M)" >> $GITHUB_OUTPUT
+
+      - name: Prepare Cppcheck Cache Key
+        id: prepare_cppcheck_cache_key
+        run: echo "cppcheck_tag=$(curl -s https://api.github.com/repos/danmar/cppcheck/releases/latest | jq .tag_name)" >> $GITHUB_OUTPUT
+
+      - name: Prepare Geany Cache Key
+        id: prepare_geany_cache_key
+        working-directory: ${{ env.GEANY_SOURCE_PATH }}
+        run: echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Configure ccache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          key: ${{ runner.os }}-${{ github.job }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          restore-keys: ${{ runner.os }}-${{ github.job }}-ccache-
+
+      - name: Configure Cppcheck Cache
+        id: cppcheck_cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.CPPCHECK_CACHE_PATH }}
+          key: ${{ runner.os }}-${{ github.job }}-cppcheck-cache-${{ steps.prepare_cppcheck_cache_key.outputs.cppcheck_tag }}
+
+      - name: Configure Geany Cache
+        id: geany_cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.GEANY_CACHE_PATH }}
+          key: ${{ runner.os }}-${{ github.job }}-geany-cache-${{ steps.prepare_geany_cache_key.outputs.commit_hash }}
+
+      - name: Show environment
+        if: ${{ env.DEBUG == '1' }}
+        run: |
+            env | sort
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update --quiet --quiet
+          # write dependencies to a temporary file which is then fed to "apt-get install",
+          # so we can use comments in the dependency list
+          cat << EOF > $RUNNER_TEMP/dependencies
+            # general
+            ccache
+            libtool
+            libgtk-3-dev
+            meson
+            # geany
+            autopoint
+            gettext
+            python-docutils
+            # geany-plugins
+            intltool
+            check
+            # debugger
+            libvte-2.91-dev
+            # geanygendoc
+            libctpl-dev
+            # geanylua
+            liblua5.1-0-dev
+            # geanypg
+            libgpgme-dev
+            # geanyvc
+            libgtkspell-dev
+            libgtkspell3-3-dev
+            # geaniuspaste/updatechecker
+            libsoup2.4-dev
+            # git-changebar
+            libgit2-dev
+            # markdown
+            libmarkdown2-dev
+            # markdown/webhelper
+            libwebkit2gtk-4.0-dev
+            # pretty-printer
+            libxml2-dev
+            # spellcheck
+            libenchant-dev
+            # cppcheck
+            cmake
+            libpcre3-dev
+          EOF
+          grep -v '^[ ]*#' $RUNNER_TEMP/dependencies | xargs sudo apt-get install --assume-yes --no-install-recommends
+
+      - name: Build Geany
+        if: steps.geany_cache.outputs.cache-hit != 'true'
+        run: |
+          cd "${{ env.GEANY_SOURCE_PATH }}"
+          NOCONFIGURE=1 ./autogen.sh
+          mkdir _build
+          cd _build
+          { ../configure --prefix="${{ env.GEANY_INSTALLATION_PATH }}" || { cat config.log; exit 1; } ; }
+          make -j ${{ env.JOBS }}
+          make -j ${{ env.JOBS }} install
+
+      - name: Configure
+        run: |
+          meson _build
+
+      - name: Build
+        run: |
+          ninja -C _build
+
+      - name: Run Tests
+        run: |
+          ninja -C _build test
+
+      # distcheck not applicable, meson exports the source tree per git-archive
+
+      - name: ccache statistics
+        if: ${{ env.DEBUG == '1' }}
+        run: ccache --show-stats

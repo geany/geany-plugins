@@ -1,0 +1,4 @@
+xmlsnippets/src/plugin.c
+xmlsnippets/src/xmlsnippets.c
+xmlsnippets/src/tests.c
+xmlsnippets/src/test-stubs.c
