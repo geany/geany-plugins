@@ -39,7 +39,7 @@ GeanyData	*geany_data;
 
 PLUGIN_VERSION_CHECK(224)
 
-PLUGIN_SET_TRANSLATABLE_INFO (
+PLUGIN_SET_TRANSLATABLE_INFO(
 	LOCALEDIR, GETTEXT_PACKAGE,
 	_("IncDec"),
 	_("Provides shortcuts to increment and decrement number at (or to the right of) the cursor"),
@@ -97,7 +97,7 @@ static gint sci_get_position_before(ScintillaObject *sci, gint start)
 }
 
 
-static gboolean on_change_number (gint step)
+static gboolean on_change_number(gint step)
 {
 	ScintillaObject *sci = document_get_current()->editor->sci;
 
@@ -369,7 +369,7 @@ static gboolean on_change_number (gint step)
 				format_length = 0;
 		}
 
-		g_snprintf(format_buf, sizeof(format_buf)-1, "%%0%d%c", format_length, use_hexa ? ( hexaCase == HEXA_CASE_UPPER ? 'X' : 'x' ) : 'd');
+		g_snprintf(format_buf, sizeof(format_buf)-1, "%%0%d%c", format_length, use_hexa ? (hexaCase == HEXA_CASE_UPPER ? 'X' : 'x') : 'd');
 
 		if ((buf = g_strdup_printf(format_buf, guessed_number)))
 		{
@@ -385,7 +385,7 @@ static gboolean on_change_number (gint step)
 	return TRUE;
 }
 
-static void configure_response (GtkDialog *dialog, gint response, gpointer data)
+static void configure_response(GtkDialog *dialog, gint response, gpointer data)
 {
 	if (response != GTK_RESPONSE_OK || plugin_data._entry == NULL)
 		return;
@@ -409,9 +409,9 @@ static gboolean on_change_number_x(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_
 		gtk_dialog_set_default_response(GTK_DIALOG(plugin_data._dialog), GTK_RESPONSE_OK);
 
 		GtkWidget *okButton = gtk_dialog_get_widget_for_response(GTK_DIALOG(plugin_data._dialog), GTK_RESPONSE_OK);
-		gtk_widget_set_can_default (okButton, TRUE);
+		gtk_widget_set_can_default(okButton, TRUE);
 
-		GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG (plugin_data._dialog));
+		GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(plugin_data._dialog));
 
 		GtkWidget *label = gtk_label_new("Enter the number of positive or negative increments to apply.\n");
 
@@ -426,15 +426,15 @@ static gboolean on_change_number_x(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_
 		gtk_box_pack_start(GTK_BOX(vbox), plugin_data._entry, FALSE, FALSE, 10);
 		gtk_box_pack_start(GTK_BOX(hbox), vbox, FALSE, FALSE, 10);
 
-		gtk_container_add(GTK_CONTAINER (content_area), hbox);
+		gtk_container_add(GTK_CONTAINER(content_area), hbox);
 
-		g_signal_connect (plugin_data._dialog, "response", G_CALLBACK (configure_response), NULL);
+		g_signal_connect(plugin_data._dialog, "response", G_CALLBACK(configure_response), NULL);
 	}
 
 	gtk_widget_show_all(plugin_data._dialog);
 	gtk_widget_grab_focus(plugin_data._entry);
 
-	while (gtk_dialog_run (GTK_DIALOG (plugin_data._dialog)) == GTK_RESPONSE_ACCEPT);
+	while (gtk_dialog_run(GTK_DIALOG(plugin_data._dialog)) == GTK_RESPONSE_ACCEPT);
 
 	gtk_widget_set_visible(plugin_data._dialog, FALSE);
 
@@ -474,7 +474,7 @@ static gboolean on_change_number_callback(guint key_id)
 
 static gchar *get_config_filename(void)
 {
-        return g_build_filename(geany_data->app->configdir, "plugins", PLUGIN, PLUGIN".conf", NULL);
+	return g_build_filename(geany_data->app->configdir, "plugins", PLUGIN, PLUGIN".conf", NULL);
 }
 
 
@@ -533,14 +533,14 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 
 GtkWidget *plugin_configure(GtkDialog *dialog)
 {
-        GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
 	plugin_data._display_in_popup = gtk_check_button_new_with_label(_("Display in Popup editor menu"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(plugin_data._display_in_popup), plugin_data.show_in_menu);
 	gtk_box_pack_start(GTK_BOX(vbox), plugin_data._display_in_popup, FALSE, FALSE, 10);
 
-        gtk_widget_show_all(vbox);
-        g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), NULL);
+	gtk_widget_show_all(vbox);
+	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), NULL);
 
 	return vbox;
 }
@@ -552,14 +552,14 @@ void plugin_init (GeanyData *data)
 
 	load_config();
 
-	key_group = plugin_set_key_group (geany_plugin, "incdec", KB_COUNT, on_change_number_callback);
-	keybindings_set_item (key_group, KB_INCREMENT_NUMBER, NULL, GDK_KEY_KP_Add, GDK_SHIFT_MASK,
+	key_group = plugin_set_key_group(geany_plugin, "incdec", KB_COUNT, on_change_number_callback);
+	keybindings_set_item(key_group, KB_INCREMENT_NUMBER, NULL, GDK_KEY_A, GDK_SHIFT_MASK,
 				"increment_number",
 				_("Increment Number By 1"), NULL);
-	keybindings_set_item (key_group, KB_DECREMENT_NUMBER, NULL, GDK_KEY_KP_Subtract, GDK_SHIFT_MASK,
+	keybindings_set_item(key_group, KB_DECREMENT_NUMBER, NULL, GDK_KEY_X, GDK_SHIFT_MASK,
 				"decrement_number",
 				_("Decrement Number By 1"), NULL);
-	keybindings_set_item (key_group, KB_INCREMENT_DECREMENT_NUMBER_X, NULL, GDK_KEY_KP_Multiply, GDK_SHIFT_MASK,
+	keybindings_set_item(key_group, KB_INCREMENT_DECREMENT_NUMBER_X, NULL, GDK_KEY_M, GDK_SHIFT_MASK,
 				"increment_decrement_number_x",
 				_("Increment or Decrement Number X times"), NULL);
 
@@ -567,11 +567,11 @@ void plugin_init (GeanyData *data)
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), plugin_data._menu_item_sep);
 
 	plugin_data._menu_item_change_number = gtk_menu_item_new_with_mnemonic(_("_Increment or Decrement number"));
-        gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), plugin_data._menu_item_change_number);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->editor_menu), plugin_data._menu_item_change_number);
 
 	configuration_apply();
 
-        g_signal_connect(plugin_data._menu_item_change_number, "activate", G_CALLBACK(on_change_number_x), NULL);
+	g_signal_connect(plugin_data._menu_item_change_number, "activate", G_CALLBACK(on_change_number_x), NULL);
 }
 
 
@@ -579,7 +579,7 @@ void plugin_cleanup (void)
 {
 	if (plugin_data._dialog)
 	{
-		gtk_widget_destroy (GTK_WIDGET (plugin_data._dialog));
+		gtk_widget_destroy(GTK_WIDGET(plugin_data._dialog));
 		plugin_data._dialog = NULL;
 		plugin_data._entry = NULL;
 	}
@@ -588,5 +588,5 @@ void plugin_cleanup (void)
 
 void plugin_help (void)
 {
-	utils_open_browser (DOCDIR "/" PLUGIN "/README");
+	utils_open_browser(DOCDIR "/" PLUGIN "/README");
 }

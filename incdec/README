@@ -15,9 +15,9 @@ number at the cursor, or to the right of the cursor (on the same line).
 Usage
 =====
 
-By default, typing Shift-+ will increment the next number, and typing Shift--
+By default, typing Shift-A will increment the next number, and typing Shift-X
 will decrement the next number.
-You can also increment and decrement number many times by typing Shift-*.
+You can also increment and decrement number many times by typing Shift-M.
 The number can be at the cursor, or to the right of the cursor (on the same line).
 Numbers can be negative and positive, and can be in decimal or hexadecimal format
 (hexadecimal number start with 0x).
