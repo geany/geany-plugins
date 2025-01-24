@@ -163,10 +163,12 @@ static gint glspi_choose(lua_State* L)
 	scroll=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 		GTK_POLICY_AUTOMATIC,  GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),scroll);
+	gtk_widget_set_vexpand(scroll, TRUE);
 	gtk_container_add(GTK_CONTAINER(scroll),tree);
 
-	gtk_widget_set_size_request(tree, 320, 240);
+	gtk_widget_set_size_request(scroll, 320, 240);
 	gtk_widget_show_all(dialog);
 	gtk_window_set_resizable(GTK_WINDOW(dialog), TRUE);
 
@@ -540,7 +542,7 @@ static gint glspi_pickfile(lua_State* L)
 
 
 
-static const struct luaL_reg glspi_dlg_funcs[] = {
+static const struct luaL_Reg glspi_dlg_funcs[] = {
 	{"choose",   glspi_choose},
 	{"confirm",  glspi_confirm},
 	{"input",    glspi_input},

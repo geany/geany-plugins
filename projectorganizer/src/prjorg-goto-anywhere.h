@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jiri Techet <techet@gmail.com>
+ * Copyright 2023 Jiri Techet <techet@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __VIMODE_UTILS_H__
-#define __VIMODE_UTILS_H__
+#ifndef PRJORG_GOTO_ANYWHERE_H
+#define PRJORG_GOTO_ANYWHERE_H 1
 
-#include "sci.h"
 
-gchar *get_current_word(ScintillaObject *sci);
+void prjorg_goto_anywhere_for_workspace(void);
+void prjorg_goto_anywhere_for_doc(void);
+void prjorg_goto_anywhere_for_line(void);
+void prjorg_goto_anywhere_for_file(void);
 
-void clamp_cursor_pos(ScintillaObject *sci);
-void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll);
-
-gint perform_search(ScintillaObject *sci, const gchar *search_text,
-	gint num, gboolean invert);
-void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint to,
-	const gchar *flag_override);
-
-gint get_line_number_rel(ScintillaObject *sci, gint shift);
-void ensure_current_line_expanded(ScintillaObject *sci);
-
-gint jump_to_expended_parent(ScintillaObject *sci, gint line);
-
-#endif
+#endif  /* PRJORG_GOTO_ANYWHERE_H */

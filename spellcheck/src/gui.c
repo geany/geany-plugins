@@ -585,20 +585,6 @@ gboolean sc_gui_editor_notify(GObject *object, GeanyEditor *editor,
 }
 
 
-#if ! GTK_CHECK_VERSION(2, 16, 0)
-static void gtk_menu_item_set_label(GtkMenuItem *menu_item, const gchar *label)
-{
-	if (GTK_BIN(menu_item)->child != NULL)
-	{
-		GtkWidget *child = GTK_BIN(menu_item)->child;
-
-		if (GTK_IS_LABEL(child))
-			gtk_label_set_text(GTK_LABEL(child), label);
-	}
-}
-#endif
-
-
 static void update_labels(void)
 {
 	gchar *label;
@@ -610,7 +596,6 @@ static void update_labels(void)
 
 	g_free(label);
 
-#if GTK_CHECK_VERSION(2, 12, 0)
 	if (sc_info->toolbar_button != NULL)
 	{
 		gchar *text = g_strdup_printf(
@@ -619,7 +604,6 @@ static void update_labels(void)
 		gtk_tool_item_set_tooltip_text(GTK_TOOL_ITEM(sc_info->toolbar_button), text);
 		g_free(text);
 	}
-#endif
 }
 
 

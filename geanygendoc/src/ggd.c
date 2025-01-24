@@ -383,22 +383,25 @@ get_setting_from_tag (GgdDocType     *doctype,
                       const TMTag    *tag,
                       const TMTag   **real_tag)
 {
-  GgdDocSetting  *setting;
+  GgdDocSetting  *setting = NULL;
   gchar          *hierarchy;
-  gint            nth_child;
   GPtrArray      *tag_array = doc->tm_file->tags_array;
   GeanyFiletypeID geany_ft = FILETYPE_ID (doc->file_type);
   
   hierarchy = ggd_tag_resolve_type_hierarchy (tag_array, geany_ft, tag);
   /*g_debug ("type hierarchy for tag %s is: %s", tag->name, hierarchy);*/
-  setting = ggd_doc_type_resolve_setting (doctype, hierarchy, &nth_child);
   *real_tag = tag;
-  if (setting) {
-    for (; nth_child > 0; nth_child--) {
-      *real_tag = ggd_tag_find_parent (tag_array, geany_ft, *real_tag);
+  if (hierarchy) {
+    gint  nth_child;
+    
+    setting = ggd_doc_type_resolve_setting (doctype, hierarchy, &nth_child);
+    if (setting) {
+      for (; nth_child > 0; nth_child--) {
+        *real_tag = ggd_tag_find_parent (tag_array, geany_ft, *real_tag);
+      }
     }
+    g_free (hierarchy);
   }
-  g_free (hierarchy);
   
   return setting;
 }

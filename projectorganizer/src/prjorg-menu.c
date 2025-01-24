@@ -29,6 +29,7 @@
 #include "prjorg-project.h"
 #include "prjorg-utils.h"
 #include "prjorg-sidebar.h"
+#include "prjorg-goto-anywhere.h"
 
 #include <string.h>
 
@@ -45,11 +46,17 @@ enum
 	KB_FOCUS_SIDEBAR,
 	KB_OPEN_FILE_MANAGER,
 	KB_OPEN_TERMINAL,
+	KB_GOTO_ANYWHERE,
+	KB_GOTO_DOC_SYMBOL,
+	KB_GOTO_WORKSPACE_SYMBOL,
+	KB_GOTO_LINE,
 	KB_COUNT
 };
 
 
-static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item, *s_context_osf_item, *s_context_sep_item;
+static GtkWidget *s_fif_item, *s_ff_item, *s_ft_item, *s_shs_item, *s_sep_item1,
+	*s_context_osf_item, *s_context_sep_item,
+	*s_sep_item2, *s_goto_any_item, *s_goto_doc_item, *s_goto_wks_item, *s_goto_line_item;
 
 
 static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
@@ -253,9 +260,9 @@ void prjorg_menu_init(void)
 {
 	GeanyKeyGroup *key_group = plugin_set_key_group(geany_plugin, "ProjectOrganizer", KB_COUNT, kb_callback);
 
-	s_sep_item = gtk_separator_menu_item_new();
-	gtk_widget_show(s_sep_item);
-	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_sep_item);
+	s_sep_item1 = gtk_separator_menu_item_new();
+	gtk_widget_show(s_sep_item1);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_sep_item1);
 
 	s_fif_item = menu_item_new("edit-find", _("Find in Project Files..."));
 	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_fif_item);
@@ -281,6 +288,38 @@ void prjorg_menu_init(void)
 	g_signal_connect((gpointer) s_shs_item, "activate", G_CALLBACK(on_swap_header_source), NULL);
 	keybindings_set_item(key_group, KB_SWAP_HEADER_SOURCE, NULL,
 		0, 0, "swap_header_source", _("Swap header/source"), s_shs_item);
+
+	s_sep_item2 = gtk_separator_menu_item_new();
+	gtk_widget_show(s_sep_item2);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_sep_item2);
+
+	s_goto_any_item = gtk_menu_item_new_with_mnemonic(_("Go to _Anywhere..."));
+	gtk_widget_show(s_goto_any_item);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_goto_any_item);
+	g_signal_connect(s_goto_any_item, "activate", G_CALLBACK(prjorg_goto_anywhere_for_file), NULL);
+	keybindings_set_item(key_group, KB_GOTO_ANYWHERE, NULL, 0, 0, "goto_anywhere",
+		_("Go to anywhere"), s_goto_any_item);
+
+	s_goto_doc_item = gtk_menu_item_new_with_mnemonic(_("Go to _Document Symbol..."));
+	gtk_widget_show(s_goto_doc_item);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_goto_doc_item);
+	g_signal_connect(s_goto_doc_item, "activate", G_CALLBACK(prjorg_goto_anywhere_for_doc), NULL);
+	keybindings_set_item(key_group, KB_GOTO_DOC_SYMBOL, NULL, 0, 0, "goto_doc_symbol",
+		_("Go to document symbol"), s_goto_doc_item);
+
+	s_goto_wks_item = gtk_menu_item_new_with_mnemonic(_("Go to _Workspace Symbol..."));
+	gtk_widget_show(s_goto_wks_item);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_goto_wks_item);
+	g_signal_connect(s_goto_wks_item, "activate", G_CALLBACK(prjorg_goto_anywhere_for_workspace), NULL);
+	keybindings_set_item(key_group, KB_GOTO_WORKSPACE_SYMBOL, NULL, 0, 0, "goto_workspace_symbol",
+		_("Go to workspace symbol"), s_goto_wks_item);
+
+	s_goto_line_item = gtk_menu_item_new_with_mnemonic(_("Go to _Line..."));
+	gtk_widget_show(s_goto_line_item);
+	gtk_container_add(GTK_CONTAINER(geany->main_widgets->project_menu), s_goto_line_item);
+	g_signal_connect(s_goto_line_item, "activate", G_CALLBACK(prjorg_goto_anywhere_for_line), NULL);
+	keybindings_set_item(key_group, KB_GOTO_LINE, NULL, 0, 0, "goto_line",
+		_("Go to line"), s_goto_line_item);
 
     keybindings_set_item(key_group, KB_FOCUS_SIDEBAR, (GeanyKeyCallback)prjorg_sidebar_focus_project_tab,
 		0, 0, "focus_project_sidebar", _("Focus Project Sidebar"), NULL);
@@ -319,7 +358,13 @@ void prjorg_menu_cleanup(void)
 	gtk_widget_destroy(s_ff_item);
 	gtk_widget_destroy(s_ft_item);
 	gtk_widget_destroy(s_shs_item);
-	gtk_widget_destroy(s_sep_item);
+	gtk_widget_destroy(s_sep_item1);
+
+	gtk_widget_destroy(s_goto_any_item);
+	gtk_widget_destroy(s_goto_doc_item);
+	gtk_widget_destroy(s_goto_wks_item);
+	gtk_widget_destroy(s_goto_line_item);
+	gtk_widget_destroy(s_sep_item2);
 
 	gtk_widget_destroy(s_context_osf_item);
 	gtk_widget_destroy(s_context_sep_item);

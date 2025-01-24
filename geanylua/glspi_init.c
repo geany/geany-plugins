@@ -539,7 +539,7 @@ static gint glspi_rescan(lua_State* L) {
 	return 0;
 }
 
-static const struct luaL_reg glspi_mnu_funcs[] = {
+static const struct luaL_Reg glspi_mnu_funcs[] = {
 	{"rescan",    glspi_rescan},
 	{NULL,NULL}
 };

@@ -45,9 +45,7 @@ struct _AoSystrayPrivate
 	gboolean enable_systray;
 
 	GtkWidget *popup_menu;
-#if GTK_CHECK_VERSION(2, 10, 0)
 	GtkStatusIcon *icon;
-#endif
 };
 
 enum
@@ -68,12 +66,10 @@ G_DEFINE_TYPE(AoSystray, ao_systray, G_TYPE_OBJECT)
 
 static void ao_systray_finalize(GObject *object)
 {
-#if GTK_CHECK_VERSION(2, 10, 0)
 	AoSystrayPrivate *priv = AO_SYSTRAY_GET_PRIVATE(object);
 
 	g_object_unref(priv->icon);
 	g_object_unref(priv->popup_menu);
-#endif
 
 	G_OBJECT_CLASS(ao_systray_parent_class)->finalize(object);
 }
@@ -88,9 +84,7 @@ static void ao_systray_set_property(GObject *object, guint prop_id,
 	{
 		case PROP_ENABLE_SYSTRAY:
 			priv->enable_systray = g_value_get_boolean(value);
-#if GTK_CHECK_VERSION(2, 10, 0)
 			gtk_status_icon_set_visible(priv->icon, priv->enable_systray);
-#endif
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID(object, prop_id, pspec);
@@ -121,7 +115,6 @@ static void ao_systray_class_init(AoSystrayClass *klass)
 }
 
 
-#if GTK_CHECK_VERSION(2, 10, 0)
 static void icon_activate_cb(GtkStatusIcon *status_icon, gpointer data)
 {
 	if (gtk_window_is_active(GTK_WINDOW(geany->main_widgets->window)))
@@ -135,7 +128,7 @@ static void icon_popup_menu_cmd_clicked_cb(GtkMenuItem *item, gpointer data)
 {
 	GtkWidget *widget;
 	const gchar *widget_name = NULL;
-	
+
 	switch (GPOINTER_TO_INT(data))
 	{
 		case WIDGET_OPEN:
@@ -178,17 +171,16 @@ static void icon_popup_menu_cb(GtkStatusIcon *status_icon, guint button, guint a
 	if (button == 3)
 		gtk_menu_popup(GTK_MENU(priv->popup_menu), NULL, NULL, NULL, NULL, button, activate_time);
 }
-#endif
 
 
 static void ao_systray_init(AoSystray *self)
 {
-#if GTK_CHECK_VERSION(2, 10, 0)
 	AoSystrayPrivate *priv = AO_SYSTRAY_GET_PRIVATE(self);
 	GtkWidget *item;
 	const gchar *icon_name;
 
 	priv->icon = gtk_status_icon_new();
+	gtk_status_icon_set_visible(priv->icon, FALSE);
 	icon_name = gtk_window_get_icon_name(GTK_WINDOW(geany->main_widgets->window));
 	if (icon_name) /* Geany >= 1.23 */
 		gtk_status_icon_set_from_icon_name(priv->icon, icon_name);
@@ -196,11 +188,7 @@ static void ao_systray_init(AoSystray *self)
 		gtk_status_icon_set_from_pixbuf(priv->icon, gtk_window_get_icon(
 			GTK_WINDOW(geany->main_widgets->window)));
 
-#if GTK_CHECK_VERSION(2, 16, 0)
 	gtk_status_icon_set_tooltip_text(priv->icon, "Geany");
-#else
-	gtk_status_icon_set_tooltip(priv->icon, "Geany");
-#endif
 
 	priv->popup_menu = gtk_menu_new();
 	g_object_ref_sink(priv->popup_menu);
@@ -238,7 +226,6 @@ static void ao_systray_init(AoSystray *self)
 
 	g_signal_connect(priv->icon, "activate", G_CALLBACK(icon_activate_cb), NULL);
 	g_signal_connect(priv->icon, "popup-menu", G_CALLBACK(icon_popup_menu_cb), self);
-#endif
 }
 
 

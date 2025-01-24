@@ -425,21 +425,45 @@ void on_open_terminal(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpoint
 }
 
 
+static gint file_chooser_run(GtkFileChooser *dialog)
+{
+	if (GTK_IS_NATIVE_DIALOG(dialog))
+		return gtk_native_dialog_run(GTK_NATIVE_DIALOG(dialog));
+	else
+		return gtk_dialog_run(GTK_DIALOG(dialog));
+}
+
+
+static void file_chooser_destroy(GtkFileChooser *dialog)
+{
+	if (GTK_IS_NATIVE_DIALOG(dialog))
+		g_object_unref(dialog);
+	else
+		gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+
 static void on_add_external(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *utf8_base_path = get_project_base_path();
 	gchar *locale_path = utils_get_locale_from_utf8(utf8_base_path);
-	GtkWidget *dialog;
+	GtkFileChooser *dialog;
 
-	dialog = gtk_file_chooser_dialog_new(_("Add External Directory"),
-		GTK_WINDOW(geany->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("Add"), GTK_RESPONSE_ACCEPT, NULL);
-	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), locale_path);
+	if (geany_data->interface_prefs->use_native_windows_dialogs)
+		dialog = GTK_FILE_CHOOSER(gtk_file_chooser_native_new(_("Add External Directory"),
+			GTK_WINDOW(geany_data->main_widgets->window),
+			GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, _("_Add"), NULL));
+	else
+		dialog = GTK_FILE_CHOOSER(gtk_file_chooser_dialog_new(_("Add External Directory"),
+			GTK_WINDOW(geany->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+			_("_Cancel"), GTK_RESPONSE_CANCEL,
+			_("_Add"), GTK_RESPONSE_ACCEPT, NULL));
 
-	if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+	gtk_file_chooser_set_current_folder(dialog, locale_path);
+
+	if (file_chooser_run(dialog) == GTK_RESPONSE_ACCEPT)
 	{
-		gchar *locale_filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+		gchar *locale_filename = gtk_file_chooser_get_filename(dialog);
 		gchar *utf8_filename = utils_get_utf8_from_locale(locale_filename);
 
 		prjorg_project_add_external_dir(utf8_filename);
@@ -450,7 +474,7 @@ static void on_add_external(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED 
 		g_free(locale_filename);
 	}
 
-	gtk_widget_destroy(dialog);
+	file_chooser_destroy(dialog);
 
 	g_free(utf8_base_path);
 	g_free(locale_path);

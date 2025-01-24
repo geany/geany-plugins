@@ -41,7 +41,7 @@ Unicode true
 !define PRODUCT_DIR_REGKEY "Software\Geany-Plugins"
 !define GEANY_DIR_REGKEY "Software\Geany"
 ; Geany version should be major.minor only (patch level is ignored for version checking)
-!define REQUIRED_GEANY_VERSION "2.0"
+!define REQUIRED_GEANY_VERSION "2.1"
 
 ;;;;;;;;;;;;;;;;;;;;;
 ; Version resource  ;
@@ -73,7 +73,7 @@ ManifestSupportedOS all
 
 OutFile "${GEANY_PLUGINS_INSTALLER_NAME}"
 
-Var Answer
+Var UserIsAdmin
 Var UserName
 Var GEANY_INSTDIR
 Var UNINSTDIR
@@ -152,9 +152,11 @@ Section "Dependencies" SEC04
 SectionEnd
 
 Section -Post
+	Exec '"$INSTDIR\bin\glib-compile-schemas.exe" "$INSTDIR\share\glib-2.0\schemas"'
+
 	WriteUninstaller "$INSTDIR\uninst-plugins.exe"
 	WriteRegStr SHCTX "${PRODUCT_DIR_REGKEY}" Path "$INSTDIR"
-	${if} $Answer == "yes" ; if user is admin
+	${if} $UserIsAdmin == "yes"
 		WriteRegStr SHCTX "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
 		WriteRegStr SHCTX "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst-plugins.exe"
 		WriteRegStr SHCTX "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\bin\Geany.exe"
@@ -377,16 +379,13 @@ FunctionEnd
 Function .onInit
 	; (from http://jabref.svn.sourceforge.net/viewvc/jabref/trunk/jabref/src/windows/nsis/setup.nsi)
 	; If the user does *not* have administrator privileges, abort
-	StrCpy $Answer ""
+	StrCpy $UserIsAdmin ""
 	StrCpy $UserName ""
-	!insertmacro IsUserAdmin $Answer $UserName ; macro from LyXUtils.nsh
-	${if} $Answer == "yes"
+	!insertmacro IsUserAdmin $UserIsAdmin $UserName ; macro from LyXUtils.nsh
+	${if} $UserIsAdmin == "yes"
 		SetShellVarContext all ; set that e.g. shortcuts will be created for all users
 	${else}
 		SetShellVarContext current
-		; TODO is this really what we want? $PROGRAMFILES is not much better because
-		; probably the unprivileged user can't write it anyways
-		StrCpy $INSTDIR "$PROFILE\$(^Name)"
 	${endif}
 
 	; prevent running multiple instances of the installer
@@ -400,6 +399,12 @@ Function .onInit
 	; if $INSTDIR is empty (i.e. it was not provided via /D=... on command line), use Geany's one
 	${If} $INSTDIR == ""
 		StrCpy $INSTDIR "$GEANY_INSTDIR"
+	${EndIf}
+
+	; if $INSTDIR has not been set yet above, set it to the profile directory for non-admin users
+	${If} $INSTDIR == ""
+	${AndIf} $UserIsAdmin != "yes"
+		StrCpy $INSTDIR "$PROFILE\$(^Name)"
 	${EndIf}
 
 	; warn about a new install over an existing installation
@@ -432,9 +437,9 @@ FunctionEnd
 
 Function un.onInit
 	; If the user does *not* have administrator privileges, abort
-	StrCpy $Answer ""
-	!insertmacro IsUserAdmin $Answer $UserName
-	${if} $Answer == "yes"
+	StrCpy $UserIsAdmin ""
+	!insertmacro IsUserAdmin $UserIsAdmin $UserName
+	${if} $UserIsAdmin == "yes"
 		SetShellVarContext all
 	${else}
 		; check if the Geany has been installed with admin permisions

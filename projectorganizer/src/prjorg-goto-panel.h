@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jiri Techet <techet@gmail.com>
+ * Copyright 2023 Jiri Techet <techet@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
-#ifndef __VIMODE_UTILS_H__
-#define __VIMODE_UTILS_H__
+#ifndef PRJORG_GOTO_PANEL_H
+#define PRJORG_GOTO_PANEL_H 1
 
-#include "sci.h"
+#include <geanyplugin.h>
 
-gchar *get_current_word(ScintillaObject *sci);
 
-void clamp_cursor_pos(ScintillaObject *sci);
-void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll);
+typedef struct
+{
+	gchar *name;
+	gchar *file_name;
+	gchar *scope;
+	gchar *tooltip;
+	gint line;
+	TMIcon icon;
+} PrjorgGotoSymbol;
 
-gint perform_search(ScintillaObject *sci, const gchar *search_text,
-	gint num, gboolean invert);
-void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint to,
-	const gchar *flag_override);
+void prjorg_goto_symbol_free(PrjorgGotoSymbol *symbol);
 
-gint get_line_number_rel(ScintillaObject *sci, gint shift);
-void ensure_current_line_expanded(ScintillaObject *sci);
 
-gint jump_to_expended_parent(ScintillaObject *sci, gint line);
+typedef void (*PrjorgGotoPanelLookupFunction) (const char *);
 
-#endif
+void prjorg_goto_panel_show(const gchar *query, PrjorgGotoPanelLookupFunction func);
+void prjorg_goto_panel_fill(GPtrArray *symbols);
+GPtrArray *prjorg_goto_panel_filter(GPtrArray *symbols, const gchar *filter);
+
+#endif  /* PRJORG_GOTO_PANEL_H */

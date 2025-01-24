@@ -103,13 +103,12 @@ M: Frank Lanitz <frank@frank.uvena.de>
 W: http://frank.uvena.de/en/Geany/geanylatex/
 S: Maintained
 
-
 geanylua
-P:
-g:
+P: xiota
+g: @xiota
 M:
 W:
-S: Orphaned
+S: Odd Fixes
 
 geanymacro
 P: William Fraser <william.fraser@virgin.net>

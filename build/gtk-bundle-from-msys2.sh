@@ -21,7 +21,7 @@ EXE_WRAPPER_64="mingw-w64-x86_64-wine"
 # enchant, hunspell - for SpellCheck plugin
 # lua51 - for GeanyLua plugin
 # gnupg, gpgme - for GeanyPG plugin
-# libsoup - for UpdateChecker plugin
+# libsoup3 - for UpdateChecker & GeniusPaste plugins
 # libgit2 - for GitChangeBar plugin
 # gtkspell3 - for GeanyVC plugin
 # the rest is dependency-dependency
@@ -29,9 +29,12 @@ packages="
 ca-certificates
 ctags
 ctpl-git
+curl
 enchant
+glib-networking
 gnupg
 gpgme
+gsettings-desktop-schemas
 http-parser
 hunspell
 libassuan
@@ -39,8 +42,9 @@ libgcrypt
 libgit2
 libgpg-error
 libidn2
+libproxy
 libpsl
-libsoup
+libsoup3
 libssh2
 libsystre
 libunistring
@@ -201,11 +205,11 @@ delayed_post_install() {
 		# ca-certificates
 		DEST=etc/pki/ca-trust/extracted
 		# OpenSSL PEM bundle that includes trust flags
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=openssl-bundle --filter=certificates --overwrite $DEST/openssl/ca-bundle.trust.crt
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose server-auth $DEST/pem/tls-ca-bundle.pem
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose email $DEST/pem/email-ca-bundle.pem
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose code-signing $DEST/pem/objsign-ca-bundle.pem
-		${EXE_WRAPPER_64} bin/p11-kit extract --format=java-cacerts --filter=ca-anchors --overwrite --purpose server-auth $DEST/java/cacerts
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=openssl-bundle --filter=certificates --overwrite $DEST/openssl/ca-bundle.trust.crt
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose server-auth $DEST/pem/tls-ca-bundle.pem
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose email $DEST/pem/email-ca-bundle.pem
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=pem-bundle --filter=ca-anchors --overwrite --purpose code-signing $DEST/pem/objsign-ca-bundle.pem
+		${EXE_WRAPPER_64} bin/p11-kit.exe extract --format=java-cacerts --filter=ca-anchors --overwrite --purpose server-auth $DEST/java/cacerts
 		mkdir -p ssl/certs
 		cp -f $DEST/pem/tls-ca-bundle.pem ssl/certs/ca-bundle.crt
 		cp -f $DEST/pem/tls-ca-bundle.pem ssl/cert.pem
@@ -253,7 +257,6 @@ cleanup_unnecessary_files() {
 	rm -rf share/emacs
 	rm -rf share/GConf
 	rm -rf share/gir-1.0
-	rm -rf share/glib-2.0
 	rm -rf share/gnupg
 	rm -rf share/gtk-doc
 	rm -rf share/info

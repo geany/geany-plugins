@@ -312,6 +312,15 @@ gboolean vi_notify_sci(SCNotification *nt)
 	if (nt->nmhdr.code == SCN_MODIFIED && (nt->modificationType & SC_MOD_BEFOREINSERT && nt->modificationType & SC_PERFORMED_UNDO) && nt->length > 1)
 		undo_update(&ctx, nt->position);
 
+	if (nt->nmhdr.code == SCN_MARGINCLICK)
+	{
+		if (nt->margin == 2)
+		{
+			gint line = GET_CUR_LINE(sci);
+			jump_to_expended_parent(sci, line);
+		}
+	}
+
 	/* This makes sure that when we click behind the end of line in command mode,
 	 * the cursor is not placed BEHIND the last character but ON the last character.
 	 * We want to ignore this when doing selection with mouse as it breaks things. */

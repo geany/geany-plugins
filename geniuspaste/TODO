@@ -2,5 +2,6 @@ TODO
 ----
 
     - recent pastes history
-    - URL shortening
-
+    - URL shortening (?)
+    - authentication (per-pastebin)
+    - support for Gist, which is likely the most used service

@@ -96,7 +96,7 @@ This is an incomplete list of known limitations of the plugin:
 * named registers and related commands are not implemented
 * Ctrl+X mode is not implemented
 * marks are not implemented
-* fold commands are not implemented
+* many fold commands are not implemented
 * most commands starting with "'", "z", and "g" are not implemented
 * most ex mode commands are not implemented (excluding basic stuff like search,
   replace, saving, etc.)
@@ -501,7 +501,16 @@ a new command, please do not forget to update the table below.::
                                        cursor on first non-blank
     z.            z.                 redraw, cursor line to center of window,
                                        cursor on first non-blank
+    zA            zA                 open a closed fold or close an open fold
+                                       recursively
+    zC            zC                 close folds recursively
+    zM            zM                 set 'foldlevel' to zero
+    zO            zO                 open folds recursively
+    zR            zR                 set 'foldlevel' to the deepest fold
+    za            za                 open a closed fold, close an open fold
     zb            zb                 redraw, cursor line at bottom of window
+    zc            zc                 close a fold
+    zo            zo                 open fold
     zt            zt                 redraw, cursor line at top of window
     zz            zz                 redraw, cursor line at center of window
 

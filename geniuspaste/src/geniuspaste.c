@@ -88,6 +88,7 @@ static struct
     GtkWidget *combo;
     GtkWidget *check_button;
     GtkWidget *author_entry;
+    GtkWidget *check_confirm;
 } widgets;
 
 static gchar *config_file = NULL;
@@ -95,8 +96,9 @@ static gchar *author_name = NULL;
 
 static gchar *pastebin_selected = NULL;
 static gboolean check_button_is_checked = FALSE;
+static gboolean confirm_paste = TRUE;
 
-PLUGIN_VERSION_CHECK(224)
+PLUGIN_VERSION_CHECK(236)
 PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE, PLUGIN_NAME,
                              _("Paste your code on your favorite pastebin"),
                              PLUGIN_VERSION, "Enrico Trotta <enrico.trt@gmail.com>")
@@ -318,26 +320,37 @@ static void load_settings(void)
     }
     check_button_is_checked = utils_get_setting_boolean(config, "geniuspaste", "open_browser", FALSE);
     author_name = utils_get_setting_string(config, "geniuspaste", "author_name", USERNAME);
+    confirm_paste = utils_get_setting_boolean(config, "geniuspaste", "confirm_paste", TRUE);
 
     g_key_file_free(config);
 }
 
-static void save_settings(void)
+static void save_settings(gboolean interactive)
 {
     GKeyFile *config = g_key_file_new();
     gchar *data;
     gchar *config_dir = g_path_get_dirname(config_file);
+    gint error = 0;
 
     g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
 
     g_key_file_set_string(config, "geniuspaste", "pastebin", pastebin_selected);
     g_key_file_set_boolean(config, "geniuspaste", "open_browser", check_button_is_checked);
     g_key_file_set_string(config, "geniuspaste", "author_name", author_name);
+    g_key_file_set_boolean(config, "geniuspaste", "confirm_paste", confirm_paste);
 
-    if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+    if (! g_file_test(config_dir, G_FILE_TEST_IS_DIR) &&
+        (error = utils_mkdir(config_dir, TRUE)) != 0)
     {
-        dialogs_show_msgbox(GTK_MESSAGE_ERROR,
-                            _("Plugin configuration directory could not be created."));
+        gchar *message;
+
+        message = g_strdup_printf(_("Plugin configuration directory could not be created: %s"),
+                                  g_strerror(error));
+
+        if (interactive)
+            dialogs_show_msgbox(GTK_MESSAGE_ERROR, "%s", message);
+        else
+            msgwin_status_add_string(message);
     }
     else
     {
@@ -605,13 +618,15 @@ static SoupMessage *json_request_new(const gchar *method,
 {
     SoupMessage  *msg = soup_message_new(method, url);
     GString      *str = g_string_new(NULL);
+    GBytes       *bytes;
 
     g_string_append_c(str, '{');
     g_datalist_foreach(fields, append_json_data_item, str);
     g_string_append_c(str, '}');
-    soup_message_set_request(msg, "application/json", SOUP_MEMORY_TAKE,
-                             str->str, str->len);
-    g_string_free(str, FALSE);
+    bytes = g_bytes_new_take(str->str, str->len);
+    (void) g_string_free(str, FALSE); /* buffer already taken above */
+    soup_message_set_request_body_from_bytes(msg, "application/json", bytes);
+    g_bytes_unref(bytes);
 
     return msg;
 }
@@ -657,7 +672,8 @@ static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
 
         default:
         case FORMAT_HTML_FORM_URLENCODED:
-            msg = soup_form_request_new_from_datalist(method, url, &data);
+            msg = soup_message_new_from_encoded_form(method, url,
+                                                     soup_form_encode_datalist(&data));
             break;
     }
     g_datalist_clear(&data);
@@ -665,11 +681,21 @@ static SoupMessage *pastebin_soup_message_new(const Pastebin  *pastebin,
     return msg;
 }
 
+static gchar *bytes_to_string(GBytes *bytes)
+{
+    gsize bytes_size = g_bytes_get_size(bytes);
+    gchar *str = g_malloc(bytes_size + 1);
+    memcpy(str, g_bytes_get_data(bytes, NULL), bytes_size);
+    str[bytes_size] = 0;
+    return str;
+}
+
 /* parses @response and returns the URL of the paste, or %NULL on parse error
  * or if the URL couldn't be found.
  * @warning: it may return NULL even if @error is not set */
 static gchar *pastebin_parse_response(const Pastebin  *pastebin,
                                       SoupMessage     *msg,
+                                      GBytes          *response_body,
                                       GeanyDocument   *doc,
                                       const gchar     *contents,
                                       GError         **error)
@@ -684,7 +710,8 @@ static gchar *pastebin_parse_response(const Pastebin  *pastebin,
     if (! g_key_file_has_group(pastebin->config, PASTEBIN_GROUP_PARSE))
     {
         /* by default, use the response URI (redirect) */
-        url = soup_uri_to_string(soup_message_get_uri(msg), FALSE);
+        url = g_uri_to_string_partial(soup_message_get_uri(msg),
+                                      G_URI_HIDE_PASSWORD);
     }
     else
     {
@@ -695,7 +722,9 @@ static gchar *pastebin_parse_response(const Pastebin  *pastebin,
                                            PASTEBIN_GROUP_PARSE_KEY_REPLACE, "\\1");
         SETPTR(replace, expand_placeholders(replace, pastebin, doc, contents));
 
-        url = regex_replace(search, msg->response_body->data, replace, error);
+        gchar *response_str = bytes_to_string(response_body);
+        url = regex_replace(search, response_str, replace, error);
+        g_free(response_str);
 
         g_free(search);
         g_free(replace);
@@ -757,27 +786,71 @@ static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
     /* cppcheck-suppress memleak symbolName=dlg */
 }
 
-static void debug_log_message_body(SoupMessage *msg,
-                                   SoupMessageBody *body,
-                                   const gchar *label)
+static void debug_logger(SoupLogger *logger,
+                         SoupLoggerLogLevel level,
+                         char direction,
+                         const char *data,
+                         gpointer user_data)
 {
-    if (geany->app->debug_mode)
+    const char *prefix;
+    switch (direction)
     {
-        gchar *real_uri = soup_uri_to_string(soup_message_get_uri(msg), FALSE);
-
-        soup_message_body_flatten(body);
-        msgwin_msg_add(COLOR_BLUE, -1, NULL,
-                       "[geniuspaste] %s:\n"
-                       "URI: %s\n"
-                       "Body: %s\n"
-                       "Code: %d (%s)",
-                       label,
-                       real_uri,
-                       body->data,
-                       msg->status_code,
-                       msg->reason_phrase);
-        g_free(real_uri);
+        case '>': prefix = "Request: "; break;
+        case '<': prefix = "Response: "; break;
+        default: prefix = ""; break;
     }
+
+    msgwin_msg_add(COLOR_BLUE, -1, NULL, "[geniuspaste] %s%s", prefix, data);
+}
+
+static gboolean ask_paste_confirmation(GeanyDocument *doc, const gchar *website)
+{
+    GtkWidget *dialog;
+    GtkWidget *check_confirm;
+    gboolean ret = FALSE;
+
+    dialog = gtk_message_dialog_new(GTK_WINDOW(geany->main_widgets->window),
+                                    GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                    GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+                                    _("Are you sure you want to paste %s to %s?"),
+                                    sci_has_selection(doc->editor->sci)
+                                    ? _("the selection")
+                                    : _("the whole document"),
+                                    website);
+    gtk_message_dialog_format_secondary_text(GTK_MESSAGE_DIALOG(dialog),
+                                             _("The paste might be public, "
+                                               "and it might not be possible "
+                                               "to delete it."));
+    gtk_dialog_add_buttons(GTK_DIALOG(dialog),
+                           _("_Cancel"), GTK_RESPONSE_CANCEL,
+                           _("_Paste it"), GTK_RESPONSE_ACCEPT,
+                           NULL);
+    check_confirm = gtk_check_button_new_with_mnemonic(_("Do not _ask again"));
+    gtk_widget_set_tooltip_text(check_confirm, _("Whether to ask this question "
+                                                 "again for future pastes. "
+                                                 "This can be changed at any "
+                                                 "time in the plugin preferences."));
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_confirm), ! confirm_paste);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                       check_confirm, FALSE, TRUE, 0);
+
+    gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
+    gtk_style_context_add_class(gtk_widget_get_style_context(gtk_dialog_get_widget_for_response(GTK_DIALOG(dialog),
+                                                                                                GTK_RESPONSE_ACCEPT)),
+                                GTK_STYLE_CLASS_SUGGESTED_ACTION);
+
+    gtk_widget_show_all(dialog);
+
+    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+    {
+        confirm_paste = ! gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check_confirm));
+        save_settings(FALSE);
+        ret = TRUE;
+    }
+
+    gtk_widget_destroy(dialog);
+
+    return ret;
 }
 
 static void paste(GeanyDocument * doc, const gchar * website)
@@ -788,6 +861,8 @@ static void paste(GeanyDocument * doc, const gchar * website)
     SoupMessage *msg;
     gchar *user_agent = NULL;
     guint status;
+    GError *err = NULL;
+    GBytes *response;
 
     g_return_if_fail(doc && doc->is_valid);
 
@@ -813,38 +888,46 @@ static void paste(GeanyDocument * doc, const gchar * website)
         return;
     }
 
+    if (confirm_paste && ! ask_paste_confirmation(doc, website))
+        return;
+
     msg = pastebin_soup_message_new(pastebin, doc, f_content);
 
     user_agent = g_strconcat(PLUGIN_NAME, " ", PLUGIN_VERSION, " / Geany ", GEANY_VERSION, NULL);
-    session = soup_session_async_new_with_options(SOUP_SESSION_USER_AGENT, user_agent, NULL);
+    session = soup_session_new_with_options("user-agent", user_agent, NULL);
+    if (geany->app->debug_mode)
+    {
+        SoupLogger *logger = soup_logger_new(SOUP_LOGGER_LOG_BODY);
+        soup_logger_set_printer(logger, debug_logger, NULL, NULL);
+        soup_session_add_feature(session, SOUP_SESSION_FEATURE(logger));
+        g_object_unref(logger);
+    }
     g_free(user_agent);
 
-    debug_log_message_body(msg, msg->request_body, "Request");
-
-    status = soup_session_send_message(session, msg);
+    response = soup_session_send_and_read(session, msg, NULL, &err);
     g_object_unref(session);
 
-    debug_log_message_body(msg, msg->response_body, "Response");
-
-    if (! SOUP_STATUS_IS_SUCCESSFUL(status))
+    status = soup_message_get_status(msg);
+    if (err || ! SOUP_STATUS_IS_SUCCESSFUL(status))
     {
         show_msgbox(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
                     _("Failed to paste the code"),
                     _("Error pasting the code to the pastebin service %s.\n"
                       "Error code: %u (%s).\n\n%s"),
-                    pastebin->name, status, msg->reason_phrase,
-                    (SOUP_STATUS_IS_TRANSPORT_ERROR(status)
+                    pastebin->name, status,
+                    err ? err->message : soup_message_get_reason_phrase(msg),
+                    (err
                      ? _("Check your connection or the pastebin configuration and retry.")
                      : SOUP_STATUS_IS_SERVER_ERROR(status)
                      ? _("Wait for the service to come back and retry, or retry "
                          "with another pastebin service.")
                      : _("Check the pastebin configuration and retry.")));
+        g_clear_error(&err);
     }
     else
     {
-        GError *err = NULL;
-        gchar *p_url = pastebin_parse_response(pastebin, msg, doc, f_content,
-                                               &err);
+        gchar *p_url = pastebin_parse_response(pastebin, msg, response, doc,
+                                               f_content, &err);
 
         if (err || ! p_url)
         {
@@ -876,6 +959,8 @@ static void paste(GeanyDocument * doc, const gchar * website)
         g_free(p_url);
     }
 
+    if (response)
+        g_bytes_unref(response);
     g_object_unref(msg);
     g_free(f_content);
 }
@@ -906,7 +991,8 @@ static void on_configure_response(GtkDialog * dialog, gint response, gpointer * 
             SETPTR(pastebin_selected, gtk_combo_box_text_get_active_text(GTK_COMBO_BOX_TEXT(widgets.combo)));
             check_button_is_checked = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_button));
             SETPTR(author_name, g_strdup(gtk_entry_get_text(GTK_ENTRY(widgets.author_entry))));
-            save_settings();
+            confirm_paste = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widgets.check_confirm));
+            save_settings(TRUE);
         }
     }
 }
@@ -917,13 +1003,13 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     gint i;
     GtkWidget *label, *vbox, *author_label;
 
-    vbox = gtk_vbox_new(FALSE, 6);
+    vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 
     label = gtk_label_new(_("Select a pastebin:"));
-    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+    gtk_label_set_xalign(GTK_LABEL(label), 0);
 
     author_label = gtk_label_new(_("Enter the author name:"));
-    gtk_misc_set_alignment(GTK_MISC(author_label), 0, 0.5);
+    gtk_label_set_xalign(GTK_LABEL(author_label), 0);
 
     widgets.author_entry = gtk_entry_new();
 
@@ -944,14 +1030,17 @@ GtkWidget *plugin_configure(GtkDialog * dialog)
     }
 
     widgets.check_button = gtk_check_button_new_with_label(_("Show your paste in a new browser tab"));
+    widgets.check_confirm = gtk_check_button_new_with_label(_("Confirm before pasting"));
 
     gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), widgets.combo, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), author_label, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), widgets.author_entry, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(vbox), widgets.check_button, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), widgets.check_confirm, FALSE, FALSE, 0);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.check_button), check_button_is_checked);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.check_confirm), confirm_paste);
 
     gtk_widget_show_all(vbox);
 

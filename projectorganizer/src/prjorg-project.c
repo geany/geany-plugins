@@ -28,6 +28,7 @@
 #include "prjorg-utils.h"
 #include "prjorg-project.h"
 #include "prjorg-sidebar.h"
+#include "prjorg-wraplabel.h"
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
@@ -70,7 +71,7 @@ static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer use
 }
 
 
-/* path - absolute path in locale, returned list in locale */
+/* path - absolute path in locale, returned list in utf8 */
 static GSList *get_file_list(const gchar *utf8_path, GSList *patterns,
 		GSList *ignored_dirs_patterns, GSList *ignored_file_patterns, GHashTable *visited_paths)
 {
@@ -234,7 +235,7 @@ static gboolean match_basename(gconstpointer pft, gconstpointer user_data)
  * extension and only if this fails, look at the shebang */
 static GeanyFiletype *filetypes_detect(const gchar *utf8_filename)
 {
-	struct stat s;
+	GStatBuf s;
 	GeanyFiletype *ft = NULL;
 	gchar *locale_filename;
 
@@ -736,10 +737,10 @@ GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(vbox), table_box, FALSE, FALSE, 6);
 
 	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	label = gtk_label_new(_("The patterns above affect only sidebar and indexing and are not used in the Find in Files\n"
-	"dialog. You can further restrict the files belonging to the project by setting the\n"
+	label = prjorg_wrap_label_new(_("The patterns above affect only sidebar and indexing and are not used in the Find in Files "
+	"dialog. You can further restrict the files belonging to the project by setting the"
 	"File Patterns under the Project tab (these are also used for the Find in Files dialog)."));
-	gtk_box_pack_start(GTK_BOX(hbox1), label, FALSE, FALSE, 12);
+	gtk_box_pack_start(GTK_BOX(hbox1), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 0);
 
 	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);

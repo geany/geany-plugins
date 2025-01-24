@@ -11,6 +11,7 @@
 deps.mak
 .deps/
 .libs/
+.cache/
 Makefile
 Makefile.in
 cscope.out

@@ -32,7 +32,7 @@ env:
 jobs:
   linux:
     name: Linux Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     env:
       CC:                       ccache gcc
@@ -111,7 +111,7 @@ jobs:
             # geany
             autopoint
             gettext
-            python-docutils
+            python3-docutils
             # geany-plugins
             intltool
             check
@@ -128,16 +128,18 @@ jobs:
             libgtkspell3-3-dev
             # geaniuspaste/updatechecker
             libsoup2.4-dev
+            libsoup-3.0-dev
             # git-changebar
             libgit2-dev
             # markdown
             libmarkdown2-dev
             # markdown/webhelper
             libwebkit2gtk-4.0-dev
+            libwebkit2gtk-4.1-dev
             # pretty-printer
             libxml2-dev
             # spellcheck
-            libenchant-dev
+            libenchant-2-dev
             # cppcheck
             cmake
             libpcre3-dev

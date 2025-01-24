@@ -279,7 +279,7 @@ static void glspi_state_done(lua_State *L)
 
 
 
-static const struct luaL_reg glspi_timer_funcs[] = {
+static const struct luaL_Reg glspi_timer_funcs[] = {
 	{"timeout",  glspi_timeout},
 	{"yield",    glspi_yield},
 	{"optimize", glspi_optimize},
