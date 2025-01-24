@@ -905,7 +905,7 @@ static gint glspi_find(lua_State* L)
 	ttf.chrg.cpMin=lua_tonumber(L,2);
 	ttf.chrg.cpMax=lua_tonumber(L,3);
 
-	n=lua_objlen(L,4);
+	n=lua_rawlen(L,4);
 	for (i=1;i<=n; i++) {
 		lua_rawgeti(L,4,i);
 		if (lua_isstring(L, -1)) {
@@ -995,5 +995,5 @@ static const struct luaL_Reg glspi_sci_funcs[] = {
 };
 
 void glspi_init_sci_funcs(lua_State *L) {
-	luaL_register(L, NULL,glspi_sci_funcs);
+	luaL_setfuncs(L, glspi_sci_funcs, 0);
 }
