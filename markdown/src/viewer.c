@@ -20,15 +20,13 @@
  */
 
 #include "config.h"
+#include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include <webkit2/webkit2.h>
 #include <geanyplugin.h>
-#ifndef FULL_PRICE
-# include <mkdio.h>
-#else
-# include "markdown_lib.h"
-#endif
+#include <cmark.h>
+
 #include "viewer.h"
 #include "conf.h"
 
@@ -314,36 +312,22 @@ gchar *
 markdown_viewer_get_html(MarkdownViewer *self)
 {
   gchar *md_as_html, *html = NULL;
+  cmark_node *root;
 
   /* Ensure the internal buffer is created */
   if (!self->priv->text) {
     update_internal_text(self, "");
   }
 
-  {
-#ifndef FULL_PRICE  /* this version using Discount markdown library
-                     * is faster but may invoke endless discussions
-                     * about the GPL and licenses similar to (but the
-                     * same as) the old BSD 4-clause license being
-                     * incompatible */
-    MMIOT *doc;
-    doc = mkd_string(self->priv->text->str, self->priv->text->len, 0);
-    mkd_compile(doc, 0);
-    if (mkd_document(doc, &md_as_html) != EOF) {
-      html = template_replace(self, md_as_html);
-    }
-    mkd_cleanup(doc);
-#else /* this version is slower but is unquestionably GPL-friendly
-       * and the lib also has much more readable/maintainable code */
-
-    md_as_html = markdown_to_string(self->priv->text->str, 0, HTML_FORMAT);
+  /* compile the markdown to HTML */
+  root = cmark_parse_document(self->priv->text->str, self->priv->text->len, CMARK_OPT_DEFAULT);
+  if (root != NULL) {
+    md_as_html = cmark_render_html(root, CMARK_OPT_DEFAULT);
     if (md_as_html) {
       html = template_replace(self, md_as_html);
-      g_free(md_as_html); /* TODO: become 100% convinced this wasn't
-                           * malloc()'d outside of GLIB functions with
-                           * libc allocator (probably same anyway). */
+      free(md_as_html);
     }
-#endif
+    cmark_node_free(root);
   }
 
   return html;
