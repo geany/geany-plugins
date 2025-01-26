@@ -2,5 +2,12 @@
 # geanyvc
 geanyvc/src/commit.glade
 
+# LSP
+lsp/deps/json-glib/json-gobject.c
+lsp/deps/json-glib/json-gvariant.c
+lsp/deps/json-glib/json-parser.c
+lsp/deps/json-glib/json-path.c
+lsp/deps/json-glib/json-reader.c
+
 # WebHelper
 webhelper/src/gwh-enum-types.c

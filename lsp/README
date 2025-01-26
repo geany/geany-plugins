@@ -1,0 +1,288 @@
+===
+LSP
+===
+
+.. contents::
+
+About
+=====
+
+LSP Client is a language server protocol client plugin that allows to run multiple
+language servers for various programming languages, making their functionality
+accessible to Geany.
+
+Configuration
+=============
+
+The plugin does not come bundled with any language server; these must
+be installed independently of the plugin. For installation and configuration
+instructions, please refer to the documentation of the specific servers you plan
+to use, as some may have specific requirements. Note that many language servers,
+such as ``clangd``, ``pylsp``, and ``gopls``, are often packaged by Linux
+distributions, making them easy to install and use.
+
+You can configure servers and other settings using the User configuration file,
+accessible from::
+
+    Tools->LSP Client->User configuration
+
+This file provides extensive information about all the settings options, so be
+sure to refer to it for more details. The default configuration file comes with
+pre-configured values for several language servers; other servers have to be
+added manually.
+
+By default, the LSP plugin is disabled unless explicitly enabled for a
+project under
+
+::
+
+    Project->Properties->LSP Client
+
+This behavior can be controlled by the first three configuration options in
+the ``[all]`` section of the configuration file.
+
+Language servers are started lazily, meaning they only launch when you switch
+a tab to a file with a filetype that has a corresponding LSP server configured.
+After the initial handshake between the client and server, you can check the
+result under 
+
+::
+
+    Tools->LSP Client->Server Initialize Responses
+
+This file also provides information about the capabilities offered by the server;
+for more details, refer to:
+
+https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/
+
+In addition to the User configuration file, you can also create a per-project
+configuration file (which can also be shared by multiple projects). This file
+can be configured under the
+
+::
+
+    Project->Properties->LSP Client
+
+tab.
+
+Furthermore, the plugin offers a range of customizable keybindings, which can be
+configured from::
+
+    Edit->Preferences->Keybindings->LSP Client
+
+Usage
+=====
+
+This section provides an overview of the individual LSP features supported by
+the plugin, along with guidance on how to use them. You can enable or disable
+each feature in the configuration file, where you can also customize certain
+aspects of their behavior.
+
+Please note that not all language servers support every feature. For more
+information on the specific features supported by a language server, consult
+the server's documentation.
+
+Autocompletion
+--------------
+
+Autocompletion works similarly to Geany's autocompletion feature. You can
+configure keybindings triggering the autocompletion popup.
+
+Function signagure
+------------------
+
+When you type an open brace after a function name, the plugin displays the
+function's signature in a popup window similarly to Geany's behavior.
+
+Diagnostic messages
+-------------------
+
+LSP diagnostic messages typically include error messages or warnings from
+compilers, as well as messages from linters. These messages are highlighted in
+the code; the exact style of highlighting can be configured to suit your
+preferences. When you hover over the highlighted part with your mouse cursor,
+a popup window appears, providing additional details about the issue. It is
+also possible to display all diagnostic messages received from the server in
+the message window.
+
+Code actions
+------------
+
+Some servers offer auto-fixes of certain issues or various refactoring options.
+For instance, the ``clangd`` server displays ``fix available`` next to the issue
+in the hover popup window. To perform the auto-fix, right-click the line with
+the issue and select the corresponding option from the Commands submenu. This
+popup can also be invoked by a keybinding.
+
+Code lenses
+-----------
+
+Code lenses are executable commands that are specific to a particular piece of
+code. As Geany's Scintilla component limitations prevent these commands
+from being clickable and executable directly in the editor, they are accessible
+through the Commands submenu of the context menu, similarly to code actions.
+
+Semantic token type highlighting
+--------------------------------
+
+Language servers that provide semantic token support can be used to highlight
+types, such as class names, in the code. You can customize various aspects of
+how the results are visualized in the editor through the configuration file.
+
+Hover popup
+-----------
+
+The language server can be configured to display a popup window with detailed
+information about the symbol under the mouse cursor. However, as this feature
+can be slightly annoying, it is disabled by default. Alternatively, you can
+access this feature through a keybinding.
+
+Symbol tree
+-----------
+
+The LSP symbol tree tab in the sidebar, separate from Geany's Symbols tab,
+shows document symbols in a similar manner to the Geany's symbol tree feature.
+
+Go to symbol definition/declaration
+-----------------------------------
+
+Similarly to Geany, you can navigate to the symbol definition/declaration
+by control-clicking it in the document or by using the corresponding keybinding.
+This feature is also available from the context menu.
+
+Go to type definition
+---------------------
+
+This feature enables quick navigation to the definition of the type associated
+with the symbol under the cursor, such as the type of a variable. You can also
+access this feature from the context menu.
+
+Swap header/source
+------------------
+
+This is a non-standard clangd extension allowing quick swapping between a
+source file and the corresponding header. This feature is not supported by
+any other language server.
+
+Find references
+---------------
+
+This feature finds all references of the symbol under the cursor in the project.
+This feature is also accessible from the context menu.
+
+Find implementations
+--------------------
+
+This feature allows you to locate all classes that implement the interface under
+the cursor.
+
+Navigation to document/project symbols, files, and line numbers
+---------------------------------------------------------------
+
+The plugin provides a simple, VSCode-style panel for navigating your project.
+The
+
+::
+
+    Tools->LSP Client->Go to Anywhere
+
+command offers four types of navigation options:
+
+- Open files by typing their name directly in the entry
+- Navigate to symbols in the current document by prefixing the query with ``@``
+- Navigate to symbols across the entire project by prefixing the query with ``#``
+- Jump to a specific line in the current document by prefixing the query with ``:``
+
+The other related queries in the LSP Client menu (also accessible via a keybinding)
+simply pre-fill the prefix for you, but otherwise function identically.
+
+Code formatting
+---------------
+
+The code formatting feature allows you to format either the entire document or
+a selected portion of code, depending on the LSP server's support for this
+functionality. You can access this feature from the context menu.
+
+Identical symbol highlighting
+-----------------------------
+
+When you click on a symbol in the document, this feature highlights all its
+occurrences in the document. You can customize the highlighting style to your
+preference by configuring it in the configuration file. Also, it is possible
+to disable this feature to be performed automatically, but, instead, manually
+through a keybinding.
+
+Smart selection expanding/shrinking
+-----------------------------------
+
+This feature allows to expand the current text selection to contain the next
+upper syntactic element such as a parent block in programming languages or a
+parent tag in XML. Selection shrinking works in the opposite direction.
+
+Document symbol renaming
+------------------------
+
+This feature leverages the identical symbol highlighting described above to
+select all symbol occurrences, create multiple cursors at their positions in the
+document, and rename them simultaneously as you type. You can also access this
+feature from the context menu.
+
+Project-wide renaming
+---------------------
+
+After selecting Rename in Project from the context menu or the plugin menu,
+you can rename all symbols in the project.
+
+**Warning:** This feature has a potential to modify many files and language
+servers may not be completely reliable when performing the rename so be very
+cautious when using it. The plugin does not perform any additional
+checks and does not show any preview of the changes so it is best to use this
+feature only after committing all modified files so you can
+easily revert to a working state if needed. Since this is potentially a
+dangerous operation, to prevent accidental renames, the "Rename" button in the
+dialog is not selected by defalut and simply pressing enter just cancels the
+dialog.
+
+Limitations
+===========
+
+By design, the plugin communicates over stdin/stdout only, is responsible
+for launching and terminating the language server process, and supports only
+a single language server per file type.
+
+All of these limitations are addressed by the LSP proxy project available at
+https://github.com/techee/lsp-proxy and related issues should be directed there.
+
+License
+=======
+
+Geany LSP Client is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.  A copy of this license
+can be found in the file COPYING included with the source code of this
+program.
+
+Downloads
+=========
+
+Geany LSP Client can be downloaded from the development repository available
+at https://github.com/techee/geany-lsp/. In addition, it is also distributed
+as part of the combined Geany Plugins release. For more information and
+downloads, please visit https://plugins.geany.org/geany-plugins/
+
+Development Code
+================
+
+Get the code from::
+
+    git clone https://github.com/techee/geany-lsp.git
+
+Ideas, questions, patches and bug reports
+=========================================
+
+Please direct all questions, bug reports and patches to the development
+repository at https://github.com/techee/geany-lsp/ and open the corresponding
+bug report or pull request there.
+
+2023-2024 by Jiří Techet
+techet(at)gmail(dot)com
