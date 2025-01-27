@@ -369,7 +369,10 @@ static gboolean on_change_number(gint step)
 				format_length = 0;
 		}
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat-nonliteral"
 		g_snprintf(format_buf, sizeof(format_buf)-1, "%%0%d%c", format_length, use_hexa ? (hexaCase == HEXA_CASE_UPPER ? 'X' : 'x') : 'd');
+#pragma GCC diagnostic pop
 
 		if ((buf = g_strdup_printf(format_buf, guessed_number)))
 		{
@@ -546,7 +549,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 }
 
 
-void plugin_init (GeanyData *data)
+void plugin_init(GeanyData *data)
 {
 	GeanyKeyGroup *key_group;
 
@@ -575,7 +578,7 @@ void plugin_init (GeanyData *data)
 }
 
 
-void plugin_cleanup (void)
+void plugin_cleanup(void)
 {
 	if (plugin_data._dialog)
 	{
@@ -586,7 +589,7 @@ void plugin_cleanup (void)
 }
 
 
-void plugin_help (void)
+void plugin_help(void)
 {
 	utils_open_browser(DOCDIR "/" PLUGIN "/README");
 }
