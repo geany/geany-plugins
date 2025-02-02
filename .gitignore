@@ -64,9 +64,7 @@ cscope.files
 /po/*.gmo
 /po/*.header
 /po/.intltool-merge-cache
-/po/LINGUAS
 /po/Makefile.in.in
-/po/Makevars
 /po/*.mo
 /po/*.pot
 /po/POTFILES
