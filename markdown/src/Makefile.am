@@ -15,7 +15,6 @@ noinst_HEADERS = \
 	viewer.h \
 	markdown-gtk-compat.h
 
-
 markdown_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(MARKDOWN_CFLAGS) \
@@ -23,16 +22,14 @@ markdown_la_CFLAGS = \
 	-DMARKDOWN_HELP_FILE=\"$(GP_DOCDIR)/$(plugin)/html/help.html\"
 
 markdown_la_CPPFLAGS = $(AM_CPPFLAGS) -DG_LOG_DOMAIN=\"Markdown\"
-markdown_la_LIBADD = \
-	$(COMMONLIBS) \
-	$(MARKDOWN_LIBS)
+markdown_la_LIBADD = $(COMMONLIBS) $(MARKDOWN_LIBS)
 
-if MARKDOWN_PEG_MARKDOWN
-markdown_la_CFLAGS += -DFULL_PRICE -I$(top_srcdir)/markdown/peg-markdown
-markdown_la_LIBADD += $(top_builddir)/markdown/peg-markdown/libpegmarkdown.la
+if MD_BUILTIN_CMARK
+markdown_la_CPPFLAGS += -I$(top_srcdir)/markdown/cmark
+markdown_la_LIBADD += $(top_builddir)/markdown/cmark/libcmark.la
 else
-markdown_la_CFLAGS += $(LIBMARKDOWN_CFLAGS)
-markdown_la_LIBADD += $(LIBMARKDOWN_LIBS)
+markdown_la_CFLAGS += $(CMARK_CFLAGS)
+markdown_la_LIBADD += $(CMARK_LIBS)
 endif
 
 include $(top_srcdir)/build/cppcheck.mk
