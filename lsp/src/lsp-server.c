@@ -45,6 +45,7 @@
 # include "spawn/lspunixoutputstream.h"
 #endif
 
+#include  <unistd.h>
 
 static void start_lsp_server(LspServer *server);
 static LspServer *lsp_server_init(gint ft);
