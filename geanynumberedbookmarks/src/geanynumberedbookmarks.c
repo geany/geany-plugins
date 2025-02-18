@@ -69,6 +69,8 @@ static gint PositionInLine=0;
 static gint WhereToSaveFileDetails=0;
 static gchar *FileDetailsSuffix; /* initialised when settings loaded */
 static gboolean bRememberBookmarks=TRUE;
+static gboolean bTryToLoadMarkers=FALSE; /* If the file has changed, attempt to load bookmarks anyway */
+static gboolean bAlwaysSaveMarkers=FALSE; /* Always save markers, even if file has not changed */
 
 /* internal variables */
 static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
@@ -82,6 +84,8 @@ const gchar default_config[] =
 	"Remember_Folds = true\n"
 	"Position_In_Line = 0\n"
 	"Remember_Bookmarks = true\n"
+	"Try_To_Load_Markers = false\n"
+	"Always_Save_Markers = false\n"
 	"[FileData]";
 
 /* Definitions for bookmark images */
@@ -481,6 +485,8 @@ static void SaveSettings(gchar *filename)
 	g_key_file_set_integer(config,"Settings","Position_In_Line",PositionInLine);
 	g_key_file_set_integer(config,"Settings","Where_To_Save_File_Details",WhereToSaveFileDetails);
 	g_key_file_set_boolean(config,"Settings","Remember_Bookmarks",bRememberBookmarks);
+	g_key_file_set_boolean(config,"Settings","Try_To_Load_Markers",bTryToLoadMarkers);
+	g_key_file_set_boolean(config,"Settings","Always_Save_Markers",bAlwaysSaveMarkers);
 	if(FileDetailsSuffix!=NULL)
 		g_key_file_set_string(config,"Settings","File_Details_Suffix",FileDetailsSuffix);
 
@@ -678,6 +684,8 @@ static void LoadSettings(void)
 	bRememberBookmarks=utils_get_setting_boolean(config,"Settings","Remember_Bookmarks",FALSE);
 	FileDetailsSuffix=utils_get_setting_string(config,"Settings","File_Details_Suffix",
 	                                           ".gnbs.conf");
+	bTryToLoadMarkers=utils_get_setting_boolean(config,"Settings","Try_To_Load_Markers",FALSE);
+	bAlwaysSaveMarkers=utils_get_setting_boolean(config,"Settings","Always_Save_Markers",FALSE);
 
 	/* extract data about files */
 	i=0;
@@ -965,7 +973,7 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
-	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 &&
+	if(bTryToLoadMarkers==FALSE && stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 &&
 	   fd->LastChangedTime!=sBuf.st_mtime)
 	{
 		/* notify user that file has been changed */
@@ -1053,11 +1061,7 @@ ill not be loaded.\nPress Ignore to try an load markers anyway."),doc->file_name
 	}
 }
 
-
-/* handler for when a document has been saved
- * This saves off fold state, and marker positions for the file
-*/
-static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+static void document_save(GObject *obj, GeanyDocument *doc, gpointer user_data, gboolean update_time_last_saved)
 {
 	FileData *fd;
 	gint i,iLineCount,iFlags,iBitCounter=0;
@@ -1147,18 +1151,33 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		fd->pcBookmarks=NULL;
 
 
-
-	/* make note of time last saved */
-	if(stat(doc->file_name,&sBuf)==0)
-		fd->LastChangedTime=sBuf.st_mtime;
+	if (update_time_last_saved==TRUE)
+	{
+		/* make note of time last saved */
+		if(stat(doc->file_name,&sBuf)==0)
+			fd->LastChangedTime=sBuf.st_mtime;
+	}
 
 	/* save settings */
 	SaveSettings(doc->file_name);
 }
 
+/* handler for when a document has been saved
+ * This saves off fold state, and marker positions for the file
+*/
+static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	document_save(obj, doc, user_data, TRUE);
+}
+
+static void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	document_save(obj, doc, user_data, FALSE);
+}
 
 PluginCallback plugin_callbacks[] =
 {
+	{ "document-close", (GCallback) &on_document_close, FALSE, NULL },
 	{ "document-open", (GCallback) &on_document_open, FALSE, NULL },
 	{ "document-save", (GCallback) &on_document_save, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
@@ -1177,7 +1196,7 @@ static gint GetLine(ScintillaObject* sci)
 static void on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 {
 	gboolean bSettingsHaveChanged;
-	GtkCheckButton *cb1,*cb2,*cb3;
+	GtkCheckButton *cb1,*cb2,*cb3,*cb4,*cb5;
 	GtkComboBox *gtkcb1,*gtkcb2;
 
 	if(response!=GTK_RESPONSE_OK && response!=GTK_RESPONSE_APPLY)
@@ -1189,6 +1208,8 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	gtkcb1=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3"));
 	gtkcb2=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb4"));
 	cb3=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb5"));
+	cb4=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb6"));
+	cb5=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb7"));
 
 	/* first see if settings are going to change */
 	bSettingsHaveChanged=(bRememberFolds!=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1)));
@@ -1198,6 +1219,10 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb2)!=WhereToSaveFileDetails);
 	bSettingsHaveChanged|=(bRememberBookmarks!=gtk_toggle_button_get_active(
 	                       GTK_TOGGLE_BUTTON(cb3)));
+	bSettingsHaveChanged|=(bTryToLoadMarkers!=gtk_toggle_button_get_active(
+	                       GTK_TOGGLE_BUTTON(cb4)));
+	bSettingsHaveChanged|=(bTryToLoadMarkers!=gtk_toggle_button_get_active(
+	                       GTK_TOGGLE_BUTTON(cb5)));
 
 	/* set new settings settings */
 	bRememberFolds=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1));
@@ -1205,6 +1230,8 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	PositionInLine=gtk_combo_box_get_active(gtkcb1);
 	WhereToSaveFileDetails=gtk_combo_box_get_active(gtkcb2);
 	bRememberBookmarks=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb3));
+	bTryToLoadMarkers=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb4));
+	bAlwaysSaveMarkers=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb5));
 
 	/* now save new settings if they have changed */
 	if(bSettingsHaveChanged)
@@ -1253,6 +1280,16 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	/* save pointer to check_button */
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb5",gtkw);
+
+	gtkw=gtk_check_button_new_with_label(_("try to load bookmarks"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bTryToLoadMarkers);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb6",gtkw);
+
+	gtkw=gtk_check_button_new_with_label(_("always save bookmarks"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bAlwaysSaveMarkers);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb7",gtkw);
 
 	gtk_widget_show_all(vbox);
 
