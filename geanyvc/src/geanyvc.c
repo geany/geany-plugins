@@ -1580,7 +1580,7 @@ create_commitDialog(void)
 	dialog_vbox1 = gtk_dialog_get_content_area(GTK_DIALOG(commitDialog));
 	gtk_widget_show(dialog_vbox1);
 
-	vpaned1 = gtk_vpaned_new();
+	vpaned1 = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
 	gtk_widget_show(vpaned1);
 	gtk_box_pack_start(GTK_BOX(dialog_vbox1), vpaned1, TRUE, TRUE, 0);
 
@@ -1597,7 +1597,7 @@ create_commitDialog(void)
 				  GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |
 				  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-	vpaned2 = gtk_vpaned_new();
+	vpaned2 = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
 	gtk_widget_show(vpaned2);
 	gtk_paned_pack2(GTK_PANED(vpaned1), vpaned2, TRUE, TRUE);
 
@@ -1608,7 +1608,7 @@ create_commitDialog(void)
 					   GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolledwindow2), GTK_SHADOW_IN);
 
-	bottom_vbox = gtk_vbox_new(FALSE, 0);
+	bottom_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show(bottom_vbox);
 	gtk_paned_pack2(GTK_PANED(vpaned2), bottom_vbox, FALSE, FALSE);
 
@@ -1638,7 +1638,7 @@ create_commitDialog(void)
 	gtk_container_add(GTK_CONTAINER(frame1), alignment1);
 	gtk_alignment_set_padding(GTK_ALIGNMENT(alignment1), 0, 0, 12, 0);
 
-	commit_text_vbox = gtk_vbox_new(FALSE, 0);
+	commit_text_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show(commit_text_vbox);
 	gtk_container_add(GTK_CONTAINER(alignment1), commit_text_vbox);
 
@@ -1663,7 +1663,8 @@ create_commitDialog(void)
 
 	/* line/column status label */
 	lineColumnLabel = gtk_label_new("");
-	gtk_misc_set_alignment(GTK_MISC(lineColumnLabel), 0, 0.5);
+	gtk_widget_set_halign(GTK_WIDGET(lineColumnLabel), GTK_ALIGN_START);
+	gtk_widget_set_valign(GTK_WIDGET(lineColumnLabel), GTK_ALIGN_CENTER);
 	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, FALSE, TRUE, 0);
 	gtk_widget_show(lineColumnLabel);
 
@@ -1676,7 +1677,7 @@ create_commitDialog(void)
 	gtk_widget_show(dialog_action_area1);
 	gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
 
-	btnCancel = gtk_button_new_from_stock("gtk-cancel");
+	btnCancel = gtk_button_new_with_mnemonic(_("_Cancel"));
 	gtk_widget_show(btnCancel);
 	gtk_dialog_add_action_widget(GTK_DIALOG(commitDialog), btnCancel, GTK_RESPONSE_CANCEL);
 
@@ -2195,7 +2196,7 @@ plugin_configure(GtkDialog * dialog)
 	GtkWidget *label_spellcheck_lang;
 #endif
 
-	vbox = gtk_vbox_new(FALSE, 6);
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
 
 	widgets.cb_changed_flag =
 		gtk_check_button_new_with_label(_
@@ -2205,7 +2206,7 @@ plugin_configure(GtkDialog * dialog)
 				 ("If this option is activated, every new by the VC-plugin created document tab "
 				  "will be marked as changed. Even this option is useful in some cases, it could cause "
 				  "a big number of annoying \"Do you want to save\"-dialogs."));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_changed_flag), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_changed_flag), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_changed_flag), set_changed_flag);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_changed_flag, FALSE, FALSE, 2);
 
@@ -2214,14 +2215,14 @@ plugin_configure(GtkDialog * dialog)
 	gtk_widget_set_tooltip_text(widgets.cb_confirm_add,
 				 _
 				 ("Shows a confirmation dialog on adding a new (created) file to VCS."));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_confirm_add), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_confirm_add), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_confirm_add),
 					 set_add_confirmation);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_confirm_add, TRUE, FALSE, 2);
 
 	widgets.cb_max_commit = gtk_check_button_new_with_label(_("Maximize commit dialog"));
 	gtk_widget_set_tooltip_text(widgets.cb_max_commit, _("Show commit dialog maximize."));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_max_commit), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_max_commit), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_max_commit),
 					 set_maximize_commit_dialog);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_max_commit, TRUE, FALSE, 2);
@@ -2229,7 +2230,7 @@ plugin_configure(GtkDialog * dialog)
 	widgets.cb_external_diff = gtk_check_button_new_with_label(_("Use external diff viewer"));
 	gtk_widget_set_tooltip_text(widgets.cb_external_diff,
 				 _("Use external diff viewer for file diff."));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_external_diff), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_external_diff), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_external_diff),
 					 set_external_diff);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_external_diff, TRUE, FALSE, 2);
@@ -2237,7 +2238,7 @@ plugin_configure(GtkDialog * dialog)
 	widgets.cb_editor_menu_entries = gtk_check_button_new_with_label(_("Show VC entries at editor menu"));
 	gtk_widget_set_tooltip_text(widgets.cb_editor_menu_entries,
 				 _("Show entries for VC functions inside editor menu"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_editor_menu_entries), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_editor_menu_entries), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_editor_menu_entries), set_editor_menu_entries);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_editor_menu_entries, TRUE, FALSE, 2);
 
@@ -2246,43 +2247,43 @@ plugin_configure(GtkDialog * dialog)
 				 _("Whether menu for this plugin are getting placed either "
 				   "inside tools menu or directly inside Geany's menubar. "
 				   "Will take in account after next start of GeanyVC"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_attach_to_menubar), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_attach_to_menubar), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_attach_to_menubar),
 		set_menubar_entry);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_attach_to_menubar, TRUE, FALSE, 2);
 
 	widgets.cb_cvs = gtk_check_button_new_with_label(_("Enable CVS"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_cvs), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_cvs), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_cvs), enable_cvs);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_cvs, TRUE, FALSE, 2);
 
 	widgets.cb_git = gtk_check_button_new_with_label(_("Enable GIT"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_git), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_git), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_git), enable_git);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_git, TRUE, FALSE, 2);
 
 	widgets.cb_fossil = gtk_check_button_new_with_label(_("Enable Fossil"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_fossil), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_fossil), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_fossil), enable_fossil);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_fossil, TRUE, FALSE, 2);
 
 	widgets.cb_svn = gtk_check_button_new_with_label(_("Enable SVN"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_svn), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_svn), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_svn), enable_svn);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_svn, TRUE, FALSE, 2);
 
 	widgets.cb_svk = gtk_check_button_new_with_label(_("Enable SVK"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_svk), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_svk), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_svk), enable_svk);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_svk, TRUE, FALSE, 2);
 
 	widgets.cb_bzr = gtk_check_button_new_with_label(_("Enable Bazaar"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_bzr), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_bzr), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_bzr), enable_bzr);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_bzr, TRUE, FALSE, 2);
 
 	widgets.cb_hg = gtk_check_button_new_with_label(_("Enable Mercurial"));
-	gtk_button_set_focus_on_click(GTK_BUTTON(widgets.cb_hg), FALSE);
+	gtk_widget_set_focus_on_click(GTK_WIDGET(widgets.cb_hg), FALSE);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widgets.cb_hg), enable_hg);
 	gtk_box_pack_start(GTK_BOX(vbox), widgets.cb_hg, TRUE, FALSE, 2);
 
@@ -2293,7 +2294,8 @@ plugin_configure(GtkDialog * dialog)
 	if (lang != NULL)
 		gtk_entry_set_text(GTK_ENTRY(widgets.spellcheck_lang_textbox), lang);
 
-	gtk_misc_set_alignment(GTK_MISC(label_spellcheck_lang), 0, 0.5);
+	gtk_widget_set_halign(GTK_WIDGET(label_spellcheck_lang), GTK_ALIGN_START);
+	gtk_widget_set_valign(GTK_WIDGET(label_spellcheck_lang), GTK_ALIGN_CENTER);
 	gtk_container_add(GTK_CONTAINER(vbox), label_spellcheck_lang);
 	gtk_container_add(GTK_CONTAINER(vbox), widgets.spellcheck_lang_textbox);
 #endif
@@ -2410,7 +2412,7 @@ do_current_file_menu(GtkWidget ** parent_menu, const gchar * label, VCFileMenu *
 	GtkWidget *menu_vc_show_file = NULL;
 
 	/* create the parent menu */
-	*parent_menu = gtk_image_menu_item_new_with_mnemonic(label);
+	*parent_menu = gtk_menu_item_new_with_mnemonic(label);
 	g_signal_connect(* parent_menu, "activate", G_CALLBACK(update_menu_items), NULL);
 
 	cur_file_menu = gtk_menu_new();
@@ -2508,7 +2510,7 @@ do_current_dir_menu(GtkWidget ** parent_menu)
 	/* Menu which will hold the items in the current file menu */
 	cur_dir_menu = gtk_menu_new();
 
-	*parent_menu = gtk_image_menu_item_new_with_mnemonic(_("_Directory"));
+	*parent_menu = gtk_menu_item_new_with_mnemonic(_("_Directory"));
 	g_signal_connect(* parent_menu, "activate", G_CALLBACK(update_menu_items), NULL);
 	/* Diff of the current dir */
 	menu_vc_diff_dir = gtk_menu_item_new_with_mnemonic(_("_Diff"));
@@ -2547,7 +2549,7 @@ do_basedir_menu(GtkWidget ** parent_menu)
 	/* Menu which will hold the items in the current file menu */
 	basedir_menu = gtk_menu_new();
 
-	*parent_menu = gtk_image_menu_item_new_with_mnemonic(_("_Base Directory"));
+	*parent_menu = gtk_menu_item_new_with_mnemonic(_("_Base Directory"));
 	g_signal_connect(* parent_menu, "activate", G_CALLBACK(update_menu_items), NULL);
 
 	/* Complete diff of base directory */
@@ -2698,7 +2700,7 @@ plugin_init(G_GNUC_UNUSED GeanyData * data)
 	}
 	else
 	{
-		menu_vc = gtk_image_menu_item_new_with_mnemonic(_("_Version Control"));
+		menu_vc = gtk_menu_item_new_with_mnemonic(_("_Version Control"));
 		gtk_container_add(GTK_CONTAINER(geany->main_widgets->tools_menu), menu_vc);
 	}
 
