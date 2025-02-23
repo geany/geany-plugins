@@ -78,7 +78,7 @@ Save file settings...
 Remember normal Bookmarks
     If this is set then the plugin will remember standard non-numbered
     bookmarks, and restore them when the file is next loaded.
-Try to load bookmarks
+Force loading bookmarks if file has changed
     Always try to load markers, even if the file has changed since last save.
 Always save bookmarks
     Always save markers, even if the file has not changed.

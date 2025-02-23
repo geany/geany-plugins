@@ -1281,7 +1281,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	/* save pointer to check_button */
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb5",gtkw);
 
-	gtkw=gtk_check_button_new_with_label(_("try to load bookmarks"));
+	gtkw=gtk_check_button_new_with_label(_("force loading bookmarks if file has changed"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bTryToLoadMarkers);
 	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb6",gtkw);
