@@ -1542,11 +1542,9 @@ create_commitDialog(void)
 	GtkWidget *scrolledwindow2;
 	GtkWidget *textDiff;
 	GtkWidget *frame1;
-	GtkWidget *alignment1;
 	GtkWidget *scrolledwindow3;
 	GtkWidget *textCommitMessage;
 	GtkWidget *label1;
-	GtkWidget *dialog_action_area1;
 	GtkWidget *btnCancel;
 	GtkWidget *btnCommit;
 	GtkWidget *select_cbox;
@@ -1633,14 +1631,10 @@ create_commitDialog(void)
 	gtk_box_pack_start(GTK_BOX(bottom_vbox), frame1, TRUE, TRUE, 2);
 	gtk_frame_set_shadow_type(GTK_FRAME(frame1), GTK_SHADOW_NONE);
 
-	alignment1 = gtk_alignment_new(0.5, 0.5, 1, 1);
-	gtk_widget_show(alignment1);
-	gtk_container_add(GTK_CONTAINER(frame1), alignment1);
-	gtk_alignment_set_padding(GTK_ALIGNMENT(alignment1), 0, 0, 12, 0);
-
 	commit_text_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_set_margin_start(commit_text_vbox, 12);
 	gtk_widget_show(commit_text_vbox);
-	gtk_container_add(GTK_CONTAINER(alignment1), commit_text_vbox);
+	gtk_container_add(GTK_CONTAINER(frame1), commit_text_vbox);
 
 	scrolledwindow3 = gtk_scrolled_window_new(NULL, NULL);
 	gtk_widget_show(scrolledwindow3);
@@ -1664,7 +1658,6 @@ create_commitDialog(void)
 	/* line/column status label */
 	lineColumnLabel = gtk_label_new("");
 	gtk_widget_set_halign(GTK_WIDGET(lineColumnLabel), GTK_ALIGN_START);
-	gtk_widget_set_valign(GTK_WIDGET(lineColumnLabel), GTK_ALIGN_CENTER);
 	gtk_box_pack_end(GTK_BOX(commit_text_vbox), lineColumnLabel, FALSE, TRUE, 0);
 	gtk_widget_show(lineColumnLabel);
 
@@ -1673,11 +1666,7 @@ create_commitDialog(void)
 	gtk_box_pack_end(GTK_BOX(commit_text_vbox), commitMessageHistoryComboBox, FALSE, TRUE, 0);
 	gtk_widget_show(commitMessageHistoryComboBox);
 
-	dialog_action_area1 = gtk_dialog_get_action_area(GTK_DIALOG(commitDialog));
-	gtk_widget_show(dialog_action_area1);
-	gtk_button_box_set_layout(GTK_BUTTON_BOX(dialog_action_area1), GTK_BUTTONBOX_END);
-
-	btnCancel = gtk_button_new_with_mnemonic(_("_Cancel"));
+	btnCancel = gtk_button_new_from_stock("gtk-cancel");
 	gtk_widget_show(btnCancel);
 	gtk_dialog_add_action_widget(GTK_DIALOG(commitDialog), btnCancel, GTK_RESPONSE_CANCEL);
 
@@ -1710,11 +1699,9 @@ create_commitDialog(void)
 	GLADE_HOOKUP_OBJECT(commitDialog, scrolledwindow2, "scrolledwindow2");
 	GLADE_HOOKUP_OBJECT(commitDialog, textDiff, "textDiff");
 	GLADE_HOOKUP_OBJECT(commitDialog, frame1, "frame1");
-	GLADE_HOOKUP_OBJECT(commitDialog, alignment1, "alignment1");
 	GLADE_HOOKUP_OBJECT(commitDialog, scrolledwindow3, "scrolledwindow3");
 	GLADE_HOOKUP_OBJECT(commitDialog, textCommitMessage, "textCommitMessage");
 	GLADE_HOOKUP_OBJECT(commitDialog, label1, "label1");
-	GLADE_HOOKUP_OBJECT_NO_REF(commitDialog, dialog_action_area1, "dialog_action_area1");
 	GLADE_HOOKUP_OBJECT(commitDialog, btnCancel, "btnCancel");
 	GLADE_HOOKUP_OBJECT(commitDialog, btnCommit, "btnCommit");
 	GLADE_HOOKUP_OBJECT(commitDialog, select_cbox, "select_cbox");
@@ -2295,7 +2282,6 @@ plugin_configure(GtkDialog * dialog)
 		gtk_entry_set_text(GTK_ENTRY(widgets.spellcheck_lang_textbox), lang);
 
 	gtk_widget_set_halign(GTK_WIDGET(label_spellcheck_lang), GTK_ALIGN_START);
-	gtk_widget_set_valign(GTK_WIDGET(label_spellcheck_lang), GTK_ALIGN_CENTER);
 	gtk_container_add(GTK_CONTAINER(vbox), label_spellcheck_lang);
 	gtk_container_add(GTK_CONTAINER(vbox), widgets.spellcheck_lang_textbox);
 #endif
