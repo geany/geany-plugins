@@ -1554,16 +1554,6 @@ create_commitDialog(void)
 	GtkWidget *commitMessageHistoryComboBox;
 	GtkTreeSelection *sel;
 
-	gchar *rcstyle = g_strdup_printf("style \"geanyvc-diff-font\"\n"
-					 "{\n"
-					 "    font_name=\"%s\"\n"
-					 "}\n"
-					 "widget \"*.GeanyVCCommitDialogDiff\" style \"geanyvc-diff-font\"",
-					 geany_data->interface_prefs->editor_font);
-
-	gtk_rc_parse_string(rcstyle);
-	g_free(rcstyle);
-
 	commitDialog = gtk_dialog_new();
 	gtk_container_set_border_width(GTK_CONTAINER(commitDialog), 5);
 	gtk_widget_set_events(commitDialog,
@@ -1618,7 +1608,7 @@ create_commitDialog(void)
 			treeSelect);
 
 	textDiff = gtk_text_view_new();
-	gtk_widget_set_name(textDiff, "GeanyVCCommitDialogDiff");
+	ui_widget_modify_font_from_string(textDiff, geany_data->interface_prefs->editor_font);
 	gtk_widget_show(textDiff);
 	gtk_container_add(GTK_CONTAINER(scrolledwindow2), textDiff);
 	gtk_widget_set_events(textDiff,
