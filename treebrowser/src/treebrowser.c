@@ -246,6 +246,20 @@ utils_pixbuf_from_path(gchar *path)
 		if (!info)
 			return NULL;
 		ret = gtk_icon_info_load_icon (info, NULL);
+
+		if (ret != NULL)
+		{
+			int icon_width = gdk_pixbuf_get_width(ret);
+			int icon_height = gdk_pixbuf_get_height(ret);
+
+			if (icon_width != width || icon_height != width)
+			{
+				GdkPixbuf *scaled = gdk_pixbuf_scale_simple(ret, width, width, GDK_INTERP_BILINEAR);
+				g_object_unref(ret);
+				ret = scaled;
+			}
+		}
+
 		gtk_icon_info_free(info);
 	}
 	return ret;
@@ -1079,7 +1093,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 			else
 			{
 				SETPTR(uri, g_path_get_dirname(uri));
-				
+
 				refresh_root = TRUE;
 			}
 		}
