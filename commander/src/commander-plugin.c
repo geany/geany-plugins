@@ -354,6 +354,8 @@ store_populate_menu_items (GtkListStore  *store,
         }
         
         tmp = g_markup_escape_text (path, -1);
+        if (! tmp)
+          return; // TODO free resources
         SETPTR (label, g_strconcat (label, "\n<small><i>", tmp, "</i></small>", NULL));
         g_free (tmp);
         

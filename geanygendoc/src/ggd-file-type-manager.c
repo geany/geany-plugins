@@ -122,7 +122,11 @@ ggd_file_type_manager_get_conf_path_intern (GeanyFiletype  *geany_ft,
   gchar  *filename;
   
   ft_name_down = g_ascii_strdown (geany_ft->name, -1);
+  if (! ft_name_down)
+    return NULL; // TODO free resources
   ft_name_conf = g_strconcat (ft_name_down, ".conf", NULL);
+  if (! ft_name_conf)
+    return NULL; // TODO free resources
   g_free (ft_name_down);
   filename = ggd_get_config_file (ft_name_conf, "filetypes", prems_req, error);
   g_free (ft_name_conf);

@@ -65,6 +65,9 @@ copy_and_remove_extension(gchar* path)
 		return NULL;
 
 	str = g_strdup(path);
+	if(!str)
+		return NULL;
+
 	pc = str;
 	while(*pc != '\0')
 	{

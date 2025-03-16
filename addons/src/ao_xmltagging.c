@@ -93,7 +93,7 @@ void ao_xmltagging(void)
 			/* Getting the tag */
 			tag = g_string_new(gtk_entry_get_text(GTK_ENTRY(textbox)));
 
-			if (tag->len > 0)
+			if (tag && tag->len > 0)
 			{
 				gsize end = 0;
 				gchar *end_tag;

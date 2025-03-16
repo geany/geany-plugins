@@ -238,6 +238,12 @@ on_configure_response(GtkDialog* dialog, gint response, gpointer user_data)
 	config_filename = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
 								"plugins", G_DIR_SEPARATOR_S, "codenav", 
 								G_DIR_SEPARATOR_S, "codenav.conf", NULL);
+	if(! config_filename)
+	{
+		g_key_file_free(config);
+		return;
+	}
+
 	config_dir      = g_path_get_dirname(config_filename);
 	
 	/* Allocate the list */

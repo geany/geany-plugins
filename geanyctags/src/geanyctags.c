@@ -299,6 +299,8 @@ static void show_entry(tagEntry *entry)
 	if (kind)
 	{
 		kind_str = g_strconcat(kind, ":  ", NULL);
+		if (! kind_str)
+			return; // TODO free resources
 		SETPTR(kind_str, g_strdup_printf("%-14s", kind_str));
 	}
 	else

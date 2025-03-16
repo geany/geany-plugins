@@ -148,19 +148,25 @@ fill_languages_list(const gchar** impl_list, const gchar** head_list, gsize n)
 
 	for ( i=0; i<n; i++ ) {
 		lang = g_malloc0(sizeof(Language));
-		
+		if(!lang)
+			return;  // TODO clean resources
+
 		/* check if current item has no head or impl */
 		if ( strlen(impl_list[i])==0 || strlen(head_list[i])==0 )
 			continue;
 		
 		/* Set language implementation extensions */
 		splitted_list = g_strsplit(impl_list[i], ",", 0);
+		if(!splitted_list)
+			return;  // TODO clean resources
 		for ( j=0; splitted_list[j] != NULL; j++ )
 			IMPL_PREPEND(splitted_list[j]);
 		g_strfreev(splitted_list);
 		
 		/* Set language header extensions */
 		splitted_list = g_strsplit(head_list[i], ",", 0);
+		if(!splitted_list)
+			return;  // TODO clean resources
 		for ( j=0; splitted_list[j] != NULL; j++ )
 			HEAD_PREPEND(splitted_list[j]);
 		g_strfreev(splitted_list);
