@@ -231,15 +231,17 @@ utils_pixbuf_from_path(gchar *path)
 
 	if (icon != NULL)
 	{
+		const GtkIconLookupFlags flags = GTK_ICON_LOOKUP_USE_BUILTIN | GTK_ICON_LOOKUP_FORCE_SIZE;
+
 		gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, NULL);
-		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, flags);
 		g_object_unref(icon);
 		if (!info)
 		{
 			icon = g_themed_icon_new("text-x-generic");
 			if (icon != NULL)
 			{
-				info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+				info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, flags);
 				g_object_unref(icon);
 			}
 		}
