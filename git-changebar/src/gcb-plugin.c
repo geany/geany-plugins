@@ -1411,9 +1411,9 @@ read_setting_boolean (GKeyFile     *kf,
                       const gchar  *key,
                       gpointer      value)
 {
-  gboolean *bool = value;
+  gboolean *boolean = value;
   
-  *bool = utils_get_setting_boolean (kf, group, key, *bool);
+  *boolean = utils_get_setting_boolean (kf, group, key, *boolean);
 }
 
 static void
@@ -1422,9 +1422,9 @@ write_setting_boolean (GKeyFile      *kf,
                        const gchar   *key,
                        gconstpointer  value)
 {
-  const gboolean *bool = value;
+  const gboolean *boolean = value;
   
-  g_key_file_set_boolean (kf, group, key, *bool);
+  g_key_file_set_boolean (kf, group, key, *boolean);
 }
 
 /* loads @filename in @kf and return %FALSE if failed, emitting a warning
