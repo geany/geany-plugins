@@ -25,7 +25,7 @@
 
 #ifdef G_OS_UNIX
 #include <vte/vte.h>
-#include <../../utils/src/gp_vtecompat.h>
+#include <gp_vtecompat.h>
 #endif
 
 /** Set font from string.
