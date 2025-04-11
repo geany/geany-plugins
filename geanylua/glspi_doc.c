@@ -321,6 +321,7 @@ static gint glspi_fileinfo(lua_State* L)
 	}
 	SetTableStr("type",   FileTypeStr(name));
 	SetTableStr("desc",   FileTypeStr(title));
+	SetTableStr("single", FileTypeStr(comment_single));
 	SetTableStr("opener", FileTypeStr(comment_open));
 	SetTableStr("closer", FileTypeStr(comment_close));
 	SetTableStr("action", FileTypeStr(context_action_cmd));
