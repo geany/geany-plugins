@@ -176,6 +176,7 @@ LspServer *lsp_server_get_if_running(GeanyDocument *doc);
 LspServerConfig *lsp_server_get_all_section_config(void);
 gboolean lsp_server_is_usable(GeanyDocument *doc);
 GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id);
+void lsp_server_clear_cached_ft(GeanyDocument *doc);
 
 void lsp_server_stop_all(gboolean wait);
 void lsp_server_init_all(void);

@@ -238,8 +238,12 @@ static gboolean goto_provided(GeanyDocument *doc, gpointer user_data)
 static gboolean goto_perform(GeanyDocument *doc, gint pos, gboolean definition, gpointer user_data)
 {
 	LspServer *srv = lsp_server_get(doc);
-	gchar *iden = lsp_utils_get_current_iden(doc, pos, srv->config.word_chars);
+	gchar *iden;
 
+	if (!srv)
+		return FALSE;
+
+	iden = lsp_utils_get_current_iden(doc, pos, srv->config.word_chars);
 	if (!iden)
 		return FALSE;
 
@@ -618,6 +622,7 @@ static void on_document_filetype_set(G_GNUC_UNUSED GObject *obj, GeanyDocument *
 		return;
 
 	srv_old = lsp_server_get_for_ft(filetype_old);
+	lsp_server_clear_cached_ft(doc);
 	srv_new = lsp_server_get(doc);
 
 	if (srv_old == srv_new)
@@ -831,11 +836,6 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 	}
 	else if (nt->nmhdr.code == SCN_UPDATEUI)
 	{
-		LspServer *srv = lsp_server_get_if_running(doc);
-
-		if (!srv)
-			return FALSE;
-
 		if (nt->updated & (SC_UPDATE_H_SCROLL | SC_UPDATE_V_SCROLL | SC_UPDATE_SELECTION /* when caret moves */))
 		{
 			lsp_signature_hide_calltip(doc);
@@ -848,12 +848,15 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 				lsp_selection_clear_selections();
 		}
 
-		if (srv->config.highlighting_enable && perform_highlight &&
-			(nt->updated & SC_UPDATE_SELECTION))
+		if (perform_highlight && (nt->updated & SC_UPDATE_SELECTION))
 		{
-			lsp_highlight_schedule_request(doc);
+			LspServer *srv = lsp_server_get_if_running(doc);
+			if (srv && srv->config.highlighting_enable)
+				lsp_highlight_schedule_request(doc);
 		}
-		perform_highlight = TRUE;
+
+		if (nt->updated & SC_UPDATE_SELECTION)
+			perform_highlight = TRUE;
 	}
 	else if (nt->nmhdr.code == SCN_CHARADDED)
 	{

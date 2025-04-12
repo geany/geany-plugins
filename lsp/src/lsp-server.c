@@ -45,6 +45,10 @@
 # include "spawn/lspunixoutputstream.h"
 #endif
 
+#include <unistd.h>
+
+#define CACHED_FILETYPE_KEY "lsp_server_cached_filetype"
+#define CACHED_LANG_ID_KEY "lsp_server_cached_lang_id"
 
 static void start_lsp_server(LspServer *server);
 static LspServer *lsp_server_init(gint ft);
@@ -1178,15 +1182,14 @@ static gboolean is_lsp_valid_for_doc(LspServerConfig *cfg, GeanyDocument *doc)
 #define g_pattern_spec_match_string g_pattern_match_string
 #endif
 
-GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
+static GeanyFiletype *lsp_server_get_ft_impl(GeanyDocument *doc, gchar **lsp_lang_id)
 {
 	LspServer *srv;
 	guint i;
 
-	if (!lsp_servers || (!doc->real_path || doc->file_type->id != GEANY_FILETYPES_NONE))
+	if (!lsp_servers || !doc->real_path)
 	{
-		if (lsp_lang_id)
-			*lsp_lang_id = lsp_utils_get_lsp_lang_id(doc);
+		*lsp_lang_id = lsp_utils_get_lsp_lang_id(doc);
 		return doc->file_type;
 	}
 
@@ -1217,8 +1220,7 @@ GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
 
 				if (ret)
 				{
-					if (lsp_lang_id)
-						*lsp_lang_id = g_strdup(lang_id);
+					*lsp_lang_id = g_strdup(lang_id);
 					return ret;
 				}
 			}
@@ -1227,10 +1229,38 @@ GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
 		}
 	}
 
-	if (lsp_lang_id)
-		*lsp_lang_id = lsp_utils_get_lsp_lang_id(doc);
-
+	*lsp_lang_id = lsp_utils_get_lsp_lang_id(doc);
 	return doc->file_type;
+}
+
+
+void lsp_server_clear_cached_ft(GeanyDocument *doc)
+{
+	plugin_set_document_data(geany_plugin, doc, CACHED_FILETYPE_KEY, NULL);
+	plugin_set_document_data_full(geany_plugin, doc, CACHED_LANG_ID_KEY, NULL, g_free);
+}
+
+
+GeanyFiletype *lsp_server_get_ft(GeanyDocument *doc, gchar **lsp_lang_id)
+{
+	GeanyFiletype *ft = plugin_get_document_data(geany_plugin, doc, CACHED_FILETYPE_KEY);
+	gchar *lang_id;
+
+	if (ft)
+	{
+		if (lsp_lang_id)
+			*lsp_lang_id = g_strdup(plugin_get_document_data(geany_plugin, doc, CACHED_LANG_ID_KEY));
+		return ft;
+	}
+
+	ft = lsp_server_get_ft_impl(doc, &lang_id);
+	if (lsp_lang_id)
+		*lsp_lang_id = g_strdup(lang_id);
+
+	plugin_set_document_data(geany_plugin, doc, CACHED_FILETYPE_KEY, ft);
+	plugin_set_document_data_full(geany_plugin, doc, CACHED_LANG_ID_KEY, lang_id, g_free);
+
+	return ft;
 }
 
 
@@ -1398,6 +1428,12 @@ void lsp_server_init_all(void)
 
 	if (!servers_in_shutdown)
 		servers_in_shutdown = g_ptr_array_new_full(0, (GDestroyNotify)free_server);
+
+	foreach_document(i)
+	{
+		GeanyDocument *doc = documents[i];
+		lsp_server_clear_cached_ft(doc);
+	}
 
 	lsp_servers = g_ptr_array_new_full(0, (GDestroyNotify)stop_and_free_server);
 
