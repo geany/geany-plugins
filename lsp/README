@@ -88,7 +88,7 @@ Autocompletion
 Autocompletion works similarly to Geany's autocompletion feature. You can
 configure keybindings triggering the autocompletion popup.
 
-Function signagure
+Function signature
 ------------------
 
 When you type an open brace after a function name, the plugin displays the
@@ -240,8 +240,18 @@ checks and does not show any preview of the changes so it is best to use this
 feature only after committing all modified files so you can
 easily revert to a working state if needed. Since this is potentially a
 dangerous operation, to prevent accidental renames, the "Rename" button in the
-dialog is not selected by defalut and simply pressing enter just cancels the
+dialog is not selected by default and simply pressing enter just cancels the
 dialog.
+
+Performance implications
+========================
+
+To provide all the features, this plugin needs to react on various events
+(e.g. keystrokes) and also communicates heavily with the LSP server to send the
+current document text and what kind of event happened.
+These additional tasks cause more CPU usage of the Geany process and especially
+the LSP server process, so they require also more power which might be
+relevant if you are using a laptop on battery power.
 
 Limitations
 ===========
