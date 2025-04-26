@@ -488,10 +488,11 @@ static void find_tags(const gchar *name, gboolean declaration, gboolean case_sen
 			
 			if (num == 1)
 			{
+				GeanyDocument *old_doc = document_get_current();
 				GeanyDocument *doc = document_open_file(path, FALSE, NULL, NULL);
 				if (doc != NULL)
 				{
-					navqueue_goto_line(document_get_current(), doc, last_line_number);
+					navqueue_goto_line(old_doc, doc, last_line_number);
 					gtk_widget_grab_focus(GTK_WIDGET(doc->editor->sci));
 				}
 			}
