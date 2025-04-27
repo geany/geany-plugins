@@ -47,6 +47,8 @@ void workbench_set_expand_on_hover(WORKBENCH *wb, gboolean value);
 gboolean workbench_get_expand_on_hover(WORKBENCH *wb);
 void workbench_set_enable_tree_lines(WORKBENCH *wb, gboolean value);
 gboolean workbench_get_enable_tree_lines(WORKBENCH *wb);
+void workbench_set_enable_auto_open_by_doc(WORKBENCH *wb, gboolean value);
+gboolean workbench_get_enable_auto_open_by_doc(WORKBENCH *wb);
 
 WB_PROJECT *workbench_get_project_at_index(WORKBENCH *wb, guint index);
 PROJECT_ENTRY_STATUS workbench_get_project_status_at_index(WORKBENCH *wb, guint index);
@@ -72,5 +74,9 @@ void workbench_process_add_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT
 void workbench_process_remove_file_event(WORKBENCH *wb, WB_PROJECT *prj, WB_PROJECT_DIR *dir, const gchar *file);
 void workbench_enable_live_update(WORKBENCH *wb);
 void workbench_disable_live_update(WORKBENCH *wb);
+
+void workbench_open_project(WORKBENCH *wb, WB_PROJECT *project, gboolean select);
+WB_PROJECT *workbench_get_selected_project(WORKBENCH *wb);
+void workbench_open_project_by_filename(WORKBENCH *wb, const gchar *filename);
 
 #endif
