@@ -1,0 +1,3 @@
+[type: gettext/glade]pohelper/data/menus.ui
+[type: gettext/glade]pohelper/data/stats.ui
+pohelper/src/gph-plugin.c
