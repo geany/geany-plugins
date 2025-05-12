@@ -1,0 +1,6 @@
+webhelper/src/gwh-enum-types.c
+webhelper/src/gwh-keybindings.c
+webhelper/src/gwh-settings.c
+webhelper/src/gwh-utils.c
+webhelper/src/gwh-browser.c
+webhelper/src/gwh-plugin.c

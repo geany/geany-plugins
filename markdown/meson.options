@@ -1,0 +1,1 @@
+option('discount', type: 'feature', value: 'auto', description: 'markdown library', yield: true)

@@ -1,0 +1,12 @@
+geanylua/glspi.h
+geanylua/glspi_ver.h
+geanylua/glspi_run.c
+geanylua/glspi_init.c
+geanylua/gsdlg_lua.c
+geanylua/glspi_doc.c
+geanylua/gsdlg.c
+geanylua/glspi_sci.c
+geanylua/glspi_dlg.c
+geanylua/glspi_kfile.c
+geanylua/geanylua.c
+geanylua/glspi_app.c

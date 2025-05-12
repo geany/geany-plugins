@@ -1,0 +1,11 @@
+workbench/src/dialogs.c
+workbench/src/menu.c
+workbench/src/plugin_main.c
+workbench/src/popup_menu.c
+workbench/src/search_projects.c
+workbench/src/sidebar.c
+workbench/src/utils.c
+workbench/src/wb_globals.c
+workbench/src/wb_monitor.c
+workbench/src/wb_project.c
+workbench/src/workbench.c

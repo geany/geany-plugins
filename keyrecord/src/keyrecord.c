@@ -30,6 +30,11 @@
 #include "keybindings.h"
 #include <geany.h>
 #include "Scintilla.h"	/* for the SCNotification struct */
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "stdio.h"
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>

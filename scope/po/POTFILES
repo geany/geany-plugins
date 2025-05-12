@@ -1,0 +1,17 @@
+scope/data/scope.glade
+scope/data/scope_gtk3.glade
+scope/src/break.c
+scope/src/conterm.c
+scope/src/debug.c
+scope/src/inspect.c
+scope/src/memory.c
+scope/src/menu.c
+scope/src/parse.c
+scope/src/plugme.c
+scope/src/prefs.c
+scope/src/program.c
+scope/src/scope.c
+scope/src/thread.c
+scope/src/utils.c
+scope/src/views.c
+scope/src/store/scptreestore.c

@@ -1,0 +1,12 @@
+geanygendoc/src/ggd-file-type-loader.c
+geanygendoc/src/ggd-doc-type.c
+geanygendoc/src/ggd-tag-utils.c
+geanygendoc/src/ggd-file-type-manager.c
+geanygendoc/src/ggd-plugin.c
+geanygendoc/src/ggd-utils.c
+geanygendoc/src/ggd.c
+geanygendoc/src/ggd-doc-setting.c
+geanygendoc/src/ggd-file-type.c
+geanygendoc/src/ggd-widget-frame.c
+geanygendoc/src/ggd-options.c
+geanygendoc/src/ggd-widget-doctype-selector.c

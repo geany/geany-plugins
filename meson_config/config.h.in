@@ -1,0 +1,18 @@
+#pragma once
+
+#define VERSION "@version@"
+
+#define GEANY_VERSION "@geany_version@"
+
+#define PLUGIN "@plugin_name@"
+
+#define DOCDIR "@prefix@/@docdir@"
+#define LIBDIR "@prefix@/@libdir@"
+#define LOCALEDIR "@prefix@/@localedir@"
+
+#define GEANYPLUGINS_DATADIR "@prefix@/@plugin_datadir@"
+#define DBGPLUG_DATA_DIR "@prefix@/@plugin_datadir@"
+#define PLUGINDATADIR "@prefix@/@plugin_datadir@"
+
+#define PLUGINDOCDIR "@prefix@/@plugin_docdir@"
+#define PLUGINHTMLDOCDIR "@prefix@/@plugin_docdir@/html"
