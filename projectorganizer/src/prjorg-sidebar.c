@@ -329,7 +329,7 @@ static gchar* get_dir_of_selection()
 
 /* if get_dir_of_selection() fails,
  * returns parent of current document, project folder, or home folder */
-static gchar *get_fallback_dir_of_selection(void)
+static gchar *get_dir_of_selection_with_fallback(void)
 {
 	gchar *locale_path;
 
@@ -375,53 +375,46 @@ static gchar *get_fallback_dir_of_selection(void)
 }
 
 
-void on_open_file_manager(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+static void run_cmd(const gchar *cmd, const gchar *dir)
 {
-	gchar *locale_path;
-	locale_path = get_fallback_dir_of_selection();
-
-	if (locale_path)
-	{
-		const gchar *open_command;
-		gchar *command;
-
-		open_command = PRJORG_COMMAND_OPEN;
-		command = g_strconcat (open_command, " \"", locale_path, "\"", NULL);
-		if (!spawn_async(locale_path, command, NULL, NULL, NULL, NULL))
-			msgwin_status_add(_("Unable to open folder.  Command unavailable: %s"), open_command);
-
-		g_free(command);
-		g_free(locale_path);
-	}
-	else
-	{
-		msgwin_status_add(_("Unable to find folder."));
-	}
+	if (!spawn_async(dir, cmd, NULL, NULL, NULL, NULL))
+		msgwin_status_add(_("Unable to run command \"%s\" in directory \"%s\"."), cmd, dir);
 }
 
 
-void on_open_terminal(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+void prjorg_sidebar_open_file_manager(void)
 {
-	gchar *locale_path, *open_command;
+	gchar *locale_path = get_dir_of_selection_with_fallback();
+	gchar *cmd = get_open_cmd(TRUE, locale_path);
 
-	if (g_file_test(PRJORG_COMMAND_TERMINAL_ALT, G_FILE_TEST_EXISTS))
-	{
-		gchar *alt_command;
-		alt_command = utils_get_real_path(PRJORG_COMMAND_TERMINAL_ALT);
-		open_command = g_path_get_basename(alt_command);
-		g_free(alt_command);
-	}
-	else
-	{
-		open_command = g_strdup(PRJORG_COMMAND_TERMINAL);
-	}
-
-	locale_path = get_fallback_dir_of_selection();
-	if (!spawn_async(locale_path, open_command, NULL, NULL, NULL, NULL))
-		msgwin_status_add(_("Unable to open terminal: %s"), open_command);
+	run_cmd(cmd, locale_path);
 
 	g_free(locale_path);
-	g_free(open_command);
+	g_free(cmd);
+}
+
+
+void prjorg_sidebar_open_terminal(void)
+{
+	gchar *locale_path = get_dir_of_selection_with_fallback();
+	gchar *cmd = get_terminal_cmd(TRUE, locale_path);
+
+	run_cmd(cmd, locale_path);
+
+	g_free(locale_path);
+	g_free(cmd);
+}
+
+
+static void on_open_file_manager(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	prjorg_sidebar_open_file_manager();
+}
+
+
+static void on_open_terminal(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	prjorg_sidebar_open_terminal();
 }
 
 
