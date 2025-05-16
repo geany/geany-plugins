@@ -221,6 +221,7 @@ projectorganizer/src/prjorg-main.c
 projectorganizer/src/prjorg-menu.c
 projectorganizer/src/prjorg-project.c
 projectorganizer/src/prjorg-sidebar.c
+projectorganizer/src/prjorg-utils.c
 
 # Scope
 scope/data/scope.glade
