@@ -6,15 +6,15 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
         AC_HELP_STRING([--with-lua-pkg=ARG],
             [name of Lua pkg-config script [[default=lua5.1]]]),
         [LUA_PKG_NAME=${withval%.pc}],
-        [LUA_PKG_NAME=lua5.1
+        [LUA_PKG_NAME=lua5.3
 
-        for L in lua5.1 lua51 lua-5.1 lua; do
+        for L in lua5.3 lua53 lua-5.3 lua; do
             PKG_CHECK_EXISTS([$L],
                 [LUA_PKG_NAME=$L]; break,[])
         done])
 
-    LUA_VERSION=5.1
-    LUA_VERSION_BOUNDARY=5.2
+    LUA_VERSION=5.3
+    LUA_VERSION_BOUNDARY=5.4
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [LUA],
                          [${LUA_PKG_NAME} >= ${LUA_VERSION}
                           ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}])
