@@ -45,6 +45,12 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 static GtkWidget *properties_tab = NULL;
 
+static struct
+{
+	GtkWidget *open_entry;
+	GtkWidget *term_entry;
+} pref_widgets;
+
 
 static void on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
 	    G_GNUC_UNUSED gpointer user_data)
@@ -180,6 +186,77 @@ PluginCallback plugin_callbacks[] = {
 	{"project-save", (GCallback) & on_project_save, TRUE, NULL},
 	{NULL, NULL, FALSE, NULL}
 };
+
+
+static void on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
+{
+	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
+	{
+		set_commands(gtk_entry_get_text(GTK_ENTRY(pref_widgets.open_entry)),
+			gtk_entry_get_text(GTK_ENTRY(pref_widgets.term_entry)));
+	}
+}
+
+
+GtkWidget *plugin_configure(GtkDialog *dialog)
+{
+	GtkWidget *vbox, *hbox, *ebox, *table_box;
+	GtkWidget *label;
+	GtkSizeGroup *size_group;
+	gchar *cmd;
+
+	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+	table_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
+	gtk_box_set_spacing(GTK_BOX(table_box), 6);
+
+	size_group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
+
+	label = gtk_label_new(_("File manager command:"));
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	gtk_size_group_add_widget(size_group, label);
+	pref_widgets.open_entry = gtk_entry_new();
+	gtk_widget_set_size_request(pref_widgets.open_entry, 250, -1);
+	ui_entry_add_clear_icon(GTK_ENTRY(pref_widgets.open_entry));
+	gtk_widget_set_tooltip_text(pref_widgets.open_entry,
+		_("Command used for 'Open File Manager' sidebar context menu item;\n"
+		  "%d will be replaced with the full path of the selected file without the filename.\n"
+		  "The command will be executed in the directory of the selected file."));
+	cmd = get_open_cmd(FALSE, NULL);
+	gtk_entry_set_text(GTK_ENTRY(pref_widgets.open_entry), cmd);
+	g_free(cmd);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(ebox), pref_widgets.open_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(table_box), ebox, TRUE, FALSE, 0);
+
+	label = gtk_label_new(_("Terminal command:"));
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+	gtk_size_group_add_widget(size_group, label);
+	pref_widgets.term_entry = gtk_entry_new();
+	ui_entry_add_clear_icon(GTK_ENTRY(pref_widgets.term_entry));
+	gtk_widget_set_tooltip_text(pref_widgets.term_entry,
+		_("Command used for 'Open Terminal' sidebar context menu item;\n"
+		  "%d will be replaced with the full path of the selected file without the filename.\n"
+		  "The command will be executed in the directory of the selected file."));
+	cmd = get_terminal_cmd(FALSE, NULL);
+	gtk_entry_set_text(GTK_ENTRY(pref_widgets.term_entry), cmd);
+	g_free(cmd);
+	ebox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_pack_start(GTK_BOX(ebox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(ebox), pref_widgets.term_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(table_box), ebox, TRUE, FALSE, 0);
+
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), table_box, TRUE, TRUE, 12);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 6);
+
+	gtk_widget_show_all(vbox);
+
+	g_signal_connect(dialog, "response", G_CALLBACK(on_configure_response), NULL);
+
+	return vbox;
+}
 
 
 static gboolean write_config_cb(gpointer user_data)
