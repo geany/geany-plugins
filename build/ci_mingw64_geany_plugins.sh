@@ -130,6 +130,7 @@ log_environment() {
 	echo "GTK                          : $(pkg-config --modversion gtk+-3.0)"
 	echo "CFLAGS                       : ${CFLAGS}"
 	echo "Configure                    : ${CONFIGURE_OPTIONS}"
+	echo "gettext                      : $(gettext --version)"
 }
 
 
