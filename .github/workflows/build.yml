@@ -113,7 +113,6 @@ jobs:
             gettext
             python3-docutils
             # geany-plugins
-            intltool
             check
             # debugger
             libvte-2.91-dev

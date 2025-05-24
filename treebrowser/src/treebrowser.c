@@ -2149,6 +2149,7 @@ plugin_configure(GtkDialog *dialog)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 #endif
 	gtk_widget_set_tooltip_text(configure_widgets.OPEN_EXTERNAL_CMD,
+		/* xgettext:no-c-format, %d/%f are displayed as-is */
 		_("The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
 		  "%f will be replaced with the filename including full path\n"
 		  "%d will be replaced with the path name of the selected file without the filename"));
