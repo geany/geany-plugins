@@ -262,7 +262,7 @@ static gboolean on_save(gboolean force)
 
 static gboolean on_save_all(gboolean force)
 {
-	gint i;
+	guint i;
 	gboolean success = TRUE;
 	foreach_document(i)
 		success = success && document_save_file(documents[i], force);
