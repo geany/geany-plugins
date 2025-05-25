@@ -46,7 +46,7 @@ static gchar *entered_text;
 static gboolean ignore_change;
 
 
-static void close_prompt()
+static void close_prompt(void)
 {
 	gtk_widget_hide(prompt);
 	if (entered_text)
