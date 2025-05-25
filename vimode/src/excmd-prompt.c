@@ -111,7 +111,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_KP_Up:
 			case GDK_KEY_uparrow:
 			{
-				gint pos = -1;
+				glong pos = -1;
 
 				if (history_pos == -1 && history->len > 0)
 					pos = history->len - 1;
@@ -128,7 +128,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				if (pos != -1)
 				{
 					set_prompt_text(history->pdata[pos]);
-					history_pos = pos;
+					history_pos = (gint) pos;
 				}
 
 				return TRUE;
@@ -138,7 +138,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_KP_Down:
 			case GDK_KEY_downarrow:
 			{
-				gint pos;
+				glong pos;
 
 				if (history_pos == -1)
 					return TRUE;
@@ -156,7 +156,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 					pos = -1;
 
 				set_prompt_text(pos == -1 ? "" : history->pdata[pos]);
-				history_pos = pos;
+				history_pos = (gint) pos;
 
 				return TRUE;
 			}
