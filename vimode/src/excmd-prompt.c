@@ -63,7 +63,7 @@ static void set_prompt_text(const gchar *val)
 	text[0] = cmd_first_char;
 	ignore_change = TRUE;
 	gtk_entry_set_text(GTK_ENTRY(entry), text);
-	gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+	gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 	g_free(text);
 }
 
@@ -165,7 +165,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
 				return TRUE;
 			case GDK_KEY_End:
-				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+				gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 				return TRUE;
 		}
 	}
@@ -181,7 +181,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
 				return TRUE;
 			case GDK_KEY_e:
-				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+				gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 				return TRUE;
 		}
 	}
@@ -270,7 +270,7 @@ void ex_prompt_show(const gchar *val)
 	gtk_widget_show(prompt);
 	position_prompt();
 	gtk_entry_set_text(GTK_ENTRY(entry), val);
-	gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
+	gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 }
 
 
