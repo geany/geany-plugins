@@ -27,8 +27,8 @@ void undo_update(CmdContext *c, gint pos)
 
 static gboolean is_start_of_line(ScintillaObject *sci, gint pos)
 {
-	gint line = SSM(sci, SCI_LINEFROMPOSITION, pos, 0);
-	gint line_pos = SSM(sci, SCI_POSITIONFROMLINE, line, 0);
+	intptr_t line = SSM(sci, SCI_LINEFROMPOSITION, pos, 0);
+	intptr_t line_pos = SSM(sci, SCI_POSITIONFROMLINE, line, 0);
 
 	return pos == line_pos;
 }

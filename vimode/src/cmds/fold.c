@@ -23,10 +23,10 @@
 #define GOTO_TOPMOST_PARENT		1
 #define GOTO_CONTRACTED_PARENT		2
 
-static gint goto_above_fold(CmdParams *p, gint type)
+static intptr_t goto_above_fold(CmdParams *p, gint type)
 {
 	/* foldparent of the next line */
-	gint line = SSM(p->sci, SCI_GETFOLDPARENT, p->line + 1, 0);
+	intptr_t line = SSM(p->sci, SCI_GETFOLDPARENT, p->line + 1, 0);
 
 	if (p->line == line)
 		;  /* we are already on the fold point line */
@@ -43,7 +43,7 @@ static gint goto_above_fold(CmdParams *p, gint type)
 		;	/* this fold point is contracted and type == GOTO_CONTRACTED_PARENT */
 	else if (type != GOTO_NEAREST_PARENT)
 	{
-		gint prev_line = line;
+		intptr_t prev_line = line;
 		while (prev_line != -1)
 		{
 			prev_line = SSM(p->sci, SCI_GETFOLDPARENT, prev_line, 0);
@@ -59,7 +59,7 @@ static gint goto_above_fold(CmdParams *p, gint type)
 	if (line != -1)
 	{
 		/* move the cursor on the visible line before the fold */
-		gint pos = SSM(p->sci, SCI_POSITIONFROMLINE, line, 0);
+		intptr_t pos = SSM(p->sci, SCI_POSITIONFROMLINE, line, 0);
 		SET_POS_NOX(p->sci, pos, TRUE);
 	}
 
@@ -69,7 +69,7 @@ static gint goto_above_fold(CmdParams *p, gint type)
 
 void cmd_toggle_fold(CmdContext *c, CmdParams *p)
 {
-	gint line = goto_above_fold(p, GOTO_NEAREST_PARENT);
+	intptr_t line = goto_above_fold(p, GOTO_NEAREST_PARENT);
 	if (line != -1)
 		SSM(p->sci, SCI_FOLDLINE, (uptr_t) line, SC_FOLDACTION_TOGGLE);
 }
@@ -77,7 +77,7 @@ void cmd_toggle_fold(CmdContext *c, CmdParams *p)
 
 void cmd_open_fold(CmdContext *c, CmdParams *p)
 {
-	gint line = goto_above_fold(p, GOTO_NEAREST_PARENT);
+	intptr_t line = goto_above_fold(p, GOTO_NEAREST_PARENT);
 	if (line != -1)
 		SSM(p->sci, SCI_FOLDLINE, (uptr_t) line, SC_FOLDACTION_EXPAND);
 }
@@ -85,7 +85,7 @@ void cmd_open_fold(CmdContext *c, CmdParams *p)
 
 void cmd_close_fold(CmdContext *c, CmdParams *p)
 {
-	gint line = goto_above_fold(p, GOTO_NEAREST_PARENT);
+	intptr_t line = goto_above_fold(p, GOTO_NEAREST_PARENT);
 	if (line != -1)
 		SSM(p->sci, SCI_FOLDLINE, (uptr_t) line, SC_FOLDACTION_CONTRACT);
 }
@@ -93,7 +93,7 @@ void cmd_close_fold(CmdContext *c, CmdParams *p)
 
 void cmd_toggle_fold_child(CmdContext *c, CmdParams *p)
 {
-	gint line = goto_above_fold(p, GOTO_CONTRACTED_PARENT);
+	intptr_t line = goto_above_fold(p, GOTO_CONTRACTED_PARENT);
 	if (line != -1)
 		SSM(p->sci, SCI_FOLDCHILDREN, (uptr_t) line, SC_FOLDACTION_TOGGLE);
 }
@@ -101,14 +101,14 @@ void cmd_toggle_fold_child(CmdContext *c, CmdParams *p)
 
 void cmd_open_fold_child(CmdContext *c, CmdParams *p)
 {
-	gint line = goto_above_fold(p, GOTO_NEAREST_PARENT);
+	intptr_t line = goto_above_fold(p, GOTO_NEAREST_PARENT);
 	SSM(p->sci, SCI_FOLDCHILDREN, (uptr_t) line, SC_FOLDACTION_EXPAND);
 }
 
 
 void cmd_close_fold_child(CmdContext *c, CmdParams *p)
 {
-	gint line = goto_above_fold(p, GOTO_TOPMOST_PARENT);
+	intptr_t line = goto_above_fold(p, GOTO_TOPMOST_PARENT);
 	if (line != -1)
 		SSM(p->sci, SCI_FOLDCHILDREN, (uptr_t) line, SC_FOLDACTION_CONTRACT);
 }

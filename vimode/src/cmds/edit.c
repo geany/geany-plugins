@@ -23,7 +23,7 @@
 
 static void delete_char(CmdContext *c, CmdParams *p, gboolean yank)
 {
-	gint end_pos = NTH(p->sci, p->pos, p->num);
+	intptr_t end_pos = NTH(p->sci, p->pos, p->num);
 	end_pos = end_pos > p->line_end_pos ? p->line_end_pos : end_pos;
 	if (yank)
 	{
@@ -48,7 +48,7 @@ void cmd_delete_char_copy(CmdContext *c, CmdParams *p)
 
 static void delete_char_back(CmdContext *c, CmdParams *p, gboolean yank)
 {
-	gint start_pos = NTH(p->sci, p->pos, -p->num);
+	intptr_t start_pos = NTH(p->sci, p->pos, -p->num);
 	start_pos = start_pos < p->line_start_pos ? p->line_start_pos : start_pos;
 	if (yank)
 	{
@@ -73,8 +73,8 @@ void cmd_delete_char_back_copy(CmdContext *c, CmdParams *p)
 
 void cmd_clear_right(CmdContext *c, CmdParams *p)
 {
-	gint new_line = get_line_number_rel(p->sci, p->num - 1);
-	gint pos = SSM(p->sci, SCI_GETLINEENDPOSITION, new_line, 0);
+	intptr_t new_line = get_line_number_rel(p->sci, p->num - 1);
+	intptr_t pos = SSM(p->sci, SCI_GETLINEENDPOSITION, new_line, 0);
 
 	c->line_copy = FALSE;
 	SSM(p->sci, SCI_COPYRANGE, p->pos, pos);
@@ -84,14 +84,14 @@ void cmd_clear_right(CmdContext *c, CmdParams *p)
 
 static gboolean insert_eof_nl_if_missing(CmdParams *p)
 {
-	gint eof_pos = SSM(p->sci, SCI_GETLENGTH, 0, 0);
-	gint eof_line_num = SSM(p->sci, SCI_LINEFROMPOSITION, eof_pos, 0);
-	gint before_eof = PREV(p->sci, eof_pos);
-	gint before_eof_line_num = SSM(p->sci, SCI_LINEFROMPOSITION, before_eof, 0);
+	intptr_t eof_pos = SSM(p->sci, SCI_GETLENGTH, 0, 0);
+	intptr_t eof_line_num = SSM(p->sci, SCI_LINEFROMPOSITION, eof_pos, 0);
+	intptr_t before_eof = PREV(p->sci, eof_pos);
+	intptr_t before_eof_line_num = SSM(p->sci, SCI_LINEFROMPOSITION, before_eof, 0);
 
 	if (eof_line_num == before_eof_line_num) {
 		const gchar *nl = "\n";
-		gint eol_mode = SSM(p->sci, SCI_GETEOLMODE, 0, 0);
+		intptr_t eol_mode = SSM(p->sci, SCI_GETEOLMODE, 0, 0);
 		if (eol_mode == SC_EOL_CRLF) {
 			nl = "\r\n";
 		}
@@ -107,8 +107,8 @@ static gboolean insert_eof_nl_if_missing(CmdParams *p)
 
 static void remove_char_from_eof(CmdParams *p)
 {
-	gint eof_pos = SSM(p->sci, SCI_GETLENGTH, 0, 0);
-	gint before_eof_pos = PREV(p->sci, eof_pos);
+	intptr_t eof_pos = SSM(p->sci, SCI_GETLENGTH, 0, 0);
+	intptr_t before_eof_pos = PREV(p->sci, eof_pos);
 
 	SSM(p->sci, SCI_DELETERANGE, before_eof_pos, eof_pos - before_eof_pos);
 }
@@ -117,8 +117,8 @@ static void remove_char_from_eof(CmdParams *p)
 void cmd_delete_line(CmdContext *c, CmdParams *p)
 {
 	gboolean nl_inserted = insert_eof_nl_if_missing(p);
-	gint num = get_line_number_rel(p->sci, p->num);
-	gint end = SSM(p->sci, SCI_POSITIONFROMLINE, num, 0);
+	intptr_t num = get_line_number_rel(p->sci, p->num);
+	intptr_t end = SSM(p->sci, SCI_POSITIONFROMLINE, num, 0);
 
 	c->line_copy = TRUE;
 	SSM(p->sci, SCI_COPYRANGE, p->line_start_pos, end);
@@ -132,8 +132,8 @@ void cmd_delete_line(CmdContext *c, CmdParams *p)
 void cmd_copy_line(CmdContext *c, CmdParams *p)
 {
 	gboolean nl_inserted = insert_eof_nl_if_missing(p);
-	gint num = get_line_number_rel(p->sci, p->num);
-	gint end = SSM(p->sci, SCI_POSITIONFROMLINE, num, 0);
+	intptr_t num = get_line_number_rel(p->sci, p->num);
+	intptr_t end = SSM(p->sci, SCI_POSITIONFROMLINE, num, 0);
 
 	c->line_copy = TRUE;
 	SSM(p->sci, SCI_COPYRANGE, p->line_start_pos, end);
@@ -181,7 +181,7 @@ void cmd_redo(CmdContext *c, CmdParams *p)
 static void paste(CmdContext *c, CmdParams *p, gboolean after)
 {
 	gboolean nl_inserted = FALSE;
-	gint pos;
+	intptr_t pos;
 	gint i;
 
 	if (c->line_copy)
@@ -228,15 +228,15 @@ void cmd_paste_before(CmdContext *c, CmdParams *p)
 }
 
 
-static void join_lines(CmdContext *c, CmdParams *p, gint line, gint num)
+static void join_lines(CmdContext *c, CmdParams *p, intptr_t line, intptr_t num)
 {
-	for (int i = 0; i < num; i++)
+	for (intptr_t i = 0; i < num; i++)
 	{
-		gint line_start_pos = SSM(p->sci, SCI_POSITIONFROMLINE, line, 0);
-		gint line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, line, 0);
-		gint next_line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, line+1, 0);
-		gint pos = line_end_pos;
-		gint pos_start;
+		intptr_t line_start_pos = SSM(p->sci, SCI_POSITIONFROMLINE, line, 0);
+		intptr_t line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, line, 0);
+		intptr_t next_line_end_pos = SSM(p->sci, SCI_GETLINEENDPOSITION, line+1, 0);
+		intptr_t pos = line_end_pos;
+		intptr_t pos_start;
 
 		while (g_ascii_isspace(SSM(p->sci, SCI_GETCHARAT, pos, 0)) && pos > line_start_pos)
 			pos = PREV(p->sci, pos);
@@ -270,12 +270,12 @@ void cmd_join_lines_sel(CmdContext *c, CmdParams *p)
 }
 
 
-static void replace_char(ScintillaObject *sci, gint pos, gint num, gint line,
+static void replace_char(ScintillaObject *sci, intptr_t pos, intptr_t num, intptr_t line,
 	gboolean force_upper, gboolean force_lower, gunichar repl_char)
 {
 	gint i;
-	gint max_num;
-	gint last_pos;
+	intptr_t max_num;
+	intptr_t last_pos;
 	struct Sci_TextRange tr;
 	gchar *original, *replacement, *repl, *orig;
 
@@ -346,7 +346,7 @@ void cmd_replace_char(CmdContext *c, CmdParams *p)
 
 void cmd_replace_char_sel(CmdContext *c, CmdParams *p)
 {
-	gint num = DIFF(p->sci, p->sel_start, p->sel_start + p->sel_len);
+	intptr_t num = DIFF(p->sci, p->sel_start, p->sel_start + p->sel_len);
 	gunichar repl = gdk_keyval_to_unicode(p->last_kp->key);
 	replace_char(p->sci, p->sel_start, num, -1, FALSE, FALSE, repl);
 	vi_set_mode(VI_MODE_COMMAND);
@@ -358,7 +358,7 @@ static void switch_case(CmdContext *c, CmdParams *p,
 {
 	if (VI_IS_VISUAL(vi_get_mode()) || p->sel_len > 0)
 	{
-		gint num = DIFF(p->sci, p->sel_start, p->sel_start + p->sel_len);
+		intptr_t num = DIFF(p->sci, p->sel_start, p->sel_start + p->sel_len);
 		replace_char(p->sci, p->sel_start, num, -1, force_upper, force_lower, 0);
 		vi_set_mode(VI_MODE_COMMAND);
 	}
@@ -385,13 +385,13 @@ void cmd_upper_case(CmdContext *c, CmdParams *p)
 }
 
 
-static void indent(ScintillaObject *sci, gboolean unindent, gint pos, gint num, gint indent_num)
+static void indent(ScintillaObject *sci, gboolean unindent, intptr_t pos, intptr_t num, gint indent_num)
 {
 	gint i;
-	gint line_start = SSM(sci, SCI_LINEFROMPOSITION, pos, 0);
-	gint line_count = SSM(sci, SCI_GETLINECOUNT, 0, 0);
-	gint line_end = line_start + num > line_count ? line_count : line_start + num;
-	gint end_pos = SSM(sci, SCI_POSITIONFROMLINE, line_end, 0);
+	intptr_t line_start = SSM(sci, SCI_LINEFROMPOSITION, pos, 0);
+	intptr_t line_count = SSM(sci, SCI_GETLINECOUNT, 0, 0);
+	intptr_t line_end = line_start + num > line_count ? line_count : line_start + num;
+	intptr_t end_pos = SSM(sci, SCI_POSITIONFROMLINE, line_end, 0);
 
 	SSM(sci, SCI_HOME, 0, 0);
 	SSM(sci, SCI_SETSEL, end_pos, pos);
@@ -429,7 +429,7 @@ void cmd_unindent_sel(CmdContext *c, CmdParams *p)
 
 static void indent_ins(CmdContext *c, CmdParams *p, gboolean indent)
 {
-	gint delta;
+	intptr_t delta;
 	SSM(p->sci, SCI_HOME, 0, 0);
 	SSM(p->sci, indent ? SCI_TAB : SCI_BACKTAB, 0, 0);
 	delta = SSM(p->sci, SCI_GETLINEENDPOSITION, p->line, 0) - p->line_end_pos;
@@ -452,10 +452,10 @@ static void copy_char(CmdContext *c, CmdParams *p, gboolean above)
 {
 	if ((above && p->line > 0) || (!above && p->line < p->line_num - 1))
 	{
-		gint line = above ? p->line - 1 : p->line + 1;
-		gint col = SSM(p->sci, SCI_GETCOLUMN, p->pos, 0);
-		gint pos = SSM(p->sci, SCI_FINDCOLUMN, line, col);
-		gint line_end = SSM(p->sci, SCI_GETLINEENDPOSITION, line, 0);
+		intptr_t line = above ? p->line - 1 : p->line + 1;
+		intptr_t col = SSM(p->sci, SCI_GETCOLUMN, p->pos, 0);
+		intptr_t pos = SSM(p->sci, SCI_FINDCOLUMN, line, col);
+		intptr_t line_end = SSM(p->sci, SCI_GETLINEENDPOSITION, line, 0);
 
 		if (pos < line_end)
 		{

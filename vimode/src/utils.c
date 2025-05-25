@@ -64,13 +64,13 @@ gchar *get_current_word(ScintillaObject *sci)
 }
 
 
-gint perform_search(ScintillaObject *sci, const gchar *search_text,
+intptr_t perform_search(ScintillaObject *sci, const gchar *search_text,
 	gint num, gboolean invert)
 {
 	struct Sci_TextToFind ttf;
 	gint flags = SCFIND_REGEXP | SCFIND_MATCHCASE;
-	gint pos = SSM(sci, SCI_GETCURRENTPOS, 0, 0);
-	gint len = SSM(sci, SCI_GETLENGTH, 0, 0);
+	intptr_t pos = SSM(sci, SCI_GETCURRENTPOS, 0, 0);
+	intptr_t len = SSM(sci, SCI_GETLENGTH, 0, 0);
 	gboolean forward;
 	GString *s;
 	gint i;
@@ -94,7 +94,7 @@ gint perform_search(ScintillaObject *sci, const gchar *search_text,
 
 	for (i = 0; i < num; i++)
 	{
-		gint new_pos;
+		intptr_t new_pos;
 
 		if (forward)
 		{
@@ -135,7 +135,7 @@ gint perform_search(ScintillaObject *sci, const gchar *search_text,
 }
 
 
-void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint to,
+void perform_substitute(ScintillaObject *sci, const gchar *cmd, intptr_t from, intptr_t to,
 	const gchar *flag_override)
 {
 	gchar *copy = g_strdup(cmd);
@@ -201,20 +201,20 @@ void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint 
 }
 
 
-gint get_line_number_rel(ScintillaObject *sci, gint shift)
+intptr_t get_line_number_rel(ScintillaObject *sci, intptr_t shift)
 {
-	gint new_line = GET_CUR_LINE(sci) + shift;
-	gint lines = SSM(sci, SCI_GETLINECOUNT, 0, 0);
+	intptr_t new_line = GET_CUR_LINE(sci) + shift;
+	intptr_t lines = SSM(sci, SCI_GETLINECOUNT, 0, 0);
 	new_line = new_line < 0 ? 0 : new_line;
 	new_line = new_line > lines ? lines : new_line;
 	return new_line;
 }
 
 
-void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll)
+void goto_nonempty(ScintillaObject *sci, intptr_t line, gboolean scroll)
 {
-	gint line_end_pos = SSM(sci, SCI_GETLINEENDPOSITION, line, 0);
-	gint pos = SSM(sci, SCI_POSITIONFROMLINE, line, 0);
+	intptr_t line_end_pos = SSM(sci, SCI_GETLINEENDPOSITION, line, 0);
+	intptr_t pos = SSM(sci, SCI_POSITIONFROMLINE, line, 0);
 
 	while (g_ascii_isspace(SSM(sci, SCI_GETCHARAT, pos, 0)) && pos < line_end_pos)
 		pos = NEXT(sci, pos);
@@ -224,20 +224,20 @@ void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll)
 
 void ensure_current_line_expanded(ScintillaObject *sci)
 {
-	gint line = GET_CUR_LINE(sci);
+	intptr_t line = GET_CUR_LINE(sci);
 	if (!SSM(sci, SCI_GETLINEVISIBLE, line, 0))
 		SSM(sci, SCI_ENSUREVISIBLE, line, 0);
 }
 
 
-gint jump_to_expended_parent(ScintillaObject *sci, gint line)
+intptr_t jump_to_expended_parent(ScintillaObject *sci, intptr_t line)
 {
-	gint fold_parent = line;
+	intptr_t fold_parent = line;
 
 	/* go through the parents as long as they are not visible */
 	while (SSM(sci, SCI_GETLINEVISIBLE, fold_parent, 0) == FALSE)
 	{
-		gint prev_parent = SSM(sci, SCI_GETFOLDPARENT, fold_parent, 0);
+		intptr_t prev_parent = SSM(sci, SCI_GETFOLDPARENT, fold_parent, 0);
 
 		if (prev_parent == -1)
 			break;
@@ -247,7 +247,7 @@ gint jump_to_expended_parent(ScintillaObject *sci, gint line)
 	if (fold_parent != line)
 	{
 		/* move the cursor on the visible line before the fold */
-		gint pos = SSM(sci, SCI_POSITIONFROMLINE, fold_parent, 0);
+		intptr_t pos = SSM(sci, SCI_POSITIONFROMLINE, fold_parent, 0);
 		SET_POS(sci, pos, TRUE);
 	}
 

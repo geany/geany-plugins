@@ -24,16 +24,16 @@
 gchar *get_current_word(ScintillaObject *sci);
 
 void clamp_cursor_pos(ScintillaObject *sci);
-void goto_nonempty(ScintillaObject *sci, gint line, gboolean scroll);
+void goto_nonempty(ScintillaObject *sci, intptr_t line, gboolean scroll);
 
-gint perform_search(ScintillaObject *sci, const gchar *search_text,
+intptr_t perform_search(ScintillaObject *sci, const gchar *search_text,
 	gint num, gboolean invert);
-void perform_substitute(ScintillaObject *sci, const gchar *cmd, gint from, gint to,
+void perform_substitute(ScintillaObject *sci, const gchar *cmd, intptr_t from, intptr_t to,
 	const gchar *flag_override);
 
-gint get_line_number_rel(ScintillaObject *sci, gint shift);
+intptr_t get_line_number_rel(ScintillaObject *sci, intptr_t shift);
 void ensure_current_line_expanded(ScintillaObject *sci);
 
-gint jump_to_expended_parent(ScintillaObject *sci, gint line);
+intptr_t jump_to_expended_parent(ScintillaObject *sci, intptr_t line);
 
 #endif

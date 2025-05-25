@@ -28,10 +28,10 @@ typedef struct
 	/* the first parameter of the command */
 	const gchar *param1;
 	/* ex range start and end */
-	gint range_from;
-	gint range_to;
+	intptr_t range_from;
+	intptr_t range_to;
 	/* "address" destination for copy/move */
-	gint dest;
+	intptr_t dest;
 } ExCmdParams;
 
 typedef void (*ExCmd)(CmdContext *c, ExCmdParams *p);

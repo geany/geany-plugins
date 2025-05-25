@@ -249,11 +249,11 @@ static void next_token(const gchar **p, Token *tk)
 }
 
 
-static gboolean parse_ex_range(const gchar **p, CmdContext *ctx, gint *from, gint *to)
+static gboolean parse_ex_range(const gchar **p, CmdContext *ctx, intptr_t *from, intptr_t *to)
 {
 	Token *tk = g_new0(Token, 1);
 	State state = ST_START;
-	gint num = 0;
+	intptr_t num = 0;
 	gboolean neg = FALSE;
 	gint count = 0;
 	gboolean success = TRUE;
@@ -288,20 +288,20 @@ static gboolean parse_ex_range(const gchar **p, CmdContext *ctx, gint *from, gin
 				case TK_VISUAL_START:
 				{
 					state = ST_AFTER_NUMBER;
-					gint min = MIN(ctx->sel_anchor, SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0));
+					intptr_t min = MIN(ctx->sel_anchor, SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0));
 					num = SSM(ctx->sci, SCI_LINEFROMPOSITION, min, 0);
 					break;
 				}
 				case TK_VISUAL_END:
 				{
 					state = ST_AFTER_NUMBER;
-					gint max = MAX(ctx->sel_anchor, SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0));
+					intptr_t max = MAX(ctx->sel_anchor, SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0));
 					num = SSM(ctx->sci, SCI_LINEFROMPOSITION, max, 0);
 					break;
 				}
 				case TK_PATTERN:
 				{
-					gint pos = perform_search(ctx->sci, tk->str, ctx->num, FALSE);
+					intptr_t pos = perform_search(ctx->sci, tk->str, ctx->num, FALSE);
 					num = SSM(ctx->sci, SCI_LINEFROMPOSITION, pos, 0);
 					state = ST_AFTER_NUMBER;
 					break;
@@ -315,7 +315,7 @@ static gboolean parse_ex_range(const gchar **p, CmdContext *ctx, gint *from, gin
 					break;
 				case TK_STAR:
 				{
-					gint pos = MIN(ctx->sel_anchor, SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0));
+					intptr_t pos = MIN(ctx->sel_anchor, SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0));
 					*to = SSM(ctx->sci, SCI_LINEFROMPOSITION, pos, 0);
 					pos = MAX(ctx->sel_anchor, SSM(ctx->sci, SCI_GETCURRENTPOS, 0, 0));
 					num = SSM(ctx->sci, SCI_LINEFROMPOSITION, pos, 0);
@@ -470,7 +470,7 @@ void excmd_perform(CmdContext *ctx, const gchar *cmd)
 		case '/':
 		case '?':
 		{
-			gint pos;
+			intptr_t pos;
 			if (len == 1)
 			{
 				if (ctx->search_text && strlen(ctx->search_text) > 1)

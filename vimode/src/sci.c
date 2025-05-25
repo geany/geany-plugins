@@ -18,7 +18,7 @@
 
 #include "sci.h"
 
-void _set_current_position(ScintillaObject *sci, gint position, gboolean scroll_to_caret,
+void _set_current_position(ScintillaObject *sci, intptr_t position, gboolean scroll_to_caret,
 	gboolean caretx)
 {
 	if (scroll_to_caret)

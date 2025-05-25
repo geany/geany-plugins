@@ -39,38 +39,38 @@ typedef struct
 	gboolean is_operator_cmd;
 
 	/* selection start or selection made by movement command */
-	gint sel_start;
+	intptr_t sel_start;
 	/* selection length or selection made by movement command */
-	gint sel_len;
+	intptr_t sel_len;
 	/* first line of selection */
-	gint sel_first_line;
+	intptr_t sel_first_line;
 	/* the beginning of the first line of selection */
-	gint sel_first_line_begin_pos;
+	intptr_t sel_first_line_begin_pos;
 	/* last line of selection */
-	gint sel_last_line;
+	intptr_t sel_last_line;
 	/* the end of the last line of selection */
-	gint sel_last_line_end_pos;
+	intptr_t sel_last_line_end_pos;
 
 	/* current position in scintilla */
-	gint pos;
+	intptr_t pos;
 	/* current line in scintilla */
-	gint line;
+	intptr_t line;
 	/* position of the end of the current line */
-	gint line_end_pos;
+	intptr_t line_end_pos;
 	/* position of the start of the current line */
-	gint line_start_pos;
+	intptr_t line_start_pos;
 	/* number of lines in document */
-	gint line_num;
+	intptr_t line_num;
 	/* first visible line */
-	gint line_visible_first;
+	intptr_t line_visible_first;
 	/* number of displayed lines */
-	gint line_visible_num;
+	intptr_t line_visible_num;
 } CmdParams;
 
 typedef void (*Cmd)(CmdContext *c, CmdParams *p);
 
 void cmd_params_init(CmdParams *param, ScintillaObject *sci,
 	gint num, gboolean num_present, GSList *kpl, gboolean is_operator_cmd,
-	gint sel_start, gint sel_len);
+	intptr_t sel_start, intptr_t sel_len);
 
 #endif

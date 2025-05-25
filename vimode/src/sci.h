@@ -23,21 +23,21 @@
 #include "Scintilla.h"
 #include "ScintillaWidget.h"
 
-#define SSM(s, m, w, l) scintilla_send_message((s), (m), (w), (l))
+#define SSM(s, m, w, l) scintilla_send_message((s), (m), (uptr_t) (w), (sptr_t) (l))
 
-#define NEXT(s, pos) scintilla_send_message((s), SCI_POSITIONAFTER, (pos), 0)
-#define PREV(s, pos) scintilla_send_message((s), SCI_POSITIONBEFORE, (pos), 0)
-#define NTH(s, pos, rel) scintilla_send_message((s), SCI_POSITIONRELATIVE, (pos), (rel))
-#define DIFF(s, start, end) scintilla_send_message((s), SCI_COUNTCHARACTERS, (start), (end))
+#define NEXT(s, pos) ((intptr_t) SSM((s), SCI_POSITIONAFTER, (pos), 0))
+#define PREV(s, pos) ((intptr_t) SSM((s), SCI_POSITIONBEFORE, (pos), 0))
+#define NTH(s, pos, rel) ((intptr_t) SSM((s), SCI_POSITIONRELATIVE, (pos), (rel)))
+#define DIFF(s, start, end) ((intptr_t) SSM((s), SCI_COUNTCHARACTERS, (start), (end)))
 
 #define SET_POS(s, pos, scr) _set_current_position((s), (pos), (scr), TRUE)
 #define SET_POS_NOX(s, pos, scr) _set_current_position((s), (pos), (scr), FALSE)
-#define GET_CUR_LINE(s) scintilla_send_message((s), SCI_LINEFROMPOSITION, \
-	SSM((s), SCI_GETCURRENTPOS, 0, 0), 0)
+#define GET_CUR_LINE(s) ((intptr_t) SSM((s), SCI_LINEFROMPOSITION, \
+	(intptr_t) SSM((s), SCI_GETCURRENTPOS, 0, 0), 0))
 
 #define MAX_CHAR_SIZE 16
 
-void _set_current_position(ScintillaObject *sci, gint position, gboolean scroll_to_caret,
+void _set_current_position(ScintillaObject *sci, intptr_t position, gboolean scroll_to_caret,
 	gboolean caretx);
 
 #endif

@@ -20,7 +20,7 @@
 
 void cmd_params_init(CmdParams *param, ScintillaObject *sci,
 	gint num, gboolean num_present, GSList *kpl, gboolean is_operator_cmd,
-	gint sel_start, gint sel_len)
+	intptr_t sel_start, intptr_t sel_len)
 {
 	param->sci = sci;
 
