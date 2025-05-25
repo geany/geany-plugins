@@ -5,7 +5,7 @@ test -z "$srcdir" && srcdir=.
 
 mkdir -p build/cache
 
-(cd $srcdir; autoreconf --install --verbose)
+(cd "$srcdir"; autoreconf --force --install --verbose)
 
 if [ "$NOCONFIGURE" = 1 ]; then
     echo "Done. configure skipped."
@@ -13,4 +13,4 @@ if [ "$NOCONFIGURE" = 1 ]; then
 fi
 
 echo "Running $srcdir/configure $@ ..."
-$srcdir/configure "$@" && echo "Now type 'make' to compile." || exit 1
+"$srcdir/configure" "$@" && echo "Now type 'make' to compile." || exit 1
