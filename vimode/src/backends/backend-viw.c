@@ -20,8 +20,6 @@
 
 #include <gtk/gtk.h>
 
-#define SSM(s, m, w, l) scintilla_send_message((s), (m), (w), (l))
-
 static const gchar *fname = NULL;
 static ScintillaObject *sci;
 static GtkWidget *window;
