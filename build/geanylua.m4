@@ -3,7 +3,7 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
     GP_ARG_DISABLE([GeanyLua], [auto])
 
     AC_ARG_WITH([lua-pkg],
-        AC_HELP_STRING([--with-lua-pkg=ARG],
+        AS_HELP_STRING([--with-lua-pkg=ARG],
             [name of Lua pkg-config script [[default=lua5.1]]]),
         [LUA_PKG_NAME=${withval%.pc}],
         [LUA_PKG_NAME=lua5.1
