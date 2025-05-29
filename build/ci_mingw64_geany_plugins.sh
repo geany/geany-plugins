@@ -117,7 +117,7 @@ parse_geany_plugins_version() {
 
 log_environment() {
 	log "Using environment"
-	CONFIGURE_OPTIONS="--disable-silent-rules --host=${HOST} --prefix=${GEANY_PLUGINS_RELEASE_DIR} --with-geany-libdir=${GEANY_PLUGINS_RELEASE_DIR}/lib"
+	CONFIGURE_OPTIONS="--disable-silent-rules --host=${HOST} --prefix=${GEANY_PLUGINS_RELEASE_DIR} --with-geany-libdir=${GEANY_PLUGINS_RELEASE_DIR}/lib --with-libiconv-prefix=/windows/mingw64"
 	echo "Geany-Plugins version        : ${GEANY_PLUGINS_VERSION}"
 	echo "Geany-Plugins GIT revision   : ${GEANY_PLUGINS_GIT_REVISION}"
 	echo "Geany installer              : ${GEANY_INSTALLER_EXECUTABLE}"
