@@ -9,7 +9,7 @@ GP_PKGLIBDIR			= $(GP_LIBDIR)/$(PACKAGE)
 else
 GP_PREFIX				= $(prefix)
 GP_DATADIR				= $(datadir)
-GP_LOCALEDIR			= $(LOCALEDIR)
+GP_LOCALEDIR			= $(localedir)
 GP_DOCDIR				= $(docdir)
 GP_PKGDATADIR			= $(pkgdatadir)
 GP_LIBDIR				= $(libdir)

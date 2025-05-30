@@ -48,4 +48,8 @@ gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList 
 gchar *find_header_source(GeanyDocument *doc);
 void set_header_filetype(GeanyDocument * doc);
 
+gchar *get_open_cmd(gboolean perform_substitution, const gchar *dirname);
+gchar *get_terminal_cmd(gboolean perform_substitution, const gchar *dirname);
+void set_commands(const gchar *open_cmd, const gchar *term_cmd);
+
 #endif
