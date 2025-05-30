@@ -8,7 +8,7 @@ AC_DEFUN([GP_CHECK_LSP],
     JSONRPC_GLIB_VERSION=3.44
 
     AC_ARG_ENABLE(system-jsonrpc,
-        AC_HELP_STRING([--enable-system-jsonrpc],
+        AS_HELP_STRING([--enable-system-jsonrpc],
             [Force using system json-glib and jsonrpc-glib libraries for the LSP plugin. [[default=no]]]),,
         enable_system_jsonrpc=no)
 

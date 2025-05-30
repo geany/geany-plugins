@@ -2,7 +2,7 @@ AC_DEFUN([_GP_GEANY_LIBDIR],
 [
     AC_REQUIRE([PKG_PROG_PKG_CONFIG])
     AC_ARG_WITH([geany-libdir],
-        AC_HELP_STRING([--with-geany-libdir=PATH],
+        AS_HELP_STRING([--with-geany-libdir=PATH],
             [Set Geany's installation libdir [[default=auto]]]),
         [geany_libdir=${withval}],
         [geany_libdir=$(${PKG_CONFIG} --variable=libdir geany)])

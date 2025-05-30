@@ -15,8 +15,7 @@ AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC
 AC_PROG_CC_C99
 AM_PROG_CC_C_O
-AC_DISABLE_STATIC
-AC_PROG_LIBTOOL
+LT_INIT([disable-static])
 
 dnl i18n, inline so autoreconf can detect gettext usage
 AM_GNU_GETTEXT_VERSION([0.19.8])
