@@ -1191,7 +1191,6 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
 		return g_strdup("");
 
 	GString *temp = g_string_new(NULL);
-	gchar *text;
 	g_string_append_printf(temp, _("Directory-Name: %s\n"), wb_project_dir_get_name(dir));
 	g_string_append_printf(temp, _("Base-Directory: %s\n"), wb_project_dir_get_base_dir(dir));
 
@@ -1235,10 +1234,7 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
 	g_string_append_printf(temp, _("Number of Files: %u\n"), dir->file_count);
 
 	/* Steal string content */
-	text = temp->str;
-	g_string_free (temp, FALSE);
-
-	return text;
+	return g_string_free (temp, FALSE);
 }
 
 
@@ -1251,7 +1247,6 @@ gchar *wb_project_dir_get_info (WB_PROJECT_DIR *dir)
 gchar *wb_project_get_info (WB_PROJECT *prj)
 {
 	GString *temp = NULL;
-	gchar *text;
 
 	if (prj == NULL)
 		return g_strdup("");
@@ -1266,10 +1261,7 @@ gchar *wb_project_get_info (WB_PROJECT *prj)
 	}
 
 	/* Steal string content */
-	text = temp->str;
-	g_string_free (temp, FALSE);
-
-	return text;
+	return g_string_free (temp, FALSE);
 }
 
 
