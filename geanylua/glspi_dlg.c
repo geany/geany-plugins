@@ -128,7 +128,7 @@ static gint glspi_choose(lua_State* L)
 			arg1=lua_tostring(L, 1);
 	}
 
-	n=lua_objlen(L,2);
+	n=lua_rawlen(L,2);
 	for (i=1;i<=n; i++) {
 		lua_rawgeti(L,2,i);
 		if (!lua_isstring(L, -1)) {
@@ -556,5 +556,5 @@ static const struct luaL_Reg glspi_dlg_funcs[] = {
 
 void glspi_init_dlg_funcs(lua_State *L, GsDlgRunHook hook) {
 	glspi_pause_timer = hook;
-	luaL_register(L, NULL,glspi_dlg_funcs);
+	luaL_setfuncs(L, glspi_dlg_funcs, 0);
 }
