@@ -291,8 +291,8 @@ static void replace_char(ScintillaObject *sci, gint pos, gint num, gint line,
 		return;
 
 	last_pos = NTH(sci, pos, num);
-	original = g_malloc(last_pos - pos + 1);
-	replacement = g_malloc(6 * num + 1);
+	original = g_malloc((gsize) (last_pos - pos + 1));
+	replacement = g_malloc(6 * (gsize) num + 1);
 	repl = replacement;
 	orig = original;
 

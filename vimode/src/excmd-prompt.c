@@ -46,7 +46,7 @@ static gchar *entered_text;
 static gboolean ignore_change;
 
 
-static void close_prompt()
+static void close_prompt(void)
 {
 	gtk_widget_hide(prompt);
 	if (entered_text)
@@ -63,7 +63,7 @@ static void set_prompt_text(const gchar *val)
 	text[0] = cmd_first_char;
 	ignore_change = TRUE;
 	gtk_entry_set_text(GTK_ENTRY(entry), text);
-	gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+	gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 	g_free(text);
 }
 
@@ -111,7 +111,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_KP_Up:
 			case GDK_KEY_uparrow:
 			{
-				gint pos = -1;
+				glong pos = -1;
 
 				if (history_pos == -1 && history->len > 0)
 					pos = history->len - 1;
@@ -128,7 +128,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				if (pos != -1)
 				{
 					set_prompt_text(history->pdata[pos]);
-					history_pos = pos;
+					history_pos = (gint) pos;
 				}
 
 				return TRUE;
@@ -138,7 +138,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 			case GDK_KEY_KP_Down:
 			case GDK_KEY_downarrow:
 			{
-				gint pos;
+				glong pos;
 
 				if (history_pos == -1)
 					return TRUE;
@@ -156,7 +156,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 					pos = -1;
 
 				set_prompt_text(pos == -1 ? "" : history->pdata[pos]);
-				history_pos = pos;
+				history_pos = (gint) pos;
 
 				return TRUE;
 			}
@@ -165,7 +165,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
 				return TRUE;
 			case GDK_KEY_End:
-				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+				gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 				return TRUE;
 		}
 	}
@@ -181,7 +181,7 @@ static gboolean on_prompt_key_press_event(GtkWidget *widget, GdkEventKey *event,
 				gtk_editable_set_position(GTK_EDITABLE(entry), 1);
 				return TRUE;
 			case GDK_KEY_e:
-				gtk_editable_set_position(GTK_EDITABLE(entry), strlen(text));
+				gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 				return TRUE;
 		}
 	}
@@ -270,7 +270,7 @@ void ex_prompt_show(const gchar *val)
 	gtk_widget_show(prompt);
 	position_prompt();
 	gtk_entry_set_text(GTK_ENTRY(entry), val);
-	gtk_editable_set_position(GTK_EDITABLE(entry), strlen(val));
+	gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 }
 
 

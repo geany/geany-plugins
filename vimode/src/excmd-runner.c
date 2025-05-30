@@ -456,7 +456,7 @@ static void perform_simple_ex_cmd(CmdContext *ctx, const gchar *cmd)
 
 void excmd_perform(CmdContext *ctx, const gchar *cmd)
 {
-	guint len = strlen(cmd);
+	gsize len = strlen(cmd);
 
 	if (cmd == NULL || len < 1)
 		return;
