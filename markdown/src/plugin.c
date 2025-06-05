@@ -51,7 +51,7 @@ static GtkWidget *g_scrolled_win = NULL;
 static GtkWidget *g_export_html = NULL;
 
 /* Forward declarations */
-static void update_markdown_viewer(MarkdownViewer *viewer);
+static void update_markdown_viewer(MarkdownViewer *viewer, GeanyDocument *doc);
 static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor, SCNotification *notif, MarkdownViewer *viewer);
 static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownViewer *viewer);
 static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFiletype *ft_old, MarkdownViewer *viewer);
@@ -120,7 +120,7 @@ void plugin_init(GeanyData *data)
    * and when reloaded tries to re-register the GTypes. */
   plugin_module_make_resident(geany_plugin);
 
-  update_markdown_viewer(MARKDOWN_VIEWER(viewer));
+  update_markdown_viewer(MARKDOWN_VIEWER(viewer), NULL);
 }
 
 /* Cleanup resources on plugin unload. */
@@ -162,9 +162,10 @@ void plugin_help(void)
  * editor's text contents change and not on other editor events.
  */
 static void
-update_markdown_viewer(MarkdownViewer *viewer)
+update_markdown_viewer(MarkdownViewer *viewer, GeanyDocument *doc)
 {
-  GeanyDocument *doc = document_get_current();
+  if (!DOC_VALID(doc))
+    doc = document_get_current();
 
   if (DOC_VALID(doc) && g_strcmp0(doc->file_type->name, "Markdown") == 0) {
     gchar *text;
@@ -192,7 +193,7 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
   SCNotification *notif, MarkdownViewer *viewer)
 {
   if (IS_MOD_NOTIF(notif)) {
-    update_markdown_viewer(viewer);
+    update_markdown_viewer(viewer, NULL);
   }
   return FALSE; /* Allow others to handle this event too */
 }
@@ -201,14 +202,14 @@ static gboolean on_editor_notify(GObject *obj, GeanyEditor *editor,
  * activate, etc.) */
 static void on_document_signal(GObject *obj, GeanyDocument *doc, MarkdownViewer *viewer)
 {
-  update_markdown_viewer(viewer);
+  update_markdown_viewer(viewer, doc);
 }
 
 /* Queue update of the markdown preview when a document's filetype is set */
 static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFiletype *ft_old,
   MarkdownViewer *viewer)
 {
-  update_markdown_viewer(viewer);
+  update_markdown_viewer(viewer, doc);
 }
 
 /* Move the MarkdownViewer to the correct notebook when the view position
@@ -248,7 +249,7 @@ on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer)
 
   g_object_unref(g_scrolled_win); /* The new notebook owns it now */
 
-  update_markdown_viewer(viewer);
+  update_markdown_viewer(viewer, NULL);
 }
 
 static gchar *replace_extension(const gchar *utf8_fn, const gchar *new_ext)
