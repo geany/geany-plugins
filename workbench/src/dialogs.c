@@ -570,7 +570,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 {
 	gint result;
 	GtkWidget *w_rescan_projects_on_open, *w_enable_live_update, *w_expand_on_hover;
-	GtkWidget *dialog, *content_area, *w_enable_tree_lines;
+	GtkWidget *dialog, *content_area, *w_enable_tree_lines, *w_auto_open_by_doc;
 	GtkWidget *vbox, *hbox;
 #if GTK_CHECK_VERSION(3, 4, 0)
 	GtkWidget *grid;
@@ -582,6 +582,7 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	gboolean enable_live_update, enable_live_update_old;
 	gboolean expand_on_hover, expand_on_hover_old;
 	gboolean enable_tree_lines, enable_tree_lines_old;
+	gboolean enable_auto_open_by_doc, enable_auto_open_by_doc_old;
 
 	/* Create the widgets */
 	flags = GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT;
@@ -670,6 +671,25 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 	enable_tree_lines_old = workbench_get_enable_tree_lines(workbench);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_enable_tree_lines), enable_tree_lines_old);
 
+	w_auto_open_by_doc = gtk_check_button_new_with_mnemonic(_("_Enable auto-open project by document"));
+#if GTK_CHECK_VERSION(3, 4, 0)
+	gtk_grid_attach (GTK_GRID(grid), w_auto_open_by_doc, 0, 4, 1, 1);
+	gtk_widget_set_halign (w_auto_open_by_doc, GTK_ALIGN_CENTER);
+	gtk_widget_set_hexpand (w_auto_open_by_doc, TRUE);
+	gtk_widget_set_valign (w_auto_open_by_doc, GTK_ALIGN_CENTER);
+	gtk_widget_set_vexpand (w_auto_open_by_doc, TRUE);
+#else
+	ui_table_add_row(GTK_TABLE(table), 4, w_auto_open_by_doc, NULL);
+#endif
+	gtk_widget_set_tooltip_text(w_auto_open_by_doc,
+		_("If the option is activated, a project will be auto-opened "
+		  "if a document belonging to the project becomes active."));
+	enable_auto_open_by_doc_old = workbench_get_enable_auto_open_by_doc(workbench);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w_auto_open_by_doc), enable_auto_open_by_doc_old);
+#if GEANY_API_VERSION < 240
+	gtk_widget_set_sensitive (w_auto_open_by_doc, FALSE);
+#endif
+
 #if GTK_CHECK_VERSION(3, 4, 0)
 	gtk_box_pack_start(GTK_BOX(vbox), grid, FALSE, FALSE, 6);
 #else
@@ -710,6 +730,12 @@ gboolean dialogs_workbench_settings(WORKBENCH *workbench)
 		{
 			changed = TRUE;
 			workbench_set_enable_tree_lines(workbench, enable_tree_lines);
+		}
+		enable_auto_open_by_doc = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w_auto_open_by_doc));
+		if (enable_auto_open_by_doc != enable_auto_open_by_doc_old)
+		{
+			changed = TRUE;
+			workbench_set_enable_auto_open_by_doc(workbench, enable_auto_open_by_doc);
 		}
 	}
 
