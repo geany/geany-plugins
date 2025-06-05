@@ -23,6 +23,10 @@ if ENABLE_AUTOMARK
 SUBDIRS += automark
 endif
 
+if ENABLE_BRACKETCOLORS
+SUBDIRS += bracketcolors
+endif
+
 if ENABLE_CODENAV
 SUBDIRS += codenav
 endif
