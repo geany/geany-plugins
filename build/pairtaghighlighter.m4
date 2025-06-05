@@ -5,5 +5,6 @@ AC_DEFUN([GP_CHECK_PAIRTAGHIGHLIGHTER],
     AC_CONFIG_FILES([
         pairtaghighlighter/Makefile
         pairtaghighlighter/src/Makefile
+        pairtaghighlighter/data/Makefile
     ])
 ])
