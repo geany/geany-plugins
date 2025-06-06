@@ -3,7 +3,7 @@ AC_DEFUN([GP_CHECK_GEANYVC],
     GP_ARG_DISABLE([GeanyVC], [auto])
     GP_COMMIT_PLUGIN_STATUS([GeanyVC])
     AC_ARG_ENABLE(gtkspell,
-        AC_HELP_STRING([--enable-gtkspell=ARG],
+        AS_HELP_STRING([--enable-gtkspell=ARG],
             [Enable GtkSpell support in GeanyVC. [[default=auto]]]),,
         enable_gtkspell=auto)
     GP_CHECK_GTK3([gtkspell_package=gtkspell3-3.0],
