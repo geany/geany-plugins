@@ -619,12 +619,15 @@ static SoupMessage *json_request_new(const gchar *method,
     SoupMessage  *msg = soup_message_new(method, url);
     GString      *str = g_string_new(NULL);
     GBytes       *bytes;
+    gchar        *data;
+    gsize         data_len;
 
     g_string_append_c(str, '{');
     g_datalist_foreach(fields, append_json_data_item, str);
     g_string_append_c(str, '}');
-    bytes = g_bytes_new_take(str->str, str->len);
-    (void) g_string_free(str, FALSE); /* buffer already taken above */
+    data_len = str->len;
+    data = g_string_free(str, FALSE);
+    bytes = g_bytes_new_take(data, data_len);
     soup_message_set_request_body_from_bytes(msg, "application/json", bytes);
     g_bytes_unref(bytes);
 

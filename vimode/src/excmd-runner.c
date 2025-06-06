@@ -217,8 +217,7 @@ static void next_token(const gchar **p, Token *tk)
 		}
 		if (**p == c)
 			(*p)++;
-		init_tk(tk, TK_PATTERN, 0, s->str);
-		g_string_free(s, FALSE);
+		init_tk(tk, TK_PATTERN, 0, g_string_free(s, FALSE));
 		return ;
 	}
 
