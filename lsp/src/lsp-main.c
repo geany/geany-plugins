@@ -57,7 +57,7 @@
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 
-LspProjectConfiguration project_configuration = UnconfiguredConfiguration;
+LspProjectConfiguration project_configuration = UninitializedConfiguration;
 LspProjectConfigurationType project_configuration_type = UserConfigurationType;
 gchar *project_configuration_file;
 
@@ -877,7 +877,7 @@ static void on_project_open(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 
 	project_configuration = utils_get_setting_boolean(kf, "lsp", "enabled", UnconfiguredConfiguration);
 	project_configuration_type = utils_get_setting_integer(kf, "lsp", "settings_type", UserConfigurationType);
-	project_configuration_file = g_key_file_get_string(kf, "lsp", "config_file", NULL);
+	SETPTR(project_configuration_file, g_key_file_get_string(kf, "lsp", "config_file", NULL));
 
 	have_project_config = lsp_utils_get_project_config_filename() != NULL;
 	gtk_widget_set_sensitive(menu_items.project_config, have_project_config);
@@ -966,7 +966,14 @@ static void add_project_properties_tab(GtkWidget *notebook)
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use user configuration file"));
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(project_dialog.settings_type_combo), _("Use project configuration file"));
 
-	if (project_configuration == UnconfiguredConfiguration)
+	if (project_configuration == UninitializedConfiguration)
+	{
+		// LSP was enabled after the "project-open" signal so we don't know the
+		// exact config - assume LSP is enabled for the project
+		project_enabled = TRUE;
+		combo_value = UserConfigurationType;
+	}
+	else if (project_configuration == UnconfiguredConfiguration)
 	{
 		project_enabled = all_cfg->enable_by_default;
 		combo_value = UserConfigurationType;
@@ -1037,7 +1044,8 @@ static void on_project_dialog_close(G_GNUC_UNUSED GObject * obj, GtkWidget * not
 static void on_project_save(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
 		G_GNUC_UNUSED gpointer user_data)
 {
-	if (project_configuration != UnconfiguredConfiguration)
+	if (project_configuration != UnconfiguredConfiguration &&
+		project_configuration != UninitializedConfiguration)
 	{
 		g_key_file_set_boolean(kf, "lsp", "enabled", project_configuration);
 		g_key_file_set_integer(kf, "lsp", "settings_type", project_configuration_type);
@@ -1827,6 +1835,11 @@ void plugin_cleanup(void)
 {
 	if (!geany_quitting)
 		terminate_all();  // done in "geany-before-quit" handler when quitting
+
+	// intentionally keep previous values of project_configuration,
+	// project_configuration_type, project_configuration_file - these are only
+	// loaded in "project-open" signal handler and their values would be lost
+	// with simple plugin disable/enable
 
 	gtk_widget_destroy(menu_items.parent_item);
 	menu_items.parent_item = NULL;

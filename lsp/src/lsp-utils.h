@@ -29,6 +29,8 @@ typedef struct LspServerConfig LspServerConfig;
 
 typedef enum
 {
+	// plugin loaded manually after the "project-open" signal so we don't know project settings
+	UninitializedConfiguration = -2,
 	UnconfiguredConfiguration = -1,
 	DisabledConfiguration,
 	EnabledConfiguration
