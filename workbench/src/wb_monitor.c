@@ -90,13 +90,14 @@ static void wb_monitor_entry_free (gpointer data)
 
 /* Callback function for file monitoring. */
 static void wb_monitor_file_changed_cb(G_GNUC_UNUSED GFileMonitor *monitor,
-									   G_GNUC_UNUSED GFile *file,
-									   G_GNUC_UNUSED GFile *other_file,
+									   GFile *file,
+									   GFile *other_file,
 									   GFileMonitorEvent event,
 									   WB_MONITOR_ENTRY *entry)
 {
 	const gchar *event_string = NULL;
 	gchar *file_path, *other_file_path = NULL;
+	void (*handler) (WORKBENCH *, WB_PROJECT *, WB_PROJECT_DIR *, const gchar *) = NULL;
 
 	g_return_if_fail(entry != NULL);
 
@@ -111,14 +112,12 @@ static void wb_monitor_file_changed_cb(G_GNUC_UNUSED GFileMonitor *monitor,
 	{
 		case G_FILE_MONITOR_EVENT_CREATED:
 			event_string = "FILE_CREATED";
-			workbench_process_add_file_event (wb_globals.opened_wb,
-				entry->prj, entry->dir, file_path);
+			handler = workbench_process_add_file_event;
 			break;
 
 		case G_FILE_MONITOR_EVENT_DELETED:
 			event_string = "FILE_DELETED";
-			workbench_process_remove_file_event (wb_globals.opened_wb,
-				entry->prj, entry->dir, file_path);
+			handler = workbench_process_remove_file_event;
 			break;
 
 		default:
@@ -129,6 +128,13 @@ static void wb_monitor_file_changed_cb(G_GNUC_UNUSED GFileMonitor *monitor,
 	{
 		g_message("%s: Prj: \"%s\" Dir: \"%s\" %s: \"%s\"", G_STRFUNC, wb_project_get_name(entry->prj),
 			wb_project_dir_get_name(entry->dir), event_string, file_path);
+	}
+
+	if (handler != NULL)
+	{
+		/* The handler might destroy the entry, so we mustn't reference it any
+		 * further after calling it */
+		handler (wb_globals.opened_wb, entry->prj, entry->dir, file_path);
 	}
 
 	g_free(file_path);
