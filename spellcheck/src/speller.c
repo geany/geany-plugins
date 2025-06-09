@@ -879,6 +879,28 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_DART:
+		{
+			switch (style)
+			{
+				case SCE_DART_COMMENTLINE:
+				case SCE_DART_COMMENTLINEDOC:
+				case SCE_DART_COMMENTBLOCK:
+				case SCE_DART_COMMENTBLOCKDOC:
+				case SCE_DART_STRING_SQ:
+				case SCE_DART_STRING_DQ:
+				case SCE_DART_TRIPLE_STRING_SQ:
+				case SCE_DART_TRIPLE_STRING_DQ:
+				case SCE_DART_RAWSTRING_SQ:
+				case SCE_DART_RAWSTRING_DQ:
+				case SCE_DART_TRIPLE_RAWSTRING_SQ:
+				case SCE_DART_TRIPLE_RAWSTRING_DQ:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_DIFF:
 		{
 			switch (style)
@@ -1146,6 +1168,20 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_NIX:
+		{
+			switch (style)
+			{
+				case SCE_NIX_COMMENTLINE:
+				case SCE_NIX_COMMENTBLOCK:
+				case SCE_NIX_STRING:
+				case SCE_NIX_STRING_MULTILINE:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_NSIS:
 		{
 			switch (style)
@@ -1287,6 +1323,8 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_RUST_STRINGR:
 				case SCE_RUST_BYTESTRING:
 				case SCE_RUST_BYTESTRINGR:
+				case SCE_RUST_CSTRING:
+				case SCE_RUST_CSTRINGR:
 				case SCE_RUST_LEXERROR:
 					return TRUE;
 				default:
@@ -1342,6 +1380,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_TOML:
+		{
+			switch (style)
+			{
+				case SCE_TOML_COMMENT:
+				case SCE_TOML_STRING_SQ:
+				case SCE_TOML_STRING_DQ:
+				case SCE_TOML_TRIPLE_STRING_SQ:
+				case SCE_TOML_TRIPLE_STRING_DQ:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_TXT2TAGS:
 		{
 			return TRUE;
@@ -1387,6 +1440,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_YAML_DEFAULT:
 				case SCE_YAML_COMMENT:
 				case SCE_YAML_TEXT:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_ZIG:
+		{
+			switch (style)
+			{
+				case SCE_ZIG_COMMENTLINE:
+				case SCE_ZIG_COMMENTLINEDOC:
+				case SCE_ZIG_COMMENTLINETOP:
+				case SCE_ZIG_STRING:
+				case SCE_ZIG_MULTISTRING:
 					return TRUE;
 				default:
 					return FALSE;
