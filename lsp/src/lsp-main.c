@@ -870,19 +870,26 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *obj, GeanyEditor *editor
 }
 
 
-static void on_project_open(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
-	G_GNUC_UNUSED gpointer user_data)
+static void load_project_config(GKeyFile *kf)
 {
-	gboolean have_project_config;
-
 	project_configuration = utils_get_setting_boolean(kf, "lsp", "enabled", UnconfiguredConfiguration);
 	project_configuration_type = utils_get_setting_integer(kf, "lsp", "settings_type", UserConfigurationType);
 	project_configuration_file = g_key_file_get_string(kf, "lsp", "config_file", NULL);
+}
 
-	have_project_config = lsp_utils_get_project_config_filename() != NULL;
+
+static void update_active_config_menuitem(gboolean have_project_config)
+{
 	gtk_widget_set_sensitive(menu_items.project_config, have_project_config);
 	gtk_widget_set_sensitive(menu_items.user_config, !have_project_config);
+}
 
+
+static void on_project_open(G_GNUC_UNUSED GObject *obj, GKeyFile *kf,
+	G_GNUC_UNUSED gpointer user_data)
+{
+	load_project_config(kf);
+	update_active_config_menuitem(lsp_utils_get_project_config_filename() != NULL);
 	stop_and_init_all_servers();
 }
 
@@ -894,8 +901,7 @@ static void on_project_close(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED gpointer 
 	g_free(project_configuration_file);
 	project_configuration_file = NULL;
 
-	gtk_widget_set_sensitive(menu_items.project_config, FALSE);
-	gtk_widget_set_sensitive(menu_items.user_config, TRUE);
+	update_active_config_menuitem(FALSE);
 
 	stop_and_init_all_servers();
 }
@@ -905,16 +911,13 @@ static void on_project_dialog_confirmed(G_GNUC_UNUSED GObject *obj, GtkWidget *n
 	G_GNUC_UNUSED gpointer user_data)
 {
 	const gchar *config_file;
-	gboolean have_project_config;
 
 	project_configuration = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(project_dialog.enable_check_button));
 	project_configuration_type = gtk_combo_box_get_active(GTK_COMBO_BOX(project_dialog.settings_type_combo));
 	config_file = gtk_entry_get_text(GTK_ENTRY(project_dialog.config_file_entry));
 	SETPTR(project_configuration_file, g_strdup(config_file));
 
-	have_project_config = lsp_utils_get_project_config_filename() != NULL;
-	gtk_widget_set_sensitive(menu_items.project_config, have_project_config);
-	gtk_widget_set_sensitive(menu_items.user_config, !have_project_config);
+	update_active_config_menuitem(lsp_utils_get_project_config_filename() != NULL);
 
 	restart_all_servers();
 }
@@ -1804,11 +1807,32 @@ static void on_server_initialized(LspServer *srv)
 }
 
 
+static void load_project_settings(void)
+{
+	if (geany_data->app->project)
+	{
+		gchar *config_file = utils_get_locale_from_utf8(geany_data->app->project->file_name);
+		if (config_file)
+		{
+			GKeyFile *config = g_key_file_new();
+
+			if (g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL))
+				load_project_config(config);
+
+			g_key_file_free(config);
+			g_free(config_file);
+		}
+	}
+}
+
+
 void plugin_init(G_GNUC_UNUSED GeanyData * data)
 {
 	GeanyDocument *doc = document_get_current();
 
 	plugin_module_make_resident(geany_plugin);
+
+	load_project_settings();
 
 	lsp_server_set_initialized_cb(on_server_initialized);
 
@@ -1817,6 +1841,8 @@ void plugin_init(G_GNUC_UNUSED GeanyData * data)
 	plugin_extension_register(&extension, "LSP", 100, NULL);
 
 	create_menu_items();
+
+	update_active_config_menuitem(lsp_utils_get_project_config_filename() != NULL);
 
 	if (doc)
 		on_document_visible(doc);
