@@ -26,13 +26,6 @@ BUNDLE_BASE_DIR = join(BASE_DIR, 'bundle')
 BUNDLE_GEANY_PLUGINS = join(BASE_DIR, 'bundle', 'geany-plugins-dependencies')
 INSTALLER_NAME = join(BASE_DIR, f'geany-plugins-{VERSION}_setup.exe')
 
-# signing params
-SIGN_CERTIFICATE = join(BASE_DIR, 'codesign.pem')  # adjust to your needs
-SIGN_CERTIFICATE_KEY = join(BASE_DIR, 'codesign_key.pem')  # adjust to your needs
-SIGN_WEBSITE = 'https://www.geany.org'
-SIGN_NAME = 'Geany-Plugins Binary'
-SIGN_TIMESTAMP = 'https://zeitstempel.dfn.de/'
-
 
 def run_command(*cmd):
     print('Execute command: {}'.format(' '.join(cmd)))
@@ -61,28 +54,6 @@ def strip_files(*paths):
             run_command('strip', filename)
 
 
-def sign_files(*paths):
-    if not isfile(SIGN_CERTIFICATE_KEY):
-        print('Skipped signing {} as {} not found'.format(paths, SIGN_CERTIFICATE_KEY))
-        return
-    for item in paths:
-        files = glob.glob(item)
-        for filename in files:
-            run_command(
-                'osslsigncode',
-                'sign',
-                '-verbose',
-                '-certs', SIGN_CERTIFICATE,
-                '-key', SIGN_CERTIFICATE_KEY,
-                '-n', SIGN_NAME,
-                '-i', SIGN_WEBSITE,
-                '-ts', SIGN_TIMESTAMP,
-                '-h', 'sha512',
-                '-in', filename,
-                '-out', f'{filename}-signed')
-            os.replace(f'{filename}-signed', filename)
-
-
 def make_release():
     # copy the release dir as it gets modified implicitly by signing and converting files, we want to keep a pristine version before we start
     prepare_release_dir()
@@ -94,8 +65,6 @@ def make_release():
         f'{RELEASE_DIR}/lib/geany-plugins/geanylua/libgeanylua.dll')
     # strip binaries
     strip_files(*binary_files)
-    # sign binaries
-    sign_files(*binary_files)
     # unix2dos conversion
     text_files = (
         f'{RELEASE_DIR}/share/doc/geany-plugins/*/AUTHORS',
@@ -114,8 +83,6 @@ def make_release():
         f'/DDEPENDENCY_BUNDLE_DIR={BUNDLE_GEANY_PLUGINS}',
         f'-DGEANY_PLUGINS_INSTALLER_NAME={INSTALLER_NAME}',
         f'{SOURCE_DIR}/build/geany-plugins.nsi')
-    # sign installer
-    sign_files(f'{INSTALLER_NAME}')
 
 
 if __name__ == '__main__':
