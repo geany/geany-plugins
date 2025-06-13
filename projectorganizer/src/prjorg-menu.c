@@ -324,10 +324,10 @@ void prjorg_menu_init(void)
     keybindings_set_item(key_group, KB_FOCUS_SIDEBAR, (GeanyKeyCallback)prjorg_sidebar_focus_project_tab,
 		0, 0, "focus_project_sidebar", _("Focus Project Sidebar"), NULL);
 
-    keybindings_set_item(key_group, KB_OPEN_FILE_MANAGER, (GeanyKeyCallback)on_open_file_manager,
+    keybindings_set_item(key_group, KB_OPEN_FILE_MANAGER, (GeanyKeyCallback)prjorg_sidebar_open_file_manager,
 		0, 0, "open_file_manager", _("Open File Manager at file location"), NULL);
 
-    keybindings_set_item(key_group, KB_OPEN_TERMINAL, (GeanyKeyCallback)on_open_terminal,
+    keybindings_set_item(key_group, KB_OPEN_TERMINAL, (GeanyKeyCallback)prjorg_sidebar_open_terminal,
 		0, 0, "open_terminal", _("Open Terminal at file location"), NULL);
 
 	s_context_sep_item = gtk_separator_menu_item_new();

@@ -171,11 +171,8 @@ GString * markdown_to_g_string(char *text, int extensions, int output_format) {
  * Returns a null-terminated string, which must be freed after use. */
 char * markdown_to_string(char *text, int extensions, int output_format) {
     GString *out;
-    char *char_out;
     out = markdown_to_g_string(text, extensions, output_format);
-    char_out = out->str;
-    g_string_free(out, FALSE);
-    return char_out;
+    return g_string_free(out, FALSE);
 }
 
 /* vim:set ts=4 sw=4: */

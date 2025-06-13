@@ -29,7 +29,23 @@
 #include "prjorg-project.h"
 #include "prjorg-utils.h"
 
+/* set open command based on OS */
+#if defined(_WIN32) || defined(G_OS_WIN32)
+# define PRJORG_COMMAND_OPEN "start \"%d\""
+# define PRJORG_COMMAND_TERMINAL "PowerShell"
+#elif defined(__APPLE__)
+# define PRJORG_COMMAND_OPEN "open \"%d\""
+# define PRJORG_COMMAND_TERMINAL "open -b com.apple.terminal"
+#else
+# define PRJORG_COMMAND_OPEN "xdg-open \"%d\""
+# define PRJORG_COMMAND_TERMINAL "x-terminal-emulator"
+#endif
+
+
 extern GeanyData *geany_data;
+
+gchar *s_open_cmd;
+gchar *s_term_cmd;
 
 
 /* utf8 */
@@ -441,4 +457,91 @@ void set_header_filetype(GeanyDocument * doc)
 
 	g_free(doc_basename);
 	g_slist_free(header_patterns);
+}
+
+
+static gchar *get_conf_filename(void)
+{
+	return g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S, "plugins", G_DIR_SEPARATOR_S,
+		"projectorganizer", G_DIR_SEPARATOR_S, "projectorganizer.conf", NULL);
+}
+
+
+static void load_settings(void)
+{
+	GKeyFile *config = g_key_file_new();
+	gchar *config_file = get_conf_filename();
+
+	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+	s_open_cmd = utils_get_setting_string(config, "prjorg", "file_manager_command", PRJORG_COMMAND_OPEN);
+	s_term_cmd = utils_get_setting_string(config, "prjorg", "terminal_command", PRJORG_COMMAND_TERMINAL);
+
+	g_key_file_free(config);
+	g_free(config_file);
+}
+
+
+static gchar *substitute_dir(const gchar *pattern, const gchar *dirname)
+{
+	GString *res = g_string_new(pattern ? pattern : "");
+	if (!EMPTY(dirname))
+		utils_string_replace_all(res, "%d", dirname);
+	return g_string_free(res, FALSE);
+}
+
+
+gchar *get_open_cmd(gboolean perform_substitution, const gchar *dirname)
+{
+	if (!s_open_cmd)
+		load_settings();
+
+	if (perform_substitution)
+		return substitute_dir(s_open_cmd, dirname);
+
+	return g_strdup(s_open_cmd);
+}
+
+
+gchar *get_terminal_cmd(gboolean perform_substitution, const gchar *dirname)
+{
+	if (!s_term_cmd)
+		load_settings();
+
+	if (perform_substitution)
+		return substitute_dir(s_term_cmd, dirname);
+
+	return g_strdup(s_term_cmd);
+}
+
+
+void set_commands(const gchar *open_cmd, const gchar *term_cmd)
+{
+	GKeyFile *config = g_key_file_new();
+	gchar *config_file = get_conf_filename();
+	gchar *config_dir = g_path_get_dirname(config_file);
+
+	SETPTR(s_open_cmd, g_strdup(open_cmd));
+	SETPTR(s_term_cmd, g_strdup(term_cmd));
+
+	g_key_file_load_from_file(config, config_file, G_KEY_FILE_NONE, NULL);
+
+	g_key_file_set_string(config, "prjorg", "file_manager_command", s_open_cmd);
+	g_key_file_set_string(config, "prjorg", "terminal_command", s_term_cmd);
+
+	if (!g_file_test(config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir(config_dir, TRUE) != 0)
+	{
+		dialogs_show_msgbox(GTK_MESSAGE_ERROR,
+			_("Plugin configuration directory could not be created."));
+	}
+	else
+	{
+		gchar *data = g_key_file_to_data(config, NULL, NULL);
+		utils_write_file(config_file, data);
+		g_free(data);
+	}
+
+	g_free(config_dir);
+	g_free(config_file);
+	g_key_file_free(config);
 }

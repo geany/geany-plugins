@@ -231,15 +231,17 @@ utils_pixbuf_from_path(gchar *path)
 
 	if (icon != NULL)
 	{
+		const GtkIconLookupFlags flags = GTK_ICON_LOOKUP_USE_BUILTIN | GTK_ICON_LOOKUP_FORCE_SIZE;
+
 		gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, NULL);
-		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+		info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, flags);
 		g_object_unref(icon);
 		if (!info)
 		{
 			icon = g_themed_icon_new("text-x-generic");
 			if (icon != NULL)
 			{
-				info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, GTK_ICON_LOOKUP_USE_BUILTIN);
+				info = gtk_icon_theme_lookup_by_gicon(gtk_icon_theme_get_default(), icon, width, flags);
 				g_object_unref(icon);
 			}
 		}
@@ -2147,6 +2149,7 @@ plugin_configure(GtkDialog *dialog)
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 #endif
 	gtk_widget_set_tooltip_text(configure_widgets.OPEN_EXTERNAL_CMD,
+		/* xgettext:no-c-format, %d/%f are displayed as-is */
 		_("The command to execute when using \"Open with\". You can use %f and %d wildcards.\n"
 		  "%f will be replaced with the filename including full path\n"
 		  "%d will be replaced with the path name of the selected file without the filename"));

@@ -1,7 +1,9 @@
-ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled --install
+ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled
 AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
-EXTRA_DIST = build/cppcheck-geany-plugins.cfg
+EXTRA_DIST = \
+	build/cppcheck-geany-plugins.cfg \
+	build/cppcheck-geany-plugins.suppressions
 
 SUBDIRS = po
 
