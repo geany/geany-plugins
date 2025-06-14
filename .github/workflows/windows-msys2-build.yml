@@ -45,7 +45,7 @@ jobs:
         run: |
           mkdir -p geany_build/bundle/geany-gtk
           cd geany_build/bundle/geany-gtk
-          bash $(cygpath -u "${GITHUB_WORKSPACE}")/scripts/gtk-bundle-from-msys2.sh -3
+          bash ${{ env.GEANY_SOURCE_PATH }}/scripts/gtk-bundle-from-msys2.sh -3
       - name: GTK-Bundle-Geany-Plugins
         run: |
           mkdir -p geany_build/bundle/geany-plugins-dependencies
