@@ -800,7 +800,6 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 #else
 		case SCLEX_PASCAL:
 #endif
-		case SCLEX_COBOL:
 		case SCLEX_CPP:
 		{
 			switch (style)
@@ -818,6 +817,22 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_C_TRIPLEVERBATIM:
 				case SCE_C_PREPROCESSORCOMMENT:
 				case SCE_C_PREPROCESSORCOMMENTDOC:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_COBOL:
+		{
+			switch (style)
+			{
+				case SCE_COBOL_DEFAULT:
+				case SCE_COBOL_COMMENT:
+				case SCE_COBOL_COMMENTLINE:
+				case SCE_COBOL_COMMENTDOC:
+				case SCE_COBOL_STRING:
+				case SCE_COBOL_CHARACTER:
 					return TRUE;
 				default:
 					return FALSE;
@@ -895,6 +910,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_DART_RAWSTRING_DQ:
 				case SCE_DART_TRIPLE_RAWSTRING_SQ:
 				case SCE_DART_TRIPLE_RAWSTRING_DQ:
+				case SCE_DART_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1042,6 +1058,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_HJ_DOUBLESTRING:
 				case SCE_HJ_SINGLESTRING:
 				case SCE_HJ_STRINGEOL:
+				case SCE_HJ_TEMPLATELITERAL:
 				case SCE_HB_COMMENTLINE:
 				case SCE_HB_STRING:
 				case SCE_HB_STRINGEOL:
@@ -1054,6 +1071,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_HJA_DOUBLESTRING:
 				case SCE_HJA_SINGLESTRING:
 				case SCE_HJA_STRINGEOL:
+				case SCE_HJA_TEMPLATELITERAL:
 				case SCE_HP_COMMENTLINE:
 				case SCE_HP_STRING:
 				case SCE_HP_CHARACTER:
@@ -1176,6 +1194,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_NIX_COMMENTBLOCK:
 				case SCE_NIX_STRING:
 				case SCE_NIX_STRING_MULTILINE:
+				case SCE_NIX_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1389,6 +1408,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_TOML_STRING_DQ:
 				case SCE_TOML_TRIPLE_STRING_SQ:
 				case SCE_TOML_TRIPLE_STRING_DQ:
+				case SCE_TOML_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1455,6 +1475,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_ZIG_COMMENTLINETOP:
 				case SCE_ZIG_STRING:
 				case SCE_ZIG_MULTISTRING:
+				case SCE_ZIG_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
