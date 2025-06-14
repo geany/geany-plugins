@@ -55,7 +55,7 @@ jobs:
           rsync -a --delete ${DESTINATON}/build/geany-plugins/${DESTINATON}/build/geany/ ${DESTINATON}/release/geany-plugins-orig
       - name: Compile NSIS
         run: |
-          python scripts/msys2-geany-plugins-release.py
+          python build/msys2-geany-plugins-release.py
       - name: Upload Unsigned Artifact
         id: upload-unsigned-artifact
         uses: actions/upload-artifact@v4

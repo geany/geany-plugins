@@ -6,6 +6,7 @@ import sys
 import glob
 from subprocess import check_call
 from os.path import exists, isfile, join
+import re
 
 """
 This script prepares a Geany release on Windows.
