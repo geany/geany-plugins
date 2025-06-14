@@ -5,7 +5,7 @@ jobs:
   msys2-mingw64:
     runs-on: windows-latest
     env:
-      GEANY_SOURCE_PATH: $(cygpath -u "${GITHUB_WORKSPACE}")/.geany_source
+      GEANY_SOURCE_PATH: ${{ github.workspace }}/.geany_source
     defaults:
       run:
         shell: msys2 {0}
