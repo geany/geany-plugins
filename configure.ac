@@ -1,5 +1,5 @@
 AC_PREREQ([2.61])
-dnl Don't forget when updating version number to do GP_CHECK_GEANY also
+dnl Dont forget when updating version number to do GP_CHECK_GEANY also
 AC_INIT([geany-plugins], [2.1])
 
 AC_CONFIG_SRCDIR([po/POTFILES.in])
@@ -82,6 +82,10 @@ GP_COMMIT_UTILSLIB_STATUS
 AC_CONFIG_FILES([
     Makefile
     po/Makefile.in
+    autoclose/Makefile
+    autoclose/src/Makefile
+    automark/Makefile
+    automark/src/Makefile
 ])
 AC_OUTPUT
 GP_STATUS_PRINT
