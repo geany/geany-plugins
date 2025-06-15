@@ -79,6 +79,9 @@ GP_CHECK_XMLSNIPPETS
 
 GP_COMMIT_UTILSLIB_STATUS
 
-AC_CONFIG_FILES([Makefile po/Makefile.in])
+AC_CONFIG_FILES([
+    Makefile
+    po/Makefile.in
+])
 AC_OUTPUT
 GP_STATUS_PRINT
