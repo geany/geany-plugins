@@ -39,12 +39,7 @@ AC_DEFUN([GP_CHECK_UTILSLIB],
 
 AC_DEFUN([GP_COMMIT_UTILSLIB_STATUS],
 [
-    AS_IF([test "$enable_utilslib" = "yes"],
-          [AC_CONFIG_FILES([
-               utils/Makefile
-               utils/src/Makefile
-           ])],
-          [enable_utilslib=no])
+    AS_IF([test "$enable_utilslib" = "yes"], [AC_CONFIG_FILES([utils/Makefile, utils/src/Makefile])], [enable_utilslib=no])
     AM_CONDITIONAL([ENABLE_UTILSLIB], [test "$enable_utilslib" = "yes"])
     AM_CONDITIONAL([ENABLE_UTILSLIB_VTECOMPAT], [test "$enable_utilslib" = yes && test "$utilslib_have_vte" = yes])
     GP_STATUS_FEATURE_ADD([Utility library], [$enable_utilslib])
