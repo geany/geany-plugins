@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/geany/geany-plugins/issues\n"
-"POT-Creation-Date: 2025-05-25 13:19+0200\n"
+"POT-Creation-Date: 2025-06-15 20:12+0200\n"
 "PO-Revision-Date: 2023-10-18 09:27+0200\n"
 "Last-Translator: Frank Lanitz <fl@flyingcircus.io>\n"
 "Language-Team: German <geany-i18n@uvena.de>\n"
@@ -45,7 +45,7 @@ msgstr "Nr."
 msgid "Contents"
 msgstr "Inhalte"
 
-#: addons/src/ao_bookmarklist.c:399 treebrowser/src/treebrowser.c:670
+#: addons/src/ao_bookmarklist.c:399 treebrowser/src/treebrowser.c:672
 #: webhelper/src/gwh-plugin.c:340
 msgid "Bookmarks"
 msgstr "Lesezeichen"
@@ -172,7 +172,7 @@ msgstr "Kopiert den Pfad des aktuellen Dokumentes in die Zwischenablage."
 #: geanyprj/src/geanyprj.c:176 geanyvc/src/geanyvc.c:2130
 #: lineoperations/src/lo_prefs.c:62 projectorganizer/src/prjorg-utils.c:535
 #: sendmail/src/sendmail.c:128 sendmail/src/sendmail.c:293
-#: spellcheck/src/scplugin.c:124 treebrowser/src/treebrowser.c:2128
+#: spellcheck/src/scplugin.c:124 treebrowser/src/treebrowser.c:2130
 #: updatechecker/src/updatechecker.c:299
 msgid "Plugin configuration directory could not be created."
 msgstr ""
@@ -367,8 +367,8 @@ msgstr "Einfache Anführungszeichen (Hochkomma) ' '"
 #: autoclose/src/autoclose.c:1093
 msgid "Auto-close single quotes ' -> '|'"
 msgstr ""
-"Automatisches Schließen von einfachen Anführungszeichen (Hochkomma) »'« -> "
-"»'|'«"
+"Automatisches Schließen von einfachen Anführungszeichen "
+"(Hochkomma) »'« -> »'|'«"
 
 #: autoclose/src/autoclose.c:1094
 msgid "Backquote ` `"
@@ -3411,7 +3411,7 @@ msgid "_Ok"
 msgstr "_OK"
 
 #: geanymacro/src/geanymacro.c:1394 geanymacro/src/geanymacro.c:1537
-#: geanymacro/src/geanymacro.c:1827 geniuspaste/src/geniuspaste.c:825
+#: geanymacro/src/geanymacro.c:1827 geniuspaste/src/geniuspaste.c:828
 #: lsp/src/lsp-rename.c:58 projectorganizer/src/prjorg-sidebar.c:452
 #: webhelper/src/gwh-browser.c:746 workbench/src/dialogs.c:48
 #: workbench/src/dialogs.c:83 workbench/src/dialogs.c:117
@@ -3502,7 +3502,7 @@ msgid "_Edit"
 msgstr "_Bearbeiten"
 
 #: geanymacro/src/geanymacro.c:1824 geanymacro/src/geanymacro.c:2120
-#: treebrowser/src/treebrowser.c:1364 treebrowser/src/treebrowser.c:1366
+#: treebrowser/src/treebrowser.c:1366 treebrowser/src/treebrowser.c:1368
 msgid "_Delete"
 msgstr "_Löschen"
 
@@ -3749,7 +3749,6 @@ msgstr ""
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1289
 #, fuzzy
-#| msgid "List of bookmarks"
 msgid "always save bookmarks"
 msgstr "Liste mit Lesezeichen anzeigen"
 
@@ -4618,54 +4617,49 @@ msgstr "Gruppe »%s« hat keinen Eintrag »%s«."
 
 #: geniuspaste/src/geniuspaste.c:347
 #, fuzzy, c-format
-#| msgid "Plugin configuration directory could not be created."
 msgid "Plugin configuration directory could not be created: %s"
 msgstr ""
 "Das Konfigurationsverzeichnis für das Plugin konnte nicht erstellt werden."
 
-#: geniuspaste/src/geniuspaste.c:815
+#: geniuspaste/src/geniuspaste.c:818
 #, fuzzy, c-format
-#| msgid "Are you sure you want to delete '%s'?"
 msgid "Are you sure you want to paste %s to %s?"
 msgstr "Soll »%s« wirklich gelöscht werden?"
 
-#: geniuspaste/src/geniuspaste.c:817
+#: geniuspaste/src/geniuspaste.c:820
 #, fuzzy
-#| msgid "selection"
 msgid "the selection"
 msgstr "Auswahl"
 
-#: geniuspaste/src/geniuspaste.c:818
+#: geniuspaste/src/geniuspaste.c:821
 #, fuzzy
-#| msgid "Set path from document"
 msgid "the whole document"
 msgstr "Pfad des Dokumentes übernehmen"
 
-#: geniuspaste/src/geniuspaste.c:821
+#: geniuspaste/src/geniuspaste.c:824
 msgid "The paste might be public, and it might not be possible to delete it."
 msgstr ""
 
-#: geniuspaste/src/geniuspaste.c:826
+#: geniuspaste/src/geniuspaste.c:829
 #, fuzzy
-#| msgid "_Paste it!"
 msgid "_Paste it"
 msgstr "Zu _Pastebin senden"
 
-#: geniuspaste/src/geniuspaste.c:828
+#: geniuspaste/src/geniuspaste.c:831
 msgid "Do not _ask again"
 msgstr ""
 
-#: geniuspaste/src/geniuspaste.c:829
+#: geniuspaste/src/geniuspaste.c:832
 msgid ""
 "Whether to ask this question again for future pastes. This can be changed at "
 "any time in the plugin preferences."
 msgstr ""
 
-#: geniuspaste/src/geniuspaste.c:874
+#: geniuspaste/src/geniuspaste.c:877
 msgid "Invalid pastebin service."
 msgstr "Ungültiger Dienst"
 
-#: geniuspaste/src/geniuspaste.c:875
+#: geniuspaste/src/geniuspaste.c:878
 #, c-format
 msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
@@ -4675,15 +4669,15 @@ msgstr ""
 "Dienst in den Einstellungen oder erstelle eine neue Konfiguration und "
 "versuche es erneut."
 
-#: geniuspaste/src/geniuspaste.c:887
+#: geniuspaste/src/geniuspaste.c:890
 msgid "Refusing to create blank paste"
 msgstr "Ein leeres Dokument kann nicht hochgeladen werden."
 
-#: geniuspaste/src/geniuspaste.c:914
+#: geniuspaste/src/geniuspaste.c:917
 msgid "Failed to paste the code"
 msgstr "Konnten die Inhalte nicht senden"
 
-#: geniuspaste/src/geniuspaste.c:915
+#: geniuspaste/src/geniuspaste.c:918
 #, c-format
 msgid ""
 "Error pasting the code to the pastebin service %s.\n"
@@ -4696,13 +4690,13 @@ msgstr ""
 "\n"
 "%s"
 
-#: geniuspaste/src/geniuspaste.c:920
+#: geniuspaste/src/geniuspaste.c:923
 msgid "Check your connection or the pastebin configuration and retry."
 msgstr ""
 "Überprüfen Sie Ihre Internet-Verbindung sowie die Konfiguration und "
 "versuchen es erneut."
 
-#: geniuspaste/src/geniuspaste.c:922
+#: geniuspaste/src/geniuspaste.c:925
 msgid ""
 "Wait for the service to come back and retry, or retry with another pastebin "
 "service."
@@ -4710,15 +4704,15 @@ msgstr ""
 "Warten Sie, bis der Dienst wieder verfügbar ist, oder versuchen Sie einen "
 "anderen Dienst."
 
-#: geniuspaste/src/geniuspaste.c:924 geniuspaste/src/geniuspaste.c:941
+#: geniuspaste/src/geniuspaste.c:927 geniuspaste/src/geniuspaste.c:944
 msgid "Check the pastebin configuration and retry."
 msgstr "Bitte überprüfen Sie die Konfigurationen und versuchen Sie es erneut."
 
-#: geniuspaste/src/geniuspaste.c:935
+#: geniuspaste/src/geniuspaste.c:938
 msgid "Failed to obtain paste URL."
 msgstr "Konnte die URL des Pastebin-Dienstes nicht herausfinden."
 
-#: geniuspaste/src/geniuspaste.c:936
+#: geniuspaste/src/geniuspaste.c:939
 #, c-format
 msgid ""
 "The code was successfully pasted on %s, but an error occurred trying to "
@@ -4731,15 +4725,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: geniuspaste/src/geniuspaste.c:940
+#: geniuspaste/src/geniuspaste.c:943
 msgid "Unexpected response from the pastebin service."
 msgstr "Unerwartete Antwort des Pastebin-Dienstes."
 
-#: geniuspaste/src/geniuspaste.c:953
+#: geniuspaste/src/geniuspaste.c:956
 msgid "Paste Successful"
 msgstr "Das Hochladen war erfolgreich."
 
-#: geniuspaste/src/geniuspaste.c:954
+#: geniuspaste/src/geniuspaste.c:957
 #, c-format
 msgid ""
 "Your paste can be found here:\n"
@@ -4748,35 +4742,34 @@ msgstr ""
 "Der gesendete Inhalt kann jetzt hier betrachtet werden: <a href=\"%s\" "
 "title=\"Klicken, um im Browser betrachtet zu werden\">%s</a>"
 
-#: geniuspaste/src/geniuspaste.c:974
+#: geniuspaste/src/geniuspaste.c:977
 msgid "There are no opened documents. Open one and retry.\n"
 msgstr ""
 "Momentan sind keine Dokumente geöffnet. Öffnen Sie eines und versuchen Sie "
 "es erneut.\n"
 
-#: geniuspaste/src/geniuspaste.c:987
+#: geniuspaste/src/geniuspaste.c:990
 msgid "The author name field is empty!"
 msgstr "Der Autorenname ist leer"
 
-#: geniuspaste/src/geniuspaste.c:1008
+#: geniuspaste/src/geniuspaste.c:1011
 msgid "Select a pastebin:"
 msgstr "Code-Ablagestelle:"
 
-#: geniuspaste/src/geniuspaste.c:1011
+#: geniuspaste/src/geniuspaste.c:1014
 msgid "Enter the author name:"
 msgstr "Autorenname:"
 
-#: geniuspaste/src/geniuspaste.c:1032
+#: geniuspaste/src/geniuspaste.c:1035
 msgid "Show your paste in a new browser tab"
 msgstr "Code-Ablage in einem neuen Reiter im Browser zeigen"
 
-#: geniuspaste/src/geniuspaste.c:1033
+#: geniuspaste/src/geniuspaste.c:1036
 #, fuzzy
-#| msgid "Configure enclose pairs"
 msgid "Confirm before pasting"
 msgstr "Paare zum Umschließen konfigurieren"
 
-#: geniuspaste/src/geniuspaste.c:1056
+#: geniuspaste/src/geniuspaste.c:1059
 msgid "_Paste it!"
 msgstr "Zu _Pastebin senden"
 
@@ -5031,7 +5024,6 @@ msgstr "Fügt Platzhaltertexte ein"
 
 #: lsp/src/lsp-code-lens.c:185
 #, fuzzy
-#| msgid "Command 0:"
 msgid "LSP Commands: "
 msgstr "Befehl 0:"
 
@@ -5048,7 +5040,6 @@ msgstr ""
 #: lsp/src/lsp-goto-anywhere.c:103
 #: projectorganizer/src/prjorg-goto-anywhere.c:75
 #, fuzzy
-#| msgid "Running"
 msgid "beginning"
 msgstr "läuft"
 
@@ -5060,17 +5051,15 @@ msgstr ""
 #: lsp/src/lsp-goto-anywhere.c:117
 #: projectorganizer/src/prjorg-goto-anywhere.c:89
 #, fuzzy
-#| msgid "_Send"
 msgid "end"
 msgstr "_Senden"
 
 #: lsp/src/lsp-log.c:67
 #, fuzzy, c-format
-#| msgid "Failed to load file \"%s\": %s"
 msgid "Failed to create log file: %s"
 msgstr "Konnte die Datei »%s« nicht laden: %s"
 
-#: lsp/src/lsp-main.c:73 lsp/src/lsp-main.c:1011
+#: lsp/src/lsp-main.c:73 lsp/src/lsp-main.c:1014
 msgid "LSP Client"
 msgstr ""
 
@@ -5078,370 +5067,325 @@ msgstr ""
 msgid "Language server protocol client for Geany"
 msgstr ""
 
-#: lsp/src/lsp-main.c:950
+#: lsp/src/lsp-main.c:953
 msgid "Enable LSP client for project"
 msgstr ""
 
-#: lsp/src/lsp-main.c:961
+#: lsp/src/lsp-main.c:964
 #, fuzzy
-#| msgid "_Reload Configuration Files"
 msgid "Configuration type:"
 msgstr "_Konfigurationsdateien neu laden"
 
-#: lsp/src/lsp-main.c:966
+#: lsp/src/lsp-main.c:969
 #, fuzzy
-#| msgid "Scope: created configuration file."
 msgid "Use user configuration file"
 msgstr "Scope: Konfigurationsdatei erstellt"
 
-#: lsp/src/lsp-main.c:967
+#: lsp/src/lsp-main.c:970
 #, fuzzy
-#| msgid "Scope: created configuration file."
 msgid "Use project configuration file"
 msgstr "Scope: Konfigurationsdatei erstellt"
 
-#: lsp/src/lsp-main.c:989
+#: lsp/src/lsp-main.c:992
 #, fuzzy
-#| msgid "_Reload Configuration Files"
 msgid "Configuration file:"
 msgstr "_Konfigurationsdateien neu laden"
 
-#: lsp/src/lsp-main.c:995
+#: lsp/src/lsp-main.c:998
 #, fuzzy
-#| msgid "_Reload Configuration Files"
 msgid "Choose LSP Configuration File"
 msgstr "_Konfigurationsdateien neu laden"
 
-#: lsp/src/lsp-main.c:1504
+#: lsp/src/lsp-main.c:1507
 msgid "_LSP Client"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1510
+#: lsp/src/lsp-main.c:1513
 msgid "Go to _Definition"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1515
+#: lsp/src/lsp-main.c:1518
 #, fuzzy
-#| msgid "Go to next string"
 msgid "Go to definition"
 msgstr "Zur nächsten String gehen"
 
-#: lsp/src/lsp-main.c:1517
+#: lsp/src/lsp-main.c:1520
 #, fuzzy
-#| msgid "_Declaration"
 msgid "Go to D_eclaration"
 msgstr "_Deklaration"
 
-#: lsp/src/lsp-main.c:1522
+#: lsp/src/lsp-main.c:1525
 #, fuzzy
-#| msgid "_Declaration"
 msgid "Go to declaration"
 msgstr "_Deklaration"
 
-#: lsp/src/lsp-main.c:1524
+#: lsp/src/lsp-main.c:1527
 msgid "Go to _Type Definition"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1529
+#: lsp/src/lsp-main.c:1532
 #, fuzzy
-#| msgid "Go to the next hunk"
 msgid "Go to type definition"
 msgstr "Zur nächsten Block mit Änderungen springen"
 
-#: lsp/src/lsp-main.c:1533 projectorganizer/src/prjorg-menu.c:296
+#: lsp/src/lsp-main.c:1536 projectorganizer/src/prjorg-menu.c:296
 #, fuzzy
-#| msgid "Go to File..."
 msgid "Go to _Anywhere..."
 msgstr "Gehe zu Datei ..."
 
-#: lsp/src/lsp-main.c:1538 projectorganizer/src/prjorg-menu.c:301
+#: lsp/src/lsp-main.c:1541 projectorganizer/src/prjorg-menu.c:301
 msgid "Go to anywhere"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1540 projectorganizer/src/prjorg-menu.c:303
+#: lsp/src/lsp-main.c:1543 projectorganizer/src/prjorg-menu.c:303
 #, fuzzy
-#| msgid "_Document Current Symbol"
 msgid "Go to _Document Symbol..."
 msgstr "Dokumentation für aktuelles Wort _generieren"
 
-#: lsp/src/lsp-main.c:1545 projectorganizer/src/prjorg-menu.c:308
+#: lsp/src/lsp-main.c:1548 projectorganizer/src/prjorg-menu.c:308
 #, fuzzy
-#| msgid "Sort documents by _name"
 msgid "Go to document symbol"
 msgstr "Dokumente nach _Namen sortieren"
 
-#: lsp/src/lsp-main.c:1547 projectorganizer/src/prjorg-menu.c:310
+#: lsp/src/lsp-main.c:1550 projectorganizer/src/prjorg-menu.c:310
 msgid "Go to _Workspace Symbol..."
 msgstr ""
 
-#: lsp/src/lsp-main.c:1552 projectorganizer/src/prjorg-menu.c:315
+#: lsp/src/lsp-main.c:1555 projectorganizer/src/prjorg-menu.c:315
 msgid "Go to workspace symbol"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1554 projectorganizer/src/prjorg-menu.c:317
+#: lsp/src/lsp-main.c:1557 projectorganizer/src/prjorg-menu.c:317
 #, fuzzy
-#| msgid "Go to File..."
 msgid "Go to _Line..."
 msgstr "Gehe zu Datei ..."
 
-#: lsp/src/lsp-main.c:1559 projectorganizer/src/prjorg-menu.c:322
+#: lsp/src/lsp-main.c:1562 projectorganizer/src/prjorg-menu.c:322
 #, fuzzy
-#| msgid "Go to File"
 msgid "Go to line"
 msgstr "Gehe zu Datei"
 
-#: lsp/src/lsp-main.c:1563
+#: lsp/src/lsp-main.c:1566
 #, fuzzy
-#| msgid "Go to next string"
 msgid "Go to _Next Diagnostic"
 msgstr "Zur nächsten String gehen"
 
-#: lsp/src/lsp-main.c:1568
+#: lsp/src/lsp-main.c:1571
 #, fuzzy
-#| msgid "Go to next string"
 msgid "Go to next diagnostic"
 msgstr "Zur nächsten String gehen"
 
-#: lsp/src/lsp-main.c:1570
+#: lsp/src/lsp-main.c:1573
 #, fuzzy
-#| msgid "Go to previous string"
 msgid "Go to _Previous Diagnostic"
 msgstr "Zum vorherigen String gehen"
 
-#: lsp/src/lsp-main.c:1575
+#: lsp/src/lsp-main.c:1578
 #, fuzzy
-#| msgid "Go to previous string"
 msgid "Go to previous diagnostic"
 msgstr "Zum vorherigen String gehen"
 
-#: lsp/src/lsp-main.c:1577
+#: lsp/src/lsp-main.c:1580
 #, fuzzy
-#| msgid "Show Document List"
 msgid "_Show Current Diagnostic"
 msgstr "Dokumentenliste anzeigen"
 
-#: lsp/src/lsp-main.c:1582
+#: lsp/src/lsp-main.c:1585
 #, fuzzy
-#| msgid "Show Document List"
 msgid "Show current diagnostic"
 msgstr "Dokumentenliste anzeigen"
 
-#: lsp/src/lsp-main.c:1584
+#: lsp/src/lsp-main.c:1587
 msgid "Show _Current File Diagnostics"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1589
+#: lsp/src/lsp-main.c:1592
 msgid "Show current file diagnostics"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1591
+#: lsp/src/lsp-main.c:1594
 msgid "Show _All Diagnostics"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1596
+#: lsp/src/lsp-main.c:1599
 msgid "Show all diagnostics"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1600 lsp/src/lsp-symbol-tree.c:1183
+#: lsp/src/lsp-main.c:1603 lsp/src/lsp-symbol-tree.c:1183
 #, fuzzy
-#| msgid "Insert _Reference"
 msgid "Find _References"
 msgstr "_Verweis einfügen"
 
-#: lsp/src/lsp-main.c:1605
+#: lsp/src/lsp-main.c:1608
 #, fuzzy
-#| msgid "Preferences"
 msgid "Find references"
 msgstr "Einstellungen"
 
-#: lsp/src/lsp-main.c:1607 lsp/src/lsp-symbol-tree.c:1188
+#: lsp/src/lsp-main.c:1610 lsp/src/lsp-symbol-tree.c:1188
 #, fuzzy
-#| msgid "Implementations extensions"
 msgid "Find _Implementations"
 msgstr "Implementierungserweiterungen"
 
 # Diese Übersetzung existiert drei mal.
-#: lsp/src/lsp-main.c:1612
+#: lsp/src/lsp-main.c:1615
 #, fuzzy
-#| msgid "Switch header/implementation"
 msgid "Find implementations"
 msgstr "Umschalten zwischen Deklaration und Implementierung"
 
-#: lsp/src/lsp-main.c:1614
+#: lsp/src/lsp-main.c:1617
 msgid "_Highlight Symbol Occurrences"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1619
+#: lsp/src/lsp-main.c:1622
 msgid "Highlight symbol occurrences"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1621
+#: lsp/src/lsp-main.c:1624
 #, fuzzy
-#| msgid "Pair Tag Highlighter"
 msgid "_Clear Highlighted"
 msgstr "PairTagHighlighter"
 
-#: lsp/src/lsp-main.c:1626
+#: lsp/src/lsp-main.c:1629
 #, fuzzy
-#| msgid "Pair Tag Highlighter"
 msgid "Clear highlighted"
 msgstr "PairTagHighlighter"
 
-#: lsp/src/lsp-main.c:1630
+#: lsp/src/lsp-main.c:1633
 #, fuzzy
-#| msgid "Pair Tag Highlighter"
 msgid "_Rename Highlighted"
 msgstr "PairTagHighlighter"
 
-#: lsp/src/lsp-main.c:1635
+#: lsp/src/lsp-main.c:1638
 msgid "Rename highlighted"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1637
+#: lsp/src/lsp-main.c:1640
 #, fuzzy
-#| msgid "Find in Project"
 msgid "Rename in _Project..."
 msgstr "Im Projekt suchen"
 
-#: lsp/src/lsp-main.c:1642
+#: lsp/src/lsp-main.c:1645
 #, fuzzy
-#| msgid "_Remove project"
 msgid "Rename in project"
 msgstr "Projekt _entfernen"
 
-#: lsp/src/lsp-main.c:1644
+#: lsp/src/lsp-main.c:1647
 #, fuzzy
-#| msgid "_Format"
 msgid "_Format Code"
 msgstr "_Format"
 
-#: lsp/src/lsp-main.c:1649
+#: lsp/src/lsp-main.c:1652
 #, fuzzy
-#| msgid "_Format"
 msgid "Format code"
 msgstr "_Format"
 
-#: lsp/src/lsp-main.c:1653
+#: lsp/src/lsp-main.c:1656
 #, fuzzy
-#| msgid "Show _Group"
 msgid "Show _Hover Popup"
 msgstr "_Gruppe zeigen"
 
-#: lsp/src/lsp-main.c:1658
+#: lsp/src/lsp-main.c:1661
 #, fuzzy
-#| msgid "Show _Group"
 msgid "Show hover popup"
 msgstr "_Gruppe zeigen"
 
-#: lsp/src/lsp-main.c:1660
+#: lsp/src/lsp-main.c:1663
 msgid "Show Code Action Popup"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1665
+#: lsp/src/lsp-main.c:1668
 msgid "Show code action popup"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1669 lsp/src/lsp-main.c:1674
+#: lsp/src/lsp-main.c:1672 lsp/src/lsp-main.c:1677
 #, fuzzy
-#| msgid "Extra Selection"
 msgid "Expand Selection"
 msgstr "Extra Selection"
 
-#: lsp/src/lsp-main.c:1676 lsp/src/lsp-main.c:1681
+#: lsp/src/lsp-main.c:1679 lsp/src/lsp-main.c:1684
 #, fuzzy
-#| msgid "Extra Selection"
 msgid "Shrink Selection"
 msgstr "Extra Selection"
 
-#: lsp/src/lsp-main.c:1685 projectorganizer/src/prjorg-menu.c:285
+#: lsp/src/lsp-main.c:1688 projectorganizer/src/prjorg-menu.c:285
 msgid "Swap Header/Source"
 msgstr "Header und Quellen tauschen"
 
-#: lsp/src/lsp-main.c:1690 projectorganizer/src/prjorg-menu.c:290
+#: lsp/src/lsp-main.c:1693 projectorganizer/src/prjorg-menu.c:290
 msgid "Swap header/source"
 msgstr "Header und Quellen tauschen"
 
-#: lsp/src/lsp-main.c:1694
+#: lsp/src/lsp-main.c:1697
 #, fuzzy
-#| msgid "script configuration"
 msgid "_Project Configuration"
 msgstr "Skript-Konfiguration"
 
-#: lsp/src/lsp-main.c:1698
+#: lsp/src/lsp-main.c:1701
 #, fuzzy
-#| msgid "script configuration"
 msgid "_User Configuration"
 msgstr "Skript-Konfiguration"
 
-#: lsp/src/lsp-main.c:1702
+#: lsp/src/lsp-main.c:1705
 #, fuzzy
-#| msgid "_Reload Configuration Files"
 msgid "_Global Configuration"
 msgstr "_Konfigurationsdateien neu laden"
 
-#: lsp/src/lsp-main.c:1708
+#: lsp/src/lsp-main.c:1711
 msgid "_Server Initialize Responses"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1714
+#: lsp/src/lsp-main.c:1717
 msgid "_Restart All Servers"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1719
+#: lsp/src/lsp-main.c:1722
 msgid "Restart all servers"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1726
+#: lsp/src/lsp-main.c:1729
 #, fuzzy, c-format
-#| msgid "Command 0:"
 msgid "Command %d"
 msgstr "Befehl 0:"
 
-#: lsp/src/lsp-main.c:1739
+#: lsp/src/lsp-main.c:1742
 #, fuzzy
-#| msgid "Command 0:"
 msgid "_Commands (LSP)"
 msgstr "Befehl 0:"
 
-#: lsp/src/lsp-main.c:1745
+#: lsp/src/lsp-main.c:1748
 msgid "_Format Code (LSP)"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1751
+#: lsp/src/lsp-main.c:1754
 #, fuzzy
-#| msgid "Find in Project Files..."
 msgid "Rename in _Project (LSP)..."
 msgstr "In Projektdateien suchen..."
 
-#: lsp/src/lsp-main.c:1757
+#: lsp/src/lsp-main.c:1760
 msgid "_Rename Highlighted (LSP)"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1767
+#: lsp/src/lsp-main.c:1770
 msgid "Go to _Definition (LSP)"
 msgstr ""
 
-#: lsp/src/lsp-main.c:1773
+#: lsp/src/lsp-main.c:1776
 #, fuzzy
-#| msgid "Insert _Reference"
 msgid "Find _References (LSP)"
 msgstr "_Verweis einfügen"
 
 #: lsp/src/lsp-rename.c:56
 #, fuzzy
-#| msgid "Find in Project"
 msgid "Rename in Project"
 msgstr "Im Projekt suchen"
 
 #: lsp/src/lsp-rename.c:59
 #, fuzzy
-#| msgid "Rename"
 msgid "_Rename"
 msgstr "Umbenennen"
 
 #: lsp/src/lsp-rename.c:66
 #, fuzzy
-#| msgid "<b>Various</b>"
 msgid "<b>Warning</b>"
 msgstr "<b>Verschiedene</b>"
 
@@ -5465,13 +5409,11 @@ msgstr "Neuer Name:"
 
 #: lsp/src/lsp-rename.c:99
 #, fuzzy
-#| msgid "File name:"
 msgid "Old name:"
 msgstr "Dateiname:"
 
 #: lsp/src/lsp-rename.c:159
 #, fuzzy
-#| msgid "<b>Behavior</b>"
 msgid "<b>Renaming...</b>"
 msgstr "<b>Verhalten</b>"
 
@@ -5522,7 +5464,6 @@ msgstr ""
 
 #: lsp/src/lsp-server.c:603
 #, fuzzy, c-format
-#| msgid "Formatting"
 msgid "Force terminating %s"
 msgstr "Formatierungen"
 
@@ -5533,7 +5474,6 @@ msgstr ""
 
 #: lsp/src/lsp-server.c:815
 #, fuzzy, c-format
-#| msgid "Failed to load configuration file: %s"
 msgid "Failed to load LSP configuration file with message %s"
 msgstr "Konnte Konfiguration nicht laden: %s"
 
@@ -5549,31 +5489,26 @@ msgstr ""
 
 #: lsp/src/lsp-symbol-tree.c:952
 #, fuzzy
-#| msgid "Find Symbol"
 msgid "Symbols"
 msgstr "Symbol finden"
 
 #: lsp/src/lsp-symbol-tree.c:1169
 #, fuzzy
-#| msgid "Expand All"
 msgid "_Expand All"
 msgstr "Alle ausklappen"
 
 #: lsp/src/lsp-symbol-tree.c:1174
 #, fuzzy
-#| msgid "_Collapse all"
 msgid "_Collapse All"
 msgstr "Alle e_inklappen"
 
 #: lsp/src/lsp-symbol-tree.c:1197
 #, fuzzy
-#| msgid "_Declaration"
 msgid "Go to _Declaration"
 msgstr "_Deklaration"
 
 #: lsp/src/lsp-symbol-tree.c:1202
 #, fuzzy
-#| msgid "Go to File"
 msgid "Go to _Type"
 msgstr "Gehe zu Datei"
 
@@ -5589,7 +5524,6 @@ msgstr ""
 
 #: lsp/src/lsp-utils.c:273
 #, fuzzy, c-format
-#| msgid "Unable to write default config file: %s"
 msgid "Cannot write user LSP config filename %s"
 msgstr "Konnte Standardkonfiguration nicht schreiben: %s"
 
@@ -6136,7 +6070,6 @@ msgstr ""
 
 #: projectorganizer/src/prjorg-main.c:215
 #, fuzzy
-#| msgid "Insert command"
 msgid "File manager command:"
 msgstr "Befehl einfügen"
 
@@ -6151,7 +6084,6 @@ msgstr ""
 
 #: projectorganizer/src/prjorg-main.c:233
 #, fuzzy
-#| msgid "External open command"
 msgid "Terminal command:"
 msgstr "Externer Öffnen-Befehl"
 
@@ -6257,13 +6189,6 @@ msgstr ""
 
 #: projectorganizer/src/prjorg-project.c:740
 #, fuzzy
-#| msgid ""
-#| "The patterns above affect only sidebar and indexing and are not used in "
-#| "the Find in Files\n"
-#| "dialog. You can further restrict the files belonging to the project by "
-#| "setting the\n"
-#| "File Patterns under the Project tab (these are also used for the Find in "
-#| "Files dialog)."
 msgid ""
 "The patterns above affect only sidebar and indexing and are not used in the "
 "Find in Files dialog. You can further restrict the files belonging to the "
@@ -6340,7 +6265,6 @@ msgstr "Projekt oder externen Verzeichnis"
 
 #: projectorganizer/src/prjorg-sidebar.c:381
 #, fuzzy, c-format
-#| msgid "Unable to create Python plugins directory: %s: %s"
 msgid "Unable to run command \"%s\" in directory \"%s\"."
 msgstr "Konnte das Python-Plugin-Verzeichnis nicht anlegen: %s: %s"
 
@@ -6355,7 +6279,7 @@ msgstr "Externes Verzeichnis hinzufügen"
 msgid "_Add"
 msgstr "_Hinzufügen"
 
-#: projectorganizer/src/prjorg-sidebar.c:508 treebrowser/src/treebrowser.c:2383
+#: projectorganizer/src/prjorg-sidebar.c:508 treebrowser/src/treebrowser.c:2385
 msgid "New File"
 msgstr "Neue Datei"
 
@@ -7796,30 +7720,30 @@ msgid ""
 msgstr ""
 "Ein Plugin zum Navigieren durch den Verzeichnisbaum auf dem Dateisystem."
 
-#: treebrowser/src/treebrowser.c:466
+#: treebrowser/src/treebrowser.c:468
 #, c-format
 msgid "%s: no such directory."
 msgstr "Das Verzeichnis »%s« existiert nicht"
 
-#: treebrowser/src/treebrowser.c:574 treebrowser/src/treebrowser.c:613
-#: treebrowser/src/treebrowser.c:719
+#: treebrowser/src/treebrowser.c:576 treebrowser/src/treebrowser.c:615
+#: treebrowser/src/treebrowser.c:721
 msgid "(Empty)"
 msgstr "(leer)"
 
-#: treebrowser/src/treebrowser.c:1022
+#: treebrowser/src/treebrowser.c:1024
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr "Konnte das eingestellte externe Werkzeug »%s« nicht ausführen (%s)."
 
-#: treebrowser/src/treebrowser.c:1094
+#: treebrowser/src/treebrowser.c:1096
 msgid "NewDirectory"
 msgstr "Neues Verzeichnis"
 
-#: treebrowser/src/treebrowser.c:1096
+#: treebrowser/src/treebrowser.c:1098
 msgid "NewFile"
 msgstr "Neue Datei"
 
-#: treebrowser/src/treebrowser.c:1101
+#: treebrowser/src/treebrowser.c:1103
 #, c-format
 msgid ""
 "Target file '%s' exists.\n"
@@ -7828,132 +7752,132 @@ msgstr ""
 "Zieldatei »%s« existiert bereits.\n"
 "Möchten Sie diese wirklich mit einer leeren Datei ersetzen?"
 
-#: treebrowser/src/treebrowser.c:1148
+#: treebrowser/src/treebrowser.c:1150
 #, c-format
 msgid "Do you really want to delete '%s' ?"
 msgstr "Soll »%s« wirklich gelöscht werden?"
 
-#: treebrowser/src/treebrowser.c:1281 treebrowser/src/treebrowser.c:1283
+#: treebrowser/src/treebrowser.c:1283 treebrowser/src/treebrowser.c:1285
 msgid "Go _Up"
 msgstr "_Aufwährts"
 
-#: treebrowser/src/treebrowser.c:1289 treebrowser/src/treebrowser.c:1291
+#: treebrowser/src/treebrowser.c:1291 treebrowser/src/treebrowser.c:1293
 msgid "Set _Path From Document"
 msgstr "_Pfad des Dokumentes übernehmen"
 
-#: treebrowser/src/treebrowser.c:1297 treebrowser/src/treebrowser.c:1299
+#: treebrowser/src/treebrowser.c:1299 treebrowser/src/treebrowser.c:1301
 msgid "_Open Externally"
 msgstr "_Extern öffnen"
 
-#: treebrowser/src/treebrowser.c:1305
+#: treebrowser/src/treebrowser.c:1307
 msgid "Open _Terminal"
 msgstr "In _Terminal öffnen"
 
-#: treebrowser/src/treebrowser.c:1310 treebrowser/src/treebrowser.c:1312
+#: treebrowser/src/treebrowser.c:1312 treebrowser/src/treebrowser.c:1314
 msgid "Set as _Root"
 msgstr "Als _Wurzelverzeichnis festlegen"
 
-#: treebrowser/src/treebrowser.c:1319 treebrowser/src/treebrowser.c:1321
+#: treebrowser/src/treebrowser.c:1321 treebrowser/src/treebrowser.c:1323
 msgid "Refres_h"
 msgstr "Auffrisc_hen"
 
-#: treebrowser/src/treebrowser.c:1327 treebrowser/src/treebrowser.c:1329
+#: treebrowser/src/treebrowser.c:1329 treebrowser/src/treebrowser.c:1331
 msgid "_Find in Files"
 msgstr "In Dateien _finden"
 
-#: treebrowser/src/treebrowser.c:1339 treebrowser/src/treebrowser.c:1341
+#: treebrowser/src/treebrowser.c:1341 treebrowser/src/treebrowser.c:1343
 msgid "N_ew Folder"
 msgstr "N_euer Ordner"
 
-#: treebrowser/src/treebrowser.c:1347 treebrowser/src/treebrowser.c:1349
+#: treebrowser/src/treebrowser.c:1349 treebrowser/src/treebrowser.c:1351
 msgid "_New File"
 msgstr "Neue Datei"
 
-#: treebrowser/src/treebrowser.c:1355 treebrowser/src/treebrowser.c:1357
+#: treebrowser/src/treebrowser.c:1357 treebrowser/src/treebrowser.c:1359
 msgid "Rena_me"
 msgstr "_Umbenennen"
 
-#: treebrowser/src/treebrowser.c:1376 treebrowser/src/treebrowser.c:1378
+#: treebrowser/src/treebrowser.c:1378 treebrowser/src/treebrowser.c:1380
 #, c-format
 msgid "Close: %s"
 msgstr "»%s« schließen"
 
-#: treebrowser/src/treebrowser.c:1385 treebrowser/src/treebrowser.c:1387
+#: treebrowser/src/treebrowser.c:1387 treebrowser/src/treebrowser.c:1389
 msgid "Clo_se Child Documents "
 msgstr "Kinderdokumente _schließen"
 
-#: treebrowser/src/treebrowser.c:1394 treebrowser/src/treebrowser.c:1396
+#: treebrowser/src/treebrowser.c:1396 treebrowser/src/treebrowser.c:1398
 msgid "_Copy Full Path to Clipboard"
 msgstr "_Vollständigen Pfad in die Zwischenablage kopieren"
 
-#: treebrowser/src/treebrowser.c:1407 treebrowser/src/treebrowser.c:1409
+#: treebrowser/src/treebrowser.c:1409 treebrowser/src/treebrowser.c:1411
 msgid "E_xpand All"
 msgstr "Alle _ausklappen"
 
-#: treebrowser/src/treebrowser.c:1415 treebrowser/src/treebrowser.c:1417
+#: treebrowser/src/treebrowser.c:1417 treebrowser/src/treebrowser.c:1419
 msgid "Coll_apse All"
 msgstr "Alle e_inklappen"
 
-#: treebrowser/src/treebrowser.c:1425
+#: treebrowser/src/treebrowser.c:1427
 msgid "Show Boo_kmarks"
 msgstr "L_esezeichen anzeigen"
 
-#: treebrowser/src/treebrowser.c:1430
+#: treebrowser/src/treebrowser.c:1432
 msgid "Sho_w Hidden Files"
 msgstr "_Versteckte Dateien anzeigen"
 
-#: treebrowser/src/treebrowser.c:1435
+#: treebrowser/src/treebrowser.c:1437
 msgid "Show Tool_bars"
 msgstr "_Werkzeugleisten anzeigen"
 
-#: treebrowser/src/treebrowser.c:1773
+#: treebrowser/src/treebrowser.c:1775
 #, c-format
 msgid "Target file '%s' exists, do you really want to replace it?"
 msgstr "Zieldatei »%s« existiert bereits. Möchten Sie diese wirklich ersetzen?"
 
-#: treebrowser/src/treebrowser.c:1909
+#: treebrowser/src/treebrowser.c:1911
 msgid "Go up"
 msgstr "Aufwärts"
 
-#: treebrowser/src/treebrowser.c:1919 treebrowser/src/treebrowser.c:2387
+#: treebrowser/src/treebrowser.c:1921 treebrowser/src/treebrowser.c:2389
 msgid "Refresh"
 msgstr "Auffrischen"
 
-#: treebrowser/src/treebrowser.c:1929
+#: treebrowser/src/treebrowser.c:1931
 msgid "Home"
 msgstr "Ausgabe"
 
-#: treebrowser/src/treebrowser.c:1939
+#: treebrowser/src/treebrowser.c:1941
 msgid "Set path from document"
 msgstr "Pfad des Dokumentes übernehmen"
 
-#: treebrowser/src/treebrowser.c:1949
+#: treebrowser/src/treebrowser.c:1951
 msgid "Track path"
 msgstr "Pfad aufzeichnen"
 
-#: treebrowser/src/treebrowser.c:1959
+#: treebrowser/src/treebrowser.c:1961
 msgid "Hide bars"
 msgstr "Leisten verbergen"
 
-#: treebrowser/src/treebrowser.c:1969
+#: treebrowser/src/treebrowser.c:1971
 msgid ""
 "Filter (*.c;*.h;*.cpp), and if you want temporary filter using the '!' "
 "reverse try for example this '!;*.c;*.h;*.cpp'"
 msgstr "Filter (*.c;*.h;*.cpp). Die Nutzung von »!« invertiert das Ergebnis."
 
-#: treebrowser/src/treebrowser.c:1974
+#: treebrowser/src/treebrowser.c:1976
 msgid "Addressbar for example '/projects/my-project'"
 msgstr "Adressleiste. Zum Beispiel »/projects/my-project«"
 
-#: treebrowser/src/treebrowser.c:1999
+#: treebrowser/src/treebrowser.c:2001
 msgid "Tree Browser"
 msgstr "Baumnavigator"
 
-#: treebrowser/src/treebrowser.c:2140
+#: treebrowser/src/treebrowser.c:2142
 msgid "External open command"
 msgstr "Externer Öffnen-Befehl"
 
-#: treebrowser/src/treebrowser.c:2151
+#: treebrowser/src/treebrowser.c:2153
 #, no-c-format
 msgid ""
 "The command to execute when using \"Open with\". You can use %f and %d "
@@ -7967,127 +7891,127 @@ msgstr ""
 "%f wird mit dem Dateinamen ersetzt, der den kompletten Pfad beinhaltet.\n"
 "%d wird mit dem Pfad des Verzeichnisses der aktuellen Datei ersetzt."
 
-#: treebrowser/src/treebrowser.c:2159
+#: treebrowser/src/treebrowser.c:2161
 msgid "Terminal"
 msgstr "Terminal"
 
-#: treebrowser/src/treebrowser.c:2170
+#: treebrowser/src/treebrowser.c:2172
 msgid "The terminal to use with the command \"Open Terminal\""
 msgstr ""
 "Das Terminal, welches für das Kommando »Terminal öffnen« genutzt werden "
 "soll. Z. B. »xterm«."
 
-#: treebrowser/src/treebrowser.c:2176
+#: treebrowser/src/treebrowser.c:2178
 msgid "Toolbar"
 msgstr "Werkzeugleiste:"
 
-#: treebrowser/src/treebrowser.c:2178
+#: treebrowser/src/treebrowser.c:2180
 msgid "Hidden"
 msgstr "Versteckt"
 
-#: treebrowser/src/treebrowser.c:2179
+#: treebrowser/src/treebrowser.c:2181
 msgid "Top"
 msgstr "Oben"
 
-#: treebrowser/src/treebrowser.c:2180
+#: treebrowser/src/treebrowser.c:2182
 msgid "Bottom"
 msgstr "Unten"
 
-#: treebrowser/src/treebrowser.c:2185
+#: treebrowser/src/treebrowser.c:2187
 msgid "If position is changed, the option require plugin restart."
 msgstr "Bei einer Veränderung der Position muss das Plugin neu geladen werden."
 
-#: treebrowser/src/treebrowser.c:2189
+#: treebrowser/src/treebrowser.c:2191
 msgid "Show icons"
 msgstr "Symbole anzeigen:"
 
-#: treebrowser/src/treebrowser.c:2191
+#: treebrowser/src/treebrowser.c:2193
 msgid "None"
 msgstr "Keines"
 
-#: treebrowser/src/treebrowser.c:2192
+#: treebrowser/src/treebrowser.c:2194
 msgid "Base"
 msgstr "Basis"
 
-#: treebrowser/src/treebrowser.c:2193
+#: treebrowser/src/treebrowser.c:2195
 msgid "Content-type"
 msgstr "Inhaltsart"
 
-#: treebrowser/src/treebrowser.c:2199
+#: treebrowser/src/treebrowser.c:2201
 msgid "Show hidden files"
 msgstr "Versteckte Dateien anzeigen"
 
-#: treebrowser/src/treebrowser.c:2208
+#: treebrowser/src/treebrowser.c:2210
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
 msgstr ""
 "Unter Windows versteckt dies nur Dateien, die mit einem ».« (Punkt) "
 "beginnen. "
 
-#: treebrowser/src/treebrowser.c:2210
+#: treebrowser/src/treebrowser.c:2212
 msgid "Hide object files"
 msgstr "Objektdateien verbergen"
 
-#: treebrowser/src/treebrowser.c:2219
-msgid ""
-"Don't show generated object files in the file browser, this includes *.o, *."
-"obj. *.so, *.dll, *.a, *.lib"
-msgstr ""
-"Keine generierten Objektdateien anzeigen. Dies bezieht *.o, *.obj. *.so, *."
-"dll, *.a, *.lib mit ein."
-
 #: treebrowser/src/treebrowser.c:2221
+msgid ""
+"Don't show generated object files in the file browser, this includes *.o, "
+"*.obj. *.so, *.dll, *.a, *.lib"
+msgstr ""
+"Keine generierten Objektdateien anzeigen. Dies bezieht *.o, *.obj. *.so, "
+"*.dll, *.a, *.lib mit ein."
+
+#: treebrowser/src/treebrowser.c:2223
 msgid "Reverse filter"
 msgstr "Filter zurücksetzen"
 
-#: treebrowser/src/treebrowser.c:2230
+#: treebrowser/src/treebrowser.c:2232
 msgid "Follow current document"
 msgstr "Dem aktuellen Dokument folgen"
 
-#: treebrowser/src/treebrowser.c:2239
+#: treebrowser/src/treebrowser.c:2241
 msgid "Single click, open document and focus it"
 msgstr "Einzelklick öffnet Dokument und fokussiert es"
 
-#: treebrowser/src/treebrowser.c:2248
+#: treebrowser/src/treebrowser.c:2250
 msgid "Double click open directory"
 msgstr "Doppelklick öffnet ein Verzeichnis"
 
-#: treebrowser/src/treebrowser.c:2257
+#: treebrowser/src/treebrowser.c:2259
 msgid "On delete file, close it if is opened"
 msgstr "Datei schließen, wenn sie gelöscht wird"
 
-#: treebrowser/src/treebrowser.c:2266
+#: treebrowser/src/treebrowser.c:2268
 msgid "Focus editor on file open"
 msgstr "Fokus auf Editor legen beim Öffnen von Dateien"
 
-#: treebrowser/src/treebrowser.c:2275
+#: treebrowser/src/treebrowser.c:2277
 msgid "Show tree lines"
 msgstr "Leere Zeilen anzeigen"
 
-#: treebrowser/src/treebrowser.c:2284
+#: treebrowser/src/treebrowser.c:2286
 msgid "Show bookmarks"
 msgstr "Lesezeichen anzeigen"
 
-#: treebrowser/src/treebrowser.c:2293
+#: treebrowser/src/treebrowser.c:2295
 msgid "Open new files"
 msgstr "Neue Dateien öffnen"
 
-#: treebrowser/src/treebrowser.c:2377
+#: treebrowser/src/treebrowser.c:2379
 msgid "Focus File List"
 msgstr "Dateiliste fokussieren"
 
-#: treebrowser/src/treebrowser.c:2379
+#: treebrowser/src/treebrowser.c:2381
 msgid "Focus Path Entry"
 msgstr "Pfadeintrag fokussieren"
 
-#: treebrowser/src/treebrowser.c:2381
+#: treebrowser/src/treebrowser.c:2383
 msgid "Rename Object"
 msgstr "Objekt umbenennen"
 
-#: treebrowser/src/treebrowser.c:2385
+#: treebrowser/src/treebrowser.c:2387
 msgid "New Folder"
 msgstr "Neues Verzeichnis"
 
-#: treebrowser/src/treebrowser.c:2389
+#: treebrowser/src/treebrowser.c:2391
 msgid "Track Current"
 msgstr "Pfad aufzeichnen"
 
@@ -8110,10 +8034,6 @@ msgstr "Keine aktuellere Version von Geany gefunden."
 
 #: updatechecker/src/updatechecker.c:247
 #, fuzzy, c-format
-#| msgid ""
-#| "Unable to perform version check.\n"
-#| "Error code: %d \n"
-#| "Error message: »%s«"
 msgid ""
 "Unable to perform version check.\n"
 "Error code: %d \n"
@@ -8215,7 +8135,6 @@ msgstr "Lesezeichen für Webseite anlegen"
 
 #: webhelper/src/gwh-browser.c:297
 #, fuzzy
-#| msgid "Reload current page"
 msgid "_Load current file"
 msgstr "Aktuelle Seite neu laden"
 
@@ -8402,7 +8321,6 @@ msgstr "Lesezeichen für die aktuelle Webseite umschalten"
 
 #: webhelper/src/gwh-plugin.c:467
 #, fuzzy
-#| msgid "Swap current line with one above"
 msgid "Load the current file in the web view"
 msgstr "Aktuelle Zeile mit der oberen vertauschen"
 
@@ -8841,54 +8759,54 @@ msgstr "git-Repository in Verzeichnis »%s« geöffnet."
 msgid "Closed git repository in folder %s."
 msgstr "git-Repository in Verzeichnis »%s« geschlossen."
 
-#: workbench/src/wb_project.c:1195
+#: workbench/src/wb_project.c:1194
 #, c-format
 msgid "Directory-Name: %s\n"
 msgstr "Verzeichnis-Name: %s\n"
 
-#: workbench/src/wb_project.c:1196
+#: workbench/src/wb_project.c:1195
 #, c-format
 msgid "Base-Directory: %s\n"
 msgstr "Basis-Verzeichnis: %s\n"
 
-#: workbench/src/wb_project.c:1198
+#: workbench/src/wb_project.c:1197
 msgid "File Patterns:"
 msgstr "Datei-Muster:"
 
-#: workbench/src/wb_project.c:1210
+#: workbench/src/wb_project.c:1209
 msgid "Ignored Dir. Patterns:"
 msgstr "Muster für zu ignorierende Verzeichnisse:"
 
-#: workbench/src/wb_project.c:1222
+#: workbench/src/wb_project.c:1221
 msgid "Ignored File Patterns:"
 msgstr "Muster für zu ignorierende Dateien:"
 
-#: workbench/src/wb_project.c:1234
+#: workbench/src/wb_project.c:1233
 #, c-format
 msgid "Number of Sub-Directories: %u\n"
 msgstr "Anzahl der Unter-Verzeichnisse: %u\n"
 
-#: workbench/src/wb_project.c:1235
+#: workbench/src/wb_project.c:1234
 #, c-format
 msgid "Number of Files: %u\n"
 msgstr "Anzahl von Dateien: %u\n"
 
-#: workbench/src/wb_project.c:1260
+#: workbench/src/wb_project.c:1255
 #, c-format
 msgid "Project: %s\n"
 msgstr "Projekt: %s\n"
 
-#: workbench/src/wb_project.c:1261
+#: workbench/src/wb_project.c:1256
 #, c-format
 msgid "File: %s\n"
 msgstr "Datei: %s\n"
 
-#: workbench/src/wb_project.c:1262
+#: workbench/src/wb_project.c:1257
 #, c-format
 msgid "Number of Directories: %u\n"
 msgstr "Anzahl der Verzeichnisse: %u\n"
 
-#: workbench/src/wb_project.c:1265
+#: workbench/src/wb_project.c:1260
 msgid ""
 "\n"
 "The project contains unsaved changes!\n"
