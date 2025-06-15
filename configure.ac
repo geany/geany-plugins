@@ -82,6 +82,8 @@ GP_COMMIT_UTILSLIB_STATUS
 AC_CONFIG_FILES([
     Makefile
     po/Makefile.in
+    autoclose/Makefile
+    autoclose/src/Makefile
 ])
 AC_OUTPUT
 GP_STATUS_PRINT
