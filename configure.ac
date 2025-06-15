@@ -1,5 +1,5 @@
 AC_PREREQ([2.61])
-dnl Dont forget when updating version number to do GP_CHECK_GEANY also
+dnl Don't forget when updating version number to do GP_CHECK_GEANY also
 AC_INIT([geany-plugins], [2.1])
 
 AC_CONFIG_SRCDIR([po/POTFILES.in])
