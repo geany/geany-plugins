@@ -8,8 +8,5 @@ AC_DEFUN([GP_CHECK_COMMANDER],
 
     GP_COMMIT_PLUGIN_STATUS([Commander])
 
-    AC_CONFIG_FILES([
-        commander/Makefile
-        commander/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])
