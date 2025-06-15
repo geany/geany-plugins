@@ -84,6 +84,8 @@ AC_CONFIG_FILES([
     po/Makefile.in
     autoclose/Makefile
     autoclose/src/Makefile
+    automark/Makefile
+    automark/src/Makefile
 ])
 AC_OUTPUT
 GP_STATUS_PRINT
