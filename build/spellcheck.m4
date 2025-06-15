@@ -35,8 +35,5 @@ AC_DEFUN([GP_CHECK_SPELLCHECK],
     AM_CONDITIONAL([HAVE_ENCHANT_2_0], [test "$have_enchant_2_0" = yes])
     GP_COMMIT_PLUGIN_STATUS([Spellcheck])
 
-    AC_CONFIG_FILES([
-        spellcheck/Makefile
-        spellcheck/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

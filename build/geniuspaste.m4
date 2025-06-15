@@ -8,9 +8,5 @@ AC_DEFUN([GP_CHECK_GENIUSPASTE],
 
     GP_COMMIT_PLUGIN_STATUS([GeniusPaste])
 
-    AC_CONFIG_FILES([
-        geniuspaste/Makefile
-        geniuspaste/data/Makefile
-        geniuspaste/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

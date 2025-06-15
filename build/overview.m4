@@ -4,9 +4,5 @@ AC_DEFUN([GP_CHECK_OVERVIEW],
 
     GP_COMMIT_PLUGIN_STATUS([Overview])
 
-    AC_CONFIG_FILES([
-        overview/Makefile
-        overview/data/Makefile
-        overview/overview/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

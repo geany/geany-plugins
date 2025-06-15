@@ -2,8 +2,5 @@ AC_DEFUN([GP_CHECK_SHIFTCOLUMN],
 [
     GP_ARG_DISABLE([ShiftColumn], [yes])
     GP_COMMIT_PLUGIN_STATUS([ShiftColumn])
-    AC_CONFIG_FILES([
-        shiftcolumn/Makefile
-        shiftcolumn/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

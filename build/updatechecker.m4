@@ -7,8 +7,5 @@ AC_DEFUN([GP_CHECK_UPDATECHECKER],
 
     GP_COMMIT_PLUGIN_STATUS([Updatechecker])
 
-    AC_CONFIG_FILES([
-        updatechecker/Makefile
-        updatechecker/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

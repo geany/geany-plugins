@@ -19,11 +19,5 @@ AC_DEFUN([GP_CHECK_GEANYGENDOC],
 
     GP_COMMIT_PLUGIN_STATUS([GeanyGenDoc])
 
-    AC_CONFIG_FILES([
-        geanygendoc/Makefile
-        geanygendoc/src/Makefile
-        geanygendoc/data/Makefile
-        geanygendoc/data/filetypes/Makefile
-        geanygendoc/docs/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

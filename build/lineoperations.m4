@@ -2,8 +2,5 @@ AC_DEFUN([GP_CHECK_LINEOPERATIONS],
 [
     GP_ARG_DISABLE([LineOperations], [auto])
     GP_COMMIT_PLUGIN_STATUS([LineOperations])
-    AC_CONFIG_FILES([
-        lineoperations/Makefile
-        lineoperations/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

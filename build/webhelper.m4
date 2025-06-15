@@ -39,8 +39,5 @@ AC_DEFUN([GP_CHECK_WEBHELPER],
 
     GP_COMMIT_PLUGIN_STATUS([WebHelper])
 
-    AC_CONFIG_FILES([
-        webhelper/Makefile
-        webhelper/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

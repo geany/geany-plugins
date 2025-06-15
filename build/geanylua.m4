@@ -21,14 +21,5 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [GMODULE], [gmodule-2.0])
     GP_COMMIT_PLUGIN_STATUS([GeanyLua])
 
-    AC_CONFIG_FILES([
-        geanylua/examples/edit/Makefile
-        geanylua/examples/scripting/Makefile
-        geanylua/examples/info/Makefile
-        geanylua/examples/work/Makefile
-        geanylua/examples/dialogs/Makefile
-        geanylua/examples/Makefile
-        geanylua/docs/Makefile
-        geanylua/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

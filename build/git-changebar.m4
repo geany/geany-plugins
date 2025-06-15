@@ -9,9 +9,5 @@ AC_DEFUN([GP_CHECK_GITCHANGEBAR],
 
     GP_COMMIT_PLUGIN_STATUS([GitChangeBar])
 
-    AC_CONFIG_FILES([
-        git-changebar/Makefile
-        git-changebar/data/Makefile
-        git-changebar/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

@@ -24,8 +24,5 @@ AC_DEFUN([GP_CHECK_GEANYVC],
 
     GP_STATUS_FEATURE_ADD([GeanyVC GtkSpell support], [$enable_gtkspell])
 
-    AC_CONFIG_FILES([
-        geanyvc/Makefile
-        geanyvc/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

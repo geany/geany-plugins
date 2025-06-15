@@ -4,8 +4,5 @@ AC_DEFUN([GP_CHECK_GEANYNUMBEREDBOOKMARKS],
     GP_CHECK_UTILSLIB([GeanyNumberedBookmarks])
 
     GP_COMMIT_PLUGIN_STATUS([GeanyNumberedBookmarks])
-    AC_CONFIG_FILES([
-        geanynumberedbookmarks/Makefile
-        geanynumberedbookmarks/src/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])

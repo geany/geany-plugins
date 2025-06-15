@@ -30,10 +30,5 @@ AC_DEFUN([GP_CHECK_LSP],
 
     GP_COMMIT_PLUGIN_STATUS([LSP])
 
-    AC_CONFIG_FILES([
-        lsp/Makefile
-        lsp/deps/Makefile
-        lsp/src/Makefile
-        lsp/data/Makefile
-    ])
+    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
 ])
