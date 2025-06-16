@@ -7,5 +7,8 @@ AC_DEFUN([GP_CHECK_PRETTYPRINTER],
                          [libxml-2.0 >= ${LIBXML_VERSION}])
     GP_COMMIT_PLUGIN_STATUS([Pretty Printer])
 
-    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
+    AC_CONFIG_FILES([
+        pretty-printer/Makefile
+        pretty-printer/src/Makefile
+    ])
 ])

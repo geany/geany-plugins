@@ -7,5 +7,8 @@ AC_DEFUN([GP_CHECK_WORKBENCH],
                          [libgit2 >= 0.21])
 
     GP_COMMIT_PLUGIN_STATUS([Workbench])
-    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
+    AC_CONFIG_FILES([
+        workbench/Makefile
+        workbench/src/Makefile
+    ])
 ])

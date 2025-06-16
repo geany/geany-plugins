@@ -7,5 +7,9 @@ AC_DEFUN([GP_CHECK_POHELPER],
 
     GP_COMMIT_PLUGIN_STATUS([PoHelper])
 
-    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
+    AC_CONFIG_FILES([
+        pohelper/Makefile
+        pohelper/data/Makefile
+        pohelper/src/Makefile
+    ])
 ])

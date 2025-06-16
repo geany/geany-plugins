@@ -23,5 +23,8 @@ AC_DEFUN([GP_CHECK_GEANYPG],
     AC_SYS_LARGEFILE
 
     GP_COMMIT_PLUGIN_STATUS([GeanyPG])
-    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
+    AC_CONFIG_FILES([
+        geanypg/Makefile
+        geanypg/src/Makefile
+    ])
 ])

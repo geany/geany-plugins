@@ -65,5 +65,11 @@ AC_DEFUN([GP_CHECK_MARKDOWN],
 
     GP_COMMIT_PLUGIN_STATUS([Markdown])
 
-    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
+    AC_CONFIG_FILES([
+        markdown/Makefile
+        markdown/src/Makefile
+        markdown/docs/Makefile
+        markdown/peg-markdown/Makefile
+        markdown/peg-markdown/peg-0.1.9/Makefile
+    ])
 ])

@@ -20,5 +20,8 @@ AC_DEFUN([GP_CHECK_TREEBROWSER],
     AM_CONDITIONAL(ENABLE_TREEBROWSER, test "x$enable_treebrowser" = "xyes")
     GP_COMMIT_PLUGIN_STATUS([TreeBrowser])
 
-    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
+    AC_CONFIG_FILES([
+        treebrowser/Makefile
+        treebrowser/src/Makefile
+    ])
 ])
