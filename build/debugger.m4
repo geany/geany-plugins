@@ -11,5 +11,9 @@ AC_DEFUN([GP_CHECK_DEBUGGER],
     AC_CHECK_HEADERS([util.h pty.h libutil.h])
 
     GP_COMMIT_PLUGIN_STATUS([Debugger])
-    dnl AC_CONFIG_FILES was removed from here. It is now handled by the main configure.ac.
+    AC_CONFIG_FILES([
+        debugger/Makefile
+        debugger/src/Makefile
+        debugger/img/Makefile
+    ])
 ])

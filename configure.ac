@@ -82,26 +82,10 @@ GP_COMMIT_UTILSLIB_STATUS
 AC_CONFIG_FILES([
     Makefile
     po/Makefile.in
-    addons/Makefile
-    addons/src/Makefile
     autoclose/Makefile
     autoclose/src/Makefile
     automark/Makefile
     automark/src/Makefile
-    codenav/Makefile
-    codenav/src/Makefile
-    commander/Makefile
-    commander/src/Makefile
-    debugger/Makefile
-    debugger/src/Makefile
-    debugger/img/Makefile
-    defineformat/Makefile
-    defineformat/src/Makefile
-    geanyctags/Makefile
-    geanyctags/src/Makefile
-    geanydoc/Makefile
-    geanydoc/src/Makefile
-    geanydoc/tests/Makefile
 ])
 AC_OUTPUT
 GP_STATUS_PRINT
