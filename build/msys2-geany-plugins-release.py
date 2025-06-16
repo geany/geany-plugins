@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import os
 import shutil
 import sys
@@ -8,32 +9,27 @@ from subprocess import check_call
 from os.path import exists, isfile, join
 
 """
-This script prepares a Geany release on Windows.
+This script prepares a Geany-Plugins release installer on Windows.
 The following steps will be executed:
 - strip binary files (geany.exe, plugin .dlls)
 - create installer
 """
 
 if 'GITHUB_WORKSPACE' in os.environ:
-    SOURCE_DIR = os.environ['GITHUB_WORKSPACE']
-    BASE_DIR = join(SOURCE_DIR, 'geany_build')
+    if os.environ['GITHUB_REPOSITORY'].endswith("/geany-plugins"):
+        SOURCE_DIR = os.environ['GITHUB_WORKSPACE']
+    else:
+        print(f"GITHUB_REPOSITORY={os.environ['GITHUB_REPOSITORY']}")
+        SOURCE_DIR = join(os.environ['GITHUB_WORKSPACE'], ".geany-plugins_source")
+    BASE_DIR = join(os.environ['GITHUB_WORKSPACE'], 'geany_build')
 else:
     # adjust paths to your needs ($HOME is used because expanduser() returns the Windows home directory)
     BASE_DIR = join(os.environ['HOME'], 'geany_build')
     SOURCE_DIR = join(os.environ['HOME'], 'git', 'geany-plugins')
-VERSION="2.0"
-with open(join(SOURCE_DIR, 'configure.ac'), 'r') as f:
-    ver = next((l.split(',')[1].strip(' []') for l in f if l.startswith('AC_INIT')), None)
-    if ver is None:
-        print(f"!! FAILED TO GET VERSION FROM {f.name}")
-    else:
-        VERSION=ver
-        print(f"GOT VERSION {VERSION} FROM {f.name}")
 RELEASE_DIR_ORIG = join(BASE_DIR, 'release', 'geany-plugins-orig')
 RELEASE_DIR = join(BASE_DIR, 'release', 'geany-plugins')
 BUNDLE_BASE_DIR = join(BASE_DIR, 'bundle')
 BUNDLE_GEANY_PLUGINS = join(BASE_DIR, 'bundle', 'geany-plugins-dependencies')
-INSTALLER_NAME = join(BASE_DIR, f'geany-plugins-{VERSION}_setup.exe')
 
 
 def run_command(*cmd):
@@ -63,7 +59,7 @@ def strip_files(*paths):
             run_command('strip', filename)
 
 
-def make_release():
+def make_release(version_number):
     # copy the release dir as it gets modified implicitly by signing and converting files, we want to keep a pristine version before we start
     prepare_release_dir()
 
@@ -83,6 +79,7 @@ def make_release():
         f'{RELEASE_DIR}/share/doc/geany-plugins/*/README',
         f'{RELEASE_DIR}/share/doc/geany-plugins/*/manual.rst')
     convert_text_files(*text_files)
+    INSTALLER_NAME = join(BASE_DIR, f'geany-plugins-{version_number}_setup.exe')
     # create installer
     run_command(
         'makensis',
@@ -95,4 +92,7 @@ def make_release():
 
 
 if __name__ == '__main__':
-    make_release()
+    parser = argparse.ArgumentParser(description="This script prepares a Geany-Plugins release installer on Windows")
+    parser.add_argument("version_number", help="Version Number (e.g. 2.1)")
+    opts = parser.parse_args()
+    make_release(opts.version_number)

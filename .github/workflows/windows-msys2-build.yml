@@ -81,10 +81,12 @@ jobs:
       - name: Compile NSIS-Geany
         run: |
           cd .geany_source
-          python scripts/msys2-geany-release.py
+          VERSION=$(autom4te --no-cache --language=Autoconf-without-aclocal-m4 --trace AC_INIT:\$2 configure.ac)
+          python scripts/msys2-geany-release.py ${VERSION}
       - name: Compile NSIS-Geany-Plugins
         run: |
-          python build/msys2-geany-plugins-release.py
+          VERSION=$(autom4te --no-cache --language=Autoconf-without-aclocal-m4 --trace AC_INIT:\$2 configure.ac)
+          python build/msys2-geany-plugins-release.py ${VERSION}
       - name: Upload Unsigned Artifact
         id: upload-unsigned-artifact
         uses: actions/upload-artifact@v4
