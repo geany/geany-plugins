@@ -65,7 +65,6 @@ jobs:
           rsync -a --delete ${DESTINATON}/build/geany/ ${DESTINATON}/release/geany-orig
       - name: CI-Build-Geany-Plugins
         run: |
-          find . -type f \( -name "configure.ac" -o -name "Makefile.am" -o -name "*.m4" -o -name "*.in" -o -name "*.pc.in" \) -exec dos2unix {} \;
           DESTINATON=$(cygpath -u "${GITHUB_WORKSPACE}")/geany_build
           VERSION=$(autom4te --no-cache --language=Autoconf-without-aclocal-m4 --trace AC_INIT:\$2 configure.ac)
           NOCONFIGURE=1 ./autogen.sh
