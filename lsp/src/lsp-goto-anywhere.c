@@ -86,7 +86,7 @@ static void goto_line(GeanyDocument *doc, const gchar *line_str)
 		switch (i)
 		{
 			case 0:
-				/* For translators: Item in a list which, when selected, navigates
+				/* Translators: Item in a list which, when selected, navigates
 				 * to the line typed in the entry above the list */
 				name = _("line typed above");
 				if (lineno == 0)
@@ -98,21 +98,21 @@ static void goto_line(GeanyDocument *doc, const gchar *line_str)
 				break;
 
 			case 1:
-				/* For translators: Item in a list which, when selected, navigates
+				/* Translators: Item in a list which, when selected, navigates
 				 * to the beginning of the current document */
 				name = _("beginning");
 				line = 1;
 				break;
 
 			case 2:
-				/* For translators: Item in a list which, when selected, navigates
+				/* Translators: Item in a list which, when selected, navigates
 				 * to the middle of the current document */
 				name = _("middle");
 				line = linenum / 2;
 				break;
 
 			case 3:
-				/* For translators: Item in a list which, when selected, navigates
+				/* Translators: Item in a list which, when selected, navigates
 				 * to the end of the current document */
 				name = _("end");
 				line = linenum;
