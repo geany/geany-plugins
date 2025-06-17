@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/geany/geany-plugins/issues\n"
-"POT-Creation-Date: 2025-06-15 20:12+0200\n"
-"PO-Revision-Date: 2018-02-19 17:07-0600\n"
+"POT-Creation-Date: 2025-06-18 00:03+0200\n"
+"PO-Revision-Date: 2025-06-18 00:05+0200\n"
 "Last-Translator: Colomban Wendling <ban@herbesfolles.org>\n"
 "Language-Team: French <geany-i18n@uvena.de>\n"
 "Language: fr\n"
@@ -3710,12 +3710,11 @@ msgstr "Enregistrer les marque-pages normaux"
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1284
 msgid "force loading bookmarks if file has changed"
-msgstr ""
+msgstr "forcer le chargement des marque-pages si le fichier a changé"
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1289
-#, fuzzy
 msgid "always save bookmarks"
-msgstr "Liste des marque-pages"
+msgstr "toujours enregistrer les marque-pages"
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1308
 msgid "Numbered Bookmarks help"
@@ -4588,43 +4587,44 @@ msgid "Group \"%s\" has no key \"%s\"."
 msgstr "Le groupe « %s » n'a pas de clé « %s »."
 
 #: geniuspaste/src/geniuspaste.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "Plugin configuration directory could not be created: %s"
-msgstr "Le répertoire de configuration du plugin n'a pas pu être créé."
+msgstr "Le répertoire de configuration du plugin n'a pas pu être créé: %s"
 
 #: geniuspaste/src/geniuspaste.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to paste %s to %s?"
-msgstr "Voulez-vous vraiment supprimer « %s » ?"
+msgstr "Voulez-vous vraiment envoyer %s à %s ?"
 
 #: geniuspaste/src/geniuspaste.c:820
-#, fuzzy
 msgid "the selection"
-msgstr "sélection"
+msgstr "la sélection"
 
 #: geniuspaste/src/geniuspaste.c:821
-#, fuzzy
 msgid "the whole document"
-msgstr "Définir le chemin depuis le document"
+msgstr "le document entier"
 
 #: geniuspaste/src/geniuspaste.c:824
 msgid "The paste might be public, and it might not be possible to delete it."
 msgstr ""
+"L'envoi sera peut-être public, et il ne sera peut-être pas possible de le "
+"supprimer."
 
 #: geniuspaste/src/geniuspaste.c:829
-#, fuzzy
 msgid "_Paste it"
-msgstr "_Envoyez-le !"
+msgstr "_Envoyer"
 
 #: geniuspaste/src/geniuspaste.c:831
 msgid "Do not _ask again"
-msgstr ""
+msgstr "Ne plus _demander"
 
 #: geniuspaste/src/geniuspaste.c:832
 msgid ""
 "Whether to ask this question again for future pastes. This can be changed at "
 "any time in the plugin preferences."
 msgstr ""
+"Définit s'il faut poser la question pour les envois futurs ou non. Cette "
+"option peut être modifiée à tout moment dans les préférences du plugin."
 
 #: geniuspaste/src/geniuspaste.c:877
 msgid "Invalid pastebin service."
@@ -4732,9 +4732,8 @@ msgid "Show your paste in a new browser tab"
 msgstr "Afficher votre paste dans un nouvel onglet de navigateur"
 
 #: geniuspaste/src/geniuspaste.c:1036
-#, fuzzy
 msgid "Confirm before pasting"
-msgstr "Configurer les paires d'entourage"
+msgstr "Confirmer avant envoi"
 
 #: geniuspaste/src/geniuspaste.c:1059
 msgid "_Paste it!"
@@ -4990,284 +4989,258 @@ msgid "Insert Lipsum text"
 msgstr "Insérer un faux-texte"
 
 #: lsp/src/lsp-code-lens.c:185
-#, fuzzy
 msgid "LSP Commands: "
-msgstr "Commande 0 :"
+msgstr "Commandes LSP : "
 
 #: lsp/src/lsp-diagnostics.c:330
 #, c-format
 msgid "issues: %d"
-msgstr ""
+msgstr "problèmes : %d"
 
+#. Translators: Item in a list which, when selected, navigates
+#. * to the line typed in the entry above the list
 #: lsp/src/lsp-goto-anywhere.c:91
 #: projectorganizer/src/prjorg-goto-anywhere.c:63
 msgid "line typed above"
-msgstr ""
+msgstr "ligne saisie ci-dessus"
 
+#. Translators: Item in a list which, when selected, navigates
+#. * to the beginning of the current document
 #: lsp/src/lsp-goto-anywhere.c:103
 #: projectorganizer/src/prjorg-goto-anywhere.c:75
 msgid "beginning"
-msgstr ""
+msgstr "début"
 
+#. Translators: Item in a list which, when selected, navigates
+#. * to the middle of the current document
 #: lsp/src/lsp-goto-anywhere.c:110
 #: projectorganizer/src/prjorg-goto-anywhere.c:82
 msgid "middle"
-msgstr ""
+msgstr "milieu"
 
+#. Translators: Item in a list which, when selected, navigates
+#. * to the end of the current document
 #: lsp/src/lsp-goto-anywhere.c:117
 #: projectorganizer/src/prjorg-goto-anywhere.c:89
-#, fuzzy
 msgid "end"
-msgstr "_Envoyer"
+msgstr "fin"
 
 #: lsp/src/lsp-log.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create log file: %s"
-msgstr "Impossible de charger le fichier « %s » : %s"
+msgstr "Impossible de créer le fichier de journal : %s"
 
 #: lsp/src/lsp-main.c:73 lsp/src/lsp-main.c:1014
 msgid "LSP Client"
-msgstr ""
+msgstr "Client LSP"
 
 #: lsp/src/lsp-main.c:74
 msgid "Language server protocol client for Geany"
-msgstr ""
+msgstr "Client Language Server Protocol pour Geany"
 
 #: lsp/src/lsp-main.c:953
 msgid "Enable LSP client for project"
-msgstr ""
+msgstr "Activer le client LSP pour le projet"
 
 #: lsp/src/lsp-main.c:964
-#, fuzzy
 msgid "Configuration type:"
-msgstr "_Recharger les fichiers de configuration"
+msgstr "Type de configuration :"
 
 #: lsp/src/lsp-main.c:969
-#, fuzzy
 msgid "Use user configuration file"
-msgstr "Scope : fichier de configuration créé."
+msgstr "Utiliser le fichier de configuration utilisateur"
 
 #: lsp/src/lsp-main.c:970
-#, fuzzy
 msgid "Use project configuration file"
-msgstr "Scope : fichier de configuration créé."
+msgstr "Utiliser le fichier de configuration du projet"
 
 #: lsp/src/lsp-main.c:992
-#, fuzzy
 msgid "Configuration file:"
-msgstr "_Recharger les fichiers de configuration"
+msgstr "Fichiers de configuration:"
 
 #: lsp/src/lsp-main.c:998
-#, fuzzy
 msgid "Choose LSP Configuration File"
-msgstr "_Recharger les fichiers de configuration"
+msgstr "Sélectionner le fichier de configuration LSP"
 
 #: lsp/src/lsp-main.c:1507
 msgid "_LSP Client"
-msgstr ""
+msgstr "Client _LSP"
 
 #: lsp/src/lsp-main.c:1513
 msgid "Go to _Definition"
-msgstr ""
+msgstr "Aller _à la définition"
 
 #: lsp/src/lsp-main.c:1518
-#, fuzzy
 msgid "Go to definition"
-msgstr "Aller à la chaîne suivante"
+msgstr "Aller à la définition"
 
 #: lsp/src/lsp-main.c:1520
-#, fuzzy
 msgid "Go to D_eclaration"
-msgstr "_Déclaration"
+msgstr "Aller à la dé_claration"
 
 #: lsp/src/lsp-main.c:1525
-#, fuzzy
 msgid "Go to declaration"
-msgstr "_Déclaration"
+msgstr "Aller à la déclaration"
 
 #: lsp/src/lsp-main.c:1527
 msgid "Go to _Type Definition"
-msgstr ""
+msgstr "Aller à la définition du _type"
 
 #: lsp/src/lsp-main.c:1532
-#, fuzzy
 msgid "Go to type definition"
-msgstr "Aller au hunk suivant"
+msgstr "Aller à la définition du type"
 
 #: lsp/src/lsp-main.c:1536 projectorganizer/src/prjorg-menu.c:296
-#, fuzzy
 msgid "Go to _Anywhere..."
-msgstr "Aller au fichier…"
+msgstr "Aller n'importe o_ù…"
 
 #: lsp/src/lsp-main.c:1541 projectorganizer/src/prjorg-menu.c:301
 msgid "Go to anywhere"
-msgstr ""
+msgstr "Aller n'importe où"
 
 #: lsp/src/lsp-main.c:1543 projectorganizer/src/prjorg-menu.c:303
-#, fuzzy
 msgid "Go to _Document Symbol..."
-msgstr "_Documenter le symbole courant"
+msgstr "Aller au symbole du _document…"
 
 #: lsp/src/lsp-main.c:1548 projectorganizer/src/prjorg-menu.c:308
-#, fuzzy
 msgid "Go to document symbol"
-msgstr "Trier les documents par _nom"
+msgstr "Aller au symbole du document"
 
 #: lsp/src/lsp-main.c:1550 projectorganizer/src/prjorg-menu.c:310
 msgid "Go to _Workspace Symbol..."
-msgstr ""
+msgstr "Aller au symbole de l'_espace de travail…"
 
 #: lsp/src/lsp-main.c:1555 projectorganizer/src/prjorg-menu.c:315
 msgid "Go to workspace symbol"
-msgstr ""
+msgstr "Aller au symbole de l'espace de travail"
 
 #: lsp/src/lsp-main.c:1557 projectorganizer/src/prjorg-menu.c:317
-#, fuzzy
 msgid "Go to _Line..."
-msgstr "Aller au fichier…"
+msgstr "Aller à la lig_ne…"
 
 #: lsp/src/lsp-main.c:1562 projectorganizer/src/prjorg-menu.c:322
-#, fuzzy
 msgid "Go to line"
-msgstr "Aller au fichier"
+msgstr "Aller à la ligne"
 
 #: lsp/src/lsp-main.c:1566
-#, fuzzy
 msgid "Go to _Next Diagnostic"
-msgstr "Aller à la chaîne suivante"
+msgstr "Aller au diagnostique _suivant"
 
 #: lsp/src/lsp-main.c:1571
-#, fuzzy
 msgid "Go to next diagnostic"
-msgstr "Aller à la chaîne suivante"
+msgstr "Aller au diagnostique suivant"
 
 #: lsp/src/lsp-main.c:1573
-#, fuzzy
 msgid "Go to _Previous Diagnostic"
-msgstr "Aller à la chaîne précédente"
+msgstr "Aller au diagnostique _précédent"
 
 #: lsp/src/lsp-main.c:1578
-#, fuzzy
 msgid "Go to previous diagnostic"
-msgstr "Aller à la chaîne précédente"
+msgstr "Aller au diagnostique précédent"
 
 #: lsp/src/lsp-main.c:1580
-#, fuzzy
 msgid "_Show Current Diagnostic"
-msgstr "Montrer la liste des documents"
+msgstr "_Afficher le diagnostique actuel"
 
 #: lsp/src/lsp-main.c:1585
-#, fuzzy
 msgid "Show current diagnostic"
-msgstr "Montrer la liste des documents"
+msgstr "Afficher le diagnostique actuel"
 
 #: lsp/src/lsp-main.c:1587
 msgid "Show _Current File Diagnostics"
-msgstr ""
+msgstr "Afficher les diagnostiques du _fichier actuel"
 
 #: lsp/src/lsp-main.c:1592
 msgid "Show current file diagnostics"
-msgstr ""
+msgstr "Afficher les diagnostiques du fichier actuel"
 
 #: lsp/src/lsp-main.c:1594
 msgid "Show _All Diagnostics"
-msgstr ""
+msgstr "Afficher tous les diagnosti_ques"
 
 #: lsp/src/lsp-main.c:1599
 msgid "Show all diagnostics"
-msgstr ""
+msgstr "Afficher tous les diagnostiques"
 
 #: lsp/src/lsp-main.c:1603 lsp/src/lsp-symbol-tree.c:1183
-#, fuzzy
 msgid "Find _References"
-msgstr "Insérer une _référence"
+msgstr "Trou_ver les références"
 
 #: lsp/src/lsp-main.c:1608
-#, fuzzy
 msgid "Find references"
-msgstr "Préférences"
+msgstr "Trouver les références"
 
 #: lsp/src/lsp-main.c:1610 lsp/src/lsp-symbol-tree.c:1188
-#, fuzzy
 msgid "Find _Implementations"
-msgstr "Extensions des sources"
+msgstr "Trouver les _implémentations"
 
 #: lsp/src/lsp-main.c:1615
-#, fuzzy
 msgid "Find implementations"
-msgstr "Basculer en-tête/implémentation"
+msgstr "Trouver les implémentations"
 
 #: lsp/src/lsp-main.c:1617
 msgid "_Highlight Symbol Occurrences"
-msgstr ""
+msgstr "Surligner les occurrences du s_ymbole"
 
 #: lsp/src/lsp-main.c:1622
 msgid "Highlight symbol occurrences"
-msgstr ""
+msgstr "Surligner les occurrences du symbole"
 
 #: lsp/src/lsp-main.c:1624
 msgid "_Clear Highlighted"
-msgstr ""
+msgstr "Effacer le sur_lignage"
 
 #: lsp/src/lsp-main.c:1629
 msgid "Clear highlighted"
-msgstr ""
+msgstr "Effacer la surlignage"
 
 #: lsp/src/lsp-main.c:1633
 msgid "_Rename Highlighted"
-msgstr ""
+msgstr "Renommer l'élément surli_gné"
 
 #: lsp/src/lsp-main.c:1638
 msgid "Rename highlighted"
-msgstr ""
+msgstr "Renommer l'élément surligné"
 
 #: lsp/src/lsp-main.c:1640
-#, fuzzy
 msgid "Rename in _Project..."
-msgstr "Trouver dans le projet"
+msgstr "Renommer dans le pro_jet…"
 
 #: lsp/src/lsp-main.c:1645
-#, fuzzy
 msgid "Rename in project"
-msgstr "_Supprimer le projet"
+msgstr "Renommer dans le projet"
 
 #: lsp/src/lsp-main.c:1647
-#, fuzzy
 msgid "_Format Code"
-msgstr "_Format"
+msgstr "For_mater le code"
 
 #: lsp/src/lsp-main.c:1652
-#, fuzzy
 msgid "Format code"
-msgstr "_Format"
+msgstr "Formater le code"
 
 #: lsp/src/lsp-main.c:1656
-#, fuzzy
 msgid "Show _Hover Popup"
-msgstr "Afficher le _groupe"
+msgstr "Afficher l'info_bulle de survol"
 
 #: lsp/src/lsp-main.c:1661
-#, fuzzy
 msgid "Show hover popup"
-msgstr "Afficher le _groupe"
+msgstr "Afficher l'infobulle de survol"
 
 #: lsp/src/lsp-main.c:1663
 msgid "Show Code Action Popup"
-msgstr ""
+msgstr "Affic_her le menu d'actions sur le code"
 
 #: lsp/src/lsp-main.c:1668
 msgid "Show code action popup"
-msgstr ""
+msgstr "Afficher le menu d'actions sur le code"
 
 #: lsp/src/lsp-main.c:1672 lsp/src/lsp-main.c:1677
-#, fuzzy
 msgid "Expand Selection"
-msgstr "Annuler la sélection"
+msgstr "Étendre la sélection"
 
 #: lsp/src/lsp-main.c:1679 lsp/src/lsp-main.c:1684
-#, fuzzy
 msgid "Shrink Selection"
-msgstr "Annuler la sélection"
+msgstr "Réduire la sélection"
 
 #: lsp/src/lsp-main.c:1688 projectorganizer/src/prjorg-menu.c:285
 msgid "Swap Header/Source"
@@ -5277,79 +5250,74 @@ msgstr "Basculer à l'en-tête/la source"
 msgid "Swap header/source"
 msgstr "Basculer à l'en-tête/la source"
 
+# Aucune mnémonique disponible, on suppose que cet item peut s'en passer…
 #: lsp/src/lsp-main.c:1697
-#, fuzzy
 msgid "_Project Configuration"
-msgstr "_Recharger les fichiers de configuration"
+msgstr "Configuration du projet"
 
 #: lsp/src/lsp-main.c:1701
-#, fuzzy
 msgid "_User Configuration"
-msgstr "_Recharger les fichiers de configuration"
+msgstr "Configuration _utilisateur"
 
 #: lsp/src/lsp-main.c:1705
-#, fuzzy
 msgid "_Global Configuration"
-msgstr "_Recharger les fichiers de configuration"
+msgstr "Configuration gl_obale"
 
 #: lsp/src/lsp-main.c:1711
 msgid "_Server Initialize Responses"
-msgstr ""
+msgstr "R_éponses d'initialisation du serveur"
 
 #: lsp/src/lsp-main.c:1717
 msgid "_Restart All Servers"
-msgstr ""
+msgstr "_Redémarrer tous les serveurs"
 
 #: lsp/src/lsp-main.c:1722
 msgid "Restart all servers"
-msgstr ""
+msgstr "Redémarrer tous les serveurs"
 
 #: lsp/src/lsp-main.c:1729
-#, fuzzy, c-format
+#, c-format
 msgid "Command %d"
-msgstr "Commande 0 :"
+msgstr "Commande %d"
 
+# La mnémonique manque, mais il n'y a plus beaucoup de possibilités dans ce
+# menu une fois les mnémoniques de Geany exclues, plus les autres entrées de
+# ce plugin…
 #: lsp/src/lsp-main.c:1742
-#, fuzzy
 msgid "_Commands (LSP)"
-msgstr "Commande 0 :"
+msgstr "Commandes (LSP)"
 
 #: lsp/src/lsp-main.c:1748
 msgid "_Format Code (LSP)"
-msgstr ""
+msgstr "For_mater le code (LSP)"
 
 #: lsp/src/lsp-main.c:1754
-#, fuzzy
 msgid "Rename in _Project (LSP)..."
-msgstr "Rechercher dans les fichiers du projet…"
+msgstr "Renommer dans le _projet (LSP)…"
 
 #: lsp/src/lsp-main.c:1760
 msgid "_Rename Highlighted (LSP)"
-msgstr ""
+msgstr "Renommer l'élément surli_gné (LSP)"
 
 #: lsp/src/lsp-main.c:1770
 msgid "Go to _Definition (LSP)"
-msgstr ""
+msgstr "Aller _à la définition (LSP)"
 
 #: lsp/src/lsp-main.c:1776
-#, fuzzy
 msgid "Find _References (LSP)"
-msgstr "Insérer une _référence"
+msgstr "Trou_ver les références (LSP)"
 
 #: lsp/src/lsp-rename.c:56
-#, fuzzy
 msgid "Rename in Project"
-msgstr "Trouver dans le projet"
+msgstr "Renommer dans le projet"
 
 #: lsp/src/lsp-rename.c:59
-#, fuzzy
 msgid "_Rename"
-msgstr "Renommer"
+msgstr "_Renommer"
 
 #: lsp/src/lsp-rename.c:66
-#, fuzzy
 msgid "<b>Warning</b>"
-msgstr "<b>Divers</b>"
+msgstr "<b>Avertissement</b>"
 
 #: lsp/src/lsp-rename.c:70
 msgid ""
@@ -5357,6 +5325,10 @@ msgid ""
 "name</i> with <i>New name</i> <b>in the whole project</b>. There is no "
 "further confirmation or change review after this step."
 msgstr ""
+"En cliquant le bouton <i>Renommer</i> ci-dessous, vous allez remplacer "
+"<i>Ancien nom</i> avec <i>Nouveau nom</i> <b>dans tout le projet</b>. Il n'y "
+"aura pas de confirmation supplémentaire ou de vérification des changements "
+"après cette étape."
 
 #: lsp/src/lsp-rename.c:76
 msgid ""
@@ -5364,140 +5336,138 @@ msgid ""
 "perform this action only after committing all modified files into VCS in "
 "case something goes wrong."
 msgstr ""
+"Comme cette action ne peut pas être annulée facilement, il est fortement "
+"recommandé de ne l'effectuer qu'après avoir enregistré tous les changements "
+"actuels dans le gestionnaire de versions au cas où quelque chose ne se "
+"passerait pas comme prévu."
 
 #: lsp/src/lsp-rename.c:83 projectorganizer/src/prjorg-sidebar.c:581
 msgid "New name:"
 msgstr "Nouveau nom :"
 
 #: lsp/src/lsp-rename.c:99
-#, fuzzy
 msgid "Old name:"
-msgstr "Nom du fichier :"
+msgstr "Ancien nom :"
 
 #: lsp/src/lsp-rename.c:159
-#, fuzzy
 msgid "<b>Renaming...</b>"
-msgstr "<b>Comportement</b>"
+msgstr "<b>Renommage…</b>"
 
 #: lsp/src/lsp-server.c:144
 #, c-format
 msgid "LSP server %s stopped"
-msgstr ""
+msgstr "Serveur LSP %s arrêté"
 
 #: lsp/src/lsp-server.c:152
 #, c-format
 msgid "LSP server %s stopped unexpectedly, restarting"
-msgstr ""
+msgstr "Redémarrage sur serveur LSP %s arrêté de façon inattendue"
 
 #: lsp/src/lsp-server.c:167
 #, c-format
 msgid "LSP server %s terminated %d times, giving up"
-msgstr ""
+msgstr "Le serveur LSP %s a quitté %d fois, abandon"
 
 #: lsp/src/lsp-server.c:182
 #, c-format
 msgid "Failed to send SIGTERM to server: %s"
-msgstr ""
+msgstr "Erreur lors de l'envoi de SIGTERM au serveur : %s"
 
 #: lsp/src/lsp-server.c:195 lsp/src/lsp-server.c:217
 #, c-format
 msgid "Force terminating LSP server %s"
-msgstr ""
+msgstr "Forcer l'arrêt du serveur LSP %s"
 
 #: lsp/src/lsp-server.c:212
 #, c-format
 msgid "Sending exit notification to LSP server %s"
-msgstr ""
+msgstr "Envoi de la notification d'arrêt au serveur LSP %s"
 
 #: lsp/src/lsp-server.c:236
 #, c-format
 msgid "Sending shutdown request to LSP server %s"
-msgstr ""
+msgstr "Envoi de la requête d'extinction au serveur LSP %s"
 
 #: lsp/src/lsp-server.c:579
 #, c-format
 msgid "LSP server %s initialized"
-msgstr ""
+msgstr "Serveur LSP %s initialisé"
 
 #: lsp/src/lsp-server.c:602
 #, c-format
 msgid "Initialize request failed for LSP server %s: %s"
-msgstr ""
+msgstr "Échec de la requête d'initialisation pour le serveur LSP %s : %s"
 
 #: lsp/src/lsp-server.c:603
-#, fuzzy, c-format
+#, c-format
 msgid "Force terminating %s"
-msgstr "Formatage"
+msgstr "Forcer l'arrêt de %s"
 
 #: lsp/src/lsp-server.c:793
 #, c-format
 msgid "Sending initialize request to LSP server %s"
-msgstr ""
+msgstr "Envoi de la requête d'initialisation au serveur LSP %s"
 
 #: lsp/src/lsp-server.c:815
 #, fuzzy, c-format
 msgid "Failed to load LSP configuration file with message %s"
-msgstr "Impossible de charger le fichier de configuration : %s"
+msgstr ""
+"Impossible de charger le fichier de configuration LSP avec le message %s"
 
 #: lsp/src/lsp-server.c:852
 #, c-format
 msgid "Starting LSP server %s"
-msgstr ""
+msgstr "Démarrage du serveur LSP %s"
 
 #: lsp/src/lsp-server.c:861
 #, c-format
 msgid "LSP server process %s failed to start, giving up: %s"
-msgstr ""
+msgstr "Le processus %s du serveur LSP n'a pas pu démarrer, abandon : %s"
 
 #: lsp/src/lsp-symbol-tree.c:952
-#, fuzzy
 msgid "Symbols"
-msgstr "Rechercher un symbole"
+msgstr "Symboles"
 
 #: lsp/src/lsp-symbol-tree.c:1169
-#, fuzzy
 msgid "_Expand All"
-msgstr "Tout déplier"
+msgstr "Tout _déplier"
 
 #: lsp/src/lsp-symbol-tree.c:1174
-#, fuzzy
 msgid "_Collapse All"
 msgstr "Tout re_plier"
 
 #: lsp/src/lsp-symbol-tree.c:1197
-#, fuzzy
 msgid "Go to _Declaration"
-msgstr "_Déclaration"
+msgstr "Aller à la _déclaration"
 
 #: lsp/src/lsp-symbol-tree.c:1202
-#, fuzzy
 msgid "Go to _Type"
-msgstr "Aller au fichier"
+msgstr "Aller au _type"
 
 #: lsp/src/lsp-utils.c:269
 #, c-format
 msgid "User LSP config filename %s does not exist, creating"
-msgstr ""
+msgstr "Le fichier de configuration LSP utilisateur %s n'existe pas, création"
 
 #: lsp/src/lsp-utils.c:271
 #, c-format
 msgid "Cannot read global LSP config filename %s"
-msgstr ""
+msgstr "Impossible de lire le fichier de configuration LSP global %s"
 
 #: lsp/src/lsp-utils.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write user LSP config filename %s"
-msgstr "Impossible d'écrire la configuration par défaut : %s"
+msgstr "Impossible d'écrire le fichier configuration LSP utilisateur %s"
 
 #: lsp/src/lsp-utils.c:743
 #, c-format
 msgid "JSON parsing error: initialization_options: %s"
-msgstr ""
+msgstr "Erreur d'interprétation JSON: initialization_options : %s"
 
 #: lsp/src/lsp-utils.c:770
 #, c-format
 msgid "JSON parsing error: initialization_options_file: %s"
-msgstr ""
+msgstr "Erreur d'interprétation JSON: initialization_options_file : %s"
 
 #: markdown/src/conf.c:567
 msgid "Position:"
@@ -7931,8 +7901,8 @@ msgstr "Cacher les fichiers objets"
 
 #: treebrowser/src/treebrowser.c:2221
 msgid ""
-"Don't show generated object files in the file browser, this includes *.o, "
-"*.obj. *.so, *.dll, *.a, *.lib"
+"Don't show generated object files in the file browser, this includes *.o, *."
+"obj. *.so, *.dll, *.a, *.lib"
 msgstr ""
 "Ne pas afficher les objets auto-générés dans le navigateur de fichiers (*.o, "
 "*.obj. *.so, *.dll, *.a et *.lib entre autres)"
@@ -8727,7 +8697,7 @@ msgstr ""
 "Ce projet ne contient aucun répertoire. Des répertoires peuvent être ajoutés "
 "à un projet via le menu contextuel."
 
-#: workbench/src/wb_monitor.c:191
+#: workbench/src/wb_monitor.c:197
 #, fuzzy, c-format
 msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
 msgstr "Impossible de créer le dossier de configuration « %s » : %s"
