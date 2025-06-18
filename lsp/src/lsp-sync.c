@@ -223,8 +223,11 @@ void lsp_sync_text_document_did_change(LspServer *server, GeanyDocument *doc,
 
 	if (server->use_incremental_sync)
 	{
-		gint range = lsp_utils_lsp_pos_to_scintilla(doc->editor->sci, pos_end) - 
-			lsp_utils_lsp_pos_to_scintilla(doc->editor->sci, pos_start);
+		gint range = SSM(
+			doc->editor->sci, SCI_COUNTCODEUNITS,
+			lsp_utils_lsp_pos_to_scintilla(doc->editor->sci, pos_start),
+			lsp_utils_lsp_pos_to_scintilla(doc->editor->sci, pos_end)
+		);
 
 		node = JSONRPC_MESSAGE_NEW (
 			"textDocument", "{",
