@@ -4135,7 +4135,7 @@ msgstr "Le fichier de projet « %s » existe déjà"
 
 #: geanyprj/src/menu.c:367
 msgid "_Project"
-msgstr "_Projet"
+msgstr "Pro_jet"
 
 #: geanyprj/src/menu.c:385 geanyprj/src/sidebar.c:181
 msgid "Delete Project"
@@ -5100,7 +5100,7 @@ msgstr "Aller n'importe où"
 
 #: lsp/src/lsp-main.c:1543 projectorganizer/src/prjorg-menu.c:303
 msgid "Go to _Document Symbol..."
-msgstr "Aller au symbole du _document…"
+msgstr "Aller au s_ymbole du document…"
 
 #: lsp/src/lsp-main.c:1548 projectorganizer/src/prjorg-menu.c:308
 msgid "Go to document symbol"
@@ -5116,7 +5116,7 @@ msgstr "Aller au symbole de l'espace de travail"
 
 #: lsp/src/lsp-main.c:1557 projectorganizer/src/prjorg-menu.c:317
 msgid "Go to _Line..."
-msgstr "Aller à la lig_ne…"
+msgstr "Aller à la _ligne…"
 
 #: lsp/src/lsp-main.c:1562 projectorganizer/src/prjorg-menu.c:322
 msgid "Go to line"
@@ -5180,7 +5180,7 @@ msgstr "Trouver les implémentations"
 
 #: lsp/src/lsp-main.c:1617
 msgid "_Highlight Symbol Occurrences"
-msgstr "Surligner les occurrences du s_ymbole"
+msgstr "Surligner les occurrences _du symbole"
 
 #: lsp/src/lsp-main.c:1622
 msgid "Highlight symbol occurrences"
@@ -5188,7 +5188,7 @@ msgstr "Surligner les occurrences du symbole"
 
 #: lsp/src/lsp-main.c:1624
 msgid "_Clear Highlighted"
-msgstr "Effacer le sur_lignage"
+msgstr "Effacer le surli_gnage"
 
 #: lsp/src/lsp-main.c:1629
 msgid "Clear highlighted"
@@ -5196,7 +5196,7 @@ msgstr "Effacer la surlignage"
 
 #: lsp/src/lsp-main.c:1633
 msgid "_Rename Highlighted"
-msgstr "Renommer l'élément surli_gné"
+msgstr "Re_nommer l'élément surligné"
 
 #: lsp/src/lsp-main.c:1638
 msgid "Rename highlighted"
@@ -5297,7 +5297,7 @@ msgstr "Renommer dans le _projet (LSP)…"
 
 #: lsp/src/lsp-main.c:1760
 msgid "_Rename Highlighted (LSP)"
-msgstr "Renommer l'élément surli_gné (LSP)"
+msgstr "Renommer l'élément sur_ligné (LSP)"
 
 #: lsp/src/lsp-main.c:1770
 msgid "Go to _Definition (LSP)"
@@ -5812,7 +5812,7 @@ msgstr "Afficher les statistiques du document courant"
 
 #: pohelper/data/menus.ui:232
 msgid "_Show stats"
-msgstr "Afficher les _statistiques"
+msgstr "A_fficher les statistiques"
 
 #: pohelper/data/menus.ui:247
 msgid ""
@@ -6346,7 +6346,7 @@ msgstr "Débo_guer"
 
 #: scope/data/scope.glade:207 scope/data/scope_gtk3.glade:207
 msgid "_Setup Program"
-msgstr "_Configurer le programme"
+msgstr "Configurer le _programme"
 
 #: scope/data/scope.glade:217 scope/data/scope_gtk3.glade:217
 msgid "Recent _Programs"
@@ -8463,9 +8463,8 @@ msgid "S_ettings"
 msgstr "_Paramètres"
 
 #: workbench/src/menu.c:232
-#, fuzzy
 msgid "Search _projects"
-msgstr "_Enregistrer le projet"
+msgstr "_Rechercher des projets"
 
 #: workbench/src/menu.c:239
 msgid "_Close"
