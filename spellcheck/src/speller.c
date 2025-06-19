@@ -800,7 +800,6 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 #else
 		case SCLEX_PASCAL:
 #endif
-		case SCLEX_COBOL:
 		case SCLEX_CPP:
 		{
 			switch (style)
@@ -818,6 +817,22 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_C_TRIPLEVERBATIM:
 				case SCE_C_PREPROCESSORCOMMENT:
 				case SCE_C_PREPROCESSORCOMMENTDOC:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_COBOL:
+		{
+			switch (style)
+			{
+				case SCE_COBOL_DEFAULT:
+				case SCE_COBOL_COMMENT:
+				case SCE_COBOL_COMMENTLINE:
+				case SCE_COBOL_COMMENTDOC:
+				case SCE_COBOL_STRING:
+				case SCE_COBOL_CHARACTER:
 					return TRUE;
 				default:
 					return FALSE;
@@ -873,6 +888,29 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_D_COMMENTDOCKEYWORDERROR:
 				case SCE_D_STRINGB:
 				case SCE_D_STRINGR:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_DART:
+		{
+			switch (style)
+			{
+				case SCE_DART_COMMENTLINE:
+				case SCE_DART_COMMENTLINEDOC:
+				case SCE_DART_COMMENTBLOCK:
+				case SCE_DART_COMMENTBLOCKDOC:
+				case SCE_DART_STRING_SQ:
+				case SCE_DART_STRING_DQ:
+				case SCE_DART_TRIPLE_STRING_SQ:
+				case SCE_DART_TRIPLE_STRING_DQ:
+				case SCE_DART_RAWSTRING_SQ:
+				case SCE_DART_RAWSTRING_DQ:
+				case SCE_DART_TRIPLE_RAWSTRING_SQ:
+				case SCE_DART_TRIPLE_RAWSTRING_DQ:
+				case SCE_DART_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1020,6 +1058,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_HJ_DOUBLESTRING:
 				case SCE_HJ_SINGLESTRING:
 				case SCE_HJ_STRINGEOL:
+				case SCE_HJ_TEMPLATELITERAL:
 				case SCE_HB_COMMENTLINE:
 				case SCE_HB_STRING:
 				case SCE_HB_STRINGEOL:
@@ -1032,6 +1071,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_HJA_DOUBLESTRING:
 				case SCE_HJA_SINGLESTRING:
 				case SCE_HJA_STRINGEOL:
+				case SCE_HJA_TEMPLATELITERAL:
 				case SCE_HP_COMMENTLINE:
 				case SCE_HP_STRING:
 				case SCE_HP_CHARACTER:
@@ -1140,6 +1180,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_MATLAB_COMMENT:
 				case SCE_MATLAB_STRING:
 				case SCE_MATLAB_DOUBLEQUOTESTRING:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_NIX:
+		{
+			switch (style)
+			{
+				case SCE_NIX_COMMENTLINE:
+				case SCE_NIX_COMMENTBLOCK:
+				case SCE_NIX_STRING:
+				case SCE_NIX_STRING_MULTILINE:
+				case SCE_NIX_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1287,6 +1342,8 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_RUST_STRINGR:
 				case SCE_RUST_BYTESTRING:
 				case SCE_RUST_BYTESTRINGR:
+				case SCE_RUST_CSTRING:
+				case SCE_RUST_CSTRINGR:
 				case SCE_RUST_LEXERROR:
 					return TRUE;
 				default:
@@ -1342,6 +1399,22 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_TOML:
+		{
+			switch (style)
+			{
+				case SCE_TOML_COMMENT:
+				case SCE_TOML_STRING_SQ:
+				case SCE_TOML_STRING_DQ:
+				case SCE_TOML_TRIPLE_STRING_SQ:
+				case SCE_TOML_TRIPLE_STRING_DQ:
+				case SCE_TOML_STRINGEOL:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_TXT2TAGS:
 		{
 			return TRUE;
@@ -1387,6 +1460,22 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_YAML_DEFAULT:
 				case SCE_YAML_COMMENT:
 				case SCE_YAML_TEXT:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_ZIG:
+		{
+			switch (style)
+			{
+				case SCE_ZIG_COMMENTLINE:
+				case SCE_ZIG_COMMENTLINEDOC:
+				case SCE_ZIG_COMMENTLINETOP:
+				case SCE_ZIG_STRING:
+				case SCE_ZIG_MULTISTRING:
+				case SCE_ZIG_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
