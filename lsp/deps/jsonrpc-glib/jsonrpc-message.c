@@ -35,7 +35,7 @@
 #endif
 
 #define COMPARE_MAGIC(_any,_magic) \
-  (strncmp ((_any)->magic.bytes, \
+  (strncmp ((const char *)_any, \
             _JSONRPC_MESSAGE_##_magic##_MAGIC, \
             sizeof ((_any)->magic.bytes)) == 0)
 
@@ -87,7 +87,7 @@ jsonrpc_message_build_object (GVariantBuilder *builder,
    * recursion to read the next key/val pair.
    */
 
-  if (!keyptr || keyptr->magic.bytes[0] == '}')
+  if (!keyptr || ((const char *)keyptr)[0] == '}')
     EXIT;
 
   g_assert (!IS_PUT_VARIANT (keyptr));
@@ -110,7 +110,7 @@ jsonrpc_message_build_object (GVariantBuilder *builder,
   g_variant_builder_add (builder, "s", key);
   g_variant_builder_open (builder, G_VARIANT_TYPE ("v"));
 
-  switch (valptr->magic.bytes[0])
+  switch (((const char *)valptr)[0])
     {
     case '{':
       param = va_arg (*args, gconstpointer);
@@ -207,12 +207,12 @@ jsonrpc_message_build_array (GVariantBuilder *builder,
   ENTRY;
 
   /* If we have the end of the array, we're done */
-  if (valptr->magic.bytes[0] == ']')
+  if (((const char *)valptr)[0] == ']')
     EXIT;
 
   g_variant_builder_open (builder, G_VARIANT_TYPE ("v"));
 
-  switch (valptr->magic.bytes[0])
+  switch (((const char *)valptr)[0])
     {
     case '{':
       g_variant_builder_open (builder, G_VARIANT_TYPE ("a{sv}"));
@@ -350,7 +350,7 @@ jsonrpc_message_parse_object (GVariantDict *dict,
   if (valptr == NULL)
     g_error ("got unexpected NULL for key %s", key);
 
-  if (valptr->magic.bytes[0] == '{' || IS_GET_DICT (valptr))
+  if (((const char *)valptr)[0] == '{' || IS_GET_DICT (valptr))
     {
       g_autoptr(GVariant) value = NULL;
 
@@ -371,7 +371,7 @@ jsonrpc_message_parse_object (GVariantDict *dict,
             }
         }
     }
-  else if (valptr->magic.bytes[0] == '[' || IS_GET_ITER (valptr))
+  else if (((const char *)valptr)[0] == '[' || IS_GET_ITER (valptr))
     {
       g_autoptr(GVariantIter) subiter = NULL;
       g_autoptr(GVariant) subvalue = NULL;
@@ -515,13 +515,13 @@ jsonrpc_message_parse_array_va (GVariantIter *iter,
 
   g_assert (iter != NULL);
 
-  if (valptr == NULL || valptr->magic.bytes[0] == ']')
+  if (valptr == NULL || ((const char *)valptr)[0] == ']')
     RETURN (TRUE);
 
   if (!g_variant_iter_next (iter, "v", &value))
     RETURN (FALSE);
 
-  if (valptr->magic.bytes[0] == '{' || IS_GET_DICT (valptr))
+  if (((const char *)valptr)[0] == '{' || IS_GET_DICT (valptr))
     {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE ("a{sv}")))
         {
@@ -538,7 +538,7 @@ jsonrpc_message_parse_array_va (GVariantIter *iter,
             }
         }
     }
-  else if (valptr->magic.bytes[0] == '[' || IS_GET_ITER (valptr))
+  else if (((const char *)valptr)[0] == '[' || IS_GET_ITER (valptr))
     {
       if (g_variant_is_of_type (value, G_VARIANT_TYPE ("av")))
         {
