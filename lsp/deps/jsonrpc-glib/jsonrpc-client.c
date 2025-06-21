@@ -706,8 +706,16 @@ jsonrpc_client_call_read_cb (GObject      *object,
   if (_jsonrpc_input_stream_get_has_seen_gvariant (stream))
     jsonrpc_client_set_use_gvariant (self, TRUE);
 
-  /* Make sure we got a proper type back from the variant. */
-  if (!g_variant_is_of_type (message, G_VARIANT_TYPE_VARDICT))
+  if (g_variant_is_of_type (message, G_VARIANT_TYPE ("aa{sv}")))
+    {
+      /* TODO: Handle incoming batch mode */
+      error = g_error_new_literal (G_IO_ERROR,
+                                   G_IO_ERROR_INVALID_DATA,
+                                   "Batch mode not supported");
+      jsonrpc_client_panic (self, error);
+      return;
+    }
+  else if (!g_variant_is_of_type (message, G_VARIANT_TYPE_VARDICT))
     {
       error = g_error_new_literal (G_IO_ERROR,
                                    G_IO_ERROR_INVALID_DATA,

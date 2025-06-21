@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 typedef struct
 {
   char bytes[8];
-} JsonrpcMessageMagic;
+} JsonrpcMessageMagic __attribute__((aligned (8)));
 
 typedef struct
 {
