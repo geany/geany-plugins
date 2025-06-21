@@ -1514,15 +1514,13 @@ static void create_menu_items()
 	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_def);
 	g_signal_connect(menu_items.goto_def, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_DEFINITION));
-	keybindings_set_item(group, KB_GOTO_DEFINITION, NULL, 0, 0, "goto_definition",
-		_("Go to definition"), menu_items.goto_def);
+	// no keybinding - use goto of Geany
 
 	menu_items.goto_decl = gtk_menu_item_new_with_mnemonic(_("Go to D_eclaration"));
 	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_decl);
 	g_signal_connect(menu_items.goto_decl, "activate", G_CALLBACK(on_menu_invoked),
 		GUINT_TO_POINTER(KB_GOTO_DECLARATION));
-	keybindings_set_item(group, KB_GOTO_DECLARATION, NULL, 0, 0, "goto_declaration",
-		_("Go to declaration"), menu_items.goto_decl);
+	// no keybinding - use goto of Geany
 
 	menu_items.goto_type_def = gtk_menu_item_new_with_mnemonic(_("Go to _Type Definition"));
 	gtk_container_add(GTK_CONTAINER(menu), menu_items.goto_type_def);
