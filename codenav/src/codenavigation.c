@@ -261,7 +261,7 @@ on_configure_response(GtkDialog* dialog, gint response, gpointer user_data)
 									
 			/* If one field is empty, ignore this line (it will be replaces
 			   at next execution) */ 
-			if ( strlen(impl_list[i])==0 || strlen(head_list[i])==0 )
+			if ( EMPTY(impl_list[i]) || EMPTY(head_list[i]) )
 				empty_lines++;
 			else
 				i++;
