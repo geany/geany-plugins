@@ -145,7 +145,7 @@ static void resolve_cb(GVariant *return_value, GError *error, gpointer user_data
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
 	}
 
-	if (!performed)
+	if (!performed && data->callback)
 		data->callback(data->user_data);
 
 	g_free(data);
