@@ -33,8 +33,7 @@ G_BEGIN_DECLS
 #define GWH_PLUGIN_VERSION "0.2"
 
 
-extern GeanyPlugin     *geany_plugin;
-extern GeanyData       *geany_data;
+extern GeanyPlugin *geany_plugin;
 
 
 G_END_DECLS
