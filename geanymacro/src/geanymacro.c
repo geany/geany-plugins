@@ -1057,11 +1057,9 @@ static gboolean InitializeMacroRecord(void)
 	dialog=gtk_dialog_new_with_buttons(_("Record Macro"),
 		GTK_WINDOW(geany->main_widgets->window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
+		_("Record"),GTK_RESPONSE_OK,
+		_("Cancel"),GTK_RESPONSE_CANCEL,
 		NULL);
-
-	/* create buttons */
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Record"),GTK_RESPONSE_OK);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("Cancel"),GTK_RESPONSE_CANCEL);
 
 	/* create box to hold macro trigger entry box and label */
 	hbox=gtk_hbox_new(FALSE,0);
@@ -1387,11 +1385,10 @@ static void EditSearchOptions(GtkTreeModel *model,GtkTreeIter *iter)
 	/* create dialog box */
 	dialog=gtk_dialog_new_with_buttons(_("Search Options:"),
 	                                   GTK_WINDOW(geany->main_widgets->window),
-	                                   GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
-
-	/* create buttons */
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GTK_RESPONSE_OK);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Cancel"),GTK_RESPONSE_CANCEL);
+	                                   GTK_DIALOG_DESTROY_WITH_PARENT,
+	                                   _("_Ok"),GTK_RESPONSE_OK,
+	                                   _("_Cancel"),GTK_RESPONSE_CANCEL,
+	                                   NULL);
 
 	/* create box to hold widgets */
 	vbox=gtk_vbox_new(FALSE, 6);
@@ -1530,11 +1527,10 @@ static void EditSCIREPLACESELText(GtkTreeModel *model,GtkTreeIter *iter)
 	/* create dialog box */
 	dialog=gtk_dialog_new_with_buttons(_("Edit Insert/Replace Text"),
 	                                   GTK_WINDOW(geany->main_widgets->window),
-	                                   GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
-
-	/* create buttons */
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Ok"),GTK_RESPONSE_OK);
-	gtk_dialog_add_button(GTK_DIALOG(dialog),_("_Cancel"),GTK_RESPONSE_CANCEL);
+	                                   GTK_DIALOG_DESTROY_WITH_PARENT,
+	                                   _("_Ok"),GTK_RESPONSE_OK,
+	                                   _("_Cancel"),GTK_RESPONSE_CANCEL,
+	                                   NULL);
 
 	/* create box to hold macro name entry box, and label */
 	hbox=gtk_hbox_new(FALSE,0);
@@ -1733,8 +1729,10 @@ static void EditMacroElements(Macro *m)
 
 	/* create dialog box */
 	cTitle=g_strdup_printf(_("Edit: %s"),m->name);
-	dialog=gtk_dialog_new_with_buttons(cTitle,GTK_WINDOW(geany->main_widgets->window),
-		GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
+	dialog=gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dialog),cTitle);
+	gtk_window_set_transient_for(GTK_WINDOW(dialog),GTK_WINDOW(geany->main_widgets->window));
+	gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog),TRUE);
 
 	/* create store to hold table data (2nd column holds number of macro value)
 	*/
@@ -2062,8 +2060,10 @@ static void DoEditMacro(GtkMenuItem *menuitem, gpointer gdata)
 	gchar *cTemp;
 
 	/* create dialog box */
-	dialog=gtk_dialog_new_with_buttons(_("Edit Macros"),GTK_WINDOW(geany->main_widgets->window),
-		GTK_DIALOG_DESTROY_WITH_PARENT,NULL);
+	dialog=gtk_dialog_new();
+	gtk_window_set_title(GTK_WINDOW(dialog),_("Edit Macros"));
+	gtk_window_set_transient_for(GTK_WINDOW(dialog),GTK_WINDOW(geany->main_widgets->window));
+	gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog),TRUE);
 
 	/* create store to hold table data (3rd column holds pointer to macro or NULL if not editable)
 	*/
