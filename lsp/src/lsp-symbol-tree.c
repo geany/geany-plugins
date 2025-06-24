@@ -20,7 +20,9 @@
 // modified to work for LSP
 
 // for gtk_widget_override_font() and GTK_STOCK_*
-#define GDK_DISABLE_DEPRECATION_WARNINGS
+#ifndef GDK_DISABLE_DEPRECATION_WARNINGS
+# define GDK_DISABLE_DEPRECATION_WARNINGS
+#endif
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
