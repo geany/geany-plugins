@@ -753,7 +753,7 @@ vcdiff_dir_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, gpointer data)
 				     multiple statuses (e.g. Modified and Added)
 				   - diff each file only once
 				*/
-				g_slist_sort(lst,(GCompareFunc)commititem_compare_by_path);
+				lst = g_slist_sort(lst,(GCompareFunc)commititem_compare_by_path);
 
 				foreach_slist(list_item, lst)
 				{
