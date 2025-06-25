@@ -27,6 +27,7 @@ typedef struct
 {
 	guint line;
 	gchar *title;
+	gchar *kind;
 	gchar *command;
 	GVariant *arguments;
 	GVariant *edit;

@@ -46,6 +46,7 @@ typedef struct
 void lsp_command_free(LspCommand *cmd)
 {
 	g_free(cmd->title);
+	g_free(cmd->kind);
 	g_free(cmd->command);
 	if (cmd->arguments)
 		g_variant_unref(cmd->arguments);
@@ -60,6 +61,7 @@ void lsp_command_free(LspCommand *cmd)
 static LspCommand *parse_code_action(GVariant *code_action)
 {
 	const gchar *title = NULL;
+	const gchar *kind = NULL;
 	const gchar *command = NULL;
 	GVariant *arguments = NULL;
 	GVariant *edit = NULL;
@@ -91,6 +93,10 @@ static LspCommand *parse_code_action(GVariant *code_action)
 	else
 	{
 		JSONRPC_MESSAGE_PARSE(code_action,
+			"kind", JSONRPC_MESSAGE_GET_STRING(&kind)
+		);
+
+		JSONRPC_MESSAGE_PARSE(code_action,
 			"command", "{",
 				"command", JSONRPC_MESSAGE_GET_STRING(&command),
 			"}"
@@ -113,6 +119,7 @@ static LspCommand *parse_code_action(GVariant *code_action)
 
 	cmd = g_new0(LspCommand, 1);
 	cmd->title = g_strdup(title);
+	cmd->kind = g_strdup(kind);
 	cmd->command = g_strdup(command);
 	cmd->arguments = arguments;
 	cmd->edit = edit;
@@ -145,7 +152,7 @@ static void resolve_cb(GVariant *return_value, GError *error, gpointer user_data
 		//printf("%s\n\n\n", lsp_utils_json_pretty_print(return_value));
 	}
 
-	if (!performed)
+	if (!performed && data->callback)
 		data->callback(data->user_data);
 
 	g_free(data);
@@ -156,22 +163,15 @@ static void resolve_code_action(LspServer *server, LspCommand *cmd, LspCallback 
 {
 	GVariant *node;
 	CommandData *data;
+	GVariantDict dict;
 
+	g_variant_dict_init(&dict, NULL);
+	g_variant_dict_insert_value(&dict, "title", g_variant_new_string(cmd->title));
+	if (cmd->kind)
+		g_variant_dict_insert_value(&dict, "kind", g_variant_new_string(cmd->kind));
 	if (cmd->data)
-	{
-		GVariantDict dict;
-
-		g_variant_dict_init(&dict, NULL);
-		g_variant_dict_insert_value(&dict, "title", g_variant_new_string(cmd->title));
 		g_variant_dict_insert_value(&dict, "data", cmd->data);
-		node = g_variant_take_ref(g_variant_dict_end(&dict));
-	}
-	else
-	{
-		node = JSONRPC_MESSAGE_NEW(
-			"title", JSONRPC_MESSAGE_PUT_STRING(cmd->title)
-		);
-	}
+	node = g_variant_take_ref(g_variant_dict_end(&dict));
 
 	//printf("%s\n\n\n", lsp_utils_json_pretty_print(node));
 
