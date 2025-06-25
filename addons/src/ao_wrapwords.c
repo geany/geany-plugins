@@ -61,7 +61,7 @@ void enclose_text_action (guint key_id)
 
 	sci_obj = document_get_current ()->editor->sci;
 
-	if (sci_get_selected_text_length (sci_obj) < 2)
+	if (sci_get_selected_text_length2 (sci_obj) == 0)
 		return;
 
 	key_id -= KB_COUNT;
@@ -95,7 +95,7 @@ gboolean on_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_data
 
 	sci_obj = document_get_current ()->editor->sci;
 
-	if (sci_get_selected_text_length (sci_obj) < 2)
+	if (sci_get_selected_text_length2 (sci_obj) == 0)
 		return FALSE;
 
 	switch (event->keyval)

@@ -2007,7 +2007,7 @@ static void scp_tree_store_class_init(GObjectClass *class)
 		FALSE, G_PARAM_READWRITE));
 }
 
-static volatile gsize scp_tree_store_type_id_volatile = 0;
+static gsize scp_tree_store_type_id_volatile = 0;
 
 GType scp_tree_store_get_type(void)
 {

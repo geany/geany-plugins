@@ -86,7 +86,7 @@ static const char
 	*const BP_BORTS   = "bhtf",
 	*const BP_WHATS   = "warc",
 	*const BP_KNOWNS  = "btfwar",
-	*const BP_WATCHES = "war",
+/*	*const BP_WATCHES = "war", */
 	*const BP_WATOPTS = "ar";
 
 typedef struct _BreakType

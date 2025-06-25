@@ -91,7 +91,8 @@ markdown_viewer_set_property(GObject *obj, guint prop_id, const GValue *value, G
       update_internal_text(self, g_value_get_string(value));
       break;
     case PROP_ENCODING:
-      strncpy(self->priv->enc, g_value_get_string(value), MD_ENC_MAX);
+      strncpy(self->priv->enc, g_value_get_string(value), MD_ENC_MAX-1);
+      self->priv->enc[MD_ENC_MAX-1] = '\0';  /* add 0 if MD_ENC_MAX exceeded */
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID(obj, prop_id, pspec);

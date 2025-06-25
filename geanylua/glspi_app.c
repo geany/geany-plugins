@@ -416,7 +416,7 @@ static gint glspi_keycmd(lua_State* L)
 
 static gint glspi_launch(lua_State* L)
 {
-	gint argc=lua_gettop(L);
+	gsize argc=lua_gettop(L);
 	gint i;
 	gchar **argv=NULL;
 	gboolean rv;

@@ -516,6 +516,29 @@ on_configure_dialog_response (GtkDialog        *dialog,
   }
 }
 
+static GtkWidget *
+frame_new_with_alignment(const gchar *label_text, GtkWidget **alignment)
+{
+  GtkWidget *label, *align;
+  GtkWidget *frame = gtk_frame_new(NULL);
+  gchar *text = g_strconcat("<b>", label_text, "</b>", NULL);
+
+  gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_NONE);
+
+  align = gtk_alignment_new(0.5, 0.5, 1, 1);
+  gtk_container_add(GTK_CONTAINER(frame), align);
+  gtk_alignment_set_padding(GTK_ALIGNMENT(align), 0, 0, 12, 0);
+
+  label = gtk_label_new(NULL);
+  gtk_label_set_text(GTK_LABEL(label), text);
+  gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+  gtk_frame_set_label_widget(GTK_FRAME(frame), label);
+
+  *alignment = align;
+  g_free(text);
+  return frame;
+}
+
 GtkWidget *
 plugin_configure (GtkDialog *dialog)
 {
@@ -530,7 +553,7 @@ plugin_configure (GtkDialog *dialog)
   box1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
   
   /* Browser */
-  gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Browser"), &alignment), FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box1), frame_new_with_alignment (_("Browser"), &alignment), FALSE, FALSE, 0);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* browser position */
@@ -542,7 +565,7 @@ plugin_configure (GtkDialog *dialog)
   gtk_box_pack_start (GTK_BOX (box), cdialog->browser_auto_reload, FALSE, TRUE, 0);
   
   /* Windows */
-  gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Windows"), &alignment), FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box1), frame_new_with_alignment (_("Windows"), &alignment), FALSE, FALSE, 0);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* skip taskbar */

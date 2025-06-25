@@ -604,7 +604,7 @@ static gboolean on_editor_notify(G_GNUC_UNUSED GObject *object, GeanyEditor *edi
 						gint line_len = sci_get_line_length(sci, line);
 						gint i, start;
 						gint indent;
-						GeanyIndentPrefs* indent_prefs = editor_get_indent_prefs(editor);
+						const GeanyIndentPrefs* indent_prefs = editor_get_indent_prefs(editor);
 
 						/* get the line */
 						buf = sci_get_line(sci, line);
