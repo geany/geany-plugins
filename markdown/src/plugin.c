@@ -24,16 +24,7 @@
 #include "viewer.h"
 #include "conf.h"
 
-GeanyData      *geany_data;
-GeanyPlugin    *geany_plugin;
-
-PLUGIN_VERSION_CHECK(224)
-
-PLUGIN_SET_TRANSLATABLE_INFO(LOCALEDIR, GETTEXT_PACKAGE,
-                             "Markdown",
-                             _("Real-time Markdown preview"),
-                             "0.01",
-                             "Matthew Brush <mbrush@codebrainz.ca>")
+static GeanyPlugin *geany_plugin = NULL;
 
 /* Should be defined by build system, this is just a fallback */
 #ifndef MARKDOWN_DOC_DIR
@@ -58,8 +49,8 @@ static void on_document_filetype_set(GObject *obj, GeanyDocument *doc, GeanyFile
 static void on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer);
 static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer);
 
-/* Main plugin entry point on plugin load. */
-void plugin_init(GeanyData *data)
+/* Plugin entry point on activation. */
+static gboolean md_plugin_init(GeanyPlugin *plugin, gpointer data)
 {
   gint page_num;
   gchar *conf_fn;
@@ -68,9 +59,11 @@ void plugin_init(GeanyData *data)
   GtkWidget *viewer;
   GtkNotebook *nb;
 
+  geany_plugin = plugin;
+
   /* Setup the config object which is needed by the view. */
-  conf_fn = g_build_filename(geany->app->configdir, "plugins", "markdown",
-    "markdown.conf", NULL);
+  conf_fn = g_build_filename(geany_plugin->geany_data->app->configdir,
+    "plugins", "markdown", "markdown.conf", NULL);
   conf = markdown_config_new(conf_fn);
   g_free(conf_fn);
 
@@ -85,11 +78,11 @@ void plugin_init(GeanyData *data)
     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   if (view_pos == MARKDOWN_CONFIG_VIEW_POS_MSGWIN) {
-    nb = GTK_NOTEBOOK(geany->main_widgets->message_window_notebook);
+    nb = GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->message_window_notebook);
     page_num = gtk_notebook_append_page(nb,
       g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
   } else {
-    nb = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
+    nb = GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->sidebar_notebook);
     page_num = gtk_notebook_append_page(nb,
       g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
   }
@@ -100,7 +93,7 @@ void plugin_init(GeanyData *data)
   g_signal_connect(conf, "notify::view-pos", G_CALLBACK(on_view_pos_notify), viewer);
 
   g_export_html = gtk_menu_item_new_with_label(_("Export Markdown as HTML..."));
-  gtk_menu_shell_append(GTK_MENU_SHELL(data->main_widgets->tools_menu), g_export_html);
+  gtk_menu_shell_append(GTK_MENU_SHELL(geany_plugin->geany_data->main_widgets->tools_menu), g_export_html);
   g_signal_connect(g_export_html, "activate", G_CALLBACK(on_export_as_html_activate), viewer);
   gtk_widget_show(g_export_html);
 
@@ -116,22 +109,22 @@ void plugin_init(GeanyData *data)
   MD_PSC("document-reload", on_document_signal);
 #undef MD_PSC
 
-  /* Prevent segfault in plugin when it registers GTypes and gets unloaded
-   * and when reloaded tries to re-register the GTypes. */
-  plugin_module_make_resident(geany_plugin);
-
   update_markdown_viewer(MARKDOWN_VIEWER(viewer));
+
+  return TRUE;
 }
 
 /* Cleanup resources on plugin unload. */
-void plugin_cleanup(void)
+static void md_plugin_cleanup(GeanyPlugin *plugin, gpointer data)
 {
   gtk_widget_destroy(g_export_html);
   gtk_widget_destroy(g_scrolled_win);
+
+  geany_plugin = NULL;
 }
 
 /* Called to show the preferences GUI. */
-GtkWidget *plugin_configure(GtkDialog *dialog)
+static GtkWidget *md_plugin_configure(GeanyPlugin *plugin, GtkDialog *dialog, gpointer data)
 {
   MarkdownConfig *conf = NULL;
   g_object_get(g_viewer, "config", &conf, NULL);
@@ -139,7 +132,7 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 }
 
 /* Called to show the plugin's help */
-void plugin_help(void)
+static void md_plugin_help(GeanyPlugin *plugin, gpointer data)
 {
 #ifdef G_OS_WIN32
   gchar *prefix = g_win32_get_package_installation_directory_of_module(NULL);
@@ -218,8 +211,8 @@ on_view_pos_notify(GObject *obj, GParamSpec *pspec, MarkdownViewer *viewer)
 {
   gint page_num;
   GtkNotebook *newnb;
-  GtkNotebook *snb = GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook);
-  GtkNotebook *mnb = GTK_NOTEBOOK(geany->main_widgets->message_window_notebook);
+  GtkNotebook *snb = GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->sidebar_notebook);
+  GtkNotebook *mnb = GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->message_window_notebook);
   MarkdownConfigViewPos view_pos;
 
   g_object_ref(g_scrolled_win); /* Prevent it from being destroyed */
@@ -276,7 +269,7 @@ static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer
   g_return_if_fail(DOC_VALID(doc));
 
   dialog = gtk_file_chooser_dialog_new(_("Save HTML File As"),
-    GTK_WINDOW(geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SAVE,
+    GTK_WINDOW(geany_plugin->geany_data->main_widgets->window), GTK_FILE_CHOOSER_ACTION_SAVE,
     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
     GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
     NULL);
@@ -330,4 +323,35 @@ static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer
   }
 
   gtk_widget_destroy(dialog);
+}
+
+/* Main plugin entry point on plugin load */
+G_MODULE_EXPORT
+void geany_load_module(GeanyPlugin *plugin)
+{
+  /* setup translation */
+  main_locale_init(LOCALEDIR, GETTEXT_PACKAGE);
+
+  /* metadata */
+  plugin->info->name = "Markdown";
+  plugin->info->description = _("Real-time Markdown preview");
+  plugin->info->version = "0.01";
+  plugin->info->author = "Matthew Brush <mbrush@codebrainz.ca>";
+
+  /* entry points */
+  plugin->funcs->init = md_plugin_init;
+  plugin->funcs->cleanup = md_plugin_cleanup;
+  plugin->funcs->configure = md_plugin_configure;
+  plugin->funcs->help = md_plugin_help;
+
+  /* Prevent segfault in plugin when it registers GTypes and gets unloaded
+   * and when reloaded tries to re-register the GTypes.
+   * It used to be only needed in init() (e.g. when the plugin actually called
+   * some WebKit stuff), but we now see crashes with recent WebKit versions
+   * even if the module has merely been loaded (e.g. for listing in the plugin
+   * manager). */
+  plugin_module_make_resident(plugin);
+
+  /* register */
+  GEANY_PLUGIN_REGISTER(plugin, 224);
 }
