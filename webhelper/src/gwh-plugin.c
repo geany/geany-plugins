@@ -578,7 +578,7 @@ geany_load_module (GeanyPlugin *plugin)
   plugin->funcs->configure = gwh_plugin_configure;
 
   /* even though it's not really a good idea to keep all the libraries we load
-   * into memory, this is needed for webkit. first, without this we creash after
+   * into memory, this is needed for webkit. first, without this we crash after
    * module unloading, and webkitgtk inserts static data into GLib
    * (g_quark_from_static_string() for example) so it's not safe to remove it.
    * It used to be only needed in init() (e.g. when the plugin actually called
