@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Geany
         uses: actions/checkout@v4
         with:
-          repository: giuspen/geany
+          repository: geany/geany
           path: .geany_source
       - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
