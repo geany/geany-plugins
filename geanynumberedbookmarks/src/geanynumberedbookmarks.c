@@ -1482,6 +1482,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 {
 	GeanyDocument *doc;
 	gint i;
+	GdkModifierType state = keybindings_get_modifiers(ev->state);
 
 	doc=document_get_current();
 	if(doc==NULL)
@@ -1491,7 +1492,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 		return FALSE;
 
 	/* control and number pressed */
-	if(ev->state==4)
+	if(state == GDK_CONTROL_MASK)
 	{
 		i=((gint)(ev->keyval))-'0';
 		if(i<0 || i>9)
@@ -1501,7 +1502,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 		return TRUE;
 	}
 	/* control+shift+number */
-	if(ev->state==5) {
+	if(state == (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) {
 		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
 		 * have logical default to fall back on
 		*/
