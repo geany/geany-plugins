@@ -1476,11 +1476,10 @@ static void SetBookMark(GeanyDocument *doc, gint iBookMark)
 }
 
 
-static void CalculateNumKeys(GdkDisplay *display)
+static void CalculateNumKeys(GdkKeymap *gdkKeyMap)
 {
 	gint i,iResults=0;
 	GdkKeymapKey *gdkkmkResults;
-	GdkKeymap *gdkKeyMap=gdk_keymap_get_for_display(display);
 
 	/* Calculate what shift '0' to '9 will be (£ is above 3 on uk keyboard, but it's # or ~ on us
 	 * keyboard.)
@@ -1548,8 +1547,7 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 {
 	GeanyDocument *doc;
 	gint i;
-	GdkModifierType state=keybindings_get_modifiers(ev->state);;
-	GdkDisplay *display=gdk_window_get_display(ev->window);
+	GdkModifierType state=keybindings_get_modifiers(ev->state);
 
 	doc=document_get_current();
 	if(doc==NULL)
@@ -1561,8 +1559,6 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 	/* control or control + shift pressed */
 	if(state == GDK_CONTROL_MASK || state == (GDK_CONTROL_MASK | GDK_SHIFT_MASK))
 	{
-		CalculateNumKeys(display);
-
 		if (GetNumKey(ev->keyval, iNoShiftNumbers, &i)) {
 			/* number key pressed without shift */
 			GotoBookMark(doc, i);
@@ -1582,12 +1578,18 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 /* set up this plugin */
 void plugin_init(GeanyData *data)
 {
+	GdkDisplay *display=gtk_widget_get_display(geany->main_widgets->window);
+	GdkKeymap *keymap=gdk_keymap_get_for_display(display);
+
 	/* Load settings */
 	LoadSettings();
 
 	/* set key press monitor handle */
 	key_release_signal_id=g_signal_connect(geany->main_widgets->window,"key-release-event",
 	                                       G_CALLBACK(Key_Released_CallBack),NULL);
+
+	CalculateNumKeys(keymap);
+	g_signal_connect(keymap,"keys-changed",G_CALLBACK(CalculateNumKeys),NULL);
 }
 
 
