@@ -73,7 +73,7 @@ static gboolean bTryToLoadMarkers=FALSE; /* If the file has changed, attempt to 
 static gboolean bAlwaysSaveMarkers=FALSE; /* Always save markers, even if file has not changed */
 
 /* internal variables */
-static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
+static gint iShiftNumbers[]={41,33,64,35,36,37,94,38,42,40};
 static gint iNoShiftNumbers[]={48,49,50,51,52,53,54,55,56,57};
 static FileData *fdKnownFilesSettings=NULL;
 static gulong key_release_signal_id;
