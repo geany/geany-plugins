@@ -37,7 +37,7 @@ static void move_right(ScintillaObject *sci, gchar *ch, gint *pos)
 
 static gboolean is_wordchar(gchar c)
 {
-	return g_ascii_isalnum(c) || c == '_' || (c >= 192 && c <= 255);
+	return g_ascii_isalnum(c) || c == '_' || ((guchar) c) >= 192;
 }
 
 
@@ -300,7 +300,7 @@ void cmd_goto_previous_word_end_space(CmdContext *c, CmdParams *p)
 void get_word_range(ScintillaObject *sci, gboolean word_space, gboolean inner,
 	gint pos, gint num, gint *sel_start, gint *sel_len)
 {
-	guint i;
+	gint i;
 	gint start_pos = pos;
 	gint end_pos;
 	gchar ch = SSM(sci, SCI_GETCHARAT, pos, 0);
