@@ -76,7 +76,8 @@ static gboolean bAlwaysSaveMarkers=FALSE; /* Always save markers, even if file h
 static gint iShiftNumbers[]={41,33,64,35,36,37,94,38,42,40};
 static gint iNoShiftNumbers[]={48,49,50,51,52,53,54,55,56,57};
 static FileData *fdKnownFilesSettings=NULL;
-static gulong key_release_signal_id;
+static gulong key_press_signal_id=0;
+static gulong key_release_signal_id=0;
 
 /* default config file */
 const gchar default_config[] =
@@ -1543,7 +1544,7 @@ static gboolean GetNumKey(guint keyval, gint keyArr[], gint *j)
 /* handle key press
  * used to see if macro is being triggered and to control numbered bookmarks
 */
-static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpointer data)
+static gboolean Key_CallBack(GtkWidget *widget, GdkEventKey *ev, gpointer data)
 {
 	GeanyDocument *doc;
 	gint i;
@@ -1553,20 +1554,19 @@ static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpoint
 	if(doc==NULL)
 		return FALSE;
 
-	if(ev->type!=GDK_KEY_RELEASE)
-		return FALSE;
-
 	/* control or control + shift pressed */
 	if(state == GDK_CONTROL_MASK || state == (GDK_CONTROL_MASK | GDK_SHIFT_MASK))
 	{
 		if (GetNumKey(ev->keyval, iNoShiftNumbers, &i)) {
 			/* number key pressed without shift */
-			GotoBookMark(doc, i);
+			if(ev->type==GDK_KEY_RELEASE)
+				GotoBookMark(doc, i);
 			return TRUE;
 		}
 		else if (GetNumKey(ev->keyval, iShiftNumbers, &i)) {
 			/* number key pressed with shift */
-			SetBookMark(doc, i);
+			if(ev->type==GDK_KEY_RELEASE)
+				SetBookMark(doc, i);
 			return TRUE;
 		}
 	}
@@ -1586,7 +1586,9 @@ void plugin_init(GeanyData *data)
 
 	/* set key press monitor handle */
 	key_release_signal_id=g_signal_connect(geany->main_widgets->window,"key-release-event",
-	                                       G_CALLBACK(Key_Released_CallBack),NULL);
+	                                       G_CALLBACK(Key_CallBack),NULL);
+	key_press_signal_id=g_signal_connect(geany->main_widgets->window,"key-press-event",
+	                                     G_CALLBACK(Key_CallBack),NULL);
 
 	CalculateNumKeys(keymap);
 	g_signal_connect(keymap,"keys-changed",G_CALLBACK(CalculateNumKeys),NULL);
@@ -1605,6 +1607,7 @@ void plugin_cleanup(void)
 
 	/* uncouple keypress monitor */
 	g_signal_handler_disconnect(geany->main_widgets->window,key_release_signal_id);
+	g_signal_handler_disconnect(geany->main_widgets->window,key_press_signal_id);
 
 	/* go through all documents removing markers (?needed) */
 	for(i=0;i<GEANY(documents_array)->len;i++)
