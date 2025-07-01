@@ -788,12 +788,15 @@ gwh_settings_widget_new_full (GwhSettings            *self,
                             (GDestroyNotify)g_param_spec_unref);
     if (needs_label) {
       GtkWidget *box;
-      gchar     *label;
+      GtkWidget *label;
+      gchar     *text;
       
       box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-      label = g_strdup_printf (_("%s:"), g_param_spec_get_nick (pspec));
-      gtk_box_pack_start (GTK_BOX (box), gtk_label_new (label), FALSE, TRUE, 0);
-      g_free (label);
+      text = g_strdup_printf (_("%s:"), g_param_spec_get_nick (pspec));
+      label = gtk_label_new (text);
+      g_free (text);
+      gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+      gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
       gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
       g_object_set_data_full (G_OBJECT (box), KEY_WIDGET,
                               g_object_ref (widget), g_object_unref);
