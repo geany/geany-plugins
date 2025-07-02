@@ -73,9 +73,11 @@ static gboolean bTryToLoadMarkers=FALSE; /* If the file has changed, attempt to 
 static gboolean bAlwaysSaveMarkers=FALSE; /* Always save markers, even if file has not changed */
 
 /* internal variables */
-static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
+static gint iShiftNumbers[]={41,33,64,35,36,37,94,38,42,40};
+static gint iNoShiftNumbers[]={48,49,50,51,52,53,54,55,56,57};
 static FileData *fdKnownFilesSettings=NULL;
-static gulong key_release_signal_id;
+static gulong key_press_signal_id=0;
+static gulong key_release_signal_id=0;
 
 /* default config file */
 const gchar default_config[] =
@@ -1475,61 +1477,10 @@ static void SetBookMark(GeanyDocument *doc, gint iBookMark)
 }
 
 
-/* handle key press
- * used to see if macro is being triggered and to control numbered bookmarks
-*/
-static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpointer data)
+static void CalculateNumKeys(GdkKeymap *gdkKeyMap)
 {
-	GeanyDocument *doc;
-	gint i;
-
-	doc=document_get_current();
-	if(doc==NULL)
-		return FALSE;
-
-	if(ev->type!=GDK_KEY_RELEASE)
-		return FALSE;
-
-	/* control and number pressed */
-	if(ev->state==4)
-	{
-		i=((gint)(ev->keyval))-'0';
-		if(i<0 || i>9)
-			return FALSE;
-
-		GotoBookMark(doc, i);
-		return TRUE;
-	}
-	/* control+shift+number */
-	if(ev->state==5) {
-		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
-		 * have logical default to fall back on
-		*/
-		for(i=0;i<10;i++) if((gint)(ev->keyval)==iShiftNumbers[i])
-		{
-			SetBookMark(doc, i);
-			return TRUE;
-		}
-
-	}
-
-	return FALSE;
-}
-
-
-/* set up this plugin */
-void plugin_init(GeanyData *data)
-{
-	gint i,k,iResults=0;
+	gint i,iResults=0;
 	GdkKeymapKey *gdkkmkResults;
-#if GTK_CHECK_VERSION(3, 22, 0)
-	GdkKeymap *gdkKeyMap=gdk_keymap_get_for_display(gdk_display_get_default());
-#else
-	GdkKeymap *gdkKeyMap=gdk_keymap_get_default();
-#endif
-
-	/* Load settings */
-	LoadSettings();
 
 	/* Calculate what shift '0' to '9 will be (£ is above 3 on uk keyboard, but it's # or ~ on us
 	 * keyboard.)
@@ -1542,9 +1493,9 @@ void plugin_init(GeanyData *data)
 	for(i=0;i<10;i++)
 	{
 		/* Get keymapkey data for number key */
-		k=gdk_keymap_get_entries_for_keyval(gdkKeyMap,'0'+i,&gdkkmkResults,&iResults);
+		gboolean success=gdk_keymap_get_entries_for_keyval(gdkKeyMap,'0'+i,&gdkkmkResults,&iResults);
 		/* error retrieving hardware keycode, so leave as standard uk character for shift + number */
-		if(k==0)
+		if(!success)
 			continue;
 
 		/* unsure, just in case it does return 0 results but reserve memory  */
@@ -1554,37 +1505,93 @@ void plugin_init(GeanyData *data)
 			continue;
 		}
 
-		/* now use k to indicate GdkKeymapKey we're after */
-		k=0; /* default if only one hit found */
-		if(iResults>1)
-			/* cycle through results if more than one matches */
-			for(k=0;k<iResults;k++)
-				/* have found number without using shift, ctrl, Alt etc, so shold be it. */
-				if(gdkkmkResults[k].level==0)
-					break;
-
-		/* error figuring out which keycode to use so default to standard uk */
-		if(k==iResults)
-		{
-			g_free(gdkkmkResults);
-			continue;
-		}
+		/* set no shift pressed */
+		gdkkmkResults[0].level=0;
+		/* now get keycode for number key */
+		iResults=gdk_keymap_lookup_key(gdkKeyMap,&(gdkkmkResults[0]));
+		/* if valid keycode, enter into list of number keys */
+		if(iResults!=0)
+			iNoShiftNumbers[i]=iResults;
 
 		/* set shift pressed */
-		gdkkmkResults[k].level=1;
-		/* now get keycode for shift + number */
-		iResults=gdk_keymap_lookup_key(gdkKeyMap,&(gdkkmkResults[k]));
-		/* if valid keycode, enter into list of shift + numbers */
+		gdkkmkResults[0].level=1;
+		/* now get keycode for shift + number key */
+		iResults=gdk_keymap_lookup_key(gdkKeyMap,&(gdkkmkResults[0]));
+		/* if valid keycode, enter into list of shift + number keys */
 		if(iResults!=0)
 			iShiftNumbers[i]=iResults;
 
 		/* free resources */
 		g_free(gdkkmkResults);
 	}
+}
+
+
+static gboolean GetNumKey(guint keyval, gint keyArr[], gint *j)
+{
+	gint i;
+
+	for(i=0;i<10;i++) {
+		if((gint)(keyval)==keyArr[i]) {
+			*j=i;
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+
+/* handle key press
+ * used to see if macro is being triggered and to control numbered bookmarks
+*/
+static gboolean Key_CallBack(GtkWidget *widget, GdkEventKey *ev, gpointer data)
+{
+	GeanyDocument *doc;
+	gint i;
+	GdkModifierType state=keybindings_get_modifiers(ev->state);
+
+	doc=document_get_current();
+	if(doc==NULL)
+		return FALSE;
+
+	/* control or control + shift pressed */
+	if(state == GDK_CONTROL_MASK || state == (GDK_CONTROL_MASK | GDK_SHIFT_MASK))
+	{
+		if (GetNumKey(ev->keyval, iNoShiftNumbers, &i)) {
+			/* number key pressed without shift */
+			if(ev->type==GDK_KEY_RELEASE)
+				GotoBookMark(doc, i);
+			return TRUE;
+		}
+		else if (GetNumKey(ev->keyval, iShiftNumbers, &i)) {
+			/* number key pressed with shift */
+			if(ev->type==GDK_KEY_RELEASE)
+				SetBookMark(doc, i);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+
+/* set up this plugin */
+void plugin_init(GeanyData *data)
+{
+	GdkDisplay *display=gtk_widget_get_display(geany->main_widgets->window);
+	GdkKeymap *keymap=gdk_keymap_get_for_display(display);
+
+	/* Load settings */
+	LoadSettings();
 
 	/* set key press monitor handle */
 	key_release_signal_id=g_signal_connect(geany->main_widgets->window,"key-release-event",
-	                                       G_CALLBACK(Key_Released_CallBack),NULL);
+	                                       G_CALLBACK(Key_CallBack),NULL);
+	key_press_signal_id=g_signal_connect(geany->main_widgets->window,"key-press-event",
+	                                     G_CALLBACK(Key_CallBack),NULL);
+
+	CalculateNumKeys(keymap);
+	g_signal_connect(keymap,"keys-changed",G_CALLBACK(CalculateNumKeys),NULL);
 }
 
 
@@ -1600,6 +1607,7 @@ void plugin_cleanup(void)
 
 	/* uncouple keypress monitor */
 	g_signal_handler_disconnect(geany->main_widgets->window,key_release_signal_id);
+	g_signal_handler_disconnect(geany->main_widgets->window,key_press_signal_id);
 
 	/* go through all documents removing markers (?needed) */
 	for(i=0;i<GEANY(documents_array)->len;i++)
