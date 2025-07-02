@@ -91,7 +91,7 @@ static gchar *strip_word(const gchar *word_to_check, gint *result_offset)
 		return NULL;
 	}
 	/* move the string in-place and truncate it */
-	g_memmove(word_start, word, new_word_len);
+	memmove(word_start, word, new_word_len);
 	word = word_start;
 	word[new_word_len] = '\0';
 	if (EMPTY(word))

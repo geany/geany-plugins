@@ -425,7 +425,7 @@ static gint glspi_launch(lua_State* L)
 	for (i=1;i<=argc;i++) {
 		if (!lua_isstring(L,i)) { return FAIL_STRING_ARG(i); }
 	}
-	argv=g_malloc0(sizeof(gchar *)*argc+1);
+	argv=g_malloc0(sizeof(gchar *)*(argc+1));
 	for (i=0;i<argc;i++) {
 		argv[i]=(g_strdup(lua_tostring(L,i+1)));
 	}

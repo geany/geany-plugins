@@ -129,7 +129,7 @@ gchar *plugme_editor_get_default_selection(GeanyEditor *editor, gboolean use_cur
 
 	if (sci_has_selection(sci))
 	{
-		if (sci_get_selected_text_length(sci) < GEANY_MAX_WORD_LENGTH)
+		if (sci_get_selected_text_length2(sci) < GEANY_MAX_WORD_LENGTH)
 		{
 			text = sci_get_selection_contents(sci);
 

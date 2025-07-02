@@ -2007,11 +2007,11 @@ static void scp_tree_store_class_init(GObjectClass *class)
 		FALSE, G_PARAM_READWRITE));
 }
 
-static volatile gsize scp_tree_store_type_id_volatile = 0;
+static gsize scp_tree_store_type_id = 0;
 
 GType scp_tree_store_get_type(void)
 {
-	if (g_once_init_enter(&scp_tree_store_type_id_volatile))
+	if (g_once_init_enter(&scp_tree_store_type_id))
 	{
 		GType type = g_type_register_static_simple(G_TYPE_OBJECT,
 			g_intern_string("ScpTreeStore"), sizeof(ScpTreeStoreClass),
@@ -2028,10 +2028,10 @@ GType scp_tree_store_get_type(void)
 		g_type_add_interface_static(type, GTK_TYPE_TREE_SORTABLE, &iface_info);
 		iface_info.interface_init = (GInterfaceInitFunc) scp_tree_store_buildable_init;
 		g_type_add_interface_static(type, GTK_TYPE_BUILDABLE, &iface_info);
-		g_once_init_leave(&scp_tree_store_type_id_volatile, type);
+		g_once_init_leave(&scp_tree_store_type_id, type);
 	}
 
-	return scp_tree_store_type_id_volatile;
+	return scp_tree_store_type_id;
 }
 
 void scp_tree_store_register_dynamic(void)
@@ -2043,7 +2043,7 @@ void scp_tree_store_register_dynamic(void)
 		type = scp_tree_store_get_type();
 		g_type_class_unref(g_type_class_ref(type));  /* force class creation */
 	}
-	else if (!scp_tree_store_type_id_volatile)
+	else if (!scp_tree_store_type_id)
 	{
 		/* external registration, repair */
 		gpointer class = g_type_class_peek(type);
@@ -2059,6 +2059,6 @@ void scp_tree_store_register_dynamic(void)
 		scp_tree_store_sortable_init((GtkTreeSortableIface *) iface);
 		iface = g_type_interface_peek(class, GTK_TYPE_BUILDABLE);
 		scp_tree_store_buildable_init((GtkBuildableIface *) iface);
-		scp_tree_store_type_id_volatile = type;
+		scp_tree_store_type_id = type;
 	}
 }

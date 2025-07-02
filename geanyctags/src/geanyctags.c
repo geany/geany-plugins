@@ -351,7 +351,7 @@ static gchar *get_selection()
 	if (sci_has_selection(doc->editor->sci))
 		return sci_get_selection_contents(doc->editor->sci);
 
-	gint len = sci_get_selected_text_length(doc->editor->sci);
+	gint len = sci_get_selected_text_length2(doc->editor->sci);
 
 	ret = g_malloc(len + 1);
 	sci_get_selected_text(doc->editor->sci, ret);
