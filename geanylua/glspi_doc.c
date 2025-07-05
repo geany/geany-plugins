@@ -213,7 +213,9 @@ static gint glspi_save(lua_State* L)
 		} else {
 			if (lua_isstring(L,1)) {
 				gint idx=filename_to_doc_idx(lua_tostring(L,1));
-				status=document_save_file(documents[idx], TRUE);
+				if (idx >= 0) {
+					status=document_save_file(documents[idx], TRUE);
+				}
 			} else { return FAIL_STR_OR_NUM_ARG(1);	}
 		}
 	}
@@ -273,8 +275,10 @@ static gint glspi_close(lua_State* L)
 			status=document_close(documents[idx]);
 		} else {
 			if (lua_isstring(L,1)) {
-				guint idx=(guint)filename_to_doc_idx(lua_tostring(L,1));
-				status=document_close(documents[idx]);
+				gint idx=filename_to_doc_idx(lua_tostring(L,1));
+				if (idx >= 0) {
+					status=document_close(documents[idx]);
+				}
 			} else { return FAIL_STR_OR_NUM_ARG(1);	}
 		}
 	}
