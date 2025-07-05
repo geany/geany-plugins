@@ -28,7 +28,7 @@ Geany-Plugins 2.1 (unreleased)
     * Welcome to the new maintainer, @xiota! (PR#1375).
     * Improve compatibility with newer Lua implementations (PR#1231).
     * Fix Choose dialog (Skif-off, Issue#1374, PR#1376).
-    * Fix geany.activate(PR#1234).
+    * Fix geany.activate (PR#1234).
     * Add single line comment support to `geany.fileinfo` and rename the
       multi-line fields (Skif-off, PR#1397).
 
