@@ -43,6 +43,7 @@ static gint glspi_newfile(lua_State* L)
 		} else {
 			ft=filetypes_lookup_by_name(tmp);
 		}
+		/* Fallthrough */
 	default:
 		if (!lua_isstring(L, 1))	{ return FAIL_STRING_ARG(1); }
 		fn=lua_tostring(L, 1);
