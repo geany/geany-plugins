@@ -4,20 +4,18 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
 
     AC_ARG_WITH([lua-pkg],
         AS_HELP_STRING([--with-lua-pkg=ARG],
-            [name of Lua pkg-config script [[default=lua5.1]]]),
+            [name of Lua pkg-config script [[default=lua]]]),
         [LUA_PKG_NAME=${withval%.pc}],
-        [LUA_PKG_NAME=lua5.1
+        [LUA_PKG_NAME=lua])
 
-        for L in lua5.1 lua51 lua-5.1 lua; do
-            PKG_CHECK_EXISTS([$L],
-                [LUA_PKG_NAME=$L]; break,[])
-        done])
+    AS_CASE([$LUA_PKG_NAME],
+        [luajit], [LUA_VERSION_MIN=2.0; LUA_VERSION_LIMIT=3.0],
+        [*],      [LUA_VERSION_MIN=5.1; LUA_VERSION_LIMIT=5.5]
+    )
 
-    LUA_VERSION=5.1
-    LUA_VERSION_BOUNDARY=5.2
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [LUA],
-                         [${LUA_PKG_NAME} >= ${LUA_VERSION}
-                          ${LUA_PKG_NAME} < ${LUA_VERSION_BOUNDARY}])
+                         [${LUA_PKG_NAME} >= ${LUA_VERSION_MIN}
+                          ${LUA_PKG_NAME} < ${LUA_VERSION_LIMIT}])
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [GMODULE], [gmodule-2.0])
     GP_COMMIT_PLUGIN_STATUS([GeanyLua])
 
