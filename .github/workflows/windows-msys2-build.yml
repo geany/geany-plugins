@@ -1,5 +1,8 @@
 name: Windows/MSYS2 Build
-on: [workflow_dispatch]
+on:
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   msys2-mingw64:
