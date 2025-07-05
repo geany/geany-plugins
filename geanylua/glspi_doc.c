@@ -103,7 +103,7 @@ static gint glspi_activate(lua_State* L)
 				}
 			} else if (lua_idx > 0) {
 				/* Positive number refers to the geany->documents_array index */
-				gint doc_idx = lua_idx - 1;
+				guint doc_idx = (guint) (lua_idx - 1);
 				if ((doc_idx < geany->documents_array->len) && documents[doc_idx]->is_valid) {
 					tab_idx = document_get_notebook_page(documents[doc_idx]);
 				}
