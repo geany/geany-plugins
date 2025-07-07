@@ -182,3 +182,12 @@ endif
 if ENABLE_XMLSNIPPETS
 SUBDIRS += xmlsnippets
 endif
+
+
+# sign release tarballs
+sign:
+	for f in $(DIST_ARCHIVES); do \
+		if test -f "$$f"; then \
+			gpg --detach-sign --digest-algo SHA512 "$$f"; \
+		fi \
+	done
