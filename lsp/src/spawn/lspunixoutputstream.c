@@ -93,7 +93,9 @@ lsp_unix_output_stream_class_init (LspUnixOutputStreamClass *klass)
   gobject_class->set_property = lsp_unix_output_stream_set_property;
 
   stream_class->write_fn = lsp_unix_output_stream_write;
+#if GLIB_CHECK_VERSION (2, 60, 0)
   stream_class->writev_fn = NULL;
+#endif
   stream_class->close_fn = lsp_unix_output_stream_close;
 
    /**

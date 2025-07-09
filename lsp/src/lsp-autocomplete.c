@@ -315,6 +315,51 @@ LspAutocompleteSymbol *find_symbol(GeanyDocument *doc, const gchar *text)
 }
 
 
+#if ! GLIB_CHECK_VERSION (2, 68, 0)
+static guint lsp_g_string_replace(GString *string, const gchar *find, const gchar *replace, guint limit)
+{
+	guint replacements = 0;
+	gchar *p = string->str;
+	gsize find_len = strlen (find);
+	gsize replace_len = strlen (replace);
+
+	while ((p = strstr (p, find)))
+	{
+		gsize i = p - string->str;
+
+		if (replace_len <= find_len)
+		{
+			memcpy (p, replace, replace_len);
+			if (replace_len < find_len)
+				g_string_erase (string, i + replace_len, find_len - replace_len);
+		}
+		else
+		{
+			memcpy (p, replace, find_len);
+			g_string_insert_len (string, i + find_len, replace + find_len, replace_len - find_len);
+		}
+
+		replacements++;
+		if (limit && replacements >= limit)
+			break;
+
+		p = string->str + i + replace_len;
+		/* special case for empty search: advance not to match forever */
+		if (! find_len)
+		{
+			if (*p)
+				p++;
+			else
+				break;
+		}
+	}
+
+	return replacements;
+}
+#define g_string_replace lsp_g_string_replace
+#endif
+
+
 void lsp_autocomplete_selection_changed(GeanyDocument *doc, const gchar *text)
 {
 	LspAutocompleteSymbol *sym = find_symbol(doc, text);

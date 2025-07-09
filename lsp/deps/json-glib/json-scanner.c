@@ -1078,7 +1078,10 @@ json_scanner_get_token_ll (JsonScanner    *scanner,
               ch = 0;
               break;
             }
+#ifdef G_GNUC_FALLTHROUGH /* GLib >= 2.60 */
             G_GNUC_FALLTHROUGH;
+#endif
+            /* Fallthrough */
 
 	case '0':
 	case '1':
