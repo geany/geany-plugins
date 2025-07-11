@@ -38,6 +38,10 @@
 #include <glib.h>
 #include <glib/gprintf.h>
 
+#ifndef G_GNUC_FALLTHROUGH
+# define G_GNUC_FALLTHROUGH  /* GLib < 2.60 */
+#endif
+
 typedef enum
 {
   JSON_ERROR_TYPE_UNKNOWN,
