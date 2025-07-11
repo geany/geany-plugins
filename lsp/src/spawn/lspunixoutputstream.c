@@ -93,7 +93,6 @@ lsp_unix_output_stream_class_init (LspUnixOutputStreamClass *klass)
   gobject_class->set_property = lsp_unix_output_stream_set_property;
 
   stream_class->write_fn = lsp_unix_output_stream_write;
-  stream_class->writev_fn = NULL;
   stream_class->close_fn = lsp_unix_output_stream_close;
 
    /**
