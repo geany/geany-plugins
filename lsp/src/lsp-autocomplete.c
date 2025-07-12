@@ -338,9 +338,9 @@ void lsp_autocomplete_selection_changed(GeanyDocument *doc, const gchar *text)
 
 		g_strstrip(sym->documentation);
 		str = g_string_new(sym->documentation);
-		g_string_replace(str, "\n\n", " | ", -1);
-		g_string_replace(str, "\n", " ", -1);
-		g_string_replace(str, "  ", " ", -1);
+		utils_string_replace_all(str, "\n\n", " | ");
+		utils_string_replace_all(str, "\n", " ");
+		utils_string_replace_all(str, "  ", " ");
 		if (!EMPTY(str->str))
 		{
 			ui_set_statusbar(FALSE, "%s", str->str);
