@@ -324,7 +324,7 @@ static void find_char(CmdContext *c, CmdParams *p, gboolean invert)
 			ttf.chrg.cpMax = p->line_start_pos;
 		}
 
-		new_pos = SSM(p->sci, SCI_FINDTEXT, 0, (sptr_t)&ttf);
+		new_pos = SSM(p->sci, SCI_FINDTEXT, SCFIND_MATCHCASE, (sptr_t)&ttf);
 		if (new_pos < 0)
 			break;
 		pos = new_pos;
