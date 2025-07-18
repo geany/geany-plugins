@@ -55,6 +55,8 @@ KeyPress *kp_from_event_key(GdkEventKey *ev)
 		case GDK_KEY_Super_R:
 		case GDK_KEY_Hyper_L:
 		case GDK_KEY_Hyper_R:
+		case GDK_KEY_ISO_Level3_Shift:
+		case GDK_KEY_ISO_Level5_Shift:
 			return NULL;
 	}
 
