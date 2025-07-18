@@ -19,14 +19,24 @@
 #include "keypress.h"
 #include "utils.h"
 
+#include <geanyplugin.h>
 #include <gdk/gdkkeysyms.h>
+
 
 KeyPress *kp_from_event_key(GdkEventKey *ev)
 {
+	GdkDisplay *display = gdk_window_get_display(ev->window);
+	GdkKeymap *keymap = gdk_keymap_get_for_display(display);
+	guint state = keybindings_get_modifiers(ev->state);
+	GdkModifierType consumed;
 	KeyPress *kp;
 
+	gdk_keymap_translate_keyboard_state(keymap, ev->hardware_keycode,
+		ev->state, ev->group, NULL, NULL, NULL, &consumed);
+	state &= ~consumed;
+
 	/* ignore keypresses containing Alt and Command on macOS - no Vim command uses them */
-	if (ev->state & (GDK_MOD1_MASK | GDK_META_MASK))
+	if (state & (GDK_MOD1_MASK | GDK_META_MASK))
 		return NULL;
 
 	switch (ev->keyval)
@@ -45,6 +55,8 @@ KeyPress *kp_from_event_key(GdkEventKey *ev)
 		case GDK_KEY_Super_R:
 		case GDK_KEY_Hyper_L:
 		case GDK_KEY_Hyper_R:
+		case GDK_KEY_ISO_Level3_Shift:
+		case GDK_KEY_ISO_Level5_Shift:
 			return NULL;
 	}
 
@@ -67,10 +79,10 @@ KeyPress *kp_from_event_key(GdkEventKey *ev)
 		case GDK_KEY_Down:
 		case GDK_KEY_KP_Down:
 		case GDK_KEY_downarrow:
-			kp->modif = ev->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK);
+			kp->modif = state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK);
 			break;
 		default:
-			kp->modif = ev->state & GDK_CONTROL_MASK;
+			kp->modif = state & GDK_CONTROL_MASK;
 			break;
 	}
 
