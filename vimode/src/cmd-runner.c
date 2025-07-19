@@ -583,7 +583,7 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 	sel_start = SSM(ctx->sci, SCI_GETSELECTIONSTART, 0, 0);
 	sel_len = SSM(ctx->sci, SCI_GETSELECTIONEND, 0, 0) - sel_start;
 	cmd_params_init(&param, ctx->sci,
-		num_present ? num : 1, num_present, ctx->kpl, FALSE,
+		num_present ? num : 1, num_present, ctx->kpl,
 		sel_start, sel_len);
 
 	SSM(ctx->sci, SCI_BEGINUNDOACTION, 0, 0);
@@ -623,8 +623,7 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 					}
 				}
 				cmd_params_init(&param, ctx->sci,
-					1, FALSE, top, TRUE,
-					sel_start, sel_len);
+					1, FALSE, top, sel_start, sel_len);
 
 				def->cmd(ctx, &param);
 			}
