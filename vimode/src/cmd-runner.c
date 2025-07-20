@@ -176,8 +176,6 @@ CmdDef include_dest_char_movement_cmds[] = {
 	{cmd_goto_next_char_before, GDK_KEY_t, 0, 0, 0, TRUE, FALSE},
 	{cmd_goto_next_word_end, GDK_KEY_e, 0, 0, 0, FALSE, FALSE},
 	{cmd_goto_next_word_end_space, GDK_KEY_E, 0, 0, 0, FALSE, FALSE},
-	{cmd_goto_previous_word, GDK_KEY_b, 0, 0, 0, FALSE, FALSE},
-	{cmd_goto_previous_word_space, GDK_KEY_B, 0, 0, 0, FALSE, FALSE},
 	{cmd_goto_matching_brace, GDK_KEY_percent, 0, 0, 0, FALSE, FALSE},
 	{NULL, 0, 0, 0, 0, FALSE, FALSE}
 };
