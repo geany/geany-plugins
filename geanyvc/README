@@ -1,5 +1,5 @@
 GeanyVC
-===========
+=======
 
 .. contents::
 
@@ -113,6 +113,17 @@ Requirements
 * GTK >= 2.8.0
 * gtkspell >=2.0 for a spell checking
 * Geany >= 0.19
+
+License
+-------
+
+GeanyVC and all its parts is distributed under the terms of the
+GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any
+later version. A copy of this license can be found in the file COPYING
+included with the source code of this program. If not, you will be
+able to get a copy by contacting the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 Contact developers
 ------------------

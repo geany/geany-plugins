@@ -152,17 +152,19 @@ The plugin depends on the following libraries:
 License
 -------
 
-The Markdown plugin is licensed under the GNU General Public License,
-version 2. For the full text of the license, please visit
-http://www.gnu.org/licenses/gpl-2.0.html. The GPL license covers all code
-and files *not* in the ``discount`` directory.
+The Markdown plugin is licensed under the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version. For the full text of the license, please
+visit http://www.gnu.org/licenses/gpl-2.0.html. The GPL license covers all code
+and files *not* in the ``peg-markdown/peg-0.1.9`` directory.
 
-All code inside the ``discount`` directory is under a BSD-style license
-(see the ``discount/COPYRIGHT`` file) and all contributions to this code
-*will* remain under this license. This will make it easier to integrate
-improvements to Discount back upstream if it ever makes sense. So far the
-only changes are superficial to allow it to build with the Geany-Plugins
-build system and to prevent some compiler warnings.
+All code inside the ``peg-markdown`` directory is under the dual GPL2+ or MIT
+license, and the ``peg-markdown/peg-0.1.9`` directory is under the MIT
+license (see the ``peg-markdown/LICENSE`` file) and all contributions to
+this code *will* remain under these licenses. This will make it easier to
+integrate improvements in these areas back upstream if it ever makes sense.
+So far the only changes are superficial to allow it to build with the
+Geany-Plugins build system and to prevent some compiler warnings.
 
 Authors
 -------
@@ -171,9 +173,9 @@ The Geany Markdown plugin is written and maintained by::
 
     Matthew Brush <matt(at)geany(dot)org>
 
-The plugin includes the Discount Markdown library, developed by::
+The plugin includes the Peg Markdown library, developed by::
 
-    David Loren Parsons <http://www.pell.portland.or.us/~orc>
+    John MacFarlane <https://github.com/jgm/peg-markdown>
 
 Contact
 -------
