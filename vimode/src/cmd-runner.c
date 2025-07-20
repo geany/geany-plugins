@@ -176,6 +176,9 @@ CmdDef include_dest_char_movement_cmds[] = {
 	{cmd_goto_next_char_before, GDK_KEY_t, 0, 0, 0, TRUE, FALSE},
 	{cmd_goto_next_word_end, GDK_KEY_e, 0, 0, 0, FALSE, FALSE},
 	{cmd_goto_next_word_end_space, GDK_KEY_E, 0, 0, 0, FALSE, FALSE},
+	{NULL, 0, 0, 0, 0, FALSE, FALSE}
+};
+CmdDef include_src_dest_char_movement_cmds[] = {
 	{cmd_goto_matching_brace, GDK_KEY_percent, 0, 0, 0, FALSE, FALSE},
 	{NULL, 0, 0, 0, 0, FALSE, FALSE}
 };
@@ -595,6 +598,7 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 	{
 		gboolean is_text_object_cmd = is_in_cmd_group(text_object_cmds, def);
 		gboolean is_include_dest_char_movement_cmd = is_in_cmd_group(include_dest_char_movement_cmds, def);
+		gboolean is_include_src_dest_char_movement_cmd = is_in_cmd_group(include_src_dest_char_movement_cmds, def);
 		if (is_text_object_cmd || is_in_cmd_group(movement_cmds, def))
 		{
 			def = get_cmd_to_run(top, operator_cmds, TRUE);
@@ -613,11 +617,16 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 				{
 					sel_start = MIN(new_pos, orig_pos);
 					sel_len = ABS(new_pos - orig_pos);
-					if (sel_len > 0 && is_include_dest_char_movement_cmd)
+					if (sel_len > 0 &&
+						(is_include_dest_char_movement_cmd || is_include_src_dest_char_movement_cmd))
 					{
 						sel_len++;
 						if (new_pos < orig_pos)
+						{
 							sel_start--;
+							if (is_include_src_dest_char_movement_cmd)
+								sel_len++;
+						}
 					}
 				}
 				cmd_params_init(&param, ctx->sci,
