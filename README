@@ -125,3 +125,8 @@ which means that after running ``./configure``, you may compile each
 individual plugin by cd-ing into the respective plugin directory
 and running make inside it.
 
+License
+-------
+
+For individual license information of the various included plugins,
+please see the `COPYING <COPYING>`_ file.
