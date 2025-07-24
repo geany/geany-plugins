@@ -176,8 +176,9 @@ CmdDef include_dest_char_movement_cmds[] = {
 	{cmd_goto_next_char_before, GDK_KEY_t, 0, 0, 0, TRUE, FALSE},
 	{cmd_goto_next_word_end, GDK_KEY_e, 0, 0, 0, FALSE, FALSE},
 	{cmd_goto_next_word_end_space, GDK_KEY_E, 0, 0, 0, FALSE, FALSE},
-	{cmd_goto_previous_word, GDK_KEY_b, 0, 0, 0, FALSE, FALSE},
-	{cmd_goto_previous_word_space, GDK_KEY_B, 0, 0, 0, FALSE, FALSE},
+	{NULL, 0, 0, 0, 0, FALSE, FALSE}
+};
+CmdDef include_src_dest_char_movement_cmds[] = {
 	{cmd_goto_matching_brace, GDK_KEY_percent, 0, 0, 0, FALSE, FALSE},
 	{NULL, 0, 0, 0, 0, FALSE, FALSE}
 };
@@ -583,7 +584,7 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 	sel_start = SSM(ctx->sci, SCI_GETSELECTIONSTART, 0, 0);
 	sel_len = SSM(ctx->sci, SCI_GETSELECTIONEND, 0, 0) - sel_start;
 	cmd_params_init(&param, ctx->sci,
-		num_present ? num : 1, num_present, ctx->kpl, FALSE,
+		num_present ? num : 1, num_present, ctx->kpl,
 		sel_start, sel_len);
 
 	SSM(ctx->sci, SCI_BEGINUNDOACTION, 0, 0);
@@ -597,6 +598,7 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 	{
 		gboolean is_text_object_cmd = is_in_cmd_group(text_object_cmds, def);
 		gboolean is_include_dest_char_movement_cmd = is_in_cmd_group(include_dest_char_movement_cmds, def);
+		gboolean is_include_src_dest_char_movement_cmd = is_in_cmd_group(include_src_dest_char_movement_cmds, def);
 		if (is_text_object_cmd || is_in_cmd_group(movement_cmds, def))
 		{
 			def = get_cmd_to_run(top, operator_cmds, TRUE);
@@ -615,16 +617,20 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 				{
 					sel_start = MIN(new_pos, orig_pos);
 					sel_len = ABS(new_pos - orig_pos);
-					if (sel_len > 0 && is_include_dest_char_movement_cmd)
+					if (sel_len > 0 &&
+						(is_include_dest_char_movement_cmd || is_include_src_dest_char_movement_cmd))
 					{
 						sel_len++;
 						if (new_pos < orig_pos)
+						{
 							sel_start--;
+							if (is_include_src_dest_char_movement_cmd)
+								sel_len++;
+						}
 					}
 				}
 				cmd_params_init(&param, ctx->sci,
-					1, FALSE, top, TRUE,
-					sel_start, sel_len);
+					1, FALSE, top, sel_start, sel_len);
 
 				def->cmd(ctx, &param);
 			}

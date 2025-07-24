@@ -35,8 +35,6 @@ typedef struct
 	gboolean num_present;
 	/* last key press */
 	KeyPress *last_kp;
-	/* if running as an "operator" command */
-	gboolean is_operator_cmd;
 
 	/* selection start or selection made by movement command */
 	gint sel_start;
@@ -70,7 +68,7 @@ typedef struct
 typedef void (*Cmd)(CmdContext *c, CmdParams *p);
 
 void cmd_params_init(CmdParams *param, ScintillaObject *sci,
-	gint num, gboolean num_present, GSList *kpl, gboolean is_operator_cmd,
+	gint num, gboolean num_present, GSList *kpl,
 	gint sel_start, gint sel_len);
 
 #endif

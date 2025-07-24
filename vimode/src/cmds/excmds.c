@@ -72,7 +72,7 @@ static void prepare_cmd_params(CmdParams *params, CmdContext *c, ExCmdParams *p)
 {
 	gint start = SSM(c->sci, SCI_POSITIONFROMLINE, p->range_from, 0);
 	SET_POS(c->sci, start, TRUE);
-	cmd_params_init(params, c->sci, p->range_to - p->range_from + 1, FALSE, NULL, FALSE, 0, 0);
+	cmd_params_init(params, c->sci, p->range_to - p->range_from + 1, FALSE, NULL, 0, 0);
 }
 
 
@@ -141,7 +141,7 @@ void excmd_copy(CmdContext *c, ExCmdParams *p)
 	gint dest = SSM(c->sci, SCI_POSITIONFROMLINE, p->dest, 0);
 	excmd_yank(c, p);
 	SET_POS(c->sci, dest, TRUE);
-	cmd_params_init(&params, c->sci, 1, FALSE, NULL, FALSE, 0, 0);
+	cmd_params_init(&params, c->sci, 1, FALSE, NULL, 0, 0);
 	cmd_paste_after(c, &params);
 }
 
@@ -159,6 +159,6 @@ void excmd_move(CmdContext *c, ExCmdParams *p)
 		p->dest -= p->range_to - p->range_from + 1;
 	dest = SSM(c->sci, SCI_POSITIONFROMLINE, p->dest, 0);
 	SET_POS(c->sci, dest, TRUE);
-	cmd_params_init(&params, c->sci, 1, FALSE, NULL, FALSE, 0, 0);
+	cmd_params_init(&params, c->sci, 1, FALSE, NULL, 0, 0);
 	cmd_paste_after(c, &params);
 }

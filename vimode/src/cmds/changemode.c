@@ -189,8 +189,6 @@ void cmd_enter_insert_cut_line(CmdContext *c, CmdParams *p)
 void cmd_enter_insert_cut_sel(CmdContext *c, CmdParams *p)
 {
 	gint sel_end_pos = p->sel_start + p->sel_len;
-	if (p->is_operator_cmd && p->line_end_pos < sel_end_pos)
-		sel_end_pos = p->line_end_pos;
 
 	cut_range_change_mode(c, p, p->sel_start, sel_end_pos, FALSE, VI_MODE_INSERT);
 }
@@ -208,8 +206,6 @@ void cmd_enter_insert_cut_line_sel(CmdContext *c, CmdParams *p)
 void cmd_enter_command_cut_sel(CmdContext *c, CmdParams *p)
 {
 	gint sel_end_pos = p->sel_start + p->sel_len;
-	if (p->is_operator_cmd && p->line_end_pos < sel_end_pos)
-		sel_end_pos = p->line_end_pos;
 
 	cut_range_change_mode(c, p, p->sel_start, sel_end_pos, FALSE, VI_MODE_COMMAND);
 }
@@ -228,8 +224,6 @@ void cmd_enter_command_cut_line_sel(CmdContext *c, CmdParams *p)
 void cmd_enter_command_copy_sel(CmdContext *c, CmdParams *p)
 {
 	gint sel_end_pos = p->sel_start + p->sel_len;
-	if (p->is_operator_cmd && p->line_end_pos < sel_end_pos)
-		sel_end_pos = p->line_end_pos;
 
 	c->line_copy = FALSE;
 	SSM(p->sci, SCI_COPYRANGE, p->sel_start, sel_end_pos);
