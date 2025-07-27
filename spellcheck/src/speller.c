@@ -204,7 +204,9 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 	gint wstart, wend;
 	gint suggestions_found = 0;
 	gint wordchars_len;
+	gint whitespaces_len;
 	gchar *wordchars;
+	gchar *whitespaces;
 	gchar *underscore_in_wordchars = NULL;
 	gboolean wordchars_modified = FALSE;
 
@@ -219,6 +221,9 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 	wordchars_len = scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, 0);
 	wordchars = g_malloc0(wordchars_len + 2); /* 2 = temporarily added "'" and "\0" */
 	scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, (sptr_t)wordchars);
+	whitespaces_len = scintilla_send_message(doc->editor->sci, SCI_GETWHITESPACECHARS, 0, 0);
+	whitespaces = g_malloc0(whitespaces_len + 1);
+	scintilla_send_message(doc->editor->sci, SCI_GETWHITESPACECHARS, 0, (sptr_t)whitespaces);
 	if (! strchr(wordchars, '\''))
 	{
 		/* temporarily add "'" to the wordchars */
@@ -267,8 +272,10 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 		/* reset wordchars for the current document */
 		wordchars[wordchars_len] = '\0';
 		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
+		scintilla_send_message(doc->editor->sci, SCI_SETWHITESPACECHARS, 0, (sptr_t)whitespaces);
 	}
 	g_free(wordchars);
+	g_free(whitespaces);
 	return suggestions_found;
 }
 
