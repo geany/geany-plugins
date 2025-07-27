@@ -198,15 +198,28 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 }
 
 
+static gchar *get_chars(ScintillaObject *sci, unsigned int message, gint extra_alloc, gint *out_len)
+{
+	gint len = scintilla_send_message(sci, message, 0, 0);
+	gchar *chars = g_malloc0(len + 1 + extra_alloc);
+
+	scintilla_send_message(sci, message, 0, (sptr_t)chars);
+	if (out_len)
+		*out_len = len;
+
+	return chars;
+}
+
+
 gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 {
 	gint pos_start, pos_end;
 	gint wstart, wend;
 	gint suggestions_found = 0;
 	gint wordchars_len;
-	gint whitespaces_len;
 	gchar *wordchars;
 	gchar *whitespaces;
+	gchar *punctuations;
 	gchar *underscore_in_wordchars = NULL;
 	gboolean wordchars_modified = FALSE;
 
@@ -218,12 +231,10 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 
 	/* add ' (single quote) temporarily to wordchars
 	 * to be able to check for "doesn't", "isn't" and similar */
-	wordchars_len = scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, 0);
-	wordchars = g_malloc0(wordchars_len + 2); /* 2 = temporarily added "'" and "\0" */
-	scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, (sptr_t)wordchars);
-	whitespaces_len = scintilla_send_message(doc->editor->sci, SCI_GETWHITESPACECHARS, 0, 0);
-	whitespaces = g_malloc0(whitespaces_len + 1);
-	scintilla_send_message(doc->editor->sci, SCI_GETWHITESPACECHARS, 0, (sptr_t)whitespaces);
+	/* +1 to allocation to allow for temporarily added "'" */
+	wordchars = get_chars(doc->editor->sci, SCI_GETWORDCHARS, 1, &wordchars_len);
+	whitespaces = get_chars(doc->editor->sci, SCI_GETWHITESPACECHARS, 0, NULL);
+	punctuations = get_chars(doc->editor->sci, SCI_GETPUNCTUATIONCHARS, 0, NULL);
 	if (! strchr(wordchars, '\''))
 	{
 		/* temporarily add "'" to the wordchars */
@@ -273,9 +284,11 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 		wordchars[wordchars_len] = '\0';
 		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
 		scintilla_send_message(doc->editor->sci, SCI_SETWHITESPACECHARS, 0, (sptr_t)whitespaces);
+		scintilla_send_message(doc->editor->sci, SCI_SETPUNCTUATIONCHARS, 0, (sptr_t)punctuations);
 	}
 	g_free(wordchars);
 	g_free(whitespaces);
+	g_free(punctuations);
 	return suggestions_found;
 }
 
