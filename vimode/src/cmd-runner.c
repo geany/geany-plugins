@@ -614,11 +614,7 @@ static void perform_cmd(CmdDef *def, CmdContext *ctx)
 					sel_start = MIN(new_pos, orig_pos);
 					sel_len = ABS(new_pos - orig_pos);
 					if (sel_len > 0 && is_include_dest_char_movement_cmd)
-					{
 						sel_len++;
-						if (new_pos < orig_pos)
-							sel_start--;
-					}
 				}
 				cmd_params_init(&param, ctx->sci,
 					1, FALSE, top, sel_start, sel_len);
