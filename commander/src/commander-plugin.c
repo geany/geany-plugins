@@ -166,11 +166,15 @@ path_basename (const gchar *path)
 static gint
 key_score (const gchar *key_,
            const gchar *text_)
-{
+{  
   gchar  *text  = g_utf8_casefold (text_, -1);
   gchar  *key   = g_utf8_casefold (key_, -1);
   gint    score;
-  
+
+  /* full compliance should have high priority */
+  if (strcmp (key, text) == 0)
+    return 0xf000;
+
   score = get_score (key, text) + get_score (key, path_basename (text)) / 2;
   
   g_free (text);
