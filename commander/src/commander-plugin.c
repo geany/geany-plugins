@@ -713,7 +713,7 @@ create_panel (void)
   cell = gtk_cell_renderer_text_new ();
   col = gtk_tree_view_column_new_with_attributes (NULL, cell, NULL);
   gtk_tree_view_column_set_sizing (col, GTK_TREE_VIEW_COLUMN_FIXED);
-  gtk_tree_view_column_set_cell_data_func(col, cell, score_cell_data, col, NULL);
+  gtk_tree_view_column_set_cell_data_func (col, cell, score_cell_data, col, NULL);
   gtk_tree_view_append_column (GTK_TREE_VIEW (plugin_data.view), col);
 #endif
   cell = gtk_cell_renderer_text_new ();
