@@ -84,7 +84,7 @@ enum {
   KB_COUNT
 };
 
-struct {
+static struct {
   GtkWidget    *panel;
   GtkWidget    *entry;
   GtkWidget    *view;
@@ -92,11 +92,7 @@ struct {
   GtkTreeModel *sort;
   
   GtkTreePath  *last_path;
-} plugin_data = {
-  NULL, NULL, NULL,
-  NULL, NULL,
-  NULL
-};
+} plugin_data;
 
 typedef enum {
   COL_TYPE_MENU_ITEM  = 1 << 0,
