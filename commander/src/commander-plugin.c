@@ -423,10 +423,10 @@ fill_store (GtkListStore *store)
 }
 
 static gint
-sort_func (GtkTreeModel  *model,
-           GtkTreeIter   *a,
-           GtkTreeIter   *b,
-           gpointer       dummy)
+sort_func (GtkTreeModel            *model,
+           GtkTreeIter             *a,
+           GtkTreeIter             *b,
+           G_GNUC_UNUSED gpointer   dummy)
 {
   gint          scorea;
   gint          scoreb;
@@ -457,9 +457,9 @@ sort_func (GtkTreeModel  *model,
 }
 
 static gboolean
-on_panel_key_press_event (GtkWidget    *widget,
-                          GdkEventKey  *event,
-                          gpointer      dummy)
+on_panel_key_press_event (GtkWidget               *widget,
+                          GdkEventKey             *event,
+                          G_GNUC_UNUSED gpointer   dummy)
 {
   switch (event->keyval) {
     case GDK_KEY_Escape:
@@ -496,9 +496,9 @@ on_panel_key_press_event (GtkWidget    *widget,
 }
 
 static void
-on_entry_text_notify (GObject    *object,
-                      GParamSpec *pspec,
-                      gpointer    dummy)
+on_entry_text_notify (G_GNUC_UNUSED GObject    *object,
+                      G_GNUC_UNUSED GParamSpec *pspec,
+                      G_GNUC_UNUSED gpointer    dummy)
 {
   GtkTreeIter   iter;
   GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
@@ -518,15 +518,15 @@ on_entry_text_notify (GObject    *object,
 }
 
 static void
-on_entry_activate (GtkEntry  *entry,
-                   gpointer   dummy)
+on_entry_activate (G_GNUC_UNUSED GtkEntry  *entry,
+                   G_GNUC_UNUSED gpointer   dummy)
 {
   tree_view_activate_focused_row (GTK_TREE_VIEW (plugin_data.view));
 }
 
 static void
-on_panel_hide (GtkWidget *widget,
-               gpointer   dummy)
+on_panel_hide (G_GNUC_UNUSED GtkWidget *widget,
+               G_GNUC_UNUSED gpointer   dummy)
 {
   GtkTreeView  *view = GTK_TREE_VIEW (plugin_data.view);
   
@@ -540,8 +540,8 @@ on_panel_hide (GtkWidget *widget,
 }
 
 static void
-on_panel_show (GtkWidget *widget,
-               gpointer   dummy)
+on_panel_show (G_GNUC_UNUSED GtkWidget *widget,
+               G_GNUC_UNUSED gpointer   dummy)
 {
   GtkTreePath *path;
   GtkTreeView *view = GTK_TREE_VIEW (plugin_data.view);
@@ -569,10 +569,10 @@ on_panel_show (GtkWidget *widget,
 }
 
 static void
-on_view_row_activated (GtkTreeView       *view,
-                       GtkTreePath       *path,
-                       GtkTreeViewColumn *column,
-                       gpointer           dummy)
+on_view_row_activated (GtkTreeView                      *view,
+                       GtkTreePath                      *path,
+                       G_GNUC_UNUSED GtkTreeViewColumn  *column,
+                       G_GNUC_UNUSED gpointer            dummy)
 {
   GtkTreeModel *model = gtk_tree_view_get_model (view);
   GtkTreeIter   iter;
@@ -732,9 +732,9 @@ create_panel (void)
 }
 
 static gboolean
-on_kb_show_panel (GeanyKeyBinding  *kb,
-                  guint             key_id,
-                  gpointer          data)
+on_kb_show_panel (G_GNUC_UNUSED GeanyKeyBinding  *kb,
+                  G_GNUC_UNUSED guint             key_id,
+                  gpointer                        data)
 {
   const gchar *prefix = data;
   
@@ -755,7 +755,7 @@ on_kb_show_panel (GeanyKeyBinding  *kb,
 }
 
 static gboolean
-on_plugin_idle_init (gpointer dummy)
+on_plugin_idle_init (G_GNUC_UNUSED gpointer dummy)
 {
   create_panel ();
   
@@ -763,7 +763,7 @@ on_plugin_idle_init (gpointer dummy)
 }
 
 void
-plugin_init (GeanyData *data)
+plugin_init (G_GNUC_UNUSED GeanyData *data)
 {
   GeanyKeyGroup *group;
   
