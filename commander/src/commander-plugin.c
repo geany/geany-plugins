@@ -26,6 +26,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <geanyplugin.h>
+#include <filelist.h>
 
 
 /* uncomment to display each row score (for debugging sort) */
@@ -95,6 +96,11 @@ static struct {
 
   gchar        *config_file;
 
+  gboolean      show_project_file;
+  guint         show_project_file_limit;
+  gboolean      show_project_file_skip_hidden_file;
+  gboolean      show_project_file_skip_hidden_dir;
+
   gint          panel_width;
   gint          panel_height;
 } plugin_data;
@@ -106,13 +112,23 @@ typedef enum {
 } ColType;
 
 enum {
-  COL_LABEL,
-  COL_PATH,
-  COL_TYPE,
+  COL_LABEL,       /* display text */
+  
+  COL_VALUE,       /* text that is checked against the input */
+
+  COL_TYPE,        /* enum ColType */
+  
+
   COL_WIDGET,
   COL_DOCUMENT,
+  COL_FILE,
   COL_COUNT
 };
+
+typedef struct {
+  gint   score;
+  gchar *path;
+} FileQueueItem;
 
 
 #define PATH_SEPARATOR " \342\206\222 " /* right arrow */
@@ -364,7 +380,7 @@ store_populate_menu_items (GtkListStore  *store,
         
         gtk_list_store_insert_with_values (store, NULL, -1,
                                            COL_LABEL, label,
-                                           COL_PATH, path,
+                                           COL_VALUE, path,
                                            COL_TYPE, COL_TYPE_MENU_ITEM,
                                            COL_WIDGET, node->data,
                                            -1);
@@ -403,32 +419,224 @@ find_menubar (GtkContainer *container)
 }
 
 static void
+store_add_file (GtkListStore *store, GeanyDocument *doc, const gchar *path)
+{
+  gchar      *basename;
+  gchar      *label;
+
+  basename = g_path_get_basename (path);
+
+  label = g_markup_printf_escaped ("<big>%s</big>\n"
+                                   "<small><i>%s</i></small>",
+                                   basename,
+                                   path);
+
+  gtk_list_store_insert_with_values (store, NULL, -1,
+                                     COL_LABEL, label,
+                                     COL_VALUE, path,
+                                     COL_FILE, path,
+                                     COL_TYPE, COL_TYPE_FILE,
+                                     COL_DOCUMENT, doc,
+                                     -1);
+
+  g_free (basename);
+  g_free (label);
+}
+
+static gboolean
+file_has_allowed_ext (const gchar *filename, GSList *allow_ext)
+{
+  if (allow_ext == NULL)
+    return TRUE;
+  
+  return filelist_patterns_match (allow_ext, filename);
+}
+
+static FileQueueItem *
+file_queue_item_new (gint score, const gchar *filepath)
+{
+  FileQueueItem *self;
+
+  self = g_new (FileQueueItem, 1);
+  self->score = score;
+  self->path = g_strdup (filepath);
+  return self;
+}
+
+static void
+file_queue_item_free (FileQueueItem *self)
+{
+  g_free (self->path);
+  g_free (self);
+}
+
+static gint
+file_queue_item_cmp (const FileQueueItem *a, const FileQueueItem *b, G_GNUC_UNUSED gpointer udata)
+{
+  return (a->score > b->score) - (a->score < b->score);
+}
+
+static void
+file_queue_add (GQueue *queue, guint limit, const gchar *key, const gchar *filepath)
+{
+  FileQueueItem *qitem;
+  FileQueueItem *head;
+  gint score;
+
+  score = key_score (key, filepath);
+
+  if (g_queue_get_length (queue) > limit) {
+    head = g_queue_peek_head (queue);
+    if (score < head->score) {
+      return;
+    }
+
+    file_queue_item_free (g_queue_pop_head (queue));
+  } 
+
+  qitem = file_queue_item_new (score, filepath);
+  g_queue_insert_sorted (queue, qitem, (GCompareDataFunc) file_queue_item_cmp, NULL);
+}
+
+/* recursively adding project files to the queue */
+static void
+store_add_dir (GQueue *queue, const gchar *dir_path,
+               GSList *allow_ext, const gchar *key, guint *show_count)
+{
+  GDir         *dir;
+  const gchar  *filename;
+  gchar        *filepath;
+  gboolean      add_file;
+  gboolean      is_hidden;
+
+  if ((dir = g_dir_open (dir_path, 0, NULL)) == NULL)
+    return;
+
+  while ((filename = g_dir_read_name (dir)) != NULL) {
+    if (strcmp (filename, ".") == 0 || strcmp (filename, "..") == 0)
+      continue;
+
+    is_hidden = filename[0] == '.';
+
+    filepath = g_build_path (G_DIR_SEPARATOR_S, dir_path, filename, NULL);
+
+    if (g_file_test (filepath, G_FILE_TEST_IS_REGULAR)) {
+      add_file = file_has_allowed_ext (filename, allow_ext)
+              && document_find_by_real_path (filepath) == NULL
+              && (!is_hidden || !plugin_data.show_project_file_skip_hidden_file);
+      
+      if (add_file) {
+        file_queue_add (queue, plugin_data.show_project_file_limit, key, filepath);
+      }
+    } else if (g_file_test (filepath, G_FILE_TEST_IS_DIR)) {
+      if (!is_hidden || !plugin_data.show_project_file_skip_hidden_dir) {
+        store_add_dir (queue, filepath, allow_ext, key, show_count);
+      }
+    }
+
+    g_free (filepath);
+  }
+
+  g_dir_close (dir);
+}
+
+/* when entering a search query, the old set of files is deleted and
+ * a new one is added, this function deletes the old parameters */
+static void
+clear_store_project_files (GtkListStore *store)
+{
+  GtkTreeIter  iter;
+
+  gtk_tree_model_get_iter_first (GTK_TREE_MODEL (store), &iter);
+
+  while (gtk_list_store_iter_is_valid (GTK_LIST_STORE (store), &iter)) {
+    GValue value_type = G_VALUE_INIT;
+    gtk_tree_model_get_value (GTK_TREE_MODEL (store), &iter, COL_TYPE, &value_type);
+    if (g_value_get_int (&value_type) != COL_TYPE_FILE)
+      goto next_iter;
+
+    GValue value_doc = G_VALUE_INIT;
+    gtk_tree_model_get_value (GTK_TREE_MODEL (store), &iter, COL_DOCUMENT, &value_doc);
+    if (g_value_get_pointer (&value_doc) == NULL) {
+      gtk_list_store_remove (GTK_LIST_STORE (store), &iter);
+      continue;
+    }
+
+next_iter:
+    gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter);
+  }
+}
+
+static void
+store_add_project_file (FileQueueItem *item, GtkListStore *store)
+{
+  store_add_file (store, NULL, item->path);
+}
+
+static void
+fill_store_project_files (GtkListStore *store)
+{
+  GeanyProject *project;
+  GSList       *patterns;
+  const gchar  *key;
+  gint          key_type;
+  guint         show_project_file_count = 0;
+  GQueue       *file_queue;
+
+  if (!plugin_data.show_project_file)
+    return;
+
+  clear_store_project_files (store);
+
+  if ((project = geany->app->project) == NULL)
+    return;
+
+  if (project->base_path == NULL)
+    return;
+
+  key = get_key (&key_type);
+
+  /* instead of adding thousands of items to the TreeView, it's better
+   * to select the best matches and show only those */
+  file_queue = g_queue_new ();
+
+  patterns = filelist_get_precompiled_patterns (project->file_patterns);
+  
+  store_add_dir (file_queue, project->base_path, patterns,
+                 key, &show_project_file_count);
+
+  g_slist_free_full (patterns, (GDestroyNotify) g_pattern_spec_free);
+
+  g_queue_foreach (file_queue, (GFunc) store_add_project_file, store);
+
+  g_queue_free_full (file_queue, (GDestroyNotify) file_queue_item_free);
+}
+
+static void
 fill_store (GtkListStore *store)
 {
-  GtkWidget  *menubar;
-  guint       i = 0;
-  
+  GtkWidget    *menubar;
+  guint         i = 0;
+
   /* menu items */
   menubar = find_menubar (GTK_CONTAINER (geany_data->main_widgets->window));
   store_populate_menu_items (store, GTK_MENU_SHELL (menubar), NULL);
   
   /* open files */
   foreach_document (i) {
-    gchar *basename = g_path_get_basename (DOC_FILENAME (documents[i]));
-    gchar *label = g_markup_printf_escaped ("<big>%s</big>\n"
-                                            "<small><i>%s</i></small>",
-                                            basename,
-                                            DOC_FILENAME (documents[i]));
-    
-    gtk_list_store_insert_with_values (store, NULL, -1,
-                                       COL_LABEL, label,
-                                       COL_PATH, DOC_FILENAME (documents[i]),
-                                       COL_TYPE, COL_TYPE_FILE,
-                                       COL_DOCUMENT, documents[i],
-                                       -1);
-    g_free (basename);
-    g_free (label);
+    store_add_file (store, documents[i], DOC_FILENAME (documents[i]));
   }
+  
+  /* project files */
+  fill_store_project_files (store);
+}
+
+/* when you enter a search query, some options are updated */
+static void
+refresh_store (GtkListStore *store)
+{
+  /* project files */
+  fill_store_project_files (store);
 }
 
 static gint
@@ -446,8 +654,8 @@ sort_func (GtkTreeModel            *model,
   gint          type;
   const gchar  *key = get_key (&type);
   
-  gtk_tree_model_get (model, a, COL_PATH, &patha, COL_TYPE, &typea, -1);
-  gtk_tree_model_get (model, b, COL_PATH, &pathb, COL_TYPE, &typeb, -1);
+  gtk_tree_model_get (model, a, COL_VALUE, &patha, COL_TYPE, &typea, -1);
+  gtk_tree_model_get (model, b, COL_VALUE, &pathb, COL_TYPE, &typeb, -1);
   
   scorea = key_score (key, patha);
   scoreb = key_score (key, pathb);
@@ -469,7 +677,7 @@ static gboolean
 on_panel_key_press_event (GtkWidget               *widget,
                           GdkEventKey             *event,
                           G_GNUC_UNUSED gpointer   dummy)
-{
+{  
   switch (event->keyval) {
     case GDK_KEY_Escape:
       gtk_widget_hide (widget);
@@ -512,6 +720,9 @@ on_entry_text_notify (G_GNUC_UNUSED GObject    *object,
   GtkTreeIter   iter;
   GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
   GtkTreeModel *model = gtk_tree_view_get_model (view);
+
+  /* input related update */
+  refresh_store (plugin_data.store);
   
   /* we force re-sorting the whole model from how it was before, and the
    * back to the new filter.  this is somewhat hackish but since we don't
@@ -595,8 +806,21 @@ on_view_row_activated (GtkTreeView                      *view,
       case COL_TYPE_FILE: {
         GeanyDocument  *doc;
         gint            page;
+        const gchar    *filepath;
         
         gtk_tree_model_get (model, &iter, COL_DOCUMENT, &doc, -1);
+        
+        if (doc == NULL) {
+          /* file may not be open yet */
+          
+          gtk_tree_model_get (model, &iter, COL_FILE, &filepath, -1);
+          if (filepath == NULL)
+            break;
+          
+          if ((doc = document_open_file (filepath, FALSE, NULL, NULL)) == NULL)
+            break;
+        }
+        
         page = document_get_notebook_page (doc);
         gtk_notebook_set_current_page (GTK_NOTEBOOK (geany_data->main_widgets->notebook),
                                        page);
@@ -633,7 +857,7 @@ score_cell_data (GtkTreeViewColumn *column,
   gint          width, old_width;
   const gchar  *key = get_key (&type);
   
-  gtk_tree_model_get (model, iter, COL_PATH, &path, COL_TYPE, &pathtype, -1);
+  gtk_tree_model_get (model, iter, COL_VALUE, &path, COL_TYPE, &pathtype, -1);
   
   score = key_score (key, path);
   if (! (pathtype & type)) {
@@ -698,7 +922,8 @@ create_panel (void)
                                           G_TYPE_STRING,
                                           G_TYPE_INT,
                                           GTK_TYPE_WIDGET,
-                                          G_TYPE_POINTER);
+                                          G_TYPE_POINTER,
+                                          G_TYPE_STRING);
   
   plugin_data.sort = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (plugin_data.store));
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (plugin_data.sort),
@@ -804,6 +1029,30 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
                                          "commander", G_DIR_SEPARATOR_S, 
                                          "commander.conf", NULL);
 
+  g_key_file_load_from_file (config, plugin_data.config_file, G_KEY_FILE_NONE, NULL);
+
+  plugin_data.show_project_file_limit = utils_get_setting_integer (config,
+		                                                               "commander", 
+                                                                   "show_project_file_limit", 
+                                                                   16);
+
+  plugin_data.show_project_file = utils_get_setting_boolean (config,
+                                                             "commander", 
+                                                             "show_project_file", 
+                                                             TRUE);
+
+  plugin_data.show_project_file_skip_hidden_file =
+    utils_get_setting_boolean (config,
+                               "commander", 
+                               "show_project_file_skip_hidden_file", 
+                               FALSE);
+
+  plugin_data.show_project_file_skip_hidden_dir =
+    utils_get_setting_boolean (config,
+                               "commander", 
+                               "show_project_file_skip_hidden_dir", 
+                               TRUE);
+
   plugin_data.panel_width = utils_get_setting_integer (config,
                                                        "commander", 
                                                        "panel_width", 
@@ -890,6 +1139,27 @@ plugin_configure_response_cb (GtkDialog *dialog, gint response, G_GNUC_UNUSED gp
   config = g_key_file_new ();
   g_key_file_load_from_file (config, plugin_data.config_file, G_KEY_FILE_NONE, NULL);
 
+  /* project file */
+  plugin_data.show_project_file
+    = ui_cfg_read_check_button (dialog, config,
+                                "show_project_file_check_button",
+                                "show_project_file");
+
+  plugin_data.show_project_file_limit
+    = ui_cfg_read_spin_button (dialog, config,
+                               "show_project_file_limit_spin_button",
+                               "show_project_file_limit");
+
+  plugin_data.show_project_file_skip_hidden_file
+    = ui_cfg_read_check_button (dialog, config,
+                                "show_project_file_skip_hidden_file_check_button",
+                                "show_project_file_skip_hidden_file");
+
+  plugin_data.show_project_file_skip_hidden_dir
+    = ui_cfg_read_check_button (dialog, config,
+                                "show_project_file_skip_hidden_dir_check_button",
+                                "show_project_file_skip_hidden_dir");
+
   /* palette */
   plugin_data.panel_width
     = ui_cfg_read_spin_button (dialog, config,
@@ -967,9 +1237,34 @@ GtkWidget *
 plugin_configure (GtkDialog *dialog)
 {
   GtkWidget    *vbox;
+  GtkWidget    *show_project_file_container;
   GtkWidget    *palette_container;
    
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+
+  /* project files */
+  show_project_file_container = ui_cfg_frame_new (vbox);
+
+  ui_cfg_check_button_new (dialog, show_project_file_container,
+                           "show_project_file_check_button",
+                           _("Show project files"),
+                           plugin_data.show_project_file);
+
+  ui_cfg_spin_button_new (dialog, show_project_file_container,
+                          "show_project_file_limit_spin_button",
+                          _("Limit of displayed project files:"),
+                          0, 1024, 1,
+                          plugin_data.show_project_file_limit);
+
+  ui_cfg_check_button_new (dialog, show_project_file_container,
+                           "show_project_file_skip_hidden_file_check_button",
+                           _("Don't show hidden project files"),
+                           plugin_data.show_project_file_skip_hidden_file);
+
+  ui_cfg_check_button_new (dialog, show_project_file_container,
+                           "show_project_file_skip_hidden_dir_check_button",
+                           _("Don't show hidden project directories"),
+                           plugin_data.show_project_file_skip_hidden_dir);
 
   /* palette */
   palette_container = ui_cfg_frame_new (vbox);
