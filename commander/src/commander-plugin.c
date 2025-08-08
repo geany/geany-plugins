@@ -92,6 +92,11 @@ static struct {
   GtkTreeModel *sort;
   
   GtkTreePath  *last_path;
+
+  gchar        *config_file;
+
+  gint          panel_width;
+  gint          panel_height;
 } plugin_data;
 
 typedef enum {
@@ -661,8 +666,8 @@ create_panel (void)
   
   plugin_data.panel = g_object_new (GTK_TYPE_WINDOW,
                                     "decorated", FALSE,
-                                    "default-width", 500,
-                                    "default-height", 200,
+                                    "default-width", plugin_data.panel_width,
+                                    "default-height", plugin_data.panel_height,
                                     "transient-for", geany_data->main_widgets->window,
                                     "window-position", GTK_WIN_POS_CENTER_ON_PARENT,
                                     "type-hint", GDK_WINDOW_TYPE_HINT_DIALOG,
@@ -774,6 +779,9 @@ void
 plugin_init (G_GNUC_UNUSED GeanyData *data)
 {
   GeanyKeyGroup *group;
+  GKeyFile      *config;
+
+  /* keybindings */
   
   group = plugin_set_key_group (geany_plugin, "commander", KB_COUNT, NULL);
   keybindings_set_item_full (group, KB_SHOW_PANEL, 0, 0, "show_panel",
@@ -787,6 +795,26 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
                              "show_panel_files",
                              _("Show Command Panel (Files Only)"), NULL,
                              on_kb_show_panel, (gpointer) "f:", NULL);
+
+  /* config */
+  
+  config = g_key_file_new ();
+  plugin_data.config_file = g_strconcat (geany->app->configdir, G_DIR_SEPARATOR_S,
+		                                     "plugins", G_DIR_SEPARATOR_S, 
+                                         "commander", G_DIR_SEPARATOR_S, 
+                                         "commander.conf", NULL);
+
+  plugin_data.panel_width = utils_get_setting_integer (config,
+                                                       "commander", 
+                                                       "panel_width", 
+                                                       500);
+
+  plugin_data.panel_height = utils_get_setting_integer (config,
+                                                        "commander", 
+                                                        "panel_height", 
+                                                        300);
+  
+  g_key_file_free (config);
   
   /* delay for other plugins to have a chance to load before, so we will
    * include their items */
@@ -802,10 +830,165 @@ plugin_cleanup (void)
   if (plugin_data.last_path) {
     gtk_tree_path_free (plugin_data.last_path);
   }
+  g_free (plugin_data.config_file);
 }
 
 void
 plugin_help (void)
 {
   utils_open_browser (DOCDIR "/" PLUGIN "/README");
+}
+
+static gboolean
+ui_cfg_read_check_button (GtkDialog *dialog, GKeyFile *config,
+                          const gchar *widget_code,
+                          const gchar *config_code)
+{
+  GtkWidget    *check_button;
+  gboolean      active; 
+
+  check_button = g_object_get_data (G_OBJECT (dialog), widget_code);
+  active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button));
+  g_key_file_set_boolean (config, "commander", config_code, active);
+  return active;
+}
+
+static glong
+ui_cfg_read_spin_button (GtkDialog *dialog, GKeyFile *config,
+                         const gchar *widget_code,
+                         const gchar *config_code)
+{
+  GtkWidget    *spin_button;
+  gdouble       value;
+
+  spin_button = g_object_get_data (G_OBJECT (dialog), widget_code);
+  value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin_button));
+  g_key_file_set_integer (config, "commander", config_code, value);
+  return value;
+}
+
+static void 
+plugin_configure_response_cb (GtkDialog *dialog, gint response, G_GNUC_UNUSED gpointer user_data)
+{
+  GKeyFile     *config;
+  gchar        *data;
+  gchar        *config_dir;
+
+  if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_APPLY)
+    return;
+  
+  /* mkdir config_dir */
+  config_dir = g_path_get_dirname (plugin_data.config_file);
+  if (!g_file_test (config_dir, G_FILE_TEST_IS_DIR) && utils_mkdir (config_dir, TRUE) != 0) {
+    dialogs_show_msgbox (GTK_MESSAGE_ERROR, _("Plugin configuration directory could not be created."));
+    g_free (config_dir);
+    return;
+  }
+  g_free (config_dir);
+  
+  /* load config */
+  config = g_key_file_new ();
+  g_key_file_load_from_file (config, plugin_data.config_file, G_KEY_FILE_NONE, NULL);
+
+  /* palette */
+  plugin_data.panel_width
+    = ui_cfg_read_spin_button (dialog, config,
+                               "panel_width_spin_button",
+                               "panel_width");
+  plugin_data.panel_height
+    = ui_cfg_read_spin_button (dialog, config,
+                               "panel_height_spin_button",
+                               "panel_height");
+
+  gtk_window_resize (GTK_WINDOW (plugin_data.panel), plugin_data.panel_width, plugin_data.panel_height);          
+
+  /* write config */
+  data = g_key_file_to_data (config, NULL, NULL);
+  utils_write_file (plugin_data.config_file, data);
+  g_free (data);
+  g_key_file_free (config);
+}
+
+
+static GtkWidget *
+ui_cfg_frame_new (GtkWidget *vbox)
+{
+  GtkWidget    *frame;
+  GtkWidget    *frame_vbox;
+
+  frame = gtk_frame_new (NULL);
+  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, FALSE, 3);
+
+  frame_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+  gtk_container_add (GTK_CONTAINER (frame), frame_vbox);
+
+  return frame_vbox;
+}
+
+static void
+ui_cfg_check_button_new (GtkDialog *dialog, GtkWidget *vbox,
+                         const gchar *code, const gchar *label, gboolean active)
+{
+  GtkWidget    *hbox;
+  GtkWidget    *check_button;
+
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 3);
+
+  check_button = gtk_check_button_new_with_label (label);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button), active);
+  gtk_box_pack_start (GTK_BOX (hbox), check_button, FALSE, FALSE, 3);
+  g_object_set_data (G_OBJECT (dialog), code, check_button);
+}
+
+static void
+ui_cfg_spin_button_new (GtkDialog *dialog, GtkWidget *vbox,
+                        const gchar *code, const gchar *label_text,
+                        gdouble start, gdouble end, gdouble step,
+                        gdouble value)
+{
+  GtkWidget    *hbox;
+  GtkWidget    *label;
+  GtkWidget    *spin_button;
+
+  hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 3);
+
+  label = gtk_label_new_with_mnemonic (label_text);
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 3);
+
+  spin_button = gtk_spin_button_new_with_range (start, end, step);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), value);
+  gtk_box_pack_start (GTK_BOX (hbox), spin_button, FALSE, FALSE, 3);
+  g_object_set_data (G_OBJECT (dialog), code, spin_button);
+}                           
+
+GtkWidget *
+plugin_configure (GtkDialog *dialog)
+{
+  GtkWidget    *vbox;
+  GtkWidget    *palette_container;
+   
+  vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+
+  /* palette */
+  palette_container = ui_cfg_frame_new (vbox);
+
+  ui_cfg_spin_button_new (dialog, palette_container,
+                          "panel_width_spin_button",
+                          _("Command panel window width"),
+                          100, 4096, 1,
+                          plugin_data.panel_width);
+
+  ui_cfg_spin_button_new (dialog, palette_container,
+                          "panel_height_spin_button",
+                          _("Command panel window height"),
+                          100, 4096, 1,
+                          plugin_data.panel_height);
+  
+  gtk_widget_show_all (vbox);
+  
+  g_signal_connect (dialog, "response", G_CALLBACK (plugin_configure_response_cb), NULL);
+  
+  return vbox;
 }
