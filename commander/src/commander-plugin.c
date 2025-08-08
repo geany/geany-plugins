@@ -709,6 +709,9 @@ create_panel (void)
   plugin_data.view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (plugin_data.sort));
   gtk_widget_set_can_focus (plugin_data.view, FALSE);
   gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (plugin_data.view), FALSE);
+
+  /* eliminates graphic artifacts */
+  gtk_tree_view_set_fixed_height_mode (GTK_TREE_VIEW (plugin_data.view), TRUE);
 #ifdef DISPLAY_SCORE
   cell = gtk_cell_renderer_text_new ();
   col = gtk_tree_view_column_new_with_attributes (NULL, cell, NULL);
@@ -721,6 +724,7 @@ create_panel (void)
   col = gtk_tree_view_column_new_with_attributes (NULL, cell,
                                                   "markup", COL_LABEL,
                                                   NULL);
+  gtk_tree_view_column_set_sizing (col, GTK_TREE_VIEW_COLUMN_FIXED);
   gtk_tree_view_append_column (GTK_TREE_VIEW (plugin_data.view), col);
   g_signal_connect (plugin_data.view, "row-activated",
                     G_CALLBACK (on_view_row_activated), NULL);
