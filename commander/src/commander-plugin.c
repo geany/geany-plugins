@@ -41,7 +41,7 @@ PLUGIN_VERSION_CHECK(226)
 PLUGIN_SET_TRANSLATABLE_INFO (
   LOCALEDIR, GETTEXT_PACKAGE,
   _("Commander"),
-  _("Provides a command panel for quick access to actions, files and more"),
+  _("Provides a command panel for quick access to actions, files, symbols and more"),
   VERSION,
   "Colomban Wendling <ban@herbesfolles.org>"
 )
@@ -82,6 +82,7 @@ enum {
   KB_SHOW_PANEL,
   KB_SHOW_PANEL_COMMANDS,
   KB_SHOW_PANEL_FILES,
+  KB_SHOW_PANEL_SYMBOLS,
   KB_COUNT
 };
 
@@ -100,15 +101,18 @@ static struct {
   guint         show_project_file_limit;
   gboolean      show_project_file_skip_hidden_file;
   gboolean      show_project_file_skip_hidden_dir;
+  
+  gboolean      show_symbol;
 
   gint          panel_width;
   gint          panel_height;
 } plugin_data;
 
 typedef enum {
-  COL_TYPE_MENU_ITEM  = 1 << 0,
-  COL_TYPE_FILE       = 1 << 1,
-  COL_TYPE_ANY        = 0xffff
+  COL_TYPE_MENU_ITEM    = 1 << 0,
+  COL_TYPE_FILE         = 1 << 1,
+  COL_TYPE_SYMBOL       = 1 << 2,
+  COL_TYPE_ANY          = 0xffff
 } ColType;
 
 enum {
@@ -122,6 +126,7 @@ enum {
   COL_WIDGET,
   COL_DOCUMENT,
   COL_FILE,
+  COL_LINE,
   COL_COUNT
 };
 
@@ -130,10 +135,14 @@ typedef struct {
   gchar *path;
 } FileQueueItem;
 
+static gulong VISIBLE_TAGS =  tm_tag_class_t | tm_tag_enum_t | tm_tag_function_t |
+                              tm_tag_interface_t | tm_tag_method_t | tm_tag_struct_t |
+                              tm_tag_union_t | tm_tag_variable_t | tm_tag_macro_t |
+                              tm_tag_macro_with_arg_t;
 
 #define PATH_SEPARATOR " \342\206\222 " /* right arrow */
 
-#define SEPARATORS        " -_./\\\"'"
+#define SEPARATORS        " -_./\\\"':"
 #define IS_SEPARATOR(c)   (strchr (SEPARATORS, (c)) != NULL)
 #define next_separator(p) (strpbrk (p, SEPARATORS))
 
@@ -216,6 +225,9 @@ get_key (gint *type_)
   } else if (g_str_has_prefix (key, "c:")) {
     key += 2;
     type = COL_TYPE_MENU_ITEM;
+  } else if (g_str_has_prefix (key, "s:")) {
+    key += 2;
+    type = COL_TYPE_SYMBOL;
   }
   
   if (type_) {
@@ -613,6 +625,60 @@ fill_store_project_files (GtkListStore *store)
 }
 
 static void
+fill_store_symbols (GtkListStore *store)
+{
+  const TMWorkspace  *ws;
+  guint               i;
+  GPtrArray          *tags;
+  TMTag              *tag;
+  gchar              *name;
+  gchar              *label;
+  
+  if (!plugin_data.show_symbol)
+    return;
+
+  if ((ws = geany->app->tm_workspace) == NULL)
+    return;
+
+  if (ws->tags_array == NULL)
+    return;
+
+  tags = ws->tags_array;
+  for (i = 0; i < tags->len; ++i) {
+    tag = TM_TAG (tags->pdata[i]);
+
+    if (tag->file == NULL)
+      continue;
+    
+    if ((tag->type & VISIBLE_TAGS) == 0)
+      continue;
+
+    if (tag->scope == NULL) {
+      name = g_strdup (tag->name);
+    } else {
+      name = g_strdup_printf ("%s::%s", tag->scope, tag->name);
+    }
+
+    label = g_markup_printf_escaped ("<big>%s</big>\n"
+                                     "<small><i>%s:%lu</i></small>",
+                                     name,
+                                     tag->file->file_name,
+                                     tag->line);
+
+    gtk_list_store_insert_with_values (store, NULL, -1,
+                                       COL_LABEL, label,
+                                       COL_VALUE, name,
+                                       COL_TYPE, COL_TYPE_SYMBOL,
+                                       COL_FILE, tag->file->file_name,
+                                       COL_LINE, tag->line,
+                                       -1);
+
+    g_free (name);
+    g_free (label);
+  }
+}
+
+static void
 fill_store (GtkListStore *store)
 {
   GtkWidget    *menubar;
@@ -629,6 +695,9 @@ fill_store (GtkListStore *store)
   
   /* project files */
   fill_store_project_files (store);
+
+  /* symbols */
+  fill_store_symbols (store);
 }
 
 /* when you enter a search query, some options are updated */
@@ -836,6 +905,22 @@ on_view_row_activated (GtkTreeView                      *view,
         
         break;
       }
+
+      case COL_TYPE_SYMBOL: {
+        GeanyDocument *doc;
+        const gchar   *filepath;
+        gulong         line;
+
+        gtk_tree_model_get (model, &iter, COL_FILE, &filepath, -1);
+        gtk_tree_model_get (model, &iter, COL_LINE, &line, -1);
+
+        if ((doc = document_open_file (filepath, FALSE, NULL, NULL)) == NULL)
+          break;
+
+        navqueue_goto_line (document_get_current (), doc, line);
+  
+        break;
+      }
     }
     gtk_widget_hide (plugin_data.panel);
   }
@@ -923,7 +1008,8 @@ create_panel (void)
                                           G_TYPE_INT,
                                           GTK_TYPE_WIDGET,
                                           G_TYPE_POINTER,
-                                          G_TYPE_STRING);
+                                          G_TYPE_STRING,
+                                          G_TYPE_ULONG);
   
   plugin_data.sort = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (plugin_data.store));
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (plugin_data.sort),
@@ -975,9 +1061,9 @@ on_kb_show_panel (G_GNUC_UNUSED GeanyKeyBinding  *kb,
                   gpointer                        data)
 {
   const gchar *prefix = data;
-  
+
   gtk_widget_show (plugin_data.panel);
-  
+
   if (prefix) {
     const gchar *key = gtk_entry_get_text (GTK_ENTRY (plugin_data.entry));
     
@@ -1005,7 +1091,7 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
 {
   GeanyKeyGroup *group;
   GKeyFile      *config;
-
+  
   /* keybindings */
   
   group = plugin_set_key_group (geany_plugin, "commander", KB_COUNT, NULL);
@@ -1020,7 +1106,11 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
                              "show_panel_files",
                              _("Show Command Panel (Files Only)"), NULL,
                              on_kb_show_panel, (gpointer) "f:", NULL);
-
+  keybindings_set_item_full (group, KB_SHOW_PANEL_SYMBOLS, 0, 0,
+                             "show_panel_symbols",
+                             _("Show Command Panel (Symbols Only)"), NULL,
+                             on_kb_show_panel, (gpointer) "s:", NULL);                             
+  
   /* config */
   
   config = g_key_file_new ();
@@ -1053,6 +1143,11 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
                                "show_project_file_skip_hidden_dir", 
                                TRUE);
 
+  plugin_data.show_symbol = utils_get_setting_boolean (config,
+                                                       "commander", 
+                                                       "show_symbol", 
+                                                       TRUE);
+
   plugin_data.panel_width = utils_get_setting_integer (config,
                                                        "commander", 
                                                        "panel_width", 
@@ -1064,7 +1159,7 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
                                                         300);
   
   g_key_file_free (config);
-  
+
   /* delay for other plugins to have a chance to load before, so we will
    * include their items */
   plugin_idle_add (geany_plugin, on_plugin_idle_init, NULL);
@@ -1114,7 +1209,7 @@ ui_cfg_read_spin_button (GtkDialog *dialog, GKeyFile *config,
   value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (spin_button));
   g_key_file_set_integer (config, "commander", config_code, value);
   return value;
-}
+}                            
 
 static void 
 plugin_configure_response_cb (GtkDialog *dialog, gint response, G_GNUC_UNUSED gpointer user_data)
@@ -1159,6 +1254,12 @@ plugin_configure_response_cb (GtkDialog *dialog, gint response, G_GNUC_UNUSED gp
     = ui_cfg_read_check_button (dialog, config,
                                 "show_project_file_skip_hidden_dir_check_button",
                                 "show_project_file_skip_hidden_dir");
+
+  /* symbols */
+  plugin_data.show_symbol
+    = ui_cfg_read_check_button (dialog, config,
+                                "show_symbol_check_button",
+                                "show_symbol");
 
   /* palette */
   plugin_data.panel_width
@@ -1238,6 +1339,7 @@ plugin_configure (GtkDialog *dialog)
 {
   GtkWidget    *vbox;
   GtkWidget    *show_project_file_container;
+  GtkWidget    *show_symbol_container;
   GtkWidget    *palette_container;
    
   vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
@@ -1265,6 +1367,14 @@ plugin_configure (GtkDialog *dialog)
                            "show_project_file_skip_hidden_dir_check_button",
                            _("Don't show hidden project directories"),
                            plugin_data.show_project_file_skip_hidden_dir);
+
+  /* symbols */
+  show_symbol_container = ui_cfg_frame_new (vbox);
+
+  ui_cfg_check_button_new (dialog, show_symbol_container,
+                           "show_symbol_check_button",
+                           _("Show symbols"),
+                           plugin_data.show_symbol);
 
   /* palette */
   palette_container = ui_cfg_frame_new (vbox);
