@@ -127,6 +127,7 @@ enum {
   COL_DOCUMENT,
   COL_FILE,
   COL_LINE,
+  COL_ICON,
   COL_COUNT
 };
 
@@ -624,6 +625,27 @@ fill_store_project_files (GtkListStore *store)
   g_queue_free_full (file_queue, (GDestroyNotify) file_queue_item_free);
 }
 
+static const gchar *
+get_symbol_icon (const TMTag *tag)
+{
+  if (tag->type & tm_tag_struct_t)
+    return "classviewer-struct";
+  
+  if (tag->type & (tm_tag_class_t | tm_tag_interface_t))
+    return "classviewer-class";
+
+  if (tag->type & (tm_tag_function_t | tm_tag_function_t))
+    return "classviewer-method";
+  
+  if (tag->type & (tm_tag_macro_t | tm_tag_macro_with_arg_t))
+    return "classviewer-macro";
+
+  if (tag->type & tm_tag_variable_t)
+    return "classviewer-var";
+
+  return "classviewer-other";
+}
+
 static void
 fill_store_symbols (GtkListStore *store)
 {
@@ -671,6 +693,7 @@ fill_store_symbols (GtkListStore *store)
                                        COL_TYPE, COL_TYPE_SYMBOL,
                                        COL_FILE, tag->file->file_name,
                                        COL_LINE, tag->line,
+                                       COL_ICON, get_symbol_icon (tag),
                                        -1);
 
     g_free (name);
@@ -926,6 +949,37 @@ on_view_row_activated (GtkTreeView                      *view,
   }
 }
 
+static void
+cell_icon_data (G_GNUC_UNUSED GtkTreeViewColumn *column,
+                GtkCellRenderer                 *cell,
+                GtkTreeModel                    *model,
+                GtkTreeIter                     *iter,
+                G_GNUC_UNUSED gpointer           udata)
+{
+  const gchar *icon_name;
+  gint type;
+  
+  gtk_tree_model_get (model, iter, COL_TYPE, &type, -1);
+
+  switch (type) {
+    case COL_TYPE_FILE: {
+      g_object_set (cell, "icon-name", "text-x-generic", NULL);
+      break;
+    }
+
+    case COL_TYPE_MENU_ITEM: {
+      g_object_set (cell, "icon-name", "geany", NULL);
+      break;
+    }
+
+    case COL_TYPE_SYMBOL: {
+      gtk_tree_model_get (model, iter, COL_ICON, &icon_name, -1);
+      g_object_set (cell, "icon-name", icon_name, NULL);
+      break;
+    }
+  }
+}                
+
 #ifdef DISPLAY_SCORE
 static void
 score_cell_data (GtkTreeViewColumn *column,
@@ -967,11 +1021,13 @@ score_cell_data (GtkTreeViewColumn *column,
 static void
 create_panel (void)
 {
-  GtkWidget          *frame;
-  GtkWidget          *box;
-  GtkWidget          *scroll;
-  GtkTreeViewColumn  *col;
-  GtkCellRenderer    *cell;
+  GtkWidget             *frame;
+  GtkWidget             *box;
+  GtkWidget             *scroll;
+  GtkTreeViewColumn     *col_icon;
+  GtkTreeViewColumn     *col;
+  GtkCellRenderer       *cell_icon;
+  GtkCellRenderer       *cell;
   
   plugin_data.panel = g_object_new (GTK_TYPE_WINDOW,
                                     "decorated", FALSE,
@@ -1009,7 +1065,8 @@ create_panel (void)
                                           GTK_TYPE_WIDGET,
                                           G_TYPE_POINTER,
                                           G_TYPE_STRING,
-                                          G_TYPE_ULONG);
+                                          G_TYPE_ULONG,
+                                          G_TYPE_STRING);
   
   plugin_data.sort = gtk_tree_model_sort_new_with_model (GTK_TREE_MODEL (plugin_data.store));
   gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (plugin_data.sort),
@@ -1028,6 +1085,13 @@ create_panel (void)
 
   /* eliminates graphic artifacts */
   gtk_tree_view_set_fixed_height_mode (GTK_TREE_VIEW (plugin_data.view), TRUE);
+
+  cell_icon = gtk_cell_renderer_pixbuf_new ();
+  col_icon = gtk_tree_view_column_new_with_attributes (NULL, cell_icon, NULL);
+  gtk_tree_view_column_set_cell_data_func (col_icon, cell_icon, cell_icon_data, NULL, NULL);
+  gtk_tree_view_column_set_sizing (col_icon, GTK_TREE_VIEW_COLUMN_FIXED);
+  gtk_tree_view_append_column (GTK_TREE_VIEW (plugin_data.view), col_icon);
+  
 #ifdef DISPLAY_SCORE
   cell = gtk_cell_renderer_text_new ();
   col = gtk_tree_view_column_new_with_attributes (NULL, cell, NULL);
