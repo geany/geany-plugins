@@ -211,6 +211,7 @@ static gint glspi_message(lua_State* L)
 	case 2:
 		if (!lua_isstring(L, 2))	{ return FAIL_STRING_ARG(2); }
 		arg2=lua_tostring(L, 2);
+		/* Fallthrough */
 	default:
 		if (!lua_isstring(L, 1))	{ return FAIL_STRING_ARG(1); }
 		arg1=lua_tostring(L, 1);
@@ -280,6 +281,7 @@ static gint glspi_input(lua_State* L)
 				if (!lua_isstring(L, 2))	{ return FAIL_STRING_ARG(2); }
 				arg2=lua_tostring(L, 2);
 			}
+		/* Fallthrough */
 		default:
 			if (!lua_isnil(L, 1)) {
 				if (!lua_isstring(L, 1))	{ return FAIL_STRING_ARG(1); }
