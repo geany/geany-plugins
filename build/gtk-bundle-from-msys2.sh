@@ -171,7 +171,7 @@ extract_packages() {
 		else
 			echo "Download $pkg using curl"
 			filename=$(basename "$pkg")
-			curl -s -o "$filename" -L "$pkg"
+			curl --silent --show-error --retry 3 --location --output "$filename" "$pkg"
 			tar xf "$filename"
 			rm "$filename"
 		fi
