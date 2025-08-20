@@ -204,6 +204,7 @@ overview/data/prefs.ui
 
 # Pairtaghighlighter
 pairtaghighlighter/src/pair_tag_highlighter.c
+pairtaghighlighter/data/prefs.ui
 
 # PoHelper
 pohelper/data/menus.ui
