@@ -87,25 +87,26 @@ enum {
 };
 
 static struct {
-  GtkWidget    *panel;
-  GtkWidget    *entry;
-  GtkWidget    *view;
-  GtkListStore *store;
-  GtkTreeModel *sort;
+  GtkWidget           *panel;
+  GtkWidget           *entry;
+  GtkWidget           *view;
+  GtkListStore        *store;
+  GtkTreeModel        *sort;
   
-  GtkTreePath  *last_path;
+  GtkTreePath         *last_path;
 
-  gchar        *config_file;
+  gchar               *config_file;
 
-  gboolean      show_project_file;
-  guint         show_project_file_limit;
-  gboolean      show_project_file_skip_hidden_file;
-  gboolean      show_project_file_skip_hidden_dir;
+  GCancellable        *show_project_file_task_cancellable;
+  gboolean             show_project_file;
+  guint                show_project_file_limit;
+  gboolean             show_project_file_skip_hidden_file;
+  gboolean             show_project_file_skip_hidden_dir;
   
-  gboolean      show_symbol;
+  gboolean             show_symbol;
 
-  gint          panel_width;
-  gint          panel_height;
+  gint                 panel_width;
+  gint                 panel_height;
 } plugin_data;
 
 typedef enum {
@@ -135,6 +136,13 @@ typedef struct {
   gint   score;
   gchar *path;
 } FileQueueItem;
+
+typedef struct {
+  GtkListStore *store;
+  gchar        *dir_path;
+  GSList       *patterns;
+  gchar        *key;
+} FileSearchTaskInput;
 
 static gulong VISIBLE_TAGS =  tm_tag_class_t | tm_tag_enum_t | tm_tag_function_t |
                               tm_tag_interface_t | tm_tag_method_t | tm_tag_struct_t |
@@ -511,16 +519,29 @@ file_queue_add (GQueue *queue, guint limit, const gchar *key, const gchar *filep
   g_queue_insert_sorted (queue, qitem, (GCompareDataFunc) file_queue_item_cmp, NULL);
 }
 
+static void file_search_task_input_free (FileSearchTaskInput *self)
+{
+  g_free (self->dir_path);
+  g_slist_free_full (self->patterns, (GDestroyNotify) g_pattern_spec_free);
+  g_free (self->key);
+}
+
 /* recursively adding project files to the queue */
 static void
-store_add_dir (GQueue *queue, const gchar *dir_path,
-               GSList *allow_ext, const gchar *key, guint *show_count)
+store_add_dir (GQueue       *queue,
+               const gchar  *dir_path,
+               GSList       *allow_ext,
+               const gchar  *key,
+               GCancellable *cancellable)
 {
   GDir         *dir;
   const gchar  *filename;
   gchar        *filepath;
   gboolean      add_file;
   gboolean      is_hidden;
+
+  if (g_cancellable_is_cancelled (cancellable))
+    return;
 
   if ((dir = g_dir_open (dir_path, 0, NULL)) == NULL)
     return;
@@ -543,7 +564,7 @@ store_add_dir (GQueue *queue, const gchar *dir_path,
       }
     } else if (g_file_test (filepath, G_FILE_TEST_IS_DIR)) {
       if (!is_hidden || !plugin_data.show_project_file_skip_hidden_dir) {
-        store_add_dir (queue, filepath, allow_ext, key, show_count);
+        store_add_dir (queue, filepath, allow_ext, key, cancellable);
       }
     }
 
@@ -587,19 +608,68 @@ store_add_project_file (FileQueueItem *item, GtkListStore *store)
 }
 
 static void
-fill_store_project_files (GtkListStore *store)
+do_show_project_file_task (GTask                      *task,
+                           G_GNUC_UNUSED gpointer      source_object,
+                           gpointer                    task_data,
+                           GCancellable               *cancellable)
 {
-  GeanyProject *project;
-  GSList       *patterns;
-  const gchar  *key;
-  gint          key_type;
-  guint         show_project_file_count = 0;
-  GQueue       *file_queue;
+  FileSearchTaskInput *file_search_task_input;
+  GQueue              *file_queue;
+
+  file_search_task_input = task_data;
+
+  /* To prevent GTK from slowing down, you need to reduce the number of options and
+   * leave the best ones. GQueue is well suited for such selection. */
+  file_queue = g_queue_new ();
+
+  store_add_dir (file_queue,
+                 file_search_task_input->dir_path,
+                 file_search_task_input->patterns,
+                 file_search_task_input->key,
+                 cancellable);
+
+  if (g_task_return_error_if_cancelled (task))
+    return;
+
+  g_task_return_pointer (task, file_queue, NULL);
+}
+
+static void
+on_show_project_file_task_ready (G_GNUC_UNUSED GObject       *source_object,
+                                 GAsyncResult                *result,
+                                 GError                     **error)
+{
+  FileSearchTaskInput *task_input;
+  GQueue              *file_queue;
+
+  task_input = g_task_get_task_data (G_TASK(result));
+  file_queue = g_task_propagate_pointer (G_TASK (result), error);
+
+  /* Adding found files to store */
+  clear_store_project_files (task_input->store);
+  g_queue_foreach (file_queue, (GFunc) store_add_project_file, plugin_data.store);
+  g_queue_free_full (file_queue, (GDestroyNotify) file_queue_item_free);
+}
+
+static void
+cancel_fill_store_project_files_task (void)
+{
+  g_cancellable_cancel (plugin_data.show_project_file_task_cancellable);
+  g_cancellable_reset (plugin_data.show_project_file_task_cancellable);
+}
+
+static void
+add_fill_store_project_files_task (GtkListStore *store)
+{
+  GeanyProject        *project;
+  GSList              *patterns;
+  const gchar         *key;
+  gint                 key_type;
+  FileSearchTaskInput *file_search_task_input;
+  GTask               *task;
 
   if (!plugin_data.show_project_file)
     return;
-
-  clear_store_project_files (store);
 
   if ((project = geany->app->project) == NULL)
     return;
@@ -609,20 +679,27 @@ fill_store_project_files (GtkListStore *store)
 
   key = get_key (&key_type);
 
-  /* instead of adding thousands of items to the TreeView, it's better
-   * to select the best matches and show only those */
-  file_queue = g_queue_new ();
-
   patterns = filelist_get_precompiled_patterns (project->file_patterns);
-  
-  store_add_dir (file_queue, project->base_path, patterns,
-                 key, &show_project_file_count);
 
-  g_slist_free_full (patterns, (GDestroyNotify) g_pattern_spec_free);
+  file_search_task_input = g_new0 (FileSearchTaskInput, 1);
+  file_search_task_input->store = store;
+  file_search_task_input->dir_path = g_strdup(project->base_path);
+  file_search_task_input->patterns = patterns;
+  file_search_task_input->key = g_strdup(key);
 
-  g_queue_foreach (file_queue, (GFunc) store_add_project_file, store);
+  cancel_fill_store_project_files_task ();
 
-  g_queue_free_full (file_queue, (GDestroyNotify) file_queue_item_free);
+  /* creating a new task */
+  task = g_task_new (NULL,
+                     plugin_data.show_project_file_task_cancellable,
+                     (GAsyncReadyCallback) on_show_project_file_task_ready,
+                     NULL);
+
+  g_task_set_task_data (task,
+                        file_search_task_input,
+                        (GDestroyNotify) file_search_task_input_free);
+
+  g_task_run_in_thread (task, do_show_project_file_task);
 }
 
 static const gchar *
@@ -717,7 +794,7 @@ fill_store (GtkListStore *store)
   }
   
   /* project files */
-  fill_store_project_files (store);
+  add_fill_store_project_files_task (store);
 
   /* symbols */
   fill_store_symbols (store);
@@ -728,7 +805,7 @@ static void
 refresh_store (GtkListStore *store)
 {
   /* project files */
-  fill_store_project_files (store);
+  add_fill_store_project_files_task (store);
 }
 
 static gint
@@ -1224,6 +1301,9 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
   
   g_key_file_free (config);
 
+  /* show project file task */
+  plugin_data.show_project_file_task_cancellable = g_cancellable_new ();
+
   /* delay for other plugins to have a chance to load before, so we will
    * include their items */
   plugin_idle_add (geany_plugin, on_plugin_idle_init, NULL);
@@ -1232,6 +1312,9 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
 void
 plugin_cleanup (void)
 {
+  cancel_fill_store_project_files_task ();
+  g_object_unref (plugin_data.show_project_file_task_cancellable);
+
   if (plugin_data.panel) {
     gtk_widget_destroy (plugin_data.panel);
   }
