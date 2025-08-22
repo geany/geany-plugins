@@ -526,6 +526,17 @@ static void file_search_task_input_free (FileSearchTaskInput *self)
   g_free (self->key);
 }
 
+static void tree_view_cursor_to_top (void)
+{
+  GtkTreeIter   iter;
+  GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
+  GtkTreeModel *model = gtk_tree_view_get_model (view);
+
+  if (gtk_tree_model_get_iter_first (model, &iter)) {
+    tree_view_set_cursor_from_iter (view, &iter);
+  }
+}
+
 /* recursively adding project files to the queue */
 static void
 store_add_dir (GQueue       *queue,
@@ -649,6 +660,8 @@ on_show_project_file_task_ready (G_GNUC_UNUSED GObject       *source_object,
   clear_store_project_files (task_input->store);
   g_queue_foreach (file_queue, (GFunc) store_add_project_file, plugin_data.store);
   g_queue_free_full (file_queue, (GDestroyNotify) file_queue_item_free);
+
+  tree_view_cursor_to_top ();
 }
 
 static void
@@ -886,7 +899,6 @@ on_entry_text_notify (G_GNUC_UNUSED GObject    *object,
                       G_GNUC_UNUSED GParamSpec *pspec,
                       G_GNUC_UNUSED gpointer    dummy)
 {
-  GtkTreeIter   iter;
   GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
   GtkTreeModel *model = gtk_tree_view_get_model (view);
 
@@ -901,9 +913,7 @@ on_entry_text_notify (G_GNUC_UNUSED GObject    *object,
   gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (model),
                                            sort_func, NULL, NULL);
   
-  if (gtk_tree_model_get_iter_first (model, &iter)) {
-    tree_view_set_cursor_from_iter (view, &iter);
-  }
+  tree_view_cursor_to_top ();
 }
 
 static void
