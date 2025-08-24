@@ -6,7 +6,7 @@
 # shell. The extracted files will be placed into the current
 # directory.
 
-ABI=x86_64  # do not change, i686 is not supported any longer
+ABI="ucrt-x86_64"  # do not change, i686 is not supported any longer
 use_cache="no"
 make_zip="no"
 gtkv="3"
@@ -14,7 +14,7 @@ run_pi="y"
 cross="no"
 
 # Wine commands for 64bit binaries, used only when "-x" is set
-EXE_WRAPPER_64="mingw-w64-x86_64-wine"
+EXE_WRAPPER_64="mingw-w64-ucrt-x86_64-wine"
 
 # ctags - binary for GeanyCTags plugin
 # ctpl-git - for GeanyGenDoc plugin
@@ -137,7 +137,7 @@ _getpkg() {
 	if [ "$use_cache" = "yes" ]; then
 		package_info=$(pacman -Qi mingw-w64-$ABI-$1)
 		package_version=$(echo "$package_info" | grep "^Version " | cut -d':' -f 2 | tr -d '[[:space:]]')
-		# use @(gz|xz|zst) to filter out signature files (e.g. mingw-w64-x86_64-...-any.pkg.tar.zst.sig)
+		# use @(gz|xz|zst) to filter out signature files (e.g. mingw-w64-ucrt-x86_64-...-any.pkg.tar.zst.sig)
 		ls $cachedir/mingw-w64-${ABI}-${1}-${package_version}-*.tar.@(gz|xz|zst) | sort -V | tail -n 1
 	else
 		# -dd to ignore dependencies as we listed them already above in $packages and
@@ -184,16 +184,16 @@ extract_packages() {
 
 move_extracted_files() {
 	echo "Move extracted data to destination directory"
-	if [ -d mingw64 ]; then
+	if [ -d ucrt64 ]; then
 		for d in bin etc home include lib libexec locale sbin share ssl var; do
-			if [ -d "mingw64/$d" ]; then
+			if [ -d "ucrt64/$d" ]; then
 				rm -rf $d
 				# prevent sporadic 'permission denied' errors on my system, not sure why they happen
 				sleep 0.5
-				mv mingw64/$d .
+				mv ucrt64/$d .
 			fi
 		done
-		rmdir mingw64
+		rmdir ucrt64
 	fi
 }
 

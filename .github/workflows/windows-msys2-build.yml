@@ -1,5 +1,15 @@
 name: Windows/MSYS2 Build
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+    inputs:
+      sign_build:
+        description: 'Set to true to sign the build artifact.'
+        required: false
+        default: 'false'
+        type: boolean
+  pull_request:
+    branches:
+      - master
 
 jobs:
   msys2-mingw64:
@@ -18,27 +28,27 @@ jobs:
       - name: Setup MSYS2
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: UCRT64
           update: true
           install: |
-            mingw-w64-x86_64-gcc
-            mingw-w64-x86_64-autotools
-            mingw-w64-x86_64-gtk3
-            mingw-w64-x86_64-python-docutils
-            mingw-w64-x86_64-check
-            mingw-w64-x86_64-cppcheck
-            mingw-w64-x86_64-ctpl-git
-            mingw-w64-x86_64-enchant
-            mingw-w64-x86_64-gpgme
-            mingw-w64-x86_64-gtkspell3
-            mingw-w64-x86_64-libgit2
-            mingw-w64-x86_64-libsoup3
-            mingw-w64-x86_64-lua51
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-autotools
+            mingw-w64-ucrt-x86_64-gtk3
+            mingw-w64-ucrt-x86_64-python-docutils
+            mingw-w64-ucrt-x86_64-check
+            mingw-w64-ucrt-x86_64-cppcheck
+            mingw-w64-ucrt-x86_64-ctpl-git
+            mingw-w64-ucrt-x86_64-enchant
+            mingw-w64-ucrt-x86_64-gpgme
+            mingw-w64-ucrt-x86_64-gtkspell3
+            mingw-w64-ucrt-x86_64-libgit2
+            mingw-w64-ucrt-x86_64-libsoup3
+            mingw-w64-ucrt-x86_64-lua51
             patch
             rsync
             unzip
             dos2unix
-            mingw-w64-x86_64-nsis
+            mingw-w64-ucrt-x86_64-nsis
       - name: GTK-Bundle-Geany-Plugins
         run: |
           mkdir -p geany_build/bundle/geany-plugins-dependencies
@@ -82,6 +92,26 @@ jobs:
         with:
           name: geany-plugins-unsigned
           path: geany_build/*.exe
+          retention-days: 3
+          overwrite: true
+          if-no-files-found: error
+      - name: SignPath Signing
+        if: ${{ github.event.inputs.sign_build == 'true' }}
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+          organization-id: '${{ vars.SIGNPATH_ORGANIZATION_ID }}'
+          project-slug: 'geany-plugins'
+          signing-policy-slug: 'release-signing'
+          github-artifact-id: '${{ steps.upload-unsigned-artifact.outputs.artifact-id }}'
+          wait-for-completion: true
+          output-artifact-directory: geany-plugins-signed
+      - name: Upload Signed Artifact
+        if: ${{ github.event.inputs.sign_build == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: geany-plugins-signed
+          path: geany-plugins-signed
           retention-days: 3
           overwrite: true
           if-no-files-found: error
