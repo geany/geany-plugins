@@ -656,6 +656,9 @@ on_show_project_file_task_ready (G_GNUC_UNUSED GObject       *source_object,
   task_input = g_task_get_task_data (G_TASK(result));
   file_queue = g_task_propagate_pointer (G_TASK (result), error);
 
+  if (file_queue == NULL)
+    return;
+
   /* Adding found files to store */
   clear_store_project_files (task_input->store);
   g_queue_foreach (file_queue, (GFunc) store_add_project_file, plugin_data.store);
@@ -667,8 +670,12 @@ on_show_project_file_task_ready (G_GNUC_UNUSED GObject       *source_object,
 static void
 cancel_fill_store_project_files_task (void)
 {
-  g_cancellable_cancel (plugin_data.show_project_file_task_cancellable);
-  g_cancellable_reset (plugin_data.show_project_file_task_cancellable);
+  if (plugin_data.show_project_file_task_cancellable != NULL) {
+    g_cancellable_cancel (plugin_data.show_project_file_task_cancellable);
+    g_object_unref (plugin_data.show_project_file_task_cancellable);
+  }
+
+  plugin_data.show_project_file_task_cancellable = g_cancellable_new ();
 }
 
 static void
@@ -1311,9 +1318,6 @@ plugin_init (G_GNUC_UNUSED GeanyData *data)
                                                         300);
   
   g_key_file_free (config);
-
-  /* show project file task */
-  plugin_data.show_project_file_task_cancellable = g_cancellable_new ();
 
   /* delay for other plugins to have a chance to load before, so we will
    * include their items */
