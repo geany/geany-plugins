@@ -92,6 +92,7 @@ static struct {
   GtkWidget           *view;
   GtkListStore        *store;
   GtkTreeModel        *sort;
+  GtkWidget           *spinner;
   
   GtkTreePath         *last_path;
 
@@ -665,6 +666,7 @@ on_show_project_file_task_ready (G_GNUC_UNUSED GObject       *source_object,
   g_queue_free_full (file_queue, (GDestroyNotify) file_queue_item_free);
 
   tree_view_cursor_to_top ();
+  gtk_widget_hide (plugin_data.spinner);
 }
 
 static void
@@ -721,6 +723,8 @@ add_fill_store_project_files_task (GtkListStore *store)
 
   g_task_run_in_thread (task, do_show_project_file_task);
   g_object_unref (task);
+
+  gtk_widget_show (plugin_data.spinner);
 }
 
 static const gchar *
@@ -1205,6 +1209,12 @@ create_panel (void)
                     G_CALLBACK (on_view_row_activated), NULL);
   gtk_container_add (GTK_CONTAINER (scroll), plugin_data.view);
   
+  /* spinner */
+  plugin_data.spinner = gtk_spinner_new ();
+  gtk_spinner_start (GTK_SPINNER (plugin_data.spinner));
+  gtk_box_pack_start (GTK_BOX (box), plugin_data.spinner, FALSE, TRUE, 5);
+  gtk_widget_set_size_request (plugin_data.spinner, 24, 24);
+
   /* connect entry signals after the view is created as they use it */
   g_signal_connect (plugin_data.entry, "notify::text",
                     G_CALLBACK (on_entry_text_notify), NULL);
@@ -1212,6 +1222,7 @@ create_panel (void)
                     G_CALLBACK (on_entry_activate), NULL);
   
   gtk_widget_show_all (frame);
+  gtk_widget_hide (plugin_data.spinner);
 }
 
 static gboolean
