@@ -713,6 +713,7 @@ add_fill_store_project_files_task (GtkListStore *store)
                         (GDestroyNotify) file_search_task_input_free);
 
   g_task_run_in_thread (task, do_show_project_file_task);
+  g_object_unref (task);
 }
 
 static const gchar *
