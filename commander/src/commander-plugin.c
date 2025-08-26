@@ -441,7 +441,9 @@ find_menubar (GtkContainer *container)
 }
 
 static void
-store_add_file (GtkListStore *store, GeanyDocument *doc, const gchar *path)
+store_add_file (GtkListStore  *store,
+                GeanyDocument *doc,
+                const gchar   *path)
 {
   gchar      *basename;
   gchar      *label;
@@ -466,7 +468,8 @@ store_add_file (GtkListStore *store, GeanyDocument *doc, const gchar *path)
 }
 
 static gboolean
-file_has_allowed_ext (const gchar *filename, GSList *allow_ext)
+file_has_allowed_ext (const gchar *filename,
+                      GSList      *allow_ext)
 {
   if (allow_ext == NULL)
     return TRUE;
@@ -475,7 +478,8 @@ file_has_allowed_ext (const gchar *filename, GSList *allow_ext)
 }
 
 static FileQueueItem *
-file_queue_item_new (gint score, const gchar *filepath)
+file_queue_item_new (gint         score,
+                     const gchar *filepath)
 {
   FileQueueItem *self;
 
@@ -493,13 +497,18 @@ file_queue_item_free (FileQueueItem *self)
 }
 
 static gint
-file_queue_item_cmp (const FileQueueItem *a, const FileQueueItem *b, G_GNUC_UNUSED gpointer udata)
+file_queue_item_cmp (const FileQueueItem   *a,
+                     const FileQueueItem   *b,
+                     G_GNUC_UNUSED gpointer udata)
 {
   return (a->score > b->score) - (a->score < b->score);
 }
 
 static void
-file_queue_add (GQueue *queue, guint limit, const gchar *key, const gchar *filepath)
+file_queue_add (GQueue      *queue,
+                guint        limit,
+                const gchar *key,
+                const gchar *filepath)
 {
   FileQueueItem *qitem;
   FileQueueItem *head;
@@ -614,7 +623,8 @@ next_iter:
 }
 
 static void
-store_add_project_file (FileQueueItem *item, GtkListStore *store)
+store_add_project_file (FileQueueItem *item,
+                        GtkListStore  *store)
 {
   store_add_file (store, NULL, item->path);
 }
@@ -1359,7 +1369,8 @@ plugin_help (void)
 }
 
 static gboolean
-ui_cfg_read_check_button (GtkDialog *dialog, GKeyFile *config,
+ui_cfg_read_check_button (GtkDialog   *dialog,
+                          GKeyFile    *config,
                           const gchar *widget_code,
                           const gchar *config_code)
 {
@@ -1373,7 +1384,8 @@ ui_cfg_read_check_button (GtkDialog *dialog, GKeyFile *config,
 }
 
 static glong
-ui_cfg_read_spin_button (GtkDialog *dialog, GKeyFile *config,
+ui_cfg_read_spin_button (GtkDialog   *dialog,
+                         GKeyFile    *config,
                          const gchar *widget_code,
                          const gchar *config_code)
 {
@@ -1387,7 +1399,9 @@ ui_cfg_read_spin_button (GtkDialog *dialog, GKeyFile *config,
 }                            
 
 static void 
-plugin_configure_response_cb (GtkDialog *dialog, gint response, G_GNUC_UNUSED gpointer user_data)
+plugin_configure_response_cb (GtkDialog             *dialog,
+                              gint                   response,
+                              G_GNUC_UNUSED gpointer user_data)
 {
   GKeyFile     *config;
   gchar        *data;
@@ -1472,8 +1486,11 @@ ui_cfg_frame_new (GtkWidget *vbox)
 }
 
 static void
-ui_cfg_check_button_new (GtkDialog *dialog, GtkWidget *vbox,
-                         const gchar *code, const gchar *label, gboolean active)
+ui_cfg_check_button_new (GtkDialog   *dialog,
+                         GtkWidget   *vbox,
+                         const gchar *code,
+                         const gchar *label,
+                         gboolean     active)
 {
   GtkWidget    *hbox;
   GtkWidget    *check_button;
@@ -1488,10 +1505,14 @@ ui_cfg_check_button_new (GtkDialog *dialog, GtkWidget *vbox,
 }
 
 static void
-ui_cfg_spin_button_new (GtkDialog *dialog, GtkWidget *vbox,
-                        const gchar *code, const gchar *label_text,
-                        gdouble start, gdouble end, gdouble step,
-                        gdouble value)
+ui_cfg_spin_button_new (GtkDialog   *dialog,
+                        GtkWidget   *vbox,
+                        const gchar *code,
+                        const gchar *label_text,
+                        gdouble      start,
+                        gdouble      end,
+                        gdouble      step,
+                        gdouble      value)
 {
   GtkWidget    *hbox;
   GtkWidget    *label;
