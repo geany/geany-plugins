@@ -640,8 +640,10 @@ do_show_project_file_task (GTask                      *task,
                  file_search_task_input->key,
                  cancellable);
 
-  if (g_task_return_error_if_cancelled (task))
+  if (g_task_return_error_if_cancelled (task)) {
+    g_queue_free_full (file_queue, (GDestroyNotify) file_queue_item_free);
     return;
+  }
 
   g_task_return_pointer (task, file_queue, NULL);
 }
