@@ -541,9 +541,14 @@ static void tree_view_cursor_to_top (void)
   GtkTreeIter   iter;
   GtkTreeView  *view  = GTK_TREE_VIEW (plugin_data.view);
   GtkTreeModel *model = gtk_tree_view_get_model (view);
+  GtkTreePath  *path;
 
   if (gtk_tree_model_get_iter_first (model, &iter)) {
     tree_view_set_cursor_from_iter (view, &iter);
+
+    gtk_tree_view_get_cursor (view, &path, NULL);
+    gtk_tree_view_scroll_to_cell (view, path, NULL, FALSE, 0.5, 0.5);
+    gtk_tree_path_free (path);
   }
 }
 
