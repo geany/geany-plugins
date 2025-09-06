@@ -204,26 +204,32 @@ path_basename (const gchar *path)
 }
 
 static gint
-key_score (const gchar *key_,
+key_score (const gchar *key,
            const gchar *text_)
 {  
-  gchar  *text  = g_utf8_casefold (text_, -1);
-  gchar  *key   = g_utf8_casefold (key_, -1);
-  gint    score;
+  gchar       *text  = g_utf8_casefold (text_, -1);
+  gint         score;
+  const gchar *bsname;
 
   /* full compliance should have high priority */
   if (strcmp (key, text) == 0)
     return 0xf000;
 
-  score = get_score (key, text) + get_score (key, path_basename (text)) / 2;
+  score = get_score (key, text);
+
+  bsname = path_basename (text);
+  if (bsname != text) {
+    score += get_score (key, bsname) / 2;
+  } else {
+    score += score / 2;
+  }
   
   g_free (text);
-  g_free (key);
   
   return score;
 }
 
-static const gchar *
+static gchar *
 get_key (gint *type_)
 {
   gint          type  = COL_TYPE_ANY;
@@ -244,7 +250,7 @@ get_key (gint *type_)
     *type_ = type;
   }
   
-  return key;
+  return g_utf8_casefold (key, -1);
 }
 
 static void
@@ -702,7 +708,7 @@ add_fill_store_project_files_task (GtkListStore *store)
 {
   GeanyProject        *project;
   GSList              *patterns;
-  const gchar         *key;
+  gchar               *key;
   gint                 key_type;
   FileSearchTaskInput *file_search_task_input;
   GTask               *task;
@@ -724,7 +730,7 @@ add_fill_store_project_files_task (GtkListStore *store)
   file_search_task_input->store = store;
   file_search_task_input->dir_path = g_strdup(project->base_path);
   file_search_task_input->patterns = patterns;
-  file_search_task_input->key = g_strdup(key);
+  file_search_task_input->key = key;
 
   cancel_fill_store_project_files_task ();
 
@@ -863,7 +869,7 @@ sort_func (GtkTreeModel            *model,
   gint          typea;
   gint          typeb;
   gint          type;
-  const gchar  *key = get_key (&type);
+  gchar        *key = get_key (&type);
   
   gtk_tree_model_get (model, a, COL_VALUE, &patha, COL_TYPE, &typea, -1);
   gtk_tree_model_get (model, b, COL_VALUE, &pathb, COL_TYPE, &typeb, -1);
@@ -880,6 +886,7 @@ sort_func (GtkTreeModel            *model,
   
   g_free (patha);
   g_free (pathb);
+  g_free (key);
   
   return scoreb - scorea;
 }
@@ -1110,7 +1117,7 @@ score_cell_data (GtkTreeViewColumn *column,
   gint          pathtype;
   gint          type;
   gint          width, old_width;
-  const gchar  *key = get_key (&type);
+  gchar        *key = get_key (&type);
   
   gtk_tree_model_get (model, iter, COL_VALUE, &path, COL_TYPE, &pathtype, -1);
   
@@ -1131,6 +1138,7 @@ score_cell_data (GtkTreeViewColumn *column,
   
   g_free (text);
   g_free (path);
+  g_free (key);
 }
 #endif
 
