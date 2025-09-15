@@ -8,22 +8,23 @@ msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/geany/geany-plugins/issues\n"
 "POT-Creation-Date: 2025-06-15 20:12+0200\n"
-"PO-Revision-Date: 2017-06-28 22:25+0200\n"
-"Last-Translator: Frank Lanitz <frank@frank.uvena.de>\n"
+"PO-Revision-Date: 2025-09-16 14:51+0300\n"
+"Last-Translator: Michael Misirlis <mmisirlis@gmail.com>\n"
 "Language-Team: Greek\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
 
 #: addons/src/ao_bookmarklist.c:190
 msgid "(Empty Line)"
-msgstr ""
+msgstr "(Κενή Γραμμή)"
 
 #: addons/src/ao_bookmarklist.c:331
 msgid "_Remove Bookmark"
-msgstr ""
+msgstr "Αφαί_ρεση Σελιδοδείκτη"
 
 #. Translators: Number is meant at this point.
 #: addons/src/ao_bookmarklist.c:358
@@ -32,32 +33,32 @@ msgstr ""
 
 #: addons/src/ao_bookmarklist.c:366
 msgid "Contents"
-msgstr ""
+msgstr "Περιεχόμενα"
 
 #: addons/src/ao_bookmarklist.c:399 treebrowser/src/treebrowser.c:672
 #: webhelper/src/gwh-plugin.c:340
 msgid "Bookmarks"
-msgstr ""
+msgstr "Σελιδοδείκτες"
 
 #: addons/src/ao_tasks.c:382 geanyvc/src/geanyvc.c:2730
 msgid "_Update"
-msgstr ""
+msgstr "Ενημέρωσ_η"
 
 #: addons/src/ao_tasks.c:391
 msgid "_Hide Message Window"
-msgstr ""
+msgstr "_Απόκρυψη παράθυρου μηνυμάτων"
 
 #: addons/src/ao_tasks.c:421 debugger/src/stree.c:424
 #: scope/data/scope.glade:1646 scope/data/scope.glade:1914
 #: scope/data/scope_gtk3.glade:1646 scope/data/scope_gtk3.glade:1914
 msgid "File"
-msgstr ""
+msgstr "Αρχείο"
 
 #: addons/src/ao_tasks.c:432 debugger/src/bptree.c:702 debugger/src/stree.c:431
 #: scope/data/scope.glade:1660 scope/data/scope.glade:1928
 #: scope/data/scope_gtk3.glade:1660 scope/data/scope_gtk3.glade:1928
 msgid "Line"
-msgstr ""
+msgstr "Γραμμή"
 
 #: addons/src/ao_tasks.c:443 debugger/src/vtree.c:201
 #: latex/src/bibtexlabels.c:68 scope/data/scope.glade:1755
@@ -71,7 +72,7 @@ msgstr ""
 
 #: addons/src/ao_tasks.c:487
 msgid "Tasks"
-msgstr ""
+msgstr "Εργασίες"
 
 #: addons/src/ao_tasks.c:551
 msgid "Context:"
@@ -114,7 +115,7 @@ msgstr ""
 
 #: addons/src/ao_wrapwords.c:254
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: addons/src/ao_wrapwords.c:263
 #, c-format
@@ -131,11 +132,11 @@ msgstr ""
 
 #: addons/src/ao_doclist.c:241
 msgid "Close Ot_her Documents"
-msgstr ""
+msgstr "Κλείσιμο ά_λλων εγγράφων"
 
 #: addons/src/ao_doclist.c:246
 msgid "C_lose All"
-msgstr ""
+msgstr "_Κλείσιμο όλων"
 
 #: addons/src/ao_doclist.c:295
 msgid "Show Document List"
@@ -162,7 +163,7 @@ msgstr ""
 #: spellcheck/src/scplugin.c:124 treebrowser/src/treebrowser.c:2130
 #: updatechecker/src/updatechecker.c:299
 msgid "Plugin configuration directory could not be created."
-msgstr ""
+msgstr "Δεν ήταν δυνατόν να δημιουργηθεί ο φάκελος ρυθμίσεων των επιπρόσθετων."
 
 #: addons/src/addons.c:435
 msgid "Focus Bookmark List"
@@ -292,7 +293,7 @@ msgstr ""
 
 #: autoclose/src/autoclose.c:1077
 msgid "Parenthesis ( )"
-msgstr ""
+msgstr "Παρενθέσεις ( )"
 
 #: autoclose/src/autoclose.c:1078
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
@@ -300,7 +301,7 @@ msgstr ""
 
 #: autoclose/src/autoclose.c:1080
 msgid "Curly brackets { }"
-msgstr ""
+msgstr "Καμπυλωτές Αγκύλες { }"
 
 #: autoclose/src/autoclose.c:1081
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
@@ -308,7 +309,7 @@ msgstr ""
 
 #: autoclose/src/autoclose.c:1083
 msgid "Square brackets [ ]"
-msgstr ""
+msgstr "Τετράγωνες αγκύλες [ ]"
 
 #: autoclose/src/autoclose.c:1084
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
@@ -332,7 +333,7 @@ msgstr ""
 
 #: autoclose/src/autoclose.c:1090
 msgid "Double quotes \" \""
-msgstr ""
+msgstr "Διπλά εισαγωγικά \" \""
 
 #: autoclose/src/autoclose.c:1091
 msgid "Auto-close double quotes \" -> \"|\""
@@ -340,7 +341,7 @@ msgstr ""
 
 #: autoclose/src/autoclose.c:1092
 msgid "Single quotes ' '"
-msgstr ""
+msgstr "Μονά εισαγωγικά ' '"
 
 #: autoclose/src/autoclose.c:1093
 msgid "Auto-close single quotes ' -> '|'"
@@ -606,13 +607,13 @@ msgstr ""
 #: debugger/src/vtree.c:170 debugger/src/envtree.c:424
 #: scope/data/scope.glade:2021 scope/data/scope_gtk3.glade:2021
 msgid "Name"
-msgstr ""
+msgstr "Όνομα"
 
 #: debugger/src/vtree.c:193 debugger/src/envtree.c:429
 #: scope/data/scope.glade:2034 scope/data/scope.glade:2102
 #: scope/data/scope_gtk3.glade:2034 scope/data/scope_gtk3.glade:2102
 msgid "Value"
-msgstr ""
+msgstr "Τιμή"
 
 #: debugger/src/tpage.c:105
 msgid "Choose target file"
@@ -804,11 +805,11 @@ msgstr ""
 
 #: debugger/src/btnpanel.c:93 debugger/src/btnpanel.c:181
 msgid "Run"
-msgstr ""
+msgstr "Εκτέλεση"
 
 #: debugger/src/btnpanel.c:151 debugger/src/btnpanel.c:153
 msgid "Settings"
-msgstr ""
+msgstr "Ρυθμίσεις"
 
 #: debugger/src/btnpanel.c:158
 msgid "Two panel mode"
@@ -833,7 +834,7 @@ msgstr ""
 #: geanyctags/src/geanyctags.c:138
 #, c-format
 msgid "%s (in directory: %s)"
-msgstr ""
+msgstr "%s (στον φάκελο: %s)"
 
 #: geanyctags/src/geanyctags.c:155
 #, c-format
@@ -846,7 +847,7 @@ msgstr ""
 
 #: geanyctags/src/geanyctags.c:554
 msgid "_Search for:"
-msgstr ""
+msgstr "_Αναζήτηση για:"
 
 #: geanyctags/src/geanyctags.c:572
 msgid "_Match type:"
@@ -867,7 +868,7 @@ msgstr ""
 #: geanyctags/src/geanyctags.c:588 projectorganizer/src/prjorg-sidebar.c:168
 #: projectorganizer/src/prjorg-sidebar.c:792
 msgid "C_ase sensitive"
-msgstr ""
+msgstr "Δ_ιάκριση κεφαλαίων/πεζών"
 
 #: geanyctags/src/geanyctags.c:591 projectorganizer/src/prjorg-sidebar.c:795
 msgid "_Declaration"
@@ -1240,7 +1241,7 @@ msgstr ""
 
 #: geanygendoc/src/ggd-plugin.c:629
 msgid "General"
-msgstr ""
+msgstr "Γενικά"
 
 #: geanygendoc/src/ggd-plugin.c:634
 msgid "_Save file before generating documentation"
@@ -1566,7 +1567,7 @@ msgstr ""
 
 #: latex/src/bibtexlabels.c:50
 msgid "Chapter"
-msgstr ""
+msgstr "Κεφάλαιο"
 
 #: latex/src/bibtexlabels.c:51
 msgid "Crossref"
@@ -1578,7 +1579,7 @@ msgstr ""
 
 #: latex/src/bibtexlabels.c:53
 msgid "Editor"
-msgstr ""
+msgstr "Επεξεργαστής"
 
 #: latex/src/bibtexlabels.c:54
 msgid "E-print"
@@ -1634,7 +1635,7 @@ msgstr ""
 
 #: latex/src/bibtexlabels.c:67
 msgid "Title"
-msgstr ""
+msgstr "Τίτλος"
 
 #: latex/src/bibtexlabels.c:69
 msgid "URL"
@@ -1908,7 +1909,7 @@ msgstr ""
 
 #: latex/src/latex.c:1830
 msgid "Default"
-msgstr ""
+msgstr "Προκαθορισμένο"
 
 #: latex/src/latex.c:1841
 msgid "Documentclass:"
@@ -1940,7 +1941,7 @@ msgstr ""
 
 #: latex/src/latex.c:1864
 msgid "Encoding:"
-msgstr ""
+msgstr "Kωδικοποίηση:"
 
 #: latex/src/latex.c:1868
 msgid "Set the encoding for your new document"
@@ -1966,7 +1967,7 @@ msgstr ""
 
 #: latex/src/latex.c:1919
 msgid "Date:"
-msgstr ""
+msgstr "Ημερομηνία:"
 
 #: latex/src/latex.c:1922
 msgid ""
@@ -2046,7 +2047,7 @@ msgstr ""
 
 #: latex/src/latex.c:2029
 msgid "Replace special characters"
-msgstr ""
+msgstr "Αντικατάσταση ειδικών χαρακτήρων"
 
 #: latex/src/latex.c:2032
 msgid "Run insert environment dialog"
@@ -2185,7 +2186,7 @@ msgstr ""
 #: scope/data/scope.glade:1225 scope/data/scope_gtk3.glade:1102
 #: scope/data/scope_gtk3.glade:1225
 msgid "_Format"
-msgstr ""
+msgstr "_Διαμόρφωση"
 
 #: latex/src/latex.c:2271
 msgid "F_ont size"
@@ -2249,7 +2250,7 @@ msgstr ""
 
 #: latex/src/letters.c:44
 msgid "Arrow characters"
-msgstr ""
+msgstr "Χαρακτήρες με βέλη"
 
 #: latex/src/letters.c:45
 msgid "Relational"
@@ -2329,39 +2330,39 @@ msgstr ""
 
 #: latex/src/latexencodings.c:37
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: latex/src/latexencodings.c:38
 msgid "US-ASCII"
-msgstr ""
+msgstr "US-ASCII"
 
 #: latex/src/latexencodings.c:39
 msgid "ISO-8859-1 (Latin-1)"
-msgstr ""
+msgstr "ISO-8859-1 (Latin-1)"
 
 #: latex/src/latexencodings.c:41
 msgid "ISO-8859-2 (Latin-2)"
-msgstr ""
+msgstr "ISO-8859-2 (Latin-2)"
 
 #: latex/src/latexencodings.c:43
 msgid "ISO-8859-3 (Latin-3)"
-msgstr ""
+msgstr "ISO-8859-3 (Latin-3)"
 
 #: latex/src/latexencodings.c:45
 msgid "ISO-8859-4 (Latin-4)"
-msgstr ""
+msgstr "ISO-8859-4 (Latin-4)"
 
 #: latex/src/latexencodings.c:47
 msgid "ISO-8859-5 (Latin-5)"
-msgstr ""
+msgstr "ISO-8859-5 (Latin-5)"
 
 #: latex/src/latexencodings.c:49
 msgid "ISO-8859-9 (Latin-9)"
-msgstr ""
+msgstr "ISO-8859-9 (Latin-9)"
 
 #: latex/src/latexencodings.c:51
 msgid "ISO-8859-10 (Latin-10)"
-msgstr ""
+msgstr "ISO-8859-10 (Latin-10)"
 
 #: latex/src/latexencodings.c:53
 msgid "IBM 850 code page"
@@ -2670,7 +2671,7 @@ msgstr ""
 
 #: geanymacro/src/geanymacro.c:67
 msgid "Delete to beginning of line"
-msgstr ""
+msgstr "Διαγραφή έως την αρχή της γραμμής"
 
 #: geanymacro/src/geanymacro.c:68
 msgid "Delete to end of line"
@@ -2966,7 +2967,7 @@ msgstr ""
 
 #: geanymacro/src/geanymacro.c:181
 msgid "Macros"
-msgstr ""
+msgstr "Μακροεντολές"
 
 #: geanymacro/src/geanymacro.c:181
 msgid "Macros for Geany"
@@ -3247,7 +3248,7 @@ msgstr ""
 
 #: geanymacro/src/geanymacro.c:1822 geanymacro/src/geanymacro.c:2118
 msgid "_Edit"
-msgstr ""
+msgstr "Επε_ξεργασία"
 
 #: geanymacro/src/geanymacro.c:1824 geanymacro/src/geanymacro.c:2120
 #: treebrowser/src/treebrowser.c:1366 treebrowser/src/treebrowser.c:1368
@@ -3350,7 +3351,7 @@ msgstr ""
 
 #: geanyminiscript/src/gms_gui.c:507
 msgid "selection"
-msgstr ""
+msgstr "επιλογή"
 
 #: geanyminiscript/src/gms_gui.c:508
 msgid "document"
@@ -3610,7 +3611,7 @@ msgstr ""
 #: geanypg/src/verify_aux.c:66 spellcheck/src/gui.c:593
 #: spellcheck/src/gui.c:603
 msgid "unknown"
-msgstr ""
+msgstr "άγνωστο"
 
 #: geanypg/src/verify_aux.c:67
 msgid "undefined"
@@ -3781,21 +3782,21 @@ msgstr ""
 
 #: geanyprj/src/menu.c:101 geanyprj/src/menu.c:376 geanyprj/src/sidebar.c:172
 msgid "New Project"
-msgstr ""
+msgstr "Νέο έργο"
 
 #: geanyprj/src/menu.c:110 workbench/src/dialogs.c:49
 #: workbench/src/dialogs.c:84 workbench/src/dialogs.c:118
 msgid "C_reate"
-msgstr ""
+msgstr "Δ_ημιουργία"
 
 #: geanyprj/src/menu.c:123 scope/data/scope.glade:3651
 #: scope/data/scope_gtk3.glade:3653
 msgid "Name:"
-msgstr ""
+msgstr "Όνομα:"
 
 #: geanyprj/src/menu.c:132
 msgid "Location:"
-msgstr ""
+msgstr "Τοποθεσία:"
 
 #: geanyprj/src/menu.c:147
 msgid "Choose Project Location"
@@ -3803,7 +3804,7 @@ msgstr ""
 
 #: geanyprj/src/menu.c:155
 msgid "Base path:"
-msgstr ""
+msgstr "Βασική διαδρομή:"
 
 #: geanyprj/src/menu.c:160
 msgid ""
@@ -3811,10 +3812,13 @@ msgid ""
 "path, or an existing directory tree. You can use paths relative to the "
 "project filename."
 msgstr ""
+"Ο βασικός φάκελος όλων των αρχείων που αποτελούν το έργο. Μπορεί να είναι "
+"μια νέα διαδρομή, ή ένας υπάρχον φάκελος. Μπορείτε να χρησιμοποιήσετε "
+"διαδρομές σχετικές με το όνομα του έργου."
 
 #: geanyprj/src/menu.c:163
 msgid "Choose Project Base Path"
-msgstr ""
+msgstr "Επιλογή Βασικής Διαδρομής Έργου"
 
 #: geanyprj/src/menu.c:170
 msgid "Generate file list on load"
@@ -3829,7 +3833,7 @@ msgstr ""
 
 #: geanyprj/src/menu.c:180
 msgid "Type:"
-msgstr ""
+msgstr "Τύπος:"
 
 #: geanyprj/src/menu.c:218
 #, c-format
@@ -3838,7 +3842,7 @@ msgstr ""
 
 #: geanyprj/src/menu.c:367
 msgid "_Project"
-msgstr ""
+msgstr "Έρ_γο"
 
 #: geanyprj/src/menu.c:385 geanyprj/src/sidebar.c:181
 msgid "Delete Project"
@@ -3850,7 +3854,7 @@ msgstr ""
 
 #: geanyprj/src/menu.c:407 geanyprj/src/sidebar.c:216
 msgid "Preferences"
-msgstr ""
+msgstr "Ιδιότητες"
 
 #: geanyprj/src/menu.c:418 geanyprj/src/sidebar.c:229
 msgid "Find in Project"
@@ -3863,16 +3867,16 @@ msgstr ""
 #: geanyprj/src/sidebar.c:240 lsp/src/lsp-symbol-tree.c:1213
 #: projectorganizer/src/prjorg-sidebar.c:1848
 msgid "H_ide Sidebar"
-msgstr ""
+msgstr "Από_κρυψη πλευρικής μπάρας"
 
 #: geanyprj/src/sidebar.c:456 projectorganizer/src/prjorg-sidebar.c:1867
 msgid "Project"
-msgstr ""
+msgstr "Έργο"
 
 #: geanyprj/src/xproject.c:94
 #, c-format
 msgid "Project \"%s\" opened."
-msgstr ""
+msgstr "Το έργο \"%s\" άνοιξε."
 
 #: geanyvc/src/geanyvc.c:73
 msgid "GeanyVC"
@@ -3942,7 +3946,7 @@ msgstr ""
 
 #: geanyvc/src/geanyvc.c:1341
 msgid "Status"
-msgstr ""
+msgstr "Κατάσταση"
 
 #: geanyvc/src/geanyvc.c:1348
 msgid "Path"
@@ -4227,7 +4231,7 @@ msgstr ""
 
 #: geanyvc/src/geanyvc.c:2711
 msgid "_File"
-msgstr ""
+msgstr "_Αρχείο"
 
 #: geanyvc/src/geanyvc.c:2723
 msgid "_Status"
@@ -4602,6 +4606,7 @@ msgid ""
 "Your configuration directory has been successfully moved from \"%s\" to "
 "\"%s\"."
 msgstr ""
+"Ο φάκελος ρυθμίσεων σας έχει μετακινηθεί επιτυχώς από \"%s\" στο \"%s\"."
 
 #: lipsum/src/lipsum.c:199
 #, c-format
@@ -5039,15 +5044,15 @@ msgstr ""
 
 #: lsp/src/lsp-symbol-tree.c:952
 msgid "Symbols"
-msgstr ""
+msgstr "Σύμβολα"
 
 #: lsp/src/lsp-symbol-tree.c:1169
 msgid "_Expand All"
-msgstr ""
+msgstr "_Επέκταση όλων"
 
 #: lsp/src/lsp-symbol-tree.c:1174
 msgid "_Collapse All"
-msgstr ""
+msgstr "_αναδίπλωση όλων"
 
 #: lsp/src/lsp-symbol-tree.c:1197
 msgid "Go to _Declaration"
@@ -5084,7 +5089,7 @@ msgstr ""
 
 #: markdown/src/conf.c:567
 msgid "Position:"
-msgstr ""
+msgstr "Θέση:"
 
 #: markdown/src/conf.c:573
 msgid "Sidebar"
@@ -5096,7 +5101,7 @@ msgstr ""
 
 #: markdown/src/conf.c:595
 msgid "Font:"
-msgstr ""
+msgstr "Γραμματοσειρά:"
 
 #: markdown/src/conf.c:612
 msgid "Code Font:"
@@ -5243,7 +5248,7 @@ msgstr ""
 #: overview/data/prefs.ui:221 scope/data/scope.glade:3410
 #: scope/data/scope_gtk3.glade:3412
 msgid "Options"
-msgstr ""
+msgstr "Επιλογές"
 
 #: overview/data/prefs.ui:259 overview/data/prefs.ui:307
 msgid ""
@@ -5252,7 +5257,7 @@ msgstr ""
 
 #: overview/data/prefs.ui:261
 msgid "Color:"
-msgstr ""
+msgstr "Χρώμα:"
 
 #: overview/data/prefs.ui:274 overview/data/prefs.ui:290
 msgid ""
@@ -5556,7 +5561,7 @@ msgstr ""
 
 #: pretty-printer/src/ConfigUI.c:425
 msgid "Indentation"
-msgstr ""
+msgstr "Εσοχοποίηση"
 
 #: pretty-printer/src/ConfigUI.c:430
 msgid "Space"
@@ -5946,7 +5951,7 @@ msgstr ""
 
 #: scope/data/scope.glade:323 scope/data/scope_gtk3.glade:323
 msgid "_More"
-msgstr ""
+msgstr "_Περισσότερα"
 
 #: scope/data/scope.glade:330 scope/data/scope_gtk3.glade:330
 msgid "_Show Terminal"
@@ -6120,19 +6125,19 @@ msgstr ""
 
 #: scope/data/scope.glade:972 scope/data/scope_gtk3.glade:972
 msgid "_1"
-msgstr ""
+msgstr "_1"
 
 #: scope/data/scope.glade:979 scope/data/scope_gtk3.glade:979
 msgid "_2"
-msgstr ""
+msgstr "_2"
 
 #: scope/data/scope.glade:987 scope/data/scope_gtk3.glade:987
 msgid "_4"
-msgstr ""
+msgstr "_4"
 
 #: scope/data/scope.glade:995 scope/data/scope_gtk3.glade:995
 msgid "_8"
-msgstr ""
+msgstr "_8"
 
 #: scope/data/scope.glade:1049 scope/data/scope_gtk3.glade:1049
 msgid "_Jump To"
@@ -6323,7 +6328,7 @@ msgstr ""
 #: scope/data/scope.glade:2900 scope/data/scope_gtk3.glade:2902
 #: scope/src/scope.c:514
 msgid "Program"
-msgstr ""
+msgstr "Πρόγραμμα"
 
 #: scope/data/scope.glade:2934 scope/data/scope_gtk3.glade:2936
 msgid "Open on"
@@ -6355,7 +6360,7 @@ msgstr ""
 
 #: scope/data/scope.glade:3117 scope/data/scope_gtk3.glade:3119
 msgid "Display"
-msgstr ""
+msgstr "Εμφάνιση"
 
 #: scope/data/scope.glade:3127 scope/data/scope_gtk3.glade:3129
 msgid "_member"
@@ -6629,11 +6634,11 @@ msgstr ""
 
 #: scope/src/plugme.c:87
 msgid "Select Folder"
-msgstr ""
+msgstr "Επιλογή φακέλου"
 
 #: scope/src/plugme.c:87
 msgid "Select File"
-msgstr ""
+msgstr "Επιλογή αρχείου"
 
 #: scope/src/prefs.c:320 scope/src/utils.c:470
 #, c-format
@@ -6908,6 +6913,9 @@ msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
 msgstr ""
+"Ο παλιό σας φάκελος ρυθμίσεων \"%s\" δεν ήταν δυνατόν να μετακινηθεί στο "
+"\"%s\" (%s). Παρακαλούμε να μετακινήσετε χειροκίνητα τον φάκελο στη νέα "
+"τοποθεσία."
 
 #: sendmail/src/sendmail.c:442
 msgid "_Mail document"
@@ -6967,7 +6975,7 @@ msgstr ""
 
 #: spellcheck/src/scplugin.c:239
 msgid "Select Directory"
-msgstr ""
+msgstr "Επιλογή φακέλου"
 
 #: spellcheck/src/scplugin.c:291
 msgid "Show toolbar item to toggle spell checking"
@@ -7151,6 +7159,7 @@ msgstr ""
 #, c-format
 msgid "Could not execute configured external command '%s' (%s)."
 msgstr ""
+"Δεν ήταν δυνατόν να εκτελεστεί η προσαρμοσμένη εξωτερική εντολή %s' (%s)."
 
 #: treebrowser/src/treebrowser.c:1096
 msgid "NewDirectory"
@@ -7256,15 +7265,15 @@ msgstr ""
 
 #: treebrowser/src/treebrowser.c:1921 treebrowser/src/treebrowser.c:2389
 msgid "Refresh"
-msgstr ""
+msgstr "Ανανέωση"
 
 #: treebrowser/src/treebrowser.c:1931
 msgid "Home"
-msgstr ""
+msgstr "Αρχικός κατάλογος"
 
 #: treebrowser/src/treebrowser.c:1941
 msgid "Set path from document"
-msgstr ""
+msgstr "Καθορισμός διαδρομής από το έγγραφο"
 
 #: treebrowser/src/treebrowser.c:1951
 msgid "Track path"
@@ -7301,10 +7310,16 @@ msgid ""
 "%d will be replaced with the path name of the selected file without the "
 "filename"
 msgstr ""
+"Η εντολή που θα εκτελείται όταν χρησιμοποιείται το \"Άνοιγμα με\". Μπορείτε "
+"να χρησιμοποιήσετε τα wildcards %f και %d.\n"
+"Το %f θα αντικαθίσταται με το όνομα αρχείου συμπεριλαμβάνοντας τη πλήρη "
+"διαδρομή\n"
+"Το %d θα αντικαθίσταται με το όνομα διαδρομής του επιλεγμένου αρχείου χωρίς "
+"το όνομα αρχείου"
 
 #: treebrowser/src/treebrowser.c:2161
 msgid "Terminal"
-msgstr ""
+msgstr "Τερματικό"
 
 #: treebrowser/src/treebrowser.c:2172
 msgid "The terminal to use with the command \"Open Terminal\""
@@ -7312,7 +7327,7 @@ msgstr ""
 
 #: treebrowser/src/treebrowser.c:2178
 msgid "Toolbar"
-msgstr ""
+msgstr "Μπάρα εργαλείων"
 
 #: treebrowser/src/treebrowser.c:2180
 msgid "Hidden"
@@ -7320,11 +7335,11 @@ msgstr ""
 
 #: treebrowser/src/treebrowser.c:2181
 msgid "Top"
-msgstr ""
+msgstr "Κορυφή"
 
 #: treebrowser/src/treebrowser.c:2182
 msgid "Bottom"
-msgstr ""
+msgstr "Κάτω μέρος"
 
 #: treebrowser/src/treebrowser.c:2187
 msgid "If position is changed, the option require plugin restart."
@@ -7336,7 +7351,7 @@ msgstr ""
 
 #: treebrowser/src/treebrowser.c:2193
 msgid "None"
-msgstr ""
+msgstr "Κανένα"
 
 #: treebrowser/src/treebrowser.c:2194
 msgid "Base"
@@ -7348,7 +7363,7 @@ msgstr ""
 
 #: treebrowser/src/treebrowser.c:2201
 msgid "Show hidden files"
-msgstr ""
+msgstr "Εμφάνιση κρυφών αρχείων"
 
 #: treebrowser/src/treebrowser.c:2210
 msgid "On Windows, this just hide files that are prefixed with '.' (dot)"
@@ -7402,11 +7417,11 @@ msgstr ""
 
 #: treebrowser/src/treebrowser.c:2379
 msgid "Focus File List"
-msgstr ""
+msgstr "Λίστα αρχείων εστίασης"
 
 #: treebrowser/src/treebrowser.c:2381
 msgid "Focus Path Entry"
-msgstr ""
+msgstr "Εισαγωγή διαδρομής εστίασης"
 
 #: treebrowser/src/treebrowser.c:2383
 msgid "Rename Object"
@@ -7874,11 +7889,11 @@ msgstr ""
 
 #: workbench/src/menu.c:211
 msgid "_New..."
-msgstr ""
+msgstr "_Νέο..."
 
 #: workbench/src/menu.c:218
 msgid "_Open..."
-msgstr ""
+msgstr "_Άνοιγμα..."
 
 #: workbench/src/menu.c:225
 msgid "S_ettings"
@@ -7890,7 +7905,7 @@ msgstr ""
 
 #: workbench/src/menu.c:239
 msgid "_Close"
-msgstr ""
+msgstr "_Κλείσιμο"
 
 #: workbench/src/plugin_main.c:89 workbench/src/sidebar.c:869
 msgid ""
