@@ -9,9 +9,9 @@ jobs:
         shell: msys2 {0}
     steps:
       - name: Checkout Geany-Plugins
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Checkout Geany
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: geany/geany
           path: .geany_source

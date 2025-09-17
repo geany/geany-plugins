@@ -19,7 +19,7 @@
 #include "cmd-params.h"
 
 void cmd_params_init(CmdParams *param, ScintillaObject *sci,
-	gint num, gboolean num_present, GSList *kpl, gboolean is_operator_cmd,
+	gint num, gboolean num_present, GSList *kpl,
 	gint sel_start, gint sel_len)
 {
 	param->sci = sci;
@@ -27,7 +27,6 @@ void cmd_params_init(CmdParams *param, ScintillaObject *sci,
 	param->num = num;
 	param->num_present = num_present;
 	param->last_kp = kpl != NULL ? g_slist_nth_data(kpl, 0) : NULL;
-	param->is_operator_cmd = is_operator_cmd;
 
 	param->sel_start = sel_start;
 	param->sel_len = sel_len;
