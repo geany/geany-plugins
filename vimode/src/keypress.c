@@ -171,7 +171,6 @@ void kpl_printf(GSList *kpl)
 gint kpl_get_int(GSList *kpl, GSList **new_kpl)
 {
 	gint res = 0;
-	gint i = 0;
 	GSList *pos = kpl;
 	GSList *num_list = NULL;
 
@@ -198,7 +197,6 @@ gint kpl_get_int(GSList *kpl, GSList **new_kpl)
 	{
 		res = res * 10 + kp_todigit(pos->data);
 		pos = g_slist_next(pos);
-		i++;
 		// some sanity check
 		if (res > 1000000)
 			break;
