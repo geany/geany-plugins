@@ -67,22 +67,28 @@ struct {
 };
 
 /* constants used when detecting hexadecimal and decimal numbers */
-#define HEXA_NONE               -1      /* hexadecimal number not found */
-#define HEXA_MAYBE              0       /* in progress, need scan more characters */
-#define HEXA_REQUIRE_x          1       /* need character x/X */
-#define HEXA_REQUIRE_0          2       /* need character 0 */
-#define HEXA_REQUIRE_xnumber    3       /* need at least one number */
-#define HEXA_ACCEPT_xnumber     4       /* there may be more numbers */
-#define HEXA_FOUND              5       /* ok, hexadecimal number found */
+enum {
+	HEXA_NONE =  -1,		/* hexadecimal number not found */
+	HEXA_MAYBE,				/* in progress, need scan more characters */
+	HEXA_REQUIRE_x,			/* need character x/X */
+	HEXA_REQUIRE_0,			/* need character 0 */
+	HEXA_REQUIRE_xnumber,	/* need at least one number */
+	HEXA_ACCEPT_xnumber,	/* there may be more numbers */
+	HEXA_FOUND				/* ok, hexadecimal number found */
+};
 
-#define DECIMAL_NONE            -1      /* decimal number not found */
-#define DECIMAL_MAYBE           0       /* in progress, need scan more characters */
-#define DECIMAL_REQUIRE_number  1       /* need at least one number */
-#define DECIMAL_FOUND           5       /* ok, decimal number found */
+enum {
+	DECIMAL_NONE = -1,		/* decimal number not found */
+	DECIMAL_MAYBE,			/* in progress, need scan more characters */
+	DECIMAL_REQUIRE_number,	/* need at least one number */
+	DECIMAL_FOUND			/* ok, decimal number found */
+};
 
-#define HEXA_CASE_UNKNOWN       -1      /* hexadicmal case not yey known */
-#define HEXA_CASE_UPPER         1       /* upper case detected */
-#define HEXA_CASE_LOWER         0       /* lower case detected */
+enum {
+	HEXA_CASE_UNKNOWN = -1,	/* hexadicmal case not yey known */
+	HEXA_CASE_UPPER,		/* upper case detected */
+	HEXA_CASE_LOWER			/* lower case detected */
+};
 
 
 static gint sci_get_position_after(ScintillaObject *sci, gint start)
@@ -99,8 +105,14 @@ static gint sci_get_position_before(ScintillaObject *sci, gint start)
 
 static gboolean on_change_number(gint step)
 {
-	ScintillaObject *sci = document_get_current()->editor->sci;
+	GeanyDocument *doc = document_get_current();
 
+	if (! doc)
+	{
+		return FALSE;
+	}
+
+	ScintillaObject *sci = doc->editor->sci;
 	gint pos = sci_get_current_position(sci);
 	gint line = sci_get_line_from_position(sci, pos);
 	gint line_start = sci_get_position_from_line(sci, line);
@@ -116,8 +128,8 @@ static gboolean on_change_number(gint step)
 	gint i, prev_i;
 
 	gint hexa_state = 0;
-	gint decimal_sate = 0;
-	gint hexaCase = HEXA_CASE_UNKNOWN;
+	gint decimal_state = 0;
+	gint hexa_case = HEXA_CASE_UNKNOWN;
 
 	/* if we are at the end of the line we go to the previous character */
 	if (pos == line_end && pos > line_start)
@@ -136,7 +148,7 @@ static gboolean on_change_number(gint step)
 			if (ch == '-')
 			{
 				decimal_start = i;
-				decimal_sate = DECIMAL_REQUIRE_number;
+				decimal_state = DECIMAL_REQUIRE_number;
 				break;
 			}
 		}
@@ -155,21 +167,21 @@ static gboolean on_change_number(gint step)
 			break;
 		}
 
-		if (decimal_sate == DECIMAL_MAYBE)
+		if (decimal_state == DECIMAL_MAYBE)
 		{
 			if (g_ascii_isdigit(ch) || ch == '-')
 			{
 				decimal_start = i;
 				if (ch == '-')
-					decimal_sate = DECIMAL_FOUND;
+					decimal_state = DECIMAL_FOUND;
 			}
 			else if (decimal_start == -1)
 			{
-				decimal_sate = DECIMAL_NONE;
+				decimal_state = DECIMAL_NONE;
 			}
 			else
 			{
-				decimal_sate = DECIMAL_FOUND;
+				decimal_state = DECIMAL_FOUND;
 			}
 		}
 		if (hexa_state == HEXA_MAYBE)
@@ -189,14 +201,14 @@ static gboolean on_change_number(gint step)
 			{
 				if (i == pos)
 					hexadecimal_start = i;
-				if (hexaCase == HEXA_CASE_UNKNOWN && g_ascii_isalpha(ch))
+				if (hexa_case == HEXA_CASE_UNKNOWN && g_ascii_isalpha(ch))
 				{
-					hexaCase = g_ascii_isupper(ch) ? HEXA_CASE_UPPER : HEXA_CASE_LOWER;
+					hexa_case = g_ascii_isupper(ch) ? HEXA_CASE_UPPER : HEXA_CASE_LOWER;
 				}
 			}
 		}
 
-		if ((hexa_state == HEXA_NONE || hexa_state == HEXA_REQUIRE_x) && (decimal_sate == DECIMAL_NONE || decimal_sate == DECIMAL_FOUND))
+		if ((hexa_state == HEXA_NONE || hexa_state == HEXA_REQUIRE_x) && (decimal_state == DECIMAL_NONE || decimal_state == DECIMAL_FOUND))
 			break;
 	}
 
@@ -210,15 +222,15 @@ static gboolean on_change_number(gint step)
 	}
 
 
-	if (decimal_sate == DECIMAL_FOUND || decimal_sate == DECIMAL_NONE)
-		decimal_sate = DECIMAL_MAYBE;
+	if (decimal_state == DECIMAL_FOUND || decimal_state == DECIMAL_NONE)
+		decimal_state = DECIMAL_MAYBE;
 
 	/* now we go ahead to detect the beginning if we have not found it yet and the end of the number */
 	for (i=sci_get_position_after(sci, pos), prev_i = -1; i <= line_end && prev_i != i; prev_i = i, i = sci_get_position_after(sci, i))
 	{
 		ch = sci_get_char_at(sci, i);
 
-		if (decimal_sate == DECIMAL_REQUIRE_number)
+		if (decimal_state == DECIMAL_REQUIRE_number)
 		{
 			if (ch == '-')
 			{
@@ -226,21 +238,21 @@ static gboolean on_change_number(gint step)
 			}
 			else if (g_ascii_isdigit(ch))
 			{
-				decimal_sate = DECIMAL_MAYBE;
+				decimal_state = DECIMAL_MAYBE;
 			}
 		}
-		else if (decimal_sate == DECIMAL_MAYBE)
+		else if (decimal_state == DECIMAL_MAYBE)
 		{
 			if (!g_ascii_isdigit(ch))
 			{
 				if (decimal_start != -1)
 				{
 					decimal_end = i;
-					decimal_sate = DECIMAL_FOUND;
+					decimal_state = DECIMAL_FOUND;
 				}
 				else if (ch == '-')
 				{
-					decimal_sate = DECIMAL_REQUIRE_number;
+					decimal_state = DECIMAL_REQUIRE_number;
 					decimal_start = i;
 				}
 			}
@@ -255,7 +267,7 @@ static gboolean on_change_number(gint step)
 			if (ch == '0')
 			{
 				hexa_state = HEXA_REQUIRE_x;
-				hexaCase = HEXA_CASE_UNKNOWN;
+				hexa_case = HEXA_CASE_UNKNOWN;
 				hexadecimal_start = i;
 			}
 		}
@@ -283,7 +295,7 @@ static gboolean on_change_number(gint step)
 				hexa_state = HEXA_ACCEPT_xnumber;
 
 				if (g_ascii_isalpha(ch))
-					hexaCase = g_ascii_isupper(ch) ? HEXA_CASE_UPPER : HEXA_CASE_LOWER;
+					hexa_case = g_ascii_isupper(ch) ? HEXA_CASE_UPPER : HEXA_CASE_LOWER;
 			}
 		}
 		else if (hexa_state == HEXA_ACCEPT_xnumber)
@@ -297,12 +309,12 @@ static gboolean on_change_number(gint step)
 			{
 				if (g_ascii_isalpha(ch))
 				{
-					hexaCase = g_ascii_isupper(ch) ? HEXA_CASE_UPPER : HEXA_CASE_LOWER;
+					hexa_case = g_ascii_isupper(ch) ? HEXA_CASE_UPPER : HEXA_CASE_LOWER;
 				}
 			}
 		}
 
-		if (hexa_state == HEXA_FOUND && decimal_sate == DECIMAL_FOUND)
+		if (hexa_state == HEXA_FOUND && decimal_state == DECIMAL_FOUND)
 			break;
 	}
 
@@ -315,26 +327,25 @@ static gboolean on_change_number(gint step)
 	{
 		hexadecimal_start += 2;
 	}
-	if (decimal_sate == DECIMAL_MAYBE)
+	if (decimal_state == DECIMAL_MAYBE)
 	{
 		if (decimal_start == -1)
 		{
-			decimal_sate = DECIMAL_NONE;
+			decimal_state = DECIMAL_NONE;
 		}
 		else
 		{
 			decimal_end = i;
-			decimal_sate = DECIMAL_FOUND;
+			decimal_state = DECIMAL_FOUND;
 		}
 	}
 
-	if (hexa_state == HEXA_FOUND || decimal_sate == DECIMAL_FOUND)
+	if (hexa_state == HEXA_FOUND || decimal_state == DECIMAL_FOUND)
 	{
 		/* ok so we found a number to process */
 		gchar *txt;
-		gchar format_buf[13];
 		gint format_length;
-		gboolean use_hexa = (decimal_sate != DECIMAL_FOUND || (hexa_state == HEXA_FOUND && hexadecimal_start <= decimal_start + 2)) ? TRUE : FALSE;
+		gboolean use_hexa = (decimal_state != DECIMAL_FOUND || (hexa_state == HEXA_FOUND && hexadecimal_start <= decimal_start + 2)) ? TRUE : FALSE;
 		gboolean positive = TRUE;
 		gint digit_start = use_hexa ? hexadecimal_start : decimal_start;
 		gint digit_end = use_hexa ? hexadecimal_end : decimal_end;
@@ -344,14 +355,7 @@ static gboolean on_change_number(gint step)
 			return TRUE;
 
 		/* we convert the number from hexadecimal or decimal format */
-		if (use_hexa)
-		{
-			guessed_number = g_ascii_strtoll(txt, NULL, 16);
-		}
-		else
-		{
-			guessed_number = atoi(txt);
-		}
+		guessed_number = g_ascii_strtoll(txt, NULL, use_hexa ? 16 : 10);
 		g_free(txt);
 
 		positive = (guessed_number < 0) ? FALSE : TRUE;
@@ -369,12 +373,19 @@ static gboolean on_change_number(gint step)
 				format_length = 0;
 		}
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-		g_snprintf(format_buf, sizeof(format_buf)-1, "%%0%d%c", format_length, use_hexa ? (hexaCase == HEXA_CASE_UPPER ? 'X' : 'x') : 'd');
-#pragma GCC diagnostic pop
+		if (use_hexa)
+		{
+			buf = g_strdup_printf(hexa_case == HEXA_CASE_UPPER
+					? "%0*" G_GINT64_MODIFIER "X"
+					: "%0*" G_GINT64_MODIFIER "x",
+					format_length, (guint64) guessed_number);
+		}
+		else
+		{
+			buf = g_strdup_printf("%0*" G_GINT64_FORMAT, format_length, guessed_number);
+		}
 
-		if ((buf = g_strdup_printf(format_buf, guessed_number)))
+		if (buf)
 		{
 			sci_set_target_start(sci, digit_start);
 			sci_set_target_end(sci, digit_end);
@@ -416,12 +427,13 @@ static gboolean on_change_number_x(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_
 
 		GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(plugin_data._dialog));
 
-		GtkWidget *label = gtk_label_new("Enter the number of positive or negative increments to apply.\n");
+		GtkWidget *label = gtk_label_new(_("Enter the number of positive or negative increments to apply."));
 
 		plugin_data._entry = gtk_spin_button_new_with_range(-64000, 64000,1);
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON(plugin_data._entry), 1);
-		gtk_widget_set_tooltip_text(plugin_data._entry, _("Enter the number of positive or negative increments to apply then press Enter key.\n"));
+		gtk_widget_set_tooltip_text(plugin_data._entry, _("Enter the number of positive or negative increments to apply then press Enter key."));
 		gtk_entry_set_activates_default(GTK_ENTRY(plugin_data._entry), TRUE);
+		gtk_label_set_mnemonic_widget(GTK_LABEL(label), plugin_data._entry);
 
 		GtkWidget *hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 		GtkWidget *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -556,13 +568,13 @@ void plugin_init(GeanyData *data)
 	load_config();
 
 	key_group = plugin_set_key_group(geany_plugin, "incdec", KB_COUNT, on_change_number_callback);
-	keybindings_set_item(key_group, KB_INCREMENT_NUMBER, NULL, GDK_KEY_A, GDK_SHIFT_MASK,
+	keybindings_set_item(key_group, KB_INCREMENT_NUMBER, NULL, 0, 0,
 				"increment_number",
 				_("Increment Number By 1"), NULL);
-	keybindings_set_item(key_group, KB_DECREMENT_NUMBER, NULL, GDK_KEY_X, GDK_SHIFT_MASK,
+	keybindings_set_item(key_group, KB_DECREMENT_NUMBER, NULL, 0, 0,
 				"decrement_number",
 				_("Decrement Number By 1"), NULL);
-	keybindings_set_item(key_group, KB_INCREMENT_DECREMENT_NUMBER_X, NULL, GDK_KEY_M, GDK_SHIFT_MASK,
+	keybindings_set_item(key_group, KB_INCREMENT_DECREMENT_NUMBER_X, NULL, 0, 0,
 				"increment_decrement_number_x",
 				_("Increment or Decrement Number X times"), NULL);
 
