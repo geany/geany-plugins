@@ -1389,6 +1389,7 @@ extern tagResult tagsFindPseudoTag (tagFile *const file, tagEntry *const entry,
 {
 	size_t len;
 	tagEntry entry0;
+	/* cppcheck-suppress uninitvar symbolName=&entry0 */
 	tagEntry *entryp = entry? entry: &entry0;
 
 	tagResult r = tagsFirstPseudoTag (file, entryp);

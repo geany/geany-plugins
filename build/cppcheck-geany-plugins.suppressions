@@ -1,0 +1,4 @@
+# Too many false-positives with GLib code.
+# See also https://github.com/danmar/cppcheck/pull/7068 and
+# https://github.com/danmar/cppcheck/pull/7390
+nullPointerOutOfMemory

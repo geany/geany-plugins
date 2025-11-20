@@ -27,3 +27,14 @@ Some useful functions are provided:
 * Shortcuts for inserting ``\item`` and ``\newline``
 
 * Toolbar with often used format options
+
+License
+-------
+
+Geany-Latex and all its parts is distributed under the terms of the
+GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any
+later version. A copy of this license can be found in the file COPYING
+included with the source code of this program. If not, you will be
+able to get a copy by contacting the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.

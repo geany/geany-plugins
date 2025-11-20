@@ -38,21 +38,9 @@
 #include "gwh-enum-types.h"
 
 
-GeanyPlugin      *geany_plugin;
-GeanyData        *geany_data;
-
-
-PLUGIN_VERSION_CHECK(224)
-
-PLUGIN_SET_TRANSLATABLE_INFO (
-  LOCALEDIR, GETTEXT_PACKAGE,
-  _("Web helper"),
-  _("Display a preview web page that gets updated upon document saving and "
-    "provide web analysis and debugging tools (aka Web Inspector), all using "
-    "WebKit."),
-  GWH_PLUGIN_VERSION,
-  "Colomban Wendling <ban@herbesfolles.org>"
-)
+/* we still use this in other files, although it's set by us in init(), not by
+ * Geany */
+GeanyPlugin *geany_plugin = NULL;
 
 
 enum {
@@ -115,7 +103,7 @@ on_idle_widget_show (gpointer data)
   /* present back the Geany's window because it is very unlikely the user
    * expects the focus on our newly created window at this point, since we
    * either just loaded the plugin or activated a element from Geany's UI */
-  gtk_window_present (GTK_WINDOW (geany_data->main_widgets->window));
+  gtk_window_present (GTK_WINDOW (geany_plugin->geany_data->main_widgets->window));
   
   return FALSE;
 }
@@ -147,11 +135,11 @@ create_separate_window (void)
   gtk_container_add (GTK_CONTAINER (window), G_browser);
   if (is_transient) {
     gtk_window_set_transient_for (GTK_WINDOW (window),
-                                  GTK_WINDOW (geany_data->main_widgets->window));
+                                  GTK_WINDOW (geany_plugin->geany_data->main_widgets->window));
   } else {
     GList *icons;
     
-    icons = gtk_window_get_icon_list (GTK_WINDOW (geany_data->main_widgets->window));
+    icons = gtk_window_get_icon_list (GTK_WINDOW (geany_plugin->geany_data->main_widgets->window));
     gtk_window_set_icon_list (GTK_WINDOW (window), icons);
     g_list_free (icons);
   }
@@ -174,9 +162,9 @@ attach_browser (void)
   } else {
     G_container.type = CONTAINER_NOTEBOOK;
     if (position == GWH_BROWSER_POSITION_SIDEBAR) {
-      G_container.widget = geany_data->main_widgets->sidebar_notebook;
+      G_container.widget = geany_plugin->geany_data->main_widgets->sidebar_notebook;
     } else {
-      G_container.widget = geany_data->main_widgets->message_window_notebook;
+      G_container.widget = geany_plugin->geany_data->main_widgets->message_window_notebook;
     }
     gtk_notebook_append_page (GTK_NOTEBOOK (G_container.widget),
                               G_browser, gtk_label_new (_("Web preview")));
@@ -311,7 +299,7 @@ on_kb_load_current_file (guint key_id)
 static gchar *
 get_config_filename (void)
 {
-  return g_build_filename (geany_data->app->configdir, "plugins",
+  return g_build_filename (geany_plugin->geany_data->app->configdir, "plugins",
                            GWH_PLUGIN_TARNAME, GWH_PLUGIN_TARNAME".conf", NULL);
 }
 
@@ -415,15 +403,12 @@ save_config (void)
   G_settings = NULL;
 }
 
-void
-plugin_init (GeanyData *data)
+static gboolean
+gwh_plugin_init (GeanyPlugin *plugin,
+                 gpointer     data)
 {
-  /* even though it's not really a good idea to keep all the library we load
-   * into memory, this is needed for webkit. first, without this we creash after
-   * module unloading, and webkitgtk inserts static data into the GLib
-   * (g_quark_from_static_string() for example) so it's not safe to remove it */
-  plugin_module_make_resident (geany_plugin);
-  
+  geany_plugin = plugin;
+
   load_config ();
   gwh_keybindings_init ();
   
@@ -465,15 +450,20 @@ plugin_init (GeanyData *data)
   keybindings_set_item (gwh_keybindings_get_group (), GWH_KB_LOAD_CURRENT_FILE,
                         on_kb_load_current_file, 0, 0, "load_current_file",
                         _("Load the current file in the web view"), NULL);
+
+  return TRUE;
 }
 
-void
-plugin_cleanup (void)
+static void
+gwh_plugin_cleanup (GeanyPlugin  *plugin,
+                    gpointer      data)
 {
   detach_browser ();
   
   gwh_keybindings_cleanup ();
   save_config ();
+
+  geany_plugin = NULL;
 }
 
 
@@ -516,8 +506,36 @@ on_configure_dialog_response (GtkDialog        *dialog,
   }
 }
 
+static GtkWidget *
+frame_new_with_alignment (const gchar  *label_text,
+                          GtkWidget   **alignment)
+{
+  GtkWidget  *label;
+  GtkWidget  *align;
+  GtkWidget  *frame = gtk_frame_new (NULL);
+  gchar      *text  = g_strconcat ("<b>", label_text, "</b>", NULL);
+  
+  gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
+  
+  align = gtk_alignment_new (0.5, 0.5, 1, 1);
+  gtk_container_add (GTK_CONTAINER (frame), align);
+  gtk_alignment_set_padding (GTK_ALIGNMENT (align), 0, 0, 12, 0);
+  
+  label = gtk_label_new (NULL);
+  gtk_label_set_text (GTK_LABEL (label), text);
+  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+  gtk_frame_set_label_widget (GTK_FRAME (frame), label);
+  
+  *alignment = align;
+  g_free (text);
+  
+  return frame;
+}
+
 GtkWidget *
-plugin_configure (GtkDialog *dialog)
+gwh_plugin_configure (GeanyPlugin  *plugin,
+                      GtkDialog    *dialog,
+                      gpointer      data)
 {
   GtkWidget        *box1;
   GtkWidget        *box;
@@ -530,7 +548,7 @@ plugin_configure (GtkDialog *dialog)
   box1 = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
   
   /* Browser */
-  gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Browser"), &alignment), FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box1), frame_new_with_alignment (_("Browser"), &alignment), FALSE, FALSE, 0);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* browser position */
@@ -542,7 +560,7 @@ plugin_configure (GtkDialog *dialog)
   gtk_box_pack_start (GTK_BOX (box), cdialog->browser_auto_reload, FALSE, TRUE, 0);
   
   /* Windows */
-  gtk_box_pack_start (GTK_BOX (box1), ui_frame_new_with_alignment (_("Windows"), &alignment), FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (box1), frame_new_with_alignment (_("Windows"), &alignment), FALSE, FALSE, 0);
   box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
   gtk_container_add (GTK_CONTAINER (alignment), box);
   /* skip taskbar */
@@ -562,4 +580,39 @@ plugin_configure (GtkDialog *dialog)
                     G_CALLBACK (on_configure_dialog_response), cdialog);
   
   return box1;
+}
+
+/* Load module */
+G_MODULE_EXPORT void
+geany_load_module (GeanyPlugin *plugin)
+{
+  /* setup translation */
+  main_locale_init (LOCALEDIR, GETTEXT_PACKAGE);
+
+  /* metadata */
+  plugin->info->name = _("Web helper");
+  plugin->info->description = _("Display a preview web page that gets updated "
+                                "upon document saving and provide web "
+                                "analysis and debugging tools (aka Web "
+                                "Inspector), all using WebKit.");
+  plugin->info->version = GWH_PLUGIN_VERSION;
+  plugin->info->author = "Colomban Wendling <ban@herbesfolles.org>";
+
+  /* entry points */
+  plugin->funcs->init = gwh_plugin_init;
+  plugin->funcs->cleanup = gwh_plugin_cleanup;
+  plugin->funcs->configure = gwh_plugin_configure;
+
+  /* even though it's not really a good idea to keep all the libraries we load
+   * into memory, this is needed for webkit. first, without this we crash after
+   * module unloading, and webkitgtk inserts static data into GLib
+   * (g_quark_from_static_string() for example) so it's not safe to remove it.
+   * It used to be only needed in init() (e.g. when the plugin actually called
+   * some WebKit stuff), but we now see crashes with recent WebKit versions
+   * even if the module has merely been loaded (e.g. for listing in the plugin
+   * manager). */
+  plugin_module_make_resident (plugin);
+
+  /* register */
+  GEANY_PLUGIN_REGISTER (plugin, 224);
 }

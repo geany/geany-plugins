@@ -69,11 +69,15 @@ static gint PositionInLine=0;
 static gint WhereToSaveFileDetails=0;
 static gchar *FileDetailsSuffix; /* initialised when settings loaded */
 static gboolean bRememberBookmarks=TRUE;
+static gboolean bTryToLoadMarkers=FALSE; /* If the file has changed, attempt to load bookmarks anyway */
+static gboolean bAlwaysSaveMarkers=FALSE; /* Always save markers, even if file has not changed */
 
 /* internal variables */
-static gint iShiftNumbers[]={41,33,34,163,36,37,94,38,42,40};
+static gint iShiftNumbers[]={41,33,64,35,36,37,94,38,42,40};
+static gint iNoShiftNumbers[]={48,49,50,51,52,53,54,55,56,57};
 static FileData *fdKnownFilesSettings=NULL;
-static gulong key_release_signal_id;
+static gulong key_press_signal_id=0;
+static gulong key_release_signal_id=0;
 
 /* default config file */
 const gchar default_config[] =
@@ -82,6 +86,8 @@ const gchar default_config[] =
 	"Remember_Folds = true\n"
 	"Position_In_Line = 0\n"
 	"Remember_Bookmarks = true\n"
+	"Try_To_Load_Markers = false\n"
+	"Always_Save_Markers = false\n"
 	"[FileData]";
 
 /* Definitions for bookmark images */
@@ -481,6 +487,8 @@ static void SaveSettings(gchar *filename)
 	g_key_file_set_integer(config,"Settings","Position_In_Line",PositionInLine);
 	g_key_file_set_integer(config,"Settings","Where_To_Save_File_Details",WhereToSaveFileDetails);
 	g_key_file_set_boolean(config,"Settings","Remember_Bookmarks",bRememberBookmarks);
+	g_key_file_set_boolean(config,"Settings","Try_To_Load_Markers",bTryToLoadMarkers);
+	g_key_file_set_boolean(config,"Settings","Always_Save_Markers",bAlwaysSaveMarkers);
 	if(FileDetailsSuffix!=NULL)
 		g_key_file_set_string(config,"Settings","File_Details_Suffix",FileDetailsSuffix);
 
@@ -678,6 +686,8 @@ static void LoadSettings(void)
 	bRememberBookmarks=utils_get_setting_boolean(config,"Settings","Remember_Bookmarks",FALSE);
 	FileDetailsSuffix=utils_get_setting_string(config,"Settings","File_Details_Suffix",
 	                                           ".gnbs.conf");
+	bTryToLoadMarkers=utils_get_setting_boolean(config,"Settings","Try_To_Load_Markers",FALSE);
+	bAlwaysSaveMarkers=utils_get_setting_boolean(config,"Settings","Always_Save_Markers",FALSE);
 
 	/* extract data about files */
 	i=0;
@@ -965,7 +975,7 @@ static void on_document_open(GObject *obj, GeanyDocument *doc, gpointer user_dat
 
 	/* check to see if file has changed since geany last saved it */
 	fd=GetFileData(doc->file_name);
-	if(stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 &&
+	if(bTryToLoadMarkers==FALSE && stat(doc->file_name,&sBuf)==0 && fd!=NULL && fd->LastChangedTime!=-1 &&
 	   fd->LastChangedTime!=sBuf.st_mtime)
 	{
 		/* notify user that file has been changed */
@@ -1053,11 +1063,7 @@ ill not be loaded.\nPress Ignore to try an load markers anyway."),doc->file_name
 	}
 }
 
-
-/* handler for when a document has been saved
- * This saves off fold state, and marker positions for the file
-*/
-static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+static void document_save(GObject *obj, GeanyDocument *doc, gpointer user_data, gboolean update_time_last_saved)
 {
 	FileData *fd;
 	gint i,iLineCount,iFlags,iBitCounter=0;
@@ -1147,18 +1153,33 @@ static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_dat
 		fd->pcBookmarks=NULL;
 
 
-
-	/* make note of time last saved */
-	if(stat(doc->file_name,&sBuf)==0)
-		fd->LastChangedTime=sBuf.st_mtime;
+	if (update_time_last_saved==TRUE)
+	{
+		/* make note of time last saved */
+		if(stat(doc->file_name,&sBuf)==0)
+			fd->LastChangedTime=sBuf.st_mtime;
+	}
 
 	/* save settings */
 	SaveSettings(doc->file_name);
 }
 
+/* handler for when a document has been saved
+ * This saves off fold state, and marker positions for the file
+*/
+static void on_document_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	document_save(obj, doc, user_data, TRUE);
+}
+
+static void on_document_close(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	document_save(obj, doc, user_data, FALSE);
+}
 
 PluginCallback plugin_callbacks[] =
 {
+	{ "document-close", (GCallback) &on_document_close, FALSE, NULL },
 	{ "document-open", (GCallback) &on_document_open, FALSE, NULL },
 	{ "document-save", (GCallback) &on_document_save, FALSE, NULL },
 	{ NULL, NULL, FALSE, NULL }
@@ -1177,7 +1198,7 @@ static gint GetLine(ScintillaObject* sci)
 static void on_configure_response(GtkDialog *dialog, gint response, gpointer user_data)
 {
 	gboolean bSettingsHaveChanged;
-	GtkCheckButton *cb1,*cb2,*cb3;
+	GtkCheckButton *cb1,*cb2,*cb3,*cb4,*cb5;
 	GtkComboBox *gtkcb1,*gtkcb2;
 
 	if(response!=GTK_RESPONSE_OK && response!=GTK_RESPONSE_APPLY)
@@ -1189,6 +1210,8 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	gtkcb1=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb3"));
 	gtkcb2=(GtkComboBox*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb4"));
 	cb3=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb5"));
+	cb4=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb6"));
+	cb5=(GtkCheckButton*)(g_object_get_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb7"));
 
 	/* first see if settings are going to change */
 	bSettingsHaveChanged=(bRememberFolds!=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1)));
@@ -1198,6 +1221,10 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	bSettingsHaveChanged|=(gtk_combo_box_get_active(gtkcb2)!=WhereToSaveFileDetails);
 	bSettingsHaveChanged|=(bRememberBookmarks!=gtk_toggle_button_get_active(
 	                       GTK_TOGGLE_BUTTON(cb3)));
+	bSettingsHaveChanged|=(bTryToLoadMarkers!=gtk_toggle_button_get_active(
+	                       GTK_TOGGLE_BUTTON(cb4)));
+	bSettingsHaveChanged|=(bTryToLoadMarkers!=gtk_toggle_button_get_active(
+	                       GTK_TOGGLE_BUTTON(cb5)));
 
 	/* set new settings settings */
 	bRememberFolds=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb1));
@@ -1205,6 +1232,8 @@ static void on_configure_response(GtkDialog *dialog, gint response, gpointer use
 	PositionInLine=gtk_combo_box_get_active(gtkcb1);
 	WhereToSaveFileDetails=gtk_combo_box_get_active(gtkcb2);
 	bRememberBookmarks=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb3));
+	bTryToLoadMarkers=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb4));
+	bAlwaysSaveMarkers=gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cb5));
 
 	/* now save new settings if they have changed */
 	if(bSettingsHaveChanged)
@@ -1253,6 +1282,16 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
 	/* save pointer to check_button */
 	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb5",gtkw);
+
+	gtkw=gtk_check_button_new_with_label(_("force loading bookmarks if file has changed"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bTryToLoadMarkers);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb6",gtkw);
+
+	gtkw=gtk_check_button_new_with_label(_("always save bookmarks"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(gtkw),bAlwaysSaveMarkers);
+	gtk_box_pack_start(GTK_BOX(vbox),gtkw,FALSE,FALSE,2);
+	g_object_set_data(G_OBJECT(dialog),"Geany_Numbered_Bookmarks_cb7",gtkw);
 
 	gtk_widget_show_all(vbox);
 
@@ -1438,61 +1477,10 @@ static void SetBookMark(GeanyDocument *doc, gint iBookMark)
 }
 
 
-/* handle key press
- * used to see if macro is being triggered and to control numbered bookmarks
-*/
-static gboolean Key_Released_CallBack(GtkWidget *widget, GdkEventKey *ev, gpointer data)
+static void CalculateNumKeys(GdkKeymap *gdkKeyMap)
 {
-	GeanyDocument *doc;
-	gint i;
-
-	doc=document_get_current();
-	if(doc==NULL)
-		return FALSE;
-
-	if(ev->type!=GDK_KEY_RELEASE)
-		return FALSE;
-
-	/* control and number pressed */
-	if(ev->state==4)
-	{
-		i=((gint)(ev->keyval))-'0';
-		if(i<0 || i>9)
-			return FALSE;
-
-		GotoBookMark(doc, i);
-		return TRUE;
-	}
-	/* control+shift+number */
-	if(ev->state==5) {
-		/* could use hardware keycode instead of keyvals but if unable to get keyode then don't
-		 * have logical default to fall back on
-		*/
-		for(i=0;i<10;i++) if((gint)(ev->keyval)==iShiftNumbers[i])
-		{
-			SetBookMark(doc, i);
-			return TRUE;
-		}
-
-	}
-
-	return FALSE;
-}
-
-
-/* set up this plugin */
-void plugin_init(GeanyData *data)
-{
-	gint i,k,iResults=0;
+	gint i,iResults=0;
 	GdkKeymapKey *gdkkmkResults;
-#if GTK_CHECK_VERSION(3, 22, 0)
-	GdkKeymap *gdkKeyMap=gdk_keymap_get_for_display(gdk_display_get_default());
-#else
-	GdkKeymap *gdkKeyMap=gdk_keymap_get_default();
-#endif
-
-	/* Load settings */
-	LoadSettings();
 
 	/* Calculate what shift '0' to '9 will be (£ is above 3 on uk keyboard, but it's # or ~ on us
 	 * keyboard.)
@@ -1505,9 +1493,9 @@ void plugin_init(GeanyData *data)
 	for(i=0;i<10;i++)
 	{
 		/* Get keymapkey data for number key */
-		k=gdk_keymap_get_entries_for_keyval(gdkKeyMap,'0'+i,&gdkkmkResults,&iResults);
+		gboolean success=gdk_keymap_get_entries_for_keyval(gdkKeyMap,'0'+i,&gdkkmkResults,&iResults);
 		/* error retrieving hardware keycode, so leave as standard uk character for shift + number */
-		if(k==0)
+		if(!success)
 			continue;
 
 		/* unsure, just in case it does return 0 results but reserve memory  */
@@ -1517,37 +1505,93 @@ void plugin_init(GeanyData *data)
 			continue;
 		}
 
-		/* now use k to indicate GdkKeymapKey we're after */
-		k=0; /* default if only one hit found */
-		if(iResults>1)
-			/* cycle through results if more than one matches */
-			for(k=0;k<iResults;k++)
-				/* have found number without using shift, ctrl, Alt etc, so shold be it. */
-				if(gdkkmkResults[k].level==0)
-					break;
-
-		/* error figuring out which keycode to use so default to standard uk */
-		if(k==iResults)
-		{
-			g_free(gdkkmkResults);
-			continue;
-		}
+		/* set no shift pressed */
+		gdkkmkResults[0].level=0;
+		/* now get keycode for number key */
+		iResults=gdk_keymap_lookup_key(gdkKeyMap,&(gdkkmkResults[0]));
+		/* if valid keycode, enter into list of number keys */
+		if(iResults!=0)
+			iNoShiftNumbers[i]=iResults;
 
 		/* set shift pressed */
-		gdkkmkResults[k].level=1;
-		/* now get keycode for shift + number */
-		iResults=gdk_keymap_lookup_key(gdkKeyMap,&(gdkkmkResults[k]));
-		/* if valid keycode, enter into list of shift + numbers */
+		gdkkmkResults[0].level=1;
+		/* now get keycode for shift + number key */
+		iResults=gdk_keymap_lookup_key(gdkKeyMap,&(gdkkmkResults[0]));
+		/* if valid keycode, enter into list of shift + number keys */
 		if(iResults!=0)
 			iShiftNumbers[i]=iResults;
 
 		/* free resources */
 		g_free(gdkkmkResults);
 	}
+}
+
+
+static gboolean GetNumKey(guint keyval, gint keyArr[], gint *j)
+{
+	gint i;
+
+	for(i=0;i<10;i++) {
+		if((gint)(keyval)==keyArr[i]) {
+			*j=i;
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+
+/* handle key press
+ * used to see if macro is being triggered and to control numbered bookmarks
+*/
+static gboolean Key_CallBack(GtkWidget *widget, GdkEventKey *ev, gpointer data)
+{
+	GeanyDocument *doc;
+	gint i;
+	GdkModifierType state=keybindings_get_modifiers(ev->state);
+
+	doc=document_get_current();
+	if(doc==NULL)
+		return FALSE;
+
+	/* control or control + shift pressed */
+	if(state == GDK_CONTROL_MASK || state == (GDK_CONTROL_MASK | GDK_SHIFT_MASK))
+	{
+		if (GetNumKey(ev->keyval, iNoShiftNumbers, &i)) {
+			/* number key pressed without shift */
+			if(ev->type==GDK_KEY_RELEASE)
+				GotoBookMark(doc, i);
+			return TRUE;
+		}
+		else if (GetNumKey(ev->keyval, iShiftNumbers, &i)) {
+			/* number key pressed with shift */
+			if(ev->type==GDK_KEY_RELEASE)
+				SetBookMark(doc, i);
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+
+/* set up this plugin */
+void plugin_init(GeanyData *data)
+{
+	GdkDisplay *display=gtk_widget_get_display(geany->main_widgets->window);
+	GdkKeymap *keymap=gdk_keymap_get_for_display(display);
+
+	/* Load settings */
+	LoadSettings();
 
 	/* set key press monitor handle */
 	key_release_signal_id=g_signal_connect(geany->main_widgets->window,"key-release-event",
-	                                       G_CALLBACK(Key_Released_CallBack),NULL);
+	                                       G_CALLBACK(Key_CallBack),NULL);
+	key_press_signal_id=g_signal_connect(geany->main_widgets->window,"key-press-event",
+	                                     G_CALLBACK(Key_CallBack),NULL);
+
+	CalculateNumKeys(keymap);
+	g_signal_connect(keymap,"keys-changed",G_CALLBACK(CalculateNumKeys),NULL);
 }
 
 
@@ -1563,6 +1607,7 @@ void plugin_cleanup(void)
 
 	/* uncouple keypress monitor */
 	g_signal_handler_disconnect(geany->main_widgets->window,key_release_signal_id);
+	g_signal_handler_disconnect(geany->main_widgets->window,key_press_signal_id);
 
 	/* go through all documents removing markers (?needed) */
 	for(i=0;i<GEANY(documents_array)->len;i++)

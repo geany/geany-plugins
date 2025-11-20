@@ -1,27 +1,30 @@
 AC_PREREQ([2.61])
 dnl Don't forget when updating version number to do GP_CHECK_GEANY also
-AC_INIT([geany-plugins], [2.1])
-AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar subdir-objects])
-
-m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+AC_INIT([geany-plugins], [2.2])
 
 AC_CONFIG_SRCDIR([po/POTFILES.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([build/cache])
+AC_CONFIG_AUX_DIR([build/build-aux])
+
+AM_INIT_AUTOMAKE([1.8 foreign dist-bzip2 tar-ustar subdir-objects])
+
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 AC_USE_SYSTEM_EXTENSIONS
 AC_PROG_CC
 AC_PROG_CC_C99
 AM_PROG_CC_C_O
-AC_DISABLE_STATIC
-AC_PROG_LIBTOOL
+LT_INIT([disable-static])
 
-dnl i18n
-IT_PROG_INTLTOOL([0.35.0])
-GP_I18N
+dnl i18n, inline so autoreconf can detect gettext usage
+AM_GNU_GETTEXT_VERSION([0.19.8])
+AM_GNU_GETTEXT([external])
+AC_SUBST([GETTEXT_PACKAGE],[$PACKAGE])
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$PACKAGE"], [Gettext package.])
 
 dnl common checks
-GP_CHECK_GEANY(2.0)
+GP_CHECK_GEANY(2.1)
 GP_CHECK_UNITTESTS(0.9.4)
 GP_CHECK_GTK_VERSION
 GP_CHECK_CPPCHECK
@@ -56,6 +59,7 @@ GP_CHECK_INCDEC
 GP_CHECK_KEYRECORD
 GP_CHECK_LINEOPERATIONS
 GP_CHECK_LIPSUM
+GP_CHECK_LSP
 GP_CHECK_MARKDOWN
 GP_CHECK_OVERVIEW
 GP_CHECK_PAIRTAGHIGHLIGHTER

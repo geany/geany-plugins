@@ -72,6 +72,7 @@ Available plugins are:
 * ``latex`` -- the LaTeX plugin
 * ``lineoperations`` -- simple line functions that can be applied to an open file
 * ``lipsum`` -- the Lipsum plugin
+* ``lsp`` -- the LSP plugin
 * ``markdown`` -- the Markdown plugin
 * ``overview``-- the overview plugin
 * ``pairtaghighlighter`` -- the PairTagHighlighter plugin
@@ -125,3 +126,8 @@ which means that after running ``./configure``, you may compile each
 individual plugin by cd-ing into the respective plugin directory
 and running make inside it.
 
+License
+-------
+
+For individual license information of the various included plugins,
+please see the `COPYING <COPYING>`_ file.

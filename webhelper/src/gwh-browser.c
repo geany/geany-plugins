@@ -920,7 +920,7 @@ gwh_browser_init (GwhBrowser *self)
   gtk_box_pack_start (GTK_BOX (self), scrolled, TRUE, TRUE, 0);
   gtk_widget_show_all (scrolled);
   
-  self->priv->statusbar = ui_lookup_widget (geany->main_widgets->window, "statusbar");
+  self->priv->statusbar = ui_lookup_widget (geany_plugin->geany_data->main_widgets->window, "statusbar");
   if (self->priv->statusbar) {
     g_object_ref (self->priv->statusbar);
   } else {

@@ -34,7 +34,7 @@ GeanyData*             geany_data;
 
 /*========================================== PLUGIN INFORMATION ==========================================================*/
 
-PLUGIN_VERSION_CHECK(224)
+PLUGIN_VERSION_CHECK(247)
 PLUGIN_SET_TRANSLATABLE_INFO(
     LOCALEDIR,
     GETTEXT_PACKAGE,
@@ -221,7 +221,7 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     xmlFreeDoc(parsedDocument);
 
     /* process pretty-printing */
-    input_length = (has_selection)?sci_get_selected_text_length(sco):sci_get_length(sco);
+    input_length = (has_selection)?sci_get_selected_text_length2(sco):sci_get_length(sco);
     result = processXMLPrettyPrinting(input_buffer, input_length, &output_buffer, &output_length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {

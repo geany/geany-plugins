@@ -9,7 +9,7 @@ GP_PKGLIBDIR			= $(GP_LIBDIR)/$(PACKAGE)
 else
 GP_PREFIX				= $(prefix)
 GP_DATADIR				= $(datadir)
-GP_LOCALEDIR			= $(LOCALEDIR)
+GP_LOCALEDIR			= $(localedir)
 GP_DOCDIR				= $(docdir)
 GP_PKGDATADIR			= $(pkgdatadir)
 GP_LIBDIR				= $(libdir)
@@ -27,7 +27,9 @@ LOCAL_AM_CFLAGS = \
 	-DPLUGINDATADIR=\""$(GP_PKGDATADIR)/$(plugin)"\" \
 	-DPLUGINDOCDIR=\""$(GP_DOCDIR)/$(plugin)"\" \
 	-DPLUGINLIBDIR=\""$(GP_PKGLIBDIR)/$(plugin)"\" \
-	-DPLUGIN="\"$(plugin)\""
+	-DPLUGIN="\"$(plugin)\"" \
+	-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_56 \
+	-DGDK_DISABLE_DEPRECATION_WARNINGS
 
 AM_CFLAGS = \
 	${LOCAL_AM_CFLAGS} \

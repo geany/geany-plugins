@@ -33,8 +33,8 @@ Unicode true
 ; helper defines  ;
 ;;;;;;;;;;;;;;;;;;;
 !define PRODUCT_NAME "Geany-Plugins"
-!define PRODUCT_VERSION "2.1"
-!define PRODUCT_VERSION_ID "2.1.0.0"
+!define PRODUCT_VERSION "2.2"
+!define PRODUCT_VERSION_ID "2.2.0.0"
 !define PRODUCT_PUBLISHER "The Geany developer team"
 !define PRODUCT_WEB_SITE "https://www.geany.org/"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
@@ -199,6 +199,7 @@ Section Uninstall
 	Delete "$INSTDIR\lib\geany\keyrecord.dll"
 	Delete "$INSTDIR\lib\geany\lipsum.dll"
 	Delete "$INSTDIR\lib\geany\lineoperations.dll"
+	Delete "$INSTDIR\lib\geany\lsp.dll"
 	Delete "$INSTDIR\lib\geany\overview.dll"
 	Delete "$INSTDIR\lib\geany\pairtaghighlighter.dll"
 	Delete "$INSTDIR\lib\geany\pohelper.dll"

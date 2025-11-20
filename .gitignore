@@ -21,40 +21,31 @@ cscope.files
 #-----------------------------------------------------------------------
 # / (root)
 #-----------------------------------------------------------------------
+/ABOUT-NLS
 /aclocal.m4
 /autom4te.cache
 /build/*.pyc
 /build/cache
-/build-aux/
+/build/build-aux/
 /build-stamp
 /geanygdb/src/ttyhelper
 /codenames
-/compile
-/config.guess
 /config.h
 /config.h.in*
 /config.log
 /config.status
-/config.sub
 /configure
 /debian
-/depcomp
-/install-sh
-/intltool
-/intltool-*
 /libtool
 /localwin32.mk
-/ltmain.sh
 /m4/
 /make_deb.sh
-/missing
 /mkinstalldirs
 /RUN
 /stamp-h
 /stamp-h1
 /stamp-h.in
 /*.tar.*
-/test-driver
 /TODO.*
 
 #-----------------------------------------------------------------------
@@ -63,10 +54,8 @@ cscope.files
 /po/ChangeLog.save
 /po/*.gmo
 /po/*.header
-/po/.intltool-merge-cache
-/po/LINGUAS
 /po/Makefile.in.in
-/po/Makevars
+/po/Makevars.template
 /po/*.mo
 /po/*.pot
 /po/POTFILES
@@ -76,7 +65,7 @@ cscope.files
 /po/Rules-quot
 /po/*.sed
 /po/*.sin
-/po/stamp-it
+/po/stamp-po
 
 #-----------------------------------------------------------------------
 # TeX

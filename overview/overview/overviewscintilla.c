@@ -691,6 +691,8 @@ overview_scintilla_init (OverviewScintilla *self)
   memcpy (&self->overlay_color, &def_overlay_color, sizeof (OverviewColor));
   memcpy (&self->overlay_outline_color, &def_overlay_outline_color, sizeof (OverviewColor));
 
+  gtk_widget_set_can_focus (GTK_WIDGET (self), FALSE);
+
   gtk_widget_add_events (GTK_WIDGET (self),
                          GDK_EXPOSURE_MASK |
                          GDK_FOCUS_CHANGE_MASK |

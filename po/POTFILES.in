@@ -167,7 +167,7 @@ geanyvc/src/utils.c
 geniuspaste/src/geniuspaste.c
 
 # GitChangeBar
-[type: gettext/glade]git-changebar/data/prefs.ui
+git-changebar/data/prefs.ui
 git-changebar/src/gcb-plugin.c
 
 # Keyrecord
@@ -181,6 +181,17 @@ lineoperations/src/lo_prefs.c
 # lipsum
 lipsum/src/lipsum.c
 
+# LSP
+lsp/src/lsp-code-lens.c
+lsp/src/lsp-diagnostics.c
+lsp/src/lsp-goto-anywhere.c
+lsp/src/lsp-log.c
+lsp/src/lsp-main.c
+lsp/src/lsp-rename.c
+lsp/src/lsp-server.c
+lsp/src/lsp-symbol-tree.c
+lsp/src/lsp-utils.c
+
 # Markdown
 markdown/src/conf.c
 markdown/src/plugin.c
@@ -192,14 +203,14 @@ overview/overview/overviewprefs.c
 overview/overview/overviewprefspanel.c
 overview/overview/overviewscintilla.c
 overview/overview/overviewui.c
-[type: gettext/glade]overview/data/prefs.ui
+overview/data/prefs.ui
 
 # Pairtaghighlighter
 pairtaghighlighter/src/pair_tag_highlighter.c
 
 # PoHelper
-[type: gettext/glade]pohelper/data/menus.ui
-[type: gettext/glade]pohelper/data/stats.ui
+pohelper/data/menus.ui
+pohelper/data/stats.ui
 pohelper/src/gph-plugin.c
 
 # Pretty-printer
@@ -213,6 +224,7 @@ projectorganizer/src/prjorg-main.c
 projectorganizer/src/prjorg-menu.c
 projectorganizer/src/prjorg-project.c
 projectorganizer/src/prjorg-sidebar.c
+projectorganizer/src/prjorg-utils.c
 
 # Scope
 scope/data/scope.glade

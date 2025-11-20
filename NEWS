@@ -1,4 +1,99 @@
-Geany-Plugins 2.1 (unreleased)
+Geany-Plugins 2.2 (unreleased)
+
+
+Geany-Plugins 2.1 (2025-07-06)
+
+    General:
+    * New plugin: LSP (Language Server Protocol) plugin (PR#1331).
+    * Fix use of newer cppcheck versions (Issue#1304, PR#1309).
+    * Require Geany 2.1 (Issue#1409, PR#1411).
+
+    Addons:
+    * Fix memory leak (PR#1346).
+    * Avoid status icon flickering on startup (PR#1359).
+
+    CodeNav:
+    * Fix use-after-free (George Katevenis, PR#1339).
+    * Fix crash updating preferences (Issue#1406, PR#1454).
+
+    GeanyCTags:
+    * Fix navigation queue (PR#1427).
+
+    GeanyGenDoc:
+    * Fix crash with unknown symbol types (Issue#1362, PR#1294, Issue#1362,
+      PR#1365).
+    * Add support for local variables (PR#1294).
+
+    GeanyLaTeX:
+    * Improve list insertion (Issue#1071, PR#1330).
+
+    GeanyLua:
+    * Welcome to the new maintainer, @xiota! (PR#1375).
+    * Improve compatibility with newer Lua implementations (PR#1231).
+    * Fix Choose dialog (Skif-off, Issue#1374, PR#1376).
+    * Fix geany.activate (PR#1234).
+    * Add single line comment support to `geany.fileinfo` and rename the
+      multi-line fields (Skif-off, PR#1397).
+
+    GeanyPrj:
+    * Fix memory leak (PR#1346).
+
+    GeniusPaste:
+    * Fix memory leak (PR#1346).
+    * Port to libsoup3 (PR#1342).
+    * Update pastebins (PR#1342).
+    * Ask confirmation before pasting by default (PR#1361).
+
+    GitChangeBar:
+    * Fix build with C23 (Chris Mayo, PR#1389).
+
+    ProjectOrganizer:
+    * Avoid parsing opened files when loading project (Jan Dolinar, Issue#1289,
+      PR#1290).
+    * Follow Geany's native dialogs setting (PR#1355).
+    * Add quick navigation popup panel (PR#1341).
+    * Allow configuring external commands (Issue#1383, PR#1432).
+
+    Markdown:
+    * Fix infinite loop if the document contains one of the template
+      placeholders (xiota, Issue#936, PR#1232).
+    * Add support for webkit2gtk-4.1 (xiota, PR#1335).
+
+    Numbered Bookmarks:
+    * Add options to force loading or saving bookmarks (Colin Clark, PR#1413).
+    * Fix `Ctrl+num` and `Ctrl+Shift+num` on various keyboard layouts
+      (Issue#1089, PR#1458).
+
+    Overview:
+    * Do not focus the overview (Issue#731, PR#1459).
+
+    TreeBrowser:
+    * Fix icons sizes with some themes (PR#1418).
+
+    UpdateChecker:
+    * Port to libsoup3 (PR#1336).
+
+    Vimode:
+    * Fix handling of folded lines (PR#1338).
+    * Fix cursor position after using undo (PR#1328).
+    * Handle clicks on the margins (Sylvain Cresto, PR#1349).
+    * Add support for fold commands (Sylvain Cresto, PR#1350).
+    * Fix searching whole words (Shooter23, PR#1372).
+
+    WebHelper:
+    * Add support for webkit2gtk-4.1 (PR#1295).
+    * Add support for loading the current file in the web view (PR#1295).
+
+    Workbench:
+    * Fix memory leak (PR#1346).
+    * Fix crash when a file or directory is removed (Issue#1430, PR#1431).
+
+    Windows:
+    * Prefer Geany installation directory over user's HOME in the installer
+      (Issue#1321, PR#1324).
+
+    Internationalization:
+    * Updated translations: es, fr
 
 
 Geany Plugins 2.0 (2023-10-19)

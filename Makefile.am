@@ -1,7 +1,9 @@
-ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled --install
+ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled
 AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
-EXTRA_DIST = build/cppcheck-geany-plugins.cfg
+EXTRA_DIST = \
+	build/cppcheck-geany-plugins.cfg \
+	build/cppcheck-geany-plugins.suppressions
 
 SUBDIRS = po
 
@@ -109,6 +111,10 @@ if ENABLE_LIPSUM
 SUBDIRS += lipsum
 endif
 
+if ENABLE_LSP
+SUBDIRS += lsp
+endif
+
 if ENABLE_MARKDOWN
 SUBDIRS += markdown
 endif
@@ -180,3 +186,12 @@ endif
 if ENABLE_INCDEC
 SUBDIRS += incdec
 endif
+
+
+# sign release tarballs
+sign:
+	for f in $(DIST_ARCHIVES); do \
+		if test -f "$$f"; then \
+			gpg --detach-sign --digest-algo SHA512 "$$f"; \
+		fi \
+	done

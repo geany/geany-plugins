@@ -91,7 +91,7 @@ static gchar *strip_word(const gchar *word_to_check, gint *result_offset)
 		return NULL;
 	}
 	/* move the string in-place and truncate it */
-	g_memmove(word_start, word, new_word_len);
+	memmove(word_start, word, new_word_len);
 	word = word_start;
 	word[new_word_len] = '\0';
 	if (EMPTY(word))
@@ -198,6 +198,19 @@ static gint sc_speller_check_word(GeanyDocument *doc, gint line_number, const gc
 }
 
 
+static gchar *get_chars(ScintillaObject *sci, unsigned int message, gint extra_alloc, gint *out_len)
+{
+	gint len = scintilla_send_message(sci, message, 0, 0);
+	gchar *chars = g_malloc0(len + 1 + extra_alloc);
+
+	scintilla_send_message(sci, message, 0, (sptr_t)chars);
+	if (out_len)
+		*out_len = len;
+
+	return chars;
+}
+
+
 gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 {
 	gint pos_start, pos_end;
@@ -205,6 +218,8 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 	gint suggestions_found = 0;
 	gint wordchars_len;
 	gchar *wordchars;
+	gchar *whitespaces;
+	gchar *punctuations;
 	gchar *underscore_in_wordchars = NULL;
 	gboolean wordchars_modified = FALSE;
 
@@ -216,9 +231,10 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 
 	/* add ' (single quote) temporarily to wordchars
 	 * to be able to check for "doesn't", "isn't" and similar */
-	wordchars_len = scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, 0);
-	wordchars = g_malloc0(wordchars_len + 2); /* 2 = temporarily added "'" and "\0" */
-	scintilla_send_message(doc->editor->sci, SCI_GETWORDCHARS, 0, (sptr_t)wordchars);
+	/* +1 to allocation to allow for temporarily added "'" */
+	wordchars = get_chars(doc->editor->sci, SCI_GETWORDCHARS, 1, &wordchars_len);
+	whitespaces = get_chars(doc->editor->sci, SCI_GETWHITESPACECHARS, 0, NULL);
+	punctuations = get_chars(doc->editor->sci, SCI_GETPUNCTUATIONCHARS, 0, NULL);
 	if (! strchr(wordchars, '\''))
 	{
 		/* temporarily add "'" to the wordchars */
@@ -267,8 +283,12 @@ gint sc_speller_process_line(GeanyDocument *doc, gint line_number)
 		/* reset wordchars for the current document */
 		wordchars[wordchars_len] = '\0';
 		scintilla_send_message(doc->editor->sci, SCI_SETWORDCHARS, 0, (sptr_t)wordchars);
+		scintilla_send_message(doc->editor->sci, SCI_SETWHITESPACECHARS, 0, (sptr_t)whitespaces);
+		scintilla_send_message(doc->editor->sci, SCI_SETPUNCTUATIONCHARS, 0, (sptr_t)punctuations);
 	}
 	g_free(wordchars);
+	g_free(whitespaces);
+	g_free(punctuations);
 	return suggestions_found;
 }
 
@@ -800,7 +820,6 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 #else
 		case SCLEX_PASCAL:
 #endif
-		case SCLEX_COBOL:
 		case SCLEX_CPP:
 		{
 			switch (style)
@@ -818,6 +837,22 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_C_TRIPLEVERBATIM:
 				case SCE_C_PREPROCESSORCOMMENT:
 				case SCE_C_PREPROCESSORCOMMENTDOC:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_COBOL:
+		{
+			switch (style)
+			{
+				case SCE_COBOL_DEFAULT:
+				case SCE_COBOL_COMMENT:
+				case SCE_COBOL_COMMENTLINE:
+				case SCE_COBOL_COMMENTDOC:
+				case SCE_COBOL_STRING:
+				case SCE_COBOL_CHARACTER:
 					return TRUE;
 				default:
 					return FALSE;
@@ -873,6 +908,29 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_D_COMMENTDOCKEYWORDERROR:
 				case SCE_D_STRINGB:
 				case SCE_D_STRINGR:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_DART:
+		{
+			switch (style)
+			{
+				case SCE_DART_COMMENTLINE:
+				case SCE_DART_COMMENTLINEDOC:
+				case SCE_DART_COMMENTBLOCK:
+				case SCE_DART_COMMENTBLOCKDOC:
+				case SCE_DART_STRING_SQ:
+				case SCE_DART_STRING_DQ:
+				case SCE_DART_TRIPLE_STRING_SQ:
+				case SCE_DART_TRIPLE_STRING_DQ:
+				case SCE_DART_RAWSTRING_SQ:
+				case SCE_DART_RAWSTRING_DQ:
+				case SCE_DART_TRIPLE_RAWSTRING_SQ:
+				case SCE_DART_TRIPLE_RAWSTRING_DQ:
+				case SCE_DART_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1020,6 +1078,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_HJ_DOUBLESTRING:
 				case SCE_HJ_SINGLESTRING:
 				case SCE_HJ_STRINGEOL:
+				case SCE_HJ_TEMPLATELITERAL:
 				case SCE_HB_COMMENTLINE:
 				case SCE_HB_STRING:
 				case SCE_HB_STRINGEOL:
@@ -1032,6 +1091,7 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_HJA_DOUBLESTRING:
 				case SCE_HJA_SINGLESTRING:
 				case SCE_HJA_STRINGEOL:
+				case SCE_HJA_TEMPLATELITERAL:
 				case SCE_HP_COMMENTLINE:
 				case SCE_HP_STRING:
 				case SCE_HP_CHARACTER:
@@ -1140,6 +1200,21 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_MATLAB_COMMENT:
 				case SCE_MATLAB_STRING:
 				case SCE_MATLAB_DOUBLEQUOTESTRING:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_NIX:
+		{
+			switch (style)
+			{
+				case SCE_NIX_COMMENTLINE:
+				case SCE_NIX_COMMENTBLOCK:
+				case SCE_NIX_STRING:
+				case SCE_NIX_STRING_MULTILINE:
+				case SCE_NIX_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
@@ -1287,6 +1362,8 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_RUST_STRINGR:
 				case SCE_RUST_BYTESTRING:
 				case SCE_RUST_BYTESTRINGR:
+				case SCE_RUST_CSTRING:
+				case SCE_RUST_CSTRINGR:
 				case SCE_RUST_LEXERROR:
 					return TRUE;
 				default:
@@ -1342,6 +1419,22 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 			}
 			break;
 		}
+		case SCLEX_TOML:
+		{
+			switch (style)
+			{
+				case SCE_TOML_COMMENT:
+				case SCE_TOML_STRING_SQ:
+				case SCE_TOML_STRING_DQ:
+				case SCE_TOML_TRIPLE_STRING_SQ:
+				case SCE_TOML_TRIPLE_STRING_DQ:
+				case SCE_TOML_STRINGEOL:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
 		case SCLEX_TXT2TAGS:
 		{
 			return TRUE;
@@ -1387,6 +1480,22 @@ gboolean sc_speller_is_text(GeanyDocument *doc, gint pos)
 				case SCE_YAML_DEFAULT:
 				case SCE_YAML_COMMENT:
 				case SCE_YAML_TEXT:
+					return TRUE;
+				default:
+					return FALSE;
+			}
+			break;
+		}
+		case SCLEX_ZIG:
+		{
+			switch (style)
+			{
+				case SCE_ZIG_COMMENTLINE:
+				case SCE_ZIG_COMMENTLINEDOC:
+				case SCE_ZIG_COMMENTLINETOP:
+				case SCE_ZIG_STRING:
+				case SCE_ZIG_MULTISTRING:
+				case SCE_ZIG_STRINGEOL:
 					return TRUE;
 				default:
 					return FALSE;
