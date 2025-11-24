@@ -46,10 +46,10 @@ jobs:
 
     steps:
       - name: Checkout Geany-Plugins
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Checkout Geany
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: geany/geany
           path: ${{ env.GEANY_SOURCE_PATH }}
@@ -213,17 +213,17 @@ jobs:
 
     steps:
       - name: Checkout Geany-Plugins
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Checkout Geany
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: geany/geany
           path: ${{ env.GEANY_SOURCE_PATH }}
           token: ${{ github.token }}
 
       - name: Checkout Build Scripts
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: master
           repository: geany/infrastructure
