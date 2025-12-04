@@ -16,10 +16,7 @@ Requirements
 
 You will need the following packages to build GeanyGenDoc:
 
-* Geany >= 0.19 (http://www.geany.org/)
-* GTK+ >= 2.12 (http://www.gtk.org)
-* GLib >= 2.14 (http://www.gtk.org)
-* GIO >= 2.18 (http://www.gtk.org)
+* Geany >= 1.27 (http://www.geany.org/)
 * CTPL >= 0.3 (http://ctpl.tuxfamily.org/)
 * A working C compiler (GCC for example, http://gcc.gnu.org/)
 * A working make implementation (GNU make is recommended,
