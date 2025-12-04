@@ -17,7 +17,7 @@ This is not a direct binding to sendmail, even if it could be used for.
 Requirements
 ------------
 
-For compiling the plugin yourself, you will need the GTK (>= 2.8.0)
+For compiling the plugin yourself, you will need the GTK
 libraries and header files. You will also need its dependency
 libraries and header files, such as Pango, Glib and ATK. All these
 files are available at http://www.gtk.org.

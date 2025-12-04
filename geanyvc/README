@@ -110,9 +110,8 @@ recommended to activate e.g. svk only if you want to use it.
 Requirements
 ------------
 
-* GTK >= 2.8.0
 * gtkspell >=2.0 for a spell checking
-* Geany >= 0.19
+* Geany >= 1.25
 
 License
 -------

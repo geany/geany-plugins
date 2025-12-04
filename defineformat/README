@@ -21,7 +21,7 @@ Try it: open C/C++ file and type:
 Requirements
 ------------
 
-* GTK >= 2.8.0
+* Geany >= 1.26
 
 License
 -------
