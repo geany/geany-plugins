@@ -307,10 +307,9 @@ static void exec_async_command(const gchar* command);
 static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpointer data)
 {
 	gchar *line;
-	gsize length;
 	struct gdb_mi_record *record;
 
-	if (G_IO_STATUS_NORMAL != g_io_channel_read_line(src, &line, NULL, &length, NULL))
+	if (G_IO_STATUS_NORMAL != g_io_channel_read_line(src, &line, NULL, NULL, NULL))
 		return TRUE;
 
 	record = gdb_mi_record_parse(line);
