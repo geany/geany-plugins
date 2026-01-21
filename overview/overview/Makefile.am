@@ -26,4 +26,5 @@ overview_la_CFLAGS = \
 overview_la_LIBADD = \
 	$(COMMONLIBS)
 
+AM_CPPCHECKFLAGS = --library=cairo
 include $(top_srcdir)/build/cppcheck.mk
