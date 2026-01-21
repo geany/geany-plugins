@@ -295,7 +295,7 @@ static GList* add_to_queue(GList* queue, const gchar *message, const gchar *comm
 	item->error_message = g_strdup(error_message);
 	item->format_error_message = format_error_message;
 
-	return g_list_append(queue, (gpointer)item);
+	return g_list_append(queue, item);
 }
 
 /*
