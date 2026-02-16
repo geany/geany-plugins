@@ -392,9 +392,11 @@ static gint glspi_navigate(lua_State* L)
 		case 4:
 			if (!lua_isboolean(L,4)) { return FAIL_BOOL_ARG(4); }
 			rect=lua_toboolean(L,4);
+			/* Fallthrough */
 		case 3:
 			if (!lua_isboolean(L,3)) { return FAIL_BOOL_ARG(3); }
 			sel=lua_toboolean(L,3);
+			/* Fallthrough */
 		case 2:
 			if (!lua_isnumber(L,2)) { return FAIL_NUMERIC_ARG(2); }
 			count=lua_tonumber(L,2);
@@ -402,6 +404,7 @@ static gint glspi_navigate(lua_State* L)
 				fwd=FALSE;
 				count=0-count;
 			}
+			/* Fallthrough */
 		case 1:
 			if (!lua_isstring(L,1)) { return FAIL_STRING_ARG(1); }
 			strcmd=lua_tostring(L,1);
