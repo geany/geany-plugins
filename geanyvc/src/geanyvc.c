@@ -41,25 +41,6 @@
 
 #ifdef USE_GTKSPELL
 #include <gtkspell/gtkspell.h>
-/* forward compatibility with GtkSpell3 */
-#if GTK_CHECK_VERSION(3, 0, 0)
-#define GtkSpell GtkSpellChecker
-#define gtkspell_set_language gtk_spell_checker_set_language
-static GtkSpell *gtkspell_new_attach(GtkTextView *view, const gchar *lang, GError **error)
-{
-	GtkSpellChecker *speller = gtk_spell_checker_new();
-
-	if (! lang || gtk_spell_checker_set_language(speller, lang, error))
-		gtk_spell_checker_attach(speller, view);
-	else
-	{
-		g_object_unref(g_object_ref_sink(speller));
-		speller = NULL;
-	}
-
-	return speller;
-}
-#endif
 #endif
 
 GeanyData *geany_data;
@@ -1773,7 +1754,7 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	gint height;
 
 #ifdef USE_GTKSPELL
-	GtkSpell *speller = NULL;
+	GtkSpellChecker *speller = NULL;
 	GError *spellcheck_error = NULL;
 #endif
 
@@ -1833,13 +1814,22 @@ vccommit_activated(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_UNUSED gpointer 
 	gtk_paned_set_position(GTK_PANED(vpaned2), height * 50 / 100);
 
 #ifdef USE_GTKSPELL
-	speller = gtkspell_new_attach(GTK_TEXT_VIEW(messageView), EMPTY(lang) ? NULL : lang, &spellcheck_error);
-	if (speller == NULL && spellcheck_error != NULL)
+	speller = gtk_spell_checker_new();
+
+	if (EMPTY(lang) || gtk_spell_checker_set_language(speller, lang, &spellcheck_error))
+		gtk_spell_checker_attach(speller, GTK_TEXT_VIEW(messageView));
+	else
 	{
-		ui_set_statusbar(TRUE, _("Error initializing GeanyVC spell checking: %s. Check your configuration."),
-				 spellcheck_error->message);
-		g_error_free(spellcheck_error);
-		spellcheck_error = NULL;
+		if (spellcheck_error != NULL)
+		{
+			ui_set_statusbar(TRUE, _("Error initializing GeanyVC spell checking: %s. Check your configuration."),
+				spellcheck_error->message);
+			g_error_free(spellcheck_error);
+			spellcheck_error = NULL;
+		}
+
+		g_object_unref(g_object_ref_sink(speller));
+		speller = NULL;
 	}
 #endif
 
