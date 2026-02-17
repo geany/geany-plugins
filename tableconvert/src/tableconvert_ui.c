@@ -1,7 +1,7 @@
 /*
  * tableconvert_ui.c
  *
- * Copyright 2014 Frank Lanitz <frank@frank.uvena.de>
+ * Copyright 2014-2019 Frank Lanitz <frank@frank.uvena.de>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
