@@ -57,6 +57,7 @@ struct GeanyPrj
 	gchar *description;
 	gchar *base_path;
 	gchar *run_cmd;
+	gchar *working_dir;
 
 	gboolean regenerate;
 	gint type;
@@ -86,6 +87,7 @@ void geany_project_set_regenerate(struct GeanyPrj *prj, gboolean val);
 void geany_project_set_description(struct GeanyPrj *prj, const gchar *description);
 void geany_project_set_base_path(struct GeanyPrj *prj, const gchar *base_path);
 void geany_project_set_run_cmd(struct GeanyPrj *prj, const gchar *run_cmd);
+void geany_project_set_working_dir(struct GeanyPrj *prj, const gchar *working_dir);
 void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList *files);
 
 
@@ -123,6 +125,7 @@ gchar *get_relative_path(const gchar *location, const gchar *path);
 gint config_length(GKeyFile *config, const gchar *section, const gchar *name);
 void save_config(GKeyFile *config, const gchar *path);
 GSList *get_file_list(const gchar *path, guint *length, gboolean(*func)(const gchar *), GError **error);
+void set_non_ft_build_wdir(const gchar* wdir);
 
 
 extern struct GeanyPrj *g_current_project;
