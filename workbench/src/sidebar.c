@@ -79,6 +79,7 @@ typedef struct SIDEBAR
     GtkWidget *file_view;
     GtkTreeStore *file_store;
     GtkWidget *file_view_label;
+    GtkWidget *file_view_placeholder;
 }SIDEBAR;
 static SIDEBAR sidebar = {NULL, NULL, NULL, NULL};
 
@@ -865,8 +866,7 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 	if (wb_globals.opened_wb == NULL)
 	{
 		gtk_label_set_text (GTK_LABEL(sidebar.file_view_label), _("No workbench opened."));
-		gtk_tree_store_clear(sidebar.file_store);
-		sidebar_show_intro_message(_("Create or open a workbench\nusing the workbench menu."), FALSE);
+		sidebar_show_intro_message(_("Create or open a workbench, using the workbench menu."), FALSE);
 		sidebar_deactivate();
 	}
 	else
@@ -892,9 +892,9 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 		gtk_label_set_text (GTK_LABEL(sidebar.file_view_label), text);
 		if (count == 0)
 		{
-			gtk_tree_store_clear(sidebar.file_store);
-			sidebar_show_intro_message(_("Add a project using the context menu\n"
-				"or select \"Search projects\" from the menu."), TRUE);
+			sidebar_show_intro_message(
+				_("Add a project using the context menu or select \"Search projects\" from the menu."),
+				TRUE);
 		}
 		else
 		{
@@ -928,6 +928,7 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 		case SIDEBAR_CONTEXT_WB_OPENED:
 		case SIDEBAR_CONTEXT_PROJECT_ADDED:
 		case SIDEBAR_CONTEXT_PROJECT_REMOVED:
+			gtk_widget_hide(sidebar.file_view_placeholder);
 			sidebar_reset_tree_store();
 			sidebar_update_workbench(&iter, &position);
 			sidebar_insert_all_projects(&iter, &position);
@@ -1393,6 +1394,17 @@ void sidebar_init(void)
 	/**** label ****/
 	sidebar.file_view_label = gtk_label_new (_("No workbench opened."));
 	gtk_box_pack_start(GTK_BOX(sidebar.file_view_vbox), sidebar.file_view_label, FALSE, FALSE, 0);
+	
+	/**** placeholder ****/
+	PangoAttrList *attrList = pango_attr_list_new ();
+	pango_attr_list_insert(attrList, pango_attr_style_new(PANGO_STYLE_ITALIC));
+	sidebar.file_view_placeholder = gtk_label_new (NULL);
+	gtk_label_set_line_wrap(GTK_LABEL(sidebar.file_view_placeholder), TRUE);
+	gtk_label_set_attributes(GTK_LABEL(sidebar.file_view_placeholder), attrList);
+	pango_attr_list_unref(attrList);
+	gtk_widget_hide(sidebar.file_view_placeholder);
+	gtk_widget_set_opacity(sidebar.file_view_placeholder, 0.75);
+	gtk_box_pack_start(GTK_BOX(sidebar.file_view_vbox), sidebar.file_view_placeholder, FALSE, FALSE, 0);
 
 	/**** tree view ****/
 
@@ -1457,8 +1469,9 @@ void sidebar_show_intro_message(const gchar *msg, gboolean activate)
 {
 	GtkTreeIter iter;
 
-	gtk_tree_store_insert_with_values(sidebar.file_store, &iter, NULL, -1,
-		FILEVIEW_COLUMN_NAME, msg, -1);
+	sidebar_reset_tree_store();
+	gtk_label_set_text(GTK_LABEL(sidebar.file_view_placeholder), msg);
+	gtk_widget_show(sidebar.file_view_placeholder);
 	if (activate)
 	{
 		sidebar_activate();
