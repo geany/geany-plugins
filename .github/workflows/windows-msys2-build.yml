@@ -33,7 +33,7 @@ jobs:
             mingw-w64-x86_64-gtkspell3
             mingw-w64-x86_64-libgit2
             mingw-w64-x86_64-libsoup3
-            mingw-w64-x86_64-lua51
+            mingw-w64-x86_64-lua54
             patch
             rsync
             unzip
@@ -66,7 +66,7 @@ jobs:
           export lt_cv_deplibs_check_method=${lt_cv_deplibs_check_method='pass_all'}
           mkdir -p _build
           cd _build
-          ../configure --prefix=${DESTINATON}/build/geany --with-geany-libdir=${DESTINATON}/build/geany/lib --disable-silent-rules
+          ../configure --prefix=${DESTINATON}/build/geany --with-geany-libdir=${DESTINATON}/build/geany/lib --disable-silent-rules --with-lua-pkg=lua54
           make -j
           make DESTDIR=${DESTINATON}/build/geany-plugins install
           rm -rf ${DESTINATON}/release/geany-plugins-orig
