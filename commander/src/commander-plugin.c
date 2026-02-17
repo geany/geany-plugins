@@ -32,18 +32,8 @@
 /*#define DISPLAY_SCORE 1*/
 
 
-GeanyPlugin      *geany_plugin;
-GeanyData        *geany_data;
-
-PLUGIN_VERSION_CHECK(226)
-
-PLUGIN_SET_TRANSLATABLE_INFO (
-  LOCALEDIR, GETTEXT_PACKAGE,
-  _("Commander"),
-  _("Provides a command panel for quick access to actions, files and more"),
-  VERSION,
-  "Colomban Wendling <ban@herbesfolles.org>"
-)
+static GeanyPlugin      *geany_plugin = NULL;
+static GeanyData        *geany_data = NULL;
 
 
 /* GTK compatibility functions/macros */
@@ -766,11 +756,15 @@ on_plugin_idle_init (gpointer dummy)
   return FALSE;
 }
 
-void
-plugin_init (GeanyData *data)
+static gboolean
+plugin_commander_init (GeanyPlugin *plugin,
+                       G_GNUC_UNUSED gpointer pdata)
 {
   GeanyKeyGroup *group;
-  
+
+  geany_plugin = plugin;
+  geany_data = plugin->geany_data;
+
   group = plugin_set_key_group (geany_plugin, "commander", KB_COUNT, NULL);
   keybindings_set_item_full (group, KB_SHOW_PANEL, 0, 0, "show_panel",
                              _("Show Command Panel"), NULL,
@@ -787,10 +781,13 @@ plugin_init (GeanyData *data)
   /* delay for other plugins to have a chance to load before, so we will
    * include their items */
   plugin_idle_add (geany_plugin, on_plugin_idle_init, NULL);
+
+  return TRUE;
 }
 
-void
-plugin_cleanup (void)
+static void
+plugin_commander_cleanup (G_GNUC_UNUSED GeanyPlugin *plugin,
+                          G_GNUC_UNUSED gpointer pdata)
 {
   if (plugin_data.panel) {
     gtk_widget_destroy (plugin_data.panel);
@@ -800,8 +797,30 @@ plugin_cleanup (void)
   }
 }
 
-void
-plugin_help (void)
+static void
+plugin_commander_help (G_GNUC_UNUSED GeanyPlugin *plugin,
+                       G_GNUC_UNUSED gpointer pdat)
 {
   utils_open_browser (DOCDIR "/" PLUGIN "/README");
+}
+
+/* Load module */
+G_MODULE_EXPORT
+void geany_load_module (GeanyPlugin *plugin)
+{
+  /* Setup translation */
+  main_locale_init (LOCALEDIR, GETTEXT_PACKAGE);
+
+  /* Set metadata */
+  plugin->info->name = _("Commander");
+  plugin->info->description = _("Provides a command panel for quick access to actions, files and more");
+  plugin->info->version = VERSION;
+  plugin->info->author = "Colomban Wendling <ban@herbesfolles.org>";
+
+  /* Set functions */
+  plugin->funcs->init = plugin_commander_init;
+  plugin->funcs->cleanup = plugin_commander_cleanup;
+  plugin->funcs->help = plugin_commander_help;
+
+  GEANY_PLUGIN_REGISTER (plugin, 226);
 }
