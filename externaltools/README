@@ -1,0 +1,57 @@
+External Tools
+==============
+
+About
+-----
+This plugin provides a way to quickly launch external tools (i.e. non-geany
+tools) in the same context as a document. For example, this may include
+starting a terminal or a file manager in the same directory as the current
+file.
+
+Supported tools
+---------------
+The tools currently supported include:
+
+1. Open Terminal: This option launches a terminal in the same directory as the
+current document.
+
+2. Open Directory: Launches a file manager, in the same directory as the
+current document.
+
+They may be launched from the *Tools* menu, or via a shortcut.
+
+Configuration
+-------------
+In the plugin's preferences you can adjust the command used to spawn each
+tool. Occurrences of `%f` in the provided commands are substituted with the
+path to the current file, while `%d` is substituted with the path to the
+directory in which the file resides.
+
+If the current document is *untitled*, %d is replaced with the home directory,
+while %f is effectively erased.
+
+**Tip:** Some file managers support opening a window at a directory *and*
+placing focus on a specific file. Examples: `nemo %f`, `nautilus %f`, `dolphin
+--select %f`.
+
+Adding new tools
+----------------
+At the moment, adding new tools requires modifying the plugin's source, though
+the code is structured in a way to easily accommodate this.
+
+Bug reports, suggestions, patches
+---------------------------------
+You can report bugs, or suggest new tools or other improvements at the
+geany-plugins project on GitHub: https://github.com/geany/geany-plugins. You
+may page the developer using `@gkatev`.
+
+License
+-------
+The External Tools plugin is distributed under the terms of the GNU General
+Public License as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version. A copy of this license
+can be found in the file COPYING included with the source code of this program.
+
+Contact
+-------
+George Katevenis <george_kate(at)hotmail(dot)com>
