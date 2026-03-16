@@ -634,6 +634,7 @@ static uptr_t glspi_scintilla_param(lua_State* L, int ptype, int pnum, SciCmdHas
 		case SLT_CASEINSENSITIVEBEHAVIOUR:
 		case SLT_CASEVISIBLE:
 		case SLT_CELLS:
+		case SLT_CHANGEHISTORYOPTION:
 		case SLT_CHARACTERSET:
 		case SLT_COLOURALPHA:
 		case SLT_CURSORSHAPE:
@@ -644,13 +645,16 @@ static uptr_t glspi_scintilla_param(lua_State* L, int ptype, int pnum, SciCmdHas
 		case SLT_EOLANNOTATIONVISIBLE:
 		case SLT_FINDOPTION:
 		case SLT_FINDTEXT:
+		case SLT_FINDTEXTFULL:
 		case SLT_FOLDACTION:
 		case SLT_FOLDDISPLAYTEXTSTYLE:
 		case SLT_FOLDFLAG:
 		case SLT_FOLDLEVEL:
 		case SLT_FONTQUALITY:
+		case SLT_FONTSTRETCH:
 		case SLT_FONTWEIGHT:
 		case SLT_FORMATRANGE:
+		case SLT_FORMATRANGEFULL:
 		case SLT_IDLESTYLING:
 		case SLT_IMEINTERACTION:
 		case SLT_INDENTVIEW:
@@ -680,8 +684,10 @@ static uptr_t glspi_scintilla_param(lua_State* L, int ptype, int pnum, SciCmdHas
 		case SLT_TABDRAWMODE:
 		case SLT_TECHNOLOGY:
 		case SLT_TEXTRANGE:
+		case SLT_TEXTRANGEFULL:
 		case SLT_TYPEPROPERTY:
 		case SLT_UNDOFLAGS:
+		case SLT_UNDOSELECTIONHISTORYOPTION:
 		case SLT_VIRTUALSPACE:
 		case SLT_VISIBLEPOLICY:
 		case SLT_WHITESPACE:
@@ -808,6 +814,7 @@ static gint glspi_scintilla(lua_State* L)
 		case SLT_CASEINSENSITIVEBEHAVIOUR:
 		case SLT_CASEVISIBLE:
 		case SLT_CELLS:
+		case SLT_CHANGEHISTORYOPTION:
 		case SLT_CHARACTERSET:
 		case SLT_COLOURALPHA:
 		case SLT_CURSORSHAPE:
@@ -818,13 +825,16 @@ static gint glspi_scintilla(lua_State* L)
 		case SLT_EOLANNOTATIONVISIBLE:
 		case SLT_FINDOPTION:
 		case SLT_FINDTEXT:
+		case SLT_FINDTEXTFULL:
 		case SLT_FOLDACTION:
 		case SLT_FOLDDISPLAYTEXTSTYLE:
 		case SLT_FOLDFLAG:
 		case SLT_FOLDLEVEL:
 		case SLT_FONTQUALITY:
+		case SLT_FONTSTRETCH:
 		case SLT_FONTWEIGHT:
 		case SLT_FORMATRANGE:
+		case SLT_FORMATRANGEFULL:
 		case SLT_IDLESTYLING:
 		case SLT_IMEINTERACTION:
 		case SLT_INDENTVIEW:
@@ -854,8 +864,10 @@ static gint glspi_scintilla(lua_State* L)
 		case SLT_TABDRAWMODE:
 		case SLT_TECHNOLOGY:
 		case SLT_TEXTRANGE:
+		case SLT_TEXTRANGEFULL:
 		case SLT_TYPEPROPERTY:
 		case SLT_UNDOFLAGS:
+		case SLT_UNDOSELECTIONHISTORYOPTION:
 		case SLT_VIRTUALSPACE:
 		case SLT_VISIBLEPOLICY:
 		case SLT_WHITESPACE:
