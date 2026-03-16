@@ -1640,18 +1640,11 @@ void prjorg_sidebar_find_tag_in_active(void)
 void prjorg_sidebar_focus_project_tab(void)
 {
 	GtkNotebook *notebook = GTK_NOTEBOOK(geany_data->main_widgets->sidebar_notebook);
-	gint pagenum = gtk_notebook_get_n_pages(notebook);
-	gint i;
-
-	for (i = 0; i < pagenum; i++)
+	gint pagenum = gtk_notebook_page_num(notebook, s_file_view_vbox);
+	if (pagenum >= 0)
 	{
-		GtkWidget *page = gtk_notebook_get_nth_page(notebook, i);
-		if (page == s_file_view_vbox)
-		{
-			gtk_notebook_set_current_page(notebook, i);
-			gtk_widget_grab_focus(s_file_view);
-			break;
-		}
+		gtk_notebook_set_current_page(notebook, pagenum);
+		gtk_widget_grab_focus(s_file_view);
 	}
 }
 
