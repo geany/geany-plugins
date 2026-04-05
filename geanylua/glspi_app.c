@@ -20,13 +20,30 @@
 
 static gint glspi_pluginver(lua_State* L)
 {
+	const char *lua_ver = LUA_RELEASE;
+
+	lua_getglobal(L, "jit");
+	if (lua_istable(L, -1)) {
+		lua_getfield(L, -1, "version");
+		if (lua_isstring(L, -1)) {
+			lua_ver = lua_tostring(L, -1);
+		}
+		lua_pop(L, 1);
+	}
+	lua_pop(L, 1);
+
 	lua_pushfstring(L, _(
 "%s %s: %s\n"
 "Copyright (c) 2007-2010 "PLUGIN_AUTHOR", et al.\n"
-"Compiled on "__DATE__" at "__TIME__" for Geany API version %d\n"
+"Using %s\n"
+"Compiled on " __DATE__ " at " __TIME__ " for Geany API version %d\n"
 "Released under version 2 of the GNU General Public License.\n"
-	),
-			PLUGIN_NAME, PLUGIN_VER, PLUGIN_DESC, MY_GEANY_API_VER);
+		),
+		PLUGIN_NAME, PLUGIN_VER, PLUGIN_DESC,
+		lua_ver,
+		MY_GEANY_API_VER
+	);
+
 	return 1;
 }
 
@@ -549,5 +566,5 @@ static const struct luaL_Reg glspi_app_funcs[] = {
 
 void glspi_init_app_funcs(lua_State *L, const gchar*script_dir) {
 	glspi_script_dir = script_dir;
-	luaL_register(L, NULL,glspi_app_funcs);
+	luaL_setfuncs(L, glspi_app_funcs, 0);
 }
