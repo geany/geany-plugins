@@ -10,7 +10,7 @@ AC_DEFUN([GP_CHECK_GEANYLUA],
 
     AS_CASE([$LUA_PKG_NAME],
         [luajit], [LUA_VERSION_MIN=2.0; LUA_VERSION_LIMIT=3.0],
-        [*],      [LUA_VERSION_MIN=5.1; LUA_VERSION_LIMIT=5.5]
+        [*],      [LUA_VERSION_MIN=5.1; LUA_VERSION_LIMIT=5.6]
     )
 
     GP_CHECK_PLUGIN_DEPS([GeanyLua], [LUA],
