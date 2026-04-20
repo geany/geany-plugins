@@ -145,6 +145,10 @@ struct GeanyPrj *geany_project_load(const gchar *path)
 	geany_project_set_run_cmd(ret, tmp);
 	g_free(tmp);
 
+	tmp = utils_get_setting_string(config, "project", "working_dir", "");
+	geany_project_set_working_dir(ret, tmp);
+	g_free(tmp);
+
 	geany_project_set_type_string(ret,
 				      utils_get_setting_string(config, "project", "type",
 							       project_type_string[0]));
@@ -311,6 +315,14 @@ void geany_project_set_run_cmd(struct GeanyPrj *prj, const gchar *run_cmd)
 }
 
 
+void geany_project_set_working_dir(struct GeanyPrj *prj, const gchar *working_dir)
+{
+	if (prj->working_dir)
+		g_free(prj->working_dir);
+	prj->working_dir = g_strdup(working_dir);
+}
+
+
 /* list in utf8 */
 void geany_project_set_tags_from_list(struct GeanyPrj *prj, GSList *files)
 {
@@ -353,6 +365,8 @@ void geany_project_free(struct GeanyPrj *prj)
 		g_free(prj->base_path);
 	if (prj->run_cmd)
 		g_free(prj->run_cmd);
+	if (prj->working_dir)
+		g_free(prj->working_dir);
 	if (prj->tags)
 	{
 		remove_all_tags(prj);
@@ -452,6 +466,7 @@ void geany_project_save(struct GeanyPrj *prj)
 	g_key_file_set_string(config, "project", "run_cmd", prj->run_cmd);
 	g_key_file_set_boolean(config, "project", "regenerate", prj->regenerate);
 	g_key_file_set_string(config, "project", "type", project_type_string[prj->type]);
+	g_key_file_set_string(config, "project", "working_dir", prj->working_dir);
 
 	data.prj = prj;
 	data.config = config;
@@ -463,5 +478,6 @@ void geany_project_save(struct GeanyPrj *prj)
 		g_hash_table_foreach(prj->tags, geany_project_save_files, &data);
 	}
 	save_config(config, prj->path);
+	set_non_ft_build_wdir(g_current_project->working_dir);
 	g_free(base_path);
 }

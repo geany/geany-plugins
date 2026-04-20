@@ -278,3 +278,14 @@ GSList *get_file_list(const gchar *path, guint * length, gboolean(*func)(const g
 	return list;
 }
 
+/* update Geany's non-filetype working directories in the build menu to wdir */
+void set_non_ft_build_wdir(const gchar* wdir) {
+	gint i;
+	for(i = 0; i < build_get_group_count(GEANY_GBG_NON_FT); ++i) {
+		build_set_menu_item(GEANY_BCS_PREF, /* medium priority */
+							GEANY_GBG_NON_FT, /* non-filetype build entries */
+							i,
+							GEANY_BC_WORKING_DIR, /* working dir field */
+							wdir);
+	}
+}
