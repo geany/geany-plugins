@@ -69,6 +69,25 @@ static void plugin_workbench_on_doc_close(G_GNUC_UNUSED GObject * obj, GeanyDocu
 }
 
 
+#if GEANY_API_VERSION >= 240
+
+/* Callback function for document activate */
+static void plugin_workbench_on_doc_activate(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
+											 G_GNUC_UNUSED gpointer user_data)
+{
+	g_return_if_fail(doc != NULL && doc->file_name != NULL);
+	if (wb_globals.opened_wb != NULL &&
+		workbench_get_enable_auto_open_by_doc(wb_globals.opened_wb) == TRUE &&
+		workbench_get_selected_project(wb_globals.opened_wb) == NULL)
+	{
+		wb_idle_queue_add_action(WB_IDLE_ACTION_ID_OPEN_PROJECT_BY_DOC,
+			g_strdup(doc->file_name));
+	}
+}
+
+#endif
+
+
 /* Initialize plugin */
 static gboolean plugin_workbench_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer pdata)
 {
@@ -90,6 +109,12 @@ static gboolean plugin_workbench_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointe
 
 	/* Init libgit2. */
 	git_libgit2_init();
+
+#if GEANY_API_VERSION < 240
+	ui_set_statusbar(TRUE,
+		_("Workbench: project switching is not available. Your version of Geany is too old. "
+		  "At least version 1.36 is required to enable project switching."));
+#endif
 
 	return TRUE;
 }
@@ -117,6 +142,9 @@ static void plugin_workbench_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNU
 static PluginCallback plugin_workbench_callbacks[] = {
 	{"document-open", (GCallback) &plugin_workbench_on_doc_open, TRUE, NULL},
 	{"document-close", (GCallback) &plugin_workbench_on_doc_close, TRUE, NULL},
+#if GEANY_API_VERSION >= 240
+	{"document_activate", (GCallback) &plugin_workbench_on_doc_activate, TRUE, NULL},
+#endif
 	{NULL, NULL, FALSE, NULL}
 };
 
@@ -131,7 +159,7 @@ void geany_load_module(GeanyPlugin *plugin)
 	/* Set metadata */
 	plugin->info->name = _("Workbench");
 	plugin->info->description = _("Manage and customize multiple projects.");
-	plugin->info->version = "1.09";
+	plugin->info->version = "1.10";
 	plugin->info->author = "LarsGit223";
 
 	/* Set functions */
