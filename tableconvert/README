@@ -41,6 +41,7 @@ Currently the plugin is supporting
 * HTML
 * LaTeX
 * SQL
+* DokuWiki
 
 Rectangle selections are currently not supported and might lead to
 some weird output you didn't expect -- just don't try it if you have
@@ -88,6 +89,24 @@ will be transformed to
 |		('foo', 'baa'),
 |		('baa', 'foo')
 |	)
+
+
+DokuWiki
+^^^^^^^^
+
+DokuWiki tables use pipe characters for regular cells and caret
+characters for header cells. Tabulators are replaced with ' | ' for
+body columns and ' ^ ' for header columns.
+
+A tabulator separated list as e.g.
+
+|	Header1	Header2
+|	Value1	Value2
+
+will be transformed to
+
+|	^ Header1 ^ Header2 ^
+|	| Value1 | Value2 |
 
 
 Development
