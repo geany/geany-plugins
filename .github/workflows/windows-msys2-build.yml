@@ -78,7 +78,7 @@ jobs:
           python build/msys2-geany-plugins-release.py ${VERSION}
       - name: Upload Unsigned Artifact
         id: upload-unsigned-artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: geany-plugins-unsigned
           path: geany_build/*.exe
