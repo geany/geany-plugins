@@ -73,7 +73,7 @@ jobs:
         run: echo "commit_hash=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Configure ccache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.CCACHE_DIR }}
           key: ${{ runner.os }}-${{ github.job }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
@@ -81,14 +81,14 @@ jobs:
 
       - name: Configure Cppcheck Cache
         id: cppcheck_cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.CPPCHECK_CACHE_PATH }}
           key: ${{ runner.os }}-${{ github.job }}-cppcheck-cache-${{ steps.prepare_cppcheck_cache_key.outputs.cppcheck_tag }}
 
       - name: Configure Geany Cache
         id: geany_cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.GEANY_CACHE_PATH }}
           key: ${{ runner.os }}-${{ github.job }}-geany-cache-${{ steps.prepare_geany_cache_key.outputs.commit_hash }}
@@ -250,7 +250,7 @@ jobs:
 
       - name: Configure Geany Cache
         id: geany_cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.GEANY_CACHE_PATH }}
           key: ${{ runner.os }}-${{ github.job }}-geany-mingw64-cache-${{ steps.prepare_geany_cache_key.outputs.commit_hash }}
