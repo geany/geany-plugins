@@ -192,7 +192,7 @@ install_geany() {
 		echo "No Geany installer found"
 		exit 1
 	fi
-	mingw-w64-i686-wine ${GEANY_INSTALLER_EXECUTABLE} /S /D=${GEANY_INSTALLATION_DIR_WIN}
+	mingw-w64-x86_64-wine ${GEANY_INSTALLER_EXECUTABLE} /S /D=${GEANY_INSTALLATION_DIR_WIN}
 
 	# TODO the following steps are way too hacky: installing Geany from the installer is basically
 	# what we want for CI tests but the installed "geany.pc" file isn't really suitable
@@ -282,7 +282,7 @@ test_installer() {
 	# perform a silent install and check for installed files
 	exiftool -FileName -FileType -FileVersion -FileVersionNumber ${GEANY_PLUGINS_BUILD_DIR}/build/${GEANY_PLUGINS_INSTALLER_FILENAME}
 	# install Geany-Plugins
-	mingw-w64-i686-wine ${GEANY_PLUGINS_BUILD_DIR}/build/${GEANY_PLUGINS_INSTALLER_FILENAME} /S /D=${GEANY_PLUGINS_INSTALLATION_DIR_WIN}
+	mingw-w64-x86_64-wine ${GEANY_PLUGINS_BUILD_DIR}/build/${GEANY_PLUGINS_INSTALLER_FILENAME} /S /D=${GEANY_PLUGINS_INSTALLATION_DIR_WIN}
 	# check if we have something installed
 	ls -l ${GEANY_PLUGINS_INSTALLATION_DIR}/uninst-plugins.exe || exit 1
 	ls -l ${GEANY_PLUGINS_INSTALLATION_DIR}/lib/geany/addons.dll || exit 1
@@ -292,7 +292,7 @@ test_installer() {
 test_uninstaller() {
 	log "Test NSIS uninstaller"
 	# uninstall Geany-Plugins and test if everything is clean
-	mingw-w64-i686-wine ${GEANY_PLUGINS_INSTALLATION_DIR}/uninst-plugins.exe /S
+	mingw-w64-x86_64-wine ${GEANY_PLUGINS_INSTALLATION_DIR}/uninst-plugins.exe /S
 	sleep 15  # it seems the uninstaller returns earlier than the files are actually removed, so wait a moment
 	rest=$(find ${GEANY_PLUGINS_INSTALLATION_DIR} \( -path '*share/locale' -o -path '*share/licenses' \) -prune -false -o -true -printf '%P ')
 	if [ "${rest}" != " share share/locale share/licenses " ]; then
