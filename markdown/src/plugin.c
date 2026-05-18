@@ -52,7 +52,6 @@ static void on_export_as_html_activate(GtkMenuItem *item, MarkdownViewer *viewer
 /* Plugin entry point on activation. */
 static gboolean md_plugin_init(GeanyPlugin *plugin, gpointer data)
 {
-  gint page_num;
   gchar *conf_fn;
   MarkdownConfig *conf;
   MarkdownConfigViewPos view_pos;
@@ -79,16 +78,15 @@ static gboolean md_plugin_init(GeanyPlugin *plugin, gpointer data)
 
   if (view_pos == MARKDOWN_CONFIG_VIEW_POS_MSGWIN) {
     nb = GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->message_window_notebook);
-    page_num = gtk_notebook_append_page(nb,
+    gtk_notebook_append_page(nb,
       g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
   } else {
     nb = GTK_NOTEBOOK(geany_plugin->geany_data->main_widgets->sidebar_notebook);
-    page_num = gtk_notebook_append_page(nb,
+    gtk_notebook_append_page(nb,
       g_scrolled_win, gtk_label_new(MARKDOWN_PREVIEW_LABEL));
   }
 
   gtk_widget_show_all(g_scrolled_win);
-  gtk_notebook_set_current_page(nb, page_num);
 
   g_signal_connect(conf, "notify::view-pos", G_CALLBACK(on_view_pos_notify), viewer);
 

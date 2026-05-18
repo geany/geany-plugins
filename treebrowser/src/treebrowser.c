@@ -30,7 +30,6 @@
 GeanyPlugin 				*geany_plugin;
 GeanyData 					*geany_data;
 
-static gint 				page_number 				= 0;
 static GtkTreeStore 		*treestore;
 static GtkWidget 			*treeview;
 static GtkWidget 			*sidebar_vbox;
@@ -1997,7 +1996,7 @@ create_sidebar(void)
 
 	gtk_widget_show_all(sidebar_vbox);
 
-	page_number = gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
+	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 							sidebar_vbox, gtk_label_new(_("Tree Browser")));
 
 	showbars(CONFIG_SHOW_BARS);
@@ -2325,6 +2324,7 @@ project_open_cb(G_GNUC_UNUSED GObject *obj, G_GNUC_UNUSED GKeyFile *config, G_GN
 
 static void kb_activate(guint key_id)
 {
+	gint page_number = gtk_notebook_page_num(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), sidebar_vbox);
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook), page_number);
 	switch (key_id)
 	{
