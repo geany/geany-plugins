@@ -293,21 +293,17 @@ static const struct luaL_Reg glspi_timer_funcs[] = {
 /* Catch and report script errors */
 static gint glspi_traceback(lua_State *L)
 {
-	lua_getfield(L, LUA_GLOBALSINDEX, "debug");
-	if (!lua_istable(L, -1)) {
-		lua_pop(L, 1);
-		return 1;
+	const char *msg = lua_tostring(L, 1);
+	if (msg == NULL) {  /* is error object not a string? */
+		if (luaL_callmeta(L, 1, "__tostring") &&  /* does it have a metamethod */
+			lua_type(L, -1) == LUA_TSTRING)  /* that produces a string? */
+			return 1;  /* that is the message */
+		else
+			msg = lua_pushfstring(L, "(error object is a %s value)",
+								   luaL_typename(L, 1));
 	}
-	lua_getfield(L, -1, "traceback");
-	if (!lua_isfunction(L, -1)) {
-		lua_pop(L, 2);
-		return 1;
-	}
-	lua_pushvalue(L, 1);
-	lua_pushinteger(L, 2);
-	lua_call(L, 2, 1);
-
-	return 1;
+	luaL_traceback(L, L, msg, 1);  /* append a standard traceback */
+	return 1;  /* return the traceback */
 }
 
 /*
@@ -393,12 +389,14 @@ static void show_error(lua_State *L, const gchar *script_file)
 
 static gint glspi_init_module(lua_State *L, const gchar *script_file, gint caller, GKeyFile*proj, const gchar*script_dir)
 {
-	luaL_register(L, LUA_MODULE_NAME, glspi_timer_funcs);
+	lua_newtable(L);
+	luaL_setfuncs(L, glspi_timer_funcs, 0);
 	glspi_init_sci_funcs(L);
 	glspi_init_doc_funcs(L);
 	glspi_init_mnu_funcs(L);
 	glspi_init_dlg_funcs(L, glspi_pause_timer);
 	glspi_init_app_funcs(L,script_dir);
+	lua_setglobal(L, LUA_MODULE_NAME);
 	set_string_token(L,tokenWordChars,GEANY_WORDCHARS);
 	set_string_token(L,tokenBanner,DEFAULT_BANNER);
 	set_string_token(L,tokenDirSep, G_DIR_SEPARATOR_S);
