@@ -1,0 +1,50 @@
+=========
+IncDec
+=========
+
+.. contents::
+
+
+About
+=====
+
+IncDec is a plugin for Geany that provides shortcuts to increment and decrement
+number at the cursor, or to the right of the cursor (on the same line).
+
+
+Usage
+=====
+
+By default, typing Shift-A will increment the next number, and typing Shift-X
+will decrement the next number.
+You can also increment and decrement number many times by typing Shift-M.
+The number can be at the cursor, or to the right of the cursor (on the same line).
+Numbers can be negative and positive, and can be in decimal or hexadecimal format
+(hexadecimal number start with 0x).
+You can customize those defaults keys on the preferences, under the Keybindings tab
+by setting the *IncDec* keybinding.
+An item *Increment or Decrement number* is also added in the Editor Popup Menu, it
+can be hidden by changing the Plugins Preferences.
+
+
+License
+=======
+
+This plugin is distributed under the terms of the GNU General Public License
+as published by the Free Software Foundation, either version 2 of the
+License, or (at your option) any later version. You should have received a copy
+of the GNU General Public License along with this plugin.  If not, see
+<http://www.gnu.org/licenses/>.
+
+
+Contact
+=======
+
+You can email me at <scresto(at)gmail(dot)org>.
+
+
+Bug reports and feature requests
+--------------------------------
+
+To report a bug or ask for a new feature, please use the Geany-Plugins tracker
+on GitHub: https://github.com/geany/geany-plugins/issues

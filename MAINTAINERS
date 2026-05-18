@@ -173,6 +173,13 @@ M: Colomban Wendling <ban@herbesfolles.org>
 W: http://plugins.geany.org/git-changebar.html
 S: Maintained
 
+incdec
+P: Sylvain Cresto <scresto@gmail.com>
+g: scresto09
+M: Sylvain Cresto <scresto@gmail.com>
+W:
+S: Maintained
+
 keyrecord
 P: Artur Riazanov <tunyash@gmail.com>
 g:
