@@ -138,7 +138,7 @@ gchar *get_combined_path(const gchar *base, const gchar *relative)
  **/
 gchar *get_any_relative_path (const gchar *base, const gchar *target)
 {
-	guint index = 0, equal, equal_index = 0, base_parts = 0, target_parts = 0, length;
+	guint index = 0, equal, equal_index = 0, base_parts = 0, length;
 	GPtrArray *relative;
 	gchar *part;
 	gchar *result = NULL;
@@ -160,10 +160,6 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target)
 	index = 0;;
 	while (splitv_target[index] != NULL)
 	{
-		if (strlen(splitv_target[index]) > 0)
-		{
-			target_parts++;
-		}
 		index++;
 	}
 
