@@ -38,7 +38,7 @@ The output can be ::
 Requirements
 ============
 
-For compiling gms you need Geany,GTK2 includes, and GTK2 library.
+For compiling gms you need Geany, GTK includes, and GTK library.
 
 Furthermore you need, of course, a C compiler and the Make tool; The
 GNU versions of these tools are recommended.
@@ -90,9 +90,7 @@ Coding
 ======
 
 Use static functions where possible.
-Try to use GLib types and functions - e.g. g_free instead of free and
-try to use only GLib 2.6 and GTK 2.6 functions. At least for the moment,
-we want to keep the minimum requirement for GTK at 2.6.
+Try to use GLib types and functions - e.g. g_free instead of free.
 
 Download
 ========

@@ -48,7 +48,7 @@ load it in Geany's plugin manager. You may change module preferences.
 Requirements
 ------------
 
-* GTK >= 2.8.0
+* Geany >= 1.26
 
 License
 -------
