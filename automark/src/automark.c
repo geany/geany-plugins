@@ -110,7 +110,10 @@ automark(gpointer user_data)
 
 	/* Do not highlight while selecting text and allow other markers to work */
 	if (sci_has_selection(sci))
+	{
+		editor_indicator_clear(editor, AUTOMARK_INDICATOR);
 		return FALSE;
+	}
 
 	text = get_current_word(editor->sci);
 
