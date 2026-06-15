@@ -309,7 +309,7 @@ static void sidebar_insert_project_directory(WB_PROJECT *prj, WB_PROJECT_DIR *di
 static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter *parent, gint *position)
 {
 	GtkTreeIter iter;
-	GIcon *icon, *icon_dir, *icon_base;
+	GIcon *icon;
 	GSList *elem = NULL, *dirs;
 
 	if (project == NULL)
@@ -320,41 +320,9 @@ static void sidebar_insert_project_directories (WB_PROJECT *project, GtkTreeIter
 	dirs = wb_project_get_directories(project);
 	if (dirs != NULL)
 	{
-		const gchar *name;
-
-		icon_dir = g_icon_new_for_string("system-search", NULL);
-		icon_base = g_icon_new_for_string("user-home", NULL);
-
 		foreach_slist (elem, dirs)
 		{
-			if (wb_project_dir_get_is_prj_base_dir(elem->data) == TRUE)
-			{
-				icon = icon_base;
-				name = _("Base dir");
-			}
-			else
-			{
-				icon = icon_dir;
-				name = wb_project_dir_get_name(elem->data);
-			}
-
-			gtk_tree_store_insert_with_values(sidebar.file_store, &iter, parent, *position,
-				FILEVIEW_COLUMN_ICON, icon,
-				FILEVIEW_COLUMN_NAME, name,
-				FILEVIEW_COLUMN_DATA_ID, DATA_ID_DIRECTORY,
-				FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, elem->data,
-				-1);
-			(*position)++;
-			sidebar_insert_project_directory(project, elem->data, &iter);
-		}
-
-		if (icon_dir != NULL)
-		{
-			g_object_unref(icon_dir);
-		}
-		if (icon_base != NULL)
-		{
-			g_object_unref(icon_base);
+			sidebar_insert_project_directory(project, elem->data, parent);
 		}
 	}
 	else
