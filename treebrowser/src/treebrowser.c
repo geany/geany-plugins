@@ -1118,7 +1118,7 @@ on_menu_create_new_object(GtkMenuItem *menuitem, const gchar *type)
 				if (treebrowser_search(uri_new, NULL))
 					treebrowser_rename_current();
 				if (utils_str_equal(type, "file") && CONFIG_OPEN_NEW_FILES == TRUE)
-					document_open_file(uri_new,FALSE, NULL,NULL);
+					document_open_file(uri_new, FALSE, NULL,NULL);
 			}
 		}
 		g_free(uri_new);
@@ -1629,9 +1629,24 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 	{
 		if (gtk_tree_selection_get_selected(gtk_tree_view_get_selection(GTK_TREE_VIEW(widget)), &model, &iter))
 		{
+			gchar *uri = NULL;
+
 			path = gtk_tree_model_get_path(model, &iter);
-			if (!gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget), path))
-				gtk_tree_view_expand_row(GTK_TREE_VIEW(widget), path, FALSE);
+			gtk_tree_model_get(GTK_TREE_MODEL(treestore), &iter, TREEBROWSER_COLUMN_URI, &uri, -1);
+			if (!EMPTY(uri) && g_file_test(uri, G_FILE_TEST_IS_DIR))
+			{
+				// expand directory
+				if (!gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget), path))
+				{
+					gtk_tree_view_expand_row(GTK_TREE_VIEW(widget), path, FALSE);
+				}
+			}
+			else if (!EMPTY(uri) && g_file_test(uri, G_FILE_TEST_EXISTS))
+			{
+				// open selected file
+				document_open_file(uri, FALSE, NULL, NULL);
+			}
+			g_free(uri);
 		}
 		return TRUE;
 	}
