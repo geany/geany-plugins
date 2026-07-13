@@ -36,6 +36,8 @@ void wb_project_free(WB_PROJECT *prj);
 
 void wb_project_set_modified(WB_PROJECT *prj, gboolean value);
 gboolean wb_project_is_modified(WB_PROJECT *prj);
+void wb_project_set_active(WB_PROJECT *prj, gboolean value);
+gboolean wb_project_is_active(WB_PROJECT *prj);
 
 void wb_project_set_filename(WB_PROJECT *prj, const gchar *filename);
 const gchar *wb_project_get_filename(WB_PROJECT *prj);

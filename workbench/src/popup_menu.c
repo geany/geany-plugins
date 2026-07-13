@@ -29,6 +29,7 @@
 #ifdef HAVE_CONFIG_H
 	#include "config.h"
 #endif
+#include <project.h>
 
 #include "wb_globals.h"
 #include "dialogs.h"
@@ -42,6 +43,7 @@ static struct
 
 	GtkWidget *add_project;
 	GtkWidget *remove_project;
+	GtkWidget *project_toggle_select;
 	GtkWidget *fold_unfold_project;
 	GtkWidget *project_open_all;
 	GtkWidget *project_close_all;
@@ -81,6 +83,11 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 		case POPUP_CONTEXT_PROJECT:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
+#if GEANY_API_VERSION >= 240
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, TRUE);
+#else
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, FALSE);
+#endif
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
@@ -103,6 +110,11 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 		case POPUP_CONTEXT_DIRECTORY:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
+#if GEANY_API_VERSION >= 240
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, TRUE);
+#else
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, FALSE);
+#endif
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
@@ -125,6 +137,11 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 		case POPUP_CONTEXT_SUB_DIRECTORY:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
+#if GEANY_API_VERSION >= 240
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, TRUE);
+#else
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, FALSE);
+#endif
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
@@ -147,6 +164,11 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 		case POPUP_CONTEXT_FILE:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
+#if GEANY_API_VERSION >= 240
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, TRUE);
+#else
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, FALSE);
+#endif
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
@@ -169,6 +191,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 		case POPUP_CONTEXT_BACKGROUND:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.project_open_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.project_close_all, FALSE);
@@ -191,6 +214,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 		case POPUP_CONTEXT_WB_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.project_open_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.project_close_all, FALSE);
@@ -213,6 +237,11 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 		case POPUP_CONTEXT_PRJ_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_project, TRUE);
+#if GEANY_API_VERSION >= 240
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, TRUE);
+#else
+			gtk_widget_set_sensitive (s_popup_menu.project_toggle_select, FALSE);
+#endif
 			gtk_widget_set_sensitive (s_popup_menu.fold_unfold_project, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_open_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.project_close_all, TRUE);
@@ -315,6 +344,28 @@ static void popup_menu_on_remove_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_
 		}
 	}
 }
+
+
+/* Handle popup menu item "Select/Unselect project" */
+#if GEANY_API_VERSION >= 240
+static void popup_menu_on_toggle_selected_project(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	WB_PROJECT *project;
+
+	project = sidebar_file_view_get_selected_project(NULL);
+	if (project != NULL && wb_globals.opened_wb != NULL)
+	{
+		if (workbench_get_selected_project(wb_globals.opened_wb) != project)
+		{
+			workbench_open_project(wb_globals.opened_wb, project, TRUE);
+		}
+		else
+		{
+			workbench_open_project(wb_globals.opened_wb, NULL, TRUE);
+		}
+	}
+}
+#endif
 
 
 /* Handle popup menu item "Expand all" */
@@ -818,6 +869,14 @@ void popup_menu_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_remove_project), NULL);
 	s_popup_menu.remove_project = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Select/Unselect project"));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+#if GEANY_API_VERSION >= 240
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_toggle_selected_project), NULL);
+#endif
+	s_popup_menu.project_toggle_select = item;
 
 	item = gtk_menu_item_new_with_mnemonic(_("_Fold/unfold project"));
 	gtk_widget_show(item);
