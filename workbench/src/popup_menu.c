@@ -25,6 +25,7 @@
 #include <string.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <stdlib.h>
 
 #ifdef HAVE_CONFIG_H
 	#include "config.h"
@@ -62,6 +63,8 @@ static struct
 	GtkWidget *new_file;
 	GtkWidget *new_directory;
 	GtkWidget *remove_file_or_dir;
+    GtkWidget *open_external;
+    GtkWidget *open_containing_folder;
 } s_popup_menu;
 
 
@@ -99,6 +102,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_external, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_containing_folder, FALSE);
 		break;
 		case POPUP_CONTEXT_DIRECTORY:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -121,6 +126,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.open_external, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.open_containing_folder, FALSE);
 		break;
 		case POPUP_CONTEXT_SUB_DIRECTORY:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -143,6 +150,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.open_external, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.open_containing_folder, FALSE);
 		break;
 		case POPUP_CONTEXT_FILE:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -165,6 +174,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.open_external, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.open_containing_folder, TRUE);
 		break;
 		case POPUP_CONTEXT_BACKGROUND:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -187,6 +198,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_external, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_containing_folder, FALSE);
 		break;
 		case POPUP_CONTEXT_WB_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -209,6 +222,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_external, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_containing_folder, FALSE);
 		break;
 		case POPUP_CONTEXT_PRJ_BOOKMARK:
 			gtk_widget_set_sensitive (s_popup_menu.add_project, TRUE);
@@ -231,6 +246,8 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_external, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.open_containing_folder, FALSE);
 		break;
 	}
 #if GTK_CHECK_VERSION(3, 22, 0)
@@ -798,6 +815,89 @@ static void popup_menu_on_remove_file_or_dir(G_GNUC_UNUSED GtkMenuItem *menuitem
 }
 
 
+
+/* Handle popup menu item "Open externally..." */
+static void popup_menu_on_open_external(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *path = NULL, *abs_path = NULL;
+	SIDEBAR_CONTEXT context;
+
+	if (sidebar_file_view_get_selected_context(&context))
+	{
+        if (context.file != NULL)
+		{
+			abs_path = g_strdup(context.file);
+		}
+		else if (context.subdir != NULL)
+		{
+			path = context.subdir;
+			abs_path = g_strdup(path);
+		}
+		else if (context.directory != NULL)
+		{
+			path = wb_project_dir_get_base_dir(context.directory);
+			abs_path = get_combined_path(wb_project_get_filename(context.project), path);
+		}
+		else
+		{
+			path = wb_project_dir_get_base_dir(context.directory);
+			abs_path = get_combined_path(wb_project_get_filename(context.project), path);
+		}
+	}
+
+    if (abs_path == NULL)
+    {
+        return;
+    }
+
+#ifdef _WIN32
+    char call[260] = "start ";
+#else
+    char call[260] = "open ";
+#endif
+    strcat(call, abs_path);
+    system(call);
+
+	g_free(abs_path);
+}
+
+
+/* Handle popup menu item "Open externally..." */
+static void popup_menu_on_open_containing_folder(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *path = NULL, *abs_path = NULL;
+	SIDEBAR_CONTEXT context;
+
+	if (sidebar_file_view_get_selected_context(&context))
+	{
+		if (context.subdir != NULL)
+		{
+			path = context.subdir;
+			abs_path = g_strdup(path);
+		}
+		else
+		{
+			path = wb_project_dir_get_base_dir(context.directory);
+			abs_path = get_combined_path(wb_project_get_filename(context.project), path);
+		}
+	}
+
+    if (abs_path == NULL)
+    {
+        return;
+    }
+
+#ifdef _WIN32
+    char call[260] = "start ";
+#else
+    char call[260] = "open ";
+#endif
+    strcat(call, abs_path);
+    system(call);
+
+	g_free(abs_path);
+}
+
 /** Setup/Initialize the popup menu.
  *
  **/
@@ -958,4 +1058,16 @@ void popup_menu_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_remove_file_or_dir), NULL);
 	s_popup_menu.remove_file_or_dir = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Open externally..."));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_open_external), NULL);
+	s_popup_menu.open_external = item;
+
+	item = gtk_menu_item_new_with_mnemonic(_("_Open containing folder..."));
+	gtk_widget_show(item);
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_open_containing_folder), NULL);
+	s_popup_menu.open_containing_folder = item;
 }
