@@ -27,7 +27,7 @@
 
 #include <geanyplugin.h>
 #include <gtk/gtk.h>
-
+#include <geany/filetypes.h>
 
 extern GeanyPlugin	*geany_plugin;
 extern GeanyData	*geany_data;
@@ -70,6 +70,6 @@ extern TableConvertRule tablerules[];
 
 extern void cb_table_convert(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata);
 extern void cb_table_convert_type(G_GNUC_UNUSED GtkMenuItem *menuitem, gpointer gdata);
-extern void convert_to_table(gboolean header, gint file_type);
+extern void cb_table_convert_change_document(G_GNUC_UNUSED GtkMenuItem *menuitem, gpointer gdata);
 
 #endif
