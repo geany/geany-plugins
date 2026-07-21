@@ -121,8 +121,7 @@ the extension.
 Requirements
 ------------
 
-* GTK >= 2.8.0
-* Geany >= 0.21
+* Geany >= 2.0
 
 License
 -------
