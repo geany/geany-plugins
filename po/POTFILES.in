@@ -59,6 +59,9 @@ debugger/src/atree.c
 # defineformat
 defineformat/src/defineformat.c
 
+# externaltools
+externaltools/src/externaltools.c
+
 # geanyctags
 geanyctags/src/geanyctags.c
 
