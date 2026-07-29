@@ -594,15 +594,18 @@ overview_scintilla_update_rect (OverviewScintilla *self)
 {
   GtkAllocation alloc;
   GdkRectangle  rect;
-  gint          first_line, n_lines, last_line;
+  gint          first_vis_line, n_lines, last_vis_line;
+  gint          first_line, last_line;
   gint          pos_start, pos_end;
   gint          ystart, yend;
 
   gtk_widget_get_allocation (GTK_WIDGET (self), &alloc);
 
-  first_line = sci_send (self->sci, GETFIRSTVISIBLELINE, 0, 0);
+  first_vis_line = sci_send (self->sci, GETFIRSTVISIBLELINE, 0, 0);
   n_lines = sci_send (self->sci, LINESONSCREEN, 0, 0);
-  last_line = first_line + n_lines;
+  last_vis_line = first_vis_line + n_lines;
+  first_line = sci_send(self->sci, DOCLINEFROMVISIBLE, first_vis_line, 0);
+  last_line = sci_send(self->sci, DOCLINEFROMVISIBLE, last_vis_line, 0);
 
   pos_start = sci_send (self, POSITIONFROMLINE, first_line, 0);
   pos_end = sci_send (self, POSITIONFROMLINE, last_line, 0);
@@ -880,11 +883,35 @@ on_src_sci_notify (ScintillaObject   *sci,
                    SCNotification    *nt,
                    OverviewScintilla *self)
 {
-  if (nt->nmhdr.code == SCN_UPDATEUI && nt->updated & SC_UPDATE_V_SCROLL)
+  if (nt->nmhdr.code == SCN_UPDATEUI)
     {
-      overview_scintilla_sync_center (self);
-      if (GTK_IS_WIDGET (self->canvas))
-        gtk_widget_queue_draw (self->canvas);
+      if (nt->updated & SC_UPDATE_V_SCROLL)
+        {
+          overview_scintilla_sync_center (self);
+          if (GTK_IS_WIDGET (self->canvas))
+            gtk_widget_queue_draw (self->canvas);
+        }
+      if (nt->updated & SC_UPDATE_SELECTION)
+        {
+          int anchor = sci_send(sci, GETANCHOR, 0, 0);
+          int cp = sci_send(sci, GETCURRENTPOS, 0, 0);
+          sci_send(self, SETSEL, anchor, cp);
+          sci_send(sci, SETSEL, anchor, cp); // Re-select the selection in the main scintilla to make sure that it remains a primary selection.
+        }
+    }
+  else if (nt->nmhdr.code == SCN_MARGINCLICK)
+    {
+      sci_send(self, FOLDALL, SC_FOLDACTION_EXPAND, 0);
+      int currFold = -1;
+      while (TRUE)
+        {
+          currFold = sci_send(sci, CONTRACTEDFOLDNEXT, currFold+1, 0);
+          if (currFold == -1) break;
+          sci_send(self, FOLDLINE, currFold, SC_FOLDACTION_CONTRACT);
+        }
+        overview_scintilla_sync_center (self);
+        if (GTK_IS_WIDGET (self->canvas))
+          gtk_widget_queue_draw (self->canvas);
     }
 }
 
@@ -913,6 +940,8 @@ overview_scintilla_clone_styles (OverviewScintilla *self)
 
       g_free (font_name);
     }
+  
+  sci_send(sci, SETELEMENTCOLOUR, SC_ELEMENT_SELECTION_INACTIVE_BACK, sci_send(src_sci, GETELEMENTCOLOUR, SC_ELEMENT_SELECTION_BACK, 0));
 }
 
 static void
