@@ -123,6 +123,15 @@ HTML code::
             font-family: @@code_font_name@@;
             font-size: @@code_font_point_size@@pt;
           }
+          table {
+            border-collapse: collapse;
+            margin: 0.75em 0;
+          }
+          th,
+          td {
+            border: 1px solid currentColor;
+            padding: 0.35em 0.6em;
+          }
         </style>
       </head>
       <body>
