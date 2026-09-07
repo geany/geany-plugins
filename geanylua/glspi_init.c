@@ -186,7 +186,7 @@ static void on_doc_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
 }
 
 
-static void on_doc_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+static void on_doc_saved(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	gint idx = doc->index;
 	if (g_file_test(local_data.on_saved_script,G_FILE_TEST_IS_REGULAR)) {
@@ -246,7 +246,7 @@ PLUGIN_EXPORT
 PluginCallback	glspi_geany_callbacks[] = {
 	{"document-new", (GCallback) &on_doc_new, TRUE, NULL},
 	{"document-open", (GCallback) &on_doc_open, TRUE, NULL},
-	{"document-save", (GCallback) &on_doc_save, TRUE, NULL},
+	{"document-save", (GCallback) &on_doc_saved, TRUE, NULL},
 	{"document-activate", (GCallback) &on_doc_activate, TRUE, NULL},
 	{"project-open", (GCallback) &on_proj_open, TRUE, NULL},
 	{"project-save", (GCallback) &on_proj_save, TRUE, NULL},
