@@ -12,6 +12,7 @@
 
 #define EVENTS_FOLDER  USER_SCRIPT_FOLDER DIR_SEP  "events"  DIR_SEP
 
+#define ON_SAVE_SCRIPT       EVENTS_FOLDER  "save.lua"
 #define ON_SAVED_SCRIPT      EVENTS_FOLDER  "saved.lua"
 #define ON_OPENED_SCRIPT     EVENTS_FOLDER  "opened.lua"
 #define ON_CREATED_SCRIPT    EVENTS_FOLDER  "created.lua"
@@ -39,6 +40,7 @@ GeanyPlugin *glspi_geany_plugin=NULL;
 static struct {
 	GtkWidget *menu_item;
 	gchar *script_dir;
+	gchar *on_save_script;
 	gchar *on_saved_script;
 	gchar *on_created_script;
 	gchar *on_opened_script;
@@ -186,6 +188,17 @@ static void on_doc_new(GObject *obj, GeanyDocument *doc, gpointer user_data)
 }
 
 
+
+static void on_doc_save(GObject *obj, GeanyDocument *doc, gpointer user_data)
+{
+	gint idx = doc->index;
+	if (g_file_test(local_data.on_save_script,G_FILE_TEST_IS_REGULAR)) {
+		glspi_run_script(local_data.on_save_script,idx+1, NULL, SD);
+	}
+}
+
+
+
 static void on_doc_saved(GObject *obj, GeanyDocument *doc, gpointer user_data)
 {
 	gint idx = doc->index;
@@ -246,6 +259,7 @@ PLUGIN_EXPORT
 PluginCallback	glspi_geany_callbacks[] = {
 	{"document-new", (GCallback) &on_doc_new, TRUE, NULL},
 	{"document-open", (GCallback) &on_doc_open, TRUE, NULL},
+	{"document-before-save", (GCallback) &on_doc_save, TRUE, NULL},
 	{"document-save", (GCallback) &on_doc_saved, TRUE, NULL},
 	{"document-activate", (GCallback) &on_doc_activate, TRUE, NULL},
 	{"project-open", (GCallback) &on_proj_open, TRUE, NULL},
@@ -425,6 +439,8 @@ void glspi_init (GeanyData *data, GeanyPlugin *plugin)
 		g_printerr(_("     ==>> %s: Building menu from '%s'\n"),
 			PLUGIN_NAME, local_data.script_dir);
 	}
+	local_data.on_save_script =
+		g_strconcat(geany->app->configdir, ON_SAVE_SCRIPT, NULL);
 	local_data.on_saved_script =
 		g_strconcat(geany->app->configdir, ON_SAVED_SCRIPT, NULL);
 	local_data.on_opened_script =
@@ -484,6 +500,7 @@ void glspi_cleanup(void)
 	remove_menu();
 	hotkey_cleanup();
 	done(script_dir);
+	done(on_save_script);
 	done(on_saved_script);
 	done(on_created_script);
 	done(on_opened_script);

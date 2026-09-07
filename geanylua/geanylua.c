@@ -78,7 +78,8 @@ static PluginCallback *glspi_geany_callbacks = NULL;
 	and all is well...
 */
 PLUGIN_EXPORT
-PluginCallback	plugin_callbacks[8] = {
+PluginCallback	plugin_callbacks[9] = {
+	{NULL, NULL, FALSE, NULL},
 	{NULL, NULL, FALSE, NULL},
 	{NULL, NULL, FALSE, NULL},
 	{NULL, NULL, FALSE, NULL},
