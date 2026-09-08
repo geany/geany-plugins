@@ -358,9 +358,11 @@ gchar *find_header_source(GeanyDocument *doc)
 		/* check open documents */
 		foreach_document(i)
 		{
-			gchar *filename;
-			filename = document_index(i)->file_name;
-			list = g_slist_prepend(list, filename);
+			gchar *filename = document_index(i)->file_name;
+
+			/* untitled documents don't have a file name */
+			if (filename)
+				list = g_slist_prepend(list, filename);
 		}
 		found_name = try_find_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
 		g_slist_free(list);
