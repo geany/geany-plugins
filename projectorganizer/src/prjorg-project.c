@@ -366,6 +366,22 @@ static gboolean tags_enabled(guint filenum)
 }
 
 
+static guint get_file_count(void)
+{
+	GSList *elem;
+	guint num = 0;
+
+	foreach_slist (elem, prj_org->roots)
+	{
+		PrjOrgRoot *root = elem->data;
+
+		num += g_hash_table_size(root->file_table);
+	}
+
+	return num;
+}
+
+
 void rescan_project(gchar **session_files)
 {
 	GSList *elem;
@@ -930,6 +946,105 @@ gboolean prjorg_project_is_in_project(const gchar *utf8_filename)
 	}
 
 	return FALSE;
+}
+
+
+static PrjOrgRoot *find_root(const gchar *utf8_path)
+{
+	GSList *elem = NULL;
+
+	foreach_slist (elem, prj_org->roots)
+	{
+		PrjOrgRoot *root = elem->data;
+		gchar *utf8_rel_path;
+
+		if (g_strcmp0(root->base_dir, utf8_path) == 0)
+			return root;
+
+		utf8_rel_path = get_relative_path(root->base_dir, utf8_path);
+		if (utf8_rel_path)
+		{
+			g_free(utf8_rel_path);
+			return root;
+		}
+	}
+
+	return NULL;
+}
+
+
+/* returns the directory node corresponding to utf8_path or NULL if there is
+ * no such directory in the tree */
+static PrjOrgTreeNode *find_dir_node(PrjOrgRoot *root, const gchar *utf8_path)
+{
+	PrjOrgTreeNode *node = root->tree;
+	gchar *utf8_rel_path;
+	gchar **pathv, **name;
+
+	if (g_strcmp0(root->base_dir, utf8_path) == 0)
+		return node;
+
+	utf8_rel_path = get_relative_path(root->base_dir, utf8_path);
+	if (!utf8_rel_path)
+		return NULL;
+
+	pathv = g_strsplit_set(utf8_rel_path, "/\\", 0);
+	foreach_strv (name, pathv)
+	{
+		PrjOrgTreeNode *child;
+		PrjOrgTreeNode *found = NULL;
+		guint i;
+
+		foreach_ptr_array (child, i, node->subtrees)
+		{
+			if (!child->is_file && g_strcmp0(child->name, *name) == 0)
+			{
+				found = child;
+				break;
+			}
+		}
+
+		node = found;
+		if (!node)
+			break;
+	}
+
+	g_strfreev(pathv);
+	g_free(utf8_rel_path);
+
+	return node;
+}
+
+
+/* Rescans the directory utf8_path and updates the file tree, the file table
+ * and the tag manager accordingly. Returns the tree node of the directory or
+ * NULL if the directory isn't part of the project. */
+PrjOrgTreeNode *prjorg_project_reload_directory(const gchar *utf8_path)
+{
+	PrjOrgRoot *root;
+	PrjOrgTreeNode *node;
+
+	if (!prj_org)
+		return NULL;
+
+	root = find_root(utf8_path);
+	if (!root)
+		return NULL;
+
+	node = find_dir_node(root, utf8_path);
+	if (!node)
+		return NULL;
+
+	/* see rescan_project() */
+	clear_idle_queue(&s_idle_add_funcs);
+	clear_idle_queue(&s_idle_remove_funcs);
+
+	rescan_node(root, node, utf8_path);
+
+	if (tags_enabled(get_file_count()))
+		generate_node_tags(root, node, NULL);
+
+	return node;
 }
 
 

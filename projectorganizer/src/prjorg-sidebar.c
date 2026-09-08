@@ -65,6 +65,8 @@ static GtkWidget *s_file_view = NULL;
 static GtkTreeStore *s_file_store = NULL;
 static gboolean s_follow_editor = TRUE;
 
+static void reload_directory(const gchar *utf8_path);
+
 static struct
 {
 	GtkWidget *expand;
@@ -515,9 +517,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 		if (create_file(path))
 		{
 			open_file(path);
-			//TODO: don't rescan the whole project, only change the affected file
-			prjorg_project_rescan();
-			prjorg_sidebar_update(TRUE);
+			reload_directory(dir);
 		}
 		else
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create file '%s'."), path);
@@ -544,11 +544,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 		gchar *path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 
 		if (create_dir(path))
-		{
-			//TODO: don't rescan the whole project, only change the affected directory
-			prjorg_project_rescan();
-			prjorg_sidebar_update(TRUE);
-		}
+			reload_directory(dir);
 		else
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot create directory '%s'."), path);
 		g_free(path);
@@ -585,11 +581,7 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 			gchar *oldpath = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 			gchar *newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
 			if (rename_file_or_dir(oldpath, newpath))
-			{
-				//TODO: don't rescan the whole project, only change the affected file
-				prjorg_project_rescan();
-				prjorg_sidebar_update(TRUE);
-			}
+				reload_directory(dir);
 			else
 				dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename '%s' to '%s'."),
 						oldpath, newpath);
@@ -619,17 +611,28 @@ static void on_delete(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 	if (dialogs_show_question(_("Are you sure you want to delete '%s'?"), name))
 	{
 		gchar *path = build_path(&iter);
+		gchar *dir = NULL;
+		GtkTreeIter parent;
+
+		if (gtk_tree_model_iter_parent(model, &parent, &iter))
+			dir = build_path(&parent);
 
 		if (remove_file_or_dir(path))
 			close_file(path);
 		else
 			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot delete file '%s'."), path);
 
-		g_free(path);
+		if (dir)
+			reload_directory(dir);
+		else
+		{
+			/* a root directory */
+			prjorg_project_rescan();
+			prjorg_sidebar_update(TRUE);
+		}
 
-		//TODO: don't rescan the whole project, only change the affected file
-		prjorg_project_rescan();
-		prjorg_sidebar_update(TRUE);
+		g_free(path);
+		g_free(dir);
 	}
 
 	g_free(name);
@@ -1564,6 +1567,71 @@ static gchar *get_selected_path(void)
 }
 
 
+static void remove_children(GtkTreeIter *parent)
+{
+	GtkTreeIter child;
+
+	while (gtk_tree_model_iter_children(GTK_TREE_MODEL(s_file_store), &child, parent))
+		gtk_tree_store_remove(s_file_store, &child);
+}
+
+
+/* reloads the directory utf8_path and re-creates its rows in the sidebar,
+ * restoring the expansion state and the selection below it */
+static void reload_directory(const gchar *utf8_path)
+{
+	GtkTreeIter iter;
+	PrjOrgTreeNode *node;
+	gchar **expanded_paths, **path;
+	gchar *selected_path;
+	gboolean is_external;
+
+	if (!find_iter(utf8_path, &iter, &is_external))
+	{
+		/* not displayed in the sidebar - fall back to a full reload */
+		prjorg_project_rescan();
+		prjorg_sidebar_update(TRUE);
+		return;
+	}
+
+	node = prjorg_project_reload_directory(utf8_path);
+	if (!node)
+		return;
+
+	expanded_paths = prjorg_sidebar_get_expanded_paths();
+	selected_path = get_selected_path();
+
+	remove_children(&iter);
+	create_branch(node, &iter, is_external);
+
+	/* the row gets collapsed when all its children are removed - restore
+	 * the expansion state and the selection below it */
+	foreach_strv (path, expanded_paths)
+	{
+		gchar *rel_path = get_relative_path(utf8_path, *path);
+
+		if (rel_path || g_strcmp0(*path, utf8_path) == 0)
+			expand_path(*path, FALSE);
+		g_free(rel_path);
+	}
+	if (selected_path)
+		expand_path(selected_path, TRUE);
+
+	g_strfreev(expanded_paths);
+	g_free(selected_path);
+}
+
+
+static void on_reload_directory(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *dir = get_dir_of_selection();
+
+	if (dir)
+		reload_directory(dir);
+	g_free(dir);
+}
+
+
 void prjorg_sidebar_update_full(gboolean reload, gchar **expanded_paths)
 {
 	ExpandData *expand_data = g_new0(ExpandData, 1);
@@ -1742,6 +1810,10 @@ void prjorg_sidebar_init(void)
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect((gpointer) item, "activate", G_CALLBACK(expand_all), NULL);
 	s_popup_menu.expand = item;
+
+	item = menu_item_new("view-refresh", _("Reload Directory"));
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect((gpointer) item, "activate", G_CALLBACK(on_reload_directory), NULL);
 
 	item = gtk_separator_menu_item_new();
 	gtk_widget_show(item);

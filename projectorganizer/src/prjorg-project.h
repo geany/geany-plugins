@@ -76,6 +76,8 @@ void prjorg_project_rescan(void);
 void prjorg_project_add_external_dir(const gchar *utf8_dirname);
 void prjorg_project_remove_external_dir(const gchar *utf8_dirname);
 
+PrjOrgTreeNode *prjorg_project_reload_directory(const gchar *utf8_path);
+
 void prjorg_project_add_single_tm_file(gchar *utf8_filename);
 void prjorg_project_remove_single_tm_file(gchar *utf8_filename);
 
