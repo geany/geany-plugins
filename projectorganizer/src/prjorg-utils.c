@@ -73,29 +73,30 @@ gchar *get_relative_path(const gchar *utf8_parent, const gchar *utf8_descendant)
 }
 
 
-GSList *get_precompiled_patterns(gchar **patterns)
+GPtrArray *get_precompiled_patterns(gchar **patterns)
 {
+	GPtrArray *pattern_list = g_ptr_array_new_full(1, (GDestroyNotify)g_pattern_spec_free);
 	guint i;
-	GSList *pattern_list = NULL;
 
 	if (!patterns)
-		return NULL;
+		return pattern_list;
 
 	for (i = 0; patterns[i] != NULL; i++)
 	{
 		GPatternSpec *pattern_spec = g_pattern_spec_new(patterns[i]);
-		pattern_list = g_slist_prepend(pattern_list, pattern_spec);
+		g_ptr_array_add(pattern_list, pattern_spec);
 	}
 	return pattern_list;
 }
 
 
-gboolean patterns_match(GSList *patterns, const gchar *str)
+gboolean patterns_match(GPtrArray *patterns, const gchar *str)
 {
-	GSList *elem = NULL;
-	foreach_slist (elem, patterns)
+	GPatternSpec *pattern;
+	guint i;
+
+	foreach_ptr_array(pattern, i, patterns)
 	{
-		GPatternSpec *pattern = elem->data;
 		if (g_pattern_spec_match_string(pattern, str))
 			return TRUE;
 	}
@@ -265,7 +266,8 @@ GtkWidget *menu_item_new(const gchar *icon_name, const gchar *label)
 	return item;
 }
 
-gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns)
+gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list,
+	GPtrArray *header_patterns, GPtrArray *source_patterns)
 {
 	gchar *full_name;
 	gchar *name_pattern;
@@ -307,7 +309,7 @@ gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList 
 
 gchar *find_header_source(GeanyDocument *doc)
 {
-	GSList *header_patterns, *source_patterns;
+	GPtrArray *header_patterns, *source_patterns;
 	gboolean known_type = TRUE;
 	gboolean is_header = FALSE;
 	gchar *found_name = NULL;
@@ -413,10 +415,8 @@ gchar *find_header_source(GeanyDocument *doc)
 		}
 	}
 
-	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(header_patterns);
-	g_slist_foreach(source_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(source_patterns);
+	g_ptr_array_free(header_patterns, TRUE);
+	g_ptr_array_free(source_patterns, TRUE);
 
 	return found_name;
 }
@@ -428,7 +428,7 @@ void set_header_filetype(GeanyDocument * doc)
 {
 	gchar *doc_basename, *full_name;
 	gboolean is_header;
-	GSList * header_patterns;
+	GPtrArray *header_patterns;
 
 	if (!doc || !doc->file_name)
 		return;
@@ -457,7 +457,7 @@ void set_header_filetype(GeanyDocument * doc)
 	}
 
 	g_free(doc_basename);
-	g_slist_free(header_patterns);
+	g_ptr_array_free(header_patterns, TRUE);
 }
 
 

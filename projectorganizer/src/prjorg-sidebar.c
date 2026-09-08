@@ -1187,8 +1187,7 @@ static void on_find_in_files(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED 
 }
 
 
-static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
-	GSList *header_patterns, GSList *source_patterns, gboolean project)
+static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent, gboolean project)
 {
 	GSList *dir_list = NULL;
 	GSList *file_list = NULL;
@@ -1270,7 +1269,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 					FILEVIEW_COLUMN_NAME, last_dir_name,
 					FILEVIEW_COLUMN_COLOR, project ? NULL : &s_external_color, -1);
 
-				create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns, project);
+				create_branch(level+1, tmp_list, &iter, project);
 
 				g_slist_free(tmp_list);
 				tmp_list = NULL;
@@ -1285,7 +1284,7 @@ static void create_branch(gint level, GSList *leaf_list, GtkTreeIter *parent,
 			FILEVIEW_COLUMN_NAME, last_dir_name,
 			FILEVIEW_COLUMN_COLOR, project ? NULL : &s_external_color, -1);
 
-		create_branch(level+1, tmp_list, &iter, header_patterns, source_patterns, project);
+		create_branch(level+1, tmp_list, &iter, project);
 
 		g_slist_free(tmp_list);
 		g_slist_free(dir_list);
@@ -1316,7 +1315,7 @@ static int rev_strcmp(const char *str1, const char *str2)
 }
 
 
-static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *header_patterns, GSList *source_patterns, gboolean project)
+static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, gboolean project)
 {
 	GSList *lst = NULL;
 	GSList *path_list = NULL;
@@ -1343,7 +1342,7 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 	}
 
 	if (path_list != NULL)
-		create_branch(0, path_list, parent, header_patterns, source_patterns, project);
+		create_branch(0, path_list, parent, project);
 
 	if (project)
 	{
@@ -1367,7 +1366,7 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 
 static void load_project(void)
 {
-	GSList *elem = NULL, *header_patterns, *source_patterns;
+	GSList *elem = NULL;
 	GtkTreeIter iter;
 	gboolean first = TRUE;
 	GIcon *icon_dir;
@@ -1378,9 +1377,6 @@ static void load_project(void)
 		return;
 
 	icon_dir = g_themed_icon_new("folder");
-
-	header_patterns = get_precompiled_patterns(prj_org->header_patterns);
-	source_patterns = get_precompiled_patterns(prj_org->source_patterns);
 
 	/* reload on every refresh to update the color e.g. when the theme changes */
 	s_external_color = gtk_widget_get_style(s_toolbar)->bg[GTK_STATE_NORMAL];
@@ -1400,7 +1396,7 @@ static void load_project(void)
 			FILEVIEW_COLUMN_NAME, name,
 			FILEVIEW_COLUMN_COLOR, first ? NULL : &s_external_color, -1);
 
-		load_project_root(root, &iter, header_patterns, source_patterns, first);
+		load_project_root(root, &iter, first);
 
 		first = FALSE;
 		g_free(name);
@@ -1408,10 +1404,6 @@ static void load_project(void)
 
 	collapse();
 
-	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(header_patterns);
-	g_slist_foreach(source_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(source_patterns);
 	g_object_unref(icon_dir);
 }
 

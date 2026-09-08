@@ -21,11 +21,6 @@
 
 #include <gtk/gtk.h>
 
-#define PRJORG_PATTERNS_SOURCE "*.c *.C *.cpp *.cxx *.c++ *.cc *.m"
-#define PRJORG_PATTERNS_HEADER "*.h *.H *.hpp *.hxx *.h++ *.hh"
-#define PRJORG_PATTERNS_IGNORED_DIRS ".* CVS"
-#define PRJORG_PATTERNS_IGNORED_FILE "*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo"
-
 typedef struct
 {
 	gchar *base_dir;
@@ -44,7 +39,12 @@ typedef struct
 	gchar **source_patterns;
 	gchar **header_patterns;
 	gchar **ignored_dirs_patterns;
+	GPtrArray *ignored_dirs_patterns_prec;
 	gchar **ignored_file_patterns;
+	GPtrArray *ignored_file_patterns_prec;
+	/* Geany's project file patterns, defines what belongs to the project */
+	GPtrArray *file_patterns_prec;
+
 	gboolean show_empty_dirs;
 	PrjOrgTagPrefs generate_tag_prefs;
 
