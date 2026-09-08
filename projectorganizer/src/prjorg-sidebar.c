@@ -667,6 +667,11 @@ static void find_file_recursive(GtkTreeIter *iter, gboolean case_sensitive, gboo
 			utf8_name = get_relative_path(utf8_base_path, utf8_path);
 			g_free(utf8_path);
 			g_free(utf8_base_path);
+
+			/* files in external directories are outside the project base path
+			 * and aren't searched in this mode */
+			if (!utf8_name)
+				return;
 		}
 		else
 			gtk_tree_model_get(GTK_TREE_MODEL(model), iter, FILEVIEW_COLUMN_NAME, &utf8_name, -1);
