@@ -50,6 +50,8 @@ static PropertyDialogElements *e;
 static GSList *s_idle_add_funcs;
 static GSList *s_idle_remove_funcs;
 
+static void close_root(PrjOrgRoot *root, gpointer user_data);
+
 
 static void clear_idle_queue(GSList **queue)
 {
@@ -377,7 +379,7 @@ static void update_project(
 	prj_org->show_empty_dirs = show_empty_dirs;
 
 	/* re-read the base path in case it was changed in project settings */
-	g_free(prj_org->roots->data);
+	close_root(prj_org->roots->data, NULL);
 	prj_org->roots = g_slist_delete_link(prj_org->roots, prj_org->roots);
 	utf8_base_path = get_project_base_path();
 	prj_org->roots = g_slist_prepend(prj_org->roots, create_root(utf8_base_path));
