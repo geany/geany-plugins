@@ -146,9 +146,8 @@ gboolean create_file(gchar *utf8_name)
 
 	if (fd != -1)
 	{
-		GError *err;
 		success = TRUE;
-		g_close(fd, &err);
+		g_close(fd, NULL);
 	}
 	g_free(name);
 	return success;
