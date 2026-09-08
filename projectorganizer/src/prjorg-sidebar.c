@@ -1373,58 +1373,100 @@ static gboolean find_in_tree(GtkTreeIter *parent, gchar **path_split, gint level
 }
 
 
-static gboolean expand_path(gchar *utf8_expanded_path, gboolean select)
+/* finds the root containing utf8_searched_path; root_iter is moved to the
+ * corresponding top-level row and the path relative to the root is returned
+ * (empty for the root directory itself) */
+static gchar *find_root(GtkTreeModel *model, const gchar *utf8_searched_path,
+	GtkTreeIter *root_iter, gboolean *is_external)
 {
-	GtkTreeIter root_iter, found_iter;
 	gchar *utf8_path = NULL;
-	gchar **path_split;
 	GSList *elem = NULL;
-	GtkTreeModel *model;
 
-	model = GTK_TREE_MODEL(s_file_store);
-	gtk_tree_model_iter_children(model, &root_iter, NULL);
+	*is_external = FALSE;
+
 	foreach_slist (elem, prj_org->roots)
 	{
 		PrjOrgRoot *root = elem->data;
 
-		utf8_path = get_relative_path(root->base_dir, utf8_expanded_path);
+		if (g_strcmp0(root->base_dir, utf8_searched_path) == 0)
+			return g_strdup("");
+
+		utf8_path = get_relative_path(root->base_dir, utf8_searched_path);
 		if (utf8_path)
 			break;
 
-		g_free(utf8_path);
-		utf8_path = NULL;
-		if (!gtk_tree_model_iter_next(model, &root_iter))
+		if (!gtk_tree_model_iter_next(model, root_iter))
 			break;
+
+		*is_external = TRUE;
 	}
 
+	return utf8_path;
+}
+
+
+static gboolean find_iter(const gchar *utf8_searched_path, GtkTreeIter *found_iter, gboolean *is_external)
+{
+	GtkTreeIter root_iter;
+	gchar *utf8_path;
+	GtkTreeModel *model;
+	gboolean found;
+	gboolean external;
+
+	model = GTK_TREE_MODEL(s_file_store);
+	gtk_tree_model_iter_children(model, &root_iter, NULL);
+
+	utf8_path = find_root(model, utf8_searched_path, &root_iter, &external);
 	if (!utf8_path)
 		return FALSE;
 
-	path_split = g_strsplit_set(utf8_path, "/\\", 0);
-
-	if (find_in_tree(&root_iter, path_split, 0, &found_iter))
+	if (utf8_path[0] == '\0')
 	{
-		GtkTreePath *tree_path;
-		GtkTreeSelection *treesel;
+		/* the root directory itself */
+		*found_iter = root_iter;
+		found = TRUE;
+	}
+	else
+	{
+		gchar **path_split = g_strsplit_set(utf8_path, "/\\", 0);
 
-		tree_path = gtk_tree_model_get_path (model, &found_iter);
-		gtk_tree_view_expand_to_path(GTK_TREE_VIEW(s_file_view), tree_path);
-
-		if (select)
-		{
-			gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(s_file_view), tree_path,
-				NULL, FALSE, 0.0, 0.0);
-
-			treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
-			gtk_tree_selection_select_iter(treesel, &found_iter);
-			gtk_tree_path_free(tree_path);
-		}
+		found = find_in_tree(&root_iter, path_split, 0, found_iter);
+		g_strfreev(path_split);
 	}
 
-	g_free(utf8_path);
-	g_strfreev(path_split);
+	if (is_external)
+		*is_external = external;
 
-	return FALSE;
+	g_free(utf8_path);
+
+	return found;
+}
+
+
+static void expand_path(gchar *utf8_expanded_path, gboolean select)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL(s_file_store);
+	GtkTreeIter found_iter;
+	GtkTreePath *tree_path;
+
+	if (!find_iter(utf8_expanded_path, &found_iter, NULL))
+		return;
+
+	tree_path = gtk_tree_model_get_path (model, &found_iter);
+	gtk_tree_view_expand_to_path(GTK_TREE_VIEW(s_file_view), tree_path);
+
+	if (select)
+	{
+		GtkTreeSelection *treesel;
+
+		gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(s_file_view), tree_path,
+			NULL, FALSE, 0.0, 0.0);
+
+		treesel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
+		gtk_tree_selection_select_iter(treesel, &found_iter);
+	}
+
+	gtk_tree_path_free(tree_path);
 }
 
 
