@@ -64,6 +64,41 @@ static void clear_idle_queue(GSList **queue)
 }
 
 
+static void free_tree_node(PrjOrgTreeNode *node)
+{
+	g_ptr_array_free(node->subtrees, TRUE);
+	g_free(node->name);
+	g_free(node->full_path);
+	g_free(node);
+}
+
+
+static PrjOrgTreeNode *create_tree_node(const gchar *name, const gchar *full_path, gboolean is_file)
+{
+	PrjOrgTreeNode *node = g_new0(PrjOrgTreeNode, 1);
+	node->subtrees = g_ptr_array_new_full(1, (GDestroyNotify)free_tree_node);
+	node->name = g_strdup(name);
+	node->full_path = g_strdup(full_path);
+	node->is_file = is_file;
+	return node;
+}
+
+
+static gint sort_tree_nodes(gconstpointer a, gconstpointer b)
+{
+	PrjOrgTreeNode *node1 = *((PrjOrgTreeNode **)a);
+	PrjOrgTreeNode *node2 = *((PrjOrgTreeNode **)b);
+
+	if (!node1->is_file && node2->is_file)
+		return -1;
+
+	if (node1->is_file && !node2->is_file)
+		return 1;
+
+	return g_strcmp0(node1->name, node2->name);
+}
+
+
 static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer user_data)
 {
 	GPtrArray *array = user_data;
@@ -73,40 +108,38 @@ static void collect_source_files(gchar *filename, TMSourceFile *sf, gpointer use
 }
 
 
-/* path - absolute path in locale, returned list in utf8 */
-static GSList *get_file_list(const gchar *utf8_path, GHashTable *visited_paths)
+/* fills tree_node and file_table with the contents of locale_path, returns
+ * the number of files found */
+static guint scan_directory(const gchar *locale_path, GHashTable *visited_paths,
+	GHashTable *file_table, PrjOrgTreeNode *tree_node)
 {
-	GSList *list = NULL;
-	GDir *dir;
-	const gchar *child_name;
-	GSList *child = NULL;
-	GSList *children = NULL;
-	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
 	gchar *real_path = utils_get_real_path(locale_path);
+	const gchar *locale_name;
+	GPtrArray *children;
+	GDir *dir;
+	guint i;
+	guint num = 0;
 
 	dir = g_dir_open(locale_path, 0, NULL);
 	if (!dir || !real_path || g_hash_table_lookup(visited_paths, real_path))
 	{
-		g_free(locale_path);
 		g_free(real_path);
 		if (dir)
 			g_dir_close(dir);
-		return NULL;
+		return 0;
 	}
 
 	g_hash_table_insert(visited_paths, real_path, GINT_TO_POINTER(1));
 
-	while ((child_name = g_dir_read_name(dir)))
-		children = g_slist_prepend(children, g_strdup(child_name));
+	children = g_ptr_array_new_full(10, g_free);
+	while ((locale_name = g_dir_read_name(dir)))
+		g_ptr_array_add(children, g_strdup(locale_name));
 
 	g_dir_close(dir);
 
-	foreach_slist(child, children)
+	foreach_ptr_array(locale_name, i, children)
 	{
-		const gchar *locale_name;
 		gchar *locale_filename, *utf8_filename, *utf8_name;
-
-		locale_name = child->data;
 
 		utf8_name = utils_get_utf8_from_locale(locale_name);
 		locale_filename = g_build_filename(locale_path, locale_name, NULL);
@@ -114,22 +147,32 @@ static GSList *get_file_list(const gchar *utf8_path, GHashTable *visited_paths)
 
 		if (g_file_test(locale_filename, G_FILE_TEST_IS_DIR))
 		{
-			GSList *lst;
-
 			if (!patterns_match(prj_org->ignored_dirs_patterns_prec, utf8_name))
 			{
-				lst = get_file_list(utf8_filename, visited_paths);
-				if (lst)
-					list = g_slist_concat(list, lst);
-				else if (prj_org->show_empty_dirs)
-					list = g_slist_prepend(list, g_build_path(G_DIR_SEPARATOR_S, utf8_filename, PROJORG_DIR_ENTRY, NULL));
+				PrjOrgTreeNode *dir_node = create_tree_node(utf8_name, NULL, FALSE);
+				gint filenum;
+
+				filenum = scan_directory(locale_filename, visited_paths, file_table, dir_node);
+				if (filenum > 0 || prj_org->show_empty_dirs)
+					g_ptr_array_add(tree_node->subtrees, dir_node);
+				else
+					free_tree_node(dir_node);
+
+				num += filenum;
 			}
 		}
 		else if (g_file_test(locale_filename, G_FILE_TEST_IS_REGULAR))
 		{
 			if (patterns_match(prj_org->file_patterns_prec, utf8_name) &&
 				!patterns_match(prj_org->ignored_file_patterns_prec, utf8_name))
-				list = g_slist_prepend(list, g_strdup(utf8_filename));
+			{
+				PrjOrgTreeNode *file_node = create_tree_node(utf8_name, utf8_filename, TRUE);
+
+				g_hash_table_insert(file_table, g_strdup(utf8_filename), NULL);
+				g_ptr_array_add(tree_node->subtrees, file_node);
+
+				num++;
+			}
 		}
 
 		g_free(utf8_filename);
@@ -137,10 +180,11 @@ static GSList *get_file_list(const gchar *utf8_path, GHashTable *visited_paths)
 		g_free(utf8_name);
 	}
 
-	g_slist_free_full(children, g_free);
-	g_free(locale_path);
+	g_ptr_array_sort(tree_node->subtrees, sort_tree_nodes);
 
-	return list;
+	g_ptr_array_free(children, TRUE);
+
+	return num;
 }
 
 
@@ -148,9 +192,8 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 {
 	GPtrArray *source_files;
 	GHashTable *visited_paths;
-	GSList *lst;
-	GSList *elem = NULL;
-	gint filenum = 0;
+	gchar *locale_root_path;
+	guint filenum = 0;
 
 	source_files = g_ptr_array_new();
 	g_hash_table_foreach(root->file_table, (GHFunc)collect_source_files, source_files);
@@ -158,23 +201,15 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 	g_ptr_array_free(source_files, TRUE);
 	g_hash_table_remove_all(root->file_table);
 
+	free_tree_node(root->tree);
+	root->tree = create_tree_node(root->base_dir, NULL, FALSE);
+
 	visited_paths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
-	lst = get_file_list(root->base_dir, visited_paths);
+	locale_root_path = utils_get_locale_from_utf8(root->base_dir);
+	filenum = scan_directory(locale_root_path, visited_paths, root->file_table, root->tree);
 	g_hash_table_destroy(visited_paths);
 
-	foreach_slist(elem, lst)
-	{
-		char *path = elem->data;
-
-		if (path)
-		{
-			g_hash_table_insert(root->file_table, g_strdup(path), NULL);
-			filenum++;
-		}
-	}
-
-	g_slist_foreach(lst, (GFunc) g_free, NULL);
-	g_slist_free(lst);
+	g_free(locale_root_path);
 
 	return filenum;
 }
@@ -268,20 +303,16 @@ static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 	g_hash_table_iter_init(&iter, root->file_table);
 	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
-		TMSourceFile *sf = NULL;
 		gchar *utf8_path = key;
 		gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-		gchar *basename = g_path_get_basename(locale_path);
 		gboolean will_open = session_files && g_strv_contains(session_files, utf8_path);
+		TMSourceFile *sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
 
-		if (g_strcmp0(PROJORG_DIR_ENTRY, basename) != 0)
-			sf = tm_source_file_new(locale_path, filetypes_detect(utf8_path)->name);
 		if (sf && !will_open && !document_find_by_filename(utf8_path))
 			g_ptr_array_add(source_files, sf);
 
 		g_hash_table_insert(file_table, g_strdup(utf8_path), sf);
 		g_free(locale_path);
-		g_free(basename);
 	}
 	g_hash_table_destroy(root->file_table);
 	root->file_table = file_table;
@@ -314,11 +345,13 @@ void prjorg_project_rescan() {
     rescan_project(NULL);
 }
 
+
 static PrjOrgRoot *create_root(const gchar *utf8_base_dir)
 {
 	PrjOrgRoot *root = (PrjOrgRoot *) g_new0(PrjOrgRoot, 1);
 	root->base_dir = g_strdup(utf8_base_dir);
 	root->file_table = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, (GFreeFunc)tm_source_file_free);
+	root->tree = create_tree_node(utf8_base_dir, NULL, FALSE);
 	return root;
 }
 
@@ -446,6 +479,7 @@ static void close_root(PrjOrgRoot *root, gpointer user_data)
 
 	g_hash_table_destroy(root->file_table);
 	g_free(root->base_dir);
+	free_tree_node(root->tree);
 	g_free(root);
 }
 

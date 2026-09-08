@@ -23,8 +23,17 @@
 
 typedef struct
 {
+	gchar *name;
+	gchar *full_path;
+	gboolean is_file;
+	GPtrArray *subtrees;
+} PrjOrgTreeNode;
+
+typedef struct
+{
 	gchar *base_dir;
 	GHashTable *file_table; /* contains all file names within base_dir, maps file_name->TMSourceFile */
+	PrjOrgTreeNode *tree;
 } PrjOrgRoot;
 
 typedef enum
@@ -71,10 +80,5 @@ void prjorg_project_add_single_tm_file(gchar *utf8_filename);
 void prjorg_project_remove_single_tm_file(gchar *utf8_filename);
 
 gboolean prjorg_project_is_in_project(const gchar *utf8_filename);
-
-/* In the code we create a list of all files but we want to keep empty directories
- * in the list for which we create a fake file name with the PROJORG_DIR_ENTRY
- * value. */
-#define PROJORG_DIR_ENTRY "..."
 
 #endif
