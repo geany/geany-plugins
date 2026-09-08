@@ -585,7 +585,10 @@ void prjorg_project_add_external_dir(const gchar *utf8_dirname)
 	lst = g_slist_sort(lst, (GCompareFunc)root_comparator);
 	prj_org->roots->next = lst;
 
-	prjorg_project_rescan();
+	/* only the new root needs scanning */
+	rescan_node(new_root, new_root->tree, new_root->base_dir);
+	if (tags_enabled(get_file_count()))
+		generate_node_tags(new_root, new_root->tree, NULL);
 }
 
 
@@ -598,8 +601,8 @@ void prjorg_project_remove_external_dir(const gchar *utf8_dirname)
 		PrjOrgRoot *found_root = found->data;
 
 		prj_org->roots = g_slist_remove(prj_org->roots, found_root);
+		/* removes the files of the root from the tag manager as well */
 		close_root(found_root, NULL);
-		prjorg_project_rescan();
 	}
 	close_root(test_root, NULL);
 }
