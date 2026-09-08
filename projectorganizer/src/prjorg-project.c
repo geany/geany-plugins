@@ -527,13 +527,19 @@ static gchar **get_session_files(GKeyFile *config)
 		tmp_array = g_key_file_get_string_list(config, "files", entry, NULL, &error);
 		if (! tmp_array || error)
 		{
-			g_error_free(error);
-			error = NULL;
+			g_clear_error(&error);
 			have_session_files = FALSE;
-		} else {
-			unescaped_filename = g_uri_unescape_string(tmp_array[7], NULL);
-			g_ptr_array_add(files, g_strdup(unescaped_filename));
-			g_free(unescaped_filename);
+		}
+		else
+		{
+			/* the file name is the 8th field of the entry */
+			if (g_strv_length(tmp_array) > 7)
+			{
+				unescaped_filename = g_uri_unescape_string(tmp_array[7], NULL);
+				if (unescaped_filename)
+					g_ptr_array_add(files, unescaped_filename);
+			}
+			g_strfreev(tmp_array);
 		}
 		i++;
 	}
