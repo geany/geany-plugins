@@ -43,6 +43,7 @@ static gint glspi_newfile(lua_State* L)
 		} else {
 			ft=filetypes_lookup_by_name(tmp);
 		}
+		/* Fallthrough */
 	default:
 		if (!lua_isstring(L, 1))	{ return FAIL_STRING_ARG(1); }
 		fn=lua_tostring(L, 1);
@@ -102,7 +103,7 @@ static gint glspi_activate(lua_State* L)
 				}
 			} else if (lua_idx > 0) {
 				/* Positive number refers to the geany->documents_array index */
-				gint doc_idx = lua_idx - 1;
+				guint doc_idx = (guint) (lua_idx - 1);
 				if ((doc_idx < geany->documents_array->len) && documents[doc_idx]->is_valid) {
 					tab_idx = document_get_notebook_page(documents[doc_idx]);
 				}
@@ -208,11 +209,16 @@ static gint glspi_save(lua_State* L)
 	} else {
 		if (lua_isnumber(L,1)) {
 			gint idx=(gint)lua_tonumber(L,1)-1;
-			status=document_save_file(documents[idx], TRUE);
+			GeanyDocument *doc = document_index(idx);
+			if (DOC_VALID(doc)) {
+				status=document_save_file(doc, TRUE);
+			}
 		} else {
 			if (lua_isstring(L,1)) {
 				gint idx=filename_to_doc_idx(lua_tostring(L,1));
-				status=document_save_file(documents[idx], TRUE);
+				if (idx >= 0) {
+					status=document_save_file(documents[idx], TRUE);
+				}
 			} else { return FAIL_STR_OR_NUM_ARG(1);	}
 		}
 	}
@@ -241,7 +247,10 @@ static gint glspi_open(lua_State* L)
 		}
 	}
 	if (!fn) {
-		status=document_reload_force(documents[idx],NULL) ? idx : -1;
+		GeanyDocument*doc=document_index(idx);
+		if (DOC_VALID(doc)) {
+			status=document_reload_force(doc,NULL) ? idx : -1;
+		}
 	} else {
 		guint len=geany->documents_array->len;
 		GeanyDocument*doc=document_open_file(fn,FALSE,NULL,NULL);
@@ -268,12 +277,17 @@ static gint glspi_close(lua_State* L)
 		status=document_close(document_get_current());
 	} else {
 		if (lua_isnumber(L,1)) {
-			guint idx=(guint)lua_tonumber(L,1)-1;
-			status=document_close(documents[idx]);
+			gint idx=(gint)lua_tonumber(L,1)-1;
+			GeanyDocument *doc = document_index(idx);
+			if (DOC_VALID(doc)) {
+				status=document_close(doc);
+			}
 		} else {
 			if (lua_isstring(L,1)) {
-				guint idx=(guint)filename_to_doc_idx(lua_tostring(L,1));
-				status=document_close(documents[idx]);
+				gint idx=filename_to_doc_idx(lua_tostring(L,1));
+				if (idx >= 0) {
+					status=document_close(documents[idx]);
+				}
 			} else { return FAIL_STR_OR_NUM_ARG(1);	}
 		}
 	}
