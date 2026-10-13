@@ -328,8 +328,12 @@ markdown_viewer_get_html(MarkdownViewer *self)
                      * same as) the old BSD 4-clause license being
                      * incompatible */
     MMIOT *doc;
-    doc = mkd_string(self->priv->text->str, self->priv->text->len, 0);
-    mkd_compile(doc, 0);
+    /* Discount renders GitHub-style documents only when asked: without
+     * these, a fenced code block collapses into one line of inline code,
+     * bare URLs stay plain text and footnotes are left as written. */
+    mkd_flag_t flags = MKD_FENCEDCODE | MKD_AUTOLINK | MKD_EXTRA_FOOTNOTE;
+    doc = mkd_string(self->priv->text->str, self->priv->text->len, flags);
+    mkd_compile(doc, flags);
     if (mkd_document(doc, &md_as_html) != EOF) {
       html = template_replace(self, md_as_html);
     }
