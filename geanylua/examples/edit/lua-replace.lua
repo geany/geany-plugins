@@ -2,9 +2,13 @@
   Replace text using Lua pattern syntax
 --]]
 
+-- Lua 5.1 compatibility shim
+local load = loadstring or load
+
+
 function esc(s)
   s=s and s:gsub('"', '\\"') or ""
-  assert(loadstring('rv="'..s..'"'))()
+  assert(load('rv="'..s..'"'))()
   return rv
 end
 

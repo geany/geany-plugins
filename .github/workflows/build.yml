@@ -20,7 +20,7 @@ concurrency:
 
 env:
   CFLAGS: -g -O2 -Werror=pointer-arith -Werror=implicit-function-declaration
-  CONFIGURE_FLAGS: --disable-silent-rules
+  CONFIGURE_FLAGS: --disable-silent-rules --with-lua-pkg=lua5.4
   CPPCHECKFLAGS: --check-level=exhaustive
   CCACHE_DIR: ${{ github.workspace }}/.ccache
   CCACHE_COMPRESS: true
@@ -119,7 +119,7 @@ jobs:
             # geanygendoc
             libctpl-dev
             # geanylua
-            liblua5.1-0-dev
+            liblua5.4-dev
             # geanypg
             libgpgme-dev
             # geanyvc

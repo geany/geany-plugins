@@ -16,6 +16,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "glspi_compat.h"
+
 #include <geanyplugin.h>
 #define main_widgets	geany->main_widgets
 

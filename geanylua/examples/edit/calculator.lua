@@ -4,6 +4,9 @@
   some fairly complex calculations, e.g.  sqrt(pi^2*sin(rad(45)))
 --]]
 
+-- Lua 5.1 compatibility shim
+local load = loadstring or load
+
 
 -- Copy math functions to global namespace
 for k,v in pairs(math) do _G[k] = math[k] end
@@ -34,7 +37,7 @@ end
 
 
 -- Create a function call around the selected expression
-func=assert(loadstring("return "..geany.selection()))
+func=assert(load("return "..geany.selection()))
 
 
 -- Did we get our function ?

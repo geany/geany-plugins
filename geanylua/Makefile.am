@@ -24,6 +24,8 @@ libgeanylua_la_SOURCES = \
 	glspi_keycmd.h \
 	glspi_sci.h \
 	glspi_ver.h \
+	glspi_compat.c \
+	glspi_compat.h \
 	gsdlg.h
 
 geanylua_la_CFLAGS = \
