@@ -23,6 +23,7 @@
 
 typedef enum
 {
+	POPUP_CONTEXT_NOPROJECT,
 	POPUP_CONTEXT_PROJECT,
 	POPUP_CONTEXT_DIRECTORY,
 	POPUP_CONTEXT_SUB_DIRECTORY,
@@ -33,6 +34,7 @@ typedef enum
 }POPUP_CONTEXT;
 
 void popup_menu_init(void);
+void popup_menu_cleanup(void);
 void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event);
 
 #endif

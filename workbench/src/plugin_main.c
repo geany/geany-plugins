@@ -101,6 +101,7 @@ static void plugin_workbench_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_U
 	menu_cleanup();
 	sidebar_cleanup();
 	wb_tm_control_cleanup();
+	popup_menu_cleanup();
 
 	/* Shutdown/cleanup libgit2. */
 	git_libgit2_shutdown();

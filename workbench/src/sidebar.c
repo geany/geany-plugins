@@ -1043,7 +1043,7 @@ static void sidebar_filew_view_on_row_activated (GtkTreeView *treeview,
 }
 
 
-/* Callbac function for button release, used for the popup menu */
+/* Callback function for button release, used for the popup menu */
 static gboolean sidebar_file_view_on_button_release(G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event,
 		G_GNUC_UNUSED gpointer user_data)
 {
@@ -1077,6 +1077,10 @@ static gboolean sidebar_file_view_on_button_release(G_GNUC_UNUSED GtkWidget * wi
 			else if (context.wb_bookmark != NULL)
 			{
 				popup_context = POPUP_CONTEXT_WB_BOOKMARK;
+			}
+			else if (wb_globals.opened_wb == NULL)
+			{
+				popup_context = POPUP_CONTEXT_NOPROJECT;
 			}
 		}
 		popup_menu_show(popup_context, event);
@@ -1475,7 +1479,7 @@ void sidebar_show_intro_message(const gchar *msg, gboolean activate)
  **/
 void sidebar_activate(void)
 {
-	gtk_widget_set_sensitive(sidebar.file_view_vbox, TRUE);
+	gtk_widget_set_sensitive(sidebar.file_view_label, TRUE);
 }
 
 
@@ -1484,7 +1488,7 @@ void sidebar_activate(void)
  **/
 void sidebar_deactivate(void)
 {
-	gtk_widget_set_sensitive(sidebar.file_view_vbox, FALSE);
+	gtk_widget_set_sensitive(sidebar.file_view_label, FALSE);
 }
 
 
