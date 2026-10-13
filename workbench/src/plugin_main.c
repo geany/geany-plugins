@@ -26,6 +26,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include <git2.h>
+#include <utils.h>
 
 #include <wb_globals.h>
 
@@ -46,7 +47,7 @@ GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 
 /* Callback function for document open */
-static void plugin_workbench_on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
+static void plugin_workbench_on_doc_open(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
 										 G_GNUC_UNUSED gpointer user_data)
 {
 	g_return_if_fail(doc != NULL && doc->file_name != NULL);
@@ -114,9 +115,49 @@ static void plugin_workbench_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNU
 }
 
 
+/* Load workbench from project */
+static void plugin_workbench_on_project_open(G_GNUC_UNUSED GObject* obj, GKeyFile* config, G_GNUC_UNUSED gpointer user_data) {
+	//if the project has a workbench, and one isn't loaded, load the workbench
+	if(wb_globals.opened_wb == NULL){
+		//no workbench
+		const gchar* keyfile_string = utils_get_setting_string(config, "Workbench", "Attach-WB", "");
+		if(g_strcmp0(keyfile_string, "") != 0){
+			//this project has a workbench, load it
+			wb_globals.opened_wb = workbench_new();
+			GError *error = NULL;
+			if (workbench_load(wb_globals.opened_wb, keyfile_string, &error))
+			{
+				menu_set_context(MENU_CONTEXT_WB_OPENED);
+				sidebar_update(SIDEBAR_CONTEXT_WB_OPENED, NULL);
+			}else{
+				//workbench attached to this project is invalid.
+				g_key_file_set_string(config, "Workbench", "Attach-WB", "");
+				msgwin_status_add(_("Could not open workbench file: %s"), error->message);
+				workbench_free(wb_globals.opened_wb);
+				wb_globals.opened_wb = NULL;
+			}
+		}
+	}
+}
+
+/* Attach workbench to project */
+static void plugin_workbench_on_project_save(G_GNUC_UNUSED GObject* obj, GKeyFile* config, G_GNUC_UNUSED gpointer user_data) {
+	//if the project doesn't have a workbench, but one is loaded, set the workbench
+	if(wb_globals.opened_wb != NULL){
+		//we have a workbench
+		const gchar* keyfile_string = utils_get_setting_string(config, "Workbench", "Attach-WB", "");
+		if(g_strcmp0(keyfile_string, "") == 0){
+			//this project doesn't have a workbench, attach this one.
+			g_key_file_set_string(config, "Workbench", "Attach-WB", workbench_get_filename(wb_globals.opened_wb));
+		}
+	}
+}
+
 static PluginCallback plugin_workbench_callbacks[] = {
 	{"document-open", (GCallback) &plugin_workbench_on_doc_open, TRUE, NULL},
 	{"document-close", (GCallback) &plugin_workbench_on_doc_close, TRUE, NULL},
+	{"project-open", (GCallback) & plugin_workbench_on_project_open, TRUE, NULL},
+	{"project-save", (GCallback) & plugin_workbench_on_project_save, TRUE, NULL},
 	{NULL, NULL, FALSE, NULL}
 };
 
