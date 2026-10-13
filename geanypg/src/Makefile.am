@@ -17,11 +17,11 @@ geanypg_la_SOURCES = \
 
 geanypg_la_LIBADD = \
 	$(COMMONLIBS) \
-	$(GPGME_LIBS)
+	$(GEANYPG_LIBS)
 
 geanypg_la_CFLAGS = \
 	$(AM_CFLAGS) \
-	$(GPGME_CFLAGS)
+	$(GEANYPG_CFLAGS)
 geanypg_la_CPPFLAGS = $(AM_CPPFLAGS) \
                       -DG_LOG_DOMAIN=\"GeanyPG\"
 
