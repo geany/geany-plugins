@@ -131,8 +131,7 @@ build_file_list(const gchar* dirname, const gchar* prefix)
 		g_free(pathfile);
 	}
 	
-	g_slist_foreach(files_list, (GFunc) g_free, NULL);
-	g_slist_free(files_list);
+	g_slist_free_full(files_list, g_free);
 	
 	return GTK_TREE_MODEL(ret_list);
  

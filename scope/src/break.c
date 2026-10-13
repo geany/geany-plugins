@@ -697,6 +697,7 @@ void on_break_done(GArray *nodes)
 	switch (oper)
 	{
 		case '0' :
+		/* fall through */
 		case '1' :
 		{
 			GtkTreeIter iter;
@@ -708,7 +709,8 @@ void on_break_done(GArray *nodes)
 			}
 			break;
 		}
-		case '2' : prefix = "022";  /* and continue */
+		case '2' : prefix = "022";
+		/* fall through */
 		case '3' :
 		{
 			debug_send_format(N, "%s-break-info %s", prefix, token);

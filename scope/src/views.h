@@ -82,6 +82,9 @@ void view_seek_selected(GtkTreeSelection *selection, gboolean focus, SeekerType 
 void view_command_line(const gchar *text, const gchar *title, const gchar *seek,
 	gboolean seek_after);
 void views_update_state(DebugState state);
+gboolean on_command_dialog_configure(G_GNUC_UNUSED GtkWidget *widget,
+	G_GNUC_UNUSED GdkEventButton *event, G_GNUC_UNUSED gpointer gdata);
+gboolean view_command_active(void);
 
 void views_init(void);
 void views_finalize(void);

@@ -11,6 +11,7 @@
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
+#include "glspi_kfile.h"
 
 #define LUA_MODULE_NAME "keyfile"
 #define MetaName "_g_key_file_metatable"
@@ -63,15 +64,8 @@ static gint fail_arg_type(lua_State *L, const gchar *func, gint argnum, const gc
 
 static const gchar*LuaKeyFileType="GKeyFile";
 
-typedef struct _LuaKeyFile
-{
-	const gchar*id;
-	GKeyFile*kf;
-	gboolean managed;
-} LuaKeyFile;
 
 
-typedef gint (*KeyfileAssignFunc) (lua_State *L, GKeyFile*kf);
 
 static gint glspi_kfile_assign(lua_State *L, GKeyFile*kf)
 {

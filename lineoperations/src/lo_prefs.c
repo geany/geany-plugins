@@ -123,7 +123,7 @@ lo_init_prefs(GeanyPlugin *plugin)
 
 /* Free config */
 void
-lo_free_info() {
+lo_free_info(void) {
 	g_free(lo_info->config_file);
 	g_free(lo_info);
 }

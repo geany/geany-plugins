@@ -27,6 +27,7 @@
 
 #include <geanyplugin.h>
 #include "idle_queue.h"
+#include "tm_control.h"
 
 extern GeanyData *geany_data;
 static GHashTable *wb_tm_file_table = NULL;

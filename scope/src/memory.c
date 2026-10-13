@@ -44,7 +44,7 @@ static void on_memory_bytes_edited(G_GNUC_UNUSED GtkCellRendererText *renderer, 
 	if (*new_text && (debug_state() & DS_VARIABLE))
 	{
 		GtkTreeIter iter;
-		const char *addr, *bytes;
+		const gchar *addr, *bytes;
 		guint i;
 
 		scp_tree_store_get_iter_from_string(store, &iter, path_str);
@@ -115,7 +115,7 @@ static const TreeCell memory_cells[] =
 };
 
 static guint pointer_size;
-static char *addr_format;
+static gchar *addr_format;
 #define MAX_BYTES_PER_LINE 128
 #define MAX_POINTER_SIZE 8
 
@@ -150,7 +150,7 @@ static void write_block(guint64 start, const char *contents, guint count, const 
 	while (memory_count < MAX_BYTES)
 	{
 		GtkTreeIter iter;
-		char *addr = g_strdup_printf(addr_format, start);
+		gchar *addr = g_strdup_printf(addr_format, start);
 		GString *bytes = g_string_sized_new(bytes_per_line * 3);
 		GString *ascii = g_string_new(" ");
 		gint n = 0;
@@ -300,7 +300,7 @@ static void on_memory_read(G_GNUC_UNUSED const MenuItem *menu_item)
 static void on_memory_copy(G_GNUC_UNUSED const MenuItem *menu_item)
 {
 	GtkTreeIter iter;
-	const char *addr, *bytes;
+	const gchar *addr, *bytes;
 	const gchar *ascii;
 	gchar *string;
 

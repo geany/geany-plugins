@@ -54,9 +54,9 @@ void on_error(GArray *nodes);
 typedef struct _ParseLocation
 {
 	gchar *base_name;
-	const char *func;
-	const char *addr;
-	const char *file;
+	const gchar *func;
+	const gchar *addr;
+	const gchar *file;
 	gint line;
 } ParseLocation;
 

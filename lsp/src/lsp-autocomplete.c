@@ -288,7 +288,7 @@ static void resolve_cb(GVariant *return_value, GError *error, gpointer user_data
 }
 
 
-LspAutocompleteSymbol *find_symbol(GeanyDocument *doc, const gchar *text)
+static LspAutocompleteSymbol *find_symbol(GeanyDocument *doc, const gchar *text)
 {
 	LspServer *srv = lsp_server_get(doc);
 	LspAutocompleteSymbol *sym = NULL;

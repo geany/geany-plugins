@@ -638,14 +638,11 @@ static GSList *wb_project_dir_scan_directory(WB_PROJECT_DIR *root, const gchar *
 		filelist = gp_filelist_scan_directory_callback
 						(searchdir, scan_mode_workbench_cb, &params);
 
-		g_slist_foreach(params.file_patterns_list, (GFunc) g_pattern_spec_free, NULL);
-		g_slist_free(params.file_patterns_list);
+		g_slist_free_full(params.file_patterns_list, (GDestroyNotify)g_pattern_spec_free);
 
-		g_slist_foreach(params.ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
-		g_slist_free(params.ignored_dirs_list);
+		g_slist_free_full(params.ignored_dirs_list, (GDestroyNotify)g_pattern_spec_free);
 
-		g_slist_foreach(params.ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
-		g_slist_free(params.ignored_file_list);
+		g_slist_free_full(params.ignored_file_list, (GDestroyNotify)g_pattern_spec_free);
 	}
 	else
 	{
@@ -697,8 +694,7 @@ static guint wb_project_dir_rescan_int(WB_PROJECT *prj, WB_PROJECT_DIR *root)
 		}
 	}
 
-	g_slist_foreach(lst, (GFunc) g_free, NULL);
-	g_slist_free(lst);
+	g_slist_free_full(lst, g_free);
 
 	return filenum;
 }
@@ -797,8 +793,7 @@ static void wb_project_dir_add_file_int(WB_PROJECT *prj, WB_PROJECT_DIR *root, c
 			}
 		}
 
-		g_slist_foreach(scanned, (GFunc) g_free, NULL);
-		g_slist_free(scanned);
+		g_slist_free_full(scanned, g_free);
 	}
 }
 

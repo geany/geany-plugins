@@ -209,14 +209,11 @@ GSList *gp_filelist_scan_directory(guint *files, guint *folders, const gchar *se
 	filelist_scan_directory_int(searchdir, &params, 0);
 	g_hash_table_destroy(params.visited_paths);
 
-	g_slist_foreach(params.file_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(params.file_patterns);
+	g_slist_free_full(params.file_patterns, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(params.ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(params.ignored_dirs_list);
+	g_slist_free_full(params.ignored_dirs_list, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(params.ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(params.ignored_file_list);
+	g_slist_free_full(params.ignored_file_list, (GDestroyNotify) g_pattern_spec_free);
 
 	if (files != NULL)
 	{
@@ -280,14 +277,11 @@ GSList *gp_filelist_scan_directory_full(guint *files, guint *folders, const gcha
 	filelist_scan_directory_int(searchdir, &params, flags);
 	g_hash_table_destroy(params.visited_paths);
 
-	g_slist_foreach(params.file_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(params.file_patterns);
+	g_slist_free_full(params.file_patterns, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(params.ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(params.ignored_dirs_list);
+	g_slist_free_full(params.ignored_dirs_list, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(params.ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(params.ignored_file_list);
+	g_slist_free_full(params.ignored_file_list, (GDestroyNotify) g_pattern_spec_free);
 
 	if (files != NULL)
 	{
@@ -359,14 +353,11 @@ gboolean gp_filelist_filepath_matches_patterns(const gchar *filepath, gchar **fi
 		}
 	}
 
-	g_slist_foreach(file_patterns_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(file_patterns_list);
+	g_slist_free_full(file_patterns_list, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(ignored_dirs_list);
+	g_slist_free_full(ignored_dirs_list, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(ignored_file_list);
+	g_slist_free_full(ignored_file_list, (GDestroyNotify) g_pattern_spec_free);
 
 	return match;
 }

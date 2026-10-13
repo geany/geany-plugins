@@ -40,6 +40,12 @@ void inspects_update_state(DebugState state);
 void inspects_delete_all(void);
 void inspects_load(GKeyFile *config);
 void inspects_save(GKeyFile *config);
+gboolean on_inspect_drag_motion(G_GNUC_UNUSED GtkWidget *widget,
+	G_GNUC_UNUSED GdkDragContext *context, gint x, gint y, G_GNUC_UNUSED guint time,
+	G_GNUC_UNUSED gpointer gdata);
+gboolean on_inspect_button_press(GtkWidget *widget, GdkEventButton *event,
+	G_GNUC_UNUSED gpointer gdata);
+
 
 void inspect_init(void);
 void inspect_finalize(void);

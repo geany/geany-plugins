@@ -116,12 +116,8 @@ void languages_clean(void)
 	for(iter = languages ; iter != NULL ; iter = iter->next)
 	{
 		Language* lang = (Language*)(iter->data);
-
-		g_slist_foreach(lang->head_extensions, (GFunc)(&g_free), NULL);
-		g_slist_free(lang->head_extensions);
-
-		g_slist_foreach(lang->impl_extensions, (GFunc)(&g_free), NULL);
-		g_slist_free(lang->impl_extensions);
+		g_slist_free_full(lang->head_extensions, g_free);
+		g_slist_free_full(lang->impl_extensions, g_free);
 	}
 
 	g_slist_free(languages);
@@ -427,7 +423,7 @@ menu_item_activate(guint key_id)
 
 		/* Free the memory */
 free_mem:
-		g_slist_foreach(filenames_to_test, (GFunc)(&g_free), NULL);
+		g_slist_free_full(filenames_to_test, g_free);
 		g_free(dirname);
 		g_free(basename_no_extension);
 		g_free(extension);

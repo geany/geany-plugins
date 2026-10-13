@@ -162,7 +162,7 @@ static void load_configuration(void)
  * @return the GtkDialog from Geany
  * 
  */
-GtkWidget *plugin_codenav_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
+static GtkWidget *plugin_codenav_configure(G_GNUC_UNUSED GeanyPlugin *plugin, GtkDialog *dialog, G_GNUC_UNUSED gpointer pdata)
 {
 	GtkWidget *vbox;
 

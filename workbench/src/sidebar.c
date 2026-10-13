@@ -1647,7 +1647,7 @@ static void sidebar_set_context (SIDEBAR_CONTEXT *context, guint dataid, gpointe
 
 
 /* Internal call foreach function. Traverses the whole sidebar. */
-void sidebar_call_foreach_int(SB_CALLFOREACH_CONTEXT *foreach_cntxt,
+static void sidebar_call_foreach_int(SB_CALLFOREACH_CONTEXT *foreach_cntxt,
 							  GtkTreeIter *iter)
 {
 	guint currentid;

@@ -155,11 +155,16 @@ char *parse_string(char *text, char newline)
 			switch (*++text)
 			{
 				case '\\' :
+				/* fall through */
 				case '"' : break;
 				case 'n' :
+				/* fall through */
 				case 'N' : if (newline) { *text = newline; break; }
+				/* fall through */
 				case 't' :
+				/* fall through */
 				case 'T' : if (newline) { *text = '\t'; break; }
+				/* fall through */
 				default : text--;
 			}
 		}
@@ -282,6 +287,7 @@ static char *parse_value(char *text, gint mr_mode)
 		switch (*s)
 		{
 			case '"' :
+			/* fall through */
 			case '\'' :
 			{
 				const char *q = s;
@@ -346,6 +352,7 @@ static char *parse_value(char *text, gint mr_mode)
 				break;
 			}
 			case '{' :
+			/* fall through */
 			case ',' : start = t->str + t->len + 1 + (isspace(s[1]) != 0); break;
 			case '=' :
 			{
@@ -364,6 +371,7 @@ static char *parse_value(char *text, gint mr_mode)
 				continue;
 			}
 			case '.' : if (strncmp(s, "...", 3)) break;
+			/* fall through */
 			case '<' :
 			{
 				if (mr_mode == MR_EDITVC)

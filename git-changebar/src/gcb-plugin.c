@@ -1618,7 +1618,9 @@ struct ConfigureWidgets {
   GtkWidget  *removed_color_button;
 };
 
-static void configure_widgets_free (ConfigureWidgets *cw)
+static void
+configure_widgets_free (ConfigureWidgets*  cw,
+                     GClosure *closure)
 {
   g_object_unref (cw->base);
   g_free (cw);

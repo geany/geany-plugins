@@ -1353,10 +1353,8 @@ static void load_project_root(PrjOrgRoot *root, GtkTreeIter *parent, GSList *hea
 			set_intro_message(_("Set file patterns under Project->Properties"));
 	}
 
-	g_slist_foreach(lst, (GFunc) g_free, NULL);
-	g_slist_free(lst);
-	g_slist_foreach(path_list, (GFunc) g_strfreev, NULL);
-	g_slist_free(path_list);
+	g_slist_free_full(lst, g_free);
+	g_slist_free_full(path_list, (GDestroyNotify) g_strfreev);
 }
 
 
@@ -1403,10 +1401,8 @@ static void load_project(void)
 
 	collapse();
 
-	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(header_patterns);
-	g_slist_foreach(source_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(source_patterns);
+	g_slist_free_full(header_patterns, (GDestroyNotify) g_pattern_spec_free);
+	g_slist_free_full(source_patterns, (GDestroyNotify) g_pattern_spec_free);
 	g_object_unref(icon_dir);
 }
 

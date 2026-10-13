@@ -59,14 +59,6 @@ LspSymbol *lsp_symbol_new(const gchar *name, const gchar *detail, const gchar *s
 }
 
 
-LspSymbol *lsp_symbol_new_from_tag(TMTag *tag)
-{
-	LspSymbol *sym = g_slice_new0(LspSymbol);
-	sym->refcount = 1;
-	return sym;
-}
-
-
 static void symbol_destroy(LspSymbol *sym)
 {
 	g_free(sym->name);
