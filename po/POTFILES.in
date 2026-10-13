@@ -292,3 +292,15 @@ xmlsnippets/src/plugin.c
 xmlsnippets/src/xmlsnippets.c
 xmlsnippets/src/tests.c
 xmlsnippets/src/test-stubs.c
+
+# geanyagent
+geanyagent/src/geanyagent.c
+
+# geanycli
+geanycli/src/geanycli.c
+
+# geanyservers
+geanyservers/src/geanyservers.c
+
+# locate
+locate/src/locate.c

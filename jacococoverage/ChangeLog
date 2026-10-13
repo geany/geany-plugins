@@ -1,0 +1,4 @@
+2024-01-01  teknopaul
+
+	* Initial release: parse JaCoCo CSV and display package/class tree
+	  with instruction, branch, line, and method coverage percentages.

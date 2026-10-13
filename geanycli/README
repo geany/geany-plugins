@@ -1,0 +1,60 @@
+geanycli
+========
+
+A Geany plugin that provides tabbed VTE terminals inside the message window.
+
+Features
+--------
+- "Cli" tab added to the Geany message window
+- Multiple terminal tabs, each running $SHELL at the project root
+- New tab button (+) in the tab bar; close (×) button on each tab
+- Minimum one terminal is always kept open
+- Shell is restarted automatically if it exits
+- Inter-plugin IPC: other plugins can request commands to be run
+
+Inter-plugin IPC
+----------------
+Two equivalent methods are available:
+
+1. GLib signal (no header required):
+
+     g_signal_emit_by_name(geany->object, "geanycli-run-command", "make", FALSE);
+
+2. Direct function call via GModule symbol lookup:
+
+     typedef void (*GtRunCmdFn)(const gchar *, gboolean);
+     GtRunCmdFn fn;
+     if (g_module_symbol(terminal_plugin->module, "geanycli_run_command", gpointer *)&fn)) 
+         fn("make", FALSE);
+
+Parameters:
+  cmd     – shell command string to execute
+  new_tab – TRUE  : open a new terminal tab then run cmd
+            FALSE : run cmd in the currently active terminal tab
+
+Requirements
+------------
+- GTK+ >= 3.0
+- VTE >= 0.48 (vte-2.91)
+- Geany >= 2.1
+
+Known Issues
+------------
+None currently known.
+
+Author
+------
+teknopaul <teknopaul@gmail.com>
+
+Website
+-------
+https://github.com/teknopaul/geany-plugins
+
+Bugs
+----
+https://github.com/teknopaul/geany-plugins/issues
+
+License
+-------
+GPL-2.0-or-later
+

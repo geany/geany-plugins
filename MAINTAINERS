@@ -311,3 +311,31 @@ g: @earshinov
 M: Eugene Arshinov <earshinov@gmail.com>
 W: http://plugins.geany.org/xmlsnippets.html
 S: Maintained
+
+geanyagent
+P: teknopaul <teknopaul@gmail.com>
+G: @teknopaul
+M: teknopaul <teknopaul@gmail.com>
+W: https://github.com/teknopaul/geany-plugins
+S: Maintained
+
+geanycli
+P: teknopaul <teknopaul@gmail.com>
+G: @teknopaul
+M: teknopaul <teknopaul@gmail.com>
+W: https://github.com/teknopaul/geany-plugins
+S: Maintained
+
+geanyservers
+P: teknopaul <teknopaul@gmail.com>
+G: @teknopaul
+M: teknopaul <teknopaul@gmail.com>
+W: https://github.com/teknopaul/geany-plugins
+S: Maintained
+
+locate
+P: teknopaul <teknopaul@gmail.com>
+G: @teknopaul
+M: teknopaul <teknopaul@gmail.com>
+W: https://github.com/teknopaul/geany-plugins
+S: Maintained
