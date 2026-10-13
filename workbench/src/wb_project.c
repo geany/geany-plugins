@@ -27,7 +27,7 @@
 #endif
 
 #include <geanyplugin.h>
-#include <../../utils/src/filelist.h>
+#include <utils/src/filelist.h>
 #include "wb_globals.h"
 #include "wb_project.h"
 #include "sidebar.h"

@@ -29,5 +29,7 @@ gchar *get_any_relative_path (const gchar *base, const gchar *target);
 void open_all_files_in_list(GPtrArray *list);
 void close_all_files_in_list(GPtrArray *list);
 gboolean is_git_repository(gchar *path);
+GtkWidget *menu_item_new(const gchar *icon_name, const gchar *label);
+gboolean rename_file_or_dir(gchar *utf8_oldname, gchar *utf8_newname);
 
 #endif
