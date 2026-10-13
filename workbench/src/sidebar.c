@@ -83,7 +83,7 @@ typedef struct SIDEBAR
 static SIDEBAR sidebar = {NULL, NULL, NULL, NULL};
 
 static gboolean sidebar_get_directory_iter(WB_PROJECT *prj, WB_PROJECT_DIR *dir, GtkTreeIter *iter);
-static gboolean sidebar_get_filepath_iter (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath, ITER_SEARCH_RESULT *result);
+static gboolean sidebar_get_filepath_iter (WB_PROJECT *prj, WB_PROJECT_DIR *root, const gchar *filepath, ITER_SEARCH_RESULT *search_result);
 
 /* Remove all child nodes below parent */
 static void sidebar_remove_children(GtkTreeIter *parent)
@@ -908,6 +908,37 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 }
 
 
+/* Callback function for document activate */
+void sidebar_on_doc_activate(GeanyDocument * doc)
+{
+	if( workbench_is_empty(wb_globals.opened_wb) || doc == NULL || doc->file_name == NULL)
+	{
+		return;
+	}
+	//check if doc-file_name is in the workbench
+	//have to because the file could have been opened outside of the workbench
+	SIDEBAR_CONTEXT ret_con;
+	ret_con = workbench_file_is_included_dir(wb_globals.opened_wb, doc->file_name);
+	if(ret_con.project != NULL && ret_con.directory!=NULL)
+	{
+		ITER_SEARCH_RESULT search_result;
+		if(sidebar_get_filepath_iter(ret_con.project, ret_con.directory, doc->file_name, &search_result))
+		{
+			GtkTreeIter tree_iter = search_result.iter;
+			GtkTreeSelection* selector = gtk_tree_view_get_selection(GTK_TREE_VIEW(sidebar.file_view ));
+			//activate the file in the filetree
+			gtk_tree_selection_select_iter (selector,	&tree_iter);
+			//don't wb_idle_queue_add_action this, as a document selection should be immediate
+			GtkTreePath *path = gtk_tree_model_get_path(GTK_TREE_MODEL(sidebar.file_store), &tree_iter);
+			//expand the file we selected
+			gtk_tree_view_expand_row (GTK_TREE_VIEW(sidebar.file_view),	path, TRUE);
+			//scroll to the file we selected
+			gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(sidebar.file_view), path, NULL, TRUE, 0.5f,0.5f);
+		}
+	}
+}
+
+
 /** Update the sidebar.
  *
  * Update the sidebar according to the given situation/event @a event
@@ -986,8 +1017,44 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 }
 
 
-/* Callback function for clicking on a sidebar item */
-static void sidebar_filew_view_on_row_activated (GtkTreeView *treeview,
+/* Callback function for single click or cursor move on a sidebar item */
+static void sidebar_file_view_on_row_selected (GtkTreeView *treeview,
+	GtkTreePath *path, G_GNUC_UNUSED GtkTreeViewColumn *col, G_GNUC_UNUSED gpointer userdata)
+{
+	//If the cursor isn’t currently set, then path will be NULL. If no column currently has focus, then focus_column will be NULL.
+	gtk_tree_view_get_cursor(treeview, &path, &col);
+	if(path==NULL)
+	{
+		return;
+	}
+
+	GtkTreeModel *model = gtk_tree_view_get_model(treeview);
+	GtkTreeIter  iter;
+	if (gtk_tree_model_get_iter(model, &iter, path))
+	{
+		guint dataid;
+		gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_DATA_ID, &dataid, -1);
+		if(dataid==DATA_ID_FILE)
+		{
+			gchar *name;
+			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_NAME, &name, -1);
+			gpointer *filename;
+			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, &filename, -1);
+			GeanyDocument *doc =document_find_by_real_path((gchar *)filename);
+			if(doc!=NULL)
+			{
+				gint page = document_get_notebook_page(doc);
+				gtk_notebook_set_current_page(GTK_NOTEBOOK(wb_globals.geany_plugin->geany_data->main_widgets->notebook), page);
+			}
+		}
+	}
+
+	g_free(path);
+}
+
+
+/* Callback function for double clicking on a sidebar item */
+static void sidebar_file_view_on_row_activated (GtkTreeView *treeview,
 	GtkTreePath *path, G_GNUC_UNUSED GtkTreeViewColumn *col, G_GNUC_UNUSED gpointer userdata)
 {
 	gchar *info;
@@ -1397,7 +1464,10 @@ void sidebar_init(void)
 	/**** tree view ****/
 
 	sidebar.file_view = gtk_tree_view_new();
-	g_signal_connect(sidebar.file_view, "row-activated", (GCallback)sidebar_filew_view_on_row_activated, NULL);
+	//single click handler
+	g_signal_connect(sidebar.file_view, "cursor-changed", (GCallback)sidebar_file_view_on_row_selected, NULL);
+	//double click handler
+	g_signal_connect(sidebar.file_view, "row-activated", (GCallback)sidebar_file_view_on_row_activated, NULL);
 
 	sidebar.file_store = gtk_tree_store_new(FILEVIEW_N_COLUMNS, G_TYPE_ICON, G_TYPE_STRING, G_TYPE_UINT, G_TYPE_POINTER);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(sidebar.file_view), GTK_TREE_MODEL(sidebar.file_store));

@@ -605,6 +605,38 @@ WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, const gchar *filename)
 }
 
 
+/** Is the file included in the workbench?
+ *
+ * @param wb       The workbench
+ * @param filename The file
+ * @return SIDEBAR_CONTEXT with only the .project and .directory set
+ *                        .project and .directory will be set to NULL if not found
+ *
+ **/
+SIDEBAR_CONTEXT workbench_file_is_included_dir (WORKBENCH *wb, const gchar *filename){
+	SIDEBAR_CONTEXT ret_con;
+	ret_con.project=NULL;
+	ret_con.directory=NULL;
+	if (wb != NULL)
+	{
+		guint index;
+		WB_PROJECT_DIR *root=NULL;
+		for (index = 0 ; index < wb->projects->len ; index++)
+		{
+			WB_PROJECT_ENTRY *current = g_ptr_array_index(wb->projects, index);
+			root=wb_project_file_is_included_dir(current->project, filename);
+			if (current != NULL &&  root != NULL)
+			{
+				ret_con.project = current->project;
+				ret_con.directory = root;
+				return ret_con;
+			}
+		}
+	}
+	return ret_con;
+}
+
+
 /* Add a workbench bookmark */
 static gboolean workbench_add_bookmark_int(WORKBENCH *wb, const gchar *filename)
 {

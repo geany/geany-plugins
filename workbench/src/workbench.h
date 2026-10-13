@@ -22,6 +22,7 @@
 #include <glib.h>
 #include "wb_project.h"
 #include "wb_monitor.h"
+#include "sidebar.h"
 
 typedef enum
 {
@@ -54,6 +55,7 @@ PROJECT_ENTRY_STATUS workbench_get_project_status_by_address(WORKBENCH *wb, WB_P
 gboolean workbench_add_project(WORKBENCH *wb, const gchar *filename);
 gboolean workbench_remove_project_with_address(WORKBENCH *wb, WB_PROJECT *project);
 WB_PROJECT *workbench_file_is_included (WORKBENCH *wb, const gchar *filename);
+SIDEBAR_CONTEXT workbench_file_is_included_dir (WORKBENCH *wb, const gchar *filename);
 
 void workbench_set_filename(WORKBENCH *wb, const gchar *filename);
 const gchar *workbench_get_filename(WORKBENCH *wb);

@@ -1076,6 +1076,32 @@ gboolean wb_project_dir_file_is_included(WB_PROJECT_DIR *dir, const gchar *filen
 }
 
 
+/** Is @a filename included in the project directory?
+ *
+ * @param prj      The project
+ * @param filename The file
+ * @return pointer to WB_PROJECT_DIR
+ *         or NULL if not found
+ *
+ **/
+WB_PROJECT_DIR* wb_project_file_is_included_dir(WB_PROJECT *prj, const gchar *filename)
+{
+	if (prj == NULL)
+	{
+		return NULL;
+	}
+	GSList *elem = NULL;
+	foreach_slist(elem ,prj->directories)
+	{
+		if (wb_project_dir_file_is_included(elem->data, filename) == TRUE)
+		{
+			return elem->data;
+		}
+	}
+	return NULL;
+}
+
+
 /** Is @a filename included in the project?
  *
  * @param dir      The project
