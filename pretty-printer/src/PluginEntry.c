@@ -205,9 +205,15 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     has_selection = sci_has_selection(sco);
     /* retrieves the text */
     input_buffer = (has_selection)?sci_get_selection_contents(sco):sci_get_contents(sco, -1);
+    input_length = (has_selection)?sci_get_selected_text_length2(sco):sci_get_length(sco);
 
-    /* checks if the data is an XML format */
-    parsedDocument = xmlParseDoc((const unsigned char*)input_buffer);
+    /* Checks if the data is an XML format. Geany always hands us the buffer in
+     * UTF-8, so we force libxml2 to decode it as UTF-8 and ignore any encoding
+     * declared in the XML prolog (e.g. encoding="windows-1251"). Otherwise
+     * libxml2 would honour the declared encoding and reject the (valid) UTF-8
+     * bytes, breaking pretty-printing of such documents (see issue #994). The
+     * declaration is preserved verbatim by the pretty-printer itself. */
+    parsedDocument = xmlReadMemory(input_buffer, input_length, NULL, "UTF-8", XML_PARSE_NONET);
 
     /* this is not a valid xml => exit with an error message */
     if(parsedDocument == NULL)
@@ -221,7 +227,6 @@ void xml_format(GtkMenuItem* menuitem, gpointer gdata)
     xmlFreeDoc(parsedDocument);
 
     /* process pretty-printing */
-    input_length = (has_selection)?sci_get_selected_text_length2(sco):sci_get_length(sco);
     result = processXMLPrettyPrinting(input_buffer, input_length, &output_buffer, &output_length, prettyPrintingOptions);
     if (result != PRETTY_PRINTING_SUCCESS)
     {

@@ -213,6 +213,12 @@ is_jsonrpc_result (GVariantDict *dict)
 
 /*
  * Check to see if this looks like a proper method call for an RPC.
+ *
+ * Per the JSON-RPC 2.0 spec, "params" is optional; a call is fully
+ * identified by having both "id" and "method". Requiring "params" caused
+ * paramless server-to-client requests (seen from rust-analyzer) to fall
+ * through every category check and be silently dropped instead of
+ * dispatched or replied to with "method not found".
  */
 static gboolean
 is_jsonrpc_call (GVariantDict *dict)
@@ -223,8 +229,7 @@ is_jsonrpc_call (GVariantDict *dict)
 
   return (g_variant_dict_contains (dict, "id") &&
           g_variant_dict_contains (dict, "method") &&
-          g_variant_dict_lookup (dict, "method", "&s", &method) &&
-          g_variant_dict_contains (dict, "params"));
+          g_variant_dict_lookup (dict, "method", "&s", &method));
 }
 
 static gboolean

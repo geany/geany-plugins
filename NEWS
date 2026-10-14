@@ -1,5 +1,9 @@
 Geany-Plugins 2.2 (unreleased)
 
+    PrettyPrinter:
+    * Fix "Unable to parse the content as XML" on documents declaring a
+      non-UTF-8 encoding such as encoding="windows-1251" (Issue #994).
+
 
 Geany-Plugins 2.1 (2025-07-06)
 

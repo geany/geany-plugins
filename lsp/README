@@ -70,6 +70,64 @@ configured from::
 
     Edit->Preferences->Keybindings->LSP Client
 
+Rust
+====
+
+The distributed LSP configuration contains a ``[Rust]`` section that starts
+``rust-analyzer``.  Install it with the Rust toolchain, for example::
+
+    rustup component add rust-analyzer rustfmt clippy
+
+For desktop launchers whose environment does not include Cargo's bin directory,
+set ``cmd`` to the absolute path to the executable (for example,
+``/home/user/.cargo/bin/rust-analyzer``) in the User configuration file.
+The same approach can be used for the ``rustc`` and ``cargo`` commands in
+Geany's Rust filetype build commands.
+
+For a typical Cargo project, enable project detection and the main Rust
+language features in the ``[Rust]`` section::
+
+    use_without_project=true
+    use_outside_project_dir=true
+    diagnostics_enable=true
+    hover_enable=true
+    signature_enable=true
+    document_symbols_enable=true
+    semantic_tokens_enable=true
+
+Geany's Rust filetype provides Cargo build, test, bench, and run commands. A
+user-level filetype build-menu override can additionally expose Cargo Check,
+Clippy, and Format. ``rustfmt`` provides formatting and Clippy provides
+additional linting; both are installed by the command above.
+
+For a workflow that starts with a standalone ``.rs`` file, the override can
+invoke a small Cargo wrapper before each Cargo command. The wrapper should
+first search parent directories for an existing ``Cargo.toml``. If none is
+found, it can safely create a minimal manifest in the source file's directory,
+including a ``[[bin]]`` entry pointing at that file. This lets the first Cargo
+action initialize the folder without replacing an existing Cargo project.
+
+After editing a filetype build-menu configuration, restart Geany before using
+the changed commands. An already-running instance can otherwise continue to
+invoke its previous direct ``cargo`` command, which reports that no manifest
+was found instead of running the wrapper.
+
+Local patches
+=============
+
+This fork carries a fix to the vendored ``jsonrpc-glib`` copy under
+``lsp/deps/jsonrpc-glib/jsonrpc-client.c``. ``is_jsonrpc_call()`` required a
+``params`` field to recognize an incoming request, but the JSON-RPC 2.0 spec
+makes ``params`` optional. A server-to-client request without ``params``
+(observed from ``rust-analyzer``) matched none of the message categories
+(notification/result/call/error-response) and was silently dropped instead
+of being dispatched or answered with a "method not found" error, logging::
+
+    LSP-WARNING **: Unhandled RPC from peer!
+
+The fix drops the ``params``-presence requirement from ``is_jsonrpc_call()``,
+matching how the notification path already tolerates a missing ``params``.
+
 Usage
 =====
 
