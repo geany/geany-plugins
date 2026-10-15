@@ -63,7 +63,9 @@ static void on_swap_header_source(G_GNUC_UNUSED GtkMenuItem * menuitem, G_GNUC_U
 {
 	GeanyDocument *doc = document_get_current();
 	gchar *full_name = find_header_source(doc);
-	open_file(full_name);
+
+	if (full_name)
+		open_file(full_name);
 	g_free(full_name);
 }
 
