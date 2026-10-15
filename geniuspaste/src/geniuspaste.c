@@ -783,6 +783,8 @@ static void show_msgbox(GtkMessageType type, GtkButtonsType buttons,
                           NULL);
     /* run the dialog */
     gtk_dialog_run(GTK_DIALOG(dlg));
+    /* cppcheck-suppress mismatchAllocDealloc symbolName=dlg -- dlg is a GtkMessageDialog,
+     * even if built using g_object_new() */
     gtk_widget_destroy(dlg);
 
     g_free(markup);

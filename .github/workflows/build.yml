@@ -65,7 +65,7 @@ jobs:
 
       - name: Prepare Cppcheck Cache Key
         id: prepare_cppcheck_cache_key
-        run: echo "cppcheck_tag=$(curl -s https://api.github.com/repos/danmar/cppcheck/releases/latest | jq .tag_name)" >> $GITHUB_OUTPUT
+        run: echo "cppcheck_tag=$(curl -s https://api.github.com/repos/cppcheck-opensource/cppcheck/releases/latest | jq .tag_name)" >> $GITHUB_OUTPUT
 
       - name: Prepare Geany Cache Key
         id: prepare_geany_cache_key
@@ -150,7 +150,7 @@ jobs:
         run: |
           mkdir -p ${{ env.CPPCHECK_CACHE_PATH }}
           cd ${{ env.CPPCHECK_CACHE_PATH }}
-          curl -s https://api.github.com/repos/danmar/cppcheck/releases/latest | jq .tarball_url | xargs wget -O cppcheck.tar.gz
+          curl -s https://api.github.com/repos/cppcheck-opensource/cppcheck/releases/latest | jq .tarball_url | xargs wget -O cppcheck.tar.gz
           tar --strip-components=1 -xf cppcheck.tar.gz
           mkdir build
           cd build

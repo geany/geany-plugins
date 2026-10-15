@@ -1243,6 +1243,7 @@ void lsp_symbol_tree_destroy(void)
 		return;
 
 	gtk_widget_destroy(s_default_sym_tree); /* make GTK release its references, if any... */
+	/* cppcheck-suppress doubleFree symbolName=s_default_sym_tree -- there are 2 refs */
 	g_object_unref(s_default_sym_tree); /* ...and release our own */
 	s_default_sym_tree = NULL;
 
