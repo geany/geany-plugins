@@ -28,6 +28,13 @@ AC_DEFUN([GP_CHECK_LSP],
 
     AM_CONDITIONAL(ENABLE_BUILTIN_JSONRPC, [ test x"$have_system_jsonrpc" = "xno" ])
 
+    dnl GUnixInputStream/GUnixOutputStream headers are provided by gio-unix-2.0
+    dnl whose include directory isn't necessarily part of gio-2.0 (e.g. nix,
+    dnl macOS). On Windows, the plugin's own copy of these streams is used.
+    AS_CASE(["${host}"],
+        [*mingw*], [],
+        [GP_CHECK_PLUGIN_DEPS([LSP], [GIO_UNIX], [gio-unix-2.0])])
+
     GP_COMMIT_PLUGIN_STATUS([LSP])
 
     AC_CONFIG_FILES([
