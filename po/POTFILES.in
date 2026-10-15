@@ -205,6 +205,13 @@ overview/data/prefs.ui
 # Pairtaghighlighter
 pairtaghighlighter/src/pair_tag_highlighter.c
 
+# Playdate
+playdate/src/playdate.c
+playdate/src/config.c
+playdate/src/build.c
+playdate/src/errors.c
+playdate/src/tags.c
+
 # PoHelper
 pohelper/data/menus.ui
 pohelper/data/stats.ui
