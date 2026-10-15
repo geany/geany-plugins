@@ -39,11 +39,15 @@ struct
 
 	/* vi mode */
 	ViMode vi_mode;
+
+	/* Scintilla widget whose "button-release-event" signal we are connected to */
+	ScintillaObject *hooked_sci;
 } state =
 {
 	-1, -1,
 	TRUE, FALSE,
-	VI_MODE_COMMAND
+	VI_MODE_COMMAND,
+	NULL
 };
 
 CmdContext ctx =
@@ -200,6 +204,63 @@ void vi_set_mode(ViMode mode)
 }
 
 
+/* Whether Scintilla is between mouse button press and release. It captures the
+ * mouse using a GTK grab on its widget during this time (and drops the grab
+ * before starting drag and drop) and on button release it re-applies the
+ * position under the pointer as the caret while keeping the current anchor, so
+ * any caret move we make in the meantime ends up as a selection. */
+static gboolean mouse_captured(ScintillaObject *sci)
+{
+	return gtk_grab_get_current() == GTK_WIDGET(sci);
+}
+
+
+/* Connected after Scintilla's own handler so the caret position is final here
+ * and it is safe to clamp the cursor after clicking behind the end of line
+ * (see the SCN_UPDATEUI handling in vi_notify_sci()) */
+static gboolean on_button_release(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	ScintillaObject *sci = ctx.sci;
+
+	if (!state.vim_enabled || !sci || GTK_WIDGET(sci) != widget)
+		return FALSE;
+
+	if (event->button == 1 && VI_IS_COMMAND(state.vi_mode) &&
+		SSM(sci, SCI_GETSELECTIONEND, 0, 0) - SSM(sci, SCI_GETSELECTIONSTART, 0, 0) == 0)
+		clamp_cursor_pos(sci);
+
+	return FALSE;
+}
+
+
+static void on_hooked_sci_destroyed(gpointer data, GObject *where_the_object_was)
+{
+	/* the signal handler is gone together with the widget */
+	state.hooked_sci = NULL;
+}
+
+
+static void connect_button_release(ScintillaObject *sci)
+{
+	if (state.hooked_sci == sci)
+		return;
+
+	if (state.hooked_sci)
+	{
+		g_signal_handlers_disconnect_by_func(state.hooked_sci, G_CALLBACK(on_button_release), NULL);
+		g_object_weak_unref(G_OBJECT(state.hooked_sci), on_hooked_sci_destroyed, NULL);
+	}
+
+	state.hooked_sci = sci;
+
+	if (sci)
+	{
+		g_signal_connect_after(sci, "button-release-event", G_CALLBACK(on_button_release), NULL);
+		g_object_weak_ref(G_OBJECT(sci), on_hooked_sci_destroyed, NULL);
+	}
+}
+
+
 void vi_set_active_sci(ScintillaObject *sci)
 {
 	if (ctx.sci && state.default_caret_style != -1)
@@ -208,6 +269,7 @@ void vi_set_active_sci(ScintillaObject *sci)
 		SSM(ctx.sci, SCI_SETCARETPERIOD, state.default_caret_period, 0);
 	}
 
+	connect_button_release(sci);
 	ctx.sci = sci;
 	if (sci)
 		vi_set_mode(state.vi_mode);
@@ -323,10 +385,15 @@ gboolean vi_notify_sci(SCNotification *nt)
 
 	/* This makes sure that when we click behind the end of line in command mode,
 	 * the cursor is not placed BEHIND the last character but ON the last character.
-	 * We want to ignore this when doing selection with mouse as it breaks things. */
+	 * We want to ignore this when doing selection with mouse as it breaks things.
+	 * We also must not do this while the mouse button is still held down as this
+	 * notification is delivered asynchronously and Scintilla would turn our
+	 * caret move into a selection of the last character on button release (see
+	 * mouse_captured()). This case is handled in on_button_release() instead. */
 	if (VI_IS_COMMAND(state.vi_mode) &&
 		nt->nmhdr.code == SCN_UPDATEUI && nt->updated == SC_UPDATE_SELECTION &&
-		SSM(sci, SCI_GETSELECTIONEND, 0, 0) - SSM(sci, SCI_GETSELECTIONSTART, 0, 0) == 0)
+		SSM(sci, SCI_GETSELECTIONEND, 0, 0) - SSM(sci, SCI_GETSELECTIONSTART, 0, 0) == 0 &&
+		!mouse_captured(sci))
 		clamp_cursor_pos(sci);
 
 	return FALSE;
