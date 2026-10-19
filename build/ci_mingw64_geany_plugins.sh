@@ -73,7 +73,7 @@ MINGW_ARCH="mingw64"
 HOST="x86_64-w64-mingw32"
 export LDFLAGS="-static-libgcc ${LDFLAGS}"
 export PKG_CONFIG_SYSROOT_DIR="/windows"
-export PKG_CONFIG_PATH="/windows/${MINGW_ARCH}/lib/pkgconfig/"
+export PKG_CONFIG_PATH="${PKG_CONFIG_SYSROOT_DIR}/${MINGW_ARCH}/lib/pkgconfig/"
 export NOCONFIGURE=1
 export JOBS=${JOBS:-1}
 export lt_cv_deplibs_check_method='pass_all'
@@ -117,7 +117,7 @@ parse_geany_plugins_version() {
 
 log_environment() {
 	log "Using environment"
-	CONFIGURE_OPTIONS="--disable-silent-rules --host=${HOST} --prefix=${GEANY_PLUGINS_RELEASE_DIR} --with-geany-libdir=${GEANY_PLUGINS_RELEASE_DIR}/lib --with-libiconv-prefix=/windows/mingw64"
+	CONFIGURE_OPTIONS="--disable-silent-rules --host=${HOST} --prefix=${GEANY_PLUGINS_RELEASE_DIR} --with-geany-libdir=${GEANY_PLUGINS_RELEASE_DIR}/lib --with-libiconv-prefix=/windows/${MINGW_ARCH}"
 	echo "Geany-Plugins version        : ${GEANY_PLUGINS_VERSION}"
 	echo "Geany-Plugins GIT revision   : ${GEANY_PLUGINS_GIT_REVISION}"
 	echo "Geany installer              : ${GEANY_INSTALLER_EXECUTABLE}"
