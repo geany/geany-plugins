@@ -6,7 +6,7 @@
 # shell. The extracted files will be placed into the current
 # directory.
 
-ABI=x86_64  # do not change, i686 is not supported any longer
+ABI=ucrt-x86_64  # do not change, i686 is not supported any longer
 use_cache="no"
 make_zip="no"
 gtkv="3"
@@ -183,7 +183,7 @@ extract_packages() {
 }
 
 move_extracted_files() {
-	local basedir=mingw64
+	local basedir=ucrt64
 	echo "Move extracted data to destination directory"
 	if [ -d "$basedir" ]; then
 		for d in bin etc home include lib libexec locale sbin share ssl var; do
