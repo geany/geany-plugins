@@ -33,6 +33,13 @@
 #include <glib/gprintf.h>
 #include <gdk/gdkkeysyms.h>
 
+extern sptr_t scintilla_send_message(
+    ScintillaObject *sci,
+    guint msg,
+    uptr_t wparam,
+    sptr_t lparam);
+
+
 GeanyPlugin     *geany_plugin;
 GeanyData       *geany_data;
 
@@ -104,37 +111,51 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
       /* normal mode */
       if(startline == endline){
 
-         /* get the text in question */
-         txt_i = sci_get_selection_contents(sci);
+         startcol = sci_get_col_from_position(sci, startpos);
 
-         char_before = sci_get_char_at(sci, startpos - 1);
+         if (startcol > 0){
+            /* get the text in question */
+            txt_i = sci_get_selection_contents(sci);
 
-         /* set up new text buf */
-         txt = g_strdup_printf("%s%c", txt_i, char_before);
+            char_before = sci_get_char_at(sci, startpos - 1);
 
-         /* start undo */
-         sci_start_undo_action(sci);
+            /* set up new text buf */
+            txt = g_strdup_printf("%s%c", txt_i, char_before);
 
-         /* put the new text in */
-         sci_set_selection_start(sci, startpos - 1);
-         sci_set_selection_end(sci, endpos);
-         sci_replace_sel(sci, txt);
+            /* start undo */
+            sci_start_undo_action(sci);
 
-         /* select the right bit again */
-         sci_set_selection_start(sci, startpos - 1);
-         sci_set_selection_end(sci, endpos - 1);
+            /* put the new text in */
+            sci_set_selection_start(sci, startpos - 1);
+            sci_set_selection_end(sci, endpos);
+            sci_replace_sel(sci, txt);
 
-         /* end undo */
-         sci_end_undo_action(sci);
+            /* select the right bit again */
+            sci_set_selection_start(sci, startpos - 1);
+            sci_set_selection_end(sci, endpos - 1);
 
-         g_free(txt);
-         g_free(txt_i);
+            /* end undo */
+            sci_end_undo_action(sci);
+
+            g_free(txt);
+            g_free(txt_i);
+            }
          }
 
-      /* rectangle mode (we hope!) */
-      else{
+      /* rectangle mode (we check!) */
+      else if (sci_get_selection_mode(sci) == 1){
          startcol = sci_get_col_from_position(sci, startpos);
          endcol = sci_get_col_from_position(sci, endpos);
+
+         gint caret_pos = scintilla_send_message(
+            sci, SCI_GETRECTANGULARSELECTIONCARET, 0, 0);
+
+         gint caret_col = sci_get_col_from_position(sci, caret_pos);
+
+         gint caret_virtual_space = scintilla_send_message(
+             sci, SCI_GETRECTANGULARSELECTIONCARETVIRTUALSPACE, 0, 0);
+
+         endcol = caret_col + caret_virtual_space;
 
          /* return early for the trivial case */
          if(startcol == 0 || startcol == endcol){
@@ -172,15 +193,23 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
                sci_set_selection_start(sci, linepos + startcol);
                sci_set_selection_end(sci, linepos + endcol);
 
-               txt_i = sci_get_selection_contents(sci);
+               gint p1 = linepos + startcol;
+               gint p2 = linepos + endcol;
+               gint len = p2 - p1;
+               txt_i = g_malloc(len + 1);
+               for (i = 0; i < len; i++)
+                   txt_i[i] = (gchar) sci_get_char_at(sci, p1 + i);
+               txt_i[len] = '\0';
+
                char_before = sci_get_char_at(sci, linepos + startcol - 1);
 
                /* set up new text buf */
                txt = g_strdup_printf("%s%c", txt_i, char_before);
 
                /* put the new text in */
-               sci_set_selection_start(sci, linepos + startcol - 1);
-               sci_replace_sel(sci, txt);
+               sci_set_target_start(sci, p1-1);
+               sci_set_target_end(sci, p2);
+               sci_replace_target(sci, txt, FALSE);
 
                g_free(txt);
                g_free(txt_i);
@@ -188,10 +217,19 @@ static void shift_left_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
             }
 
          /* put the selection box back */
-         /* here we rely upon the last result of linepos */
          sci_set_selection_mode(sci, 1);
-         sci_set_selection_start(sci, startpos - 1);
-         sci_set_selection_end(sci, linepos + endcol - 1);
+
+         scintilla_send_message(
+             sci,
+             SCI_SETRECTANGULARSELECTIONANCHOR,
+             startpos - 1,
+             0);
+
+         scintilla_send_message(
+             sci,
+             SCI_SETRECTANGULARSELECTIONCARET,
+             linepos + endcol - 1,
+             0);
 
          /* end undo action */
          sci_end_undo_action(sci);
@@ -238,48 +276,84 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
          }
 
       startline = sci_get_line_from_position(sci, startpos);
-      linepos = sci_get_position_from_line(sci, startline);
-      endline = sci_get_line_from_position(sci, endpos);
+      linepos   = sci_get_position_from_line(sci, startline);
+      endline   = sci_get_line_from_position(sci, endpos);
 
       /* normal mode */
       if(startline == endline){
 
-         /* get the text in question */
-         txt_i = sci_get_selection_contents(sci);
-
+         startcol   = sci_get_col_from_position(sci, startpos);
+         endcol     = sci_get_col_from_position(sci, endpos);
+         linelen    = sci_get_line_length(sci, startline);
          char_after = sci_get_char_at(sci, endpos);
 
-         /* set up new text buf */
-         txt = g_strdup_printf("%c%s", char_after, txt_i);
+         if (char_after == 10 || char_after == 13)
+         {
+            /* start undo */
+            sci_start_undo_action(sci);
 
-         /* start undo */
-         sci_start_undo_action(sci);
+            /* add in a space */
+            txt = g_malloc(sizeof(gchar) * 2);
+            sprintf(txt, " ");
 
-         /* put the new text in */
-         sci_set_selection_start(sci, startpos);
-         sci_set_selection_end(sci, endpos + 1);
-         sci_replace_sel(sci, txt);
+            sci_insert_text(sci, startpos, txt);
 
-         /* select the right bit again */
-         sci_set_selection_start(sci, startpos + 1);
-         sci_set_selection_end(sci, endpos + 1);
+             /* select the right bit again */
+            sci_set_selection_start(sci, startpos + 1);
+            sci_set_selection_end(sci, endpos + 1);
 
-         /* end undo */
-         sci_end_undo_action(sci);
+            /* end undo */
+            sci_end_undo_action(sci);
 
-         g_free(txt);
-         g_free(txt_i);
+            g_free(txt);
+         }
+         else
+         {
+             /* get the text in question */
+             txt_i = sci_get_selection_contents(sci);
+
+             /* set up new text buf */
+             txt = g_strdup_printf("%c%s", char_after, txt_i);
+
+             /* start undo */
+             sci_start_undo_action(sci);
+
+             /* put the new text in */
+             sci_set_selection_start(sci, startpos);
+             sci_set_selection_end(sci, endpos + 1);
+             sci_replace_sel(sci, txt);
+
+             /* select the right bit again */
+             sci_set_selection_start(sci, startpos + 1);
+             sci_set_selection_end(sci, endpos + 1);
+
+             /* end undo */
+             sci_end_undo_action(sci);
+
+             g_free(txt);
+             g_free(txt_i);
+             }
          }
 
-      /* rectangle mode (we hope!) */
-      else{
+      /* rectangle mode (we check!) */
+      else if (sci_get_selection_mode(sci) == 1){
          startcol = sci_get_col_from_position(sci, startpos);
-         endcol = sci_get_col_from_position(sci, endpos);
+         endcol   = sci_get_col_from_position(sci, endpos);
+
+         gint caret_pos = scintilla_send_message(
+            sci, SCI_GETRECTANGULARSELECTIONCARET, 0, 0);
+
+         gint caret_col = sci_get_col_from_position(sci, caret_pos);
+
+         gint caret_virtual_space = scintilla_send_message(
+             sci, SCI_GETRECTANGULARSELECTIONCARETVIRTUALSPACE, 0, 0);
+
+         endcol = caret_col + caret_virtual_space;
 
          /* start undo */
          sci_start_undo_action(sci);
 
-         for(line_iter = startline; line_iter <= endline; line_iter++){
+         for(line_iter = startline; line_iter <= endline && endcol > startcol; line_iter++){
             linepos = sci_get_position_from_line(sci, line_iter);
             linelen = sci_get_line_length(sci, line_iter);
 
@@ -299,18 +373,24 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
                else{
                   /* move the text itself */
                   sci_set_selection_mode(sci, 0);
-                  sci_set_selection_start(sci, linepos + startcol);
-                  sci_set_selection_end(sci, linepos + endcol);
 
-                  txt_i = sci_get_selection_contents(sci);
+                  gint p1 = linepos + startcol;
+                  gint p2 = linepos + endcol;
+                  gint len = p2 - p1;
+                  txt_i = g_malloc(len + 1);
+                  for (i = 0; i < len; i++)
+                      txt_i[i] = (gchar) sci_get_char_at(sci, p1 + i);
+                  txt_i[len] = '\0';
+
                   char_after = sci_get_char_at(sci, linepos + endcol);
 
                   /* set up new text buf */
                   txt = g_strdup_printf("%c%s", char_after, txt_i);
 
                   /* put the new text in */
-                  sci_set_selection_end(sci, linepos + endcol + 1);
-                  sci_replace_sel(sci, txt);
+                  sci_set_target_start(sci, p1);
+                  sci_set_target_end(sci, p2 + 1);
+                  sci_replace_target(sci, txt, FALSE);
 
                   g_free(txt);
                   g_free(txt_i);
@@ -319,10 +399,19 @@ static void shift_right_cb(G_GNUC_UNUSED GtkMenuItem *menuitem,
             }
 
          /* put the selection box back */
-         /* here we rely upon the last result of linepos */
          sci_set_selection_mode(sci, 1);
-         sci_set_selection_start(sci, startpos + 1);
-         sci_set_selection_end(sci, linepos + endcol + 1);
+
+         scintilla_send_message(
+             sci,
+             SCI_SETRECTANGULARSELECTIONANCHOR,
+             startpos + 1,
+             0);
+
+         scintilla_send_message(
+             sci,
+             SCI_SETRECTANGULARSELECTIONCARET,
+             linepos + endcol + 1,
+             0);
 
          /* end undo action */
          sci_end_undo_action(sci);
