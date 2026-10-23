@@ -145,6 +145,61 @@ single tab named `tab1` with the existing `active` agent as its agent.
 6. `update_agent_label(AgentTab *at)` prefers `at->cfg->label` if set,
    otherwise falls back to the active `AgentConfig->name`.
 
+### Manual setup of a second tab
+
+Until the Phase 3 configure dialog exists, a second tab is added by editing
+the config file by hand.
+
+1. **Quit Geany.**  The plugin rewrites `geanyagent.conf` on save, so edits
+   made while Geany is running can be overwritten.
+2. Open `~/.config/geany/plugins/geanyagent/geanyagent.conf`.
+3. Make sure the agent you want in the second tab has an `[agent:<key>]`
+   group and is listed in `agents`.  Add one if needed.
+4. Add a `tabs` key under `[agent]` and one `[tab:<key>]` group per tab.
+5. Start Geany.  The second tab appears next to the first, each with its own
+   terminal and process.
+
+Example, Claude in tab 1 and Gemini in tab 2:
+
+```ini
+[agent]
+agents = claude,gemini
+active = claude
+tabs   = tab1,tab2
+
+[agent:claude]
+name = Claude
+cmd  = claude
+
+[agent:gemini]
+name = Gemini
+cmd  = gemini
+
+[tab:tab1]
+label = Claude
+agent = claude
+
+[tab:tab2]
+label = Gemini
+agent = gemini
+```
+
+Notes:
+
+- `tabs` is a comma-separated list of tab keys.  Each key `X` reads its
+  settings from the `[tab:X]` group.  Keys are arbitrary (`tab1`, `review`,
+  ...) and the order sets the notebook tab order.
+- `label` is optional and defaults to the agent name.  `agent` is optional
+  and defaults to the first agent.
+- To run the same agent twice (e.g. two Claude sessions), point both tabs at
+  the same `agent` key and give them different labels.
+- If `tabs` is absent the plugin uses a single `tab1`, so existing configs
+  keep working unchanged.
+- Tab 1 is the primary tab.  `geanyagent-insert-to-agent`,
+  `geanycontrol-send-to-agent` and the restart signal still target it.
+- To go back to one tab, delete the `tabs` line (or remove `tab2` from it)
+  and restart Geany.
+
 ### Default second tab
 
 When a user manually edits `geanyagent.conf` to add `tabs = tab1,tab2` and a
