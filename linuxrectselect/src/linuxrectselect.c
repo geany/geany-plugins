@@ -3,8 +3,9 @@
  *
  * Scintilla's built-in rectangular selection modifier defaults to Alt, which
  * is grabbed by most Linux window managers for window-move.  This plugin
- * changes the modifier to Ctrl+Alt so that Alt+drag and Shift+Alt+arrows
- * become Ctrl+Alt+drag and Shift+Ctrl+Alt+arrows.
+ * changes the modifier so that Ctrl+Alt+drag starts a rectangular selection.
+ * Note: Shift+Alt+arrows for keyboard rectangular selection is hard-coded in
+ * Scintilla and is not affected by this plugin.
  *
  * Copyright 2025 teknopaul
  * License: GPL-2.0-or-later
@@ -30,13 +31,17 @@ GeanyData    *geany_data;
 # define SCMOD_ALT   4
 #endif
 
+/* Scintilla/GTK accepts exactly one modifier here and tests it against the
+ * event state mask; a combined value (CTRL|ALT) maps to mask 0 and disables
+ * rectangular selection entirely.  Alt is a single bit, so Ctrl+Alt+drag
+ * still matches. */
 static void
 apply_modifier(GeanyDocument *doc)
 {
 	if (doc && doc->is_valid)
 		scintilla_send_message(doc->editor->sci,
 		                       SCI_SETRECTANGULARSELECTIONMODIFIER,
-		                       SCMOD_CTRL | SCMOD_ALT, 0);
+		                       SCMOD_ALT, 0);
 }
 
 static void
@@ -74,10 +79,9 @@ G_MODULE_EXPORT void
 geany_load_module(GeanyPlugin *plugin)
 {
 	plugin->info->name        = "Linux Rectangular Select";
-	plugin->info->description = "Changes the rectangular selection modifier from Alt "
-	                            "to Ctrl+Alt so block selection works on Linux desktops "
-	                            "that grab Alt for window management. "
-	                            "Use Ctrl+Alt+drag or Shift+Ctrl+Alt+arrows.";
+	plugin->info->description = "Changes the rectangular selection modifier so that "
+	                            "Ctrl+Alt+drag starts a block selection on Linux desktops "
+	                            "that grab Alt for window management.";
 	plugin->info->version     = "0.1";
 	plugin->info->author      = "teknopaul";
 

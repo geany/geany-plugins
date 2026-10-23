@@ -1584,6 +1584,263 @@ on_menu_run_file(GtkMenuItem *menuitem, gchar *uri)
 	g_free(dir);
 }
 
+/* ------------------
+ * DIRECTORY WATCHING
+ * ------------------ */
+
+#define WATCH_MAX_DIRS 2000
+#define WATCH_DELAY_MS 300
+
+static GHashTable 	*watched_dirs = NULL;	/* dir path -> GFileMonitor */
+static GHashTable 	*watch_pending = NULL;	/* dir path set awaiting refresh */
+static guint 		watch_timeout_id = 0;
+
+static gboolean
+watch_find_iter(const gchar *uri, GtkTreeIter *parent, GtkTreeIter *result)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL(treestore);
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_iter_children(model, &iter, parent))
+		return FALSE;
+	do
+	{
+		gchar *u = NULL;
+		gboolean found;
+
+		if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter) &&
+			iter.user_data == bookmarks_iter.user_data)
+			continue;
+
+		gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &u, -1);
+		found = (u != NULL && strcmp(u, uri) == 0 && gtk_tree_model_iter_has_child(model, &iter));
+		g_free(u);
+		if (found)
+		{
+			*result = iter;
+			return TRUE;
+		}
+		if (watch_find_iter(uri, &iter, result))
+			return TRUE;
+	} while (gtk_tree_model_iter_next(model, &iter));
+
+	return FALSE;
+}
+
+/* preorder list of expanded directory uris below parent (NULL = whole tree) */
+static void
+watch_collect_expanded(GtkTreeIter *parent, GSList **list)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL(treestore);
+	GtkTreeIter iter;
+
+	if (!gtk_tree_model_iter_children(model, &iter, parent))
+		return;
+	do
+	{
+		if (gtk_tree_store_iter_is_valid(treestore, &bookmarks_iter) &&
+			iter.user_data == bookmarks_iter.user_data)
+			continue;
+		if (gtk_tree_model_iter_has_child(model, &iter) &&
+			tree_view_row_expanded_iter(GTK_TREE_VIEW(treeview), &iter))
+		{
+			gchar *u = NULL;
+			gtk_tree_model_get(model, &iter, TREEBROWSER_COLUMN_URI, &u, -1);
+			if (u != NULL)
+				*list = g_slist_prepend(*list, u);
+			watch_collect_expanded(&iter, list);
+		}
+	} while (gtk_tree_model_iter_next(model, &iter));
+}
+
+static void
+watch_refresh_dir(const gchar *dir)
+{
+	GtkTreeIter iter;
+	GSList *expanded = NULL, *l;
+	gboolean is_root = utils_str_equal(dir, addressbar_last_address);
+
+	if (is_root)
+		watch_collect_expanded(NULL, &expanded);
+	else if (watch_find_iter(dir, NULL, &iter) &&
+			 tree_view_row_expanded_iter(GTK_TREE_VIEW(treeview), &iter))
+		watch_collect_expanded(&iter, &expanded);
+	else
+		return;	/* not visible, it is loaded lazily when expanded */
+
+	expanded = g_slist_reverse(expanded);
+
+	if (is_root)
+		treebrowser_browse((gchar *) dir, NULL);
+	else
+		treebrowser_browse((gchar *) dir, &iter);
+
+	/* restore expanded sub folders, parents first */
+	foreach_slist(l, expanded)
+	{
+		GtkTreeIter it;
+		if (g_file_test(l->data, G_FILE_TEST_IS_DIR) && watch_find_iter(l->data, NULL, &it))
+		{
+			GtkTreePath *path;
+			treebrowser_browse(l->data, &it);
+			path = gtk_tree_model_get_path(GTK_TREE_MODEL(treestore), &it);
+			gtk_tree_view_expand_row(GTK_TREE_VIEW(treeview), path, FALSE);
+			gtk_tree_path_free(path);
+		}
+	}
+	g_slist_foreach(expanded, (GFunc) g_free, NULL);
+	g_slist_free(expanded);
+}
+
+static gboolean
+watch_flush_cb(gpointer data)
+{
+	GHashTableIter hi;
+	gpointer key;
+	GList *dirs = NULL, *l;
+
+	watch_timeout_id = 0;
+	if (watch_pending == NULL)
+		return FALSE;
+
+	g_hash_table_iter_init(&hi, watch_pending);
+	while (g_hash_table_iter_next(&hi, &key, NULL))
+		dirs = g_list_prepend(dirs, g_strdup(key));
+	g_hash_table_remove_all(watch_pending);
+
+	/* shallow dirs first, a parent refresh makes deeper ones cheap */
+	dirs = g_list_sort(dirs, (GCompareFunc) strcmp);
+	for (l = dirs; l != NULL; l = l->next)
+		watch_refresh_dir(l->data);
+	g_list_free_full(dirs, g_free);
+
+	return FALSE;
+}
+
+static void watch_dir_tree(const gchar *dir);
+static void unwatch_dir_tree(const gchar *dir);
+
+static void
+on_watch_event(GFileMonitor *monitor, GFile *file, GFile *other, GFileMonitorEvent event, gpointer data)
+{
+	const gchar *dir = data;
+	gchar *path;
+
+	if (event != G_FILE_MONITOR_EVENT_CREATED && event != G_FILE_MONITOR_EVENT_DELETED &&
+		event != G_FILE_MONITOR_EVENT_MOVED_IN && event != G_FILE_MONITOR_EVENT_MOVED_OUT &&
+		event != G_FILE_MONITOR_EVENT_RENAMED)
+		return;
+
+	path = g_file_get_path(file);
+	if (path == NULL)
+		return;
+
+	if (check_hidden(path))
+	{
+		g_free(path);
+		return;
+	}
+
+	if (event == G_FILE_MONITOR_EVENT_CREATED || event == G_FILE_MONITOR_EVENT_MOVED_IN)
+	{
+		if (g_file_test(path, G_FILE_TEST_IS_DIR))
+			watch_dir_tree(path);
+	}
+	else if (g_hash_table_contains(watched_dirs, path))
+		unwatch_dir_tree(path);
+
+	if (watch_pending == NULL)
+		watch_pending = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+	g_hash_table_add(watch_pending, g_strdup(dir));
+	if (watch_timeout_id == 0)
+		watch_timeout_id = g_timeout_add(WATCH_DELAY_MS, watch_flush_cb, NULL);
+
+	g_free(path);
+}
+
+/* adds a monitor for dir and all its sub folders */
+static void
+watch_dir_tree(const gchar *dir)
+{
+	GDir *gd;
+	const gchar *name;
+	GFile *gf;
+	GFileMonitor *mon;
+	gchar *key;
+
+	if (watched_dirs == NULL)
+		watched_dirs = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_object_unref);
+
+	if (g_hash_table_contains(watched_dirs, dir) ||
+		g_hash_table_size(watched_dirs) >= WATCH_MAX_DIRS)
+		return;
+
+	gf = g_file_new_for_path(dir);
+	mon = g_file_monitor_directory(gf, G_FILE_MONITOR_WATCH_MOVES, NULL, NULL);
+	g_object_unref(gf);
+	if (mon == NULL)
+		return;
+
+	key = g_strdup(dir);
+	g_signal_connect(mon, "changed", G_CALLBACK(on_watch_event), key);
+	g_hash_table_insert(watched_dirs, key, mon);
+
+	gd = g_dir_open(dir, 0, NULL);
+	if (gd == NULL)
+		return;
+	while ((name = g_dir_read_name(gd)) != NULL)
+	{
+		gchar *sub = g_build_filename(dir, name, NULL);
+		if (g_file_test(sub, G_FILE_TEST_IS_DIR) && !g_file_test(sub, G_FILE_TEST_IS_SYMLINK) &&
+			!check_hidden(sub))
+			watch_dir_tree(sub);
+		g_free(sub);
+	}
+	g_dir_close(gd);
+}
+
+static gboolean
+watch_remove_prefix_cb(gpointer key, gpointer value, gpointer user_data)
+{
+	const gchar *dir = user_data;
+	size_t len = strlen(dir);
+
+	return strncmp(key, dir, len) == 0 &&
+		(((const gchar *) key)[len] == '\0' || ((const gchar *) key)[len] == G_DIR_SEPARATOR);
+}
+
+static void
+unwatch_dir_tree(const gchar *dir)
+{
+	if (watched_dirs == NULL)
+		return;
+	/* the table key doubles as signal user_data, the monitor is cancelled on unref */
+	g_hash_table_foreach_remove(watched_dirs, watch_remove_prefix_cb, (gpointer) dir);
+}
+
+static void
+watch_cleanup(void)
+{
+	if (watch_timeout_id != 0)
+		g_source_remove(watch_timeout_id);
+	watch_timeout_id = 0;
+	if (watched_dirs != NULL)
+		g_hash_table_destroy(watched_dirs);
+	watched_dirs = NULL;
+	if (watch_pending != NULL)
+		g_hash_table_destroy(watch_pending);
+	watch_pending = NULL;
+}
+
+static void
+on_menu_watch_dir(GtkMenuItem *menuitem, gchar *uri)
+{
+	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menuitem)))
+		watch_dir_tree(uri);
+	else
+		unwatch_dir_tree(uri);
+}
+
 static void
 on_menu_show_bookmarks(GtkMenuItem *menuitem, gpointer *user_data)
 {
@@ -1798,6 +2055,13 @@ create_popup_menu(const gchar *name, const gchar *uri)
 			                      g_strdup(uri), (GClosureNotify)g_free, 0);
 		}
 	}
+
+	item = gtk_check_menu_item_new_with_mnemonic(_("_Watch Folder for Changes"));
+	gtk_container_add(GTK_CONTAINER(menu), item);
+	gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
+		watched_dirs != NULL && g_hash_table_contains(watched_dirs, uri));
+	g_signal_connect_data(item, "activate", G_CALLBACK(on_menu_watch_dir), g_strdup(uri), (GClosureNotify)g_free, 0);
+	gtk_widget_set_sensitive(item, is_dir);
 
 	item = ui_image_menu_item_new("system-run", _("_Run"));
 	gtk_container_add(GTK_CONTAINER(menu), item);
@@ -3443,6 +3707,7 @@ plugin_cleanup(void)
 {
 	g_signal_handlers_disconnect_by_func(geany->object,
 	                                     G_CALLBACK(on_treebrowser_refresh_signal), NULL);
+	watch_cleanup();
 	g_free(addressbar_last_address);
 	g_free(CONFIG_FILE);
 	g_free(CONFIG_OPEN_EXTERNAL_CMD);
