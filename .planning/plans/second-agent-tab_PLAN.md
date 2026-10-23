@@ -235,10 +235,10 @@ geany-progress done 4 \
 
 ## File inventory
 
-| File | Phases touched |
-|------|---------------|
-| `geanyagent/src/geanyagent.c` | 1 2 3 4 |
-| `geanyagent/src/Makefile.am` | — (no new files) |
+| File                                                 | Phases touched     |
+|------------------------------------------------------|--------------------|
+| `geanyagent/src/geanyagent.c`                        | 1 2 3 4            |
+| `geanyagent/src/Makefile.am`                         | — (no new files)   |
 | `~/.config/geany/plugins/geanyagent/geanyagent.conf` | 2 (format extends) |
 
 No new source files are needed; all changes live in `geanyagent.c`.

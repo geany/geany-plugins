@@ -13,6 +13,7 @@
 # include "config.h"
 #endif
 
+#include <errno.h>
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
@@ -33,13 +34,6 @@
 GeanyPlugin  *geany_plugin;
 GeanyData    *geany_data;
 
-static VteTerminal *agent_term  = NULL;
-static GtkWidget   *agent_hbox  = NULL;
-static GtkWidget   *agent_label = NULL;
-static gint         tab_index   = -1;
-static gboolean     running     = FALSE;  /* FALSE during cleanup to suppress restart */
-static GPid         agent_pid   = 0;      /* child PID, 0 when not running */
-
 static GSocketService *agent_sock_service = NULL;
 static gchar          *agent_sock_path    = NULL;
 
@@ -54,7 +48,31 @@ typedef struct {
 } AgentConfig;
 
 static GPtrArray *agents       = NULL;
-static gint       active_agent = 0;
+static gint       config_active_agent = 0;  /* persisted active agent, applied to the primary tab */
+
+/* Persistent per-tab settings from [tab:<key>] groups. */
+typedef struct {
+    gchar *key;
+    gchar *label;      /* NULL -> use agent name */
+    gchar *agent_key;  /* which AgentConfig to default to, NULL -> first/active */
+} AgentTabConfig;
+
+static GPtrArray *tab_configs = NULL;   /* AgentTabConfig* elements */
+
+/* One AI chat tab: an independent VTE terminal with its own process. */
+typedef struct {
+    AgentTabConfig *cfg;
+    VteTerminal *term;
+    GtkWidget   *hbox;
+    GtkWidget   *label;
+    gint         tab_index;     /* notebook page, -1 when not attached */
+    gint         active_agent;  /* index into agents */
+    GPid         pid;           /* child PID, 0 when not running */
+    gboolean     running;       /* FALSE during cleanup to suppress restart */
+} AgentTab;
+
+static GPtrArray *tabs        = NULL;   /* AgentTab* elements */
+static AgentTab  *primary_tab = NULL;   /* tabs->pdata[0], convenience ptr */
 
 #define DEFAULT_SEARCH_URL "https://www.qwant.com/?q=%s"
 
@@ -88,9 +106,9 @@ static const gchar SKILL_TEMPLATE[] =
 #define AGENT_TOOLS_GROUP  "tools"
 
 /* Forward declarations */
-static void update_agent_label(void);
+static void update_agent_label(AgentTab *at);
 static void ga_save_config(void);
-static void ga_switch_agent(gint index);
+static void ga_switch_agent(AgentTab *at, gint index);
 
 static GKeyFile  *agent_tools_config    = NULL;
 static GtkWidget *agent_tools_menu_item = NULL;
@@ -202,6 +220,35 @@ static void agent_config_free(AgentConfig *ac)
     g_free(ac);
 }
 
+static void agent_tab_config_free(AgentTabConfig *tc)
+{
+    g_free(tc->key);
+    g_free(tc->label);
+    g_free(tc->agent_key);
+    g_free(tc);
+}
+
+static void tab_configs_free(void)
+{
+    if (tab_configs) {
+        for (guint i = 0; i < tab_configs->len; i++)
+            agent_tab_config_free((AgentTabConfig *)g_ptr_array_index(tab_configs, i));
+        g_ptr_array_free(tab_configs, TRUE);
+        tab_configs = NULL;
+    }
+}
+
+/* Index into agents for key, or -1. */
+static gint agent_index_by_key(const gchar *key)
+{
+    if (!key || !agents)
+        return -1;
+    for (guint i = 0; i < agents->len; i++)
+        if (g_strcmp0(((AgentConfig *)g_ptr_array_index(agents, i))->key, key) == 0)
+            return (gint)i;
+    return -1;
+}
+
 static void agents_free(void)
 {
     if (agents) {
@@ -215,10 +262,57 @@ static void agents_free(void)
 /* ------------------------------------------------------------------ */
 /* Agent command dispatch                                              */
 
-static gboolean grab_agent_focus_idle(G_GNUC_UNUSED gpointer data)
+static AgentTab *agent_tab_new(void)
 {
-	if (agent_term)
-		gtk_widget_grab_focus(GTK_WIDGET(agent_term));
+    AgentTab *at = g_new0(AgentTab, 1);
+    at->tab_index = -1;
+    return at;
+}
+
+static void agent_tab_free(AgentTab *at)
+{
+    g_free(at);
+}
+
+/* write() to the agent pty; short or failed writes are not recoverable here. */
+static void pty_write(int fd, const void *buf, gsize len)
+{
+    if (write(fd, buf, len) < 0)
+        g_debug("geanyagent: pty write failed: %s", g_strerror(errno));
+}
+
+/* TRUE if at is still a live tab (idle callbacks may outlive their tab). */
+static gboolean agent_tab_valid(AgentTab *at)
+{
+    guint i;
+    return at && tabs && g_ptr_array_find(tabs, at, &i);
+}
+
+/* Current notebook page of the tab, or -1. */
+static gint agent_tab_page(AgentTab *at)
+{
+    if (!at->hbox)
+        return -1;
+    at->tab_index = gtk_notebook_page_num(
+        GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
+        at->hbox);
+    return at->tab_index;
+}
+
+static void agent_tab_show(AgentTab *at)
+{
+    gint page = agent_tab_page(at);
+    if (page >= 0)
+        gtk_notebook_set_current_page(
+            GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
+            page);
+}
+
+static gboolean grab_agent_focus_idle(gpointer data)
+{
+	AgentTab *at = (AgentTab *)data;
+	if (agent_tab_valid(at) && at->term)
+		gtk_widget_grab_focus(GTK_WIDGET(at->term));
 	return G_SOURCE_REMOVE;
 }
 
@@ -238,12 +332,9 @@ static gboolean on_agent_sock_incoming(G_GNUC_UNUSED GSocketService *svc,
         return TRUE;
     buf[n] = '\0';
 
-    if (strstr(buf, "\"stop\"") && focus_on_stop && agent_term) {
-        if (tab_index >= 0)
-            gtk_notebook_set_current_page(
-                GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
-                tab_index);
-        g_idle_add(grab_agent_focus_idle, NULL);
+    if (strstr(buf, "\"stop\"") && focus_on_stop && primary_tab && primary_tab->term) {
+        agent_tab_show(primary_tab);
+        g_idle_add(grab_agent_focus_idle, primary_tab);
     }
     return TRUE;
 }
@@ -293,42 +384,37 @@ static void agent_socket_cleanup(void)
 }
 
 
-static void ga_send_command(const gchar *cmd)
+static void ga_send_command(AgentTab *at, const gchar *cmd)
 {
-	if (!agent_term || !cmd || !*cmd)
+	if (!at || !at->term || !cmd || !*cmd)
 		return;
-	if (tab_index >= 0)
-	{
-		gtk_notebook_set_current_page(
-		    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
-		    tab_index);
-	}
+	agent_tab_show(at);
 #if VTE_CHECK_VERSION(0, 70, 0)
-	VtePty *pty = vte_terminal_get_pty(agent_term);
+	VtePty *pty = vte_terminal_get_pty(at->term);
 	if (pty) {
 		int fd = vte_pty_get_fd(pty);
-		write(fd, "\x15", 1);
-		write(fd, cmd, strlen(cmd));
-		write(fd, "\n", 1);
+		pty_write(fd, "\x15", 1);
+		pty_write(fd, cmd, strlen(cmd));
+		pty_write(fd, "\n", 1);
 	}
 #else
-	vte_terminal_feed_child(agent_term, "\x15", 1);
-	vte_terminal_feed_child(agent_term, cmd, (gssize)strlen(cmd));
-	vte_terminal_feed_child(agent_term, "\n", 1);
+	vte_terminal_feed_child(at->term, "\x15", 1);
+	vte_terminal_feed_child(at->term, cmd, (gssize)strlen(cmd));
+	vte_terminal_feed_child(at->term, "\n", 1);
 #endif
 	/* Grab focus after GTK has processed the page-switch events so the
 	 * editor cannot reclaim it when the notebook switch settles. */
-	g_idle_add(grab_agent_focus_idle, NULL);
+	g_idle_add(grab_agent_focus_idle, at);
 }
 
 /* Split expanded command on ';' and send each part to the agent. */
-static void ga_run_agent_cmd(const gchar *expanded)
+static void ga_run_agent_cmd(AgentTab *at, const gchar *expanded)
 {
 	gchar **parts = g_strsplit(expanded, ";", -1);
 	for (gint i = 0; parts[i]; i++) {
 		gchar *part = g_strstrip(parts[i]);
 		if (*part)
-			ga_send_command(part);
+			ga_send_command(at, part);
 	}
 	g_strfreev(parts);
 }
@@ -409,7 +495,7 @@ static void on_agent_tool_item_activate(GtkMenuItem *item,
 		document_save_file(doc, FALSE);
 	const gchar *filepath = (doc && doc->file_name) ? doc->file_name : "";
 	gchar *expanded = agent_tools_format_cmd(tmpl, filepath);
-	ga_run_agent_cmd(expanded);
+	ga_run_agent_cmd(primary_tab, expanded);
 	g_free(expanded);
 }
 
@@ -614,24 +700,26 @@ static gboolean ga_spawn_idle(gpointer data);
 static void on_spawn_done(G_GNUC_UNUSED VteTerminal *term,
                           GPid pid,
                           GError *error,
-                          G_GNUC_UNUSED gpointer data)
+                          gpointer data)
 {
+	AgentTab *at = (AgentTab *)data;
 	if (error)
 		g_warning("geanyagent: spawn failed: %s", error->message);
-	else
-		agent_pid = pid;
+	else if (agent_tab_valid(at))
+		at->pid = pid;
 }
 
 static void on_child_exited(G_GNUC_UNUSED VteTerminal *term,
                              G_GNUC_UNUSED int status,
-                             G_GNUC_UNUSED gpointer data)
+                             gpointer data)
 {
-	agent_pid = 0;
-	if (running)
-		g_idle_add(ga_spawn_idle, NULL);
+	AgentTab *at = (AgentTab *)data;
+	at->pid = 0;
+	if (at->running)
+		g_idle_add(ga_spawn_idle, at);
 }
 
-static void ga_spawn(void)
+static void ga_spawn(AgentTab *at)
 {
 	const gchar *shell = g_getenv("SHELL");
 	if (!shell || !*shell)
@@ -645,8 +733,8 @@ static void ga_spawn(void)
 	for (i = 0; i < n; i++)
 		argv[i] = shell_parts[i];
 	argv[n]     = (gchar *)"-c";
-	AgentConfig *ac = agents && active_agent < (gint)agents->len
-	                ? (AgentConfig *)g_ptr_array_index(agents, active_agent)
+	AgentConfig *ac = agents && at->active_agent < (gint)agents->len
+	                ? (AgentConfig *)g_ptr_array_index(agents, at->active_agent)
 	                : NULL;
 
 	/* Resolve working directory: configured template > project base > home */
@@ -695,7 +783,7 @@ static void ga_spawn(void)
 		                             NULL);
 	g_free(new_path);
 
-	vte_terminal_spawn_async(agent_term,
+	vte_terminal_spawn_async(at->term,
 	                         VTE_PTY_DEFAULT,
 	                         work_dir,
 	                         argv,
@@ -705,7 +793,7 @@ static void ga_spawn(void)
 	                         -1,
 	                         NULL,
 	                         on_spawn_done,
-	                         NULL);
+	                         at);
 
 	g_strfreev(env);
 	g_free(expanded_cmd);
@@ -714,65 +802,69 @@ static void ga_spawn(void)
 	g_strfreev(shell_parts);
 }
 
-static gboolean ga_spawn_idle(G_GNUC_UNUSED gpointer data)
+static gboolean ga_spawn_idle(gpointer data)
 {
-	ga_spawn();
+	AgentTab *at = (AgentTab *)data;
+	if (agent_tab_valid(at) && at->term)
+		ga_spawn(at);
 	return G_SOURCE_REMOVE;
 }
 
 
-static void update_agent_label(void)
+static void update_agent_label(AgentTab *at)
 {
-	if (!agent_label || !agents || active_agent >= (gint)agents->len)
+	if (!at->label || !agents || at->active_agent >= (gint)agents->len)
 		return;
-	AgentConfig *ac = (AgentConfig *)g_ptr_array_index(agents, active_agent);
-	gchar *text = g_strdup_printf("\xf0\x9f\xa4\x96 %s", ac->name);
-	gtk_label_set_text(GTK_LABEL(agent_label), text);
+	AgentConfig *ac = (AgentConfig *)g_ptr_array_index(agents, at->active_agent);
+	const gchar *name = (at->cfg && at->cfg->label && *at->cfg->label)
+	                    ? at->cfg->label : ac->name;
+	gchar *text = g_strdup_printf("\xf0\x9f\xa4\x96 %s", name);
+	gtk_label_set_text(GTK_LABEL(at->label), text);
+	gtk_widget_set_tooltip_text(at->label, ac->name);
 	g_free(text);
 }
 
-static gboolean ga_unblock_child_exited_idle(G_GNUC_UNUSED gpointer data)
+static gboolean ga_unblock_child_exited_idle(gpointer data)
 {
-	g_signal_handlers_unblock_by_func(agent_term,
-	                                  G_CALLBACK(on_child_exited), NULL);
+	AgentTab *at = (AgentTab *)data;
+	if (agent_tab_valid(at) && at->term)
+		g_signal_handlers_unblock_by_func(at->term,
+		                                  G_CALLBACK(on_child_exited), at);
 	return G_SOURCE_REMOVE;
 }
 
-static void ga_switch_agent(gint index)
+static void ga_switch_agent(AgentTab *at, gint index)
 {
-	if (!agent_term || index < 0 || index >= (gint)agents->len || index == active_agent)
+	if (!at->term || index < 0 || index >= (gint)agents->len || index == at->active_agent)
 		return;
 
-	active_agent = index;
-	update_agent_label();
+	at->active_agent = index;
+	update_agent_label(at);
 	ga_save_config();
 
 	/* Block child-exited during switch to prevent auto-restart of old process */
-	g_signal_handlers_block_by_func(agent_term,
-	                                G_CALLBACK(on_child_exited), NULL);
-	ga_spawn();
+	g_signal_handlers_block_by_func(at->term,
+	                                G_CALLBACK(on_child_exited), at);
+	ga_spawn(at);
 
 	/* Unblock after the event queue has drained any pending child-exited */
-	g_idle_add(ga_unblock_child_exited_idle, NULL);
+	g_idle_add(ga_unblock_child_exited_idle, at);
 
 	/* Bring the agent tab to front and grab focus */
-	if (tab_index >= 0)
-		gtk_notebook_set_current_page(
-		    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
-		    tab_index);
-	g_idle_add(grab_agent_focus_idle, NULL);
+	agent_tab_show(at);
+	g_idle_add(grab_agent_focus_idle, at);
 }
 
 /* Kill the running agent and let on_child_exited trigger a fresh respawn.
  * The new spawn will inherit the updated process environment (g_setenv). */
-static void ga_restart(void)
+static void ga_restart(AgentTab *at)
 {
-	if (agent_pid > 0) {
-		kill(agent_pid, SIGHUP);
-		agent_pid = 0;
+	if (at->pid > 0) {
+		kill(at->pid, SIGHUP);
+		at->pid = 0;
 	} else {
 		/* No tracked PID — try to kill the PTY foreground process group */
-		VtePty *pty = agent_term ? vte_terminal_get_pty(agent_term) : NULL;
+		VtePty *pty = at->term ? vte_terminal_get_pty(at->term) : NULL;
 		if (pty) {
 			int fd = vte_pty_get_fd(pty);
 			pid_t pg = tcgetpgrp(fd);
@@ -782,16 +874,24 @@ static void ga_restart(void)
 	}
 }
 
+static void ga_restart_all(void)
+{
+	if (!tabs)
+		return;
+	for (guint i = 0; i < tabs->len; i++)
+		ga_restart((AgentTab *)g_ptr_array_index(tabs, i));
+}
+
 /* Signal handler — emitted by geanyenv (or anything else) on geany->object */
 static void on_restart_signal(G_GNUC_UNUSED GObject *obj,
                                G_GNUC_UNUSED gpointer data)
 {
-	ga_restart();
+	ga_restart_all();
 }
 
 G_MODULE_EXPORT void geanyagent_restart(void)
 {
-	ga_restart();
+	ga_restart_all();
 }
 
 
@@ -830,7 +930,7 @@ static void on_add_to_context_activate(G_GNUC_UNUSED GtkMenuItem *item, gpointer
 #if VTE_CHECK_VERSION(0, 70, 0)
 	VtePty *pty = vte_terminal_get_pty(ctx->vte);
 	if (pty)
-		write(vte_pty_get_fd(pty), payload, len);
+		pty_write(vte_pty_get_fd(pty), payload, len);
 #else
 	vte_terminal_feed_child(ctx->vte, payload, (gssize)len);
 #endif
@@ -855,8 +955,9 @@ static void
 on_agent_vte_drag_data_received(GtkWidget *widget, GdkDragContext *context,
     G_GNUC_UNUSED gint x, G_GNUC_UNUSED gint y,
     GtkSelectionData *data, G_GNUC_UNUSED guint info, guint time,
-    G_GNUC_UNUSED gpointer user_data)
+    gpointer user_data)
 {
+    AgentTab *at = (AgentTab *)user_data;
     GdkAtom target        = gtk_selection_data_get_target(data);
     GdkAtom text_plain    = gdk_atom_intern_static_string("text/plain");
     GdkAtom text_uri_list = gdk_atom_intern_static_string("text/uri-list");
@@ -894,11 +995,11 @@ on_agent_vte_drag_data_received(GtkWidget *widget, GdkDragContext *context,
     g_free(path);
 
 #if VTE_CHECK_VERSION(0, 70, 0)
-    VtePty *pty = vte_terminal_get_pty(agent_term);
+    VtePty *pty = vte_terminal_get_pty(at->term);
     if (pty)
-        write(vte_pty_get_fd(pty), payload, plen);
+        pty_write(vte_pty_get_fd(pty), payload, plen);
 #else
-    vte_terminal_feed_child(agent_term, payload, (gssize)plen);
+    vte_terminal_feed_child(at->term, payload, (gssize)plen);
 #endif
     g_free(payload);
 
@@ -969,21 +1070,22 @@ static gchar *path_for_agent(const gchar *file_path)
     return g_strdup(file_path);
 }
 
-static void on_tab_add_to_agent(G_GNUC_UNUSED GtkMenuItem *item, gpointer user_data)
+static void on_tab_add_to_agent(GtkMenuItem *item, gpointer user_data)
 {
     const gchar *file_path = (const gchar *)user_data;
-    if (!agent_term || !file_path)
+    AgentTab    *at        = (AgentTab *)g_object_get_data(G_OBJECT(item), "agent-tab");
+    if (!agent_tab_valid(at) || !at->term || !file_path)
         return;
 
     gchar *payload = g_strconcat("@", file_path, NULL);
     gsize  len     = strlen(payload);
 
 #if VTE_CHECK_VERSION(0, 70, 0)
-    VtePty *pty = vte_terminal_get_pty(agent_term);
+    VtePty *pty = vte_terminal_get_pty(at->term);
     if (pty)
-        write(vte_pty_get_fd(pty), payload, len);
+        pty_write(vte_pty_get_fd(pty), payload, len);
 #else
-    vte_terminal_feed_child(agent_term, payload, (gssize)len);
+    vte_terminal_feed_child(at->term, payload, (gssize)len);
 #endif
     g_free(payload);
 }
@@ -1006,13 +1108,35 @@ static gboolean on_editor_notebook_button_press(GtkWidget   *widget,
 
     gchar *rel_path = path_for_agent(doc->file_name);
 
-    GtkWidget *menu     = gtk_menu_new();
-    GtkWidget *add_item = gtk_menu_item_new_with_label(_("Add to Agent"));
-    gtk_widget_set_sensitive(add_item, agent_term != NULL);
-    g_signal_connect_data(add_item, "activate",
-                          G_CALLBACK(on_tab_add_to_agent),
-                          rel_path, (GClosureNotify)g_free, 0);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), add_item);
+    GtkWidget *menu = gtk_menu_new();
+    if (tabs && tabs->len > 1)
+    {
+        /* Several agent tabs: one entry per tab; rel_path is owned by the menu */
+        g_object_set_data_full(G_OBJECT(menu), "rel-path", rel_path, g_free);
+        for (guint i = 0; i < tabs->len; i++)
+        {
+            AgentTab    *at   = (AgentTab *)g_ptr_array_index(tabs, i);
+            const gchar *name = at->label ? gtk_label_get_text(GTK_LABEL(at->label)) : "";
+            gchar       *text = g_strdup_printf(_("Add to %s"), name);
+            GtkWidget   *item = gtk_menu_item_new_with_label(text);
+            g_free(text);
+            gtk_widget_set_sensitive(item, at->term != NULL);
+            g_object_set_data(G_OBJECT(item), "agent-tab", at);
+            g_signal_connect(item, "activate",
+                             G_CALLBACK(on_tab_add_to_agent), rel_path);
+            gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        }
+    }
+    else
+    {
+        GtkWidget *add_item = gtk_menu_item_new_with_label(_("Add to Agent"));
+        gtk_widget_set_sensitive(add_item, primary_tab && primary_tab->term);
+        g_object_set_data(G_OBJECT(add_item), "agent-tab", primary_tab);
+        g_signal_connect_data(add_item, "activate",
+                              G_CALLBACK(on_tab_add_to_agent),
+                              rel_path, (GClosureNotify)g_free, 0);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), add_item);
+    }
     gtk_widget_show_all(menu);
     gtk_menu_popup_at_pointer(GTK_MENU(menu), (GdkEvent *)event);
 
@@ -1021,9 +1145,10 @@ static gboolean on_editor_notebook_button_press(GtkWidget   *widget,
 
 
 static void on_rename_tab_activate(G_GNUC_UNUSED GtkMenuItem *item,
-                                   G_GNUC_UNUSED gpointer data)
+                                   gpointer data)
 {
-	if (!agent_label)
+	AgentTab *at = (AgentTab *)data;
+	if (!agent_tab_valid(at) || !at->label)
 		return;
 
 	GtkWidget *dialog = gtk_dialog_new_with_buttons(
@@ -1036,7 +1161,7 @@ static void on_rename_tab_activate(G_GNUC_UNUSED GtkMenuItem *item,
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
 
 	GtkWidget *entry = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(entry), gtk_label_get_text(GTK_LABEL(agent_label)));
+	gtk_entry_set_text(GTK_ENTRY(entry), gtk_label_get_text(GTK_LABEL(at->label)));
 	gtk_entry_set_activates_default(GTK_ENTRY(entry), TRUE);
 
 	GtkWidget *content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
@@ -1049,7 +1174,7 @@ static void on_rename_tab_activate(G_GNUC_UNUSED GtkMenuItem *item,
 	{
 		const gchar *new_title = gtk_entry_get_text(GTK_ENTRY(entry));
 		if (new_title && *new_title)
-			gtk_label_set_text(GTK_LABEL(agent_label), new_title);
+			gtk_label_set_text(GTK_LABEL(at->label), new_title);
 	}
 	gtk_widget_destroy(dialog);
 }
@@ -1146,9 +1271,11 @@ static void on_internet_search_activate(G_GNUC_UNUSED GtkMenuItem *item, gpointe
 
 static void on_switch_agent_activate(GtkMenuItem *item, gpointer user_data)
 {
-	gint *idx = (gint *)user_data;
-	if (*idx != active_agent && gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item)))
-		ga_switch_agent(*idx);
+	gint     *idx = (gint *)user_data;
+	AgentTab *at  = (AgentTab *)g_object_get_data(G_OBJECT(item), "agent-tab");
+	if (agent_tab_valid(at) && *idx != at->active_agent &&
+	    gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item)))
+		ga_switch_agent(at, *idx);
 }
 
 static void on_send_to_cli_activate(G_GNUC_UNUSED GtkMenuItem *item, gpointer user_data)
@@ -1163,11 +1290,12 @@ static void on_send_to_cli_activate(G_GNUC_UNUSED GtkMenuItem *item, gpointer us
 
 static gboolean on_vte_button_press(GtkWidget *widget,
                                     GdkEventButton *event,
-                                    G_GNUC_UNUSED gpointer data)
+                                    gpointer data)
 {
 	if (event->button != 3)
 		return FALSE;
 
+	AgentTab    *at         = (AgentTab *)data;
 	VteTerminal *vte        = VTE_TERMINAL(widget);
 	gboolean     has_sel    = vte_terminal_get_has_selection(vte);
 
@@ -1227,8 +1355,9 @@ static gboolean on_vte_button_press(GtkWidget *widget,
 			AgentConfig *ac = (AgentConfig *)g_ptr_array_index(agents, i);
 			GtkWidget *mi = gtk_radio_menu_item_new_with_label(group, ac->name);
 			group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(mi));
-			if ((gint)i == active_agent)
+			if ((gint)i == at->active_agent)
 				gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(mi), TRUE);
+			g_object_set_data(G_OBJECT(mi), "agent-tab", at);
 			gint *idx = g_new(gint, 1);
 			*idx = (gint)i;
 			g_signal_connect_data(mi, "activate",
@@ -1242,7 +1371,7 @@ static gboolean on_vte_button_press(GtkWidget *widget,
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), gtk_separator_menu_item_new());
 
 	GtkWidget *rename_item = gtk_menu_item_new_with_label(_("Rename Tab"));
-	g_signal_connect(rename_item, "activate", G_CALLBACK(on_rename_tab_activate), NULL);
+	g_signal_connect(rename_item, "activate", G_CALLBACK(on_rename_tab_activate), at);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), rename_item);
 
 	GtkWidget *new_skill_item = gtk_menu_item_new_with_label(_("New Skill"));
@@ -1296,48 +1425,49 @@ static gboolean on_vte_button_press(GtkWidget *widget,
 /* ------------------------------------------------------------------ */
 /* Widget construction                                                 */
 
-static void create_agent_tab(void)
+static void create_agent_tab(AgentTab *at)
 {
 	GtkWidget *vte, *scrollbar, *label;
 
 	vte = vte_terminal_new();
-	agent_term = VTE_TERMINAL(vte);
+	at->term = VTE_TERMINAL(vte);
+	g_object_set_data(G_OBJECT(vte), "agent-tab", at);
 
 	scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
 	                              gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(vte)));
 	gtk_widget_set_can_focus(scrollbar, FALSE);
 
-	agent_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	gtk_box_pack_start(GTK_BOX(agent_hbox), vte, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(agent_hbox), scrollbar, FALSE, FALSE, 0);
+	at->hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	gtk_box_pack_start(GTK_BOX(at->hbox), vte, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(at->hbox), scrollbar, FALSE, FALSE, 0);
 
 	gtk_widget_set_size_request(vte, 10, 10);
-	vte_terminal_set_size(agent_term, 80, 24);
-	vte_terminal_set_mouse_autohide(agent_term, TRUE);
-	vte_terminal_set_scrollback_lines(agent_term, 10000);
+	vte_terminal_set_size(at->term, 80, 24);
+	vte_terminal_set_mouse_autohide(at->term, TRUE);
+	vte_terminal_set_scrollback_lines(at->term, 10000);
 
-	g_signal_connect(agent_term, "child-exited",
-	                 G_CALLBACK(on_child_exited), NULL);
+	g_signal_connect(at->term, "child-exited",
+	                 G_CALLBACK(on_child_exited), at);
 	g_signal_connect(vte, "button-press-event",
-	                 G_CALLBACK(on_vte_button_press), NULL);
+	                 G_CALLBACK(on_vte_button_press), at);
 	/* Connect before VTE's class handler so we can intercept file-path drops
 	 * and feed them as @path context references instead of pasting raw text. */
 	g_signal_connect(vte, "drag-data-received",
-	                 G_CALLBACK(on_agent_vte_drag_data_received), NULL);
+	                 G_CALLBACK(on_agent_vte_drag_data_received), at);
 
-	gtk_widget_show_all(agent_hbox);
+	gtk_widget_show_all(at->hbox);
 
 	/* Tag the page widget so geanycontrol's switch-tab can find it by keyword "agent" */
-	g_object_set_data_full(G_OBJECT(agent_hbox), "geanyagent-tab-keywords",
+	g_object_set_data_full(G_OBJECT(at->hbox), "geanyagent-tab-keywords",
 	                       g_strdup("agent"), g_free);
 
 	/* 🤖 Agent — UTF-8 encoded inline */
 	label = gtk_label_new(NULL);
-	agent_label = label;
-	update_agent_label();
-	tab_index = gtk_notebook_append_page(
+	at->label = label;
+	update_agent_label(at);
+	at->tab_index = gtk_notebook_append_page(
 	    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
-	    agent_hbox, label);
+	    at->hbox, label);
 }
 
 
@@ -1350,8 +1480,10 @@ static void ga_load_config(void)
 	gboolean  migrated = FALSE;
 
 	agents_free();
+	tab_configs_free();
 	agents = g_ptr_array_new();
-	active_agent = 0;
+	tab_configs = g_ptr_array_new();
+	config_active_agent = 0;
 
 	if (g_key_file_load_from_file(kf, config_file, G_KEY_FILE_NONE, NULL))
 	{
@@ -1390,7 +1522,7 @@ static void ga_load_config(void)
 					AgentConfig *a = (AgentConfig *)g_ptr_array_index(agents, i);
 					if (g_strcmp0(a->key, active_str) == 0)
 					{
-						active_agent = (gint)i;
+						config_active_agent = (gint)i;
 						break;
 					}
 				}
@@ -1424,6 +1556,28 @@ static void ga_load_config(void)
 			migrated = TRUE;
 		}
 
+		/* Tabs: absent key means a single tab following the active agent */
+		gchar *tabs_str = g_key_file_get_string(kf, "agent", "tabs", NULL);
+		if (tabs_str)
+		{
+			gchar **tkeys = g_strsplit(tabs_str, ",", -1);
+			for (gint i = 0; tkeys[i]; i++)
+			{
+				gchar *key = g_strstrip(tkeys[i]);
+				if (!*key)
+					continue;
+				gchar *group = g_strdup_printf("tab:%s", key);
+				AgentTabConfig *tc = g_new0(AgentTabConfig, 1);
+				tc->key       = g_strdup(key);
+				tc->label     = g_key_file_get_string(kf, group, "label", NULL);
+				tc->agent_key = g_key_file_get_string(kf, group, "agent", NULL);
+				g_ptr_array_add(tab_configs, tc);
+				g_free(group);
+			}
+			g_strfreev(tkeys);
+			g_free(tabs_str);
+		}
+
 		use_askpass = g_key_file_get_boolean(kf, "agent", "use_askpass", NULL);
 		if (g_key_file_has_key(kf, "agent", "focus_on_stop", NULL))
 			focus_on_stop = g_key_file_get_boolean(kf, "agent", "focus_on_stop", NULL);
@@ -1449,6 +1603,14 @@ static void ga_load_config(void)
 		ac->cmd  = g_strdup(DEFAULT_CMD);
 		g_ptr_array_add(agents, ac);
 		migrated = TRUE;
+	}
+
+	/* Guarantee at least one tab */
+	if (tab_configs->len == 0)
+	{
+		AgentTabConfig *tc = g_new0(AgentTabConfig, 1);
+		tc->key = g_strdup("tab1");
+		g_ptr_array_add(tab_configs, tc);
 	}
 
 	if (!search_url)
@@ -1484,8 +1646,41 @@ static void ga_save_config(void)
 	g_key_file_set_string(kf, "agent", "agents", keys->str);
 	g_string_free(keys, TRUE);
 
-	AgentConfig *active = (AgentConfig *)g_ptr_array_index(agents, active_agent);
+	gint cur = primary_tab ? primary_tab->active_agent : config_active_agent;
+	if (cur < 0 || cur >= (gint)agents->len)
+		cur = 0;
+	AgentConfig *active = (AgentConfig *)g_ptr_array_index(agents, cur);
 	g_key_file_set_string(kf, "agent", "active", active->key);
+
+	/* Tabs: remember each live tab's current agent as its default */
+	GString *tkeys = g_string_new("");
+	for (guint i = 0; tab_configs && i < tab_configs->len; i++)
+	{
+		AgentTabConfig *tc = (AgentTabConfig *)g_ptr_array_index(tab_configs, i);
+		for (guint t = 0; tabs && t < tabs->len; t++)
+		{
+			AgentTab *at = (AgentTab *)g_ptr_array_index(tabs, t);
+			if (at->cfg == tc && at->active_agent >= 0 &&
+			    at->active_agent < (gint)agents->len)
+			{
+				g_free(tc->agent_key);
+				tc->agent_key = g_strdup(
+				    ((AgentConfig *)g_ptr_array_index(agents, at->active_agent))->key);
+			}
+		}
+		if (i > 0)
+			g_string_append_c(tkeys, ',');
+		g_string_append(tkeys, tc->key);
+
+		gchar *group = g_strdup_printf("tab:%s", tc->key);
+		if (tc->label && *tc->label)
+			g_key_file_set_string(kf, group, "label", tc->label);
+		if (tc->agent_key && *tc->agent_key)
+			g_key_file_set_string(kf, group, "agent", tc->agent_key);
+		g_free(group);
+	}
+	g_key_file_set_string(kf, "agent", "tabs", tkeys->str);
+	g_string_free(tkeys, TRUE);
 
 	/* Legacy single cmd field for backward compat */
 	g_key_file_set_string(kf,  "agent", "cmd",          active->cmd);
@@ -1555,7 +1750,27 @@ static void create_focus_toggle(void)
 /* ------------------------------------------------------------------ */
 /* Configure dialog                                                    */
 
+/* Working copy of one tab while the dialog is open. */
 typedef struct {
+	AgentTabConfig *cfg;
+	gchar          *orig_agent;  /* agent key when the dialog opened (NULL for new tabs) */
+} TabEdit;
+
+static void tab_edit_free(TabEdit *te)
+{
+	if (te->cfg)
+		agent_tab_config_free(te->cfg);
+	g_free(te->orig_agent);
+	g_free(te);
+}
+
+typedef struct {
+	GtkWidget *tab_combo;
+	GtkWidget *tab_label_entry;
+	GtkWidget *tab_agent_combo;
+	GPtrArray *tab_edits;      /* TabEdit* working copy */
+	gint       tab_sel;        /* tab_edits index shown in the widgets, -1 none */
+	gboolean   tab_updating;   /* suppress combo "changed" while rebuilding */
 	GtkWidget *agent_combo;
 	GtkWidget *name_entry;
 	GtkWidget *cmd_entry;
@@ -1564,6 +1779,231 @@ typedef struct {
 	GtkWidget *focus_check;
 	GtkWidget *search_url_entry;
 } ConfigWidgets;
+
+/* ---- Tabs section ---- */
+
+static const gchar *tab_edit_title(TabEdit *te)
+{
+	return (te->cfg->label && *te->cfg->label) ? te->cfg->label : te->cfg->key;
+}
+
+/* Write the widgets back into the working copy of the selected tab. */
+static void tab_commit(ConfigWidgets *cw)
+{
+	if (cw->tab_sel < 0 || cw->tab_sel >= (gint)cw->tab_edits->len)
+		return;
+	TabEdit *te = (TabEdit *)g_ptr_array_index(cw->tab_edits, cw->tab_sel);
+
+	const gchar *label = gtk_entry_get_text(GTK_ENTRY(cw->tab_label_entry));
+	g_free(te->cfg->label);
+	te->cfg->label = (label && *label) ? g_strdup(label) : NULL;
+
+	gint ai = gtk_combo_box_get_active(GTK_COMBO_BOX(cw->tab_agent_combo));
+	if (ai >= 0 && ai < (gint)agents->len)
+	{
+		g_free(te->cfg->agent_key);
+		te->cfg->agent_key = g_strdup(((AgentConfig *)g_ptr_array_index(agents, ai))->key);
+	}
+}
+
+/* Fill the agent combo from agents and select the key of the shown tab. */
+static void tab_agent_combo_rebuild(ConfigWidgets *cw)
+{
+	cw->tab_updating = TRUE;
+	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(cw->tab_agent_combo));
+	for (guint i = 0; i < agents->len; i++)
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cw->tab_agent_combo),
+		    ((AgentConfig *)g_ptr_array_index(agents, i))->name);
+	gint sel = 0;
+	if (cw->tab_sel >= 0 && cw->tab_sel < (gint)cw->tab_edits->len)
+	{
+		TabEdit *te = (TabEdit *)g_ptr_array_index(cw->tab_edits, cw->tab_sel);
+		gint ai = agent_index_by_key(te->cfg->agent_key);
+		if (ai >= 0)
+			sel = ai;
+	}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cw->tab_agent_combo), sel);
+	cw->tab_updating = FALSE;
+}
+
+static void tab_combo_rebuild(ConfigWidgets *cw, gint select)
+{
+	cw->tab_updating = TRUE;
+	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(cw->tab_combo));
+	for (guint i = 0; i < cw->tab_edits->len; i++)
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cw->tab_combo),
+		    tab_edit_title((TabEdit *)g_ptr_array_index(cw->tab_edits, i)));
+	cw->tab_updating = FALSE;
+
+	cw->tab_sel = -1;
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cw->tab_combo), select);
+}
+
+static void on_tab_combo_changed(GtkComboBox *combo, ConfigWidgets *cw)
+{
+	if (cw->tab_updating)
+		return;
+	tab_commit(cw);
+
+	gint idx = gtk_combo_box_get_active(combo);
+	if (idx < 0 || idx >= (gint)cw->tab_edits->len)
+		return;
+	cw->tab_sel = idx;
+	TabEdit *te = (TabEdit *)g_ptr_array_index(cw->tab_edits, idx);
+	gtk_entry_set_text(GTK_ENTRY(cw->tab_label_entry),
+	                   te->cfg->label ? te->cfg->label : "");
+	tab_agent_combo_rebuild(cw);
+}
+
+static void on_tab_add_clicked(G_GNUC_UNUSED GtkButton *btn, ConfigWidgets *cw)
+{
+	tab_commit(cw);
+
+	/* Smallest unused tabN key */
+	gchar *key = NULL;
+	for (gint n = 1; !key; n++)
+	{
+		gchar *cand = g_strdup_printf("tab%d", n);
+		gboolean used = FALSE;
+		for (guint i = 0; i < cw->tab_edits->len; i++)
+			if (g_strcmp0(((TabEdit *)g_ptr_array_index(cw->tab_edits, i))->cfg->key, cand) == 0)
+				used = TRUE;
+		if (used)
+			g_free(cand);
+		else
+			key = cand;
+	}
+
+	TabEdit *te = g_new0(TabEdit, 1);
+	te->cfg = g_new0(AgentTabConfig, 1);
+	te->cfg->key       = key;
+	te->cfg->agent_key = g_strdup(((AgentConfig *)g_ptr_array_index(agents, 0))->key);
+	g_ptr_array_add(cw->tab_edits, te);
+
+	tab_combo_rebuild(cw, (gint)cw->tab_edits->len - 1);
+}
+
+static void on_tab_remove_clicked(G_GNUC_UNUSED GtkButton *btn, ConfigWidgets *cw)
+{
+	if (cw->tab_edits->len <= 1)
+		return;
+	gint idx = gtk_combo_box_get_active(GTK_COMBO_BOX(cw->tab_combo));
+	if (idx < 0 || idx >= (gint)cw->tab_edits->len)
+		return;
+
+	cw->tab_sel = -1;   /* nothing to commit for the tab being removed */
+	g_ptr_array_remove_index(cw->tab_edits, idx);
+
+	if (idx >= (gint)cw->tab_edits->len)
+		idx = (gint)cw->tab_edits->len - 1;
+	tab_combo_rebuild(cw, idx);
+}
+
+static AgentTab *agent_tab_by_key(const gchar *key)
+{
+	for (guint i = 0; tabs && i < tabs->len; i++)
+	{
+		AgentTab *at = (AgentTab *)g_ptr_array_index(tabs, i);
+		if (at->cfg && g_strcmp0(at->cfg->key, key) == 0)
+			return at;
+	}
+	return NULL;
+}
+
+/* Kill a live tab, drop its notebook page and free it (and its config). */
+static void ga_tab_destroy(AgentTab *at)
+{
+	at->running = FALSE;
+	if (at->term)
+	{
+		g_signal_handlers_disconnect_by_func(at->term,
+		                                     G_CALLBACK(on_child_exited), at);
+		if (at->pid > 0)
+			kill(at->pid, SIGHUP);
+		at->term = NULL;
+	}
+	gint page = agent_tab_page(at);
+	if (page >= 0)
+		gtk_notebook_remove_page(
+		    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
+		    page);
+	g_ptr_array_remove(tabs, at);
+	if (at->cfg)
+		agent_tab_config_free(at->cfg);
+	agent_tab_free(at);
+}
+
+/* Make the live tabs match the working copy: update, create or destroy. */
+static void tabs_reconcile(ConfigWidgets *cw)
+{
+	GPtrArray *new_cfgs = g_ptr_array_new();
+
+	/* Update existing / create new, following the working order */
+	for (guint i = 0; i < cw->tab_edits->len; i++)
+	{
+		TabEdit  *te = (TabEdit *)g_ptr_array_index(cw->tab_edits, i);
+		AgentTab *at = agent_tab_by_key(te->cfg->key);
+
+		if (at)
+		{
+			AgentTabConfig *live = at->cfg;
+			g_free(live->label);
+			live->label = g_strdup(te->cfg->label);
+			/* Only act on an agent change made in this dialog */
+			if (g_strcmp0(te->cfg->agent_key, te->orig_agent) != 0)
+			{
+				gint ai = agent_index_by_key(te->cfg->agent_key);
+				if (ai >= 0)
+					at->active_agent = ai;
+				g_free(live->agent_key);
+				live->agent_key = g_strdup(te->cfg->agent_key);
+			}
+			g_ptr_array_add(new_cfgs, live);
+		}
+		else
+		{
+			AgentTabConfig *tc = te->cfg;   /* tab takes ownership */
+			te->cfg = NULL;
+			gint ai = agent_index_by_key(tc->agent_key);
+			at = agent_tab_new();
+			at->cfg          = tc;
+			at->active_agent = ai >= 0 ? ai : 0;
+			at->running      = TRUE;
+			g_ptr_array_add(tabs, at);
+			create_agent_tab(at);
+			g_idle_add(ga_spawn_idle, at);
+			g_ptr_array_add(new_cfgs, tc);
+		}
+	}
+
+	/* Destroy tabs no longer in the working copy */
+	for (guint i = tabs->len; i > 0; i--)
+	{
+		AgentTab *at = (AgentTab *)g_ptr_array_index(tabs, i - 1);
+		gboolean keep = FALSE;
+		for (guint c = 0; c < new_cfgs->len; c++)
+			if (g_ptr_array_index(new_cfgs, c) == at->cfg)
+				keep = TRUE;
+		if (!keep)
+		{
+			at->cfg = NULL;   /* freed below with the old list */
+			ga_tab_destroy(at);
+		}
+	}
+
+	/* Free configs of removed tabs, then adopt the new list */
+	for (guint i = 0; i < tab_configs->len; i++)
+	{
+		gpointer tc = g_ptr_array_index(tab_configs, i);
+		guint    pos;
+		if (!g_ptr_array_find(new_cfgs, tc, &pos))
+			agent_tab_config_free((AgentTabConfig *)tc);
+	}
+	g_ptr_array_free(tab_configs, TRUE);
+	tab_configs = new_cfgs;
+
+	primary_tab = tabs->len ? (AgentTab *)g_ptr_array_index(tabs, 0) : NULL;
+}
 
 static void on_agent_combo_changed(GtkComboBox *combo, ConfigWidgets *cw)
 {
@@ -1578,6 +2018,7 @@ static void on_agent_combo_changed(GtkComboBox *combo, ConfigWidgets *cw)
 
 static void on_agent_add_clicked(G_GNUC_UNUSED GtkButton *btn, ConfigWidgets *cw)
 {
+	tab_commit(cw);
 	gchar *key = g_strdup_printf("agent_%d", (gint)agents->len + 1);
 	AgentConfig *ac = g_new0(AgentConfig, 1);
 	ac->key  = key;
@@ -1587,6 +2028,7 @@ static void on_agent_add_clicked(G_GNUC_UNUSED GtkButton *btn, ConfigWidgets *cw
 
 	gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cw->agent_combo), ac->name);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(cw->agent_combo), (gint)agents->len - 1);
+	tab_agent_combo_rebuild(cw);
 }
 
 static void on_agent_remove_clicked(G_GNUC_UNUSED GtkButton *btn, ConfigWidgets *cw)
@@ -1596,14 +2038,19 @@ static void on_agent_remove_clicked(G_GNUC_UNUSED GtkButton *btn, ConfigWidgets 
 	gint idx = gtk_combo_box_get_active(GTK_COMBO_BOX(cw->agent_combo));
 	if (idx < 0)
 		return;
+	tab_commit(cw);
 
 	agent_config_free((AgentConfig *)g_ptr_array_index(agents, idx));
 	g_ptr_array_remove_index(agents, idx);
 
-	if (active_agent >= (gint)agents->len)
-		active_agent = (gint)agents->len - 1;
-	if (active_agent < 0)
-		active_agent = 0;
+	for (guint t = 0; tabs && t < tabs->len; t++)
+	{
+		AgentTab *at = (AgentTab *)g_ptr_array_index(tabs, t);
+		if (at->active_agent >= (gint)agents->len)
+			at->active_agent = (gint)agents->len - 1;
+		if (at->active_agent < 0)
+			at->active_agent = 0;
+	}
 
 	/* Rebuild combo */
 	gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(cw->agent_combo));
@@ -1612,10 +2059,13 @@ static void on_agent_remove_clicked(G_GNUC_UNUSED GtkButton *btn, ConfigWidgets 
 		AgentConfig *a = (AgentConfig *)g_ptr_array_index(agents, i);
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cw->agent_combo), a->name);
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(cw->agent_combo), active_agent);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cw->agent_combo),
+	                         primary_tab ? primary_tab->active_agent : 0);
 
-	update_agent_label();
+	for (guint t = 0; tabs && t < tabs->len; t++)
+		update_agent_label((AgentTab *)g_ptr_array_index(tabs, t));
 	ga_save_config();
+	tab_agent_combo_rebuild(cw);
 }
 
 static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog,
@@ -1623,6 +2073,7 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog,
 {
 	if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_APPLY)
 	{
+		tab_commit(cw);
 		gint idx = gtk_combo_box_get_active(GTK_COMBO_BOX(cw->agent_combo));
 		if (idx >= 0 && idx < (gint)agents->len)
 		{
@@ -1634,7 +2085,8 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog,
 			g_free(ac->work_dir);
 			const gchar *wd = gtk_entry_get_text(GTK_ENTRY(cw->work_dir_entry));
 			ac->work_dir = (wd && *wd) ? g_strdup(wd) : NULL;
-			active_agent = idx;
+			if (primary_tab)
+				primary_tab->active_agent = idx;
 		}
 		use_askpass = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cw->askpass_check));
 		focus_on_stop = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cw->focus_check));
@@ -1642,10 +2094,13 @@ static void on_configure_response(G_GNUC_UNUSED GtkDialog *dialog,
 		const gchar *new_url = gtk_entry_get_text(GTK_ENTRY(cw->search_url_entry));
 		g_free(search_url);
 		search_url  = g_strdup(new_url && *new_url ? new_url : DEFAULT_SEARCH_URL);
-		update_agent_label();
+		tabs_reconcile(cw);
+		for (guint t = 0; tabs && t < tabs->len; t++)
+			update_agent_label((AgentTab *)g_ptr_array_index(tabs, t));
 		ga_save_config();
-		ga_restart();
+		ga_restart_all();
 	}
+	g_ptr_array_free(cw->tab_edits, TRUE);
 	g_free(cw);
 }
 
@@ -1655,6 +2110,56 @@ static GtkWidget *ga_configure(G_GNUC_UNUSED GeanyPlugin *plugin,
 {
 	ConfigWidgets *cw   = g_new0(ConfigWidgets, 1);
 	GtkWidget     *vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 6);
+
+	/* Tabs section: working copy of the tab configs, seeded from live state */
+	cw->tab_sel   = -1;
+	cw->tab_edits = g_ptr_array_new_with_free_func((GDestroyNotify)tab_edit_free);
+	for (guint i = 0; i < tab_configs->len; i++)
+	{
+		AgentTabConfig *tc = (AgentTabConfig *)g_ptr_array_index(tab_configs, i);
+		AgentTab       *at = agent_tab_by_key(tc->key);
+		TabEdit        *te = g_new0(TabEdit, 1);
+		te->cfg = g_new0(AgentTabConfig, 1);
+		te->cfg->key   = g_strdup(tc->key);
+		te->cfg->label = g_strdup(tc->label);
+		if (at && at->active_agent >= 0 && at->active_agent < (gint)agents->len)
+			te->cfg->agent_key = g_strdup(
+			    ((AgentConfig *)g_ptr_array_index(agents, at->active_agent))->key);
+		else
+			te->cfg->agent_key = g_strdup(tc->agent_key);
+		te->orig_agent = g_strdup(te->cfg->agent_key);
+		g_ptr_array_add(cw->tab_edits, te);
+	}
+
+	GtkWidget *tab_hdr = gtk_label_new(_("Tabs:"));
+	gtk_widget_set_halign(tab_hdr, GTK_ALIGN_START);
+	cw->tab_combo = gtk_combo_box_text_new();
+	GtkWidget *tab_add_btn    = gtk_button_new_with_label(_("Add"));
+	GtkWidget *tab_remove_btn = gtk_button_new_with_label(_("Remove"));
+	GtkWidget *tab_row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_box_pack_start(GTK_BOX(tab_row), cw->tab_combo,  TRUE,  TRUE,  0);
+	gtk_box_pack_start(GTK_BOX(tab_row), tab_add_btn,    FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(tab_row), tab_remove_btn, FALSE, FALSE, 0);
+
+	GtkWidget *tab_label_label = gtk_label_new(_("Label (empty = agent name):"));
+	gtk_widget_set_halign(tab_label_label, GTK_ALIGN_START);
+	cw->tab_label_entry = gtk_entry_new();
+	GtkWidget *tab_agent_label = gtk_label_new(_("Agent:"));
+	gtk_widget_set_halign(tab_agent_label, GTK_ALIGN_START);
+	cw->tab_agent_combo = gtk_combo_box_text_new();
+
+	gtk_box_pack_start(GTK_BOX(vbox), tab_hdr,              FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), tab_row,              FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), tab_label_label,      FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), cw->tab_label_entry,  FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), tab_agent_label,      FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), cw->tab_agent_combo,  FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), gtk_label_new(""),    FALSE, FALSE, 2);
+
+	g_signal_connect(cw->tab_combo, "changed", G_CALLBACK(on_tab_combo_changed), cw);
+	g_signal_connect(tab_add_btn, "clicked", G_CALLBACK(on_tab_add_clicked), cw);
+	g_signal_connect(tab_remove_btn, "clicked", G_CALLBACK(on_tab_remove_clicked), cw);
+	tab_combo_rebuild(cw, 0);
 
 	/* Agent selection row */
 	GtkWidget *agent_hdr = gtk_label_new(_("Agents:"));
@@ -1666,7 +2171,8 @@ static GtkWidget *ga_configure(G_GNUC_UNUSED GeanyPlugin *plugin,
 		AgentConfig *a = (AgentConfig *)g_ptr_array_index(agents, i);
 		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cw->agent_combo), a->name);
 	}
-	gtk_combo_box_set_active(GTK_COMBO_BOX(cw->agent_combo), active_agent);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cw->agent_combo),
+	                         primary_tab ? primary_tab->active_agent : 0);
 
 	GtkWidget *add_btn    = gtk_button_new_with_label(_("Add"));
 	GtkWidget *remove_btn = gtk_button_new_with_label(_("Remove"));
@@ -1698,7 +2204,8 @@ static GtkWidget *ga_configure(G_GNUC_UNUSED GeanyPlugin *plugin,
 
 	/* Load current agent's values */
 	{
-		AgentConfig *ac = (AgentConfig *)g_ptr_array_index(agents, active_agent);
+		AgentConfig *ac = (AgentConfig *)g_ptr_array_index(agents,
+		                      primary_tab ? primary_tab->active_agent : 0);
 		gtk_entry_set_text(GTK_ENTRY(cw->name_entry),     ac->name     ? ac->name     : "");
 		gtk_entry_set_text(GTK_ENTRY(cw->cmd_entry),      ac->cmd      ? ac->cmd      : "");
 		gtk_entry_set_text(GTK_ENTRY(cw->work_dir_entry), ac->work_dir ? ac->work_dir : "");
@@ -1791,16 +2298,16 @@ static void on_geanycontrol_send_to_agent(G_GNUC_UNUSED GObject *obj,
                                           const gchar *text,
                                           G_GNUC_UNUSED gpointer data)
 {
-	if (!agent_term || !text || !*text)
+	if (!primary_tab || !primary_tab->term || !text || !*text)
 		return;
 #if VTE_CHECK_VERSION(0, 70, 0)
-	VtePty *pty = vte_terminal_get_pty(agent_term);
+	VtePty *pty = vte_terminal_get_pty(primary_tab->term);
 	if (pty) {
 		int fd = vte_pty_get_fd(pty);
-		write(fd, text, strlen(text));
+		pty_write(fd, text, strlen(text));
 	}
 #else
-	vte_terminal_feed_child(agent_term, text, (gssize)strlen(text));
+	vte_terminal_feed_child(primary_tab->term, text, (gssize)strlen(text));
 #endif
 }
 
@@ -1810,24 +2317,41 @@ static void on_insert_to_agent_signal(G_GNUC_UNUSED GObject *obj,
                                        const gchar *text,
                                        G_GNUC_UNUSED gpointer data)
 {
-	if (!agent_term || !text || !*text)
+	if (!primary_tab || !text || !*text)
 		return;
-	if (tab_index >= 0)
-		gtk_notebook_set_current_page(
-		    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
-		    tab_index);
+
+	/* Optional "<tabkey>:" prefix selects a tab; anything else (including
+	 * an unknown prefix) is plain text for the primary tab. */
+	AgentTab *at    = primary_tab;
+	const gchar *colon = strchr(text, ':');
+	if (colon && colon > text)
+	{
+		gchar    *key   = g_strndup(text, (gsize)(colon - text));
+		AgentTab *named = agent_tab_by_key(key);
+		g_free(key);
+		if (named)
+		{
+			at   = named;
+			text = colon + 1;
+			if (!*text)
+				return;
+		}
+	}
+	if (!at->term)
+		return;
+	agent_tab_show(at);
 #if VTE_CHECK_VERSION(0, 70, 0)
-	VtePty *pty = vte_terminal_get_pty(agent_term);
+	VtePty *pty = vte_terminal_get_pty(at->term);
 	if (pty) {
 		int fd = vte_pty_get_fd(pty);
-		write(fd, "\x15", 1);
-		write(fd, text, strlen(text));
+		pty_write(fd, "\x15", 1);
+		pty_write(fd, text, strlen(text));
 	}
 #else
-	vte_terminal_feed_child(agent_term, "\x15", 1);
-	vte_terminal_feed_child(agent_term, text, (gssize)strlen(text));
+	vte_terminal_feed_child(at->term, "\x15", 1);
+	vte_terminal_feed_child(at->term, text, (gssize)strlen(text));
 #endif
-	g_idle_add(grab_agent_focus_idle, NULL);
+	g_idle_add(grab_agent_focus_idle, at);
 }
 
 /* Run a command in the agent (clears line, sends command + newline).
@@ -1836,13 +2360,10 @@ static void on_run_in_agent_signal(G_GNUC_UNUSED GObject *obj,
                                     const gchar *text,
                                     G_GNUC_UNUSED gpointer data)
 {
-	if (!agent_term || !text || !*text)
+	if (!primary_tab || !primary_tab->term || !text || !*text)
 		return;
-	if (tab_index >= 0)
-		gtk_notebook_set_current_page(
-		    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
-		    tab_index);
-	ga_run_agent_cmd(text);
+	agent_tab_show(primary_tab);
+	ga_run_agent_cmd(primary_tab, text);
 }
 
 
@@ -1883,12 +2404,27 @@ static gboolean ga_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer data)
 	ga_load_config();
 	if (use_askpass)
 		setup_askpass();
-	create_agent_tab();
+	tabs = g_ptr_array_new();
+	for (guint i = 0; i < tab_configs->len; i++)
+	{
+		AgentTabConfig *tc = (AgentTabConfig *)g_ptr_array_index(tab_configs, i);
+		AgentTab *at = agent_tab_new();
+		gint idx = agent_index_by_key(tc->agent_key);
+		if (idx < 0)
+			idx = (i == 0) ? config_active_agent : 0;
+		at->cfg          = tc;
+		at->active_agent = idx;
+		at->running      = TRUE;
+		g_ptr_array_add(tabs, at);
+		if (i == 0)
+			primary_tab = at;
+		create_agent_tab(at);
+	}
 	agent_socket_init();
 	create_focus_toggle();
 
-	running = TRUE;
-	g_idle_add(ga_spawn_idle, NULL);
+	for (guint i = 0; i < tabs->len; i++)
+		g_idle_add(ga_spawn_idle, g_ptr_array_index(tabs, i));
 
 	/* Agent tools menu */
 	agent_tools_load();
@@ -1942,14 +2478,29 @@ static gboolean ga_init(GeanyPlugin *plugin, G_GNUC_UNUSED gpointer data)
 	plugin_signal_connect(plugin, geany->object, "geanyagent-run-in-agent",
 	                      FALSE, G_CALLBACK(on_run_in_agent_signal), NULL);
 
+	/* Register and handle the geanyagent-restart signal */
+	if (!g_signal_lookup("geanyagent-restart", obj_type))
+		g_signal_new("geanyagent-restart",
+		             obj_type,
+		             G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		             0, NULL, NULL,
+		             g_cclosure_marshal_VOID__VOID,
+		             G_TYPE_NONE, 0);
+	plugin_signal_connect(plugin, geany->object, "geanyagent-restart", FALSE,
+	                      G_CALLBACK(on_restart_signal), NULL);
+
+	/* Right-click on an editor tab -> "Add to Agent" */
+	editor_nb_handler_id = g_signal_connect(
+	    geany_data->main_widgets->notebook,
+	    "button-press-event",
+	    G_CALLBACK(on_editor_notebook_button_press), NULL);
+
 	return TRUE;
 }
 
 static void ga_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin,
                        G_GNUC_UNUSED gpointer data)
 {
-	running = FALSE;
-
 	if (editor_nb_handler_id)
 	{
 		g_signal_handler_disconnect(geany_data->main_widgets->notebook,
@@ -1957,11 +2508,16 @@ static void ga_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin,
 		editor_nb_handler_id = 0;
 	}
 
-	if (agent_term)
+	for (guint i = 0; tabs && i < tabs->len; i++)
 	{
-		g_signal_handlers_disconnect_by_func(agent_term,
-		                                     G_CALLBACK(on_child_exited), NULL);
-		agent_term = NULL;
+		AgentTab *at = (AgentTab *)g_ptr_array_index(tabs, i);
+		at->running = FALSE;
+		if (at->term)
+		{
+			g_signal_handlers_disconnect_by_func(at->term,
+			                                     G_CALLBACK(on_child_exited), at);
+			at->term = NULL;
+		}
 	}
 
 	if (focus_event_box) {
@@ -1971,15 +2527,22 @@ static void ga_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin,
 	}
 	agent_socket_cleanup();
 
-	if (tab_index >= 0)
+	for (guint i = 0; tabs && i < tabs->len; i++)
 	{
-		gtk_notebook_remove_page(
-		    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
-		    tab_index);
-		agent_hbox  = NULL;
-		agent_label = NULL;
-		tab_index   = -1;
+		AgentTab *at = (AgentTab *)g_ptr_array_index(tabs, i);
+		gint page = agent_tab_page(at);
+		if (page >= 0)
+			gtk_notebook_remove_page(
+			    GTK_NOTEBOOK(geany_data->main_widgets->message_window_notebook),
+			    page);
+		agent_tab_free(at);
 	}
+	if (tabs)
+	{
+		g_ptr_array_free(tabs, TRUE);
+		tabs = NULL;
+	}
+	primary_tab = NULL;
 
 	cleanup_askpass();
 
@@ -1993,6 +2556,7 @@ static void ga_cleanup(G_GNUC_UNUSED GeanyPlugin *plugin,
 	}
 
 	agents_free();
+	tab_configs_free();
 
 	g_free(search_url);
 	search_url = NULL;
