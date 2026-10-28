@@ -28,9 +28,12 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=1
+current_page=4
 FILE_NAME_0=191;Markdown;0;EUTF-8;1;1;0;%2Fhome%2Fteknopaul%2Fgithub_workspace%2Fgeany-plugins%2Fai-prompts%2Fgeneral-features-todo.md;0;4
 FILE_NAME_1=0;C;0;EUTF-8;1;1;0;%2Fhome%2Fteknopaul%2Fgithub_workspace%2Fgeany-plugins%2Fgeanyagent%2Fsrc%2Fgeanyagent.c;0;4
+FILE_NAME_2=5282;None;0;EUTF-8;1;1;0;%2Fhome%2Fteknopaul%2Fgithub_workspace%2Fgeany-plugins%2Fgeanyvosk%2FREADME;0;4
+FILE_NAME_3=0;Markdown;0;EUTF-8;1;1;0;%2Fhome%2Fteknopaul%2Fgithub_workspace%2Fgeany-plugins%2F.planning%2Fplans%2Fagent-stop-focus_PLAN.md;0;4
+FILE_NAME_4=6764;Markdown;0;EUTF-8;1;1;0;%2Fhome%2Fteknopaul%2Fgithub_workspace%2Fgeany-plugins%2F.planning%2Fplans%2Fsecond-agent-tab_PLAN.md;0;4
 
 [VTE]
 last_dir=/home/teknopaul

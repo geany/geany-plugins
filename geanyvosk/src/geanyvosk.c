@@ -557,6 +557,48 @@ static const CmdEntry CMDS[] = {
 /* forward declaration for Phase 6 */
 static void vosk_handle_skill_command(const gchar *text);
 
+/* Fuzzy-match spoken name against open document basenames.
+   Each whitespace token that appears (case-insensitive) in the basename scores 1.
+   Switches to the highest-scoring document. */
+static void fuzzy_open_document(const gchar *spoken)
+{
+    gchar **tokens    = g_strsplit(spoken, " ", -1);
+    gint    best_score = 0;
+    GeanyDocument *best = NULL;
+
+    for (guint i = 0; i < geany->documents_array->len; i++) {
+        GeanyDocument *doc = g_ptr_array_index(geany->documents_array, i);
+        if (!DOC_VALID(doc) || !doc->file_name) continue;
+
+        gchar *base  = g_path_get_basename(doc->file_name);
+        gchar *lower = g_utf8_strdown(base, -1);
+        g_free(base);
+
+        gint score = 0;
+        for (gchar **t = tokens; *t; t++) {
+            if (**t == '\0') continue;
+            gchar *lt = g_utf8_strdown(*t, -1);
+            if (strstr(lower, lt)) score++;
+            g_free(lt);
+        }
+        g_free(lower);
+
+        if (score > best_score) {
+            best_score = score;
+            best = doc;
+        }
+    }
+
+    g_strfreev(tokens);
+
+    if (best && best_score > 0)
+        gtk_notebook_set_current_page(
+            GTK_NOTEBOOK(geany->main_widgets->notebook),
+            document_get_notebook_page(best));
+    else
+        msgwin_status_add("GeanyVosk: no open file matching '%s'", spoken);
+}
+
 /* ------------------------------------------------------------------ */
 /* Phase 7 — menu bar navigation by voice                             */
 /* ------------------------------------------------------------------ */
@@ -1058,21 +1100,15 @@ static void vosk_handle_command(const gchar *text)
     /* "open file <name>" / "switch to file <name>" — fuzzy match open documents */
     if (strstr(text, "open file ") && !strstr(text, "new file")) {
         gchar *spoken = extract_name_after(text, "open file ");
-        if (spoken && *spoken) {
-            gchar *cmd = g_strdup_printf("fuzzy-open-file %s", spoken);
-            ctrl_emit(cmd);
-            g_free(cmd);
-        }
+        if (spoken && *spoken)
+            fuzzy_open_document(spoken);
         g_free(spoken);
         return;
     }
     if (strstr(text, "switch to file ")) {
         gchar *spoken = extract_name_after(text, "switch to file ");
-        if (spoken && *spoken) {
-            gchar *cmd = g_strdup_printf("fuzzy-open-file %s", spoken);
-            ctrl_emit(cmd);
-            g_free(cmd);
-        }
+        if (spoken && *spoken)
+            fuzzy_open_document(spoken);
         g_free(spoken);
         return;
     }
@@ -1129,11 +1165,12 @@ static gboolean vosk_init_recognizer(void)
                           cfg_model_path);
         return FALSE;
     }
-    /* Wake-word recognizer: grammar-restricted so the phrase is caught reliably. */
-    vosk_rec_idle = vosk_recognizer_new(vosk_model, (float)SAMPLE_RATE);
-    if (vosk_rec_idle) {
+    /* Wake-word recognizer: grammar-restricted so the phrase is caught reliably.
+       Must use vosk_recognizer_new_grm() — calling set_grm() on a full-vocab
+       recognizer does not restrict vocabulary for lookahead models. */
+    {
         gchar *grm = build_wake_grammar();
-        vosk_recognizer_set_grm(vosk_rec_idle, grm);
+        vosk_rec_idle = vosk_recognizer_new_grm(vosk_model, (float)SAMPLE_RATE, grm);
         g_free(grm);
     }
 

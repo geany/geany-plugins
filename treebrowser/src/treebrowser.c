@@ -2519,6 +2519,11 @@ on_treeview_keypress(GtkWidget *widget, GdkEventKey *event)
 			return TRUE;
 		}
 	}
+	if (event->keyval == GDK_F2)
+	{
+		treebrowser_rename_current();
+		return TRUE;
+	}
 	if (event->keyval == GDK_BackSpace)
 	{
 		on_button_go_up();
