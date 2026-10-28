@@ -1,0 +1,13 @@
+geanyenv — per-project environment variables for Geany
+
+Reads <project>/geany.env on project open and sets environment
+variables for all spawned processes (treebrowser, file tools,
+CLI terminals, AI agent).
+
+Format:
+  # comment
+  JAVA_HOME=/opt/java/25
+  MAVEN_HOME=/opt/maven/3.9
+  PATH=${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}
+
+Variables restored on project close.

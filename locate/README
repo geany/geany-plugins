@@ -1,0 +1,40 @@
+Locate — Find File using the OS locate command
+================================================
+
+Adds a "Find File" menu item to the Tools menu backed by the `locate`
+command.  Searches are scoped to the open project root.
+
+Result UX:
+  0 matches  — dialog stays open for query refinement
+  1 match    — path shown in dialog; press Enter to open
+  2+ matches — clickable links in the Messages tab; dialog closes
+
+A "updatedb" menu item runs `sudo updatedb` in the background (uses the
+geanycli terminal tab if available).
+
+Double-tap Shift opens the Find File dialog from anywhere in Geany.
+
+Requirements
+------------
+
+mlocate or plocate must be installed on the system.
+
+Known Issues
+------------
+
+None currently known.
+
+Author
+------
+
+teknopaul <teknopaul@gmail.com>
+
+Website
+-------
+
+https://github.com/teknopaul/geany-plugins
+
+Bugs
+----
+
+https://github.com/teknopaul/geany-plugins/issues

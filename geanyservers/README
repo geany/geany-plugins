@@ -1,0 +1,98 @@
+Geany Servers Plugin
+====================
+
+Adds a "Servers" tab to the Geany message window for managing local and
+systemd-managed services.
+
+Reads servertools.conf (INI format), displays one row per configured server
+with live status and ping indicators, and provides start/stop/reload/ping/log
+actions — all without blocking the UI thread.
+
+Configuration
+-------------
+
+Place servertools.conf in ~/.config/geany/servertools.conf (user defaults)
+and/or <project>/config/geany/servertools.conf (project overrides).
+
+Example:
+
+  [servers]
+  server_0=🕋 nginx
+  name_0=nginx
+  type_0=systemd
+  changes_0=reload src/www;src/cgi
+
+  server_1=🧱 firewall
+  name_1=ufw
+  type_1=systemd
+
+Keys per server (N = index):
+  server_N  — display label (emoji + name); empty string hides the row
+  name_N    — service name (used with systemctl)
+  type_N    — systemd (default), system, or local
+  start_N   — custom start command (default: systemctl start <name>)
+  stop_N    — custom stop command
+  reload_N  — custom reload command
+  status_N  — custom status script; exit 0 = running
+  ping_N    — command to ping the service
+  log_N     — path to log file (enables Logs button)
+  sudo_N    — prefix to prepend for privilege escalation
+  changes_N — "method path1;path2" — watch paths and run method on change
+  on_open_N — action to fire when a Geany project is opened (start/stop/reload)
+  on_close_N— action to fire when a Geany project is closed
+
+ARSE — Automatic Recovery of Server Execution
+----------------------------------------------
+
+The [arse] group lists known orphan or stale processes that should not be
+running.  Each entry appears below the server list.  When the Servers tab is
+focused, the check command is run; if it exits 0 (process found) the row turns
+yellow as a warning.  Selecting an arse row and pressing "🧻 Kill" runs the
+kill command to clean up.
+
+Example:
+
+  [arse]
+  arse_0=🧻 stale nginx
+  arse_check_0=pgrep -x nginx
+  arse_kill_0=pkill -x nginx
+
+  arse_1=🧻 stale mock
+  arse_check_1=pgrep -f "node.*mock"
+  arse_kill_1=pkill -f "node.*mock"
+
+Keys per arse entry (N = index):
+  arse_N        — display label shown in the list
+  arse_check_N  — command that exits 0 when stale processes exist
+  arse_kill_N   — command to kill those processes
+
+Requirements
+------------
+
+  * Geany 2.1+
+  * GTK 3
+
+Known Issues
+------------
+
+None currently known.
+
+Author
+------
+
+teknopaul <teknopaul@gmail.com>
+
+Website
+-------
+
+https://github.com/teknopaul/geany-plugins
+
+Bugs
+----
+
+https://github.com/teknopaul/geany-plugins/issues
+
+License
+-------
+
+GPL-2.0-or-later
