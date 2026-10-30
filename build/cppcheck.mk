@@ -6,6 +6,7 @@ check-cppcheck: $(srcdir)
 		--inline-suppr \
 		-q --template=gcc --error-exitcode=2 \
 		--library=gtk \
+		--library=cairo \
 		--library=$(top_srcdir)/build/cppcheck-geany-plugins.cfg \
 		--suppressions-list=$(top_srcdir)/build/cppcheck-geany-plugins.suppressions \
 		-I$(GEANY_INCLUDEDIR)/geany \
