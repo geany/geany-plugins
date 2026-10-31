@@ -6,7 +6,7 @@
 # shell. The extracted files will be placed into the current
 # directory.
 
-ABI=x86_64  # do not change, i686 is not supported any longer
+ABI=ucrt-x86_64  # do not change, i686 is not supported any longer
 use_cache="no"
 make_zip="no"
 gtkv="3"
@@ -14,7 +14,7 @@ run_pi="y"
 cross="no"
 
 # Wine commands for 64bit binaries, used only when "-x" is set
-EXE_WRAPPER_64="mingw-w64-x86_64-wine"
+EXE_WRAPPER_64="mingw-w64-${ABI}-wine"
 
 # ctags - binary for GeanyCTags plugin
 # ctpl-git - for GeanyGenDoc plugin
@@ -183,17 +183,18 @@ extract_packages() {
 }
 
 move_extracted_files() {
+	local basedir=ucrt64
 	echo "Move extracted data to destination directory"
-	if [ -d mingw64 ]; then
+	if [ -d "$basedir" ]; then
 		for d in bin etc home include lib libexec locale sbin share ssl var; do
-			if [ -d "mingw64/$d" ]; then
-				rm -rf $d
+			if [ -d "$basedir/$d" ]; then
+				rm -rf "$d"
 				# prevent sporadic 'permission denied' errors on my system, not sure why they happen
 				sleep 0.5
-				mv mingw64/$d .
+				mv "$basedir/$d" .
 			fi
 		done
-		rmdir mingw64
+		rmdir "$basedir"
 	fi
 }
 
