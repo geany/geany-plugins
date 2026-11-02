@@ -2,14 +2,15 @@
 # Copyright (C) 2009-2011 THE geany-plugins'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the geany-plugins package.
 # Masami Chikahiro <cmasa.z321@gmail.com>, 2009-2013.
+# Lesstep <275432938+rogervokma-stack@users.noreply.github.com>, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Geany-Plugins 2.0\n"
 "Report-Msgid-Bugs-To: https://github.com/geany/geany-plugins/issues\n"
 "POT-Creation-Date: 2025-06-15 20:12+0200\n"
-"PO-Revision-Date: 2011-10-21 14:08+0100\n"
-"Last-Translator: Masami Chikahiro <cmasa.z321@gmail.com>\n"
+"PO-Revision-Date: 2026-11-02 12:00+0900\n"
+"Last-Translator: Lesstep <275432938+rogervokma-stack@users.noreply.github.com>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -104,11 +105,11 @@ msgstr "URIをコピー"
 
 #: addons/src/ao_wrapwords.c:252
 msgid "Enclose Characters"
-msgstr "閉じる記号"
+msgstr "囲む文字"
 
 #: addons/src/ao_wrapwords.c:253
 msgid "Accept"
-msgstr ""
+msgstr "適用"
 
 #: addons/src/ao_wrapwords.c:254 geanymacro/src/geanymacro.c:1064
 msgid "Cancel"
@@ -116,7 +117,7 @@ msgstr "キャンセル"
 
 #: addons/src/ao_wrapwords.c:254
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: addons/src/ao_wrapwords.c:263
 #, c-format
@@ -144,18 +145,17 @@ msgid "Show Document List"
 msgstr "文書一覧を表示"
 
 #: addons/src/ao_copyfilepath.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "File path \"%s\" copied to clipboard."
-msgstr "完全パスをクリップボードにコピー"
+msgstr "ファイルパス \"%s\" をクリップボードにコピーしました。"
 
 #: addons/src/ao_copyfilepath.c:119 addons/src/addons.c:444
 msgid "Copy File Path"
-msgstr ""
+msgstr "ファイルパスをコピー"
 
 #: addons/src/ao_copyfilepath.c:122
-#, fuzzy
 msgid "Copy the file path of the current document to the clipboard"
-msgstr "現在の文書の綴りを検査"
+msgstr "現在の文書のファイルパスをクリップボードにコピーします"
 
 #: addons/src/addons.c:352 autoclose/src/autoclose.c:920
 #: codenav/src/codenavigation.c:281 latex/src/latex.c:208 latex/src/latex.c:293
@@ -253,7 +253,7 @@ msgstr "ダブルクリックしたときに単語をすべてマークする"
 
 #: addons/src/addons.c:574
 msgid "Deselect a previous highlight by single click"
-msgstr ""
+msgstr "シングルクリックしたときに以前のハイライトを解除する"
 
 #: addons/src/addons.c:584
 msgid "Strip trailing blank lines"
@@ -269,7 +269,7 @@ msgstr "定義可能なキー入力によって選択したものに括弧をつ
 
 #: addons/src/addons.c:600
 msgid "Configure enclose pairs"
-msgstr ""
+msgstr "括弧の対を設定"
 
 #: addons/src/addons.c:608
 msgid "Enclose selection automatically (without having to press a keybinding)"
@@ -277,11 +277,11 @@ msgstr "自動的に選択したものに括弧をつける(括弧をつける�
 
 #: addons/src/addons.c:614
 msgid "Show a calltip when hovering over a color value"
-msgstr ""
+msgstr "色の値にマウスポインタを重ねたときにコールチップを表示"
 
 #: addons/src/addons.c:620
 msgid "Open Color Chooser when double-clicking a color value"
-msgstr ""
+msgstr "色の値をダブルクリックしたときに色の選択を開く"
 
 #: addons/src/addons.c:713
 msgid "Addons"
@@ -293,88 +293,87 @@ msgstr "Geanyむけのアドオン集"
 
 #: autoclose/src/autoclose.c:1076
 msgid "Auto-close quotes and brackets"
-msgstr ""
+msgstr "引用符と括弧を自動で閉じる"
 
 #: autoclose/src/autoclose.c:1077
 msgid "Parenthesis ( )"
-msgstr ""
+msgstr "丸括弧 ( )"
 
 #: autoclose/src/autoclose.c:1078
 msgid "Auto-close parenthesis \"(\" -> \"(|)\""
-msgstr ""
+msgstr "丸括弧を自動で閉じる \"(\" -> \"(|)\""
 
 #: autoclose/src/autoclose.c:1080
 msgid "Curly brackets { }"
-msgstr ""
+msgstr "波括弧 { }"
 
 #: autoclose/src/autoclose.c:1081
 msgid "Auto-close curly brackets \"{\" -> \"{|}\""
-msgstr ""
+msgstr "波括弧を自動で閉じる \"{\" -> \"{|}\""
 
 #: autoclose/src/autoclose.c:1083
 msgid "Square brackets [ ]"
-msgstr ""
+msgstr "角括弧 [ ]"
 
 #: autoclose/src/autoclose.c:1084
 msgid "Auto-close square brackets \"[\" -> \"[|]\""
-msgstr ""
+msgstr "角括弧を自動で閉じる \"[\" -> \"[|]\""
 
 #: autoclose/src/autoclose.c:1085
 msgid "Angular brackets < >"
-msgstr ""
+msgstr "山括弧 < >"
 
 #: autoclose/src/autoclose.c:1086
 msgid "Auto-close angular brackets \"<\" -> \"<|>\""
-msgstr ""
+msgstr "山括弧を自動で閉じる \"<\" -> \"<|>\""
 
 #: autoclose/src/autoclose.c:1088
 msgid "\tOnly for HTML"
-msgstr ""
+msgstr "\tHTML のみ"
 
 #: autoclose/src/autoclose.c:1089
 msgid "Auto-close angular brackets only in HTML documents"
-msgstr ""
+msgstr "HTML 文書でのみ山括弧を自動で閉じる"
 
 #: autoclose/src/autoclose.c:1090
 msgid "Double quotes \" \""
-msgstr ""
+msgstr "二重引用符 \" \""
 
 #: autoclose/src/autoclose.c:1091
 msgid "Auto-close double quotes \" -> \"|\""
-msgstr ""
+msgstr "二重引用符を自動で閉じる \" -> \"|\""
 
 #: autoclose/src/autoclose.c:1092
 msgid "Single quotes ' '"
-msgstr ""
+msgstr "一重引用符 ' '"
 
 #: autoclose/src/autoclose.c:1093
 msgid "Auto-close single quotes ' -> '|'"
-msgstr ""
+msgstr "一重引用符を自動で閉じる ' -> '|'"
 
 #: autoclose/src/autoclose.c:1094
 msgid "Backquote ` `"
-msgstr ""
+msgstr "バッククォート ` `"
 
 #: autoclose/src/autoclose.c:1095
 msgid "Auto-close backquote ` -> `|`"
-msgstr ""
+msgstr "バッククォートを自動で閉じる ` -> `|`"
 
 #: autoclose/src/autoclose.c:1097
 msgid "\tOnly for Shell-scripts (Bash)"
-msgstr ""
+msgstr "\tシェルスクリプト（Bash）のみ"
 
 #: autoclose/src/autoclose.c:1098
 msgid "Auto-close backquote only in Shell-scripts like Bash"
-msgstr ""
+msgstr "Bash などのシェルスクリプトでのみバッククォートを自動で閉じる"
 
 #: autoclose/src/autoclose.c:1100
 msgid "Improve curly brackets completion"
-msgstr ""
+msgstr "波括弧の補完を改善する"
 
 #: autoclose/src/autoclose.c:1101
-#, fuzzy
 msgid "Indent when enclosing"
-msgstr "コードページなし"
+msgstr "囲むときにインデントする"
 
 #: autoclose/src/autoclose.c:1102
 msgid ""
@@ -383,114 +382,110 @@ msgid ""
 "You do not need to select block precisely - block enclosing takes into "
 "account only lines."
 msgstr ""
+"文字列を選択して \"{\" または \"}\" を押すと、選択した行を自動的に閉じ、インデント付きの新しいブロックを作成します。\n"
+"ブロックを正確に選択する必要はありません。ブロックを囲む際は、行だけが考慮されます。"
 
 #: autoclose/src/autoclose.c:1107
-#, fuzzy
 msgid "Move cursor to beginning"
-msgstr "カーソルを行の終わりに移動"
+msgstr "カーソルを先頭に移動する"
 
 #: autoclose/src/autoclose.c:1108
 msgid ""
 "If you checked \"Indent when enclosing\", moving cursor to beginning may be "
 "useful: usually you make new block and need to create new statement before "
 "this block."
-msgstr ""
+msgstr "\"囲むときにインデントする\" にチェックを入れた場合は、カーソルを先頭に移動すると便利なことがあります。通常は新しいブロックを作成したあと、そのブロックの前に新しい文を書く必要があるためです。"
 
 #: autoclose/src/autoclose.c:1111
-#, fuzzy
 msgid "Improved auto-indentation"
-msgstr "ブラウザの方向"
+msgstr "自動インデントの改善"
 
 #: autoclose/src/autoclose.c:1112
 msgid ""
 "Improved auto-indent for curly brackets: type \"{\" and then press Enter - "
 "plugin will create full indented block. Works without \"auto-close { }\" "
 "checkbox."
-msgstr ""
+msgstr "波括弧の自動インデントを改善します。\"{\" を入力して Enter を押すと、インデント付きのブロック全体を作成します。\"auto-close { }\" のチェックボックスにチェックを入れなくても動作します。"
 
 #: autoclose/src/autoclose.c:1115
 msgid "\tWhitesmith's style"
-msgstr ""
+msgstr "\tWhitesmith スタイル"
 
 #: autoclose/src/autoclose.c:1116
 msgid ""
 "This style puts the brace associated with a control statement on the next "
 "line, indented. Statements within the braces are indented to the same level "
 "as the braces."
-msgstr ""
+msgstr "このスタイルでは、制御文に対応する波括弧を次の行に、インデントして配置します。波括弧内の文は、波括弧と同じレベルにインデントされます。"
 
 #: autoclose/src/autoclose.c:1121
 msgid "Delete pairing character while backspacing first"
-msgstr ""
+msgstr "最初の文字を BackSpace で削除するとき、対応する文字も削除する"
 
 #: autoclose/src/autoclose.c:1122
 msgid "Check if you want to delete pairing bracket by pressing BackSpace."
-msgstr ""
+msgstr "BackSpace を押したときに対応する括弧も削除したい場合は、チェックを入れてください。"
 
 #: autoclose/src/autoclose.c:1124
-#, fuzzy
 msgid "Suppress double-completion"
-msgstr "自動補完モード"
+msgstr "二重補完を抑制する"
 
 #: autoclose/src/autoclose.c:1125
 msgid ""
 "Check if you want to allow editor automatically fix mistypes with brackets: "
 "if you type \"{}\" you will get \"{}\", not \"{}}\"."
-msgstr ""
+msgstr "括弧の打ち間違いをエディタに自動で修正させたい場合は、チェックを入れてください。\"{}\" と入力すると、\"{}}\" ではなく \"{}\" になります。"
 
 #: autoclose/src/autoclose.c:1127
-#, fuzzy
 msgid "Enclose selections"
-msgstr "選択を解除"
+msgstr "選択範囲を囲む"
 
 #: autoclose/src/autoclose.c:1128
 msgid "Automatically enclose selected text by pressing just one bracket key."
-msgstr ""
+msgstr "括弧のキーを1つ押すだけで、選択したテキストを自動的に囲みます。"
 
 #: autoclose/src/autoclose.c:1130
-#, fuzzy
 msgid "Keep selection when enclosing"
-msgstr "レベルを下げる"
+msgstr "囲んだあとも選択を維持する"
 
 #: autoclose/src/autoclose.c:1131
 msgid "Keep your previously selected text after enclosing."
-msgstr ""
+msgstr "囲んだあとも、以前選択していたテキストの選択を維持します。"
 
 #: autoclose/src/autoclose.c:1133
 msgid "Behaviour inside comments and strings"
-msgstr ""
+msgstr "コメントと文字列内の動作"
 
 #: autoclose/src/autoclose.c:1134
 msgid "Allow auto-closing in strings and comments"
-msgstr ""
+msgstr "文字列とコメント内でも自動で閉じる"
 
 #: autoclose/src/autoclose.c:1135
 msgid "Check if you want to keep auto-closing inside strings and comments too."
-msgstr ""
+msgstr "文字列とコメントの内部でも自動で閉じたい場合は、チェックを入れてください。"
 
 #: autoclose/src/autoclose.c:1136
-#, fuzzy
 msgid "Enclose selections in strings and comments"
-msgstr "定義可能なキー入力によって選択したものに括弧をつける"
+msgstr "文字列とコメント内でも選択範囲を囲む"
 
 #: autoclose/src/autoclose.c:1137
 msgid ""
 "Check if you want to enclose selections inside strings and comments too."
-msgstr ""
+msgstr "文字列とコメントの内部でも選択範囲を囲みたい場合は、チェックを入れてください。"
 
 #: autoclose/src/autoclose.c:1140
 msgid "Auto-complete \";\" for functions"
-msgstr ""
+msgstr "関数の \";\" を自動補完する"
 
 #: autoclose/src/autoclose.c:1141
 msgid ""
 "Full function auto-closing (works only for C/C++): type \"sin(\" and you "
 "will get \"sin(|);\"."
-msgstr ""
+msgstr "関数の完全な自動クローズ（C/C++ のみ）: \"sin(\" と入力すると \"sin(|);\" になります。"
 
 #: autoclose/src/autoclose.c:1143
 msgid "Shift+BackSpace removes pairing brace too"
-msgstr ""
+msgstr "Shift+BackSpace で対応する括弧も削除する"
 
 #: autoclose/src/autoclose.c:1144
 msgid ""
@@ -498,37 +493,38 @@ msgid ""
 "Tip: to completely remove indented block just Shift+BackSpace first \"{\" or "
 "last \"}\"."
 msgstr ""
+"Shift+BackSpace を押すと、左右の括弧を両方削除します。\n"
+"ヒント: インデントされたブロックを丸ごと削除するには、最初の \"{\" か最後の \"}\" の位置で Shift+BackSpace を押します。"
 
 #: autoclose/src/autoclose.c:1147
 msgid "Jump on Tab to enclosed char"
-msgstr ""
+msgstr "Tab で囲まれた文字へジャンプする"
 
 #: autoclose/src/autoclose.c:1148
 msgid "Jump behind autoclosed items on Tab press."
-msgstr ""
+msgstr "Tab を押すと、自動で閉じた項目の後ろにジャンプします。"
 
 #: autoclose/src/autoclose.c:1204
-#, fuzzy
 msgid "Auto-close"
-msgstr "自動"
+msgstr "自動で閉じる"
 
 #: autoclose/src/autoclose.c:1205
 msgid "Auto-close braces and brackets with lot of features"
-msgstr ""
+msgstr "多機能な、波括弧と括弧の自動クローズを行います。"
 
 #: automark/src/automark.c:206
 msgid "Auto-mark"
-msgstr ""
+msgstr "自動マーク"
 
 #: automark/src/automark.c:207
 msgid "Auto-mark word under cursor"
-msgstr ""
+msgstr "カーソル位置の単語を自動マークします。"
 
 #: codenav/src/codenavigation.c:128
 msgid ""
 "Codenav head/impl lists should have been same length. Geany will use the "
 "default configuration."
-msgstr ""
+msgstr "Codenav のヘッダ/実装のリストは、同じ長さである必要があります。Geany は既定の設定を使用します。"
 
 #: codenav/src/codenavigation.c:384 codenav/src/switch_head_impl.c:70
 #: codenav/src/switch_head_impl.c:84
@@ -537,7 +533,7 @@ msgstr "ヘッダとソースの切り替え"
 
 #: codenav/src/codenavigation.c:391
 msgid "You can specify multiple extensions by separating them by commas."
-msgstr ""
+msgstr "複数の拡張子を指定するには、コンマで区切ります。"
 
 #: codenav/src/codenavigation.c:414
 msgid "Implementations extensions"
@@ -548,15 +544,16 @@ msgid "Headers extensions"
 msgstr "ヘッダの拡張子"
 
 #: codenav/src/codenavigation.c:450
-#, fuzzy
 msgid "Reset to Default"
-msgstr "標準"
+msgstr "既定に戻す"
 
 #: codenav/src/codenavigation.c:535
 msgid ""
 "Are you sure you want to delete all languages and restore defaults?\n"
 "This action cannot be undone."
 msgstr ""
+"すべての言語を削除して、既定の設定に戻しますか?\n"
+"この操作は元に戻せません。"
 
 #: codenav/src/codenavigation.c:609
 msgid "Code navigation"
@@ -565,19 +562,19 @@ msgstr "コードナビ"
 #: codenav/src/codenavigation.c:610
 msgid ""
 "This plugin adds features to facilitate navigation between source files."
-msgstr ""
+msgstr "ソースファイル間の移動を容易にする機能を追加するプラグインです。"
 
 #: codenav/src/goto_file.c:68 codenav/src/goto_file.c:228
 msgid "Go to File..."
-msgstr ""
+msgstr "ファイルに移動..."
 
 #: codenav/src/goto_file.c:82
 msgid "Go to File"
-msgstr ""
+msgstr "ファイルに移動"
 
 #: codenav/src/goto_file.c:237
 msgid "Enter the file you want to open:"
-msgstr ""
+msgstr "開きたいファイルを入力してください:"
 
 #: codenav/src/goto_file.c:313 codenav/src/switch_head_impl.c:409
 #, c-format
@@ -599,14 +596,12 @@ msgid "Show Command Panel"
 msgstr "コマンドパネルを表示"
 
 #: commander/src/commander-plugin.c:780
-#, fuzzy
 msgid "Show Command Panel (Commands Only)"
-msgstr "コマンドパネルを表示"
+msgstr "コマンドパネルを表示（コマンドのみ）"
 
 #: commander/src/commander-plugin.c:784
-#, fuzzy
 msgid "Show Command Panel (Files Only)"
-msgstr "コマンドパネルを表示"
+msgstr "コマンドパネルを表示（ファイルのみ）"
 
 #: debugger/src/plugin.c:127 debugger/src/keys.c:75 scope/data/scope.glade:3956
 #: scope/data/scope_gtk3.glade:3958 scope/src/scope.c:228
@@ -650,7 +645,7 @@ msgstr "デバッガ:"
 
 #: debugger/src/tpage.c:315
 msgid "Command Line Arguments"
-msgstr "コマンドライン引数:"
+msgstr "コマンドライン引数"
 
 #: debugger/src/tpage.c:326
 msgid "Environment Variables"
@@ -680,9 +675,9 @@ msgid "line %i"
 msgstr "行 %i"
 
 #: debugger/src/dbm_gdb.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "Program received signal %s (%s)"
-msgstr "プログラムが受信したシグナル:"
+msgstr "プログラムがシグナル %s (%s) を受信しました"
 
 #: debugger/src/dbm_gdb.c:547
 #, c-format
@@ -811,7 +806,6 @@ msgid "Add / Remove breakpoint"
 msgstr "ブレークポイントを追加/削除"
 
 #: debugger/src/keys.c:56
-#, fuzzy
 msgid "Jump to the current instruction"
 msgstr "現在の命令に移動"
 
@@ -845,49 +839,45 @@ msgstr "デバッグ・セッション・データをプロジェクトに保存
 
 #: defineformat/src/defineformat.c:266
 msgid "Define formatter"
-msgstr ""
+msgstr "#define フォーマッタ"
 
 #: defineformat/src/defineformat.c:267
 msgid "Automatically align backslash in multi-line defines"
-msgstr ""
+msgstr "複数行の define のバックスラッシュを自動的にそろえます。"
 
 #: geanyctags/src/geanyctags.c:138
-#, fuzzy, c-format
+#, c-format
 msgid "%s (in directory: %s)"
-msgstr "%s: ディレクトリがありません"
+msgstr "%s（ディレクトリ: %s）"
 
 #: geanyctags/src/geanyctags.c:155
 #, c-format
 msgid "Process execution failed (%s)"
-msgstr ""
+msgstr "プロセスの実行に失敗しました (%s)"
 
 #: geanyctags/src/geanyctags.c:543
-#, fuzzy
 msgid "Find Tag"
-msgstr "検索:"
+msgstr "タグを検索"
 
 #: geanyctags/src/geanyctags.c:554
-#, fuzzy
 msgid "_Search for:"
-msgstr "検索文字列:"
+msgstr "検索する文字列(_S):"
 
 #: geanyctags/src/geanyctags.c:572
 msgid "_Match type:"
-msgstr ""
+msgstr "一致の種類(_M):"
 
 #: geanyctags/src/geanyctags.c:577 projectorganizer/src/prjorg-sidebar.c:769
 msgid "exact"
-msgstr ""
+msgstr "完全一致"
 
 #: geanyctags/src/geanyctags.c:578 projectorganizer/src/prjorg-sidebar.c:770
-#, fuzzy
 msgid "prefix"
-msgstr "基数の接頭語(_P)"
+msgstr "前方一致"
 
 #: geanyctags/src/geanyctags.c:579 projectorganizer/src/prjorg-sidebar.c:771
-#, fuzzy
 msgid "pattern"
-msgstr "手紙"
+msgstr "パターン"
 
 #: geanyctags/src/geanyctags.c:588 projectorganizer/src/prjorg-sidebar.c:168
 #: projectorganizer/src/prjorg-sidebar.c:792
@@ -895,41 +885,36 @@ msgid "C_ase sensitive"
 msgstr "大文字小文字を区別(_A)"
 
 #: geanyctags/src/geanyctags.c:591 projectorganizer/src/prjorg-sidebar.c:795
-#, fuzzy
 msgid "_Declaration"
-msgstr "関係式"
+msgstr "宣言(_D)"
 
 #: geanyctags/src/geanyctags.c:663
 msgid "Find Tag Declaration (geanyctags)"
-msgstr ""
+msgstr "タグの宣言を検索 (geanyctags)"
 
 #: geanyctags/src/geanyctags.c:668
 msgid "Find Tag Definition (geanyctags)"
-msgstr ""
+msgstr "タグの定義を検索 (geanyctags)"
 
 #: geanyctags/src/geanyctags.c:677 geanyctags/src/geanyctags.c:682
-#, fuzzy
 msgid "Generate tags"
-msgstr "全般"
+msgstr "タグを生成"
 
 #: geanyctags/src/geanyctags.c:684
-#, fuzzy
 msgid "Find tag..."
-msgstr "検索:"
+msgstr "タグを検索..."
 
 #: geanyctags/src/geanyctags.c:689
-#, fuzzy
 msgid "Find tag"
-msgstr "次を検索"
+msgstr "タグを検索"
 
 #: geanyctags/src/geanyctags.c:721
-#, fuzzy
 msgid "Ctags generation and search plugin for geany projects"
-msgstr "gpg暗号化プラグイン"
+msgstr "Geany のプロジェクト向けに、Ctags の生成と検索を行うプラグインです。"
 
 #: geanydoc/src/geanydoc.c:50 geanydoc/src/geanydoc.c:341
 msgid "Doc"
-msgstr "文書"
+msgstr "ドキュメント"
 
 #: geanydoc/src/geanydoc.c:50
 msgid ""
@@ -937,6 +922,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"現在のシンボルのドキュメントビューアを呼び出します。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: geanydoc/src/geanydoc.c:159 geanyvc/src/geanyvc.c:448
 msgid "Could not parse the output of command"
@@ -960,11 +947,11 @@ msgstr "%w は現在の単語に置き換えられます\n"
 
 #: geanydoc/src/geanydoc.c:434
 msgid "Document current word"
-msgstr "文書の現在の単語"
+msgstr "現在の単語のドキュメント"
 
 #: geanydoc/src/geanydoc.c:435
 msgid "Document interactive"
-msgstr "文書の動作"
+msgstr "ドキュメントを対話的に表示"
 
 #: geanyextrasel/src/extrasel.c:34
 msgid "Extra Selection"
@@ -976,6 +963,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"列選択モードや、行・対応する括弧・アンカーまでの選択ができます。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: geanyextrasel/src/extrasel.c:500
 msgid "E_xtra Selection"
@@ -1007,12 +996,11 @@ msgstr "対応する括弧で選択"
 
 #: geanyextrasel/src/extrasel.c:526
 msgid "_Toggle Stream/Rectangular"
-msgstr ""
+msgstr "ストリーム/矩形を切り替え(_T)"
 
 #: geanyextrasel/src/extrasel.c:530
-#, fuzzy
 msgid "Convert selection"
-msgstr "選択範囲をテーブルに変換"
+msgstr "選択範囲を変換"
 
 #: geanyextrasel/src/extrasel.c:535
 msgid "_Set Anchor"
@@ -1432,6 +1420,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"列に数値を挿入/入力します。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: geanyinsertnum/src/insertnum.c:146
 msgid "Counting..."
@@ -1494,14 +1484,12 @@ msgid "_Zero"
 msgstr "ゼロ(_Z)"
 
 #: geanyinsertnum/src/insertnum.c:479
-#, fuzzy
 msgid "Insert _Numbers..."
-msgstr "番号を挿入(_N)"
+msgstr "番号を挿入(_N)..."
 
 #: geanyinsertnum/src/insertnum.c:486
-#, fuzzy
 msgid "Insert Numbers..."
-msgstr "番号を挿入"
+msgstr "番号を挿入..."
 
 #: latex/src/latexenvironments.c:25
 msgid "Environments"
@@ -1804,13 +1792,12 @@ msgid "Year of publication or creation if unpublished"
 msgstr "発行年または作成年(未公開のとき)"
 
 #: latex/src/latex.c:42 tableconvert/src/tableconvert.c:41
-#, fuzzy
 msgid "LaTeX"
-msgstr "_LaTeX"
+msgstr "LaTeX"
 
 #: latex/src/latex.c:43
 msgid "Extends LaTeX support"
-msgstr ""
+msgstr "LaTeX のサポートを拡張します。"
 
 #: latex/src/latex.c:116
 msgid "Runs LaTeX wizard"
@@ -1998,7 +1985,7 @@ msgstr "新規文書のエンコード方法を設定"
 
 #: latex/src/latex.c:1884
 msgid "Font size"
-msgstr "フォントサイズ:"
+msgstr "フォントサイズ"
 
 #: latex/src/latex.c:1890
 msgid "Set the default font size of your new document"
@@ -2045,7 +2032,7 @@ msgstr "新規文書の用紙を選択"
 
 #: latex/src/latex.c:1962
 msgid "Paper Orientation:"
-msgstr "用紙の向き"
+msgstr "用紙の向き:"
 
 #: latex/src/latex.c:1965
 msgid "Choose the paper orientation for the newly created document"
@@ -2134,7 +2121,7 @@ msgstr "左寄せ"
 
 #: latex/src/latex.c:2046
 msgid "Format selection right-aligned"
-msgstr "右寄せ "
+msgstr "右寄せ"
 
 #: latex/src/latex.c:2049
 msgid "Insert description list"
@@ -2165,14 +2152,14 @@ msgid "Insert BibTeX reference dialog"
 msgstr "BibTeX参照ダイアログを挿入"
 
 #: latex/src/latex.c:2074
-#, fuzzy
 msgid ""
 "LaTeX is a plugin to improve support for LaTeX in Geany.\n"
 "\n"
 "Please report all bugs or feature requests to one of the authors."
 msgstr ""
-"GeanyLaTeX は Geany で LaTexをよりよくサポートするプラグインです。\n"
-"不具合や機能追加については作者にレポートしてください。"
+"LaTeX は、Geany での LaTeX のサポートを改善するプラグインです。\n"
+"\n"
+"バグや機能の要望は、作者のどなたかに報告してください。"
 
 #: latex/src/latex.c:2112
 msgid ""
@@ -2319,7 +2306,7 @@ msgstr "関係式"
 
 #: latex/src/letters.c:46
 msgid "Binary operation"
-msgstr "バイナリ操作"
+msgstr "二項演算子"
 
 #: latex/src/formatpatterns.c:38
 msgid "Italic"
@@ -2355,7 +2342,7 @@ msgstr "極小"
 
 #: latex/src/formatpatterns.c:65
 msgid "scriptsize"
-msgstr "ふりがなサイズ"
+msgstr "添え字サイズ"
 
 #: latex/src/formatpatterns.c:66
 msgid "footnotesize"
@@ -2363,23 +2350,23 @@ msgstr "脚注サイズ"
 
 #: latex/src/formatpatterns.c:67
 msgid "small"
-msgstr "小文字"
+msgstr "小"
 
 #: latex/src/formatpatterns.c:68
 msgid "normalsize"
-msgstr "通常通り"
+msgstr "通常サイズ"
 
 #: latex/src/formatpatterns.c:69
 msgid "large"
-msgstr "サイズ大"
+msgstr "大"
 
 #: latex/src/formatpatterns.c:70
 msgid "Large"
-msgstr "先頭大文字"
+msgstr "より大"
 
 #: latex/src/formatpatterns.c:71
 msgid "LARGE"
-msgstr "全部大文字"
+msgstr "さらに大"
 
 #: latex/src/formatpatterns.c:72
 msgid "huge"
@@ -2387,7 +2374,7 @@ msgstr "特大"
 
 #: latex/src/formatpatterns.c:73
 msgid "Huge"
-msgstr "特大(先頭大文字)"
+msgstr "最大"
 
 #: latex/src/latexencodings.c:37
 msgid "UTF-8"
@@ -2476,6 +2463,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"独自のコマンド用の Lua スクリプトを作成して実行します。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: geanylua/glspi_ver.h:19
 msgid "Lua Script Plugin"
@@ -3060,19 +3049,16 @@ msgstr ""
 "選択された文字列を下にコピー。選択されていなかったら、現在の行を下にコピー"
 
 #: geanymacro/src/geanymacro.c:150
-#, fuzzy
 msgid "Search for next \"\""
-msgstr "検索文字列:"
+msgstr "次の \"\" を検索"
 
 #: geanymacro/src/geanymacro.c:151
-#, fuzzy
 msgid "Search for previous \"\""
-msgstr "単語の開始部分を検索"
+msgstr "前の \"\" を検索"
 
 #: geanymacro/src/geanymacro.c:152
-#, fuzzy
 msgid "Set start of search to beginning of selection"
-msgstr "行頭まで削除"
+msgstr "検索の開始位置を選択範囲の先頭に設定"
 
 #: geanymacro/src/geanymacro.c:181
 msgid "Macros"
@@ -3457,6 +3443,28 @@ msgid ""
 "Software Foundation; either version 2 of the License,\n"
 "or (at your option) any later version."
 msgstr ""
+"<b>GMS : Geany Mini-Script filter Plugin</b>\n"
+"このプラグインは、スクリプトのフィルタを次の対象に適用するツールです。\n"
+"   o テキストの選択範囲、\n"
+"   o 現在の文書、\n"
+"   o 現在のセッションのすべての文書。\n"
+"\n"
+"フィルタの種類は次のとおりです。\n"
+"   o Unix シェルスクリプト、\n"
+"   o perl スクリプト、\n"
+"   o python スクリプト、\n"
+"   o sed コマンド、\n"
+"   o awk スクリプト。\n"
+"\n"
+"<b>作者</b>\n"
+"   Pascal BURLOT 作（2008年12月）\n"
+"\n"
+"<b>ライセンス:</b>\n"
+"このプログラムはフリーソフトウェアです。あなたは、\n"
+"Free Software Foundation が公表した GNU 一般公衆利用許諾契約書\n"
+"（バージョン 2、またはそれ以降の任意のバージョン）の\n"
+"条件に従って、このプログラムを再配布または\n"
+"改変することができます。"
 
 #: geanyminiscript/src/gms_gui.c:253
 msgid "Load Mini-Script File"
@@ -3615,12 +3623,11 @@ msgstr "通常のブックマークを保存"
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1284
 msgid "force loading bookmarks if file has changed"
-msgstr ""
+msgstr "ファイルが変更されていてもブックマークを強制的に読み込む"
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1289
-#, fuzzy
 msgid "always save bookmarks"
-msgstr "ブックマークを表示"
+msgstr "常にブックマークを保存する"
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1308
 msgid "Numbered Bookmarks help"
@@ -3641,13 +3648,9 @@ msgid ""
 "shown, but you can have more than one bookmark per line. To move to a "
 "previously set bookmark, press Ctrl+a number from 0 to 9."
 msgstr ""
-"このプラグインは番号指定ブックマークを提供します。ブックマークを設定するに"
-"は、CtrlキーとShiftキーを押しながら、0から9のキーを押してください。行番号の隣"
-"にマーカが表示されます。マーカの行でCtrl+Shift+数字キーを押すと、そのマーカは"
-"削除されます。別の行でCtrl+Shift+数字キーを押すと、その行が新しいマーカ位置に"
-"なります。ある行にマーカが複数設定されているときは、最後に指定したマーカ番号"
-"が表示されますが、設定された他のマーカも有効です。以前設定したマーカを移動す"
-"るには、Ctrlキーと0から9のキーを押します。"
+"このプラグインは Geany に番号指定ブックマークを実装します。また、ファイルを保存するときに、折りたたみの状態と、番号のない標準のブックマークの位置を記憶します。\n"
+"\n"
+"最大10個の番号指定ブックマークを使用できます。番号指定ブックマークを設定するには、Ctrl+Shift を押しながら 0 から 9 の数字キーを押してください。行番号の隣にマーカが表示されます。すでにその番号のブックマークがある行で Ctrl+Shift+数字キーを押すと、そのブックマークは削除されます。そうでない場合は、ブックマークが別の行に設定されていればその行に移動し、まだ設定されていなければ作成します。1つの行に表示されるのは最後に設定したブックマークだけですが、1つの行に複数のブックマークを設定できます。以前設定したブックマークに移動するには、Ctrl を押しながら 0 から 9 の数字キーを押します。"
 
 #: geanynumberedbookmarks/src/geanynumberedbookmarks.c:1445
 msgid "Unable to apply markers as all being used."
@@ -3680,7 +3683,7 @@ msgid ""
 "use symmetric cipher?"
 msgstr ""
 "受信者が選択されていません。\n"
-"対象鍵暗号を使用しますか?"
+"対称鍵暗号を使用しますか?"
 
 #: geanypg/src/geanypg.c:36
 msgid ""
@@ -3688,6 +3691,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"Geany 用の GPG 暗号化プラグインです。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: geanypg/src/geanypg.c:40
 msgid "Hans Alves <alves.h88@gmail.com>"
@@ -3723,7 +3728,7 @@ msgstr "受信者を選択してください"
 
 #: geanypg/src/key_selection_dialog.c:154
 msgid "Sign the message as:"
-msgstr "メッセージに著名します:"
+msgstr "メッセージに署名します:"
 
 #: geanypg/src/key_selection_dialog.c:162
 msgid "Select recipients"
@@ -3769,9 +3774,7 @@ msgstr "pinentryからの不明なエラー"
 msgid ""
 "Error, Passphrase input without using gpg-agent is not supported on Windows "
 "yet."
-msgstr ""
-"エラー。Windowsでは pgp-agent を使用しないパスフレーズ入力をまだサポートして"
-"いません。"
+msgstr "エラー。Windows では gpg-agent を使用しないパスフレーズ入力をまだサポートしていません。"
 
 #: geanypg/src/verify_aux.c:53
 msgid "a key with fingerprint"
@@ -3788,7 +3791,7 @@ msgstr "未定義"
 
 #: geanypg/src/verify_aux.c:68
 msgid "never"
-msgstr "無制限"
+msgstr "信用しない"
 
 #: geanypg/src/verify_aux.c:69
 msgid "marginal"
@@ -3820,7 +3823,7 @@ msgstr " 赤"
 
 #: geanypg/src/verify_aux.c:82
 msgid " revoked"
-msgstr "取り消し"
+msgstr " 取り消し"
 
 #: geanypg/src/verify_aux.c:83
 msgid " key-expired"
@@ -3828,7 +3831,7 @@ msgstr " キー期限切れ"
 
 #: geanypg/src/verify_aux.c:84
 msgid " sig-expired"
-msgstr " 著名期限切れ"
+msgstr " 署名期限切れ"
 
 #: geanypg/src/verify_aux.c:85
 msgid " key-missing"
@@ -3923,11 +3926,11 @@ msgstr "いいえ"
 
 #: geanypg/src/verify_aux.c:153
 msgid "Found a signature from"
-msgstr "著名を検出 "
+msgstr "署名を検出 "
 
 #: geanypg/src/verify_aux.c:156
 msgid "Signature"
-msgstr "著名"
+msgstr "署名"
 
 #: geanypg/src/verify_aux.c:179
 msgid "Could not find verification results"
@@ -3947,6 +3950,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"別方式のプロジェクトサポートです。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: geanyprj/src/geanyprj.c:228
 msgid "Find a text in geanyprj's project"
@@ -4072,6 +4077,8 @@ msgid ""
 "This plugins is currently not developed actively. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"さまざまなバージョン管理システムへのインターフェースです。\n"
+"このプラグインは現在、活発には開発されていません。開発に協力していただけませんか?"
 
 #: geanyvc/src/geanyvc.c:507
 #, c-format
@@ -4081,12 +4088,12 @@ msgstr "geanyvc: s_spawn_sync エラー: %s"
 #: geanyvc/src/geanyvc.c:593
 #, c-format
 msgid "File %s: action %s executed via %s."
-msgstr ""
+msgstr "ファイル %s: アクション %s を %s 経由で実行しました。"
 
 #: geanyvc/src/geanyvc.c:633 geanyvc/src/geanyvc.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "geanyvc: diff_external: Unable to rename '%s' to '%s'"
-msgstr "geanyvc: vcdiff_file_activated:  '%s' から '%s' に名前変更できません。"
+msgstr "geanyvc: diff_external: '%s' から '%s' に名前を変更できません"
 
 #: geanyvc/src/geanyvc.c:698 geanyvc/src/geanyvc.c:784
 msgid "No changes were made."
@@ -4123,6 +4130,9 @@ msgid ""
 "To view the differences, cancel this dialog and open the differences in "
 "Geany directly by using the GeanyVC menu (Base Directory -> Diff)."
 msgstr ""
+"変更が大きすぎてここに表示できず、UI の動作が大幅に遅くなるため、差分を表示できません。\n"
+"\n"
+"差分を表示するには、このダイアログをキャンセルし、GeanyVC メニュー（BASE ディレクトリ -> 差分）を使って Geany で直接差分を開いてください。"
 
 #: geanyvc/src/geanyvc.c:1331
 msgid "Commit Y/N"
@@ -4138,12 +4148,12 @@ msgstr "パス"
 
 #: geanyvc/src/geanyvc.c:1465
 msgid "Choose a previous commit message"
-msgstr ""
+msgstr "以前のコミットメッセージを選択"
 
 #: geanyvc/src/geanyvc.c:1527
 #, c-format
 msgid "Line: %d Column: %d"
-msgstr ""
+msgstr "行: %d 列: %d"
 
 #: geanyvc/src/geanyvc.c:1574
 msgid "Commit"
@@ -4166,25 +4176,23 @@ msgid "Nothing to commit."
 msgstr "反映させるものはありません。"
 
 #: geanyvc/src/geanyvc.c:1839
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error initializing GeanyVC spell checking: %s. Check your configuration."
-msgstr "スペルチェッカ初期化エラー: %s"
+msgstr "GeanyVC のスペルチェックの初期化中にエラーが発生しました: %s。設定を確認してください。"
 
 #: geanyvc/src/geanyvc.c:1874
 #, c-format
 msgid "Commit failed (status: %d, error: %s)."
-msgstr ""
+msgstr "コミットに失敗しました (状態: %d、エラー: %s)。"
 
 #: geanyvc/src/geanyvc.c:1875
-#, fuzzy
 msgid "Commit failed; see status in the Message window."
-msgstr "メッセージウィンドウに利用可能なタスクを表示"
+msgstr "コミットに失敗しました。メッセージウィンドウで状態を確認してください。"
 
 #: geanyvc/src/geanyvc.c:1880
-#, fuzzy
 msgid "Changes committed."
-msgstr "反映させるものはありません。"
+msgstr "変更をコミットしました。"
 
 #: geanyvc/src/geanyvc.c:2202
 msgid "Set Changed-flag for document tabs created by the plugin"
@@ -4355,7 +4363,7 @@ msgstr "現在のディレクトリのログを表示"
 
 #: geanyvc/src/geanyvc.c:2550
 msgid "_Base Directory"
-msgstr "_BASE ディレクトリ"
+msgstr "BASE ディレクトリ(_B)"
 
 #: geanyvc/src/geanyvc.c:2556
 msgid "Make a diff from the top VC directory"
@@ -4447,77 +4455,72 @@ msgstr "変更を反映"
 
 #: geniuspaste/src/geniuspaste.c:103
 msgid "Paste your code on your favorite pastebin"
-msgstr "お気に入りのpastebinからコードを貼り付け"
+msgstr "お気に入りの pastebin にコードを貼り付け"
 
 #: geniuspaste/src/geniuspaste.c:128
-#, fuzzy, c-format
+#, c-format
 msgid "Group \"%s\" not found."
-msgstr "ディレクトリ %s がありません!\n"
+msgstr "グループ \"%s\" が見つかりません。"
 
 #: geniuspaste/src/geniuspaste.c:147
 #, c-format
 msgid "Group \"%s\" has no key \"%s\"."
-msgstr ""
+msgstr "グループ \"%s\" にキー \"%s\" がありません。"
 
 #: geniuspaste/src/geniuspaste.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "Plugin configuration directory could not be created: %s"
-msgstr "プラグイン設定ディレクトリを作成できません。"
+msgstr "プラグインの設定ディレクトリを作成できませんでした: %s"
 
 #: geniuspaste/src/geniuspaste.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to paste %s to %s?"
-msgstr "'%s' を削除してもよいですか?"
+msgstr "%s を %s に貼り付けますか?"
 
 #: geniuspaste/src/geniuspaste.c:820
-#, fuzzy
 msgid "the selection"
-msgstr "選択"
+msgstr "選択範囲"
 
 #: geniuspaste/src/geniuspaste.c:821
-#, fuzzy
 msgid "the whole document"
-msgstr "文書からパスを設定"
+msgstr "文書全体"
 
 #: geniuspaste/src/geniuspaste.c:824
 msgid "The paste might be public, and it might not be possible to delete it."
-msgstr ""
+msgstr "貼り付けた内容は公開される可能性があり、削除できない場合があります。"
 
 #: geniuspaste/src/geniuspaste.c:829
-#, fuzzy
 msgid "_Paste it"
-msgstr "貼り付け!(_P)"
+msgstr "貼り付ける(_P)"
 
 #: geniuspaste/src/geniuspaste.c:831
 msgid "Do not _ask again"
-msgstr ""
+msgstr "今後は確認しない(_A)"
 
 #: geniuspaste/src/geniuspaste.c:832
 msgid ""
 "Whether to ask this question again for future pastes. This can be changed at "
 "any time in the plugin preferences."
-msgstr ""
+msgstr "今後の貼り付けでも、この確認を行うかどうか。この設定は、プラグインの設定でいつでも変更できます。"
 
 #: geniuspaste/src/geniuspaste.c:877
-#, fuzzy
 msgid "Invalid pastebin service."
-msgstr "無効な場所 \"%s\""
+msgstr "無効な pastebin サービスです。"
 
 #: geniuspaste/src/geniuspaste.c:878
 #, c-format
 msgid ""
 "Unknown pastebin service \"%s\". Select an existing pastebin service in the "
 "preferences or create an appropriate pastebin configuration and retry."
-msgstr ""
+msgstr "不明な pastebin サービス \"%s\" です。設定で既存の pastebin サービスを選択するか、適切な pastebin の設定を作成して、もう一度実行してください。"
 
 #: geniuspaste/src/geniuspaste.c:890
 msgid "Refusing to create blank paste"
 msgstr "空の貼り付けを作成するのを禁じる"
 
 #: geniuspaste/src/geniuspaste.c:917
-#, fuzzy
 msgid "Failed to paste the code"
-msgstr "内容がXMLではないと判断されました"
+msgstr "コードの貼り付けに失敗しました"
 
 #: geniuspaste/src/geniuspaste.c:918
 #, c-format
@@ -4527,26 +4530,28 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"pastebin サービス %s へのコードの貼り付け中にエラーが発生しました。\n"
+"エラーコード: %u (%s)。\n"
+"\n"
+"%s"
 
 #: geniuspaste/src/geniuspaste.c:923
 msgid "Check your connection or the pastebin configuration and retry."
-msgstr ""
+msgstr "接続または pastebin の設定を確認して、もう一度実行してください。"
 
 #: geniuspaste/src/geniuspaste.c:925
 msgid ""
 "Wait for the service to come back and retry, or retry with another pastebin "
 "service."
-msgstr ""
+msgstr "サービスが復旧するまで待ってからもう一度実行するか、別の pastebin サービスで実行してください。"
 
 #: geniuspaste/src/geniuspaste.c:927 geniuspaste/src/geniuspaste.c:944
-#, fuzzy
 msgid "Check the pastebin configuration and retry."
-msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
+msgstr "pastebin の設定を確認して、もう一度実行してください。"
 
 #: geniuspaste/src/geniuspaste.c:938
-#, fuzzy
 msgid "Failed to obtain paste URL."
-msgstr "スクリプトファイルのオープン失敗"
+msgstr "貼り付けた内容の URL を取得できませんでした。"
 
 #: geniuspaste/src/geniuspaste.c:939
 #, c-format
@@ -4556,11 +4561,13 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"コードを %s に貼り付けましたが、その URL を取得しようとしてエラーが発生しました: %s\n"
+"\n"
+"%s"
 
 #: geniuspaste/src/geniuspaste.c:943
-#, fuzzy
 msgid "Unexpected response from the pastebin service."
-msgstr "pinentryからの不明なエラー"
+msgstr "pastebin サービスから予期しない応答がありました。"
 
 #: geniuspaste/src/geniuspaste.c:956
 msgid "Paste Successful"
@@ -4572,12 +4579,12 @@ msgid ""
 "Your paste can be found here:\n"
 "<a href=\"%s\" title=\"Click to open the paste in your browser\">%s</a>"
 msgstr ""
-"あなたの貼りつけたものはここで見つかりました:\n"
+"貼り付けた内容はここにあります:\n"
 "<a href=\"%s\" title=\"クリックして、ブラウザで表示\">%s</a>"
 
 #: geniuspaste/src/geniuspaste.c:977
 msgid "There are no opened documents. Open one and retry.\n"
-msgstr "開いている文書がありません。文書を開いてもう一度実行します。\n"
+msgstr "開いている文書がありません。文書を開いてから、もう一度実行してください。\n"
 
 #: geniuspaste/src/geniuspaste.c:990
 msgid "The author name field is empty!"
@@ -4597,7 +4604,7 @@ msgstr "新しいブラウザタブに貼りつけたものを表示"
 
 #: geniuspaste/src/geniuspaste.c:1036
 msgid "Confirm before pasting"
-msgstr ""
+msgstr "貼り付ける前に確認する"
 
 #: geniuspaste/src/geniuspaste.c:1059
 msgid "_Paste it!"
@@ -4605,193 +4612,178 @@ msgstr "貼り付け!(_P)"
 
 #: git-changebar/data/prefs.ui:11
 msgid "_Monitor repository for changes"
-msgstr ""
+msgstr "リポジトリの変更を監視する(_M)"
 
 #: git-changebar/data/prefs.ui:15
 msgid ""
 "Whether to automatically update the diff in order to maintain it up to date "
 "when the underlying Git repository changes.  This should generally be "
 "enabled for optimal user experience."
-msgstr ""
+msgstr "元の Git リポジトリが変更されたときに、差分を最新の状態に保つために自動的に更新するかどうか。最適な操作性のため、通常は有効にしてください。"
 
 #: git-changebar/data/prefs.ui:50
 msgid "_Added lines:"
-msgstr ""
+msgstr "追加された行(_A):"
 
 #: git-changebar/data/prefs.ui:89
 msgid "_Changed lines:"
-msgstr ""
+msgstr "変更された行(_C):"
 
 #: git-changebar/data/prefs.ui:128
-#, fuzzy
 msgid "_Removed lines:"
-msgstr "ファイルを削除"
+msgstr "削除された行(_R):"
 
 #: git-changebar/data/prefs.ui:166
-#, fuzzy
 msgid "Colors"
-msgstr "背景色:"
+msgstr "色"
 
 #: git-changebar/src/gcb-plugin.c:73
 msgid "Git Change Bar"
-msgstr ""
+msgstr "Git 変更バー"
 
 #: git-changebar/src/gcb-plugin.c:74
 msgid "Highlights uncommitted changes in files tracked with Git"
-msgstr ""
+msgstr "Git で追跡されているファイルの未コミットの変更をハイライトします。"
 
 #: git-changebar/src/gcb-plugin.c:1441 pohelper/src/gph-plugin.c:1661
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load configuration file: %s"
-msgstr "設定の読み込みに失敗: %s"
+msgstr "設定ファイルの読み込みに失敗しました: %s"
 
 #: git-changebar/src/gcb-plugin.c:1466 pohelper/src/gph-plugin.c:1686
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create configuration directory \"%s\": %s"
-msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
+msgstr "設定ディレクトリ \"%s\" の作成に失敗しました: %s"
 
 #: git-changebar/src/gcb-plugin.c:1469 pohelper/src/gph-plugin.c:1689
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to save configuration file: %s"
-msgstr "設定の保存に失敗: %s"
+msgstr "設定ファイルの保存に失敗しました: %s"
 
 #: git-changebar/src/gcb-plugin.c:1546
 msgid "Undo Git hunk"
-msgstr ""
+msgstr "Git のハンクを元に戻す"
 
 #: git-changebar/src/gcb-plugin.c:1554
-#, fuzzy
 msgid "Go to the previous hunk"
-msgstr "前の頁に移動"
+msgstr "前のハンクに移動"
 
 #: git-changebar/src/gcb-plugin.c:1556
-#, fuzzy
 msgid "Go to the next hunk"
-msgstr "次の頁に移動"
+msgstr "次のハンクに移動"
 
 #: git-changebar/src/gcb-plugin.c:1558
 msgid "Undo hunk at the cursor position"
-msgstr ""
+msgstr "カーソル位置のハンクを元に戻す"
 
 #: git-changebar/src/gcb-plugin.c:1706 pohelper/src/gph-plugin.c:1456
 #: pohelper/src/gph-plugin.c:1791
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to load UI definition, please check your installation. The error was: "
 "%s"
-msgstr ""
-"プラグイン %s のロードに失敗。\n"
-"インストールを確認してください。"
+msgstr "UI 定義の読み込みに失敗しました。インストールを確認してください。エラー: %s"
 
 #: keyrecord/src/keyrecord.c:154
 msgid "Start/Stop record"
-msgstr ""
+msgstr "記録の開始/停止"
 
 #: keyrecord/src/keyrecord.c:156
 msgid "Play"
-msgstr ""
+msgstr "再生"
 
 #: keyrecord/src/keyrecord.c:207
 msgid "Keystrokes recorder"
-msgstr ""
+msgstr "キー入力レコーダ"
 
 #: keyrecord/src/keyrecord.c:208
 msgid "Allows to record some sequence of keystrokes and replay it"
-msgstr ""
+msgstr "一連のキー入力を記録して、再生できます。"
 
 #: keyrecord/src/keyrecord.c:210
 msgid "tunyash"
-msgstr ""
+msgstr "tunyash"
 
 #: lineoperations/src/lineoperations.c:136
 #, c-format
 msgid "Operation successful! %d lines removed."
-msgstr ""
+msgstr "操作に成功しました! %d行を削除しました。"
 
 #: lineoperations/src/lineoperations.c:147
 msgid "Operation successful! No lines removed."
-msgstr ""
+msgstr "操作に成功しました! 削除された行はありません。"
 
 #: lineoperations/src/lineoperations.c:155
 #, c-format
 msgid "Operation successful! %d lines affected."
-msgstr ""
+msgstr "操作に成功しました! %d行が対象になりました。"
 
 #: lineoperations/src/lineoperations.c:265
 msgid "Remove Duplicate Lines, _Sorted"
-msgstr ""
+msgstr "重複行を削除してソート(_S)"
 
 #: lineoperations/src/lineoperations.c:267
 msgid "Remove Duplicate Lines, _Ordered"
-msgstr ""
+msgstr "重複行を削除して順序を維持(_O)"
 
 #: lineoperations/src/lineoperations.c:269
-#, fuzzy
 msgid "Remove _Unique Lines"
-msgstr "ファイルを削除"
+msgstr "重複のない行を削除(_U)"
 
 #: lineoperations/src/lineoperations.c:271
-#, fuzzy
 msgid "Keep _Unique Lines"
-msgstr "ファイルを削除"
+msgstr "重複のない行を残す(_U)"
 
 #: lineoperations/src/lineoperations.c:274
-#, fuzzy
 msgid "Remove _Empty Lines"
-msgstr "ファイルを削除"
+msgstr "空行を削除(_E)"
 
 #: lineoperations/src/lineoperations.c:276
 msgid "Remove _Whitespace Lines"
-msgstr ""
+msgstr "空白のみの行を削除(_W)"
 
 #: lineoperations/src/lineoperations.c:279
-#, fuzzy
 msgid "Remove Every _Nth Line"
-msgstr "ファイルを削除"
+msgstr "N 行ごとに削除(_N)"
 
 #: lineoperations/src/lineoperations.c:282
 msgid "Sort Lines _Ascending"
-msgstr ""
+msgstr "行を昇順に並び替え(_A)"
 
 #: lineoperations/src/lineoperations.c:284
 msgid "Sort Lines _Descending"
-msgstr ""
+msgstr "行を降順に並び替え(_D)"
 
 #: lineoperations/src/lineoperations.c:310
-#, fuzzy
 msgid "_Line Operations"
-msgstr "バイナリ操作"
+msgstr "行操作(_L)"
 
 #: lineoperations/src/lineoperations.c:378
-#, fuzzy
 msgid "Line Operations"
-msgstr "バイナリ操作"
+msgstr "行操作"
 
 #: lineoperations/src/lineoperations.c:379
 msgid ""
 "Line Operations provides a handful of functions that can be applied to a "
 "document or selection such as, removing duplicate lines, removing empty "
 "lines, removing lines with only whitespace, and sorting lines."
-msgstr ""
+msgstr "行操作は、文書または選択範囲に適用できるいくつかの機能を提供します。重複行の削除、空行の削除、空白のみの行の削除、行の並び替えなどです。"
 
 #: lineoperations/src/lo_fns.c:340
-#, fuzzy
 msgid "Remove every Nth line"
-msgstr "ファイルを削除"
+msgstr "N 行ごとに削除"
 
 #: lineoperations/src/lo_fns.c:341
-#, fuzzy
 msgid "Value of N"
-msgstr "値"
+msgstr "N の値"
 
 #: lineoperations/src/lo_prefs.c:87
 msgid "Use collation based string compare"
-msgstr ""
+msgstr "照合順序に基づく文字列比較を使用する"
 
 #: lipsum/src/lipsum.c:43
-#, fuzzy
 msgid "Lipsum"
-msgstr "_Lipsum"
+msgstr "Lipsum"
 
 #: lipsum/src/lipsum.c:44
 msgid "Creating dummy text with Geany"
@@ -4816,25 +4808,30 @@ msgid ""
 "Warning: This will not include your keybindings.\n"
 "Move now?"
 msgstr ""
+"名前が変更されたプラグインを検出しました。\n"
+"\n"
+"すでにお気付きかもしれませんが、GeanyLipsum は Lipsum に名前が変更されました。\n"
+"Geany は、古い設定ファイルを新しい場所に移動することで、以前のプラグインの設定を引き継ぐことができます。\n"
+"警告: キーバインドは引き継がれません。\n"
+"今すぐ移動しますか?"
 
 #: lipsum/src/lipsum.c:184 sendmail/src/sendmail.c:396
 #, c-format
 msgid ""
 "Your configuration directory has been successfully moved from \"%s\" to "
 "\"%s\"."
-msgstr ""
+msgstr "設定ディレクトリを \"%s\" から \"%s\" に移動しました。"
 
 #: lipsum/src/lipsum.c:199
 #, c-format
 msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please manually move the directory to the new location."
-msgstr ""
+msgstr "古い設定ディレクトリ \"%s\" を \"%s\" に移動できませんでした (%s)。ディレクトリを手動で新しい場所に移動してください。"
 
 #: lipsum/src/lipsum.c:223 lipsum/src/lipsum.c:225
-#, fuzzy
 msgid "_Lipsum..."
-msgstr "_Lipsum"
+msgstr "_Lipsum..."
 
 #: lipsum/src/lipsum.c:227
 msgid "Include Pseudotext to your code"
@@ -4845,284 +4842,250 @@ msgid "Insert Lipsum text"
 msgstr "ダミーテキストを挿入"
 
 #: lsp/src/lsp-code-lens.c:185
-#, fuzzy
 msgid "LSP Commands: "
-msgstr "コマンド 0:"
+msgstr "LSP コマンド: "
 
 #: lsp/src/lsp-diagnostics.c:330
 #, c-format
 msgid "issues: %d"
-msgstr ""
+msgstr "問題: %d"
 
 #: lsp/src/lsp-goto-anywhere.c:91
 #: projectorganizer/src/prjorg-goto-anywhere.c:63
 msgid "line typed above"
-msgstr ""
+msgstr "上で入力した行"
 
 #: lsp/src/lsp-goto-anywhere.c:103
 #: projectorganizer/src/prjorg-goto-anywhere.c:75
-#, fuzzy
 msgid "beginning"
-msgstr "実行中"
+msgstr "先頭"
 
 #: lsp/src/lsp-goto-anywhere.c:110
 #: projectorganizer/src/prjorg-goto-anywhere.c:82
 msgid "middle"
-msgstr ""
+msgstr "中間"
 
 #: lsp/src/lsp-goto-anywhere.c:117
 #: projectorganizer/src/prjorg-goto-anywhere.c:89
-#, fuzzy
 msgid "end"
-msgstr "送信(_S)"
+msgstr "末尾"
 
 #: lsp/src/lsp-log.c:67
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create log file: %s"
-msgstr "ファイル \"%s\" の読み込みに失敗: %s"
+msgstr "ログファイルの作成に失敗しました: %s"
 
 #: lsp/src/lsp-main.c:73 lsp/src/lsp-main.c:1014
 msgid "LSP Client"
-msgstr ""
+msgstr "LSP クライアント"
 
 #: lsp/src/lsp-main.c:74
 msgid "Language server protocol client for Geany"
-msgstr ""
+msgstr "Geany 用の Language Server Protocol クライアントです。"
 
 #: lsp/src/lsp-main.c:953
 msgid "Enable LSP client for project"
-msgstr ""
+msgstr "プロジェクトで LSP クライアントを有効にする"
 
 #: lsp/src/lsp-main.c:964
-#, fuzzy
 msgid "Configuration type:"
-msgstr "設定ファイルの再読み込み(_R)"
+msgstr "設定の種類:"
 
 #: lsp/src/lsp-main.c:969
-#, fuzzy
 msgid "Use user configuration file"
-msgstr "スコープ: 設定ファイルを生成しました。"
+msgstr "ユーザの設定ファイルを使用する"
 
 #: lsp/src/lsp-main.c:970
-#, fuzzy
 msgid "Use project configuration file"
-msgstr "スコープ: 設定ファイルを生成しました。"
+msgstr "プロジェクトの設定ファイルを使用する"
 
 #: lsp/src/lsp-main.c:992
-#, fuzzy
 msgid "Configuration file:"
-msgstr "設定ファイルの再読み込み(_R)"
+msgstr "設定ファイル:"
 
 #: lsp/src/lsp-main.c:998
-#, fuzzy
 msgid "Choose LSP Configuration File"
-msgstr "設定ファイルの再読み込み(_R)"
+msgstr "LSP 設定ファイルを選択"
 
 #: lsp/src/lsp-main.c:1507
 msgid "_LSP Client"
-msgstr ""
+msgstr "LSP クライアント(_L)"
 
 #: lsp/src/lsp-main.c:1513
 msgid "Go to _Definition"
-msgstr ""
+msgstr "定義に移動(_D)"
 
 #: lsp/src/lsp-main.c:1518
-#, fuzzy
 msgid "Go to definition"
-msgstr "次の頁に移動"
+msgstr "定義に移動"
 
 #: lsp/src/lsp-main.c:1520
-#, fuzzy
 msgid "Go to D_eclaration"
-msgstr "関係式"
+msgstr "宣言に移動(_E)"
 
 #: lsp/src/lsp-main.c:1525
-#, fuzzy
 msgid "Go to declaration"
-msgstr "関係式"
+msgstr "宣言に移動"
 
 #: lsp/src/lsp-main.c:1527
 msgid "Go to _Type Definition"
-msgstr ""
+msgstr "型定義に移動(_T)"
 
 #: lsp/src/lsp-main.c:1532
-#, fuzzy
 msgid "Go to type definition"
-msgstr "次の頁に移動"
+msgstr "型定義に移動"
 
 #: lsp/src/lsp-main.c:1536 projectorganizer/src/prjorg-menu.c:296
 msgid "Go to _Anywhere..."
-msgstr ""
+msgstr "任意の場所に移動(_A)..."
 
 #: lsp/src/lsp-main.c:1541 projectorganizer/src/prjorg-menu.c:301
 msgid "Go to anywhere"
-msgstr ""
+msgstr "任意の場所に移動"
 
 #: lsp/src/lsp-main.c:1543 projectorganizer/src/prjorg-menu.c:303
-#, fuzzy
 msgid "Go to _Document Symbol..."
-msgstr "文書の現在のシンボル(_D)"
+msgstr "文書内のシンボルに移動(_D)..."
 
 #: lsp/src/lsp-main.c:1548 projectorganizer/src/prjorg-menu.c:308
-#, fuzzy
 msgid "Go to document symbol"
-msgstr "名前による文書の並び替え(_N)"
+msgstr "文書内のシンボルに移動"
 
 #: lsp/src/lsp-main.c:1550 projectorganizer/src/prjorg-menu.c:310
 msgid "Go to _Workspace Symbol..."
-msgstr ""
+msgstr "ワークスペース内のシンボルに移動(_W)..."
 
 #: lsp/src/lsp-main.c:1555 projectorganizer/src/prjorg-menu.c:315
 msgid "Go to workspace symbol"
-msgstr ""
+msgstr "ワークスペース内のシンボルに移動"
 
 #: lsp/src/lsp-main.c:1557 projectorganizer/src/prjorg-menu.c:317
-#, fuzzy
 msgid "Go to _Line..."
-msgstr "行番号指定選択(_L)"
+msgstr "行に移動(_L)..."
 
 #: lsp/src/lsp-main.c:1562 projectorganizer/src/prjorg-menu.c:322
-#, fuzzy
 msgid "Go to line"
-msgstr "行番号指定選択"
+msgstr "行に移動"
 
 #: lsp/src/lsp-main.c:1566
-#, fuzzy
 msgid "Go to _Next Diagnostic"
-msgstr "次の頁に移動"
+msgstr "次の診断に移動(_N)"
 
 #: lsp/src/lsp-main.c:1571
-#, fuzzy
 msgid "Go to next diagnostic"
-msgstr "次の頁に移動"
+msgstr "次の診断に移動"
 
 #: lsp/src/lsp-main.c:1573
-#, fuzzy
 msgid "Go to _Previous Diagnostic"
-msgstr "前の頁に移動"
+msgstr "前の診断に移動(_P)"
 
 #: lsp/src/lsp-main.c:1578
-#, fuzzy
 msgid "Go to previous diagnostic"
-msgstr "前の頁に移動"
+msgstr "前の診断に移動"
 
 #: lsp/src/lsp-main.c:1580
-#, fuzzy
 msgid "_Show Current Diagnostic"
-msgstr "文書一覧を表示"
+msgstr "現在の診断を表示(_S)"
 
 #: lsp/src/lsp-main.c:1585
-#, fuzzy
 msgid "Show current diagnostic"
-msgstr "文書一覧を表示"
+msgstr "現在の診断を表示"
 
 #: lsp/src/lsp-main.c:1587
 msgid "Show _Current File Diagnostics"
-msgstr ""
+msgstr "現在のファイルの診断を表示(_C)"
 
 #: lsp/src/lsp-main.c:1592
 msgid "Show current file diagnostics"
-msgstr ""
+msgstr "現在のファイルの診断を表示"
 
 #: lsp/src/lsp-main.c:1594
 msgid "Show _All Diagnostics"
-msgstr ""
+msgstr "すべての診断を表示(_A)"
 
 #: lsp/src/lsp-main.c:1599
 msgid "Show all diagnostics"
-msgstr ""
+msgstr "すべての診断を表示"
 
 #: lsp/src/lsp-main.c:1603 lsp/src/lsp-symbol-tree.c:1183
-#, fuzzy
 msgid "Find _References"
-msgstr "参照を挿入(_R)"
+msgstr "参照を検索(_R)"
 
 #: lsp/src/lsp-main.c:1608
-#, fuzzy
 msgid "Find references"
-msgstr "設定"
+msgstr "参照を検索"
 
 #: lsp/src/lsp-main.c:1610 lsp/src/lsp-symbol-tree.c:1188
-#, fuzzy
 msgid "Find _Implementations"
-msgstr "ソースの拡張子"
+msgstr "実装を検索(_I)"
 
 #: lsp/src/lsp-main.c:1615
-#, fuzzy
 msgid "Find implementations"
-msgstr "ヘッダとソースの切り替え"
+msgstr "実装を検索"
 
 #: lsp/src/lsp-main.c:1617
 msgid "_Highlight Symbol Occurrences"
-msgstr ""
+msgstr "シンボルの出現箇所をハイライト(_H)"
 
 #: lsp/src/lsp-main.c:1622
 msgid "Highlight symbol occurrences"
-msgstr ""
+msgstr "シンボルの出現箇所をハイライト"
 
 #: lsp/src/lsp-main.c:1624
 msgid "_Clear Highlighted"
-msgstr ""
+msgstr "ハイライトを解除(_C)"
 
 #: lsp/src/lsp-main.c:1629
 msgid "Clear highlighted"
-msgstr ""
+msgstr "ハイライトを解除"
 
 #: lsp/src/lsp-main.c:1633
 msgid "_Rename Highlighted"
-msgstr ""
+msgstr "ハイライトした項目の名前を変更(_R)"
 
 #: lsp/src/lsp-main.c:1638
 msgid "Rename highlighted"
-msgstr ""
+msgstr "ハイライトした項目の名前を変更"
 
 #: lsp/src/lsp-main.c:1640
-#, fuzzy
 msgid "Rename in _Project..."
-msgstr "プロジェクト内を検索"
+msgstr "プロジェクト内で名前を変更(_P)..."
 
 #: lsp/src/lsp-main.c:1645
-#, fuzzy
 msgid "Rename in project"
-msgstr "オブジェクトの名前変更"
+msgstr "プロジェクト内で名前を変更"
 
 #: lsp/src/lsp-main.c:1647
-#, fuzzy
 msgid "_Format Code"
-msgstr "書式(_F)"
+msgstr "コードを整形(_F)"
 
 #: lsp/src/lsp-main.c:1652
-#, fuzzy
 msgid "Format code"
-msgstr "書式(_F)"
+msgstr "コードを整形"
 
 #: lsp/src/lsp-main.c:1656
-#, fuzzy
 msgid "Show _Hover Popup"
-msgstr "グループ表示(_G)"
+msgstr "ホバーポップアップを表示(_H)"
 
 #: lsp/src/lsp-main.c:1661
-#, fuzzy
 msgid "Show hover popup"
-msgstr "グループ表示(_G)"
+msgstr "ホバーポップアップを表示"
 
 #: lsp/src/lsp-main.c:1663
 msgid "Show Code Action Popup"
-msgstr ""
+msgstr "コードアクションのポップアップを表示"
 
 #: lsp/src/lsp-main.c:1668
 msgid "Show code action popup"
-msgstr ""
+msgstr "コードアクションのポップアップを表示"
 
 #: lsp/src/lsp-main.c:1672 lsp/src/lsp-main.c:1677
-#, fuzzy
 msgid "Expand Selection"
-msgstr "特殊な選択"
+msgstr "選択範囲を拡大"
 
 #: lsp/src/lsp-main.c:1679 lsp/src/lsp-main.c:1684
-#, fuzzy
 msgid "Shrink Selection"
-msgstr "特殊な選択"
+msgstr "選択範囲を縮小"
 
 #: lsp/src/lsp-main.c:1688 projectorganizer/src/prjorg-menu.c:285
 msgid "Swap Header/Source"
@@ -5133,226 +5096,210 @@ msgid "Swap header/source"
 msgstr "ヘッダ/ソースを交換"
 
 #: lsp/src/lsp-main.c:1697
-#, fuzzy
 msgid "_Project Configuration"
-msgstr "スクリプトの設定"
+msgstr "プロジェクトの設定(_P)"
 
 #: lsp/src/lsp-main.c:1701
-#, fuzzy
 msgid "_User Configuration"
-msgstr "スクリプトの設定"
+msgstr "ユーザの設定(_U)"
 
 #: lsp/src/lsp-main.c:1705
-#, fuzzy
 msgid "_Global Configuration"
-msgstr "設定ファイルの再読み込み(_R)"
+msgstr "全体の設定(_G)"
 
 #: lsp/src/lsp-main.c:1711
 msgid "_Server Initialize Responses"
-msgstr ""
+msgstr "サーバの初期化応答(_S)"
 
 #: lsp/src/lsp-main.c:1717
 msgid "_Restart All Servers"
-msgstr ""
+msgstr "すべてのサーバを再起動(_R)"
 
 #: lsp/src/lsp-main.c:1722
 msgid "Restart all servers"
-msgstr ""
+msgstr "すべてのサーバを再起動"
 
 #: lsp/src/lsp-main.c:1729
-#, fuzzy, c-format
+#, c-format
 msgid "Command %d"
-msgstr "コマンド 0:"
+msgstr "コマンド %d"
 
 #: lsp/src/lsp-main.c:1742
-#, fuzzy
 msgid "_Commands (LSP)"
-msgstr "コマンド 0:"
+msgstr "コマンド（LSP）(_C)"
 
 #: lsp/src/lsp-main.c:1748
 msgid "_Format Code (LSP)"
-msgstr ""
+msgstr "コードを整形（LSP）(_F)"
 
 #: lsp/src/lsp-main.c:1754
-#, fuzzy
 msgid "Rename in _Project (LSP)..."
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクト内で名前を変更（LSP）(_P)..."
 
 #: lsp/src/lsp-main.c:1760
 msgid "_Rename Highlighted (LSP)"
-msgstr ""
+msgstr "ハイライトした項目の名前を変更（LSP）(_R)"
 
 #: lsp/src/lsp-main.c:1770
 msgid "Go to _Definition (LSP)"
-msgstr ""
+msgstr "定義に移動（LSP）(_D)"
 
 #: lsp/src/lsp-main.c:1776
-#, fuzzy
 msgid "Find _References (LSP)"
-msgstr "参照を挿入(_R)"
+msgstr "参照を検索（LSP）(_R)"
 
 #: lsp/src/lsp-rename.c:56
-#, fuzzy
 msgid "Rename in Project"
-msgstr "プロジェクト内を検索"
+msgstr "プロジェクト内で名前を変更"
 
 #: lsp/src/lsp-rename.c:59
-#, fuzzy
 msgid "_Rename"
-msgstr "名前変更"
+msgstr "名前を変更(_R)"
 
 #: lsp/src/lsp-rename.c:66
-#, fuzzy
 msgid "<b>Warning</b>"
-msgstr "<b>値</b>"
+msgstr "<b>警告</b>"
 
 #: lsp/src/lsp-rename.c:70
 msgid ""
 "By pressing the <i>Rename</i> button below, you are going to replace <i>Old "
 "name</i> with <i>New name</i> <b>in the whole project</b>. There is no "
 "further confirmation or change review after this step."
-msgstr ""
+msgstr "下の <i>名前を変更</i> ボタンを押すと、<b>プロジェクト全体で</b> <i>古い名前</i> が <i>新しい名前</i> に置き換えられます。この後、確認や変更内容の確認は行われません。"
 
 #: lsp/src/lsp-rename.c:76
 msgid ""
 "Since this operation cannot be undone easily, it is highly recommended to "
 "perform this action only after committing all modified files into VCS in "
 "case something goes wrong."
-msgstr ""
+msgstr "この操作は簡単には元に戻せないため、問題が起きたときのために、変更したすべてのファイルをバージョン管理システム (VCS) にコミットしてから実行することを強くお勧めします。"
 
 #: lsp/src/lsp-rename.c:83 projectorganizer/src/prjorg-sidebar.c:581
-#, fuzzy
 msgid "New name:"
-msgstr "名前:"
+msgstr "新しい名前:"
 
 #: lsp/src/lsp-rename.c:99
-#, fuzzy
 msgid "Old name:"
-msgstr "ファイル名: "
+msgstr "古い名前:"
 
 #: lsp/src/lsp-rename.c:159
-#, fuzzy
 msgid "<b>Renaming...</b>"
-msgstr "<b>その他</b>"
+msgstr "<b>名前を変更中...</b>"
 
 #: lsp/src/lsp-server.c:144
 #, c-format
 msgid "LSP server %s stopped"
-msgstr ""
+msgstr "LSP サーバ %s が停止しました"
 
 #: lsp/src/lsp-server.c:152
 #, c-format
 msgid "LSP server %s stopped unexpectedly, restarting"
-msgstr ""
+msgstr "LSP サーバ %s が予期せず停止したため、再起動します"
 
 #: lsp/src/lsp-server.c:167
 #, c-format
 msgid "LSP server %s terminated %d times, giving up"
-msgstr ""
+msgstr "LSP サーバ %s が %d 回終了したため、断念します"
 
 #: lsp/src/lsp-server.c:182
 #, c-format
 msgid "Failed to send SIGTERM to server: %s"
-msgstr ""
+msgstr "サーバへの SIGTERM の送信に失敗しました: %s"
 
 #: lsp/src/lsp-server.c:195 lsp/src/lsp-server.c:217
 #, c-format
 msgid "Force terminating LSP server %s"
-msgstr ""
+msgstr "LSP サーバ %s を強制終了します"
 
 #: lsp/src/lsp-server.c:212
 #, c-format
 msgid "Sending exit notification to LSP server %s"
-msgstr ""
+msgstr "LSP サーバ %s に終了通知を送信しています"
 
 #: lsp/src/lsp-server.c:236
 #, c-format
 msgid "Sending shutdown request to LSP server %s"
-msgstr ""
+msgstr "LSP サーバ %s にシャットダウン要求を送信しています"
 
 #: lsp/src/lsp-server.c:579
 #, c-format
 msgid "LSP server %s initialized"
-msgstr ""
+msgstr "LSP サーバ %s を初期化しました"
 
 #: lsp/src/lsp-server.c:602
 #, c-format
 msgid "Initialize request failed for LSP server %s: %s"
-msgstr ""
+msgstr "LSP サーバ %s の初期化要求に失敗しました: %s"
 
 #: lsp/src/lsp-server.c:603
-#, fuzzy, c-format
+#, c-format
 msgid "Force terminating %s"
-msgstr "書式"
+msgstr "%s を強制終了します"
 
 #: lsp/src/lsp-server.c:793
 #, c-format
 msgid "Sending initialize request to LSP server %s"
-msgstr ""
+msgstr "LSP サーバ %s に初期化要求を送信しています"
 
 #: lsp/src/lsp-server.c:815
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load LSP configuration file with message %s"
-msgstr "設定の読み込みに失敗: %s"
+msgstr "LSP 設定ファイルの読み込みに失敗しました。メッセージ: %s"
 
 #: lsp/src/lsp-server.c:852
 #, c-format
 msgid "Starting LSP server %s"
-msgstr ""
+msgstr "LSP サーバ %s を開始しています"
 
 #: lsp/src/lsp-server.c:861
 #, c-format
 msgid "LSP server process %s failed to start, giving up: %s"
-msgstr ""
+msgstr "LSP サーバのプロセス %s の開始に失敗したため、断念します: %s"
 
 #: lsp/src/lsp-symbol-tree.c:952
-#, fuzzy
 msgid "Symbols"
-msgstr "ファイルを検索"
+msgstr "シンボル"
 
 #: lsp/src/lsp-symbol-tree.c:1169
-#, fuzzy
 msgid "_Expand All"
-msgstr "すべて展開"
+msgstr "すべて展開(_E)"
 
 #: lsp/src/lsp-symbol-tree.c:1174
-#, fuzzy
 msgid "_Collapse All"
-msgstr "すべて閉じる"
+msgstr "すべて閉じる(_C)"
 
 #: lsp/src/lsp-symbol-tree.c:1197
-#, fuzzy
 msgid "Go to _Declaration"
-msgstr "関係式"
+msgstr "宣言に移動(_D)"
 
 #: lsp/src/lsp-symbol-tree.c:1202
 msgid "Go to _Type"
-msgstr ""
+msgstr "型に移動(_T)"
 
 #: lsp/src/lsp-utils.c:269
 #, c-format
 msgid "User LSP config filename %s does not exist, creating"
-msgstr ""
+msgstr "ユーザの LSP 設定ファイル %s が存在しないため、作成します"
 
 #: lsp/src/lsp-utils.c:271
 #, c-format
 msgid "Cannot read global LSP config filename %s"
-msgstr ""
+msgstr "全体の LSP 設定ファイル %s を読み込めません"
 
 #: lsp/src/lsp-utils.c:273
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write user LSP config filename %s"
-msgstr "既定の設定の保存に失敗: %s"
+msgstr "ユーザの LSP 設定ファイル %s に書き込めません"
 
 #: lsp/src/lsp-utils.c:743
 #, c-format
 msgid "JSON parsing error: initialization_options: %s"
-msgstr ""
+msgstr "JSON 解析エラー: initialization_options: %s"
 
 #: lsp/src/lsp-utils.c:770
 #, c-format
 msgid "JSON parsing error: initialization_options_file: %s"
-msgstr ""
+msgstr "JSON 解析エラー: initialization_options_file: %s"
 
 #: markdown/src/conf.c:567
 msgid "Position:"
@@ -5388,135 +5335,129 @@ msgstr "作業ファイルを選択"
 
 #: markdown/src/plugin.c:34
 msgid "Real-time Markdown preview"
-msgstr "リアルタイム マークダウン プレビュー"
+msgstr "リアルタイムの Markdown プレビュー"
 
 #: markdown/src/plugin.c:46
 msgid "Markdown Preview"
-msgstr "マークダウン プレビュー"
+msgstr "Markdown プレビュー"
 
 #: markdown/src/plugin.c:102
 msgid "Export Markdown as HTML..."
-msgstr ""
+msgstr "Markdown を HTML としてエクスポート..."
 
 #: markdown/src/plugin.c:176
 msgid "The current document does not have a Markdown filetype."
-msgstr "現在の文書はマークダウンファイルではありません"
+msgstr "現在の文書のファイルタイプは Markdown ではありません"
 
 #: markdown/src/plugin.c:278
-#, fuzzy
 msgid "Save HTML File As"
-msgstr "ファイルを保存"
+msgstr "HTML ファイルを別名で保存"
 
 #: markdown/src/plugin.c:306
 msgid "HTML Files"
-msgstr ""
+msgstr "HTML ファイル"
 
 #: markdown/src/plugin.c:311 workbench/src/dialogs.c:156
 #: workbench/src/dialogs.c:195
-#, fuzzy
 msgid "All Files"
-msgstr "ファイルを追加"
+msgstr "すべてのファイル"
 
 #: markdown/src/plugin.c:322
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to export Markdown HTML to file '%s': %s"
-msgstr "ファイル \"%s\" の読み込みに失敗: %s"
+msgstr "Markdown の HTML をファイル '%s' にエクスポートできませんでした: %s"
 
 #: overview/overview/overviewplugin.c:43
 msgid "Provides an overview of the active document"
-msgstr ""
+msgstr "アクティブな文書の概要を表示します。"
 
 #: overview/overview/overviewplugin.c:186
 msgid "Toggle Visibility"
-msgstr ""
+msgstr "表示/非表示を切り替え"
 
 #: overview/overview/overviewplugin.c:193
 msgid "Toggle Left/Right Position"
-msgstr ""
+msgstr "左右の位置を切り替え"
 
 #: overview/overview/overviewplugin.c:200
 msgid "Toggle Overlay Inversion"
-msgstr ""
+msgstr "オーバーレイの反転を切り替え"
 
 #: overview/overview/overviewscintilla.c:516
 #, c-format
 msgid "Line <b>%d</b>, Column <b>%d</b>, Position <b>%d</b>"
-msgstr ""
+msgstr "行 <b>%d</b>、列 <b>%d</b>、位置 <b>%d</b>"
 
 #: overview/overview/overviewui.c:289
-#, fuzzy
 msgid "Show Overview"
-msgstr "端末を表示"
+msgstr "概要を表示"
 
 #: overview/data/prefs.ui:37 overview/data/prefs.ui:52
 msgid ""
 "The amount to zoom the overview sidebar. This should probably negative if "
 "you want the sidebar zoomed out."
-msgstr ""
+msgstr "概要サイドバーの拡大量です。サイドバーを縮小表示したい場合は、おそらく負の値にします。"
 
 #: overview/data/prefs.ui:39
-#, fuzzy
 msgid "Zoom Level:"
-msgstr "拡大表示"
+msgstr "拡大率:"
 
 #: overview/data/prefs.ui:72 overview/data/prefs.ui:85
 msgid "The width of the overview sidebar."
-msgstr ""
+msgstr "概要サイドバーの幅です。"
 
 #: overview/data/prefs.ui:74
 msgid "Width:"
-msgstr ""
+msgstr "幅:"
 
 #: overview/data/prefs.ui:103 overview/data/prefs.ui:123
 msgid ""
 "The number of lines to scroll at a time when scrolling the overview sidebar."
-msgstr ""
+msgstr "概要サイドバーをスクロールするときに、一度にスクロールする行数です。"
 
 #: overview/data/prefs.ui:125
 msgid "Scroll Lines:"
-msgstr ""
+msgstr "スクロール行数:"
 
 #: overview/data/prefs.ui:155
-#, fuzzy
 msgid "Position on left"
-msgstr "場所の名前"
+msgstr "左側に配置"
 
 #: overview/data/prefs.ui:159
 msgid ""
 "Position the overview bar on the left rather than the right (requires Geany "
 "1.25 or greater)."
-msgstr ""
+msgstr "概要バーを右ではなく左に配置します（Geany 1.25 以降が必要です）。"
 
 #: overview/data/prefs.ui:170
-#, fuzzy
 msgid "Hide tooltip"
-msgstr "ツールチップを表示(_T)"
+msgstr "ツールチップを隠す"
 
 #: overview/data/prefs.ui:174
 msgid ""
 "Hide the tooltip that is displayed when mousing over the overview that shows "
 "line, column and position information."
-msgstr ""
+msgstr "概要の上にマウスポインタを置いたときに表示される、行・列・位置の情報を示すツールチップを隠します。"
 
 #: overview/data/prefs.ui:185
 msgid "Hide editor scrollbar"
-msgstr ""
+msgstr "エディタのスクロールバーを隠す"
 
 #: overview/data/prefs.ui:189
 msgid ""
 "Whether to hide Geany's regular editor scrollbar while the overview bar is "
 "visible."
-msgstr ""
+msgstr "概要バーの表示中に、Geany の通常のエディタのスクロールバーを隠すかどうかです。"
 
 #: overview/data/prefs.ui:200
 msgid "Disable overlay"
-msgstr ""
+msgstr "オーバーレイを無効にする"
 
 #: overview/data/prefs.ui:204
 msgid ""
 "Turn off drawing overlay, which shows the region of the main editor view "
 "that is currently in view, ontop of the overview bar."
-msgstr ""
+msgstr "メインのエディタビューで現在表示されている領域を、概要バーの上に重ねて示すオーバーレイの描画をオフにします。"
 
 #: overview/data/prefs.ui:221 scope/data/scope.glade:3410
 #: scope/data/scope_gtk3.glade:3412
@@ -5526,250 +5467,237 @@ msgstr "オプション"
 #: overview/data/prefs.ui:259 overview/data/prefs.ui:307
 msgid ""
 "The color and opacity of the overlay drawn ontop of the overlay sidebar."
-msgstr ""
+msgstr "概要サイドバーの上に描画されるオーバーレイの色と不透明度です。"
 
 #: overview/data/prefs.ui:261
-#, fuzzy
 msgid "Color:"
-msgstr "背景色:"
+msgstr "色:"
 
 #: overview/data/prefs.ui:274 overview/data/prefs.ui:290
 msgid ""
 "The color and opacity of the border drawn around the revealed area in the "
 "overview sidebar. Set to the same as Overlay Color to disable."
-msgstr ""
+msgstr "概要サイドバーで、表示されている領域の周囲に描画される枠線の色と不透明度です。無効にするには、オーバーレイの色と同じに設定します。"
 
 #: overview/data/prefs.ui:276
-#, fuzzy
 msgid "Outline Color:"
-msgstr "色を選択"
+msgstr "枠線の色:"
 
 #: overview/data/prefs.ui:321
 msgid "Draw over visible area"
-msgstr ""
+msgstr "表示領域の上に描画する"
 
 #: overview/data/prefs.ui:325
 msgid ""
 "When checked it will draw the overlay ontop of the area that is visible in "
 "the main editor view, when unchecked, it will do the opposite and draw the "
 "overlay everywhere but the visible area, \"revealing\" the visible part."
-msgstr ""
+msgstr "チェックを入れると、メインのエディタビューで表示されている領域の上にオーバーレイを描画します。チェックを外すと逆になり、表示領域以外のすべてにオーバーレイを描画して、表示されている部分を \"見せる\" ようにします。"
 
 #: overview/data/prefs.ui:343
 msgid "Overlay"
-msgstr ""
+msgstr "オーバーレイ"
 
 #: pairtaghighlighter/src/pair_tag_highlighter.c:43
 msgid "Pair Tag Highlighter"
-msgstr ""
+msgstr "ペアタグハイライト"
 
 #: pairtaghighlighter/src/pair_tag_highlighter.c:44
 msgid "Finds and highlights matching opening/closing HTML tag"
-msgstr ""
+msgstr "対応する開始/終了 HTML タグを探してハイライトします。"
 
 #: pairtaghighlighter/src/pair_tag_highlighter.c:490
-#, fuzzy
 msgid "Goto Matching XML Tag"
-msgstr "対応する括弧で選択(_B)"
+msgstr "対応する XML タグに移動"
 
 #: pairtaghighlighter/src/pair_tag_highlighter.c:491
-#, fuzzy
 msgid "Select Matching XML Tag"
-msgstr "対応する括弧で選択(_B)"
+msgstr "対応する XML タグを選択"
 
 #: pairtaghighlighter/src/pair_tag_highlighter.c:502
-#, fuzzy
 msgid "Go To Matching Tag"
-msgstr "対応する括弧で選択(_B)"
+msgstr "対応するタグに移動"
 
 #: pairtaghighlighter/src/pair_tag_highlighter.c:504
-#, fuzzy
 msgid "Select To Matching Tag"
-msgstr "対応する括弧で選択(_B)"
+msgstr "対応するタグまで選択"
 
 #: pohelper/data/menus.ui:63
 msgid "_Translation Helper"
-msgstr ""
+msgstr "翻訳ヘルパー(_T)"
 
 #: pohelper/data/menus.ui:70
 msgid "_Previous String"
-msgstr ""
+msgstr "前の文字列(_P)"
 
 #: pohelper/data/menus.ui:74 pohelper/src/gph-plugin.c:1590
-#, fuzzy
 msgid "Go to previous string"
-msgstr "前の頁に移動"
+msgstr "前の文字列に移動"
 
 #: pohelper/data/menus.ui:82
 msgid "_Next String"
-msgstr ""
+msgstr "次の文字列(_N)"
 
 #: pohelper/data/menus.ui:86 pohelper/src/gph-plugin.c:1593
-#, fuzzy
 msgid "Go to next string"
-msgstr "次の頁に移動"
+msgstr "次の文字列に移動"
 
 #: pohelper/data/menus.ui:100
 msgid "Pre_vious Untranslated"
-msgstr ""
+msgstr "前の未翻訳(_V)"
 
 #: pohelper/data/menus.ui:104 pohelper/src/gph-plugin.c:1596
 msgid "Go to previous untranslated string"
-msgstr ""
+msgstr "前の未翻訳の文字列に移動"
 
 #: pohelper/data/menus.ui:112
 msgid "Next _Untranslated"
-msgstr ""
+msgstr "次の未翻訳(_U)"
 
 #: pohelper/data/menus.ui:116 pohelper/src/gph-plugin.c:1599
 msgid "Go to next untranslated string"
-msgstr ""
+msgstr "次の未翻訳の文字列に移動"
 
 #: pohelper/data/menus.ui:130
 msgid "Previous Fu_zzy"
-msgstr ""
+msgstr "前のファジー(_Z)"
 
 #: pohelper/data/menus.ui:134 pohelper/src/gph-plugin.c:1602
 msgid "Go to previous fuzzily translated string"
-msgstr ""
+msgstr "前のファジー翻訳の文字列に移動"
 
 #: pohelper/data/menus.ui:142
 msgid "Next _Fuzzy"
-msgstr ""
+msgstr "次のファジー(_F)"
 
 #: pohelper/data/menus.ui:146 pohelper/src/gph-plugin.c:1605
 msgid "Go to next fuzzily translated string"
-msgstr ""
+msgstr "次のファジー翻訳の文字列に移動"
 
 #: pohelper/data/menus.ui:160
 msgid "Previous Untranslated or Fuzz_y"
-msgstr ""
+msgstr "前の未翻訳またはファジー(_Y)"
 
 #: pohelper/data/menus.ui:164 pohelper/src/gph-plugin.c:1608
 msgid "Go to previous untranslated or fuzzy string"
-msgstr ""
+msgstr "前の未翻訳またはファジーの文字列に移動"
 
 #: pohelper/data/menus.ui:172
 msgid "Next Untranslated _or Fuzzy"
-msgstr ""
+msgstr "次の未翻訳またはファジー(_O)"
 
 #: pohelper/data/menus.ui:176 pohelper/src/gph-plugin.c:1612
 msgid "Go to next untranslated or fuzzy string"
-msgstr ""
+msgstr "次の未翻訳またはファジーの文字列に移動"
 
 #: pohelper/data/menus.ui:193 pohelper/src/gph-plugin.c:1623
-#, fuzzy
 msgid "Toggle current translation fuzziness"
-msgstr "文書タブを切り替え"
+msgstr "現在の翻訳のファジー状態を切り替え"
 
 #: pohelper/data/menus.ui:194
 msgid "_Toggle Fuzziness"
-msgstr ""
+msgstr "ファジー状態を切り替え(_T)"
 
 #: pohelper/data/menus.ui:200
 msgid "Paste _Message as Translation"
-msgstr ""
+msgstr "原文を翻訳として貼り付け(_M)"
 
 #: pohelper/data/menus.ui:204
 msgid "Paste the original untranslated string to the translation"
-msgstr ""
+msgstr "翻訳前の原文の文字列を翻訳に貼り付け"
 
 #: pohelper/data/menus.ui:215 pohelper/src/gph-plugin.c:1620
 msgid "Reflow the current translation string"
-msgstr ""
+msgstr "現在の翻訳文字列を折り返し直す"
 
 #: pohelper/data/menus.ui:216
 msgid "_Reflow Translation"
-msgstr ""
+msgstr "翻訳を折り返し直す(_R)"
 
 #: pohelper/data/menus.ui:231 pohelper/src/gph-plugin.c:1626
-#, fuzzy
 msgid "Show statistics of the current document"
-msgstr "現在の文書の綴りを検査"
+msgstr "現在の文書の統計を表示"
 
 #: pohelper/data/menus.ui:232
-#, fuzzy
 msgid "_Show stats"
-msgstr "状態を表示"
+msgstr "統計を表示(_S)"
 
 #: pohelper/data/menus.ui:247
 msgid ""
 "Whether to update the translation headers (author, revision date, ...) upon "
 "file save"
-msgstr ""
+msgstr "ファイル保存時に翻訳ヘッダ（翻訳者、改訂日など）を更新するかどうか"
 
 #: pohelper/data/menus.ui:248
 msgid "Update _Headers Upon Save"
-msgstr ""
+msgstr "保存時にヘッダを更新(_H)"
 
 #: pohelper/data/stats.ui:8
 msgid "Translation statistics"
-msgstr ""
+msgstr "翻訳の統計"
 
 #: pohelper/data/stats.ui:76
 msgid "Choose a color for translated strings"
-msgstr ""
+msgstr "翻訳済みの文字列の色を選択"
 
 #: pohelper/data/stats.ui:90
 msgid "Choose a color for fuzzily translated strings"
-msgstr ""
+msgstr "ファジー翻訳の文字列の色を選択"
 
 #: pohelper/data/stats.ui:106
 msgid "Choose a color for untranslated strings"
-msgstr ""
+msgstr "未翻訳の文字列の色を選択"
 
 #: pohelper/data/stats.ui:121
-#, fuzzy
 msgid "Translated:"
-msgstr "translator_credits"
+msgstr "翻訳済み:"
 
 #: pohelper/data/stats.ui:137
 msgid "Fuzzy:"
-msgstr ""
+msgstr "ファジー:"
 
 #: pohelper/data/stats.ui:155
-#, fuzzy
 msgid "Untranslated:"
-msgstr "translator_credits"
+msgstr "未翻訳:"
 
 #: pohelper/src/gph-plugin.c:40
 msgid "Translation Helper"
-msgstr ""
+msgstr "翻訳ヘルパー"
 
 #: pohelper/src/gph-plugin.c:41
 msgid "Improves support for GetText translation files."
-msgstr ""
+msgstr "GetText 翻訳ファイルのサポートを改善します。"
 
 #: pohelper/src/gph-plugin.c:1370 pohelper/src/gph-plugin.c:1387
 #, c-format
 msgid "<b>Translated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>翻訳済み:</b> %.3g%%"
 
 #: pohelper/src/gph-plugin.c:1372 pohelper/src/gph-plugin.c:1390
 #, c-format
 msgid "<b>Fuzzy:</b> %.3g%%"
-msgstr ""
+msgstr "<b>ファジー:</b> %.3g%%"
 
 #: pohelper/src/gph-plugin.c:1374 pohelper/src/gph-plugin.c:1392
 #, c-format
 msgid "<b>Untranslated:</b> %.3g%%"
-msgstr ""
+msgstr "<b>未翻訳:</b> %.3g%%"
 
 #: pohelper/src/gph-plugin.c:1490
 #, c-format
 msgid "%u (%.3g%%)"
-msgstr ""
+msgstr "%u (%.3g%%)"
 
 #: pohelper/src/gph-plugin.c:1616
 msgid "Paste original untranslated string to translation"
-msgstr ""
+msgstr "翻訳前の原文の文字列を翻訳に貼り付け"
 
 #: pohelper/src/gph-plugin.c:1833
 #, c-format
 msgid ""
 "Cannot find widget \"%s\" in the UI definition, please check your "
 "installation."
-msgstr ""
+msgstr "UI 定義にウィジェット \"%s\" が見つかりません。インストールを確認してください。"
 
 #: pretty-printer/src/PluginEntry.c:41
 msgid "XML PrettyPrinter"
@@ -5781,6 +5709,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"XML を整形して、読みやすくします。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: pretty-printer/src/PluginEntry.c:125
 msgid "PrettyPrinter XML"
@@ -5861,20 +5791,18 @@ msgid "Line break"
 msgstr "改行"
 
 #: projectorganizer/src/prjorg-main.c:41
-#, fuzzy
 msgid "Project Organizer"
-msgstr "プロジェクトの設定"
+msgstr "プロジェクトオーガナイザ"
 
 #: projectorganizer/src/prjorg-main.c:42
 msgid ""
 "Project file tree, project-wide indexing and search, extra navigation "
 "options (was GProject)"
-msgstr ""
+msgstr "プロジェクトのファイルツリー、プロジェクト全体のインデックス作成と検索、追加のナビゲーションオプション（旧 GProject）"
 
 #: projectorganizer/src/prjorg-main.c:215
-#, fuzzy
 msgid "File manager command:"
-msgstr "コマンドを挿入"
+msgstr "ファイルマネージャのコマンド:"
 
 #: projectorganizer/src/prjorg-main.c:222
 #, c-format
@@ -5884,11 +5812,13 @@ msgid ""
 "filename.\n"
 "The command will be executed in the directory of the selected file."
 msgstr ""
+"サイドバーのコンテキストメニュー項目 'ファイルマネージャを開く' で使用するコマンド。\n"
+"%d は、選択したファイルのファイル名を除いた完全パスに置き換えられます。\n"
+"コマンドは、選択したファイルのディレクトリで実行されます。"
 
 #: projectorganizer/src/prjorg-main.c:233
-#, fuzzy
 msgid "Terminal command:"
-msgstr "端末プログラム:"
+msgstr "端末のコマンド:"
 
 #: projectorganizer/src/prjorg-main.c:239
 #, c-format
@@ -5898,96 +5828,83 @@ msgid ""
 "filename.\n"
 "The command will be executed in the directory of the selected file."
 msgstr ""
+"サイドバーのコンテキストメニュー項目 '端末を開く' で使用するコマンド。\n"
+"%d は、選択したファイルのファイル名を除いた完全パスに置き換えられます。\n"
+"コマンドは、選択したファイルのディレクトリで実行されます。"
 
 #: projectorganizer/src/prjorg-menu.c:267
-#, fuzzy
 msgid "Find in Project Files..."
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトファイル内を検索..."
 
 #: projectorganizer/src/prjorg-menu.c:271
 msgid "Find in project files"
 msgstr "プロジェクトファイルを検索"
 
 #: projectorganizer/src/prjorg-menu.c:273
-#, fuzzy
 msgid "Find Project File..."
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトファイルを検索..."
 
 #: projectorganizer/src/prjorg-menu.c:277
 msgid "Find project file"
 msgstr "プロジェクトファイルを検索"
 
 #: projectorganizer/src/prjorg-menu.c:279
-#, fuzzy
 msgid "Find Project Symbol..."
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトのシンボルを検索..."
 
 #: projectorganizer/src/prjorg-menu.c:283
-#, fuzzy
 msgid "Find project symbol"
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトのシンボルを検索"
 
 #: projectorganizer/src/prjorg-menu.c:325
 msgid "Focus Project Sidebar"
-msgstr ""
+msgstr "プロジェクトサイドバーに切り替え"
 
 #: projectorganizer/src/prjorg-menu.c:328
 msgid "Open File Manager at file location"
-msgstr ""
+msgstr "ファイルの場所でファイルマネージャを開く"
 
 #: projectorganizer/src/prjorg-menu.c:331
 msgid "Open Terminal at file location"
-msgstr ""
+msgstr "ファイルの場所で端末を開く"
 
 #: projectorganizer/src/prjorg-menu.c:337
-#, fuzzy
 msgid "Open Selected File (Project Organizer)"
-msgstr "選択したファイルを開く(gproject)"
+msgstr "選択したファイルを開く（プロジェクトオーガナイザ）"
 
 #: projectorganizer/src/prjorg-project.c:673
 msgid "Source patterns:"
 msgstr "ソースのフィルタ:"
 
 #: projectorganizer/src/prjorg-project.c:679
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify source files. "
 "Used for header/source swapping."
-msgstr ""
-"空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
-"ソースの交換に使用します。"
+msgstr "ソースファイルの判別に使用するパターンを、空白で区切って指定します。ヘッダとソースの切り替えに使用されます。"
 
 #: projectorganizer/src/prjorg-project.c:689
 msgid "Header patterns:"
 msgstr "ヘッダのフィルタ:"
 
 #: projectorganizer/src/prjorg-project.c:695
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify headers. Used for "
 "header/source swapping."
-msgstr ""
-"空白で区切られたヘッダファイルとして使用するファイルパターンのリストヘッダ。"
-"ソースの交換に使用します。"
+msgstr "ヘッダの判別に使用するパターンを、空白で区切って指定します。ヘッダとソースの切り替えに使用されます。"
 
 #: projectorganizer/src/prjorg-project.c:705 workbench/src/dialogs.c:396
-#, fuzzy
 msgid "Ignored file patterns:"
-msgstr "無視するディレクトリ:"
+msgstr "無視するファイルのパターン:"
 
 #: projectorganizer/src/prjorg-project.c:711
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that are "
 "not displayed in the project tree."
-msgstr ""
-"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
-"ト"
+msgstr "プロジェクトツリーに表示しないファイルの判別に使用するパターンを、空白で区切って指定します。"
 
 #: projectorganizer/src/prjorg-project.c:721 workbench/src/dialogs.c:422
-#, fuzzy
 msgid "Ignored directory patterns:"
-msgstr "無視するディレクトリ:"
+msgstr "無視するディレクトリのパターン:"
 
 #: projectorganizer/src/prjorg-project.c:727
 msgid ""
@@ -6003,52 +5920,44 @@ msgid ""
 "Find in Files dialog. You can further restrict the files belonging to the "
 "project by setting theFile Patterns under the Project tab (these are also "
 "used for the Find in Files dialog)."
-msgstr ""
+msgstr "上記のパターンはサイドバーとインデックス作成にのみ影響し、\"複数ファイルから検索\" ダイアログでは使用されません。プロジェクトに属するファイルをさらに制限するには、\"プロジェクト\" タブでファイルパターンを設定します（これらは \"複数ファイルから検索\" ダイアログでも使用されます）。"
 
 #: projectorganizer/src/prjorg-project.c:748
-#, fuzzy
 msgid "<b>Various</b>"
-msgstr "<b>値</b>"
+msgstr "<b>その他</b>"
 
 #: projectorganizer/src/prjorg-project.c:753
 msgid "Show empty directories in sidebar"
-msgstr ""
+msgstr "サイドバーに空のディレクトリを表示する"
 
 #: projectorganizer/src/prjorg-project.c:756
 msgid ""
 "Whether to show empty directories in the sidebar or not. Showing empty "
 "directories is useful when using file operations from the context menu, e.g. "
 "to create a new file in the directory."
-msgstr ""
+msgstr "サイドバーに空のディレクトリを表示するかどうか。空のディレクトリを表示すると、コンテキストメニューからのファイル操作（たとえば、そのディレクトリに新しいファイルを作成するなど）に便利です。"
 
 #: projectorganizer/src/prjorg-project.c:767
-#, fuzzy
 msgid "Index all project files:"
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトの全ファイルをインデックス化:"
 
 #: projectorganizer/src/prjorg-project.c:771
 msgid "Auto (index if less than 1000 files)"
-msgstr ""
+msgstr "自動（ファイル数が1000未満の場合にインデックス化）"
 
 #: projectorganizer/src/prjorg-project.c:772
-#, fuzzy
 msgid "Yes"
 msgstr "はい"
 
 #: projectorganizer/src/prjorg-project.c:773
-#, fuzzy
 msgid "No"
-msgstr "番号"
+msgstr "いいえ"
 
 #: projectorganizer/src/prjorg-project.c:776
-#, fuzzy
 msgid ""
 "Generate symbol list for all project files instead of only for the currently "
 "opened files. Might be slow for big projects."
-msgstr ""
-"現在開いているファイルだけでなく、プロジェクトの全てのファイルからタグ・リス"
-"トを生成します。大きなプロジェクト(1000ファイル以上)ではとても遅いので、使用"
-"しないでください。"
+msgstr "現在開いているファイルだけでなく、プロジェクトのすべてのファイルのシンボルリストを生成します。大きなプロジェクトでは遅くなることがあります。"
 
 #: projectorganizer/src/prjorg-sidebar.c:129
 msgid "Find File"
@@ -6065,107 +5974,97 @@ msgstr "完全パスで検索"
 
 #: projectorganizer/src/prjorg-sidebar.c:182
 #: projectorganizer/src/prjorg-sidebar.c:943
-#, fuzzy
 msgid "project or external directory"
-msgstr "ディレクトリを作成"
+msgstr "プロジェクトまたは外部ディレクトリ"
 
 #: projectorganizer/src/prjorg-sidebar.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to run command \"%s\" in directory \"%s\"."
-msgstr "設定ディレクトリを '%s' に作成できません"
+msgstr "コマンド \"%s\" をディレクトリ \"%s\" で実行できません。"
 
 #: projectorganizer/src/prjorg-sidebar.c:446
 #: projectorganizer/src/prjorg-sidebar.c:450
-#, fuzzy
 msgid "Add External Directory"
-msgstr "ディレクトリを選択"
+msgstr "外部ディレクトリを追加"
 
 #: projectorganizer/src/prjorg-sidebar.c:448
 #: projectorganizer/src/prjorg-sidebar.c:453 workbench/src/dialogs.c:188
 #: workbench/src/dialogs.c:225 workbench/src/search_projects.c:96
-#, fuzzy
 msgid "_Add"
-msgstr "両方追加(_A)"
+msgstr "追加(_A)"
 
 #: projectorganizer/src/prjorg-sidebar.c:508 treebrowser/src/treebrowser.c:2385
-#, fuzzy
 msgid "New File"
 msgstr "新規ファイル"
 
 #: projectorganizer/src/prjorg-sidebar.c:509
-#, fuzzy
 msgid "File name:"
-msgstr "ファイル名: "
+msgstr "ファイル名:"
 
 #: projectorganizer/src/prjorg-sidebar.c:509
 msgid "newfile.txt"
-msgstr ""
+msgstr "newfile.txt"
 
 #: projectorganizer/src/prjorg-sidebar.c:523
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create file '%s'."
-msgstr "一時ファイルを作成できません"
+msgstr "ファイル '%s' を作成できません。"
 
 #: projectorganizer/src/prjorg-sidebar.c:539
-#, fuzzy
 msgid "New Directory"
 msgstr "新規ディレクトリ"
 
 #: projectorganizer/src/prjorg-sidebar.c:540
-#, fuzzy
 msgid "Directory name:"
-msgstr "ディレクトリ(_D)"
+msgstr "ディレクトリ名:"
 
 #: projectorganizer/src/prjorg-sidebar.c:540
 msgid "newdir"
-msgstr ""
+msgstr "newdir"
 
 #: projectorganizer/src/prjorg-sidebar.c:553
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create directory '%s'."
-msgstr "pinentryを使用できません"
+msgstr "ディレクトリ '%s' を作成できません。"
 
 #: projectorganizer/src/prjorg-sidebar.c:580
-#, fuzzy
 msgid "Rename"
 msgstr "名前変更"
 
 #: projectorganizer/src/prjorg-sidebar.c:594
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename '%s' to '%s'."
-msgstr "書籍 '%s'を展開できません: %s"
+msgstr "'%s' の名前を '%s' に変更できません。"
 
 #: projectorganizer/src/prjorg-sidebar.c:619
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to delete '%s'?"
-msgstr "'%s' を削除してもよいですか?"
+msgstr "'%s' を削除してもよろしいですか?"
 
 #: projectorganizer/src/prjorg-sidebar.c:626
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete file '%s'."
-msgstr "一時ファイルを作成できません"
+msgstr "ファイル '%s' を削除できません。"
 
 #: projectorganizer/src/prjorg-sidebar.c:735
-#, fuzzy
 msgid "Find Symbol"
-msgstr "ファイルを検索"
+msgstr "シンボルを検索"
 
 #: projectorganizer/src/prjorg-sidebar.c:764
 msgid "Match type:"
-msgstr ""
+msgstr "一致の種類:"
 
 #: projectorganizer/src/prjorg-sidebar.c:1353
 msgid "Set file patterns under Project->Properties"
-msgstr ""
+msgstr "プロジェクト->プロパティ でファイルパターンを設定"
 
 #: projectorganizer/src/prjorg-sidebar.c:1686
 msgid "Reload all"
 msgstr "すべて読み直し"
 
 #: projectorganizer/src/prjorg-sidebar.c:1692
-#, fuzzy
 msgid "Add external directory"
-msgstr "ディレクトリを元に戻す"
+msgstr "外部ディレクトリを追加"
 
 #: projectorganizer/src/prjorg-sidebar.c:1702
 msgid "Expand all"
@@ -6173,7 +6072,7 @@ msgstr "すべて展開"
 
 #: projectorganizer/src/prjorg-sidebar.c:1709
 msgid "Collapse to project root"
-msgstr ""
+msgstr "プロジェクトのルートまで閉じる"
 
 #: projectorganizer/src/prjorg-sidebar.c:1720
 msgid "Follow active editor"
@@ -6181,56 +6080,47 @@ msgstr "アクティブなエディタに従う"
 
 #: projectorganizer/src/prjorg-sidebar.c:1766
 msgid "Open a project to start using the plugin"
-msgstr ""
+msgstr "プラグインを使い始めるには、プロジェクトを開いてください"
 
 #: projectorganizer/src/prjorg-sidebar.c:1773
 msgid "Expand All"
 msgstr "すべて展開"
 
 #: projectorganizer/src/prjorg-sidebar.c:1782
-#, fuzzy
 msgid "Find in Files..."
-msgstr "複数ファイルを検索"
+msgstr "複数ファイルから検索..."
 
 #: projectorganizer/src/prjorg-sidebar.c:1787
-#, fuzzy
 msgid "Find File..."
-msgstr "ファイルを検索"
+msgstr "ファイルを検索..."
 
 #: projectorganizer/src/prjorg-sidebar.c:1792
-#, fuzzy
 msgid "Find Symbol..."
-msgstr "ファイルを検索"
+msgstr "シンボルを検索..."
 
 #: projectorganizer/src/prjorg-sidebar.c:1801
-#, fuzzy
 msgid "Open File Manager"
-msgstr "マニュアルを開く(_M)"
+msgstr "ファイルマネージャを開く"
 
 #: projectorganizer/src/prjorg-sidebar.c:1806
-#, fuzzy
 msgid "Open Terminal"
-msgstr "端末で開く"
+msgstr "端末を開く"
 
 #: projectorganizer/src/prjorg-sidebar.c:1815
-#, fuzzy
 msgid "Remove External Directory"
-msgstr "ディレクトリを元に戻す"
+msgstr "外部ディレクトリを削除"
 
 #: projectorganizer/src/prjorg-sidebar.c:1824
-#, fuzzy
 msgid "New File..."
-msgstr "新規ファイル"
+msgstr "新規ファイル..."
 
 #: projectorganizer/src/prjorg-sidebar.c:1829
-#, fuzzy
 msgid "New Directory..."
-msgstr "新規ディレクトリ"
+msgstr "新規ディレクトリ..."
 
 #: projectorganizer/src/prjorg-sidebar.c:1834
-#, fuzzy
 msgid "Rename..."
-msgstr "名前変更"
+msgstr "名前変更..."
 
 #: projectorganizer/src/prjorg-sidebar.c:1839
 msgid "Delete"
@@ -6280,7 +6170,7 @@ msgstr "終了(_T)"
 
 #: scope/data/scope.glade:299 scope/data/scope_gtk3.glade:299
 msgid "Toggle _Breakpoint"
-msgstr "ブレークポイント(_B)"
+msgstr "ブレークポイントを切り替え(_B)"
 
 #: scope/data/scope.glade:308 scope/data/scope_gtk3.glade:308
 msgid "_GDB Command"
@@ -6419,7 +6309,7 @@ msgstr "検査(_I)"
 #: scope/data/scope.glade:1152 scope/data/scope_gtk3.glade:758
 #: scope/data/scope_gtk3.glade:863 scope/data/scope_gtk3.glade:1152
 msgid "_8-bit mode"
-msgstr "_8ビットモード"
+msgstr "8ビットモード(_8)"
 
 #: scope/data/scope.glade:765 scope/data/scope.glade:870
 #: scope/data/scope.glade:1159 scope/data/scope_gtk3.glade:765
@@ -6515,7 +6405,7 @@ msgstr "2進(_B)"
 
 #: scope/data/scope.glade:1271 scope/data/scope_gtk3.glade:1271
 msgid "_Raw"
-msgstr ""
+msgstr "生(_R)"
 
 #: scope/data/scope.glade:1302 scope/data/scope_gtk3.glade:1302
 msgid "_Evaluate/Modify"
@@ -6532,62 +6422,55 @@ msgstr "変数を検査(_I)"
 #: scope/data/scope.glade:1594 scope/data/scope.glade:1768
 #: scope/data/scope_gtk3.glade:1594 scope/data/scope_gtk3.glade:1768
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: scope/data/scope.glade:1607 scope/data/scope_gtk3.glade:1607
 msgid "Pid"
-msgstr ""
+msgstr "PID"
 
 #: scope/data/scope.glade:1620 scope/data/scope_gtk3.glade:1620
 msgid "Gid"
-msgstr ""
+msgstr "GID"
 
 #: scope/data/scope.glade:1633 scope/data/scope_gtk3.glade:1633
-#, fuzzy
 msgid "State"
 msgstr "状態"
 
 #: scope/data/scope.glade:1699 scope/data/scope_gtk3.glade:1699
-#, fuzzy
 msgid "Target Id"
-msgstr "対象"
+msgstr "対象 ID"
 
 #: scope/data/scope.glade:1713 scope/data/scope_gtk3.glade:1713
 msgid "Core"
-msgstr ""
+msgstr "コア"
 
 #: scope/data/scope.glade:1733 scope/data/scope_gtk3.glade:1733
 msgid "Threads"
 msgstr "スレッド"
 
 #: scope/data/scope.glade:1793 scope/data/scope_gtk3.glade:1793
-#, fuzzy
 msgid "Location or expr"
-msgstr "場所"
+msgstr "場所または式"
 
 #: scope/data/scope.glade:1820 scope/data/scope_gtk3.glade:1820
-#, fuzzy
 msgid "Times"
-msgstr " 回ごと."
+msgstr "回数"
 
 #: scope/data/scope.glade:1833 scope/data/scope_gtk3.glade:1833
-#, fuzzy
 msgid "Ignore"
-msgstr "無視(_I)"
+msgstr "無視"
 
 #: scope/data/scope.glade:1860 scope/data/scope_gtk3.glade:1860
-#, fuzzy
 msgid "Script"
-msgstr "Lua スクリプト"
+msgstr "スクリプト"
 
 #: scope/data/scope.glade:1901 scope/data/scope_gtk3.glade:1901
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: scope/data/scope.glade:1954 scope/data/scope_gtk3.glade:1954
-#, fuzzy
 msgid "Arguments"
-msgstr "引数(_A):"
+msgstr "引数"
 
 #: scope/data/scope.glade:1988 scope/data/scope_gtk3.glade:1988
 msgid "Stack"
@@ -6595,12 +6478,11 @@ msgstr "スタック"
 
 #: scope/data/scope.glade:2055 scope/data/scope_gtk3.glade:2055
 msgid "Locals"
-msgstr "ロケール"
+msgstr "ローカル変数"
 
 #: scope/data/scope.glade:2089 scope/data/scope_gtk3.glade:2089
-#, fuzzy
 msgid "Expression"
-msgstr "式をウォッチ(_W)"
+msgstr "式"
 
 #: scope/data/scope.glade:2123 scope/data/scope_gtk3.glade:2123
 msgid "Watches"
@@ -6663,14 +6545,12 @@ msgid "_Non-stop mode"
 msgstr "ノンストップモード(_N)"
 
 #: scope/data/scope.glade:2835 scope/data/scope_gtk3.glade:2837
-#, fuzzy
 msgid "_Temporary breakpoint on load at:"
-msgstr "一時的なブレークポイント(_T):"
+msgstr "ロード時の一時ブレークポイント位置(_T):"
 
 #: scope/data/scope.glade:2872 scope/data/scope_gtk3.glade:2874
-#, fuzzy
 msgid "_Delete all breakpoints, watches, inspects and registers"
-msgstr "全てのブレークポイント,ウォッチ,検査を削除(_D)"
+msgstr "すべてのブレークポイント、ウォッチ、検査、レジスタを削除(_D)"
 
 #: scope/data/scope.glade:2900 scope/data/scope_gtk3.glade:2902
 #: scope/src/scope.c:514
@@ -6703,7 +6583,7 @@ msgstr "標準8ビットテキストモード:"
 
 #: scope/data/scope.glade:3055 scope/data/scope_gtk3.glade:3057
 msgid "_7-bit \\nnn"
-msgstr "_7ビット \\nnn"
+msgstr "7ビット \\nnn(_7)"
 
 #: scope/data/scope.glade:3117 scope/data/scope_gtk3.glade:3119
 msgid "Display"
@@ -6747,7 +6627,7 @@ msgstr "<b>検査</b>"
 
 #: scope/data/scope.glade:3347 scope/data/scope_gtk3.glade:3349
 msgid "Show =li_brary messages"
-msgstr "表示 =ライブラリメッセージ(_I)"
+msgstr "=ライブラリメッセージを表示(_B)"
 
 #: scope/data/scope.glade:3363 scope/data/scope_gtk3.glade:3365
 msgid "Show _tooltips"
@@ -6768,7 +6648,7 @@ msgstr "割当て式を入力:"
 #: scope/data/scope.glade:3595 scope/data/scope.glade:3960
 #: scope/data/scope_gtk3.glade:3597 scope/data/scope_gtk3.glade:3962
 msgid "Inspect"
-msgstr "検証"
+msgstr "検査"
 
 #: scope/data/scope.glade:3617 scope/data/scope_gtk3.glade:3619
 msgid "Object:"
@@ -6813,86 +6693,76 @@ msgstr "プログラム端末"
 
 #: scope/data/scope.glade:3964 scope/data/scope_gtk3.glade:3966
 msgid "Registers"
-msgstr ""
+msgstr "レジスタ"
 
 #: scope/src/break.c:101
-#, fuzzy
 msgid "breakpoint"
 msgstr "ブレークポイント"
 
 #: scope/src/break.c:102
-#, fuzzy
 msgid "hardware breakpoint"
-msgstr "ブレークポイントを修正"
+msgstr "ハードウェアブレークポイント"
 
 #: scope/src/break.c:103
-#, fuzzy
 msgid "tracepoint"
-msgstr "監視ポイント"
+msgstr "トレースポイント"
 
 #: scope/src/break.c:104
-#, fuzzy
 msgid "fast tracepoint"
-msgstr "監視ポイント"
+msgstr "高速トレースポイント"
 
 #: scope/src/break.c:105
-#, fuzzy
 msgid "write watchpoint"
-msgstr "監視ポイントを修正"
+msgstr "書き込み監視ポイント"
 
 #: scope/src/break.c:108
-#, fuzzy
 msgid "access watchpoint"
-msgstr "監視ポイント"
+msgstr "アクセス監視ポイント"
 
 #: scope/src/break.c:110
-#, fuzzy
 msgid "read watchpoint"
-msgstr "監視ポイントを修正"
+msgstr "読み込み監視ポイント"
 
 #: scope/src/break.c:112
-#, fuzzy
 msgid "catchpoint"
-msgstr "監視ポイント"
+msgstr "キャッチポイント"
 
 #: scope/src/break.c:139 scope/src/break.c:143
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: scope/src/break.c:140
-#, fuzzy
 msgid "unsupported MI"
-msgstr "ソートしない(_U)"
+msgstr "サポートされていない MI"
 
 #: scope/src/break.c:145
-#, fuzzy
 msgid "on load"
-msgstr "g_db ロード"
+msgstr "ロード時"
 
 #: scope/src/break.c:146
-#, fuzzy
 msgid "Run to Cursor"
-msgstr "カーソル位置まで実行(_C)"
+msgstr "カーソル位置まで実行"
 
 #: scope/src/break.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There are two or more breakpoints at %s:%d.\n"
 "\n"
 "Use the breakpoint list to remove the exact one."
 msgstr ""
-"%s:%d に複数のブレークポイントがあります。\n"
-"ブレークポイントリストより1つに変更してください。"
+"%s:%d に2つ以上のブレークポイントがあります。\n"
+"\n"
+"ブレークポイントリストを使って、該当するものを削除してください。"
 
 #: scope/src/break.c:1254
 #, c-format
 msgid ", %s"
-msgstr ""
+msgstr ", %s"
 
 #: scope/src/break.c:1280
 #, c-format
 msgid "func %s"
-msgstr ""
+msgstr "関数 %s"
 
 #: scope/src/break.c:1311
 msgid "Add Breakpoint"
@@ -6936,7 +6806,7 @@ msgstr "%s: %s."
 #: scope/src/debug.c:496
 msgid ""
 "No executable set. Please set an executable under \"Debug/Setup Program\"."
-msgstr ""
+msgstr "実行ファイルが設定されていません。\"デバッグ/スタートアッププログラム\" で実行ファイルを設定してください。"
 
 #: scope/src/debug.c:557 scope/src/thread.c:97
 #, c-format
@@ -6968,9 +6838,9 @@ msgid "Read Memory"
 msgstr "メモリを読み込み"
 
 #: scope/src/memory.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "Scope: pointer size > %d, Data disabled."
-msgstr "スコープ: ポインタサイズ > 8, データ無効"
+msgstr "スコープ: ポインタサイズ > %d、データは無効です。"
 
 #: scope/src/menu.c:386
 msgid "Modify"
@@ -7031,9 +6901,8 @@ msgstr ""
 "継続しますか?"
 
 #: scope/src/program.c:423
-#, fuzzy
 msgid "Delete all breakpoints, watches et cetera?"
-msgstr "全てのブレークポイント、監視、検査を削除しますか?"
+msgstr "すべてのブレークポイント、ウォッチなどを削除しますか?"
 
 #: scope/src/program.c:531
 msgid "as _Name=value"
@@ -7048,9 +6917,8 @@ msgid "Scope Debugger"
 msgstr "スコープデバッガ"
 
 #: scope/src/scope.c:36
-#, fuzzy
 msgid "Relatively simple GDB front-end."
-msgstr "シンプルなGDBフロントエンド."
+msgstr "比較的シンプルな GDB フロントエンドです。"
 
 #: scope/src/scope.c:63
 msgid "Setup program"
@@ -7159,9 +7027,9 @@ msgid "Stopped"
 msgstr "停止"
 
 #: scope/src/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s"
-msgstr "%s: %s."
+msgstr "%s: %s"
 
 #: scope/src/utils.c:235
 #, c-format
@@ -7185,16 +7053,12 @@ msgid "GDB Command"
 msgstr "GDBコマンド"
 
 #: sendmail/src/sendmail.c:45
-#, fuzzy
 msgid "SendMail"
-msgstr "GeanySendMail"
+msgstr "SendMail"
 
 #: sendmail/src/sendmail.c:46
-#, fuzzy
 msgid "Sends the current file as attachment with your favorite mailer"
-msgstr ""
-"ユーザーのお気に入りのメーラーで、現在のファイルを添付ファイルとして送信する"
-"プラグイン"
+msgstr "現在のファイルを、お好みのメールプログラムで添付ファイルとして送信します。"
 
 #: sendmail/src/sendmail.c:99
 msgid "Recipient's Address"
@@ -7206,13 +7070,13 @@ msgstr "受信者の電子メールアドレスを入力:"
 
 #: sendmail/src/sendmail.c:143
 msgid "Filename placeholder not found. The executed command might have failed."
-msgstr "ファイル名がありません。実行したコマンドは間違っています。"
+msgstr "ファイル名のプレースホルダが見つかりません。実行したコマンドが失敗した可能性があります。"
 
 #: sendmail/src/sendmail.c:149
 msgid ""
 "Recipient address placeholder not found. The executed command might have "
 "failed."
-msgstr "受信者アドレスがありません。実行したコマンドは間違っています。"
+msgstr "受信者アドレスのプレースホルダが見つかりません。実行したコマンドが失敗した可能性があります。"
 
 #: sendmail/src/sendmail.c:163
 msgid "Could not execute mailer. Please check your configuration."
@@ -7249,12 +7113,12 @@ msgid ""
 "\tmutt -s \"Sending '%b'\" -a \"%f\" \"%r\""
 msgstr ""
 "注: \n"
-"\t\\%f はあなたのファイル名に置換されます。\n"
-"\t\\%r は受信者の電子メールアドレスに置換されます。\n"
-"\t\\%b はファイルのベース名に置換されます。\n"
+"\t%f はあなたのファイル名に置換されます。\n"
+"\t%r は受信者の電子メールアドレスに置換されます。\n"
+"\t%b はファイルのベース名に置換されます。\n"
 "\t例:\n"
-"\tsylpheed --attach \"\\%f\" --compose \"\\%r\"\n"
-"\tmutt -s \"Sending '\\%b'\" -a \"\\%f\" \"\\%r\""
+"\tsylpheed --attach \"%f\" --compose \"%r\"\n"
+"\tmutt -s \"Sending '%b'\" -a \"%f\" \"%r\""
 
 #: sendmail/src/sendmail.c:332
 msgid "Show toolbar icon"
@@ -7282,13 +7146,18 @@ msgid ""
 "configuration file to new location.\n"
 "Move now?"
 msgstr ""
+"名前が変更されたプラグインを検出しました。\n"
+"\n"
+"GeanySendMail は sendmail に名前が変更されました。すでにお気付きのことと思います。\n"
+"Geany は、古い設定ファイルを新しい場所に移動することで、以前のプラグインの設定を引き継ぐことができます。\n"
+"今すぐ移動しますか?"
 
 #: sendmail/src/sendmail.c:411
 #, c-format
 msgid ""
 "Your old configuration directory \"%s\" could not be moved to \"%s\" (%s). "
 "Please move manually the directory to the new location."
-msgstr ""
+msgstr "古い設定ディレクトリ \"%s\" を \"%s\" に移動できませんでした (%s)。ディレクトリを手動で新しい場所に移動してください。"
 
 #: sendmail/src/sendmail.c:442
 msgid "_Mail document"
@@ -7341,14 +7210,12 @@ msgid "Checks the spelling of the current document."
 msgstr "現在の文書の綴りを検査"
 
 #: spellcheck/src/scplugin.c:225
-#, fuzzy
 msgid "Run spell check once"
-msgstr "スペルチェックを実行"
+msgstr "スペルチェックを1回実行"
 
 #: spellcheck/src/scplugin.c:228 spellcheck/src/scplugin.c:333
-#, fuzzy
 msgid "Toggle spell check"
-msgstr "スペルチェック"
+msgstr "スペルチェックを切り替え"
 
 #: spellcheck/src/scplugin.c:239
 msgid "Select Directory"
@@ -7363,29 +7230,26 @@ msgid "Show editor menu item to show spelling suggestions"
 msgstr "修正候補を表示するエディタメニュー項目を表示"
 
 #: spellcheck/src/scplugin.c:300
-#, fuzzy
 msgid "Show suggestions in a sub menu of the editor menu"
-msgstr "'URIを開く'をエディタのメニューに表示"
+msgstr "修正候補をエディタメニューのサブメニューに表示"
 
 #: spellcheck/src/scplugin.c:315
 msgid "Print misspelled words and suggestions in the messages window"
 msgstr "メッセージウィンドウに間違った単語と修正候補を表示"
 
 #: spellcheck/src/scplugin.c:325
-#, fuzzy
 msgid "<b>Interface</b>"
-msgstr "<b>検査</b>"
+msgstr "<b>インターフェース</b>"
 
 #: spellcheck/src/scplugin.c:336
-#, fuzzy
 msgid "Check spelling when opening a document"
-msgstr "入力中にスペルチェックを行う"
+msgstr "文書を開いたときにスペルチェックを行う"
 
 #: spellcheck/src/scplugin.c:338
 msgid ""
 "Enabling this option will check every document after it is opened in Geany. "
 "Reloading a document will also trigger a re-check."
-msgstr ""
+msgstr "このオプションを有効にすると、Geany で文書を開いた後、すべての文書をチェックします。文書を再読み込みしたときも、再チェックが実行されます。"
 
 #: spellcheck/src/scplugin.c:342
 msgid "Language to use for the spell check:"
@@ -7396,20 +7260,16 @@ msgid "_Directory to look for dictionary files:"
 msgstr "辞書ファイルを探すディレクトリ(_D):"
 
 #: spellcheck/src/scplugin.c:361
-#, fuzzy
 msgid ""
 "Read additional dictionary files from this directory. For now, this only "
 "works with hunspell dictionaries. With Enchant 2.0 or later, the "
 "dictionaries are searched in a subfolder called \"hunspell\". See the "
 "plugin's Help for details."
-msgstr ""
-"このディレクトリから追加の辞書を読み込みます。現時点では、myspell 辞書のみ動"
-"作します。"
+msgstr "このディレクトリから追加の辞書ファイルを読み込みます。現時点では、hunspell 辞書でのみ動作します。Enchant 2.0 以降では、辞書は \"hunspell\" というサブフォルダから検索されます。詳細はプラグインのヘルプを参照してください。"
 
 #: spellcheck/src/scplugin.c:394
-#, fuzzy
 msgid "<b>Behavior</b>"
-msgstr "<b>その他</b>"
+msgstr "<b>動作</b>"
 
 #: spellcheck/src/gui.c:88
 msgid "Spell checking while typing is now enabled"
@@ -7454,9 +7314,9 @@ msgid "Default (%s)"
 msgstr "標準 (%s)"
 
 #: spellcheck/src/gui.c:602
-#, fuzzy, c-format
+#, c-format
 msgid "Toggle spell check (current language: %s)"
-msgstr "入力中のスペルチェックを有効/無効(現在の言語: %s)"
+msgstr "スペルチェックを切り替え（現在の言語: %s）"
 
 #: spellcheck/src/gui.c:679
 msgid "Spelling Suggestions"
@@ -7472,6 +7332,8 @@ msgid ""
 "This plugin currently has no maintainer. Would you like to help by "
 "contributing to this plugin?"
 msgstr ""
+"選択範囲を左右に移動します。\n"
+"このプラグインには現在、保守担当者がいません。開発に協力していただけませんか?"
 
 #: shiftcolumn/src/shiftcolumn.c:357 shiftcolumn/src/shiftcolumn.c:378
 msgid "Shift Left"
@@ -7487,19 +7349,19 @@ msgstr "テーブル変換"
 
 #: tableconvert/src/tableconvert.c:32
 msgid "Converts lists into tables for different filetypes"
-msgstr ""
+msgstr "リストを、さまざまなファイル種類向けのテーブルに変換します。"
 
 #: tableconvert/src/tableconvert.c:58
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: tableconvert/src/tableconvert.c:78
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 #: tableconvert/src/tableconvert.c:95
 msgid "DokuWiki"
-msgstr ""
+msgstr "DokuWiki"
 
 #: tableconvert/src/tableconvert.c:296
 msgid "Something went wrong on parsing selection. Aborting"
@@ -7518,22 +7380,18 @@ msgid "Converts current marked list to a table."
 msgstr "現在マークしたリストをテーブルに変換."
 
 #: tableconvert/src/tableconvert_ui.c:53 tableconvert/src/tableconvert_ui.c:55
-#, fuzzy
 msgid "_More TableConvert"
-msgstr "テーブル変換"
+msgstr "その他の TableConvert(_M)"
 
 #: treebrowser/src/treebrowser.c:126
 msgid "TreeBrowser"
 msgstr "ツリーブラウザ"
 
 #: treebrowser/src/treebrowser.c:127
-#, fuzzy
 msgid ""
 "This plugin adds a tree browser to Geany, allowing the user to browse files "
 "using a tree view of the directory being browsed."
-msgstr ""
-"このプラグインはGeanyにツリーブラウザを追加し、ディレクトリをツリービューに表"
-"示して、ユーザがファイルを選択できるようにします。"
+msgstr "このプラグインは Geany にツリーブラウザを追加し、参照中のディレクトリをツリー表示して、ファイルを参照できるようにします。"
 
 #: treebrowser/src/treebrowser.c:468
 #, c-format
@@ -7559,13 +7417,13 @@ msgid "NewFile"
 msgstr "新規ファイル"
 
 #: treebrowser/src/treebrowser.c:1103
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Target file '%s' exists.\n"
 "Do you really want to replace it with an empty file?"
 msgstr ""
 "対象ファイル '%s' が存在します。\n"
-"このファイルを空のファイルで上書きしてもいいですか?"
+"空のファイルで置き換えてもよろしいですか?"
 
 #: treebrowser/src/treebrowser.c:1150
 #, c-format
@@ -7573,54 +7431,44 @@ msgid "Do you really want to delete '%s' ?"
 msgstr "'%s' を削除してもよいですか?"
 
 #: treebrowser/src/treebrowser.c:1283 treebrowser/src/treebrowser.c:1285
-#, fuzzy
 msgid "Go _Up"
 msgstr "上に移動(_U)"
 
 #: treebrowser/src/treebrowser.c:1291 treebrowser/src/treebrowser.c:1293
-#, fuzzy
 msgid "Set _Path From Document"
-msgstr "文書からパスを設定"
+msgstr "文書からパスを設定(_P)"
 
 #: treebrowser/src/treebrowser.c:1299 treebrowser/src/treebrowser.c:1301
-#, fuzzy
 msgid "_Open Externally"
-msgstr "外部アプリケーションで開く"
+msgstr "外部アプリケーションで開く(_O)"
 
 #: treebrowser/src/treebrowser.c:1307
-#, fuzzy
 msgid "Open _Terminal"
-msgstr "端末で開く"
+msgstr "端末で開く(_T)"
 
 #: treebrowser/src/treebrowser.c:1312 treebrowser/src/treebrowser.c:1314
-#, fuzzy
 msgid "Set as _Root"
-msgstr "rootに設定"
+msgstr "ルートに設定(_R)"
 
 #: treebrowser/src/treebrowser.c:1321 treebrowser/src/treebrowser.c:1323
-#, fuzzy
 msgid "Refres_h"
-msgstr "表示を更新"
+msgstr "更新(_H)"
 
 #: treebrowser/src/treebrowser.c:1329 treebrowser/src/treebrowser.c:1331
-#, fuzzy
 msgid "_Find in Files"
-msgstr "複数ファイルを検索"
+msgstr "複数ファイルから検索(_F)"
 
 #: treebrowser/src/treebrowser.c:1341 treebrowser/src/treebrowser.c:1343
-#, fuzzy
 msgid "N_ew Folder"
-msgstr "フォルダを選択"
+msgstr "新規フォルダ(_E)"
 
 #: treebrowser/src/treebrowser.c:1349 treebrowser/src/treebrowser.c:1351
-#, fuzzy
 msgid "_New File"
-msgstr "新規ファイル"
+msgstr "新規ファイル(_N)"
 
 #: treebrowser/src/treebrowser.c:1357 treebrowser/src/treebrowser.c:1359
-#, fuzzy
 msgid "Rena_me"
-msgstr "名前変更"
+msgstr "名前変更(_M)"
 
 #: treebrowser/src/treebrowser.c:1378 treebrowser/src/treebrowser.c:1380
 #, c-format
@@ -7628,39 +7476,32 @@ msgid "Close: %s"
 msgstr "閉じる: %s"
 
 #: treebrowser/src/treebrowser.c:1387 treebrowser/src/treebrowser.c:1389
-#, fuzzy
 msgid "Clo_se Child Documents "
-msgstr "下位の文書を閉じる"
+msgstr "下位の文書を閉じる(_S) "
 
 #: treebrowser/src/treebrowser.c:1396 treebrowser/src/treebrowser.c:1398
-#, fuzzy
 msgid "_Copy Full Path to Clipboard"
-msgstr "完全パスをクリップボードにコピー"
+msgstr "完全パスをクリップボードにコピー(_C)"
 
 #: treebrowser/src/treebrowser.c:1409 treebrowser/src/treebrowser.c:1411
-#, fuzzy
 msgid "E_xpand All"
-msgstr "すべて展開"
+msgstr "すべて展開(_X)"
 
 #: treebrowser/src/treebrowser.c:1417 treebrowser/src/treebrowser.c:1419
-#, fuzzy
 msgid "Coll_apse All"
-msgstr "すべて閉じる"
+msgstr "すべて閉じる(_A)"
 
 #: treebrowser/src/treebrowser.c:1427
-#, fuzzy
 msgid "Show Boo_kmarks"
-msgstr "ブックマークを表示"
+msgstr "ブックマークを表示(_K)"
 
 #: treebrowser/src/treebrowser.c:1432
-#, fuzzy
 msgid "Sho_w Hidden Files"
-msgstr "隠しファイルを表示"
+msgstr "隠しファイルを表示(_W)"
 
 #: treebrowser/src/treebrowser.c:1437
-#, fuzzy
 msgid "Show Tool_bars"
-msgstr "ツールバーを表示"
+msgstr "ツールバーを表示(_B)"
 
 #: treebrowser/src/treebrowser.c:1775
 #, c-format
@@ -7726,13 +7567,12 @@ msgstr ""
 "%d は選択したファイルがあるパス名に置き換えられます。"
 
 #: treebrowser/src/treebrowser.c:2161
-#, fuzzy
 msgid "Terminal"
-msgstr "終了"
+msgstr "端末"
 
 #: treebrowser/src/treebrowser.c:2172
 msgid "The terminal to use with the command \"Open Terminal\""
-msgstr ""
+msgstr "コマンド \"端末で開く\" で使用する端末"
 
 #: treebrowser/src/treebrowser.c:2178
 msgid "Toolbar"
@@ -7812,20 +7652,19 @@ msgstr "ファイル削除時に、開いていたら閉じる"
 
 #: treebrowser/src/treebrowser.c:2268
 msgid "Focus editor on file open"
-msgstr ""
+msgstr "ファイルを開いたときにエディタにフォーカスする"
 
 #: treebrowser/src/treebrowser.c:2277
 msgid "Show tree lines"
-msgstr "ツリー行数を表示"
+msgstr "ツリーの線を表示"
 
 #: treebrowser/src/treebrowser.c:2286
 msgid "Show bookmarks"
 msgstr "ブックマークを表示"
 
 #: treebrowser/src/treebrowser.c:2295
-#, fuzzy
 msgid "Open new files"
-msgstr "ファイルを開く"
+msgstr "新しいファイルを開く"
 
 #: treebrowser/src/treebrowser.c:2379
 msgid "Focus File List"
@@ -7840,44 +7679,40 @@ msgid "Rename Object"
 msgstr "オブジェクトの名前変更"
 
 #: treebrowser/src/treebrowser.c:2387
-#, fuzzy
 msgid "New Folder"
-msgstr "フォルダを選択"
+msgstr "新規フォルダ"
 
 #: treebrowser/src/treebrowser.c:2391
-#, fuzzy
 msgid "Track Current"
-msgstr "パスを記録"
+msgstr "現在の文書を追跡"
 
 #: updatechecker/src/updatechecker.c:40
 msgid "Updatechecker"
 msgstr "更新チェッカー"
 
 #: updatechecker/src/updatechecker.c:41
-#, fuzzy
 msgid "Checks whether there are updates for Geany available"
-msgstr "Geany の新しいリリースが利用可能かどうかチェックするプラグイン"
+msgstr "Geany の更新が利用可能かどうかを確認します。"
 
 #: updatechecker/src/updatechecker.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "There is a more recent version of Geany available: %s"
-msgstr "新しいバージョンが利用可能です"
+msgstr "Geany の新しいバージョンが利用可能です: %s"
 
 #: updatechecker/src/updatechecker.c:229
-#, fuzzy
 msgid "No newer Geany version available."
-msgstr "新しいバージョンが利用可能です"
+msgstr "利用可能な新しい Geany のバージョンはありません。"
 
 #: updatechecker/src/updatechecker.c:247
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to perform version check.\n"
 "Error code: %d \n"
 "Error message: %s"
 msgstr ""
-"バージョン情報が取得できません。\n"
+"バージョンの確認を実行できません。\n"
 "エラーコード: %d \n"
-"エラーメッセージ: »%s«"
+"エラーメッセージ: %s"
 
 #: updatechecker/src/updatechecker.c:322
 msgid "Run updatecheck on startup"
@@ -7889,53 +7724,48 @@ msgstr "更新をチェック"
 
 #: vimode/src/backends/backend-geany.c:41
 msgid "Vimode"
-msgstr ""
+msgstr "Vimode"
 
 #: vimode/src/backends/backend-geany.c:42
-#, fuzzy
 msgid "Vim mode for Geany"
-msgstr "Geanyマクロ"
+msgstr "Geany 用の Vim モードです。"
 
 #: vimode/src/backends/backend-geany.c:140
 #, c-format
 msgid "Insert Mode for Dummies: %s"
-msgstr ""
+msgstr "初心者向けの挿入モード: %s"
 
 #: vimode/src/backends/backend-geany.c:140
 msgid "ON"
-msgstr ""
+msgstr "オン"
 
 #: vimode/src/backends/backend-geany.c:140
 msgid "OFF"
-msgstr ""
+msgstr "オフ"
 
 #: vimode/src/backends/backend-geany.c:290
-#, fuzzy
 msgid "_Vim Mode"
-msgstr "列選択モード(_C)"
+msgstr "Vim モード(_V)"
 
 #: vimode/src/backends/backend-geany.c:296
-#, fuzzy
 msgid "Enable _Vim Mode"
-msgstr "CVSを有効"
+msgstr "Vim モードを有効にする(_V)"
 
 #: vimode/src/backends/backend-geany.c:301
-#, fuzzy
 msgid "Enable Vim Mode"
-msgstr "CVSを有効"
+msgstr "Vim モードを有効にする"
 
 #: vimode/src/backends/backend-geany.c:303
-#, fuzzy
 msgid "Insert Mode for _Dummies"
-msgstr "番号を挿入(_N)"
+msgstr "初心者向けの挿入モード(_D)"
 
 #: vimode/src/backends/backend-geany.c:309
 msgid "Insert Mode for Dummies"
-msgstr ""
+msgstr "初心者向けの挿入モード"
 
 #: vimode/src/backends/backend-geany.c:311
 msgid "Start in _Insert Mode"
-msgstr ""
+msgstr "挿入モードで開始する(_I)"
 
 #: webhelper/src/gwh-enum-types.c:15
 msgid "message-window"
@@ -7971,66 +7801,56 @@ msgid "%s:"
 msgstr "%s:"
 
 #: webhelper/src/gwh-browser.c:262
-#, fuzzy
 msgid "Bookmark this website"
-msgstr "ブックマークに切り替え"
+msgstr "この Web サイトをブックマーク"
 
 #: webhelper/src/gwh-browser.c:297
-#, fuzzy
 msgid "_Load current file"
-msgstr "現在のページを再読み込み"
+msgstr "現在のファイルを読み込み(_L)"
 
 #: webhelper/src/gwh-browser.c:464
 msgid "_Zoom"
 msgstr "ズーム(_Z)"
 
 #: webhelper/src/gwh-browser.c:472
-#, fuzzy
 msgid "Zoom _In"
-msgstr "拡大表示"
+msgstr "拡大(_I)"
 
 #: webhelper/src/gwh-browser.c:481
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "縮小表示"
+msgstr "縮小(_O)"
 
 #: webhelper/src/gwh-browser.c:492
-#, fuzzy
 msgid "_Reset Zoom"
-msgstr "ズーム(_Z)"
+msgstr "ズームをリセット(_R)"
 
 #: webhelper/src/gwh-browser.c:505
 msgid "Full-_content zoom"
 msgstr "内容全体にズーム(_C)"
 
 #: webhelper/src/gwh-browser.c:738
-#, fuzzy
 msgid "_Back"
-msgstr "戻る"
+msgstr "戻る(_B)"
 
 #: webhelper/src/gwh-browser.c:739
-#, fuzzy
 msgid "Go back"
-msgstr "1ページ戻る"
+msgstr "前のページに戻る"
 
 #: webhelper/src/gwh-browser.c:742
-#, fuzzy
 msgid "_Forward"
-msgstr "進む"
+msgstr "進む(_F)"
 
 #: webhelper/src/gwh-browser.c:743
-#, fuzzy
 msgid "Go forward"
-msgstr "進む"
+msgstr "次のページに進む"
 
 #: webhelper/src/gwh-browser.c:747
 msgid "Cancel loading"
 msgstr "読み込みを中断"
 
 #: webhelper/src/gwh-browser.c:750
-#, fuzzy
 msgid "_Refresh"
-msgstr "表示を更新"
+msgstr "更新(_R)"
 
 #: webhelper/src/gwh-browser.c:751
 msgid "Reload current page"
@@ -8038,12 +7858,11 @@ msgstr "現在のページを再読み込み"
 
 #: webhelper/src/gwh-browser.c:767
 msgid "Website information and settings"
-msgstr ""
+msgstr "Web サイトの情報と設定"
 
 #: webhelper/src/gwh-browser.c:777
-#, fuzzy
 msgid "Web _Inspector"
-msgstr "Web検証"
+msgstr "Web 検証(_I)"
 
 #: webhelper/src/gwh-browser.c:778
 msgid "Toggle web inspector"
@@ -8092,9 +7911,8 @@ msgid "Last URI visited by the browser"
 msgstr "ブラウザが最後に表示したURI"
 
 #: webhelper/src/gwh-plugin.c:341
-#, fuzzy
 msgid "List of bookmarks"
-msgstr "ブックマークを表示"
+msgstr "ブックマークの一覧"
 
 #: webhelper/src/gwh-plugin.c:346
 msgid "Browser orientation"
@@ -8164,12 +7982,11 @@ msgstr "Web表示ウィンドウを切り替え"
 
 #: webhelper/src/gwh-plugin.c:464
 msgid "Toggle bookmark for the current website"
-msgstr ""
+msgstr "現在の Web サイトのブックマークを切り替え"
 
 #: webhelper/src/gwh-plugin.c:467
-#, fuzzy
 msgid "Load the current file in the web view"
-msgstr "現在の行と上の行を交換"
+msgstr "現在のファイルを Web 表示で読み込み"
 
 #: webhelper/src/gwh-plugin.c:533
 msgid "Browser"
@@ -8180,99 +7997,79 @@ msgid "Windows"
 msgstr "ウィンドウ"
 
 #: workbench/src/dialogs.c:46
-#, fuzzy
 msgid "Create new file"
-msgstr "ファイルを作成"
+msgstr "新規ファイルを作成"
 
 #: workbench/src/dialogs.c:81
-#, fuzzy
 msgid "Create new directory"
-msgstr "ディレクトリを作成"
+msgstr "新規ディレクトリを作成"
 
 #: workbench/src/dialogs.c:115
-#, fuzzy
 msgid "Create new workbench"
-msgstr "ディレクトリを作成"
+msgstr "新規ワークベンチを作成"
 
 #: workbench/src/dialogs.c:146
-#, fuzzy
 msgid "Open workbench"
-msgstr "開く"
+msgstr "ワークベンチを開く"
 
 #: workbench/src/dialogs.c:149
-#, fuzzy
 msgid "_Open"
-msgstr "開く"
+msgstr "開く(_O)"
 
 #: workbench/src/dialogs.c:152
 msgid "Workbench files (.geanywb)"
-msgstr ""
+msgstr "ワークベンチファイル (.geanywb)"
 
 #: workbench/src/dialogs.c:185
-#, fuzzy
 msgid "Add project"
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトを追加"
 
 #: workbench/src/dialogs.c:191
-#, fuzzy
 msgid "Project files (.geany)"
-msgstr "プロジェクトファイル \"%s\" は既に存在します"
+msgstr "プロジェクトファイル (.geany)"
 
 #: workbench/src/dialogs.c:222
-#, fuzzy
 msgid "Add directory"
-msgstr "ディレクトリを元に戻す"
+msgstr "ディレクトリを追加"
 
 #: workbench/src/dialogs.c:345
-#, fuzzy
 msgid "Directory settings"
-msgstr "環境設定"
+msgstr "ディレクトリの設定"
 
 #: workbench/src/dialogs.c:349 workbench/src/dialogs.c:592
 #: workbench/src/search_projects.c:461
-#, fuzzy
 msgid "_OK"
-msgstr "了解(_O)"
+msgstr "OK(_O)"
 
 #: workbench/src/dialogs.c:365
 msgid "filter files using the workbench plugin"
-msgstr ""
+msgstr "ワークベンチプラグインを使ってファイルをフィルタする"
 
 #: workbench/src/dialogs.c:370
-#, fuzzy
 msgid "File patterns:"
-msgstr "ソースのフィルタ:"
+msgstr "ファイルパターン:"
 
 #: workbench/src/dialogs.c:391
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "be displayed in the directory tree."
-msgstr ""
-"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
-"ト"
+msgstr "ディレクトリツリーに表示するファイルの判別に使用するパターンを、空白で区切って指定します。"
 
 #: workbench/src/dialogs.c:417
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify files that shall "
 "not be displayed in the directory tree."
-msgstr ""
-"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
-"ト"
+msgstr "ディレクトリツリーに表示しないファイルの判別に使用するパターンを、空白で区切って指定します。"
 
 #: workbench/src/dialogs.c:443
-#, fuzzy
 msgid ""
 "Space separated list of patterns that are used to identify directories that "
 "shall not be scanned for source files."
-msgstr ""
-"空白で区切られたソースファイル検索の対象から外すディレクトリのパターンのリス"
-"ト"
+msgstr "ソースファイルの検索対象にしないディレクトリの判別に使用するパターンを、空白で区切って指定します。"
 
 #: workbench/src/dialogs.c:459
 msgid "filter files using git (.gitignore)"
-msgstr ""
+msgstr "git (.gitignore) を使ってファイルをフィルタする"
 
 #: workbench/src/dialogs.c:465
 msgid ""
@@ -8280,130 +8077,133 @@ msgid ""
 "used in the Find in Files\n"
 "dialog."
 msgstr ""
+"注: 上記のパターンはワークベンチのディレクトリにのみ影響し、\"複数ファイルから検索\"\n"
+"ダイアログでは使用されません。"
 
 #: workbench/src/dialogs.c:588
-#, fuzzy
 msgid "Workbench settings"
-msgstr "環境設定"
+msgstr "ワークベンチの設定"
 
 #: workbench/src/dialogs.c:608
-#, fuzzy
 msgid "_Rescan all projects on open"
-msgstr "プロジェクトファイルを検索"
+msgstr "開くときにすべてのプロジェクトを再スキャン(_R)"
 
 #: workbench/src/dialogs.c:619
 msgid ""
 "If the option is activated (default), then all projects will be re-scanned "
 "on opening of the workbench."
-msgstr ""
+msgstr "このオプションを有効にすると（既定）、ワークベンチを開くときにすべてのプロジェクトを再スキャンします。"
 
 #: workbench/src/dialogs.c:624
 msgid "_Enable live update"
-msgstr ""
+msgstr "ライブ更新を有効にする(_E)"
 
 #: workbench/src/dialogs.c:635
 msgid ""
 "If the option is activated (default), then the list of files and the sidebar "
 "will be updated automatically if a file or directory is created, removed or "
 "renamed. A manual re-scan is not required if the option is enabled."
-msgstr ""
+msgstr "このオプションを有効にすると（既定）、ファイルまたはディレクトリが作成、削除、名前変更されたときに、ファイルの一覧とサイドバーが自動的に更新されます。このオプションが有効な場合、手動での再スキャンは不要です。"
 
 #: workbench/src/dialogs.c:641
-#, fuzzy
 msgid "_Expand on hover"
-msgstr "適用時に展開(_E)"
+msgstr "マウスを重ねたときに展開(_E)"
 
 #: workbench/src/dialogs.c:652
 msgid ""
 "If the option is activated, then a tree node in the sidebar will be expanded "
 "or collapsed by hovering over it with the mouse cursor."
-msgstr ""
+msgstr "このオプションを有効にすると、サイドバーのツリーノードにマウスカーソルを重ねたときに、展開または折りたたみます。"
 
 #: workbench/src/dialogs.c:657
-#, fuzzy
 msgid "_Enable tree lines"
-msgstr "ツリー行数を表示"
+msgstr "ツリーの線を有効にする(_E)"
 
 #: workbench/src/dialogs.c:668
 msgid ""
 "If the option is activated, lines will be drawn between the nodes in the "
 "sidebar tree."
-msgstr ""
+msgstr "このオプションを有効にすると、サイドバーのツリーのノード間に線を描画します。"
 
 #: workbench/src/menu.c:103
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create new workbench file: %s"
-msgstr "一時ファイルを作成できません"
+msgstr "新しいワークベンチファイルを作成できませんでした: %s"
 
 #: workbench/src/menu.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open workbench file: %s"
-msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
+msgstr "ワークベンチファイルを開けませんでした: %s"
 
 #: workbench/src/menu.c:155 workbench/src/popup_menu.c:265
 #: workbench/src/search_projects.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save workbench file: %s"
-msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
+msgstr "ワークベンチファイルを保存できませんでした: %s"
 
 #: workbench/src/menu.c:207 workbench/src/plugin_main.c:132
 #: workbench/src/sidebar.c:1443
 msgid "Workbench"
-msgstr ""
+msgstr "ワークベンチ"
 
 #: workbench/src/menu.c:211
 msgid "_New..."
-msgstr ""
+msgstr "新規作成(_N)..."
 
 #: workbench/src/menu.c:218
 msgid "_Open..."
-msgstr ""
+msgstr "開く(_O)..."
 
 #: workbench/src/menu.c:225
-#, fuzzy
 msgid "S_ettings"
-msgstr "設定"
+msgstr "設定(_E)"
 
 #: workbench/src/menu.c:232
-#, fuzzy
 msgid "Search _projects"
-msgstr "新規プロジェクト"
+msgstr "プロジェクトを検索(_P)"
 
 #: workbench/src/menu.c:239
-#, fuzzy
 msgid "_Close"
-msgstr "閉じる: %s"
+msgstr "閉じる(_C)"
 
 #: workbench/src/plugin_main.c:89 workbench/src/sidebar.c:869
 msgid ""
 "Create or open a workbench\n"
 "using the workbench menu."
 msgstr ""
+"ワークベンチメニューで\n"
+"ワークベンチを作成するか開いてください。"
 
 #: workbench/src/plugin_main.c:133
 msgid "Manage and customize multiple projects."
-msgstr ""
+msgstr "複数のプロジェクトを管理およびカスタマイズします。"
 
 #: workbench/src/popup_menu.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "Could not add project file: %s"
-msgstr "デバッグ設定ファイル %s の読み込みに失敗: %s"
+msgstr "プロジェクトファイルを追加できませんでした: %s"
 
 #: workbench/src/popup_menu.c:602
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not create new file \"%s\":\n"
 "\n"
 "%s"
-msgstr "一時ファイルを作成できません"
+msgstr ""
+"新しいファイル \"%s\" を作成できませんでした:\n"
+"\n"
+"%s"
 
 #: workbench/src/popup_menu.c:702
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Do you really want to remove file \"%s\"?\n"
 "\n"
 "This cannot be undone!"
-msgstr "ファイルを削除してもよいですか: %s?"
+msgstr ""
+"ファイル \"%s\" を本当に削除しますか?\n"
+"\n"
+"この操作は元に戻せません!"
 
 #: workbench/src/popup_menu.c:707
 #, c-format
@@ -8412,126 +8212,111 @@ msgid ""
 "\n"
 "This cannot be undone!"
 msgstr ""
+"ディレクトリ \"%s\" とその中のすべてのファイルを本当に削除しますか?\n"
+"\n"
+"この操作は元に戻せません!"
 
 #: workbench/src/popup_menu.c:719 workbench/src/popup_menu.c:743
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove file \"%s\"."
-msgstr "一時ファイルを作成できません"
+msgstr "ファイル \"%s\" を削除できませんでした。"
 
 #: workbench/src/popup_menu.c:763 workbench/src/popup_menu.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "Could not remove directory \"%s\"."
-msgstr "pinentryを使用できません"
+msgstr "ディレクトリ \"%s\" を削除できませんでした。"
 
 #: workbench/src/popup_menu.c:810
-#, fuzzy
 msgid "_Add project..."
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトを追加(_A)..."
 
 #: workbench/src/popup_menu.c:816
-#, fuzzy
 msgid "_Remove project"
-msgstr "オブジェクトの名前変更"
+msgstr "プロジェクトを削除(_R)"
 
 #: workbench/src/popup_menu.c:822
-#, fuzzy
 msgid "_Fold/unfold project"
-msgstr "プロジェクトファイルを検索"
+msgstr "プロジェクトを折りたたむ/展開(_F)"
 
 #: workbench/src/popup_menu.c:828
 msgid "_Open all files in project"
-msgstr ""
+msgstr "プロジェクト内のすべてのファイルを開く(_O)"
 
 #: workbench/src/popup_menu.c:834
 msgid "_Close all files in project"
-msgstr ""
+msgstr "プロジェクト内のすべてのファイルを閉じる(_C)"
 
 #: workbench/src/popup_menu.c:844
-#, fuzzy
 msgid "_Add directory..."
-msgstr "ディレクトリを元に戻す"
+msgstr "ディレクトリを追加(_A)..."
 
 #: workbench/src/popup_menu.c:850
-#, fuzzy
 msgid "_Remove directory"
-msgstr "ディレクトリを元に戻す"
+msgstr "ディレクトリを削除(_R)"
 
 #: workbench/src/popup_menu.c:856
-#, fuzzy
 msgid "_Rescan directory"
-msgstr "ディレクトリを元に戻す"
+msgstr "ディレクトリを再スキャン(_R)"
 
 #: workbench/src/popup_menu.c:862
-#, fuzzy
 msgid "_Directory settings"
-msgstr "ディレクトリ(_D)"
+msgstr "ディレクトリの設定(_D)"
 
 #: workbench/src/popup_menu.c:868
-#, fuzzy
 msgid "_Fold/unfold directory"
-msgstr "ディレクトリの差分を表示"
+msgstr "ディレクトリを折りたたむ/展開(_F)"
 
 #: workbench/src/popup_menu.c:874
-#, fuzzy
 msgid "_Open all files in directory"
-msgstr "%s: ファイルまたはディレクトリがありません"
+msgstr "ディレクトリ内のすべてのファイルを開く(_O)"
 
 #: workbench/src/popup_menu.c:880
-#, fuzzy
 msgid "_Close all files in directory"
-msgstr "ディレクトリを作成"
+msgstr "ディレクトリ内のすべてのファイルを閉じる(_C)"
 
 #: workbench/src/popup_menu.c:890
-#, fuzzy
 msgid "_Open all files in sub-directory"
-msgstr "%s: ファイルまたはディレクトリがありません"
+msgstr "サブディレクトリ内のすべてのファイルを開く(_O)"
 
 #: workbench/src/popup_menu.c:896
-#, fuzzy
 msgid "_Close all files in sub-directory"
-msgstr "ディレクトリを作成"
+msgstr "サブディレクトリ内のすべてのファイルを閉じる(_C)"
 
 #: workbench/src/popup_menu.c:906
-#, fuzzy
 msgid "_Expand all"
-msgstr "すべて展開"
+msgstr "すべて展開(_E)"
 
 #: workbench/src/popup_menu.c:912
-#, fuzzy
 msgid "_Collapse all"
-msgstr "すべて閉じる"
+msgstr "すべて閉じる(_C)"
 
 #: workbench/src/popup_menu.c:922
 msgid "_Add to Workbench Bookmarks"
-msgstr ""
+msgstr "ワークベンチのブックマークに追加(_A)"
 
 #: workbench/src/popup_menu.c:928
 msgid "_Add to Project Bookmarks"
-msgstr ""
+msgstr "プロジェクトのブックマークに追加(_A)"
 
 #: workbench/src/popup_menu.c:934
-#, fuzzy
 msgid "_Remove from Bookmarks"
-msgstr "ブックマークを削除(_R)"
+msgstr "ブックマークから削除(_R)"
 
 #: workbench/src/popup_menu.c:944
-#, fuzzy
 msgid "_Create file here..."
-msgstr "ファイルを作成"
+msgstr "ここにファイルを作成(_C)..."
 
 #: workbench/src/popup_menu.c:950
-#, fuzzy
 msgid "_Create directory here..."
-msgstr "ディレクトリを作成"
+msgstr "ここにディレクトリを作成(_C)..."
 
 #: workbench/src/popup_menu.c:956
 msgid "_Remove..."
-msgstr ""
+msgstr "削除(_R)..."
 
 #: workbench/src/search_projects.c:93
-#, fuzzy
 msgid "Select search directory"
-msgstr "ディレクトリを選択"
+msgstr "検索するディレクトリを選択"
 
 #: workbench/src/search_projects.c:249
 #, c-format
@@ -8539,52 +8324,50 @@ msgid ""
 "Found %lu project files in directory \"%s\".\n"
 "Please select the projects to add to the workbench."
 msgstr ""
+"%lu 個のプロジェクトファイルがディレクトリ \"%s\" で見つかりました。\n"
+"ワークベンチに追加するプロジェクトを選択してください。"
 
 #: workbench/src/search_projects.c:457
-#, fuzzy
 msgid "Search projects"
-msgstr "新規プロジェクト"
+msgstr "プロジェクトを検索"
 
 #: workbench/src/search_projects.c:482
-#, fuzzy
 msgid "Add to workbench?"
-msgstr "開く"
+msgstr "ワークベンチに追加?"
 
 #: workbench/src/search_projects.c:491
-#, fuzzy
 msgid "Project path"
-msgstr "プロジェクト"
+msgstr "プロジェクトのパス"
 
 #: workbench/src/search_projects.c:507
-#, fuzzy
 msgid "Scanning directory:"
-msgstr "ディレクトリを元に戻す"
+msgstr "ディレクトリをスキャン中:"
 
 #: workbench/src/sidebar.c:333
-#, fuzzy
 msgid "Base dir"
-msgstr "基本"
+msgstr "基本ディレクトリ"
 
 #: workbench/src/sidebar.c:366
-#, fuzzy
 msgid "No directories"
-msgstr "新規ディレクトリ"
+msgstr "ディレクトリなし"
 
 #: workbench/src/sidebar.c:867 workbench/src/sidebar.c:1394
 msgid "No workbench opened."
-msgstr ""
+msgstr "ワークベンチが開かれていません。"
 
 #: workbench/src/sidebar.c:885
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %u Project"
 msgid_plural "%s: %u Projects"
-msgstr[0] "プロジェクト"
+msgstr[0] "%s: %u プロジェクト"
 
 #: workbench/src/sidebar.c:896
 msgid ""
 "Add a project using the context menu\n"
 "or select \"Search projects\" from the menu."
 msgstr ""
+"コンテキストメニューでプロジェクトを追加するか、\n"
+"メニューから \"プロジェクトを検索\" を選択してください。"
 
 #: workbench/src/sidebar.c:1021
 #, c-format
@@ -8592,93 +8375,94 @@ msgid ""
 "%s\n"
 "Project file not found!"
 msgstr ""
+"%s\n"
+"プロジェクトファイルが見つかりません!"
 
 #: workbench/src/sidebar.c:1035
 msgid ""
 "This project has no directories. Directories can be added to a project using "
 "the context menu."
-msgstr ""
+msgstr "このプロジェクトにはディレクトリがありません。コンテキストメニューでプロジェクトにディレクトリを追加できます。"
 
 #: workbench/src/wb_monitor.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "Could not setup file monitoring for directory: \"%s\". Error: %s"
-msgstr "ファイル種類 \"%s\" 向けの設定ファイルが見つかりません: %s"
+msgstr "ディレクトリ \"%s\" のファイル監視を設定できませんでした。エラー: %s"
 
 #: workbench/src/wb_project.c:466
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to open git repository in folder %s."
-msgstr "スクリプトファイルのオープン失敗"
+msgstr "フォルダ %s の git リポジトリを開けませんでした。"
 
 #: workbench/src/wb_project.c:471
-#, fuzzy, c-format
+#, c-format
 msgid "Opened git repository in folder %s."
-msgstr "署名ファイルを開く"
+msgstr "フォルダ %s の git リポジトリを開きました。"
 
 #: workbench/src/wb_project.c:482
 #, c-format
 msgid "Closed git repository in folder %s."
-msgstr ""
+msgstr "フォルダ %s の git リポジトリを閉じました。"
 
 #: workbench/src/wb_project.c:1194
-#, fuzzy, c-format
+#, c-format
 msgid "Directory-Name: %s\n"
-msgstr "ディレクトリ(_D)"
+msgstr "ディレクトリ名: %s\n"
 
 #: workbench/src/wb_project.c:1195
-#, fuzzy, c-format
+#, c-format
 msgid "Base-Directory: %s\n"
-msgstr "_BASE ディレクトリ"
+msgstr "基本ディレクトリ: %s\n"
 
 #: workbench/src/wb_project.c:1197
-#, fuzzy
 msgid "File Patterns:"
-msgstr "無視するディレクトリ:"
+msgstr "ファイルパターン:"
 
 #: workbench/src/wb_project.c:1209
-#, fuzzy
 msgid "Ignored Dir. Patterns:"
-msgstr "無視するディレクトリ:"
+msgstr "無視するディレクトリのパターン:"
 
 #: workbench/src/wb_project.c:1221
-#, fuzzy
 msgid "Ignored File Patterns:"
-msgstr "無視するディレクトリ:"
+msgstr "無視するファイルのパターン:"
 
 #: workbench/src/wb_project.c:1233
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Sub-Directories: %u\n"
-msgstr "巻数"
+msgstr "サブディレクトリ数: %u\n"
 
 #: workbench/src/wb_project.c:1234
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Files: %u\n"
-msgstr "巻数"
+msgstr "ファイル数: %u\n"
 
 #: workbench/src/wb_project.c:1255
-#, fuzzy, c-format
+#, c-format
 msgid "Project: %s\n"
-msgstr "プロジェクト"
+msgstr "プロジェクト: %s\n"
 
 #: workbench/src/wb_project.c:1256
-#, fuzzy, c-format
+#, c-format
 msgid "File: %s\n"
-msgstr "閉じる: %s"
+msgstr "ファイル: %s\n"
 
 #: workbench/src/wb_project.c:1257
-#, fuzzy, c-format
+#, c-format
 msgid "Number of Directories: %u\n"
-msgstr "巻数"
+msgstr "ディレクトリ数: %u\n"
 
 #: workbench/src/wb_project.c:1260
 msgid ""
 "\n"
 "The project contains unsaved changes!\n"
 msgstr ""
+"\n"
+"プロジェクトに未保存の変更があります!\n"
 
 #: workbench/src/workbench.c:857
-#, fuzzy, c-format
+#, c-format
 msgid "File %s is not a valid workbench file!"
-msgstr "ファイル \"%s\" は存在しますが通常のファイルではありません"
+msgstr "ファイル %s は有効なワークベンチファイルではありません!"
 
 #: xmlsnippets/src/plugin.c:44
 msgid "XML Snippets"
