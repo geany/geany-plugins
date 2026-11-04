@@ -1,0 +1,119 @@
+Playdate
+--------
+
+.. contents::
+
+About
+-----
+
+Playdate is a plugin for Geany that brings the `Panic Playdate
+<https://play.date>`_ handheld game development workflow into the
+editor: compile with ``pdc``, run the result in the Playdate
+Simulator, and jump to compiler errors from Geany's Compiler tab.
+
+It also installs optional Geany tags for the Playdate Lua API so
+autocomplete and call tips work for ``playdate.*`` symbols.
+
+
+Features
+--------
+
+* **Build** — runs ``$SDK/bin/pdc <source> <output>``
+* **Build and Run** — build, then launch the Playdate Simulator
+* **Run in Simulator** — open the existing ``.pdx`` bundle
+* **Clean** — remove the generated ``.pdx`` output directory
+* **Open Simulator** — start the Simulator without building
+* **Compiler tab integration** — ``pdc`` ``warning:`` / ``error:``
+  lines become clickable messages (``file:line``)
+* **Preferences** — SDK path, source directory, output ``.pdx``,
+  product name and ``pdc`` flags (``-s``, ``--no-compress``, ``-v``,
+  ``-q``, ``-k``)
+* **API tags** — Tools → Playdate → Install API Tags installs
+  ~1800 tags generated from
+  `playdate-luacats <https://github.com/notpeter/playdate-luacats>`_
+* **Keybindings** — Build and Run on ``F5`` by default (rebindable)
+
+Command shapes follow
+`orta/vscode-playdate <https://github.com/orta/vscode-playdate>`_ and
+`midouest/vscode-playdate-debug
+<https://github.com/midouest/vscode-playdate-debug>`_.
+
+
+Requirements
+------------
+
+* Geany >= 1.26 (tested with 2.1, GTK3)
+* Playdate SDK from https://play.date/dev/ (``pdc`` + Simulator)
+
+On Linux the simulator binary is ``PlaydateSimulator``. On macOS and
+Windows the paths differ; the plugin currently focuses on Linux.
+
+
+Usage
+-----
+
+1. Install the Playdate SDK and either export ``PLAYDATE_SDK_PATH``
+   or set the SDK path in the plugin preferences.
+2. Open a file inside a Playdate project. The project root is the
+   directory that *contains* ``Source/`` or ``source/``:
+
+   ::
+
+       MyGame/
+       ├── source/          (or Source/)
+       │   ├── main.lua
+       │   └── pdxinfo
+       └── MyGame.pdx/      (output)
+
+3. Use Tools → Playdate → **Build and Run** (or ``F5``).
+4. Compiler messages appear in the Compiler tab; double-click jumps
+   to the file and line.
+5. Optionally run **Install API Tags** and restart Geany to get
+   Playdate Lua autocomplete.
+
+Empty Source/Output fields in preferences mean auto-detect.
+
+
+Development
+-----------
+
+Source lives in the combined geany-plugins repository::
+
+    git clone https://github.com/geany/geany-plugins.git
+    cd geany-plugins
+    ./autogen.sh --enable-playdate
+    make
+
+Standalone development repository:
+https://github.com/davi19/geany-playdate
+
+
+Known issues
+------------
+
+* Simulator launch and path detection currently target Linux.
+* Large embedded API tag data (``tags_data.h``) makes the object file
+  larger than typical plugins.
+
+Please report issues at
+https://github.com/geany/geany-plugins/issues
+
+
+License
+-------
+
+Playdate is distributed under the terms of the GNU General Public
+License as published by the Free Software Foundation; either version 3
+of the License, or (at your option) any later version. See the file
+``COPYING`` included with the source code.
+
+
+Bugs, questions, bugs, homepage
+-------------------------------
+
+If you found any bugs or want to provide a patch, please open an
+issue or pull request at https://github.com/geany/geany-plugins or
+contact Davi Campos Gonçalves (davi19_19(at)hotmail(dot)com).
+
+Plugin page: http://plugins.geany.org/playdate.html
+Project home: https://github.com/davi19/geany-playdate

@@ -1,0 +1,7 @@
+Playdate 0.1.0
+--------------
+
+* Initial release.
+* Build / Build and Run / Clean / Open Simulator actions.
+* pdc error and warning parsing for the Compiler tab.
+* Optional Playdate Lua API tags installation for autocomplete.
