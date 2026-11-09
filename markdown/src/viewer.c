@@ -169,6 +169,46 @@ markdown_viewer_init(MarkdownViewer *self)
 }
 
 
+/* A clicked link opens in the browser. The preview is a view of
+ * the document being edited, not a browser: letting it navigate away left
+ * a web page in the pane, with no way back until the next keystroke. Links
+ * to an anchor in the same document still scroll the preview. */
+static gboolean
+on_webview_decide_policy(WebKitWebView            *web_view,
+                         WebKitPolicyDecision     *decision,
+                         WebKitPolicyDecisionType  type,
+                         gpointer                  user_data)
+{
+  WebKitNavigationAction *action;
+  const gchar *uri, *here, *hash;
+
+  if (type != WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION) {
+    return FALSE;
+  }
+  action = webkit_navigation_policy_decision_get_navigation_action(
+      WEBKIT_NAVIGATION_POLICY_DECISION(decision));
+  if (webkit_navigation_action_get_navigation_type(action) !=
+      WEBKIT_NAVIGATION_TYPE_LINK_CLICKED) {
+    return FALSE;
+  }
+  uri = webkit_uri_request_get_uri(webkit_navigation_action_get_request(action));
+  if (uri == NULL) {
+    return FALSE;
+  }
+
+  /* Same page, different anchor: let the preview scroll there. */
+  here = webkit_web_view_get_uri(web_view);
+  hash = strchr(uri, '#');
+  if (here != NULL && hash != NULL && strncmp(uri, here, hash - uri) == 0 &&
+      (here[hash - uri] == '\0' || here[hash - uri] == '#')) {
+    return FALSE;
+  }
+
+  utils_open_browser(uri);
+  webkit_policy_decision_ignore(decision);
+  return TRUE;
+}
+
 GtkWidget *
 markdown_viewer_new(MarkdownConfig *conf)
 {
@@ -179,6 +219,10 @@ markdown_viewer_new(MarkdownConfig *conf)
   /* Cause the view to be updated whenever the config changes. */
   self->priv->prop_handle = g_signal_connect_swapped(self->priv->conf, "notify",
       G_CALLBACK(markdown_viewer_queue_update), self);
+
+  /* Links go to the browser, not into the preview. */
+  g_signal_connect(self, "decide-policy",
+      G_CALLBACK(on_webview_decide_policy), NULL);
 
   return GTK_WIDGET(self);
 }
