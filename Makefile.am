@@ -1,4 +1,4 @@
-ACLOCAL_AMFLAGS = -I build/cache -I build -I build/bundled
+ACLOCAL_AMFLAGS = -I build/cache -I build
 AM_DISTCHECK_CONFIGURE_FLAGS = --with-geany-libdir='$${libdir}'
 
 EXTRA_DIST = \
