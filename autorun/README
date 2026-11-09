@@ -1,0 +1,167 @@
+=========
+Auto-run
+=========
+
+.. contents::
+
+About
+=====
+
+The Auto-run plugin is an extension that makes it possible to add action handlers to
+geany. The initial release targets document-save and document-before-save
+
+Usage
+=====
+
+Enabling the plugin
+-------------------
+The plugin can be enabled in the plugin manager.
+There will also be a new entry in the "Tools" menu.
+
+The Auto-run menu
+------------------
+The Auto-run menu allows you to manage the Project level Auto-run configs.
+
+Auto-run replacements
+---------------------
+
+Auto-run supports the following replacements in CM and WD
+%f - the basename of the file being saved.
+%a - the absolute path of the file being saved.
+%d - the absolute path of the directory of the file being saved.
+%p - the absolute path of the base directory of the currently open project.
+
+The BS Intercepted Action by default does not need the %a argument as it
+operates on the contents of the Scintilla editor.
+
+Why would BS targets support %a then?
+Place the %a replacement in the BS target if you know the CM does not honor STDIN.
+In that case Auto-run will dump the contents of Scintilla to a temp file.
+
+clang-format, which reads stdin, would like to the filename for formatting rules.
+e.g. clang-format --assume-filename='%f'
+
+cmake-format, which does not read stdin
+e.g. cmake-format '%a'
+
+Ensure you're setting the correct quoting for arguments. Windows expects " quoted filenames
+Linux expects ' quoted filenames
+
+Manually setting Auto-run configs
+---------------------------------
+You can manually set Project level Auto-run configs under the keyfile heading [autorun],
+using https://wiki.geany.org/howtos/configurebuildmenu#build-menu style entries.
+The following is RFC2119 compliant.
+
+FILETYPE_IA_NN_TA
+
+FILETYPE is a Geany filetype label, e.g. (C|C++|C#|JSON) from geany/filetype_extensions.conf
+
+IA(Intercepted Action) = (BS|OS),
+* BS is Geany document-before-save
+* OS is Geany document-save (on save)
+
+NN = (00|01|...)
+NN is a two digit number allowing for multiple tasks for a given entry.
+
+TA(Target Action) = (CM|WD)
+* CM is the command to run
+* WD is the working directory to run from.
+CM SHOULD be quoted appropriate to the OS' expectations.
+WD MUST NOT be quoted on Linux.
+
+C_BS_00_CM = formatter
+C_BS_00_WD = %d
+C_OS_00_CM = linter '%a'
+C_OS_00_WD = %p
+#Run formatter before file write, and then linter on the newly written %d/%f from %p
+#when attempting to save a C file type.
+
+C++_OS_00_CM = cppcheck '%f' --output-file='%p/cppcheck.log'
+C++_OS_00_WD = %d
+C++_OS_01_CM = clang-tidy -p '%p' --format-style=file '%f'
+C++_OS_01_WD = %p
+#Run cppcheck on %f from %d, and clang-tidy on %f from %p after file write when saving a C++ file type.
+
+Set Auto-run actions across Projects
+------------------------------------
+To set Autorun across Projects without having to edit each .geany file, you can use filedefs
+https://www.geany.org/manual/#filetype-definition-files under the keyfile heading [autorun]
+with a syntax similar to the Project configs.
+
+IA_NN_TA
+where
+IA = (BS|OS), NN = (00|01|...), TA=(CM|WD)
+
+BS_00_CM = formatter
+OS_00_CM = linter '%f'
+
+
+When Auto-run loads, it will scan all User config dir filedefs/filetypes.*
+for any [autorun] sections and set actions for all matching filetypes.
+User config dir filedefs settings will be overridden by any Project settings.
+
+Example:
+(userconfigdir)/filedefs/filetypes.c
+BS_00_CM = formatter '%f'
+(userprojectdir)/project.geany
+CBS_00_CM = fancyformatter '%f'
+
+Autorun will run fancyformatter before save for C files as long as project.geany is open.
+
+All Auto-run output will be in the Geany Compiler status window.
+
+Known issues
+============
+
+Auto-run runs before-save targets synchronously. This may cause Geany to freeze.
+	Move slow commands to on-save to run asynchronously.
+geany/geany#4603 may impact reloading the Project configs in realtime.
+	Tools>Auto-run>Reload will force a reload.
+Compiler won't follow links unless at least one Build command has run.
+	https://github.com/geany/geany/issues/4609
+Auto-run attempts a best effort to make filenames safe for the OS, but
+some external tools do not correctly handle file and directory names on Linux
+	https://gitlab.kitware.com/cmake/cmake/-/work_items/27918
+	https://github.com/llvm/llvm-project/issues/207396
+
+License
+=======
+
+The Auto-run plugin is distributed under the terms of the GNU General
+Public License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.  A copy
+of this license can be found in the file COPYING included with the source
+code of this program.
+
+Downloads
+=========
+
+The Auto-run plugin is part of the combined Geany Plugins release.
+For more information and downloads, please visit
+http://plugins.geany.org/geany-plugins/
+
+Development Code
+================
+
+Get the code from::
+
+    git clone https://github.com/geany/geany-plugins.git
+
+Ideas, questions, patches and bug reports
+=========================================
+
+Please post any ideas, feature requests, questions and bugs in the
+github issue tracker.
+
+History
+=======
+
+This is a short release history showing the major changes:
+
+**0.1:**
+  Created plugin
+  Implemented filetypes and project config readers
+  Implemented sync and async launch for handlers
+  Implemented Project menu, and Tool menu
+  Tested against Geany 2.1 and 2.2

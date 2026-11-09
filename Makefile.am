@@ -23,6 +23,10 @@ if ENABLE_AUTOMARK
 SUBDIRS += automark
 endif
 
+if ENABLE_AUTORUN
+SUBDIRS += autorun
+endif
+
 if ENABLE_CODENAV
 SUBDIRS += codenav
 endif
