@@ -1,0 +1,66 @@
+locate.c — Geany Find File Plugin
+==================================
+
+Single-file GTK plugin for Geany that wraps the OS ``locate`` command.
+
+Source layout
+-------------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Symbol
+     - Purpose
+   * - ``gl_init`` / ``gl_cleanup``
+     - Plugin lifecycle — register menu items, keybinding, key-press hook
+   * - ``locate_dialog_show``
+     - Build and present the Find File dialog (idempotent)
+   * - ``locate_run_search``
+     - Assemble argv, spawn ``locate`` as a ``GSubprocess``, kick off async read
+   * - ``on_read_line_done``
+     - ``GDataInputStream`` async callback — collects lines into ``GPtrArray``
+   * - ``locate_async_finish``
+     - Called at EOF or error; dispatches to one of the three result modes
+   * - ``result_none``
+     - 0 matches — update status label, leave dialog open
+   * - ``result_one``
+     - 1 match — show path in dialog, pressing Enter opens the file
+   * - ``result_many``
+     - 2+ matches — populate Messages tab, close dialog
+   * - ``locate_populate_messages``
+     - Writes relative paths to the Messages tab as clickable links
+   * - ``build_locate_argv``
+     - Constructs ``locate [-i] -r ^<root>.*<query>`` argv
+   * - ``on_key_press``
+     - Double-tap Shift detection (300 ms window)
+   * - ``on_updatedb_activate``
+     - Runs ``sudo updatedb`` via geanycli signal or ``g_spawn_command_line_async``
+
+Menu placement
+--------------
+
+Geany's plugin API only exposes ``GeanyMainWidgets.tools_menu``; there is no
+``search_menu`` in the public surface.  Both "Find File" and "updatedb" are
+therefore added to the Tools menu.
+
+Async search lifecycle
+----------------------
+
+::
+
+    locate_run_search()
+      └─ g_subprocess_newv()          ← spawns locate
+      └─ g_data_input_stream_read_line_async()
+            │  (repeated per line)
+            └─ on_read_line_done()
+                  └─ locate_async_finish()   ← on EOF or error
+                        └─ result_none / result_one / result_many
+
+A ``GCancellable`` (``search_cancel``) is replaced on each new search so an
+in-flight read is cancelled before the next one starts.
+
+Requirements
+------------
+
+``mlocate`` or ``plocate`` must be installed (``locate`` on ``$PATH``).

@@ -17,6 +17,7 @@ Makefile.in
 cscope.out
 cscope.files
 .dirstamp
+.claude/
 
 #-----------------------------------------------------------------------
 # / (root)

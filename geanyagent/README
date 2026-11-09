@@ -1,0 +1,35 @@
+Geany Agent Plugin
+==================
+
+Adds an AI agent terminal tab to the Geany message window.
+
+The configured command (default: `claude`) is started inside the user's
+login shell so that PATH and profile scripts are honoured.  The process is
+restarted automatically when it exits.
+
+Requirements
+------------
+  * Geany >= 2.1
+  * libvte-2.91 >= 0.48  (package: libvte-2.91-dev on Debian/Ubuntu)
+
+Configuration
+-------------
+Open Edit → Plugin Preferences → Agent to change the command.
+The setting is stored in:
+  ~/.config/geany/plugins/geanyagent/geanyagent.conf
+
+Known Issues
+------------
+None currently known.
+
+Author
+------
+teknopaul <teknopaul@gmail.com>
+
+Website
+-------
+https://github.com/teknopaul/geany-plugins
+
+Bugs
+----
+https://github.com/teknopaul/geany-plugins/issues

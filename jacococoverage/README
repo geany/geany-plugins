@@ -1,0 +1,43 @@
+JaCoCo Coverage Plugin for Geany
+=================================
+
+This plugin adds a sidebar panel to Geany that displays a JaCoCo code
+coverage report parsed from a standard JaCoCo CSV file (jacoco-report.csv).
+
+Features
+--------
+* Package tree with expandable class nodes
+* Coverage percentages for instructions, branches, lines, and methods
+* Colour-coded values: green (≥80%), orange (≥50%), red (<50%)
+* Aggregated package-level coverage rolled up from all classes
+* Open any CSV via the toolbar file chooser
+* Refresh button to reload the report without reopening the dialog
+
+Usage
+-----
+1. Generate a JaCoCo CSV report from your build (e.g. Maven jacoco:report goal
+   with the csvReport destination).  The default output is typically
+   target/jacoco-report.csv or target/site/jacoco/jacoco.csv.
+2. In Geany, switch to the "JaCoCo" sidebar tab.
+3. Click the Open button and select the CSV file.
+4. Expand package nodes to browse class-level coverage.
+5. Click Refresh any time you regenerate the report.
+
+CSV Format
+----------
+The plugin expects the standard JaCoCo CSV format:
+
+    GROUP,PACKAGE,CLASS,
+    INSTRUCTION_MISSED,INSTRUCTION_COVERED,
+    BRANCH_MISSED,BRANCH_COVERED,
+    LINE_MISSED,LINE_COVERED,
+    COMPLEXITY_MISSED,COMPLEXITY_COVERED,
+    METHOD_MISSED,METHOD_COVERED
+
+Author
+------
+teknopaul
+
+License
+-------
+GPLv2 or later – see COPYING for details.

@@ -1,0 +1,13 @@
+geanyprogress — AI agent plan progress panel for Geany
+
+Shows a numbered list of plan phases with completion status in the sidebar.
+Receives JSON updates over a Unix domain socket ($GEANY_PROGRESS_SOCK).
+
+API:
+  {"plan":"Plan Name","phases":["Phase 1","Phase 2"]}   — register plan
+  {"phase":1,"status":"complete"}                        — mark phase done
+
+Helper script:
+  geany-progress init "Plan Name" "Phase 1" "Phase 2"
+  geany-progress done 1
+  geany-progress status

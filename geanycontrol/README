@@ -1,0 +1,67 @@
+GeanyControl Plugin
+===================
+
+Exposes a Unix domain socket at ~/.config/geany/geanycontrol.sock so that
+external processes (shell scripts, the agent terminal, CI pipelines) can
+drive the Geany UI programmatically.  Also registers GLib signals on
+geany->object for zero-overhead in-process inter-plugin IPC.
+
+Command Protocol
+----------------
+
+Each command is a single UTF-8 line.  The server replies ok or error: <reason>.
+
+  open-file <path>                  Open file in editor
+  close-file <path>                 Close named document
+  save-file <path>                  Save named document
+  save-all                          Save all unsaved documents
+  scroll-to-line <path>:<line>      Open file and scroll to line (1-based)
+  get-current-file                  Return path of currently active document
+  list-open-files                   Return newline-separated list of open files
+  activate-menu-item <label>        Activate Tools-menu item by label (case-insensitive)
+  refresh                           Signal treebrowser to reload the file tree
+  ping                              Liveness probe
+
+CLI Helper
+----------
+
+Use the companion geany-ctrl script (requires socat):
+
+  geany-ctrl save-all
+  geany-ctrl open-file /path/to/file.c
+  geany-ctrl scroll-to-line /path/to/file.c:42
+  geany-ctrl refresh
+
+Inter-Plugin IPC
+----------------
+
+Other plugins can emit signals on geany->object:
+
+  geanycontrol-open-file          (gchar *path)
+  geanycontrol-close-file         (gchar *path)
+  geanycontrol-save-file          (gchar *path)
+  geanycontrol-save-all           (no args)
+  geanycontrol-scroll-to-line     (gchar *"path:line")
+  geanycontrol-activate-menu-item (gchar *label)
+  geanycontrol-refresh            (no args)
+
+Requirements
+------------
+
+  * Geany >= 2.1
+  * socat (runtime, for geany-ctrl script only)
+
+Author
+------
+
+teknopaul <teknopaul@fastmail.es>
+
+Website
+-------
+
+https://github.com/teknopaul/geany-plugins
+
+Bugs
+----
+
+https://github.com/teknopaul/geany-plugins/issues

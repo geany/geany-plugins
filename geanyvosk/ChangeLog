@@ -1,0 +1,3 @@
+2026-06-25  teknopaul  <teknopaul@fastmail.es>
+
+	* Initial release: voice control plugin using Vosk offline ASR.

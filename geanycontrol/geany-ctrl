@@ -1,0 +1,33 @@
+#!/bin/sh
+# geany-ctrl — send a command to the running Geany instance via geanycontrol
+#
+# Usage: geany-ctrl <command> [args...]
+#
+# Examples:
+#   geany-ctrl ping
+#   geany-ctrl save-all
+#   geany-ctrl open-file /path/to/file.c
+#   geany-ctrl close-file /path/to/file.c
+#   geany-ctrl save-file /path/to/file.c
+#   geany-ctrl scroll-to-line /path/to/file.c:42
+#   geany-ctrl get-current-file
+#   geany-ctrl list-open-files
+#   geany-ctrl activate-menu-item "Agent Tools"
+#   geany-ctrl refresh
+#
+# Requires: socat
+
+SOCK="${XDG_CONFIG_HOME:-$HOME/.config}/geany/geanycontrol.sock"
+
+if [ $# -eq 0 ]; then
+    echo "Usage: geany-ctrl <command> [args]" >&2
+    exit 1
+fi
+
+if [ ! -S "$SOCK" ]; then
+    echo "error: geanycontrol socket not found at $SOCK" >&2
+    echo "       Is Geany running with the GeanyControl plugin loaded?" >&2
+    exit 1
+fi
+
+printf '%s\n' "$*" | socat - "UNIX-CONNECT:$SOCK"
