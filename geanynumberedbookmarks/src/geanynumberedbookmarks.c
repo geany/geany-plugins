@@ -327,7 +327,10 @@ static FileData * GetFileData(gchar *pcFileName)
 		{
 			fdKnownFilesSettings->pcFileName=g_strdup(pcFileName);
 			for(i=0;i<10;i++)
+			{
 				fdKnownFilesSettings->iBookmark[i]=-1;
+				fdKnownFilesSettings->iBookmarkMarkerUsed[i]=-1;
+			}
 
 			/* don't need to initiate iBookmarkLinePos */
 			fdKnownFilesSettings->pcFolding=NULL;
@@ -352,7 +355,10 @@ static FileData * GetFileData(gchar *pcFileName)
 			{
 				fdTemp->NextNode->pcFileName=g_strdup(pcFileName);
 				for(i=0;i<10;i++)
+				{
 					fdTemp->NextNode->iBookmark[i]=-1;
+					fdTemp->NextNode->iBookmarkMarkerUsed[i]=-1;
+				}
 
 				/* don't need to initiate iBookmarkLinePos */
 				fdTemp->NextNode->pcFolding=NULL;
@@ -726,6 +732,19 @@ static void LoadLocalFileDetails(gchar *filename)
 }
 
 
+/* Build a marker bitmask for SCI_MARKERNEXT from a stored marker number.
+ * iBookmarkMarkerUsed[] is -1 when no marker has ever been placed in that
+ * slot - shifting by a negative amount (or by an uninitialized/garbage
+ * value) is undefined behaviour, so treat anything outside the valid
+ * 2-24 marker range as "no marker" instead of shifting it. */
+static guint32 MarkerMask(gint marker)
+{
+	if(marker<2 || marker>24)
+		return 0;
+	return 1<<marker;
+}
+
+
 /* Get markers for editor. If not set then initiate */
 static guint32 * GetMarkersUsed(ScintillaObject* sci)
 {
@@ -1078,7 +1097,7 @@ static void document_save(GObject *obj, GeanyDocument *doc, gpointer user_data, 
 	fd=GetFileData(doc->file_name);
 	for(i=0;i<10;i++)
 		fd->iBookmark[i]=scintilla_send_message(sci,SCI_MARKERNEXT,0,
-		                                        1<<(fd->iBookmarkMarkerUsed[i]));
+		                                        MarkerMask(fd->iBookmarkMarkerUsed[i]));
 
 	/* save fold state */
 	if(bRememberFolds==TRUE)
@@ -1361,7 +1380,7 @@ static void GotoBookMark(GeanyDocument* doc, gint iBookMark)
 
 	fd=GetFileData(doc->file_name);
 
-	iLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(fd->iBookmarkMarkerUsed[iBookMark]));
+	iLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,MarkerMask(fd->iBookmarkMarkerUsed[iBookMark]));
 
 	/* ignore if no marker placed for requested bookmark */
 	if(iLine==-1)
@@ -1429,7 +1448,7 @@ static void SetBookMark(GeanyDocument *doc, gint iBookMark)
 	GtkWidget *dialog;
 
 	/* see if already such a bookmark present */
-	iOldLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,1<<(fd->iBookmarkMarkerUsed[iBookMark]));
+	iOldLine=scintilla_send_message(sci,SCI_MARKERNEXT,0,MarkerMask(fd->iBookmarkMarkerUsed[iBookMark]));
 	iNewLine=GetLine(sci);
 	iPosInLine=scintilla_send_message(sci,SCI_GETCURRENTPOS,0,0)-
 	           scintilla_send_message(sci,SCI_POSITIONFROMLINE,iNewLine,0);
