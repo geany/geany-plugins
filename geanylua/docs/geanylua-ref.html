@@ -150,63 +150,67 @@ The Geany module provides these functions and variables...<br><br><br>
   <td class="desc">-- Paste text from the clipboard.</td>
 </tr>
 
-
 <tr class="even">
+  <td>&nbsp; function <a href="#range"><b>range</b></a> ( start, stop [, multi] )<br></td>
+  <td class="desc">-- Get the text in the specified range.</td>
+</tr>
+
+<tr class="odd">
   <td>&nbsp; function <a href="#rowcol"><b>rowcol</b></a> ( [pos]|[row,col] )<br></td>
   <td class="desc">-- Translate between linear and rectangular locations.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#save"><b>save</b></a> ( [filename]|[index] )<br></td>
   <td class="desc">-- Save an open document to a disk file.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#scintilla"><b>scintilla</b></a> ( msg_id, wparam, lparam )<br></td>
   <td class="desc">-- Send a message directly to the Scintilla widget.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#select"><b>select</b></a> ( [[start,] stop] )<br></td>
   <td class="desc">-- Get or set the selection endpoints and caret.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#selection"><b>selection</b></a> ( [content] )<br></td>
   <td class="desc">-- Get or set the contents of the document's selection.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#settype"><b>settype</b></a> ( filetype )<br></td>
   <td class="desc">-- Change the current file type.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#signal"><b>signal</b></a> ( widget, signal )<br></td>
   <td class="desc">-- Send a GTK signal to a Geany interface widget.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#status"><b>status</b></a> ( message )<br></td>
   <td class="desc">-- Send a string to display in the status tab of the messages window.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#text"><b>text</b></a> ( [content] )<br></td>
   <td class="desc">-- Get or set the contents of the entire document.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#word"><b>word</b></a> ( [position] )<br></td>
   <td class="desc">-- Get the word at the specified location.</td>
 </tr>
 
-<tr class="even">
+<tr class="odd">
   <td>&nbsp; function <a href="#xsel"><b>xsel</b></a> ( [text] )<br></td>
   <td class="desc">-- Get or set the contents of the primary X selection.</td>
 </tr>
 
-<tr class="odd">
+<tr class="even">
   <td>&nbsp; function <a href="#yield"><b>yield</b></a> ()<br></td>
   <td class="desc">-- Refreshes the user interface.</td>
 </tr>
@@ -822,6 +826,19 @@ or if the document is marked read-only.</p><p>
 Otherwise it returns the effective change in the document's size. <br>
 ( Which may actually be negative, if the clipboard content size is less than the prior selection. )
 </p>
+<br><br>
+
+
+<a name="range"></a><hr><h3><tt>geany.range ( start, stop [, multi] )</tt></h3>
+<p>Returns the text from position <tt><b>start</b></tt> to position <tt><b>stop</b></tt>.<br>
+<tt><b>multi</b></tt> is an optional boolean parameter
+(<tt><b>true</b></tt> or <tt><b>false</b></tt>, <tt><b>false</b></tt> used by default):
+if the position lands inside a multi-byte sequence, <tt><b>geany.range</b></tt>
+will use the position at the beginning (<tt><b>start</b></tt>) or
+at the end (<tt><b>stop</b></tt>) of that multi-byte character. This is usually
+not necessary because GeanyLua functions (<tt><b>geany.caret</b></tt>,
+<tt><b>geany.find</b></tt> and so on) and Lua functions (<tt><b>string.find</b></tt> and so on)
+use positions in bytes.</p>
 <br><br>
 
 

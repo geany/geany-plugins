@@ -975,6 +975,41 @@ struct Sci_TextToFind {
 
 
 
+static gint glspi_range(lua_State* L)
+{
+	gint argc = lua_gettop(L);
+	gboolean multi = FALSE;
+	gint start, stop, x, y;
+	gchar *text;
+	DOC_REQUIRED
+	gint len = sci_get_length(doc->editor->sci);
+	if ( (len == 0) || (argc < 2) || (argc > 3) ) {
+		lua_pushnil(L);
+		return 1;
+	}
+	if (!lua_isnumber(L, 1)) { return FAIL_NUMERIC_ARG(1); }
+	start = lua_tonumber(L, 1);
+	if (!lua_isnumber(L, 2)) { return FAIL_NUMERIC_ARG(2); }
+	stop = lua_tonumber(L, 2);
+	if (start < 0) { return FAIL_UNSIGNED_ARG(1); }
+	if (stop < 0) { return FAIL_UNSIGNED_ARG(2); }
+	if (start > stop) { swap(&start, &stop); }
+	if (stop > len) { stop = len; }
+	if (lua_isboolean(L, 3)) { multi = lua_toboolean(L, 3); }
+	if (multi) {
+		x = scintilla_send_message(doc->editor->sci, SCI_POSITIONBEFORE, start, 0);
+		y = scintilla_send_message(doc->editor->sci, SCI_POSITIONAFTER, stop, 0);
+		text = sci_get_contents_range(doc->editor->sci, x, y);
+	} else {
+		text = sci_get_contents_range(doc->editor->sci, start, stop);
+	}
+	lua_pushstring(L, text);
+	g_free(text);
+	return 1;
+}
+
+
+
 static const struct luaL_Reg glspi_sci_funcs[] = {
 	{"text",      glspi_text},
 	{"selection", glspi_selection},
@@ -994,6 +1029,7 @@ static const struct luaL_Reg glspi_sci_funcs[] = {
 	{"byte",      glspi_byte},
 	{"scintilla", glspi_scintilla},
 	{"find",      glspi_find},
+	{"range",     glspi_range},
 	{NULL,NULL}
 };
 
