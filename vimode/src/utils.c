@@ -28,7 +28,7 @@ void clamp_cursor_pos(ScintillaObject *sci)
 	gint start_pos = SSM(sci, SCI_POSITIONFROMLINE, line, 0);
 	gint end_pos = SSM(sci, SCI_GETLINEENDPOSITION, line, 0);
 	if (pos == end_pos && pos != start_pos)
-		SET_POS_NOX(sci, pos-1, FALSE);
+		SET_POS_NOX(sci, PREV(sci, pos), FALSE);
 }
 
 
