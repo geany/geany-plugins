@@ -45,6 +45,19 @@
 GeanyPlugin *geany_plugin;
 GeanyData *geany_data;
 
+
+/* Callback function for document activate */
+static void plugin_workbench_on_doc_activate(G_GNUC_UNUSED GObject * obj, GeanyDocument * doc,
+										  G_GNUC_UNUSED gpointer user_data)
+{
+	/* it seems odd to assert this here,
+	 * as an untitled doc (new one) would have no filename.
+	 */
+	g_return_if_fail(doc != NULL && doc->file_name != NULL);
+	sidebar_on_doc_activate(doc);
+}
+
+
 /* Callback function for document open */
 static void plugin_workbench_on_doc_open(G_GNUC_UNUSED GObject * obj, G_GNUC_UNUSED GeanyDocument * doc,
 										 G_GNUC_UNUSED gpointer user_data)
@@ -115,6 +128,7 @@ static void plugin_workbench_help (G_GNUC_UNUSED GeanyPlugin *plugin, G_GNUC_UNU
 
 
 static PluginCallback plugin_workbench_callbacks[] = {
+	{"document-activate", (GCallback) &plugin_workbench_on_doc_activate, TRUE, NULL},
 	{"document-open", (GCallback) &plugin_workbench_on_doc_open, TRUE, NULL},
 	{"document-close", (GCallback) &plugin_workbench_on_doc_close, TRUE, NULL},
 	{NULL, NULL, FALSE, NULL}

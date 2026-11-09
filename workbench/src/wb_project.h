@@ -45,6 +45,7 @@ gboolean wb_project_add_directory(WB_PROJECT *prj, const gchar *dirname);
 gboolean wb_project_remove_directory (WB_PROJECT *prj, WB_PROJECT_DIR *dir);
 void wb_project_rescan(WB_PROJECT *prj);
 gboolean wb_project_file_is_included(WB_PROJECT *prj, const gchar *filename);
+WB_PROJECT_DIR* wb_project_file_is_included_dir(WB_PROJECT *prj, const gchar *filename);
 gboolean wb_project_is_valid_dir_reference(WB_PROJECT *prj, WB_PROJECT_DIR *dir);
 
 void wb_project_dir_set_is_prj_base_dir (WB_PROJECT_DIR *directory, gboolean value);
