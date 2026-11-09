@@ -204,7 +204,7 @@ static void create_send_source(void)
 	GSource *send_source = g_io_create_watch(send_channel, G_IO_OUT | G_IO_FAILURE);
 
 	g_io_channel_unref(send_channel);
-	g_source_set_callback(send_source, (GSourceFunc) send_commands_cb, NULL,
+	g_source_set_callback(send_source, G_SOURCE_FUNC(  send_commands_cb ), NULL,
 		send_source_destroy_cb);
 	send_source_id = g_source_attach(send_source, NULL);
 	/* cppcheck-suppress memleak symbolName=send_source
@@ -317,7 +317,8 @@ static void receive_output_cb(GString *string, GIOCondition condition,
 
 		switch (*term)
 		{
-			case '\n' : if (string->len >= 2 && term[-1] == '\r') term--;  /* falldown */
+			case '\n' : if (string->len >= 2 && term[-1] == '\r') term--;
+			/* fall through */
 			case '\r' : *term = '\0'; break;
 			case '\0' : error = "binary zero encountered"; break;
 			default : error = "line too long or incomplete";
@@ -561,6 +562,7 @@ void on_debug_terminate(const MenuItem *menu_item)
 			break;
 		}
 		case DS_READY :
+		/* fall through */
 		case DS_DEBUG :
 		{
 			if (menu_item && !debug_auto_exit)
@@ -568,8 +570,8 @@ void on_debug_terminate(const MenuItem *menu_item)
 				debug_send_command(N, "kill");
 				break;
 			}
-			/* falldown */
 		}
+		/* fall through */
 		default :
 		{
 			debug_send_command(N, "-gdb-exit");

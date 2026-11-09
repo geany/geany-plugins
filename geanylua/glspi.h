@@ -137,6 +137,12 @@ void glspi_init_sci_funcs(lua_State *L);
 void glspi_init_gsdlg_module(lua_State *L, GsDlgRunHook hook, GtkWindow *toplevel);
 void glspi_run_script(const gchar *script_file, gint caller, GKeyFile*proj, const gchar *script_dir);
 
+gint luaopen_libgeanylua(lua_State *L);
+void glspi_init (GeanyData *data, GeanyPlugin *plugin);
+void glspi_cleanup(void);
+void glspi_configure(GtkWidget *parent);
+
+
 /* Pass TRUE to create hashes, FALSE to destroy them */
 void glspi_set_sci_cmd_hash(gboolean create);
 void glspi_set_key_cmd_hash(gboolean create);

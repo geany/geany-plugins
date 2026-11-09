@@ -25,7 +25,7 @@
 
 #include <glib.h>
 
-
+#pragma GCC diagnostic ignored "-Wsuggest-attribute=format"
 static void log_print(LspLogInfo log, const gchar *fmt, ...)
 {
 	va_list args;
@@ -41,6 +41,7 @@ static void log_print(LspLogInfo log, const gchar *fmt, ...)
 
 	va_end(args);
 }
+#pragma GCC diagnostic pop
 
 
 LspLogInfo lsp_log_start(LspServerConfig *config)
@@ -110,7 +111,7 @@ void lsp_log(LspLogInfo log, LspLogType type, const gchar *method, GVariant *par
 	if (req_time)
 	{
 		GTimeSpan delta = g_date_time_difference(time, req_time);
-		delta_str = g_strdup_printf(" (%ld ms)", delta / 1000);
+		delta_str = g_strdup_printf(" (%lld ms)", delta / 1000);
 	}
 	else
 		delta_str = g_strdup("");

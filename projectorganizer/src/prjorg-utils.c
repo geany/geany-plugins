@@ -384,8 +384,7 @@ gchar *find_header_source(GeanyDocument *doc)
 				SETPTR(elem->data, full_name);
 			}
 			found_name = try_find_header_source(doc->file_name, is_header, list, header_patterns, source_patterns);
-			g_slist_foreach(list, (GFunc) g_free, NULL);
-			g_slist_free(list);
+			g_slist_free_full(list, g_free);
 			g_free(utf8_doc_dir);
 			g_free(locale_doc_dir);
 			list = NULL;
@@ -412,10 +411,8 @@ gchar *find_header_source(GeanyDocument *doc)
 		}
 	}
 
-	g_slist_foreach(header_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(header_patterns);
-	g_slist_foreach(source_patterns, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(source_patterns);
+	g_slist_free_full(header_patterns, (GDestroyNotify) g_pattern_spec_free);
+	g_slist_free_full(source_patterns, (GDestroyNotify) g_pattern_spec_free);
 
 	return found_name;
 }

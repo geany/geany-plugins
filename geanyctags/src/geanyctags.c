@@ -180,7 +180,7 @@ static gchar *get_tags_filename(void)
 	}
 	return ret;
 }
-
+#ifndef G_OS_WIN32
 static gchar *generate_find_string(GeanyProject *prj)
 {
 	gchar *ret;
@@ -198,6 +198,7 @@ static gchar *generate_find_string(GeanyProject *prj)
 	}
 	return ret;
 }
+#endif
 
 
 static gchar *get_base_path(void)

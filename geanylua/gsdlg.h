@@ -39,6 +39,7 @@ which case the GSDLG_API functions will be available externally.
 #define GSDLG_API
 #endif
 
+#include <lua.h>
 #include <gtk/gtk.h>
 
 typedef const gchar* GsDlgStr;
@@ -77,6 +78,7 @@ typedef void (*GsDlgRunHook) (gboolean running, gpointer user_data);
 */
 #ifndef DIALOG_LIB
 GSDLG_API void gsdlg_set_run_hook(GsDlgRunHook cb);
+void glspi_init_gsdlg_module(lua_State *L, GsDlgRunHook hook, GtkWindow *toplevel);
 #endif
 
 

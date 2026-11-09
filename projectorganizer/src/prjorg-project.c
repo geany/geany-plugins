@@ -53,11 +53,7 @@ static GSList *s_idle_remove_funcs;
 
 static void clear_idle_queue(GSList **queue)
 {
-	GSList *elem;
-
-	foreach_slist(elem, *queue)
-		g_free(elem->data);
-	g_slist_free(*queue);
+	g_slist_free_full(*queue, g_free);
 	*queue = NULL;
 }
 
@@ -187,17 +183,13 @@ static gint prjorg_project_rescan_root(PrjOrgRoot *root)
 		}
 	}
 
-	g_slist_foreach(lst, (GFunc) g_free, NULL);
-	g_slist_free(lst);
+	g_slist_free_full(lst, g_free);
 
-	g_slist_foreach(pattern_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(pattern_list);
+	g_slist_free_full(pattern_list, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(ignored_dirs_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(ignored_dirs_list);
+	g_slist_free_full(ignored_dirs_list, (GDestroyNotify) g_pattern_spec_free);
 
-	g_slist_foreach(ignored_file_list, (GFunc) g_pattern_spec_free, NULL);
-	g_slist_free(ignored_file_list);
+	g_slist_free_full(ignored_file_list, (GDestroyNotify) g_pattern_spec_free);
 
 	return filenum;
 }
@@ -314,7 +306,7 @@ static void regenerate_tags(PrjOrgRoot *root, gpointer user_data)
 }
 
 
-void rescan_project(gchar **session_files)
+static void rescan_project(gchar **session_files)
 {
 	GSList *elem;
 	gint filenum = 0;
@@ -806,6 +798,7 @@ void prjorg_project_close(void)
 
 	g_slist_foreach(prj_org->roots, (GFunc)close_root, NULL);
 	g_slist_free(prj_org->roots);
+
 
 	g_strfreev(prj_org->source_patterns);
 	g_strfreev(prj_org->header_patterns);

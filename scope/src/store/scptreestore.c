@@ -1777,7 +1777,7 @@ gboolean scp_tree_store_traverse(ScpTreeStore *store, gboolean sublevels, GtkTre
 
 /* Class */
 
-static void scp_tree_store_tree_model_init(GtkTreeModelIface *iface)
+static void scp_tree_store_tree_model_init(GtkTreeModelIface *iface, gpointer iface_data)
 {
 	iface->get_flags = (GtkTreeModelFlags (*)(GtkTreeModel *)) scp_tree_store_get_flags;
 	iface->get_n_columns = (gint (*)(GtkTreeModel *)) scp_tree_store_get_n_columns;
@@ -1804,7 +1804,7 @@ static void scp_tree_store_tree_model_init(GtkTreeModelIface *iface)
 		scp_tree_store_iter_parent;
 }
 
-static void scp_tree_store_drag_source_init(GtkTreeDragSourceIface *iface)
+static void scp_tree_store_drag_source_init(GtkTreeDragSourceIface *iface, gpointer iface_data)
 {
 	iface->row_draggable = (gboolean (*)(GtkTreeDragSource *, GtkTreePath *))
 		scp_tree_store_row_draggable;
@@ -1814,7 +1814,7 @@ static void scp_tree_store_drag_source_init(GtkTreeDragSourceIface *iface)
 		GtkSelectionData *)) scp_tree_store_drag_data_get;
 }
 
-static void scp_tree_store_drag_dest_init(GtkTreeDragDestIface *iface)
+static void scp_tree_store_drag_dest_init(GtkTreeDragDestIface *iface, gpointer iface_data)
 {
 	iface->drag_data_received = (gboolean (*)(GtkTreeDragDest *, GtkTreePath *,
 		GtkSelectionData *)) scp_tree_store_drag_data_received;
@@ -1822,7 +1822,7 @@ static void scp_tree_store_drag_dest_init(GtkTreeDragDestIface *iface)
 		GtkSelectionData *)) scp_tree_store_row_drop_possible;
 }
 
-static void scp_tree_store_sortable_init(GtkTreeSortableIface *iface)
+static void scp_tree_store_sortable_init(GtkTreeSortableIface *iface, gpointer iface_data)
 {
 	iface->get_sort_column_id = (gboolean (*)(GtkTreeSortable *, gint *, GtkSortType *))
 		scp_tree_store_get_sort_column_id;
@@ -1836,7 +1836,7 @@ static void scp_tree_store_sortable_init(GtkTreeSortableIface *iface)
 		scp_tree_store_has_default_sort_func;
 }
 
-static void scp_tree_store_buildable_init(GtkBuildableIface *iface)
+static void scp_tree_store_buildable_init(GtkBuildableIface *iface, gpointer iface_data)
 {
 	iface->custom_tag_start = scp_tree_store_buildable_custom_tag_start;
 	iface->custom_finished = scp_tree_store_buildable_custom_finished;
@@ -1971,7 +1971,7 @@ static void scp_tree_store_finalize(GObject *object)
 	G_OBJECT_CLASS(scp_tree_store_parent_class)->finalize(object);
 }
 
-static void scp_tree_store_gobject_init(GObjectClass *class)
+static void scp_tree_store_gobject_init(GObjectClass *class, gpointer class_data)
 {
 	scp_tree_store_parent_class = g_type_class_peek_parent(class);
 	class->constructor = scp_tree_store_constructor;
@@ -1980,9 +1980,9 @@ static void scp_tree_store_gobject_init(GObjectClass *class)
 	class->set_property = scp_tree_store_set_property;
 }
 
-static void scp_tree_store_class_init(GObjectClass *class)
+static void scp_tree_store_class_init(GObjectClass *class, gpointer class_data)
 {
-	scp_tree_store_gobject_init(class);
+	scp_tree_store_gobject_init(class, NULL);
 	g_type_class_add_private(class, sizeof(ScpTreeStorePrivate));
 	g_assert(GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID == -1);  /* headers[-1] = default */
 
@@ -2049,16 +2049,16 @@ void scp_tree_store_register_dynamic(void)
 		gpointer class = g_type_class_peek(type);
 		gpointer iface = g_type_interface_peek(class, GTK_TYPE_TREE_MODEL);
 
-		scp_tree_store_gobject_init((GObjectClass *) class);
-		scp_tree_store_tree_model_init((GtkTreeModelIface *) iface);
+		scp_tree_store_gobject_init((GObjectClass *) class, NULL);
+		scp_tree_store_tree_model_init((GtkTreeModelIface *) iface, NULL);
 		iface = g_type_interface_peek(class, GTK_TYPE_TREE_DRAG_SOURCE);
-		scp_tree_store_drag_source_init((GtkTreeDragSourceIface *) iface);
+		scp_tree_store_drag_source_init((GtkTreeDragSourceIface *) iface, NULL);
 		iface = g_type_interface_peek(class, GTK_TYPE_TREE_DRAG_DEST);
-		scp_tree_store_drag_dest_init((GtkTreeDragDestIface *) iface);
+		scp_tree_store_drag_dest_init((GtkTreeDragDestIface *) iface, NULL);
 		iface = g_type_interface_peek(class, GTK_TYPE_TREE_SORTABLE);
-		scp_tree_store_sortable_init((GtkTreeSortableIface *) iface);
+		scp_tree_store_sortable_init((GtkTreeSortableIface *) iface, NULL);
 		iface = g_type_interface_peek(class, GTK_TYPE_BUILDABLE);
-		scp_tree_store_buildable_init((GtkBuildableIface *) iface);
+		scp_tree_store_buildable_init((GtkBuildableIface *) iface, NULL);
 		scp_tree_store_type_id = type;
 	}
 }

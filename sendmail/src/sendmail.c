@@ -359,9 +359,6 @@ GtkWidget *plugin_configure(GtkDialog *dialog)
 void plugin_init(GeanyData G_GNUC_UNUSED *data)
 {
 	GKeyFile *config = g_key_file_new();
-	gchar *config_file_old = NULL;
-	gchar *config_dir = NULL;
-	gchar *config_dir_old = NULL;
 	gchar *kb_label = _("Send file by mail");
 	GtkWidget *menu_mail = NULL;
 	GeanyKeyGroup *key_group;
@@ -371,6 +368,9 @@ void plugin_init(GeanyData G_GNUC_UNUSED *data)
 
 	#ifndef G_OS_WIN32
 	/* We try only to move if we are on not Windows platform */
+	gchar *config_file_old = NULL;
+	gchar *config_dir = NULL;
+	gchar *config_dir_old = NULL;
 	config_file_old = g_strconcat(geany->app->configdir, G_DIR_SEPARATOR_S,
 		"plugins", G_DIR_SEPARATOR_S,
 		"geanysendmail", G_DIR_SEPARATOR_S, "mail.conf", NULL);

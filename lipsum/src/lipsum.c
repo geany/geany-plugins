@@ -148,9 +148,6 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 	GtkWidget *menu_lipsum = NULL;
 	GKeyFile *config = g_key_file_new();
 	gchar *config_file = NULL;
-	gchar *config_file_old = NULL;
-	gchar *config_dir = NULL;
-	gchar *config_dir_old = NULL;
 	GeanyKeyGroup *key_group;
 
 
@@ -160,6 +157,9 @@ plugin_init(G_GNUC_UNUSED GeanyData *data)
 
 	#ifndef G_OS_WIN32
 	/* We try only to move if we are on not Windows platform */
+	gchar *config_file_old = NULL;
+	gchar *config_dir = NULL;
+	gchar *config_dir_old = NULL;
 	config_dir_old = g_build_filename(geany->app->configdir,
 		"plugins", "geanylipsum", NULL);
 	config_file_old = g_build_filename(config_dir_old,

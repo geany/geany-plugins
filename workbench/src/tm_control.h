@@ -21,8 +21,8 @@
 
 void wb_tm_control_init (void);
 void wb_tm_control_cleanup (void);
-void wb_tm_control_source_file_add(const gchar *filename);
-void wb_tm_control_source_file_remove(const gchar *filename);
+void wb_tm_control_source_file_add(gchar *filename);
+void wb_tm_control_source_file_remove(gchar *filename);
 void wb_tm_control_source_files_remove(GPtrArray *files);
 void wb_tm_control_source_files_new(GPtrArray *files);
 

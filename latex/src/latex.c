@@ -985,8 +985,7 @@ glatex_insert_ref_activated(G_GNUC_UNUSED GtkMenuItem * menuitem,
 		model = gtk_combo_box_get_model(GTK_COMBO_BOX(textbox_ref));
 		gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(model),
 			0, GTK_SORT_ASCENDING);
-		g_slist_foreach(file_list, (GFunc) g_free, NULL);
-		g_slist_free(file_list);
+		g_slist_free_full(file_list, g_free);
 		if (dir != NULL)
 			g_free(dir);
 	}

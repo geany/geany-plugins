@@ -224,8 +224,7 @@ void geany_project_regenerate_file_list(struct GeanyPrj *prj)
 	lst = get_file_list(prj->base_path, NULL, project_type_filter[prj->type], NULL);
 	geany_project_set_tags_from_list(prj, lst);
 
-	g_slist_foreach(lst, (GFunc) g_free, NULL);
-	g_slist_free(lst);
+	g_slist_free_full(lst, g_free);
 }
 
 

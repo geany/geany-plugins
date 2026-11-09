@@ -177,18 +177,15 @@ static void on_gdb_exit(GPid pid, gint status, gpointer data)
 	shutdown_channel(&gdb_ch_out);
 
 	/* delete autos */
-	g_list_foreach(autos, (GFunc)g_free, NULL);
-	g_list_free(autos);
+	g_list_free_full(autos, g_free);
 	autos = NULL;
 
 	/* delete watches */
-	g_list_foreach(watches, (GFunc)g_free, NULL);
-	g_list_free(watches);
+	g_list_free_full(watches, g_free);
 	watches = NULL;
 
 	/* delete files */
-	g_list_foreach(files, (GFunc)g_free, NULL);
-	g_list_free(files);
+	g_list_free_full(files, g_free);
 	files = NULL;
 
 	g_source_remove(gdb_src_id);
@@ -277,8 +274,7 @@ static void free_commands_queue(GList *queue)
 {
 	/* all commands completed */
 	queue = g_list_first(queue);
-	g_list_foreach(queue, (GFunc)free_queue_item, NULL);
-	g_list_free(queue);
+	g_list_free_full(queue, (GDestroyNotify) free_queue_item);
 }
 
 /*
@@ -329,8 +325,7 @@ static gboolean on_read_async_output(GIOChannel * src, GIOCondition cond, gpoint
 		}
 
 		lines = read_until_prompt();
-		g_list_foreach(lines, (GFunc)g_free, NULL);
-		g_list_free (lines);
+		g_list_free_full(lines, g_free);
 
 		if (!strcmp(record->klass, "done"))
 		{
@@ -680,8 +675,7 @@ static result_class exec_sync_command(const gchar* command, gboolean wait4prompt
 		gdb_mi_record_free(record);
 	}
 
-	g_list_foreach(lines, (GFunc)g_free, NULL);
-	g_list_free(lines);
+	g_list_free_full(lines, g_free);
 
 	return rc;
 }
@@ -763,8 +757,7 @@ static gboolean run(const gchar* file, const gchar* commandline, GList* env, GLi
 		}
 		g_free(unescaped);
 	}
-	g_list_foreach(lines, (GFunc)g_free, NULL);
-	g_list_free(lines);
+	g_list_free_full(lines, g_free);
 
 	/* add initial watches to the list */
 	while (witer)
@@ -1270,8 +1263,7 @@ static void update_files(void)
 	if (files)
 	{
 		/* free previous list */
-		g_list_foreach(files, (GFunc)g_free, NULL);
-		g_list_free(files);
+		g_list_free_full(files, g_free);
 		files = NULL;
 	}
 
@@ -1381,8 +1373,7 @@ static void update_autos(void)
 		exec_sync_command(command, TRUE, NULL);
 	}
 
-	g_list_foreach(autos, (GFunc)variable_free, NULL);
-	g_list_free(autos);
+	g_list_free_full(autos, (GDestroyNotify) variable_free);
 	autos = NULL;
 
 	/* add current autos to the list */

@@ -212,8 +212,7 @@ static void save_to_keyfile(GKeyFile *keyfile)
 		env_index++;
 		iter = iter->next;
 	}
-	g_list_foreach(_env, (GFunc)g_free, NULL);
-	g_list_free(_env);
+	g_list_free_full(_env, g_free);
 	
 	/* watches */
 	watches = wtree_get_watches();
@@ -230,8 +229,7 @@ static void save_to_keyfile(GKeyFile *keyfile)
 
 		watch_index++;
 	}
-	g_list_foreach(watches, (GFunc)g_free, NULL);
-	g_list_free(watches);
+	g_list_free_full(watches,g_free);
 
 	/* breakpoints */
 	_breaks = breaks_get_all();

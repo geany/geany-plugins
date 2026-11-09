@@ -79,6 +79,7 @@ void glatex_insert_bibtex_entry(G_GNUC_UNUSED GtkMenuItem * menuitem,
 		{
 			g_ptr_array_index(entry, i) = g_strdup("");
 		}
+		/* fall through */
 	case GLATEX_BIBTEX_TECHREPORT:
 		g_ptr_array_index(entry, GLATEX_BIBTEX_AUTHOR) = g_strdup("");
 		g_ptr_array_index(entry, GLATEX_BIBTEX_TITLE) = g_strdup("");

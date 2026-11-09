@@ -28,6 +28,7 @@
 #include "dialogs.h"
 #include "sidebar.h"
 #include "menu.h"
+#include "search_projects.h"
 
 
 typedef enum

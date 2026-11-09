@@ -21,7 +21,9 @@
 # include "config.h"
 #endif
 
-#define _WIN32_WINNT 0x0501  /* for DebugBreakProcess(), must be before any #include-s */
+/* for DebugBreakProcess(), must be before any #include-s */
+/*#define _WIN32_WINNT 0x0501
+ * disabled as it should be uniformly set in CFLAG -D for the entire project */
 
 #include <ctype.h>
 #include <stdlib.h>
@@ -643,7 +645,7 @@ static void on_thread_selection_changed(GtkTreeSelection *selection,
 	{
 		const gchar *state;
 		gint line;
-		const char *addr;
+		const gchar *addr;
 
 		scp_tree_store_get(store, &iter, THREAD_ID, &thread_id, THREAD_STATE, &state,
 			THREAD_LINE, &line, THREAD_ADDR, &addr, -1);

@@ -79,8 +79,7 @@ GPtrArray* glatex_init_custom_templates(void)
 
 	/* Iterating on all list items */
 	g_slist_foreach(file_list, (GFunc)glatex_init_cutom_template_item, templates);
- 	g_slist_foreach(file_list, (GFunc) g_free, NULL);
-	g_slist_free(file_list);
+	g_slist_free_full(file_list, g_free);
 
 	g_free(tmp_basedir);
 	return templates;

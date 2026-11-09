@@ -220,7 +220,7 @@ static GtkTextTag *fd_tags[NFD];
 #define DC_DELTA 6144
 static guint dc_chars = 0;
 
-void context_output(int fd, const char *text, gint length)
+static void context_output(int fd, const char *text, gint length)
 {
 	static int last_fd = -1;
 	GtkTextIter end;
@@ -263,7 +263,7 @@ void context_output(int fd, const char *text, gint length)
 	gtk_text_view_scroll_mark_onscreen(debug_context, gtk_text_buffer_get_insert(context));
 }
 
-void context_output_nl(int fd, const char *text, gint length)
+static void context_output_nl(int fd, const char *text, gint length)
 {
 	dc_output(fd, text, length);
 	dc_output(fd, "\n", 1);

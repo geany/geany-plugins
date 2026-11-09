@@ -82,8 +82,7 @@ static void open_selected_files(GList *list)
 		files = g_slist_append(files, fname);
 	}
 	document_open_files(files, FALSE, NULL, NULL);
-	g_slist_foreach(files, (GFunc)g_free, NULL);	/* free filenames */
-	g_slist_free(files);
+	g_slist_free_full(files, g_free); /* free filenames */
 }
 
 
@@ -97,8 +96,7 @@ static void on_open_clicked(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED g
 
 	list = gtk_tree_selection_get_selected_rows(treesel, &model);
 	open_selected_files(list);
-	g_list_foreach(list, (GFunc)gtk_tree_path_free, NULL);
-	g_list_free(list);
+	g_list_free_full(list, (GDestroyNotify)gtk_tree_path_free);
 }
 
 
@@ -146,8 +144,7 @@ static void on_remove_files(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED g
 
 	list = gtk_tree_selection_get_selected_rows(treesel, &model);
 	remove_selected_files(list);
-	g_list_foreach(list, (GFunc) gtk_tree_path_free, NULL);
-	g_list_free(list);
+	g_list_free_full(list, (GDestroyNotify)gtk_tree_path_free);
 }
 
 
@@ -429,8 +426,7 @@ void sidebar_refresh(void)
 		gtk_list_store_append(file_store, &iter);
 		gtk_list_store_set(file_store, &iter, FILEVIEW_COLUMN_NAME, tmp->data, -1);
 	}
-	g_slist_foreach(lst, (GFunc) g_free, NULL);
-	g_slist_free(lst);
+	g_slist_free_full(lst, g_free);
 }
 
 

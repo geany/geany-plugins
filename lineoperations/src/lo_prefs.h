@@ -54,6 +54,6 @@ lo_init_prefs(GeanyPlugin *plugin);
 
 /* Free config */
 void
-lo_free_info();
+lo_free_info(void);
 
 #endif
