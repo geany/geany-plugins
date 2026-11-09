@@ -61,6 +61,7 @@ static struct
 	GtkWidget *remove_bookmark;
 	GtkWidget *new_file;
 	GtkWidget *new_directory;
+	GtkWidget *rename;
 	GtkWidget *remove_file_or_dir;
 } s_popup_menu;
 
@@ -98,6 +99,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.rename, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
 		break;
 		case POPUP_CONTEXT_DIRECTORY:
@@ -120,6 +122,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.rename, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, TRUE);
 		break;
 		case POPUP_CONTEXT_SUB_DIRECTORY:
@@ -142,6 +145,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.rename, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, TRUE);
 		break;
 		case POPUP_CONTEXT_FILE:
@@ -164,6 +168,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_file, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, TRUE);
+			gtk_widget_set_sensitive (s_popup_menu.rename, TRUE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, TRUE);
 		break;
 		case POPUP_CONTEXT_BACKGROUND:
@@ -186,6 +191,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.rename, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
 		break;
 		case POPUP_CONTEXT_WB_BOOKMARK:
@@ -208,6 +214,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.rename, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
 		break;
 		case POPUP_CONTEXT_PRJ_BOOKMARK:
@@ -230,6 +237,7 @@ void popup_menu_show(POPUP_CONTEXT context, GdkEventButton *event)
 			gtk_widget_set_sensitive (s_popup_menu.subdir_close_all, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_file, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.new_directory, FALSE);
+			gtk_widget_set_sensitive (s_popup_menu.rename, FALSE);
 			gtk_widget_set_sensitive (s_popup_menu.remove_file_or_dir, FALSE);
 		break;
 	}
@@ -568,7 +576,7 @@ static void popup_menu_on_subdir_close_all (G_GNUC_UNUSED GtkMenuItem *menuitem,
 }
 
 
-/* Handle popup menu item "Create new file here..." */
+/* Handle popup menu item "New File..." */
 static void popup_menu_on_new_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *filename, *path = NULL, *abs_path = NULL;
@@ -622,7 +630,7 @@ static void popup_menu_on_new_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_U
 }
 
 
-/* Handle popup menu item "Create new directory here..." */
+/* Handle popup menu item "New Directory..." */
 static void popup_menu_on_new_directory(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *filename, *path = NULL, *abs_path = NULL;
@@ -659,7 +667,69 @@ static void popup_menu_on_new_directory(G_GNUC_UNUSED GtkMenuItem *menuitem, G_G
 }
 
 
-/* Handle popup menu item "Remove..." */
+/* Handle popup menu Rename */
+static void popup_menu_on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+{
+	gchar *path = NULL, *abs_path = NULL;
+	SIDEBAR_CONTEXT context;
+
+	/* Check if a file, a sub-dir or a directory is selected. */
+	if (sidebar_file_view_get_selected_context(&context))
+	{
+		if (context.file != NULL)
+		{
+			path=g_path_get_dirname(context.file);
+			abs_path = g_strdup(context.file);
+		}
+		else if (context.subdir != NULL)
+		{
+			path = g_path_get_dirname(context.subdir);
+			abs_path = g_strdup(context.subdir);
+		}
+		else if (context.directory != NULL)
+		{
+			path = wb_project_dir_get_base_dir(context.directory);
+			abs_path = get_combined_path(wb_project_get_filename(context.project), path);
+		}
+	}
+
+	if (abs_path == NULL )
+	{
+		//this should be safe, as abs_path depends on path being non-null
+		return;
+	}
+
+	gchar *base_name = g_path_get_basename(abs_path);
+	gchar *newname = dialogs_show_input(_("Rename"), GTK_WINDOW(wb_globals.geany_plugin->geany_data->main_widgets->window),
+			_("New name:"), base_name);
+	g_free(base_name);
+	if (newname != NULL)
+	{
+		gchar *newpath = g_build_path(G_DIR_SEPARATOR_S, path, newname, NULL);
+		if (rename_file_or_dir(abs_path, newpath))
+		{
+			if (workbench_get_enable_live_update(wb_globals.opened_wb) == FALSE)
+			{
+				/* Live update is disabled. We need to update the file list and
+					 the sidebar manually. */
+				wb_project_dir_rescan(context.project, context.directory);
+				sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
+			}
+		}
+		else
+		{
+			dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename '%s' to '%s'."), 
+			abs_path, newpath);
+		}
+		g_free(newpath);
+		g_free(newname);
+	}
+	g_free(abs_path);
+	g_free(path);
+}
+
+
+/* Handle popup menu item "Delete" */
 static void popup_menu_on_remove_file_or_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gboolean remove_it, dir, removed_any = FALSE;
@@ -787,7 +857,7 @@ static void popup_menu_on_remove_file_or_dir(G_GNUC_UNUSED GtkMenuItem *menuitem
 		}
 
 		/* If anything was removed update the filelist and sidebar. */
-		if (removed_any)
+		if (removed_any && workbench_get_enable_live_update(wb_globals.opened_wb) == FALSE)
 		{
 			wb_project_dir_rescan(context.project, context.directory);
 			sidebar_update(SIDEBAR_CONTEXT_DIRECTORY_RESCANNED, &context);
@@ -941,20 +1011,22 @@ void popup_menu_init(void)
 	gtk_widget_show(item);
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 
-	item = gtk_menu_item_new_with_mnemonic(_("_Create file here..."));
-	gtk_widget_show(item);
+	item = menu_item_new("document-new", _("New File..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_new_file), NULL);
 	s_popup_menu.new_file = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("_Create directory here..."));
-	gtk_widget_show(item);
+	item = menu_item_new("folder-new", _("New Directory..."));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_new_directory), NULL);
 	s_popup_menu.new_directory = item;
 
-	item = gtk_menu_item_new_with_mnemonic(_("_Remove..."));
-	gtk_widget_show(item);
+	item = menu_item_new("document-save-as", _("Rename..."));
+	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
+	g_signal_connect((gpointer) item, "activate", G_CALLBACK(popup_menu_on_rename), NULL);
+	s_popup_menu.rename = item;
+
+	item = menu_item_new("edit-delete", _("Delete"));
 	gtk_container_add(GTK_CONTAINER(s_popup_menu.widget), item);
 	g_signal_connect(item, "activate", G_CALLBACK(popup_menu_on_remove_file_or_dir), NULL);
 	s_popup_menu.remove_file_or_dir = item;

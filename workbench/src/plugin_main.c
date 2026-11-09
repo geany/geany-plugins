@@ -27,7 +27,7 @@
 #include <string.h>
 #include <git2.h>
 
-#include <wb_globals.h>
+#include "wb_globals.h"
 
 #include "sidebar.h"
 #include "menu.h"
