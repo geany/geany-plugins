@@ -30,5 +30,7 @@ typedef enum
 void menu_set_context(MENU_CONTEXT context);
 gboolean menu_init(void);
 void menu_cleanup (void);
+void item_new_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data);
+void item_open_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data);
 
 #endif

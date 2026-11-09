@@ -81,7 +81,7 @@ void menu_set_context(MENU_CONTEXT context)
 }
 
 /* The function handles the menu item "New workbench" */
-static void item_new_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+void item_new_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *filename;
 	GError *error = NULL;
@@ -109,7 +109,7 @@ static void item_new_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, 
 
 
 /* The function handles the menu item "Open workbench" */
-static void item_open_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
+void item_open_workbench_activate_cb(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer user_data)
 {
 	gchar *filename;
 	GError *error = NULL;
