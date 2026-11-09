@@ -31,6 +31,7 @@
 #include <geanyplugin.h>
 #include <geany.h>
 #include <document.h>
+#include <SciLexer.h>
 
 #ifdef LIBGIT2_VER_MINOR
 # define CHECK_LIBGIT2_VERSION(MAJOR, MINOR) \
@@ -187,6 +188,7 @@ static GAsyncQueue     *G_queue               = NULL;
 static GThread         *G_thread              = NULL;
 static gulong           G_source_id           = 0;
 static gboolean         G_monitoring_enabled  = TRUE;
+static gboolean         G_system_colors       = TRUE;
 static GtkWidget       *G_undo_menu_item      = NULL;
 static struct {
   gint    num;
@@ -212,6 +214,8 @@ static const struct {
                          gconstpointer  value);
 } G_settings_desc[] = {
   { "general", "monitor-repository", &G_monitoring_enabled,
+    read_setting_boolean, write_setting_boolean },
+  { "general", "system-colors", &G_system_colors,
     read_setting_boolean, write_setting_boolean },
   { "colors", "line-added", &G_markers[MARKER_LINE_ADDED].color,
     read_setting_color, write_setting_color },
@@ -648,6 +652,8 @@ release_resources (ScintillaObject *sci)
     
     for (j = 0; j < MARKER_COUNT; j++) {
       if (G_markers[j].num >= 0) {
+        scintilla_send_message (sci, SCI_MARKERDELETEALL,
+                                G_markers[j].num, 0);
         scintilla_send_message (sci, SCI_MARKERDEFINE,
                                 G_markers[j].num, SC_MARK_AVAILABLE);
       }
@@ -1065,6 +1071,16 @@ on_editor_notify (GObject        *obj,
                   SCNotification *nt,
                   gpointer        user_data)
 {
+  /*geany doesnt emit a signal on colorscheme change*/
+   if(G_system_colors){
+    const GeanyLexerStyle * diffadd_style = highlighting_get_style   ( GEANY_FILETYPES_DIFF, SCE_DIFF_ADDED);
+    scintilla_send_message (editor->sci, SCI_MARKERSETBACK, G_markers[MARKER_LINE_ADDED].num, diffadd_style->foreground);
+    const GeanyLexerStyle * diffchg_style = highlighting_get_style   ( GEANY_FILETYPES_DIFF, SCE_DIFF_CHANGED);
+    scintilla_send_message (editor->sci, SCI_MARKERSETBACK, G_markers[MARKER_LINE_CHANGED].num, diffchg_style->foreground);
+    const GeanyLexerStyle * diffdel_style = highlighting_get_style   ( GEANY_FILETYPES_DIFF, SCE_DIFF_DELETED);
+    scintilla_send_message (editor->sci, SCI_MARKERSETBACK, G_markers[MARKER_LINE_REMOVED].num, diffdel_style->foreground);
+  }
+
   if (nt->nmhdr.code == SCN_CHARADDED ||
       (nt->nmhdr.code == SCN_MODIFIED &&
        nt->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT))) {
@@ -1613,6 +1629,7 @@ typedef struct ConfigureWidgets ConfigureWidgets;
 struct ConfigureWidgets {
   GtkWidget  *base;
   GtkWidget  *monitoring_check;
+  GtkWidget  *system_colors;
   GtkWidget  *added_color_button;
   GtkWidget  *changed_color_button;
   GtkWidget  *removed_color_button;
@@ -1654,6 +1671,7 @@ on_plugin_configure_response (GtkDialog        *dialog,
       GeanyDocument  *doc = document_get_current ();
       
       G_monitoring_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cw->monitoring_check));
+      G_system_colors = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cw->system_colors));
       gtk_color_button_get_color (GTK_COLOR_BUTTON (cw->added_color_button),
                                   &color);
       G_markers[MARKER_LINE_ADDED].color = color_to_int (&color);
@@ -1715,6 +1733,7 @@ plugin_configure (GtkDialog *dialog)
     } map[] = {
       { "base",                 &cw->base },
       { "monitoring-check",     &cw->monitoring_check },
+      { "system-colors",     &cw->system_colors },
       { "added-color-button",   &cw->added_color_button },
       { "changed-color-button", &cw->changed_color_button },
       { "removed-color-button", &cw->removed_color_button },
@@ -1727,6 +1746,8 @@ plugin_configure (GtkDialog *dialog)
     
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cw->monitoring_check),
                                   G_monitoring_enabled);
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cw->system_colors),
+                                  G_system_colors);
     color_from_int (&color, G_markers[MARKER_LINE_ADDED].color);
     gtk_color_button_set_color (GTK_COLOR_BUTTON (cw->added_color_button),
                                 &color);
