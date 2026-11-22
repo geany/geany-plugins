@@ -81,6 +81,7 @@ struct S_WB_PROJECT
 	gchar     *filename;
 	gchar     *name;
 	gboolean  modified;
+	gboolean  active;
 	GSList    *directories;  /* list of WB_PROJECT_DIR; */
 	WB_PROJECT_TAG_PREFS generate_tag_prefs;
 	GPtrArray *bookmarks;
@@ -119,6 +120,37 @@ gboolean wb_project_is_modified(WB_PROJECT *prj)
 	if (prj != NULL)
 	{
 		return (prj->modified);
+	}
+	return FALSE;
+}
+
+
+/** Set the projects active marker.
+ *
+ * @param prj   The project
+ * @param value The value to set
+ *
+ **/
+void wb_project_set_active(WB_PROJECT *prj, gboolean value)
+{
+	if (prj != NULL)
+	{
+		prj->active = value;
+	}
+}
+
+
+/** Is the project the active project?
+ *
+ * @param prj   The project
+ * @return TRUE if project is active, FALSE otherwise
+ *
+ **/
+gboolean wb_project_is_active(WB_PROJECT *prj)
+{
+	if (prj != NULL)
+	{
+		return (prj->active);
 	}
 	return FALSE;
 }

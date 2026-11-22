@@ -33,6 +33,7 @@
 #include "sidebar.h"
 #include "popup_menu.h"
 #include "utils.h"
+#include "idle_queue.h"
 
 enum
 {
@@ -908,6 +909,48 @@ static void sidebar_update_workbench(GtkTreeIter *iter, gint *position)
 }
 
 
+/* Update all project names in the sidebar. */
+static void sidebar_update_all_project_names(void)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	if (wb_globals.opened_wb == NULL)
+		return;
+
+	model = gtk_tree_view_get_model(GTK_TREE_VIEW(sidebar.file_view));
+	if (gtk_tree_model_get_iter_first (model, &iter))
+	{
+		WB_PROJECT *project;
+
+		do
+		{
+			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ASSIGNED_DATA_POINTER, &project, -1);
+			if (project != NULL)
+			{
+				/* Update the title */
+				GString *name = g_string_new(wb_project_get_name(project));
+				if (wb_project_is_modified(project))
+				{
+					g_string_append_c(name, '*');
+				}
+#if GEANY_API_VERSION >= 240
+				if (workbench_get_selected_project(wb_globals.opened_wb) == project)
+				{
+					g_string_append(name, _(" [SEL]"));
+				}
+#endif
+
+				gtk_tree_store_set(sidebar.file_store, &iter,
+					FILEVIEW_COLUMN_NAME, name->str,
+					-1);
+				g_string_free(name, TRUE);
+			}
+		}while (gtk_tree_model_iter_next(model, &iter));
+	}
+}
+
+
 /** Update the sidebar.
  *
  * Update the sidebar according to the given situation/event @a event
@@ -982,6 +1025,9 @@ void sidebar_update (SIDEBAR_EVENT event, SIDEBAR_CONTEXT *context)
 		case SIDEBAR_CONTEXT_FILE_REMOVED:
 			sidebar_remove_file(context->project, context->directory, context->file);
 		break;
+		case SIDEBAR_CONTEXT_SELECTED_PROJECT_TOGGLED:
+			sidebar_update_all_project_names();
+		break;
 	}
 }
 
@@ -1029,7 +1075,12 @@ static void sidebar_filew_view_on_row_activated (GtkTreeView *treeview,
 			case DATA_ID_WB_BOOKMARK:
 			case DATA_ID_PRJ_BOOKMARK:
 			case DATA_ID_FILE:
-				document_open_file((char *)address, FALSE, NULL, NULL);
+#if GEANY_API_VERSION >= 240
+				wb_idle_queue_add_action(WB_IDLE_ACTION_ID_OPEN_PROJECT_BY_DOC,
+					g_strdup(address));
+#endif
+				wb_idle_queue_add_action(WB_IDLE_ACTION_ID_OPEN_DOC,
+					g_strdup(address));
 			break;
 			case DATA_ID_NO_DIRS:
 				dialogs_show_msgbox(GTK_MESSAGE_INFO, _("This project has no directories. Directories can be added to a project using the context menu."));

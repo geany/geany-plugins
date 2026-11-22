@@ -26,6 +26,7 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include <geanyplugin.h>
+#include <project.h>
 #include "workbench.h"
 #include "sidebar.h"
 #include "wb_project.h"
@@ -50,6 +51,9 @@ struct S_WORKBENCH
 	gboolean  enable_live_update;
 	gboolean  expand_on_hover;
 	gboolean  enable_tree_lines;
+	gboolean  enable_auto_open_by_doc;
+	WB_PROJECT *selected_project;
+	WB_PROJECT *active_project;
 	GPtrArray *projects;
 	GPtrArray *bookmarks;
 	WB_MONITOR *monitor;
@@ -321,6 +325,42 @@ gboolean workbench_get_enable_tree_lines(WORKBENCH *wb)
 	if (wb != NULL)
 	{
 		return wb->enable_tree_lines;
+	}
+	return FALSE;
+}
+
+
+/** Set the "Enable Auto-Open by doc" option.
+ *
+ * @param wb    The workbench
+ * @param value The value to set
+ *
+ **/
+void workbench_set_enable_auto_open_by_doc(WORKBENCH *wb, gboolean value)
+{
+	if (wb != NULL)
+	{
+		if (wb->enable_auto_open_by_doc != value)
+		{
+			wb->enable_auto_open_by_doc = value;
+			wb->modified = TRUE;
+		}
+	}
+}
+
+
+/** Get the "Enable Auto-Open by doc" option.
+ *
+ * @param wb The workbench
+ * @return TRUE = show tree lines,
+ *         FALSE = don't
+ *
+ **/
+gboolean workbench_get_enable_auto_open_by_doc(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		return wb->enable_auto_open_by_doc;
 	}
 	return FALSE;
 }
@@ -735,6 +775,7 @@ gboolean workbench_save(WORKBENCH *wb, GError **error)
 		g_key_file_set_boolean(kf, "General", "EnableLiveUpdate", wb->enable_live_update);
 		g_key_file_set_boolean(kf, "General", "ExpandOnHover", wb->expand_on_hover);
 		g_key_file_set_boolean(kf, "General", "EnableTreeLines", wb->enable_tree_lines);
+		g_key_file_set_boolean(kf, "General", "EnableAutoOpenProject", wb->enable_auto_open_by_doc);
 
 		/* Save Workbench bookmarks as string list */
 		boomarks_size = workbench_get_bookmarks_count(wb);
@@ -891,6 +932,17 @@ gboolean workbench_load(WORKBENCH *wb, const gchar *filename, GError **error)
 			   Initialize with FALSE. */
 			wb->enable_tree_lines = FALSE;
 		}
+		if (g_key_file_has_key (kf, "General", "EnableAutoOpenProject", error))
+		{
+			wb->enable_auto_open_by_doc = g_key_file_get_boolean(kf, "General", "EnableAutoOpenProject", error);
+		}
+		else
+		{
+			/* Not found. Might happen if the workbench was created with an older version of the plugin.
+			   Initialize with FALSE. */
+			wb->enable_auto_open_by_doc = FALSE;
+		}
+
 
 		/* Load Workbench bookmarks from string list */
 		bookmarks_strings = g_key_file_get_string_list (kf, "General", "Bookmarks", NULL, error);
@@ -1130,3 +1182,107 @@ void workbench_disable_live_update(WORKBENCH *wb)
 		wb_monitor_free(wb->monitor);
 	}
 }
+
+
+#if GEANY_API_VERSION >= 240
+
+/** Open a project and eventually select it
+ *
+ * Opens the given project and marks it as active. If select is set to
+ * TRUE then it will also be rembered as the selected project. The selected
+ * project is marked in the sidebar with the suffix '[SEL]'. If project is
+ * NULL then no project is selected any more. The actually opened/active
+ * project is intentionally not closed in this case. If project is not NULL
+ * then the active/opened project will be closed before opening the new one.
+ *
+ * @param wb      The workbench
+ * @param project The project
+ * @param select  Shall the project be selected
+ *
+ **/
+void workbench_open_project(WORKBENCH *wb, WB_PROJECT *project, gboolean select)
+{
+	if (wb != NULL)
+	{
+		gboolean project_session;
+
+		project_session = project_get_save_open_files_list();
+		project_set_save_open_files_list(FALSE);
+
+		if (wb->active_project != NULL)
+		{
+			/* Close project (but leave it open if there is no new project given) */
+			if (wb->active_project != project && project != NULL)
+			{
+				project_close(FALSE);
+			}
+			wb_project_set_active(wb->active_project, FALSE);
+			wb->selected_project = NULL;
+		}
+		if (project != NULL && wb->active_project != project)
+		{
+			project_load_file(wb_project_get_filename(project));
+			wb_project_set_active(project, TRUE);
+			wb->active_project = project;
+		}
+		else
+		{
+			wb->active_project = NULL;
+		}
+
+		if (select == TRUE)
+		{
+			wb->selected_project = project;
+			sidebar_update(SIDEBAR_CONTEXT_SELECTED_PROJECT_TOGGLED, NULL);
+		}
+
+		project_set_save_open_files_list(project_session);
+	}
+}
+
+
+/** Return the selected project
+ *
+ * Opens the given project. If select is set to TRUE then it will also
+ * be rembered as the selected project. The selected project is marked
+ * in the sidebar with the suffix '[SEL]'.
+ *
+ * @param wb      The workbench
+ * @param project The project
+ * @param select  Shall the project be selected
+ *
+ **/
+WB_PROJECT *workbench_get_selected_project(WORKBENCH *wb)
+{
+	if (wb != NULL)
+	{
+		return wb->selected_project;
+	}
+	return NULL;
+}
+
+
+/** Open a project by document filename
+ *
+ * The function checks if the document with filename belongs to a
+ * project. If yes, then that project is opened (but NOT selected).
+ *
+ * @param wb      The workbench
+ * @param project The project
+ *
+ **/
+void workbench_open_project_by_filename(WORKBENCH *wb, const gchar *filename)
+{
+	WB_PROJECT *project;
+
+	if (wb != NULL)
+	{
+		project = workbench_file_is_included(wb, filename);
+		if (project != NULL && project != wb->active_project)
+		{
+			workbench_open_project(wb, project, FALSE);
+		}
+	}
+}
+
+#endif
