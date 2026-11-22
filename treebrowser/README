@@ -27,9 +27,8 @@ Features
 
 Requirements
 ============
-* GTK >= 2.8.0
-* GIO >= 2.0 (optional)
-* Geany >= 0.17
+
+* Geany >= 1.25
 
 
 Usage

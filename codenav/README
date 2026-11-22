@@ -39,7 +39,7 @@ can also enter an absolute or relative path to a file.
 Requirements
 ------------
 
-* GTK >= 2.8.0
+* Geany >= 1.26
 
 License
 -------

@@ -111,8 +111,7 @@ Coding
 ======
 
 Use static functions where possible.
-Try to use GLib types and functions - e.g. g_free instead of free and
-try to use only GLib 2.6 and GTK 2.6 functions.
+Try to use GLib types and functions - e.g. g_free instead of free.
 
 Style
 =====
