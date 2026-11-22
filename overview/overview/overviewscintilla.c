@@ -936,9 +936,12 @@ overview_scintilla_sync (OverviewScintilla *self)
 
   overview_scintilla_clone_styles (self);
 
-  for (gint i = 0; i < SC_MAX_MARGIN; i++)
+  for (gint i = 0; i <= SC_MAX_MARGIN; i++)
     sci_send (self, SETMARGINWIDTHN, i, 0);
 
+  for (gint i = 0; i <= MARKER_MAX; i++)
+    sci_send (self, MARKERSETALPHA, i, 0);
+  
   sci_send (self, SETVIEWEOL, 0, 0);
   sci_send (self, SETVIEWWS, 0, 0);
   sci_send (self, SETHSCROLLBAR, 0, 0);
