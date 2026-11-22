@@ -77,6 +77,7 @@ static void reload_project(void)
 	{
 		if (g_current_project)
 			xproject_close(TRUE);
+		set_non_ft_build_wdir("");
 		return;
 	}
 
@@ -89,6 +90,7 @@ static void reload_project(void)
 		xproject_close(TRUE);
 		xproject_open(proj);
 	}
+	set_non_ft_build_wdir(g_current_project->working_dir);
 	if (proj)
 		g_free(proj);
 }
