@@ -187,7 +187,7 @@ void lsp_progress_process_notification(LspServer *srv, GVariant *params)
 		);
 		if (have_percentage)
 		{
-			g_snprintf(buf, 30, "%ld%%", percentage);
+			g_snprintf(buf, 30, "%ld%%", (long)percentage);
 			message = buf;
 		}
 	}
