@@ -200,19 +200,16 @@ static void add_stack_markers(void)
 	int frame_index;
 	for (iter = stack, frame_index = 0; iter; iter = iter->next, frame_index++)
 	{
-		if (iter)
+		frame *f = (frame*)iter->data;
+		if (f->have_source)
 		{
-			frame *f = (frame*)iter->data;
-			if (f->have_source)
+			if (active_frame_index == frame_index)
 			{
-				if (active_frame_index == frame_index)
-				{
-					markers_add_current_instruction(f->file, f->line);
-				}
-				else
-				{
-					markers_add_frame(f->file, f->line);
-				}
+				markers_add_current_instruction(f->file, f->line);
+			}
+			else
+			{
+				markers_add_frame(f->file, f->line);
 			}
 		}
 	}
