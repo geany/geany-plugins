@@ -223,7 +223,6 @@ static GList* read_until_prompt(void)
  */
 static void gdb_input_write_line(const gchar *line)
 {
-	GIOStatus st;
 	GError *err = NULL;
 	gsize count;
 	const char *p;
@@ -232,7 +231,7 @@ static void gdb_input_write_line(const gchar *line)
 
 	for (p = command; *p; p += count)
 	{
-		st = g_io_channel_write_chars(gdb_ch_in, p, strlen(p), &count, &err);
+		GIOStatus st = g_io_channel_write_chars(gdb_ch_in, p, strlen(p), &count, &err);
 		if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
 		{
 			if (err)
@@ -246,16 +245,13 @@ static void gdb_input_write_line(const gchar *line)
 		}
 	}
 
-	st = g_io_channel_flush(gdb_ch_in, &err);
-	if (err || (st == G_IO_STATUS_ERROR) || (st == G_IO_STATUS_EOF))
+	g_io_channel_flush(gdb_ch_in, &err);
+	if (err)
 	{
-		if (err)
-		{
 #ifdef DEBUG_OUTPUT
-			dbg_cbs->send_message(err->message, "red");
+		dbg_cbs->send_message(err->message, "red");
 #endif
-			g_clear_error(&err);
-		}
+		g_clear_error(&err);
 	}
 }
 
