@@ -1,7 +1,7 @@
 /*
  *	  tableconvert.c
  *
- *	  Copyright 2011-2015 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
+ *	  Copyright 2011-2019 Frank Lanitz <frank(at)frank(dot)uvena(dot)de>
  *
  *	  This program is free software; you can redistribute it and/or modify
  *	  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,21 @@ PLUGIN_SET_TRANSLATABLE_INFO(
 
 GeanyPlugin	 	*geany_plugin;
 GeanyData	   	*geany_data;
+
+
+static void convert_to_table(gboolean header, gint file_type);
+static void set_activate_state();
+
+PluginCallback plugin_callbacks[] =
+{
+	{ "editor-notify", (GCallback) &cb_table_convert_change_document, FALSE, NULL },
+	{ "document-activate", (GCallback) &cb_table_convert_change_document, FALSE, NULL },
+	{ "document-filetype-set", (GCallback) &cb_table_convert_change_document, FALSE, NULL },
+	{ "document-new", (GCallback) &cb_table_convert_change_document, FALSE, NULL},
+	{ "document-close", (GCallback) &cb_table_convert_change_document, FALSE, NULL},
+	{ NULL, NULL, FALSE, NULL }
+};
+
 
 TableConvertRule tablerules[] = {
 	/* LaTeX */
@@ -306,7 +321,7 @@ void convert_to_table(gboolean header, gint file_type)
 		g_strfreev(rows);
 		g_free(replacement);
 	}
-	   /* in case of there was no selection we are just doing nothing */
+	/* in case of there was no selection we are just doing nothing */
 	return;
 }
 
@@ -336,6 +351,31 @@ void cb_table_convert(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 void cb_table_convert_type(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
 {
 	convert_to_table(TRUE, GPOINTER_TO_INT(gdata));
+}
+
+void cb_table_convert_change_document(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointer gdata)
+{
+	set_activate_state();
+}
+
+void set_activate_state()
+{
+	// getting document
+	GeanyDocument *doc = NULL;
+	doc = document_get_current();
+
+	if (
+		doc != NULL && (
+		doc->file_type->id == GEANY_FILETYPES_HTML ||
+		doc->file_type->id == GEANY_FILETYPES_LATEX ||
+		doc->file_type->id == GEANY_FILETYPES_SQL))
+	{
+		gtk_widget_set_sensitive(main_menu_item, TRUE);
+	}
+	else
+	{
+		gtk_widget_set_sensitive(main_menu_item, FALSE);
+	}
 }
 
 void plugin_init(GeanyData *data)
