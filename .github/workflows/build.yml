@@ -123,7 +123,6 @@ jobs:
             # geanypg
             libgpgme-dev
             # geanyvc
-            libgtkspell-dev
             libgtkspell3-3-dev
             # geaniuspaste/updatechecker
             libsoup2.4-dev

@@ -6,8 +6,7 @@ AC_DEFUN([GP_CHECK_GEANYVC],
         AS_HELP_STRING([--enable-gtkspell=ARG],
             [Enable GtkSpell support in GeanyVC. [[default=auto]]]),,
         enable_gtkspell=auto)
-    GP_CHECK_GTK3([gtkspell_package=gtkspell3-3.0],
-                  [gtkspell_package=gtkspell-2.0])
+    gtkspell_package=gtkspell3-3.0
     if [[ x"$enable_gtkspell" = "xauto" ]]; then
         PKG_CHECK_MODULES(GTKSPELL, $gtkspell_package,
             enable_gtkspell=yes, enable_gtkspell=no)
