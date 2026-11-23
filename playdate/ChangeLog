@@ -1,0 +1,5 @@
+2026-10-15  Davi Campos Gonçalves  <davi19_19@hotmail.com>
+
+	* Initial contribution of the Playdate plugin: build with pdc,
+	run in the Playdate Simulator, Compiler tab problem matchers,
+	preferences dialog and Playdate Lua API tags for autocomplete.

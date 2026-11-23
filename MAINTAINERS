@@ -222,6 +222,13 @@ M: Volodymyr Kononenko <vm@kononenko.ws>
 W:
 S: Maintained
 
+playdate
+P: Davi Campos Gonçalves <davi19_19(at)hotmail(dot)com>
+g: @davi19
+M: Davi Campos Gonçalves <davi19_19(at)hotmail(dot)com>
+W: http://plugins.geany.org/playdate.html
+S: Maintained
+
 pretty-printer
 P:
 M:

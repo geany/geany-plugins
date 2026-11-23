@@ -127,6 +127,10 @@ if ENABLE_PAIRTAGHIGHLIGHTER
 SUBDIRS += pairtaghighlighter
 endif
 
+if ENABLE_PLAYDATE
+SUBDIRS += playdate
+endif
+
 if ENABLE_POHELPER
 SUBDIRS += pohelper
 endif

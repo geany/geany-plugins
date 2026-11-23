@@ -34,6 +34,7 @@ The plugins use different license, see the list below and the `COPYING` in the c
 | markdown/peg-markdown/peg-0.1.9  | MIT                        |
 | overview                         | GPL-2.0-or-later           |
 | pairtaghighlighter               | BSD-2-Clause               |
+| playdate                         | GPL-3.0-or-later           |
 | pohelper                         | GPL-3.0-or-later           |
 | pretty-printer                   | GPL-2.0-or-later           |
 | projectorganizer                 | GPL-2.0-or-later           |
