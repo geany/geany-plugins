@@ -61,7 +61,9 @@ static GtkWidget *s_toolbar = NULL;
 static gboolean s_pending_reload = FALSE;
 
 static GtkWidget *s_file_view_vbox = NULL;
+static GtkWidget *s_file_view_scrollwin = NULL;
 static GtkWidget *s_file_view = NULL;
+static GtkWidget *s_intro_label = NULL;
 static GtkTreeStore *s_file_store = NULL;
 static gboolean s_follow_editor = TRUE;
 
@@ -1055,21 +1057,10 @@ static void on_open_clicked(void)
 		}
 		else
 		{
-			gchar *utf8_path;
-			GIcon *icon;
+			gchar *utf8_path = build_path(&iter);
 
-			gtk_tree_model_get(model, &iter, FILEVIEW_COLUMN_ICON, &icon, -1);
-
-			if (!icon)
-			{
-				/* help string doesn't have icon */
-				return;
-			}
-
-			utf8_path = build_path(&iter);
 			open_file(utf8_path);
 			g_free(utf8_path);
-			g_object_unref(icon);
 		}
 	}
 }
@@ -1270,37 +1261,22 @@ static void create_branch(PrjOrgTreeNode *tree_node, GtkTreeIter *parent, gboole
 }
 
 
-static void set_intro_message(const gchar *msg)
+static void set_toolbar_sensitive(gboolean sensitive)
 {
-	GtkTreeIter iter;
-
-	gtk_tree_store_insert_with_values(s_file_store, &iter, NULL, -1,
-		FILEVIEW_COLUMN_NAME, msg, -1);
-
-	gtk_widget_set_sensitive(s_project_toolbar.expand, FALSE);
-	gtk_widget_set_sensitive(s_project_toolbar.collapse, FALSE);
-	gtk_widget_set_sensitive(s_project_toolbar.follow, FALSE);
-	gtk_widget_set_sensitive(s_project_toolbar.add, FALSE);
+	gtk_widget_set_sensitive(s_project_toolbar.expand, sensitive);
+	gtk_widget_set_sensitive(s_project_toolbar.collapse, sensitive);
+	gtk_widget_set_sensitive(s_project_toolbar.follow, sensitive);
+	gtk_widget_set_sensitive(s_project_toolbar.add, sensitive);
 }
 
 
-static void load_project_root(PrjOrgTreeNode *tree_node, GtkTreeIter *parent, gboolean is_external)
+static void set_intro_message(const gchar *msg)
 {
-	if (tree_node->subtrees->len > 0)
-		create_branch(tree_node, parent, is_external);
+	if (msg)
+		gtk_label_set_text(GTK_LABEL(s_intro_label), msg);
+	gtk_widget_set_visible(s_intro_label, msg != NULL);
 
-	if (!is_external)
-	{
-		if (tree_node->subtrees->len > 0)
-		{
-			gtk_widget_set_sensitive(s_project_toolbar.expand, TRUE);
-			gtk_widget_set_sensitive(s_project_toolbar.collapse, TRUE);
-			gtk_widget_set_sensitive(s_project_toolbar.follow, TRUE);
-			gtk_widget_set_sensitive(s_project_toolbar.add, TRUE);
-		}
-		else
-			set_intro_message(_("Set file patterns under Project->Properties"));
-	}
+	set_toolbar_sensitive(msg == NULL);
 }
 
 
@@ -1313,7 +1289,15 @@ static void load_project(void)
 	gtk_tree_store_clear(s_file_store);
 
 	if (!prj_org || !geany_data->app->project)
+	{
+		/* nothing to display */
+		gtk_widget_hide(s_file_view_scrollwin);
+		set_intro_message(_("Open a project to start using the plugin"));
 		return;
+	}
+
+	gtk_widget_show(s_file_view_scrollwin);
+	set_intro_message(NULL);
 
 	/* reload on every refresh to update the color e.g. when the theme changes */
 	s_external_color = gtk_widget_get_style(s_toolbar)->bg[GTK_STATE_NORMAL];
@@ -1330,7 +1314,7 @@ static void load_project(void)
 
 		create_directory_item(name, NULL, is_external, -1, &iter);
 
-		load_project_root(root->tree, &iter, is_external);
+		create_branch(root->tree, &iter, is_external);
 
 		is_external = TRUE;
 		g_free(name);
@@ -1700,7 +1684,7 @@ static void sidebar_realized_cb (GtkWidget *widget) {
 
 void prjorg_sidebar_init(void)
 {
-	GtkWidget *scrollwin, *item, *image;
+	GtkWidget *item, *image;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *sel;
@@ -1760,6 +1744,16 @@ void prjorg_sidebar_init(void)
 
 	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), s_toolbar, FALSE, FALSE, 0);
 
+	/**** intro message ****/
+
+	s_intro_label = gtk_label_new(NULL);
+	gtk_label_set_line_wrap(GTK_LABEL(s_intro_label), TRUE);
+	gtk_label_set_xalign(GTK_LABEL(s_intro_label), 0.0);
+	g_object_set(s_intro_label, "margin", 6, NULL);
+	/* shown only by set_intro_message() */
+	gtk_widget_set_no_show_all(s_intro_label, TRUE);
+	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), s_intro_label, FALSE, FALSE, 0);
+
 	/**** tree view ****/
 
 	s_file_view = gtk_tree_view_new();
@@ -1786,6 +1780,7 @@ void prjorg_sidebar_init(void)
 
 	pfd = pango_font_description_from_string(geany_data->interface_prefs->tagbar_font);
 	gtk_widget_modify_font(s_file_view, pfd);
+	gtk_widget_modify_font(s_intro_label, pfd);
 	pango_font_description_free(pfd);
 
 	sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(s_file_view));
@@ -1799,7 +1794,6 @@ void prjorg_sidebar_init(void)
 	g_signal_connect(G_OBJECT(s_file_view), "key-press-event",
 			G_CALLBACK(on_key_press), NULL);
 
-	set_intro_message(_("Open a project to start using the plugin"));
 	prjorg_sidebar_activate(FALSE);
 
 	/**** popup menu ****/
@@ -1896,13 +1890,15 @@ void prjorg_sidebar_init(void)
 	focus_chain = g_list_prepend(focus_chain, s_file_view);
 	gtk_container_set_focus_chain(GTK_CONTAINER(s_file_view_vbox), focus_chain);
 	g_list_free(focus_chain);
-	scrollwin = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollwin),
+	s_file_view_scrollwin = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(s_file_view_scrollwin),
 					   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scrollwin), s_file_view);
-	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), scrollwin, TRUE, TRUE, 0);
+	gtk_container_add(GTK_CONTAINER(s_file_view_scrollwin), s_file_view);
+	gtk_box_pack_start(GTK_BOX(s_file_view_vbox), s_file_view_scrollwin, TRUE, TRUE, 0);
 
 	gtk_widget_show_all(s_file_view_vbox);
+	/* no project loaded yet - show the intro message only */
+	load_project();
 	gtk_notebook_append_page(GTK_NOTEBOOK(geany->main_widgets->sidebar_notebook),
 				 s_file_view_vbox, gtk_label_new(_("Project")));
 }
