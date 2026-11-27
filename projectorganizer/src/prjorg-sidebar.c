@@ -38,6 +38,7 @@ enum
 	FILEVIEW_COLUMN_ICON,
 	FILEVIEW_COLUMN_NAME,
 	FILEVIEW_COLUMN_COLOR,
+	FILEVIEW_COLUMN_WEIGHT,
 	FILEVIEW_N_COLUMNS,
 };
 
@@ -1229,7 +1230,8 @@ static void create_file_item(const gchar *name, GtkTreeIter *parent, gboolean is
 	gtk_tree_store_insert_with_values(s_file_store, iter, parent, pos,
 		FILEVIEW_COLUMN_ICON, icon,
 		FILEVIEW_COLUMN_NAME, name,
-		FILEVIEW_COLUMN_COLOR, is_external ? &s_external_color : NULL, -1);
+		FILEVIEW_COLUMN_COLOR, is_external ? &s_external_color : NULL,
+		FILEVIEW_COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL, -1);
 
 	if (icon)
 		g_object_unref(icon);
@@ -1244,7 +1246,8 @@ static void create_directory_item(const gchar *name, GtkTreeIter *parent,
 	gtk_tree_store_insert_with_values(s_file_store, iter, parent, pos,
 		FILEVIEW_COLUMN_ICON, icon_dir,
 		FILEVIEW_COLUMN_NAME, name,
-		FILEVIEW_COLUMN_COLOR, is_external ? &s_external_color : NULL, -1);
+		FILEVIEW_COLUMN_COLOR, is_external ? &s_external_color : NULL,
+		FILEVIEW_COLUMN_WEIGHT, PANGO_WEIGHT_NORMAL, -1);
 
 	if (icon_dir)
 		g_object_unref(icon_dir);
@@ -1317,19 +1320,15 @@ static void load_project(void)
 	foreach_slist (elem, prj_org->roots)
 	{
 		PrjOrgRoot *root = elem->data;
-		gchar *name;
-
-		if (is_external)
-			name = g_strdup(root->base_dir);
-		else
-			name = g_strconcat("<b>", geany_data->app->project->name, "</b>", NULL);
+		const gchar *name = is_external ? root->base_dir : geany_data->app->project->name;
 
 		create_directory_item(name, NULL, is_external, -1, &iter);
+		if (!is_external)
+			gtk_tree_store_set(s_file_store, &iter, FILEVIEW_COLUMN_WEIGHT, PANGO_WEIGHT_BOLD, -1);
 
 		create_branch(root->tree, &iter, is_external);
 
 		is_external = TRUE;
-		g_free(name);
 	}
 
 	collapse();
@@ -1789,7 +1788,8 @@ void prjorg_sidebar_init(void)
 
 	s_file_view = gtk_tree_view_new();
 
-	s_file_store = gtk_tree_store_new(FILEVIEW_N_COLUMNS, G_TYPE_ICON, G_TYPE_STRING, GDK_TYPE_COLOR);
+	s_file_store = gtk_tree_store_new(FILEVIEW_N_COLUMNS, G_TYPE_ICON, G_TYPE_STRING,
+		GDK_TYPE_COLOR, G_TYPE_INT);
 	gtk_tree_view_set_model(GTK_TREE_VIEW(s_file_view), GTK_TREE_MODEL(s_file_store));
 
 	renderer = gtk_cell_renderer_pixbuf_new();
@@ -1800,7 +1800,8 @@ void prjorg_sidebar_init(void)
 
 	renderer = gtk_cell_renderer_text_new();
 	gtk_tree_view_column_pack_start(column, renderer, TRUE);
-	gtk_tree_view_column_add_attribute(column, renderer, "markup", FILEVIEW_COLUMN_NAME);
+	gtk_tree_view_column_add_attribute(column, renderer, "text", FILEVIEW_COLUMN_NAME);
+	gtk_tree_view_column_add_attribute(column, renderer, "weight", FILEVIEW_COLUMN_WEIGHT);
 	gtk_tree_view_column_add_attribute(column, renderer, "cell-background-gdk", FILEVIEW_COLUMN_COLOR);
 
 	gtk_tree_view_append_column(GTK_TREE_VIEW(s_file_view), column);
