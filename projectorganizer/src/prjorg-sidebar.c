@@ -1584,6 +1584,18 @@ static void reload_directory(const gchar *utf8_path)
 	if (!node)
 		return;
 
+	if (node->subtrees->len == 0 && !prj_org->show_empty_dirs &&
+		gtk_tree_store_iter_depth(s_file_store, &iter) > 0)
+	{
+		/* the directory became empty and isn't displayed any more - reload
+		 * its parent to remove it */
+		gchar *utf8_parent = g_path_get_dirname(utf8_path);
+
+		reload_directory(utf8_parent);
+		g_free(utf8_parent);
+		return;
+	}
+
 	expanded_paths = prjorg_sidebar_get_expanded_paths();
 	selected_path = get_selected_path();
 	tree_path = gtk_tree_model_get_path(GTK_TREE_MODEL(s_file_store), &iter);
