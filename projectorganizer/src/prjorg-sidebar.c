@@ -582,13 +582,25 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 		{
 			gchar *oldpath = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 			gchar *newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
-			if (rename_file_or_dir(oldpath, newpath))
-				reload_directory(dir);
-			else
-				dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename '%s' to '%s'."),
-						oldpath, newpath);
+			gchar *locale_newpath = utils_get_locale_from_utf8(newpath);
+			gboolean confirmed = TRUE;
+
+			/* renaming would silently replace an existing file */
+			if (g_strcmp0(name, newname) != 0 && g_file_test(locale_newpath, G_FILE_TEST_EXISTS))
+				confirmed = dialogs_show_question(
+					_("Target file '%s' exists, do you really want to replace it?"), newname);
+
+			if (confirmed)
+			{
+				if (rename_file_or_dir(oldpath, newpath))
+					reload_directory(dir);
+				else
+					dialogs_show_msgbox(GTK_MESSAGE_ERROR, _("Cannot rename '%s' to '%s'."),
+							oldpath, newpath);
+			}
 			g_free(oldpath);
 			g_free(newpath);
+			g_free(locale_newpath);
 		}
 		g_free(newname);
 	}
