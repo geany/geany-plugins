@@ -1564,11 +1564,13 @@ static void remove_children(GtkTreeIter *parent)
  * restoring the expansion state and the selection below it */
 static void reload_directory(const gchar *utf8_path)
 {
+	GtkTreeView *tree_view = GTK_TREE_VIEW(s_file_view);
 	GtkTreeIter iter;
+	GtkTreePath *tree_path;
 	PrjOrgTreeNode *node;
 	gchar **expanded_paths, **path;
 	gchar *selected_path;
-	gboolean is_external;
+	gboolean is_external, expanded;
 
 	if (!find_iter(utf8_path, &iter, &is_external))
 	{
@@ -1584,23 +1586,28 @@ static void reload_directory(const gchar *utf8_path)
 
 	expanded_paths = prjorg_sidebar_get_expanded_paths();
 	selected_path = get_selected_path();
+	tree_path = gtk_tree_model_get_path(GTK_TREE_MODEL(s_file_store), &iter);
+	expanded = gtk_tree_view_row_expanded(tree_view, tree_path);
 
 	remove_children(&iter);
 	create_branch(node, &iter, is_external);
 
 	/* the row gets collapsed when all its children are removed - restore
 	 * the expansion state and the selection below it */
+	if (expanded)
+		gtk_tree_view_expand_row(tree_view, tree_path, FALSE);
 	foreach_strv (path, expanded_paths)
 	{
 		gchar *rel_path = get_relative_path(utf8_path, *path);
 
-		if (rel_path || g_strcmp0(*path, utf8_path) == 0)
+		if (rel_path)
 			expand_path(*path, FALSE);
 		g_free(rel_path);
 	}
 	if (selected_path)
 		expand_path(selected_path, TRUE);
 
+	gtk_tree_path_free(tree_path);
 	g_strfreev(expanded_paths);
 	g_free(selected_path);
 }
