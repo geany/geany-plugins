@@ -93,14 +93,28 @@ GPtrArray *get_precompiled_patterns(gchar **patterns)
 gboolean patterns_match(GPtrArray *patterns, const gchar *str)
 {
 	GPatternSpec *pattern;
+	gchar *valid_str;
+	gboolean ret = FALSE;
 	guint i;
+
+	/* file names which cannot be converted to UTF-8 are kept as they are but
+	 * g_pattern_spec_match_string() may abort on invalid UTF-8 */
+	if (g_utf8_validate(str, -1, NULL))
+		valid_str = g_strdup(str);
+	else
+		valid_str = g_utf8_make_valid(str, -1);
 
 	foreach_ptr_array(pattern, i, patterns)
 	{
-		if (g_pattern_spec_match_string(pattern, str))
-			return TRUE;
+		if (g_pattern_spec_match_string(pattern, valid_str))
+		{
+			ret = TRUE;
+			break;
+		}
 	}
-	return FALSE;
+
+	g_free(valid_str);
+	return ret;
 }
 
 
