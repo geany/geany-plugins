@@ -28,7 +28,6 @@
 #include "prjorg-utils.h"
 #include "prjorg-project.h"
 #include "prjorg-sidebar.h"
-#include "prjorg-wraplabel.h"
 
 extern GeanyPlugin *geany_plugin;
 extern GeanyData *geany_data;
@@ -885,9 +884,14 @@ GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 	gtk_box_pack_start(GTK_BOX(vbox), table_box, FALSE, FALSE, 6);
 
 	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-	label = prjorg_wrap_label_new(_("The patterns above affect only sidebar and indexing and are not used in the Find in Files "
+	label = gtk_label_new(_("The patterns above affect only sidebar and indexing and are not used in the Find in Files "
 	"dialog. You can further restrict the files belonging to the project by setting the"
 	"File Patterns under the Project tab (these are also used for the Find in Files dialog)."));
+	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+	/* the natural width of a wrapped label is the width of the whole text -
+	 * limit it so the label doesn't make the dialog wider */
+	gtk_label_set_max_width_chars(GTK_LABEL(label), 40);
+	gtk_label_set_xalign(GTK_LABEL(label), 0.0);
 	gtk_box_pack_start(GTK_BOX(hbox1), label, TRUE, TRUE, 12);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox1, FALSE, FALSE, 0);
 
