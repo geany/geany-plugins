@@ -885,7 +885,7 @@ GtkWidget *prjorg_project_add_properties_tab(GtkWidget *notebook)
 
 	hbox1 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 	label = gtk_label_new(_("The patterns above affect only sidebar and indexing and are not used in the Find in Files "
-	"dialog. You can further restrict the files belonging to the project by setting the"
+	"dialog. You can further restrict the files belonging to the project by setting the "
 	"File Patterns under the Project tab (these are also used for the Find in Files dialog)."));
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
 	/* the natural width of a wrapped label is the width of the whole text -
