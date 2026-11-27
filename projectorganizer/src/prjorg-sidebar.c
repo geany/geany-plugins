@@ -513,7 +513,7 @@ static void on_create_file(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gp
 	name = dialogs_show_input(_("New File"), GTK_WINDOW(geany->main_widgets->window),
 			_("File name:"), _("newfile.txt"));
 
-	if (name != NULL)
+	if (!EMPTY(name))
 	{
 		gchar *path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 
@@ -542,7 +542,7 @@ static void on_create_dir(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpo
 	name = dialogs_show_input(_("New Directory"), GTK_WINDOW(geany->main_widgets->window),
 			_("Directory name:"), _("newdir"));
 
-	if (name != NULL)
+	if (!EMPTY(name))
 	{
 		gchar *path = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 
@@ -579,7 +579,7 @@ static void on_rename(G_GNUC_UNUSED GtkMenuItem *menuitem, G_GNUC_UNUSED gpointe
 		gchar *newname = dialogs_show_input(_("Rename"), GTK_WINDOW(geany->main_widgets->window),
 				_("New name:"), name);
 
-		if (newname != NULL)
+		if (!EMPTY(newname))
 		{
 			gchar *oldpath = g_build_path(G_DIR_SEPARATOR_S, dir, name, NULL);
 			gchar *newpath = g_build_path(G_DIR_SEPARATOR_S, dir, newname, NULL);
