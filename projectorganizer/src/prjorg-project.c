@@ -1102,6 +1102,7 @@ static gboolean add_tm_idle(gpointer foo)
 
 			if (sf != NULL && !document_find_by_filename(utf8_fname))
 			{
+				tm_workspace_remove_source_file(sf);
 				tm_workspace_add_source_file(sf);
 				break;  /* single file representation in TM is enough */
 			}
