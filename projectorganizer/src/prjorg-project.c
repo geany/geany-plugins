@@ -226,21 +226,17 @@ static void clear_node(PrjOrgRoot *root, PrjOrgTreeNode *node)
 }
 
 
-/* rescans the directory utf8_path represented by node, returns the number of
- * files found */
-static guint rescan_node(PrjOrgRoot *root, PrjOrgTreeNode *node, const gchar *utf8_path)
+/* rescans the directory utf8_path represented by node */
+static void rescan_node(PrjOrgRoot *root, PrjOrgTreeNode *node, const gchar *utf8_path)
 {
 	GHashTable *visited_paths = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 	gchar *locale_path = utils_get_locale_from_utf8(utf8_path);
-	guint filenum;
 
 	clear_node(root, node);
-	filenum = scan_directory(locale_path, visited_paths, root->file_table, node);
+	scan_directory(locale_path, visited_paths, root->file_table, node);
 
 	g_hash_table_destroy(visited_paths);
 	g_free(locale_path);
-
-	return filenum;
 }
 
 
@@ -333,28 +329,58 @@ static TMSourceFile *create_source_file(const gchar *utf8_path, gboolean will_op
 }
 
 
-/* creates TMSourceFiles for all the files below node and adds them to the tag
- * manager unless they are open in Geany or are going to be opened from the
- * session */
-static void generate_node_tags(PrjOrgRoot *root, PrjOrgTreeNode *node, const gchar **session_files)
+/* creates TMSourceFiles for the files of root that don't have them yet and
+ * adds them to the tag manager unless they are open in Geany or are going to
+ * be opened from the session */
+static void generate_root_tags(PrjOrgRoot *root, const gchar **session_files)
 {
-	GPtrArray *files = g_ptr_array_new();
 	GPtrArray *source_files = g_ptr_array_new();
-	gchar *utf8_path;
-	guint i;
+	GHashTableIter iter;
+	gpointer key, value;
 
-	collect_node_files(node, files);
-
-	foreach_ptr_array (utf8_path, i, files)
+	g_hash_table_iter_init(&iter, root->file_table);
+	while (g_hash_table_iter_next(&iter, &key, &value))
 	{
-		gboolean will_open = session_files && g_strv_contains(session_files, utf8_path);
-		TMSourceFile *sf = create_source_file(utf8_path, will_open, source_files);
+		const gchar *utf8_path = key;
+		gboolean will_open;
 
-		g_hash_table_insert(root->file_table, g_strdup(utf8_path), sf);
+		if (value)
+			continue;
+
+		will_open = session_files && g_strv_contains(session_files, utf8_path);
+		g_hash_table_iter_replace(&iter, create_source_file(utf8_path, will_open, source_files));
 	}
-	tm_workspace_add_source_files(source_files);
 
-	g_ptr_array_free(files, TRUE);
+	if (source_files->len > 0)
+		tm_workspace_add_source_files(source_files);
+
+	g_ptr_array_free(source_files, TRUE);
+}
+
+
+/* removes the files of root from the tag manager and frees their TMSourceFiles */
+static void remove_root_tags(PrjOrgRoot *root)
+{
+	GPtrArray *source_files = g_ptr_array_new();
+	GHashTableIter iter;
+	gpointer value;
+
+	g_hash_table_iter_init(&iter, root->file_table);
+	while (g_hash_table_iter_next(&iter, NULL, &value))
+	{
+		if (value)
+			g_ptr_array_add(source_files, value);
+	}
+
+	if (source_files->len > 0)
+	{
+		tm_workspace_remove_source_files(source_files);
+
+		g_hash_table_iter_init(&iter, root->file_table);
+		while (g_hash_table_iter_next(&iter, NULL, NULL))
+			g_hash_table_iter_replace(&iter, NULL);
+	}
+
 	g_ptr_array_free(source_files, TRUE);
 }
 
@@ -382,10 +408,26 @@ static guint get_file_count(void)
 }
 
 
+static void update_tags(const gchar **session_files)
+{
+	gboolean enabled = tags_enabled(get_file_count());
+	GSList *elem;
+
+	foreach_slist (elem, prj_org->roots)
+	{
+		PrjOrgRoot *root = elem->data;
+
+		if (enabled)
+			generate_root_tags(root, session_files);
+		else
+			remove_root_tags(root);
+	}
+}
+
+
 void rescan_project(gchar **session_files)
 {
 	GSList *elem;
-	guint filenum = 0;
 
 	if (!prj_org)
 		return;
@@ -397,18 +439,10 @@ void rescan_project(gchar **session_files)
 	{
 		PrjOrgRoot *root = elem->data;
 
-		filenum += rescan_node(root, root->tree, root->base_dir);
+		rescan_node(root, root->tree, root->base_dir);
 	}
 
-	if (tags_enabled(filenum))
-	{
-		foreach_slist(elem, prj_org->roots)
-		{
-			PrjOrgRoot *root = elem->data;
-
-			generate_node_tags(root, root->tree, (const gchar **)session_files);
-		}
-	}
+	update_tags((const gchar **)session_files);
 }
 
 
@@ -587,8 +621,7 @@ void prjorg_project_add_external_dir(const gchar *utf8_dirname)
 
 	/* only the new root needs scanning */
 	rescan_node(new_root, new_root->tree, new_root->base_dir);
-	if (tags_enabled(get_file_count()))
-		generate_node_tags(new_root, new_root->tree, NULL);
+	update_tags(NULL);
 }
 
 
@@ -603,6 +636,7 @@ void prjorg_project_remove_external_dir(const gchar *utf8_dirname)
 		prj_org->roots = g_slist_remove(prj_org->roots, found_root);
 		/* removes the files of the root from the tag manager as well */
 		close_root(found_root, NULL);
+		update_tags(NULL);
 	}
 	close_root(test_root, NULL);
 }
@@ -1043,9 +1077,7 @@ PrjOrgTreeNode *prjorg_project_reload_directory(const gchar *utf8_path)
 	clear_idle_queue(&s_idle_remove_funcs);
 
 	rescan_node(root, node, utf8_path);
-
-	if (tags_enabled(get_file_count()))
-		generate_node_tags(root, node, NULL);
+	update_tags(NULL);
 
 	return node;
 }
