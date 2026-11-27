@@ -112,6 +112,8 @@ Directories can be expanded by double-clicking them; the same action is used to 
 files. When a sidebar item is right-clicked, a context menu appears:
 
 * Expand all - recursively expands all the subdirectories of the given directory
+* Reload directory - reloads the file tree below the clicked directory which is faster
+  than Reload all for big projects
 * Find in files - opens the Find in files dialog and sets the search directory
   to the clicked directory
 * Find file - opens the Find file dialog and sets the search directory to the

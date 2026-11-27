@@ -26,10 +26,15 @@
 # define g_pattern_spec_match_string g_pattern_match_string
 #endif
 
+#define PRJORG_PATTERNS_SOURCE "*.c *.C *.cpp *.cxx *.c++ *.cc *.m"
+#define PRJORG_PATTERNS_HEADER "*.h *.H *.hpp *.hxx *.h++ *.hh"
+#define PRJORG_PATTERNS_IGNORED_DIRS ".* CVS"
+#define PRJORG_PATTERNS_IGNORED_FILE "*.o *.obj *.a *.lib *.so *.dll *.lo *.la *.class *.jar *.pyc *.mo *.gmo"
+
 gchar *get_relative_path(const gchar *utf8_parent, const gchar *utf8_descendant);
 
-gboolean patterns_match(GSList *patterns, const gchar *str);
-GSList *get_precompiled_patterns(gchar **patterns);
+gboolean patterns_match(GPtrArray *patterns, const gchar *str);
+GPtrArray *get_precompiled_patterns(gchar **patterns);
 
 void open_file(gchar *utf8_name);
 void close_file(gchar *utf8_name);
@@ -44,7 +49,8 @@ gchar *get_project_base_path(void);
 
 GtkWidget *menu_item_new(const gchar *icon_name, const gchar *label);
 
-gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list, GSList *header_patterns, GSList *source_patterns);
+gchar *try_find_header_source(gchar *utf8_file_name, gboolean is_header, GSList *file_list,
+	GPtrArray *header_patterns, GPtrArray *source_patterns);
 gchar *find_header_source(GeanyDocument *doc);
 void set_header_filetype(GeanyDocument * doc);
 
